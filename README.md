@@ -18,9 +18,7 @@ Step 2: run
 
 `yarn start`
 
-Step 3: open https://localhost:3000
-
-Important: We use https now for local development too
+Step 3: open http://localhost:3000
 
 # Build and Test
 

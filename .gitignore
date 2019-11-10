@@ -9,3 +9,5 @@ temp/
 
 backup/
 __MACOSX
+
+.env.local
