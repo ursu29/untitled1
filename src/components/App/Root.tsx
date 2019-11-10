@@ -1,10 +1,17 @@
 import React from 'react'
-import { Button } from 'antd'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
+import Layout from '../UI/Layout'
+import Menu from '../UI/Menu'
+import Sider from '../UI/Sider'
 
-export default function Root() {
+function Root({ location }: RouteComponentProps) {
   return (
-    <div>
-      App authorized<Button type="primary">Hello</Button>
-    </div>
+    <Layout>
+      <Sider collapsed={true}>
+        <Menu path={'/' + location.pathname.split('/')[1]} />
+      </Sider>
+    </Layout>
   )
 }
+
+export default withRouter(Root)
