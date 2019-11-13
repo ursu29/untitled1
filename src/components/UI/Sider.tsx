@@ -3,13 +3,11 @@ import { Layout } from 'antd'
 
 const { Sider } = Layout
 
-interface Props extends PropsWithChildren<any> {
-  collapsed: boolean
-}
+interface Props extends PropsWithChildren<any> {}
 
-export default function PortalLayout({ children, collapsed }: Props) {
+export default function PortalLayout({ children }: Props) {
   return (
-    <Sider theme="light" collapsed={false}>
+    <Sider theme="light" collapsed={true}>
       {children}
     </Sider>
   )

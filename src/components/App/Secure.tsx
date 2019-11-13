@@ -29,5 +29,7 @@ export default ({ children }: PropsWithChildren<any>) => {
     return <NotAuthorized />
   }
 
-  return children
+  const token = localStorage.getItem('token')
+
+  return children(token)
 }

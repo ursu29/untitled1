@@ -1,5 +1,6 @@
 import React from 'react'
 import { Menu, Icon } from 'antd'
+import { Link } from 'react-router-dom'
 import paths from '../../paths'
 
 const menuItems = [
@@ -70,10 +71,10 @@ export default function PortalMenu(props: Props) {
       {menuItems.map(item => {
         return (
           <Menu.Item key={item.route}>
-            <a href={item.route} key={item.route}>
+            <Link to={item.route} key={item.route}>
               {item.icon}
               <span>{item.title}</span>
-            </a>
+            </Link>
           </Menu.Item>
         )
       })}

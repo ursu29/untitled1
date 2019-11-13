@@ -7,7 +7,7 @@ import Sider from '../UI/Sider'
 function Root({ location }: RouteComponentProps) {
   return (
     <Layout>
-      <Sider collapsed={true}>
+      <Sider>
         <Menu path={'/' + location.pathname.split('/')[1]} />
       </Sider>
     </Layout>
