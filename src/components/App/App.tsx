@@ -16,7 +16,7 @@ const App: React.FC = () => {
     <Secure>
       {(token: string) => {
         const link = new HttpLink({
-          uri: GATEWAY,
+          uri: GATEWAY + '/graphql',
           credentials: 'same-origin',
           headers: {
             authorization: `Bearer ${token}`,
@@ -28,8 +28,6 @@ const App: React.FC = () => {
           link,
           cache: new InMemoryCache(),
         })
-
-        console.log(process.env.REACT_APP_PUBLIC_URL)
 
         return (
           <ApolloProvider client={client}>

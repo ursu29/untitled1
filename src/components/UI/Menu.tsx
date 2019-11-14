@@ -5,11 +5,6 @@ import paths from '../../paths'
 
 const menuItems = [
   {
-    route: paths.PROFILE,
-    icon: <Icon type="user" />,
-    title: 'Profile',
-  },
-  {
     route: paths.EMPLOYEES,
     icon: <Icon type="team" />,
     title: 'Employees',
@@ -54,6 +49,11 @@ const menuItems = [
     icon: <Icon type="read" />,
     title: 'News',
   },
+  {
+    route: paths.SETTINGS,
+    icon: <Icon type="setting" />,
+    title: 'Settings',
+  },
 ]
 
 interface Props {
@@ -63,8 +63,8 @@ interface Props {
 export default function PortalMenu(props: Props) {
   return (
     <Menu
-      style={{ minHeight: '100%' }}
       defaultSelectedKeys={[props.path]}
+      selectedKeys={[props.path]}
       mode="inline"
       theme="light"
     >

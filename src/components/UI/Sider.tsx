@@ -7,7 +7,7 @@ interface Props extends PropsWithChildren<any> {}
 
 export default function PortalLayout({ children }: Props) {
   return (
-    <Sider theme="light" collapsed={true}>
+    <Sider theme="light" collapsed={false} width="240">
       {children}
     </Sider>
   )

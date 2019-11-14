@@ -9,4 +9,5 @@ export default {
   NEWS: '/feed',
   MATRICES: '/matrices',
   SHARED_FILES: '/shared-files',
+  SETTINGS: '/settings',
 }
