@@ -15,16 +15,12 @@ const query = gql`
 export default function Root() {
   const { data } = useQuery(query)
   const { unauthenticated } = data
-  return (
+  return unauthenticated ? (
+    <NotAuthorized />
+  ) : (
     <Layout>
-      {unauthenticated ? (
-        <NotAuthorized />
-      ) : (
-        <>
-          <Sider />
-          <Pages />
-        </>
-      )}
+      <Sider />
+      <Pages />
     </Layout>
   )
 }

@@ -16,6 +16,28 @@ export interface Employee {
   location: string
   phoneNumber: string
   email: string
-  avatar: string | null
   isMe: boolean
+  bonuses: number
+  avatar: string
+}
+
+export interface Tag {
+  id: string
+}
+
+export interface PostBody {
+  id: string
+  languageCode: string
+  body: string
+}
+
+export interface Post {
+  id: string
+  title: string
+  postbodies: PostBody[]
+  createdAt: string
+  updatedAt: string
+  sendEmail: boolean
+  createdBy: Employee
+  updatedBy: Employee
 }

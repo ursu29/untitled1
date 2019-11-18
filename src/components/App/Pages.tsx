@@ -2,11 +2,13 @@ import React, { Suspense, lazy } from 'react'
 import Content from '../UI/Content'
 import { Route, Switch } from 'react-router-dom'
 import paths from '../../paths'
+import UnderConstruction from '../UI/UnderConstruction'
 
 const Welcome = () => <div>Welcome</div>
-const Placeholder = () => <div>Page</div>
+const Placeholder = () => <UnderConstruction />
 const PageNotFound = () => <div>Page is not found</div>
 const Settings = lazy(() => import('../Settings/SettingsPage'))
+const News = lazy(() => import('../News/NewsPage'))
 
 export default function Pages() {
   return (
@@ -24,9 +26,8 @@ export default function Pages() {
           <Route path={paths.MATRICES + '/:id'} component={Placeholder} />
           <Route path={paths.MATRICES} component={Placeholder} />
           <Route path={paths.SHARED_FILES} component={Placeholder} />
-          <Route path={paths.NEWS} component={Placeholder} />
+          <Route path={paths.NEWS} component={News} />
           <Route path={paths.SETTINGS} component={Settings} />
-          <Route path={paths.NEWS + '/presentation'} component={Placeholder} />
           <Route component={PageNotFound} />
         </Switch>
       </Suspense>
