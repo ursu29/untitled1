@@ -1,5 +1,5 @@
-import React, { PropsWithChildren } from 'react'
 import { Avatar, Card, Skeleton, Typography } from 'antd'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import paths from '../../paths'
 import { Employee } from '../../types'
@@ -12,7 +12,6 @@ interface Props {
 }
 
 export default function SiderProfile({ loading, profile }: Props) {
-  console.log(profile)
   return (
     <Link to={paths.PROFILE}>
       <Card hoverable>

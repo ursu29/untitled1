@@ -1,6 +1,6 @@
 import React, { useEffect, useState, PropsWithChildren } from 'react'
 import { GATEWAY } from '../../config'
-import NotAuthorized from '../UI/NotAuthorized'
+import AuthorizationProcess from '../UI/AuthorizationProcess'
 
 export default ({ children }: PropsWithChildren<any>) => {
   const [authorized, setAuthorized] = useState(false)
@@ -23,13 +23,16 @@ export default ({ children }: PropsWithChildren<any>) => {
       return
     }
     window.location.href = GATEWAY + '/sso/redirect'
+    // fetch('/sso/redirect', {
+    //   mode: 'no-cors',
+    //   referrer: window.location.origin,
+    //   redirect: 'follow',
+    // })
   }, [])
 
   if (!authorized) {
-    return <NotAuthorized />
+    return <AuthorizationProcess />
   }
 
-  const token = localStorage.getItem('token')
-
-  return children(token)
+  return children
 }

@@ -10,4 +10,5 @@ export default {
   MATRICES: '/matrices',
   SHARED_FILES: '/shared-files',
   SETTINGS: '/settings',
+  EVENTS: '/events',
 }

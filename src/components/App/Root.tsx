@@ -1,19 +1,30 @@
 import React from 'react'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
 import Layout from '../UI/Layout'
-import Menu from '../UI/Menu'
-import ProfileSider from '../Profile/ProfileSider'
-import Sider from '../UI/Sider'
+import Pages from './Pages'
+import Sider from './Sider'
+import { useQuery } from '@apollo/react-hooks'
+import gql from 'graphql-tag'
+import NotAuthorized from '../UI/NotAuthorized'
 
-function Root({ location }: RouteComponentProps) {
+const query = gql`
+  {
+    unauthenticated @client
+  }
+`
+
+export default function Root() {
+  const { data } = useQuery(query)
+  const { unauthenticated } = data
   return (
     <Layout>
-      <Sider>
-        <ProfileSider />
-        <Menu path={'/' + location.pathname.split('/')[1]} />
-      </Sider>
+      {unauthenticated ? (
+        <NotAuthorized />
+      ) : (
+        <>
+          <Sider />
+          <Pages />
+        </>
+      )}
     </Layout>
   )
 }
-
-export default withRouter(Root)

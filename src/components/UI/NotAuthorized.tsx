@@ -1,12 +1,18 @@
 import React from 'react'
-import { Typography } from 'antd'
-
-const { Text } = Typography
+import { GATEWAY } from '../../config'
 
 export default function NotAuthorized() {
   return (
     <div>
-      <Text>Authorizing...</Text>
+      Not NotAuthorized
+      <button
+        onClick={() => {
+          localStorage.removeItem('token')
+          window.location.href = GATEWAY + '/sso/redirect'
+        }}
+      >
+        try again
+      </button>
     </div>
   )
 }
