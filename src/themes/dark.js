@@ -1,7 +1,7 @@
 module.exports = {
-  '@primary-color': '#0A53B0',
+  '@primary-color': '@blue-6',
   '@success-color': '@green-6',
-  '@info-color': '#313133',
+  '@info-color': '@blue-6',
   '@warning-color': '#613400',
   '@error-color': '@red-6',
   '@highlight-color': '#a8071a',
@@ -169,7 +169,7 @@ module.exports = {
   '@input-placeholder-color': 'hsv(0, 0, 75%)',
   '@input-color': '@text-color',
   '@input-border-color': '@border-color-base',
-  '@input-bg': '#313133',
+  '@input-bg': '@blue-6',
   '@input-number-handler-active-bg': '#f4f4f4',
   '@input-addon-bg': '@background-color-light',
   '@input-hover-border-color': '@primary-5',

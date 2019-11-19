@@ -13,6 +13,7 @@ export default function SettingsPage() {
   return (
     <div>
       <Button
+        type="primary"
         onClick={() => {
           window.less.modifyVars(light)
         }}

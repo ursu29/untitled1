@@ -60,13 +60,14 @@ interface Props {
   path: string
 }
 
-export default function PortalMenu(props: Props) {
+function PortalMenu(props: Props) {
   return (
     <Menu
       defaultSelectedKeys={[props.path]}
       selectedKeys={[props.path]}
       mode="inline"
       theme="light"
+      style={{ border: 'none' }}
     >
       {menuItems.map(item => {
         return (
@@ -81,3 +82,5 @@ export default function PortalMenu(props: Props) {
     </Menu>
   )
 }
+
+export default React.memo(PortalMenu)

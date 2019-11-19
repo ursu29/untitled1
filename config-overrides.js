@@ -17,6 +17,7 @@ const options = {
   varFile: path.join(__dirname, './src/themes/variables.less'),
   mainLessFile: path.join(__dirname, './src/themes/main.less'),
   themeVariables: Object.keys(themeExample),
+  // themeVariables: ['@primary-color'],
   indexFileName: 'index.html',
   generateOnce: false,
   lessUrl: 'https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js',
@@ -31,6 +32,9 @@ module.exports = override(
     style: true,
   }),
   addLessLoader({
+    modifyVars: {
+      // '@primary-color': '#002251',
+    },
     javascriptEnabled: true,
   }),
   addWebpackPlugin(new AntDesignThemePlugin(options)),

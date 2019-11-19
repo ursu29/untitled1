@@ -44,6 +44,5 @@ export default function EmployeeDetails(props: Props) {
   const { data, loading, error } = useQuery<{ employees: EmployeePick[] }>(query, {
     variables: { input: { id: props.employee.id } },
   })
-  return null
-  // return <EmployeeView loading={loading || !data} employee={data?.employees?.[0]} />
+  return <EmployeeView loading={loading || !data} employee={data?.employees?.[0]} />
 }
