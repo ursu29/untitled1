@@ -7,6 +7,7 @@ import UnderConstruction from '../UI/UnderConstruction'
 const Welcome = () => <div>Welcome</div>
 const Placeholder = () => <UnderConstruction />
 const PageNotFound = () => <div>Page is not found</div>
+const Profile = lazy(() => import('../Profile/ProfilePage'))
 const Settings = lazy(() => import('../Settings/SettingsPage'))
 const News = lazy(() => import('../News/NewsPage'))
 
@@ -16,7 +17,7 @@ export default function Pages() {
       <Suspense fallback={<div>Lazy...</div>}>
         <Switch>
           <Route path="/" exact component={Welcome} />
-          <Route path={paths.PROFILE} component={Placeholder} />
+          <Route path={paths.PROFILE} component={Profile} />
           <Route path={paths.EMPLOYEES} component={Placeholder} />
           <Route path={paths.PROJECTS} component={Placeholder} />
           <Route path={paths.GUILD_PROJECTS} component={Placeholder} />

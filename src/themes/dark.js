@@ -343,7 +343,7 @@ module.exports = {
   '@collapse-header-bg': '#262629',
   '@collapse-content-padding': '@padding-md',
   '@collapse-content-bg': '@component-background',
-  '@skeleton-color': '#f2f2f2',
+  '@skeleton-color': '#c9c9c9',
   '@transfer-header-height': '40px',
   '@transfer-disabled-bg': '@disabled-bg',
   '@transfer-list-height': '200px',

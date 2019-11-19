@@ -2,7 +2,7 @@ import React from 'react'
 import { GATEWAY } from '../../config'
 import { Button, Result } from 'antd'
 
-export default function NotAuthorized() {
+function NotAuthorized() {
   return (
     <div
       style={{
@@ -28,7 +28,8 @@ export default function NotAuthorized() {
           </Button>
         }
       />
-      ,
     </div>
   )
 }
+
+export default React.memo(NotAuthorized)
