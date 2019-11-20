@@ -11,11 +11,12 @@ const query = gql`
       name
       position
       avatar
+      status
     }
   }
 `
 
-type ProfilePick = Pick<Employee, 'name' | 'position' | 'avatar'>
+type ProfilePick = Pick<Employee, 'name' | 'position' | 'avatar' | 'status'>
 
 export default function ProfileSider() {
   const { data, loading, error } = useQuery<{ profile: ProfilePick }>(query)

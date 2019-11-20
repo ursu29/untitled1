@@ -58,8 +58,8 @@ export default function EmployeeDetails(props: Props) {
     <EmployeeView
       loading={loading}
       employee={employee}
-      manager={<EmployeeManager employee={employee} />}
-      teams={<EmployeeProjects employee={employee} />}
+      manager={<EmployeeManager employee={props.employee} />}
+      projects={<EmployeeProjects employee={props.employee} />}
     />
   )
 }

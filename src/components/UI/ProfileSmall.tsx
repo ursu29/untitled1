@@ -1,4 +1,4 @@
-import { Avatar, Card, Skeleton, Typography, Row } from 'antd'
+import { Avatar, Card, Skeleton, Typography, Row, Badge } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import paths from '../../paths'
@@ -10,7 +10,7 @@ const { Text } = Typography
 
 interface Props {
   loading: boolean
-  profile?: Pick<Employee, 'name' | 'position' | 'avatar'>
+  profile?: Pick<Employee, 'name' | 'position' | 'avatar' | 'status'>
 }
 
 export default function SiderProfile({ loading, profile }: Props) {
@@ -33,7 +33,10 @@ export default function SiderProfile({ loading, profile }: Props) {
                   <>
                     <Text strong>{profile.name}</Text>
                     <br />
-                    <Text>{profile.position}</Text>
+                    <Badge
+                      color={profile.status === 'Available' ? 'green' : 'red'}
+                      text={profile.status}
+                    />
                   </>
                 }
               />
