@@ -6,7 +6,7 @@ interface Props extends PropsWithChildren<any> {
   avatar?: boolean
 }
 
-export default function Skeleton(props: PropsWithChildren<any>) {
+export default function Skeleton(props: Props) {
   return (
     <AntSkeleton loading={props.loading} active avatar={props.avatar}>
       {props.children}

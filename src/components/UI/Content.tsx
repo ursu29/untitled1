@@ -9,7 +9,7 @@ function Content({ children }: PropsWithChildren<any>) {
         style={{ height: '100%', borderRight: 'none', borderTop: 'none', borderBottom: 'none' }}
         bodyStyle={{
           height: '100%',
-          padding: '60px 70px',
+          padding: 0,
           boxSizing: 'border-box',
           maxWidth: 1200,
         }}

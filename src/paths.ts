@@ -1,4 +1,6 @@
-export default {
+import { Employee, Project } from './types'
+
+const PATHS = {
   PROFILE: '/profile',
   EMPLOYEES: '/employees',
   PROJECTS: '/projects',
@@ -12,3 +14,8 @@ export default {
   SETTINGS: '/settings',
   EVENTS: '/events',
 }
+
+export const getEmployeeLink = (email: Employee['email']) => PATHS.EMPLOYEES + '/' + email + '/'
+export const getProjectLink = (code: Project['code']) => PATHS.PROJECTS + '/' + code + '/'
+
+export default PATHS

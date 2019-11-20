@@ -2,6 +2,7 @@ import React from 'react'
 import { Employee } from '../../types'
 import { Row, Col, Skeleton, Card, Typography, Avatar, Button } from 'antd'
 import styled from 'styled-components'
+import PageContent from './PageContent'
 
 const { Text, Title } = Typography
 
@@ -18,8 +19,11 @@ interface Props {
     | 'email'
     | 'isMe'
     | 'location'
+    | 'status'
     | 'phoneNumber'
   >
+  manager?: any
+  teams?: any
 }
 
 const Description = styled.div`
@@ -27,46 +31,52 @@ const Description = styled.div`
   flex-direction: column;
 `
 
-export default function EmployeeView({ loading, employee }: Props) {
+export default function EmployeeView({ loading, employee, manager, teams }: Props) {
   if (!loading && !employee) return <div>Employee info is not provided</div>
   return (
-    <Skeleton loading={loading} avatar active>
-      {employee && (
-        <Row>
-          <Col md={24} lg={14}>
-            <Card.Meta
-              title={
-                <div style={{ display: 'flex', alignItems: 'baseline' }}>
-                  <Title level={4}>{employee.name}</Title>
-                  <Button
-                    style={{ marginLeft: 8 }}
-                    onClick={() => {
-                      window.open('http://timemaster.sidenis.com', '_blank')
-                    }}
-                  >
-                    Timemaster
-                  </Button>
-                </div>
-              }
-              description={
-                <Description>
-                  <Text>{employee.position}</Text>
-                  <Text>
-                    {employee.country} / {employee.location}
-                  </Text>
-                  <Text>{employee.email}</Text>
-                  <Text>{employee.phoneNumber}</Text>
-                  <Text>Bonus: {employee.bonuses} ₽</Text>
-                </Description>
-              }
-              avatar={<Avatar size={150} shape="square" icon="user" src={employee.avatar} />}
-            />
-          </Col>
-          <Col md={24} lg={10}>
-            Right
-          </Col>
-        </Row>
-      )}
-    </Skeleton>
+    <PageContent>
+      <Skeleton loading={loading} avatar active>
+        {employee && (
+          <Row>
+            <Col md={24} lg={14} style={{ marginBottom: 20 }}>
+              <Card bordered={false} bodyStyle={{ padding: 0 }}>
+                <Card.Meta
+                  title={
+                    <div style={{ display: 'flex', alignItems: 'baseline' }}>
+                      <Title level={4}>{employee.name}</Title>
+                      <Button
+                        style={{ marginLeft: 8 }}
+                        onClick={() => {
+                          window.open('http://timemaster.sidenis.com', '_blank')
+                        }}
+                      >
+                        Timemaster
+                      </Button>
+                    </div>
+                  }
+                  description={
+                    <Description>
+                      <Text>{employee.position}</Text>
+                      <Text>
+                        {employee.country} / {employee.location}
+                      </Text>
+                      <Text>{employee.email}</Text>
+                      <Text>{employee.phoneNumber}</Text>
+                      <Text>Bonus: {employee.bonuses} ₽</Text>
+                    </Description>
+                  }
+                  avatar={<Avatar size={150} shape="square" icon="user" src={employee.avatar} />}
+                />
+              </Card>
+              <div>Status: {employee.status}</div>
+            </Col>
+            <Col md={24} lg={10}>
+              {manager}
+              {teams}
+            </Col>
+          </Row>
+        )}
+      </Skeleton>
+    </PageContent>
   )
 }
