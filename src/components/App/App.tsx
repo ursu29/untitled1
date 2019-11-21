@@ -15,7 +15,7 @@ const timezoneOffset = new Date().getTimezoneOffset()
 const timezoneOffsetKey = 'x-timezone-offset'
 
 const httpLink = new HttpLink({
-  uri: (process.env.NODE_ENV === 'production' ? '/gateway' : GATEWAY) + '/graphql',
+  uri: GATEWAY + '/graphql',
 })
 
 const authLink = setContext((_, { headers }) => {
