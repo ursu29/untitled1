@@ -10,8 +10,10 @@ interface Props {
 
 export default function ProjectTag({ project }: Props) {
   return (
-    <Tag key={project.id} color="blue">
-      <Link to={getProjectLink(project.code)}>{project.name}</Link>
-    </Tag>
+    <Link to={getProjectLink(project.code)}>
+      <Tag key={project.id} color="blue" style={{ cursor: 'pointer' }}>
+        {project.name}
+      </Tag>
+    </Link>
   )
 }

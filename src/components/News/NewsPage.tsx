@@ -1,12 +1,13 @@
 import React from 'react'
 import NewsFeed from './NewsFeed'
 import CreatePost from './CreatePost'
+import PageContent from '../UI/PageContent'
 
 export default function NewsPage() {
   return (
-    <div>
+    <PageContent>
       <CreatePost />
       <NewsFeed />
-    </div>
+    </PageContent>
   )
 }

@@ -18,7 +18,7 @@ const options = {
   mainLessFile: path.join(__dirname, './src/themes/main.less'),
   themeVariables: Object.keys(themeExample),
   // themeVariables: ['@primary-color'],
-  indexFileName: 'index.html',
+  indexFileName: false,
   generateOnce: false,
   lessUrl: 'https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js',
   publicPath: '',

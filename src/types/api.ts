@@ -26,16 +26,11 @@ export interface Tag {
   id: string
 }
 
-export interface PostBody {
-  id: string
-  languageCode: string
-  body: string
-}
-
 export interface Post {
   id: string
   title: string
-  postbodies: PostBody[]
+  body: string
+  bodyTranslated: string
   createdAt: string
   updatedAt: string
   sendEmail: boolean

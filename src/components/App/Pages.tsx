@@ -3,13 +3,15 @@ import Content from '../UI/Content'
 import { Route, Switch } from 'react-router-dom'
 import paths from '../../paths'
 import UnderConstruction from '../UI/UnderConstruction'
+import PageContent from '../UI/PageContent'
 
-const Welcome = () => <div>Welcome</div>
+const Welcome = () => <PageContent>Welcome</PageContent>
 const Placeholder = () => <UnderConstruction />
 const PageNotFound = () => <div>Page is not found</div>
 const Profile = lazy(() => import('../Profile/ProfilePage'))
 const Settings = lazy(() => import('../Settings/SettingsPage'))
 const News = lazy(() => import('../News/NewsPage'))
+const Post = lazy(() => import('../News/PostPage'))
 
 export default function Pages() {
   return (
@@ -27,6 +29,7 @@ export default function Pages() {
           <Route path={paths.MATRICES + '/:id'} component={Placeholder} />
           <Route path={paths.MATRICES} component={Placeholder} />
           <Route path={paths.SHARED_FILES} component={Placeholder} />
+          <Route path={paths.NEWS + '/:id'} component={Post} />
           <Route path={paths.NEWS} component={News} />
           <Route path={paths.SETTINGS} component={Settings} />
           <Route component={PageNotFound} />
