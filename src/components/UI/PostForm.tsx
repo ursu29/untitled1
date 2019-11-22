@@ -1,63 +1,105 @@
-import { Button, Form, Icon, Input } from 'antd'
+import { Form, Icon, Input, Checkbox, Button, Row, Col } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
 import React from 'react'
+import ReactMde from 'react-mde'
+import 'react-mde/lib/styles/css/react-mde-all.css'
+import * as Showdown from 'showdown'
+import { Post } from '../../types'
 
-function hasErrors(fieldsError: any) {
-  return Object.keys(fieldsError).some(field => fieldsError[field])
+const converter = new Showdown.Converter({
+  tables: true,
+  simplifiedAutoLink: true,
+  strikethrough: true,
+  tasklists: true,
+})
+
+interface Props extends FormComponentProps {
+  loading: boolean
+  onSubmit: (
+    values: Pick<Post, 'title' | 'body' | 'bodyTranslated' | 'sendEmail'>,
+    reset: () => void,
+  ) => void
 }
 
-class HorizontalLoginForm extends React.Component<FormComponentProps> {
-  componentDidMount() {
-    // To disabled submit button at the beginning.
-    this.props.form.validateFields()
+class HorizontalLoginForm extends React.Component<Props> {
+  state: any
+  constructor(props: Props) {
+    super(props)
+    this.state = {
+      publishAttempt: false,
+      value: '',
+      selectedTab: 'write',
+    }
+    this.clearForm = this.clearForm.bind(this)
   }
-
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    this.setState({ publishAttempt: true })
     this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values)
+      if (!err && this.state.value) {
+        this.props.onSubmit(
+          {
+            title: values.title,
+            body: this.state.value,
+            bodyTranslated: '',
+            sendEmail: values.sendEmail,
+          },
+          this.clearForm,
+        )
       }
     })
   }
 
+  public clearForm() {
+    this.props.form.resetFields()
+    this.setState({ value: '', publishAttempt: false })
+  }
+
+  setValue = (value: any) => this.setState({ value })
+  setSelectedTab = (selectedTab: any) => this.setState({ selectedTab })
+
   render() {
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form
 
-    // Only show error after a field is touched.
-    const usernameError = isFieldTouched('username') && getFieldError('username')
-    const passwordError = isFieldTouched('password') && getFieldError('password')
+    const bodyError = this.state.publishAttempt && !this.state.value
+
     return (
-      <Form layout="inline" onSubmit={this.handleSubmit}>
-        <Form.Item validateStatus={usernameError ? 'error' : ''} help={usernameError || ''}>
-          {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username!' }],
-          })(
-            <Input
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Username"
-            />,
-          )}
-        </Form.Item>
-        <Form.Item validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
-          {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Please input your Password!' }],
-          })(
-            <Input
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              type="password"
-              placeholder="Password"
-            />,
-          )}
-        </Form.Item>
+      <Form layout="vertical" onSubmit={this.handleSubmit} style={{ marginBottom: 16 }}>
         <Form.Item>
-          <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())}>
-            Log in
-          </Button>
+          {getFieldDecorator('title', {
+            rules: [{ required: true, message: 'Please add some title!' }],
+          })(<Input placeholder="Post title" />)}
         </Form.Item>
+        <Form.Item
+          validateStatus={bodyError ? 'error' : ''}
+          help={bodyError ? 'Please add some content!' : ''}
+        >
+          <ReactMde
+            value={this.state.value}
+            onChange={this.setValue}
+            selectedTab={this.state.selectedTab}
+            onTabChange={this.setSelectedTab}
+            generateMarkdownPreview={markdown => Promise.resolve(converter.makeHtml(markdown))}
+          />
+        </Form.Item>
+        <Row type="flex" justify="space-between">
+          <Col>
+            <Form.Item>
+              {getFieldDecorator('sendEmail', {
+                valuePropName: 'checked',
+                initialValue: false,
+              })(<Checkbox>Make a newsletter on all sidenis.com boxes</Checkbox>)}
+            </Form.Item>
+          </Col>
+          <Col>
+            <Button loading={this.props.loading} type="primary" htmlType="submit">
+              Publish
+            </Button>
+          </Col>
+        </Row>
       </Form>
     )
   }
 }
 
-export default Form.create({ name: 'horizontal_login' })(HorizontalLoginForm)
+export default Form.create<Props>({ name: 'horizontal_login' })(HorizontalLoginForm)

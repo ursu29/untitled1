@@ -1,9 +1,15 @@
-import React from 'react'
-import { Post, Employee } from '../../types'
 import { Typography } from 'antd'
-import Markdown from 'react-markdown'
+import React from 'react'
+import * as Showdown from 'showdown'
+import { Employee, Post } from '../../types'
 import EmployeeLink from './EmployeeLink'
-import { Link } from 'react-router-dom'
+
+const converter = new Showdown.Converter({
+  tables: true,
+  simplifiedAutoLink: true,
+  strikethrough: true,
+  tasklists: true,
+})
 
 const { Text, Title } = Typography
 
@@ -25,7 +31,11 @@ export default function PostItem({ post }: Props) {
       <Title level={3} style={{ marginTop: 8 }}>
         {post.title}
       </Title>
-      <Markdown source={post.body} />
+      <div
+        dangerouslySetInnerHTML={{
+          __html: converter.makeHtml(post.body),
+        }}
+      />
       <EmployeeLink employee={post.createdBy} />
     </>
   )

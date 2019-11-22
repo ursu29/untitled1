@@ -4,6 +4,7 @@ import { Skeleton, Timeline } from 'antd'
 interface Props extends PropsWithChildren<any> {
   loading?: boolean
   items?: {
+    id: string
     render: React.ReactNode
   }[]
 }
@@ -13,7 +14,7 @@ export default function PostList({ items, loading, ...props }: Props) {
     <Skeleton loading={loading} active>
       <Timeline>
         {items?.map(item => (
-          <Timeline.Item>{item.render}</Timeline.Item>
+          <Timeline.Item key={item.id}>{item.render}</Timeline.Item>
         ))}
       </Timeline>
     </Skeleton>
