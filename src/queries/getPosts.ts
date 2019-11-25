@@ -15,13 +15,17 @@ export default gql`
         name
         email
       }
+      images {
+        id
+        url
+      }
     }
   }
 `
 
 export type QueryType = Pick<
   Post,
-  'id' | 'title' | 'body' | 'bodyTranslated' | 'createdAt' | 'updatedAt'
+  'id' | 'title' | 'body' | 'bodyTranslated' | 'createdAt' | 'updatedAt' | 'images'
 > & {
   createdBy: Pick<Employee, 'id' | 'name' | 'email'>
 }

@@ -1,8 +1,8 @@
-import React, { useRef } from 'react'
-import PostForm from '../UI/PostForm'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import getPosts, { QueryType } from '../../queries/getPosts'
+import React from 'react'
+import getPosts from '../../queries/getPosts'
+import PostForm from '../UI/PostForm'
 
 const mutation = gql`
   mutation createPost($input: CreatePostInput) {

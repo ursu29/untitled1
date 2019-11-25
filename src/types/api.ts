@@ -26,6 +26,11 @@ export interface Tag {
   id: string
 }
 
+export interface File {
+  id: string
+  url: string
+}
+
 export interface Post {
   id: string
   title: string
@@ -36,6 +41,7 @@ export interface Post {
   sendEmail: boolean
   createdBy: Employee
   updatedBy: Employee
+  images: File[]
 }
 
 export interface Project {

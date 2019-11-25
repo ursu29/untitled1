@@ -1,8 +1,15 @@
 import { Typography } from 'antd'
 import React from 'react'
 import * as Showdown from 'showdown'
-import { Employee, Post } from '../../types'
+import { Employee, Post, File } from '../../types'
 import EmployeeLink from './EmployeeLink'
+import styled from 'styled-components'
+
+const Image = styled.img`
+  max-width: 300px;
+  max-height: 150px;
+  margin-right: ${props => props.theme.padding + 'px'};
+`
 
 const converter = new Showdown.Converter({
   tables: true,
@@ -15,7 +22,7 @@ const { Text, Title } = Typography
 
 type PostPick = Pick<
   Post,
-  'id' | 'title' | 'body' | 'bodyTranslated' | 'createdAt' | 'updatedAt'
+  'id' | 'title' | 'body' | 'bodyTranslated' | 'createdAt' | 'updatedAt' | 'images'
 > & {
   createdBy: Pick<Employee, 'id' | 'name' | 'email'>
 }
@@ -37,6 +44,11 @@ export default function PostItem({ post }: Props) {
         }}
       />
       <EmployeeLink employee={post.createdBy} />
+      <div>
+        {post.images.map((image: File) => (
+          <Image key={image.id} src={image.url} />
+        ))}
+      </div>
     </>
   )
 }

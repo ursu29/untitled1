@@ -1,9 +1,10 @@
-import { Form, Icon, Input, Checkbox, Button, Row, Col } from 'antd'
+import { Button, Checkbox, Col, Form, Icon, Input, Row, Upload } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
 import React from 'react'
 import ReactMde from 'react-mde'
 import 'react-mde/lib/styles/css/react-mde-all.css'
 import * as Showdown from 'showdown'
+import { GATEWAY } from '../../config'
 import { Post } from '../../types'
 
 const converter = new Showdown.Converter({
@@ -16,7 +17,7 @@ const converter = new Showdown.Converter({
 interface Props extends FormComponentProps {
   loading: boolean
   onSubmit: (
-    values: Pick<Post, 'title' | 'body' | 'bodyTranslated' | 'sendEmail'>,
+    values: Pick<Post, 'title' | 'body' | 'bodyTranslated' | 'sendEmail'> & { images: string[] },
     reset: () => void,
   ) => void
 }
@@ -29,6 +30,7 @@ class HorizontalLoginForm extends React.Component<Props> {
       publishAttempt: false,
       value: '',
       selectedTab: 'write',
+      fileList: [],
     }
     this.clearForm = this.clearForm.bind(this)
   }
@@ -43,6 +45,7 @@ class HorizontalLoginForm extends React.Component<Props> {
             body: this.state.value,
             bodyTranslated: '',
             sendEmail: values.sendEmail,
+            images: this.state.fileList.map((file: any) => file.response[0].id),
           },
           this.clearForm,
         )
@@ -58,8 +61,10 @@ class HorizontalLoginForm extends React.Component<Props> {
   setValue = (value: any) => this.setState({ value })
   setSelectedTab = (selectedTab: any) => this.setState({ selectedTab })
 
+  handleImageChange = ({ fileList }: any) => this.setState({ fileList })
+
   render() {
-    const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form
+    const { getFieldDecorator } = this.props.form
 
     const bodyError = this.state.publishAttempt && !this.state.value
 
@@ -81,6 +86,21 @@ class HorizontalLoginForm extends React.Component<Props> {
             onTabChange={this.setSelectedTab}
             generateMarkdownPreview={markdown => Promise.resolve(converter.makeHtml(markdown))}
           />
+        </Form.Item>
+        <Form.Item>
+          <Upload
+            fileList={this.state.fileList}
+            action={GATEWAY + '/upload'}
+            listType="text"
+            name="files"
+            onChange={this.handleImageChange}
+          >
+            {this.state.fileList.length >= 3 ? null : (
+              <Button>
+                <Icon type="upload" /> Upload Photo
+              </Button>
+            )}
+          </Upload>
         </Form.Item>
         <Row type="flex" justify="space-between">
           <Col>
