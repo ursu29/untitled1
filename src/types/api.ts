@@ -3,6 +3,9 @@ export interface Skill {
   name: string
   description: string
   parent: Skill | null
+  chidlren: Skill[] | null
+  projects: Project[] | null
+  addedBy: Employee | null
   isMatrixOnly: boolean
 }
 

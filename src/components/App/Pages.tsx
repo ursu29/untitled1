@@ -12,6 +12,7 @@ const Profile = lazy(() => import('../Profile/ProfilePage'))
 const Settings = lazy(() => import('../Settings/SettingsPage'))
 const News = lazy(() => import('../News/NewsPage'))
 const Post = lazy(() => import('../News/PostPage'))
+const Skills = lazy(() => import('../Skills/SkillsPage'))
 
 export default function Pages() {
   return (
@@ -23,7 +24,7 @@ export default function Pages() {
           <Route path={paths.EMPLOYEES} component={Placeholder} />
           <Route path={paths.PROJECTS} component={Placeholder} />
           <Route path={paths.GUILD_PROJECTS} component={Placeholder} />
-          <Route path={paths.SKILLS} component={Placeholder} />
+          <Route path={paths.SKILLS} component={Skills} />
           <Route path={paths.STATS} component={Placeholder} />
           <Route path={paths.BOOKMARKS} component={Placeholder} />
           <Route path={paths.MATRICES + '/:id'} component={Placeholder} />
