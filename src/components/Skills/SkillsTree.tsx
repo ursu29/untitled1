@@ -1,17 +1,21 @@
-import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
+import React from 'react'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 import query, { QueryType } from '../../queries/getSkills'
 import Tree from '../UI/Tree'
+import { getSkillLink } from '../../paths'
 
-export default function SkillsTree() {
+function SkillsTree({ history }: RouteComponentProps) {
   const { data, loading, error } = useQuery<QueryType>(query)
 
   if (error) return <div>Error :(</div>
-  // if (loading) return <div>Loading...</div>
 
   return (
     <Tree
       loading={loading}
+      onDoubleClick={item => {
+        history.push(getSkillLink(item.id))
+      }}
       items={data?.skills?.map(item => ({
         id: item.id,
         key: item.id,
@@ -21,3 +25,5 @@ export default function SkillsTree() {
     />
   )
 }
+
+export default withRouter(SkillsTree)

@@ -1,4 +1,4 @@
-import { Employee, Project } from './types'
+import { Employee, Project, Skill } from './types'
 
 const PATHS = {
   PROFILE: '/profile',
@@ -17,5 +17,6 @@ const PATHS = {
 
 export const getEmployeeLink = (email: Employee['email']) => PATHS.EMPLOYEES + '/' + email + '/'
 export const getProjectLink = (code: Project['code']) => PATHS.PROJECTS + '/' + code + '/'
+export const getSkillLink = (id: Skill['id']) => PATHS.SKILLS + '/' + id + '/'
 
 export default PATHS

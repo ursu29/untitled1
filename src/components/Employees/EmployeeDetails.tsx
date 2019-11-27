@@ -13,7 +13,7 @@ interface Props {
 }
 
 const query = gql`
-  query GetEmployee($input: EmployeesInput) {
+  query getEmployee($input: EmployeesInput) {
     employees(input: $input) {
       id
       name

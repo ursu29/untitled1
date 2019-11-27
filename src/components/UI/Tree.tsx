@@ -1,5 +1,6 @@
-import { Input, Skeleton, Tree } from 'antd'
+import { Input, Skeleton, Tree, Button } from 'antd'
 import React from 'react'
+import styled from 'styled-components'
 
 const { TreeNode } = Tree
 const { Search } = Input
@@ -19,6 +20,7 @@ interface Item {
 }
 
 interface Props {
+  onDoubleClick: (item: Item) => void
   loading?: boolean
   items?: Item[]
 }
@@ -111,19 +113,22 @@ export default class SkillsTree extends React.Component<Props> {
     const { searchValue } = this.state
     return data.map(item => {
       if (item.children) {
+        const handleDoubleClick = () => this.props.onDoubleClick(item)
         const index = item.title.toLowerCase().indexOf(searchValue.toLowerCase())
         const beforeStr = item.title.substr(0, index)
         const middleStr = item.title.substr(index, index + searchValue.length)
         const afterStr = item.title.substr(index + searchValue.length)
         const title =
           searchValue && index > -1 ? (
-            <span>
+            <span onDoubleClick={handleDoubleClick}>
               {beforeStr}
               <span style={{ color: '#f50' }}>{middleStr}</span>
               {afterStr}
             </span>
           ) : (
-            item.title
+            <span style={{ display: 'flex' }} onDoubleClick={handleDoubleClick}>
+              {item.title}
+            </span>
           )
         return (
           <TreeNode title={title} key={item.key} dataRef={item}>
@@ -135,23 +140,27 @@ export default class SkillsTree extends React.Component<Props> {
     })
   }
 
+  handleDrop = (info: any) => {
+    console.log('info', info)
+    const dropKey = info.node.props.eventKey
+    const dragKey = info.dragNode.props.eventKey
+    console.log(dropKey, dragKey)
+  }
+
   render() {
     const { items } = this.props
     const { expandedKeys, autoExpandParent, searchValue } = this.state
     const filteredItems = this.filterItems(searchValue, items)
     return (
-      <Skeleton
-        loading={this.props.loading}
-        active
-        paragraph={{
-          rows: 10,
-        }}
-      >
+      <Skeleton loading={this.props.loading} active paragraph={{ rows: 10 }}>
         <Search style={{ marginBottom: 8 }} placeholder="Search" onChange={this.handleSearch} />
         <Tree
           onExpand={this.handleExpand}
           expandedKeys={expandedKeys}
           autoExpandParent={autoExpandParent}
+          draggable
+          blockNode
+          onDrop={this.handleDrop}
         >
           {this.renderTreeNodes(treeify(filteredItems))}
         </Tree>

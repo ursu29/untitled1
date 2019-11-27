@@ -22,7 +22,7 @@ interface Props extends FormComponentProps {
   ) => void
 }
 
-class HorizontalLoginForm extends React.Component<Props> {
+class PostForm extends React.Component<Props> {
   state: any
   constructor(props: Props) {
     super(props)
@@ -122,4 +122,4 @@ class HorizontalLoginForm extends React.Component<Props> {
   }
 }
 
-export default Form.create<Props>({ name: 'horizontal_login' })(HorizontalLoginForm)
+export default Form.create<Props>({ name: 'post_form' })(PostForm)
