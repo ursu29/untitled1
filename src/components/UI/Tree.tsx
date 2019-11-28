@@ -1,6 +1,5 @@
 import { Input, Skeleton, Tree, Button } from 'antd'
 import React from 'react'
-import styled from 'styled-components'
 
 const { TreeNode } = Tree
 const { Search } = Input
@@ -23,6 +22,7 @@ interface Props {
   onDoubleClick: (item: Item) => void
   loading?: boolean
   items?: Item[]
+  onDrop?: (id: Item['id'], parent?: Item['id']) => void
 }
 
 function treeify(list: Item[]): Leaf[] {
@@ -141,14 +141,17 @@ export default class SkillsTree extends React.Component<Props> {
   }
 
   handleDrop = (info: any) => {
+    if (!this.props.onDrop) return
     console.log('info', info)
-    const dropKey = info.node.props.eventKey
-    const dragKey = info.dragNode.props.eventKey
-    console.log(dropKey, dragKey)
+    const dragItem = info.dragNode.props.dataRef
+    const dropItem = info.node.props.dataRef
+    const isInside = info.dropToGap === false
+    console.log(dragItem, dropItem, isInside)
+    this.props.onDrop(dragItem.id, isInside ? dropItem.id : dropItem.parent)
   }
 
   render() {
-    const { items } = this.props
+    const { items, onDrop } = this.props
     const { expandedKeys, autoExpandParent, searchValue } = this.state
     const filteredItems = this.filterItems(searchValue, items)
     return (
@@ -158,8 +161,8 @@ export default class SkillsTree extends React.Component<Props> {
           onExpand={this.handleExpand}
           expandedKeys={expandedKeys}
           autoExpandParent={autoExpandParent}
-          draggable
-          blockNode
+          draggable={Boolean(onDrop)}
+          blockNode={Boolean(onDrop)}
           onDrop={this.handleDrop}
         >
           {this.renderTreeNodes(treeify(filteredItems))}

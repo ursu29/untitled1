@@ -43,9 +43,7 @@ const SkillForm = ({ form, onSubmit, skill, loading }: Props) => {
                   message: 'Please enter skill name',
                 },
               ],
-            })(
-              <Input autoFocus onPressEnter={handleSubmit} placeholder="Please enter skill name" />,
-            )}
+            })(<Input onPressEnter={handleSubmit} placeholder="Please enter skill name" />)}
           </Form.Item>
         </Col>
       </Row>
