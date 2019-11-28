@@ -9,7 +9,7 @@ function Content({ children }: PropsWithChildren<any>) {
           size="default"
           bordered
           style={{ height: '100%', borderTop: 'none', borderBottom: 'none' }}
-          bodyStyle={{ padding: 0 }}
+          bodyStyle={{ padding: 0, height: '100%' }}
         >
           {children}
         </Card>
