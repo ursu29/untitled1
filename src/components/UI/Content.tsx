@@ -4,18 +4,16 @@ import React, { PropsWithChildren } from 'react'
 function Content({ children }: PropsWithChildren<any>) {
   return (
     <Layout.Content>
-      <Card
-        size="default"
-        style={{ height: '100%', borderRight: 'none', borderTop: 'none', borderBottom: 'none' }}
-        bodyStyle={{
-          height: '100%',
-          padding: 0,
-          boxSizing: 'border-box',
-          maxWidth: 1200,
-        }}
-      >
-        {children}
-      </Card>
+      <div style={{ height: '100%', boxSizing: 'border-box', maxWidth: 1200 }}>
+        <Card
+          size="default"
+          bordered
+          style={{ height: '100%', borderTop: 'none', borderBottom: 'none' }}
+          bodyStyle={{ padding: 0 }}
+        >
+          {children}
+        </Card>
+      </div>
     </Layout.Content>
   )
 }

@@ -142,11 +142,9 @@ export default class SkillsTree extends React.Component<Props> {
 
   handleDrop = (info: any) => {
     if (!this.props.onDrop) return
-    console.log('info', info)
     const dragItem = info.dragNode.props.dataRef
     const dropItem = info.node.props.dataRef
     const isInside = info.dropToGap === false
-    console.log(dragItem, dropItem, isInside)
     this.props.onDrop(dragItem.id, isInside ? dropItem.id : dropItem.parent)
   }
 
