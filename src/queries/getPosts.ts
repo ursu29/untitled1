@@ -23,9 +23,13 @@ export default gql`
   }
 `
 
-export type QueryType = Pick<
+type PostPick = Pick<
   Post,
   'id' | 'title' | 'body' | 'bodyTranslated' | 'createdAt' | 'updatedAt' | 'images'
 > & {
   createdBy: Pick<Employee, 'id' | 'name' | 'email'>
+}
+
+export type QueryType = {
+  posts: PostPick[]
 }

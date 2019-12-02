@@ -29,11 +29,6 @@ export interface Tag {
   id: string
 }
 
-export interface File {
-  id: string
-  url: string
-}
-
 export interface Post {
   id: string
   title: string
@@ -54,4 +49,16 @@ export interface Project {
   description: string
   leaders: Employee[]
   employees: Employee[]
+}
+
+export interface File {
+  id: string
+  url: string
+  fileName: string
+  createdAt: string
+  createdBy: Employee | null
+  updatedBy: Employee | null
+  updatedAt: string
+  size: number
+  type: 'presentation' | 'video' | 'image'
 }

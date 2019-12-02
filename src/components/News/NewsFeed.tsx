@@ -5,7 +5,7 @@ import Post from '../UI/Post'
 import Timeline from '../UI/Timeline'
 
 export default function NewsFeed() {
-  const { data, loading, error } = useQuery<{ posts: QueryType[] }>(getPosts)
+  const { data, loading, error } = useQuery<QueryType>(getPosts)
 
   if (error) return <div>Error :(</div>
 

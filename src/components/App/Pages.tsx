@@ -14,13 +14,14 @@ const News = lazy(() => import('../News/NewsPage'))
 const Post = lazy(() => import('../News/PostPage'))
 const Skills = lazy(() => import('../Skills/SkillsPage'))
 const Skill = lazy(() => import('../Skills/SkillPage'))
+const Files = lazy(() => import('../Files/FilesPage'))
 
 export default function Pages() {
   return (
     <Content>
       <Suspense fallback={<div>Lazy...</div>}>
         <Switch>
-          <Route path="/" exact component={Welcome} />
+          <Route path="/" exact component={Profile} />
           <Route path={paths.PROFILE} component={Profile} />
           <Route path={paths.EMPLOYEES} component={Placeholder} />
           <Route path={paths.PROJECTS} component={Placeholder} />
@@ -31,7 +32,7 @@ export default function Pages() {
           <Route path={paths.BOOKMARKS} component={Placeholder} />
           <Route path={paths.MATRICES + '/:id'} component={Placeholder} />
           <Route path={paths.MATRICES} component={Placeholder} />
-          <Route path={paths.SHARED_FILES} component={Placeholder} />
+          <Route path={paths.SHARED_FILES} component={Files} />
           <Route path={paths.NEWS + '/:id'} component={Post} />
           <Route path={paths.NEWS} component={News} />
           <Route path={paths.SETTINGS} component={Settings} />
