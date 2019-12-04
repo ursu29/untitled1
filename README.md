@@ -10,26 +10,32 @@ UI Kit: Ant Design
 
 ## Installation process
 
-Step 1: install deps
+1nstall deps
 
 `npm install -g yarn && yarn install`
 
-Step 2: run
+Create file .env.local in root folder and fill it with
+
+`REACT_APP_GATEWAY=https://portal.dev.sidenis.com/gateway`
+
+if gateway is running locally, use its address. example
+
+`REACT_APP_GATEWAY=https://localhost:4000`
+
+Run application
 
 `yarn start`
 
-Step 3: open http://localhost:3000
+open http://localhost:3000
 
 # Build and Test
 
-TODO: Describe and show how to build your code and run the tests.
+Build with:
+
+`yarn build`
+
+This command will create artifact in folder /build
 
 # Contribute
 
-TODO: Explain how other users and developers can contribute to make your code better.
-
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+Please check https://portal.sidenis.com/client/projects/guild-Dashboard/managers and contact anyone from the list
