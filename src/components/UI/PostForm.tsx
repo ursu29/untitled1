@@ -89,15 +89,16 @@ class PostForm extends React.Component<Props> {
         </Form.Item>
         <Form.Item>
           <Upload
+            listType="picture"
             fileList={this.state.fileList}
             action={GATEWAY + '/upload'}
-            listType="text"
             name="files"
             onChange={this.handleImageChange}
+            multiple
           >
-            {this.state.fileList.length >= 3 ? null : (
+            {this.state.fileList.length >= 10 ? null : (
               <Button>
-                <Icon type="upload" /> Upload Photo
+                <Icon type="upload" /> Upload Photos
               </Button>
             )}
           </Upload>
