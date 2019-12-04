@@ -3,9 +3,6 @@ export interface Skill {
   name: string
   description: string
   parent: Skill | null
-  chidlren: Skill[] | null
-  projects: Project[] | null
-  addedBy: Employee | null
   isMatrixOnly: boolean
 }
 
@@ -39,7 +36,6 @@ export interface Post {
   sendEmail: boolean
   createdBy: Employee
   updatedBy: Employee
-  images: File[]
 }
 
 export interface Project {
@@ -61,4 +57,27 @@ export interface File {
   updatedAt: string
   size: number
   type: 'presentation' | 'video' | 'image'
+}
+
+export interface Bookmark {
+  id: string
+  title: string
+  link: string
+  employee: Employee
+  skills: Skill[]
+  likes: Bookmarklike[]
+  access: Access
+  createdAt: string
+  likedByMe: boolean
+}
+
+export interface Bookmarklike {
+  id: string
+  employee: Employee
+  bookmark: Bookmark
+}
+
+export interface Access {
+  read: boolean
+  write: boolean
 }
