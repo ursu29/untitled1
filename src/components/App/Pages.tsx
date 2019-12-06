@@ -15,6 +15,7 @@ const Post = lazy(() => import('../News/PostPage'))
 const Skills = lazy(() => import('../Skills/SkillsPage'))
 const Skill = lazy(() => import('../Skills/SkillPage'))
 const Files = lazy(() => import('../Files/FilesPage'))
+const Bookmarks = lazy(() => import('../Bookmarks/BookmarksPage'))
 
 export default function Pages() {
   return (
@@ -29,7 +30,7 @@ export default function Pages() {
           <Route path={paths.SKILLS + '/:id'} component={Skill} />
           <Route path={paths.SKILLS} component={Skills} />
           <Route path={paths.STATS} component={Placeholder} />
-          <Route path={paths.BOOKMARKS} component={Placeholder} />
+          <Route path={paths.BOOKMARKS} component={Bookmarks} />
           <Route path={paths.MATRICES + '/:id'} component={Placeholder} />
           <Route path={paths.MATRICES} component={Placeholder} />
           <Route path={paths.SHARED_FILES} component={Files} />

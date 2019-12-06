@@ -36,6 +36,7 @@ export interface Post {
   sendEmail: boolean
   createdBy: Employee
   updatedBy: Employee
+  images: File[]
 }
 
 export interface Project {
