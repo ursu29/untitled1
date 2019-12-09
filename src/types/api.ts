@@ -83,3 +83,30 @@ export interface Access {
   read: boolean
   write: boolean
 }
+
+export interface MatrixSkill {
+  id: string
+  skill: Skill
+  gradeId: string
+  groupId: string
+}
+export interface MatrixGroup {
+  id: string
+  title: string
+}
+
+export interface MatrixGrade {
+  id: string
+  title: string
+}
+
+export interface Matrix {
+  id: string
+  title: string
+  description: string
+  body: {
+    grades: MatrixGrade[]
+    groups: MatrixGroup[]
+    skills: MatrixSkill[]
+  }
+}
