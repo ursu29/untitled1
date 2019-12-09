@@ -7,8 +7,10 @@ import Sider from '../UI/Sider'
 function PortalSider({ location }: RouteComponentProps) {
   return (
     <Sider>
-      <ProfileSider />
-      <Menu path={'/' + location.pathname.split('/')[1]} />
+      <div style={{ position: 'sticky', top: 0 }}>
+        <ProfileSider />
+        <Menu path={'/' + location.pathname.split('/')[1]} />
+      </div>
     </Sider>
   )
 }
