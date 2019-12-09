@@ -15,6 +15,7 @@ const Post = lazy(() => import('../News/PostPage'))
 const Skills = lazy(() => import('../Skills/SkillsPage'))
 const Skill = lazy(() => import('../Skills/SkillPage'))
 const Files = lazy(() => import('../Files/FilesPage'))
+const Employees = lazy(() => import('../Employees/EmployeesPage'))
 
 export default function Pages() {
   return (
@@ -23,7 +24,7 @@ export default function Pages() {
         <Switch>
           <Route path="/" exact component={Profile} />
           <Route path={paths.PROFILE} component={Profile} />
-          <Route path={paths.EMPLOYEES} component={Placeholder} />
+          <Route path={paths.EMPLOYEES} component={Employees} />
           <Route path={paths.PROJECTS} component={Placeholder} />
           <Route path={paths.GUILD_PROJECTS} component={Placeholder} />
           <Route path={paths.SKILLS + '/:id'} component={Skill} />

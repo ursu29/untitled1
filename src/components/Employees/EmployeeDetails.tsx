@@ -7,6 +7,8 @@ import EmployeeManager from './EmployeeManager'
 import EmployeeProjects from './EmployeeProjects'
 import Skeleton from '../UI/Skeleton'
 import PageContent from '../UI/PageContent'
+import { useMediaQuery } from 'react-responsive'
+import { COLLAPSE_WIDTH } from '../../config'
 
 interface Props {
   employee: Pick<Employee, 'id'>
@@ -49,13 +51,14 @@ export default function EmployeeDetails(props: Props) {
   const { data, loading, error } = useQuery<{ employees: EmployeePick[] }>(query, {
     variables: { input: { id: props.employee.id } },
   })
-
+  const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   if (error) return <div>Error :(</div>
 
   const employee = data?.employees?.[0]
 
   return (
     <EmployeeView
+      mobile={!isLarge}
       loading={loading}
       employee={employee}
       manager={<EmployeeManager employee={props.employee} />}

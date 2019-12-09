@@ -21,6 +21,7 @@
     "react-photo-gallery": "^8.0.0",
     "react-responsive": "^8.0.1",
     "react-router-dom": "5.1.2",
+    "react-visibility-sensor": "^5.1.1",
     "showdown": "^1.9.1",
     "styled-components": "4.4.1"
   },

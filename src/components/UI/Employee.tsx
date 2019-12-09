@@ -10,6 +10,7 @@ const { Text, Title } = Typography
 
 interface Props {
   loading: boolean
+  mobile: boolean
   employee?: Pick<
     Employee,
     | 'id'
@@ -33,14 +34,16 @@ const Description = styled.div`
   flex-direction: column;
 `
 
-export default function EmployeeView({ loading, employee, manager, projects }: Props) {
+export default function EmployeeView({ loading, employee, manager, projects, mobile }: Props) {
   if (!loading && !employee) return <div>Employee info is not provided</div>
+  const avatar = <Avatar size={150} shape="square" icon="user" src={employee?.avatar} />
   return (
     <PageContent>
       <Skeleton loading={loading} avatar active>
         {employee && (
           <Row>
             <Col md={24} lg={14} style={{ marginBottom: 20 }}>
+              {mobile && <div style={{ marginBottom: 16 }}>{avatar}</div>}
               <Card bordered={false} bodyStyle={{ padding: 0, marginBottom: 20 }}>
                 <Card.Meta
                   title={
@@ -67,7 +70,7 @@ export default function EmployeeView({ loading, employee, manager, projects }: P
                       <Text>Bonus: {employee.bonuses} ₽</Text>
                     </Description>
                   }
-                  avatar={<Avatar size={150} shape="square" icon="user" src={employee.avatar} />}
+                  avatar={mobile ? undefined : avatar}
                 />
               </Card>
               <div>
