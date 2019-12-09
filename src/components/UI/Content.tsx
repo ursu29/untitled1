@@ -1,10 +1,19 @@
 import { Layout, Card } from 'antd'
 import React, { PropsWithChildren } from 'react'
+import { useMediaQuery } from 'react-responsive'
+import { COLLAPSE_WIDTH } from '../../config'
 
 function Content({ children }: PropsWithChildren<any>) {
+  const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   return (
     <Layout.Content>
-      <div style={{ height: '100%', boxSizing: 'border-box', maxWidth: 1200 }}>
+      <div
+        style={{
+          height: '100%',
+          boxSizing: 'border-box',
+          maxWidth: isLarge ? '1200px' : 'calc(100vw - 80px)',
+        }}
+      >
         <Card
           size="default"
           bordered

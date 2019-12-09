@@ -36,22 +36,21 @@ const Description = styled.div`
 
 export default function EmployeeView({ loading, employee, manager, projects, mobile }: Props) {
   if (!loading && !employee) return <div>Employee info is not provided</div>
-  const avatar = <Avatar size={150} shape="square" icon="user" src={employee?.avatar} />
   return (
     <PageContent>
       <Skeleton loading={loading} avatar active>
         {employee && (
           <Row>
             <Col md={24} lg={14} style={{ marginBottom: 20 }}>
-              {mobile && <div style={{ marginBottom: 16 }}>{avatar}</div>}
               <Card bordered={false} bodyStyle={{ padding: 0, marginBottom: 20 }}>
                 <Card.Meta
                   title={
-                    <div style={{ display: 'flex', alignItems: 'baseline' }}>
-                      <Title level={4}>{employee.name}</Title>
+                    <div style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap' }}>
+                      <Title level={4} style={{ paddingRight: 8 }}>
+                        {employee.name}
+                      </Title>
                       {employee.isMe && (
                         <Button
-                          style={{ marginLeft: 8 }}
                           onClick={() => {
                             window.open('http://timemaster.sidenis.com', '_blank')
                           }}
@@ -74,7 +73,14 @@ export default function EmployeeView({ loading, employee, manager, projects, mob
                       )}
                     </Description>
                   }
-                  avatar={mobile ? undefined : avatar}
+                  avatar={
+                    <Avatar
+                      size={mobile ? 60 : 150}
+                      shape="square"
+                      icon="user"
+                      src={employee?.avatar}
+                    />
+                  }
                 />
               </Card>
               <div>

@@ -3,6 +3,8 @@ import { Tabs } from 'antd'
 import { withRouter, RouteComponentProps, matchPath } from 'react-router-dom'
 import paths, { getEmployeeLink } from '../../paths'
 import PageContent from './PageContent'
+import { useMediaQuery } from 'react-responsive'
+import { COLLAPSE_WIDTH } from '../../config'
 
 const { TabPane } = Tabs
 
@@ -19,10 +21,12 @@ interface Props extends RouteComponentProps {
 }
 
 function PortalTabs({ location, history, tabs, tab }: Props) {
+  const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
+  const padding = isLarge ? 60 : 15
   return (
+    // <div style={{ maxWidth: isLarge ? 'unset' : 'calc(100vw - 80px)' }}>
     <Tabs
-      tabPosition="top"
-      tabBarStyle={{ paddingLeft: 60, paddingRight: 60 }}
+      tabBarStyle={{ paddingLeft: padding, paddingRight: padding }}
       defaultActiveKey={tab || tabs[0].key}
       onTabClick={(tab: string) => {
         // const { pathname } = location
@@ -46,6 +50,7 @@ function PortalTabs({ location, history, tabs, tab }: Props) {
         )
       })}
     </Tabs>
+    // </div>
   )
 }
 
