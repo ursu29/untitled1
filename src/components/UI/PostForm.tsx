@@ -44,7 +44,8 @@ class PostForm extends React.Component<Props> {
     e.preventDefault()
     this.setState({ publishAttempt: true, showModal: false })
     this.props.form.validateFields((err, values) => {
-      if (!err && this.state.value) {
+      console.log(err)
+      if (!err && this.state.body) {
         this.setState({ showModal: true })
       }
     })
@@ -91,7 +92,7 @@ class PostForm extends React.Component<Props> {
   render() {
     const { getFieldDecorator } = this.props.form
 
-    const bodyError = this.state.publishAttempt && !this.state.value
+    const bodyError = this.state.publishAttempt && !this.state.body
 
     const postValues = localStorage.getItem('postValues')
     const post = this.props.post || (postValues && (JSON.parse(postValues!) as PostPick)) || null
@@ -106,7 +107,7 @@ class PostForm extends React.Component<Props> {
           onOk={this.handlePublish}
           onCancel={this.handleReturn}
         >
-          <div dangerouslySetInnerHTML={{ __html: converter.makeHtml(this.state.value) }}></div>
+          <div dangerouslySetInnerHTML={{ __html: converter.makeHtml(this.state.body) }}></div>
         </Modal>
         <Form layout="vertical" onSubmit={this.handleSubmit} style={{ marginBottom: 16 }}>
           <Form.Item>

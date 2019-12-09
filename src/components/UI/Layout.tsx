@@ -5,8 +5,8 @@ import { Layout } from 'antd'
 
 export default function PortalLayout({ children }: PropsWithChildren<any>) {
   return (
-    <Layout hasSider style={{ minHeight: '100vh' }}>
-      {children}
+    <Layout hasSider style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+      <div style={{ minHeight: '100vh', display: 'flex', width: 1440 }}>{children}</div>
     </Layout>
   )
 }

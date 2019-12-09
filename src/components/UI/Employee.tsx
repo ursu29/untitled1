@@ -49,14 +49,16 @@ export default function EmployeeView({ loading, employee, manager, projects, mob
                   title={
                     <div style={{ display: 'flex', alignItems: 'baseline' }}>
                       <Title level={4}>{employee.name}</Title>
-                      <Button
-                        style={{ marginLeft: 8 }}
-                        onClick={() => {
-                          window.open('http://timemaster.sidenis.com', '_blank')
-                        }}
-                      >
-                        Timemaster
-                      </Button>
+                      {employee.isMe && (
+                        <Button
+                          style={{ marginLeft: 8 }}
+                          onClick={() => {
+                            window.open('http://timemaster.sidenis.com', '_blank')
+                          }}
+                        >
+                          Timemaster
+                        </Button>
+                      )}
                     </div>
                   }
                   description={
@@ -67,7 +69,7 @@ export default function EmployeeView({ loading, employee, manager, projects, mob
                       </Text>
                       <Text>{employee.email}</Text>
                       <Text>{employee.phoneNumber}</Text>
-                      <Text>Bonus: {employee.bonuses} ₽</Text>
+                      {employee.isMe && <Text>Bonus: {employee.bonuses} ₽</Text>}
                     </Description>
                   }
                   avatar={mobile ? undefined : avatar}

@@ -5,6 +5,8 @@ import EmployeeTabs from '../Employees/EmployeeTabs'
 import { useQuery } from '@apollo/react-hooks'
 import { Employee } from '../../types'
 import Skeleton from '../UI/Skeleton'
+import { withRouter, RouteComponentProps } from 'react-router-dom'
+import PostList from '../UI/Timeline'
 
 const query = gql`
   {
@@ -14,7 +16,7 @@ const query = gql`
   }
 `
 
-export default function ProfilePage() {
+function ProfilePage({ match }: RouteComponentProps<{ tab: string }>) {
   const { data, loading, error } = useQuery<{ profile: Pick<Employee, 'id'> }>(query)
 
   if (error) return <div>Error :(</div>
@@ -26,7 +28,9 @@ export default function ProfilePage() {
   return (
     <Skeleton loading={loading || !data} avatar>
       <EmployeeDetails employee={data.profile} />
-      <EmployeeTabs employee={data.profile} />
+      <EmployeeTabs employee={data.profile} tab={match.params.tab} />
     </Skeleton>
   )
 }
+
+export default withRouter(ProfilePage)

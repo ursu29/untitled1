@@ -20,6 +20,7 @@ export interface Employee {
   bonuses: number
   avatar: string
   status: string
+  access: Access
 }
 
 export interface Tag {
