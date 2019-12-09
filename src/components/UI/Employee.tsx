@@ -69,7 +69,9 @@ export default function EmployeeView({ loading, employee, manager, projects, mob
                       </Text>
                       <Text>{employee.email}</Text>
                       <Text>{employee.phoneNumber}</Text>
-                      {employee.isMe && <Text>Bonus: {employee.bonuses} ₽</Text>}
+                      {employee.isMe && employee.bonuses && (
+                        <Text>Bonus: {employee.bonuses} ₽</Text>
+                      )}
                     </Description>
                   }
                   avatar={mobile ? undefined : avatar}
