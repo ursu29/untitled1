@@ -3,8 +3,8 @@ import { Button } from 'antd'
 import { ButtonProps } from 'antd/es/button'
 
 interface Props extends PropsWithChildren<any> {
-  size: ButtonProps['size']
-  type: ButtonProps['type']
+  size?: ButtonProps['size']
+  type?: ButtonProps['type']
   onClick: () => void
 }
 

@@ -48,7 +48,7 @@ const SkillSelector = ({ onSelect }: { onSelect: (skill: SkillPick) => any }) =>
     )
   }
   return (
-    <Button type="dashed" size="small" onClick={() => toggleAdding(true)}>
+    <Button type="dashed" onClick={() => toggleAdding(true)}>
       Add skill
     </Button>
   )

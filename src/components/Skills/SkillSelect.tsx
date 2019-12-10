@@ -56,12 +56,17 @@ export default function SkillSelect({ onSelect, ...props }: Props) {
           onSelect(skill)
         }
       }}
-      items={data?.skills.map(skill => {
-        return {
-          key: skill.id,
-          value: skill.name,
-        }
-      })}
+      items={data?.skills
+        .filter(skill => {
+          if (props.matrixSkillsOnly) return skill.isMatrixOnly
+          return true
+        })
+        .map(skill => {
+          return {
+            key: skill.id,
+            value: skill.name,
+          }
+        })}
     />
   )
 }

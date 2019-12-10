@@ -33,7 +33,7 @@ export default function CreateMatrixGrade(props: Props) {
     <MatrixDrawer
       togglerLabel="Create matrix"
       icon="edit"
-      drawerLabel={'Cerate a matrix'}
+      drawerLabel="Create a matrix"
       data={matrix}
       loading={loading}
       onSubmit={(matrix, onDone) => {
