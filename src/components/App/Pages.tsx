@@ -1,11 +1,10 @@
-import React, { Suspense, lazy } from 'react'
-import Content from '../UI/Content'
-import { Route, Switch, Redirect } from 'react-router-dom'
+import React, { lazy, Suspense } from 'react'
+import { Route, Switch } from 'react-router-dom'
 import paths from '../../paths'
-import UnderConstruction from '../UI/UnderConstruction'
+import Content from '../UI/Content'
 import PageContent from '../UI/PageContent'
+import UnderConstruction from '../UI/UnderConstruction'
 
-// const Welcome = () => <PageContent>Welcome</PageContent>
 const Placeholder = () => <UnderConstruction />
 const PageNotFound = () => <PageContent>Page is not found</PageContent>
 const Profile = lazy(() => import('../Profile/ProfilePage'))
@@ -18,6 +17,8 @@ const Files = lazy(() => import('../Files/FilesPage'))
 const Employees = lazy(() => import('../Employees/EmployeesPage'))
 const Employee = lazy(() => import('../Employees/EmployeePage'))
 const Matrices = lazy(() => import('../Matrices/MatricesPage'))
+const Projects = lazy(() => import('../Projects/ProjectsPage'))
+const Project = lazy(() => import('../Projects/ProjectPage'))
 
 export default function Pages() {
   return (
@@ -30,8 +31,8 @@ export default function Pages() {
           <Route path={paths.EMPLOYEES + '/:email/:tab'} component={Employee} />
           <Route path={paths.EMPLOYEES + '/:email'} component={Employee} />
           <Route path={paths.EMPLOYEES} component={Employees} />
-          <Route path={paths.PROJECTS} component={Placeholder} />
-          <Route path={paths.GUILD_PROJECTS} component={Placeholder} />
+          <Route path={paths.PROJECTS + '/:code'} component={Project} />
+          <Route path={paths.PROJECTS} component={Projects} />
           <Route path={paths.SKILLS + '/:id'} component={Skill} />
           <Route path={paths.SKILLS} component={Skills} />
           <Route path={paths.STATS} component={Placeholder} />

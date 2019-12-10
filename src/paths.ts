@@ -4,7 +4,6 @@ const PATHS = {
   PROFILE: '/profile',
   EMPLOYEES: '/employees',
   PROJECTS: '/projects',
-  GUILD_PROJECTS: '/guild',
   SKILLS: '/skills',
   STATS: '/stats',
   BOOKMARKS: '/bookmarks',

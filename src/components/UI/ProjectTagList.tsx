@@ -1,7 +1,7 @@
 import { Avatar, Card, Skeleton, Typography } from 'antd'
 import React from 'react'
 import { Project } from '../../types'
-import ProjectCard from './ProjectTag'
+import ProjectTag from './ProjectTag'
 
 const { Title } = Typography
 
@@ -9,12 +9,13 @@ type ProjectPick = Pick<Project, 'id' | 'code' | 'name'>
 
 interface Props {
   loading?: boolean
+  title?: string
   projects?: ProjectPick[]
   leadingProject?: ProjectPick[]
 }
 
-export default function ProjectTagList({ loading, projects }: Props) {
-  if (!loading && !projects) return null
+export default function ProjectTagList({ loading, title, projects }: Props) {
+  // if (!loading && !projects) return null
   return (
     <div style={{ marginBottom: 20 }}>
       <Skeleton
@@ -26,9 +27,11 @@ export default function ProjectTagList({ loading, projects }: Props) {
       >
         {projects && (
           <>
-            <Title level={4}>Projects</Title>
-            {projects.length ? (
-              projects.map(project => <ProjectCard key={project.id} project={project} />)
+            <Title level={3} style={{ fontWeight: 'normal' }}>
+              {title || 'Projects'}
+            </Title>
+            {projects?.length ? (
+              projects.map(project => <ProjectTag key={project.id} project={project} />)
             ) : (
               <div>No projects</div>
             )}

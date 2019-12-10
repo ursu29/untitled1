@@ -15,11 +15,6 @@ const menuItems = [
     title: 'Projects',
   },
   {
-    route: paths.GUILD_PROJECTS,
-    icon: <Icon type="experiment" />,
-    title: 'Guild projects',
-  },
-  {
     route: paths.SKILLS,
     icon: <Icon type="tool" />,
     title: 'Skills',
