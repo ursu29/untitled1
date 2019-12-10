@@ -27,7 +27,7 @@ export default function EmployeesList({ employees, loading, Avatar }: Props) {
       title: '',
       key: 'avatar',
       className: 'avatar-cell',
-      width: 60,
+      width: 80,
       render: (employee: Employee) => <Avatar id={employee.id} />,
     },
     {
@@ -212,7 +212,7 @@ export default function EmployeesList({ employees, loading, Avatar }: Props) {
       //@ts-ignore
       columns={columns}
       rowKey="id"
-      size="middle"
+      size="small"
       scroll={{ y: 'calc(100vh - 106px)' }}
       title={() => (
         <Input

@@ -32,7 +32,7 @@ export default ({ id }: Props) => {
 
   return (
     <VisibilitySensor onChange={toggleShow}>
-      <Avatar size={45} shape="square" src={data?.employees?.[0]?.avatar}></Avatar>
+      <Avatar size={70} shape="square" src={data?.employees?.[0]?.avatar}></Avatar>
     </VisibilitySensor>
   )
 }

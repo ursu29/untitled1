@@ -3,6 +3,8 @@ import { Tag, Typography } from 'antd'
 import { Project } from '../../types'
 import { Link } from 'react-router-dom'
 import { getProjectLink } from '../../paths'
+import { COLLAPSE_WIDTH } from '../../config'
+import { useMediaQuery } from 'react-responsive'
 
 const { Text } = Typography
 
@@ -19,8 +21,8 @@ const COLORS: any = {
 
 export default function ProjectTag({ project }: Props) {
   const codeStarts = project.code.split('-')[0]?.toLowerCase()
-  console.log('codeStarts', codeStarts)
   const color = codeStarts ? COLORS[codeStarts] : COLORS.is
+  const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   return (
     <span style={{ marginBottom: 8, display: 'inline-block' }}>
       <Link to={getProjectLink(project.code)}>
@@ -30,19 +32,28 @@ export default function ProjectTag({ project }: Props) {
           style={{
             cursor: 'pointer',
             borderRadius: 2,
-            fontSize: 20,
-            lineHeight: '28px',
-            padding: '6px 20px',
+            fontSize: isLarge ? 20 : 14,
+            lineHeight: isLarge ? '28px' : '22px',
+            padding: isLarge ? '6px 20px' : '4px 8px',
+            marginRight: 16,
           }}
         >
-          {project.name}
+          <div
+            style={{
+              maxWidth: isLarge ? 'unset' : 200,
+              overflow: isLarge ? 'unset' : 'hidden',
+              textOverflow: isLarge ? 'unset' : 'ellipsis',
+            }}
+          >
+            {project.name}
+          </div>
         </Tag>
-        <div>
-          <Text type="secondary" style={{ fontSize: 12 }}>
-            {project.code}
-          </Text>
-        </div>
       </Link>
+      <div>
+        <Text type="secondary" style={{ fontSize: 12 }}>
+          {project.code}
+        </Text>
+      </div>
     </span>
   )
 }
