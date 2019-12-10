@@ -109,4 +109,5 @@ export interface Matrix {
     groups: MatrixGroup[]
     skills: MatrixSkill[]
   }
+  access: Access
 }

@@ -36,6 +36,7 @@ export default function ProjectTag({ project }: Props) {
             lineHeight: isLarge ? '28px' : '22px',
             padding: isLarge ? '6px 20px' : '4px 8px',
             marginRight: 16,
+            userSelect: 'none',
           }}
         >
           <div

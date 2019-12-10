@@ -5,12 +5,14 @@ import paths, { getEmployeeLink } from '../../paths'
 import PageContent from './PageContent'
 import { useMediaQuery } from 'react-responsive'
 import { COLLAPSE_WIDTH } from '../../config'
+import { IconProps } from 'antd/lib/icon'
 
 const { TabPane } = Tabs
 
 interface Tab {
   title: any
   key: string
+  icon?: IconProps['type']
   body: any
   hidden?: boolean
 }
