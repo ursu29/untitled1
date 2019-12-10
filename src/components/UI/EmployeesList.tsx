@@ -200,7 +200,6 @@ export default function EmployeesList({ employees, loading, Avatar }: Props) {
   }
 
   return (
-    // <PageContent>
     <Table
       loading={loading}
       tableLayout="fixed"
@@ -213,7 +212,7 @@ export default function EmployeesList({ employees, loading, Avatar }: Props) {
       columns={columns}
       rowKey="id"
       size="small"
-      scroll={{ y: 'calc(100vh - 106px)' }}
+      scroll={{ y: 'calc(100vh - 90px)' }}
       title={() => (
         <Input
           placeholder="Find employee"
@@ -222,6 +221,5 @@ export default function EmployeesList({ employees, loading, Avatar }: Props) {
         />
       )}
     />
-    // </PageContent>
   )
 }

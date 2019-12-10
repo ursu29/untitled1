@@ -31,8 +31,10 @@ export default function Pages() {
           <Route path={paths.EMPLOYEES + '/:email/:tab'} component={Employee} />
           <Route path={paths.EMPLOYEES + '/:email'} component={Employee} />
           <Route path={paths.EMPLOYEES} component={Employees} />
+          <Route path={paths.PROJECTS + '/:code/:tab'} component={Project} />
           <Route path={paths.PROJECTS + '/:code'} component={Project} />
           <Route path={paths.PROJECTS} component={Projects} />
+          <Route path={paths.SKILLS + '/:id:/:tab'} component={Skill} />
           <Route path={paths.SKILLS + '/:id'} component={Skill} />
           <Route path={paths.SKILLS} component={Skills} />
           <Route path={paths.STATS} component={Placeholder} />

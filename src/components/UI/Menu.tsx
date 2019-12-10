@@ -44,11 +44,11 @@ const menuItems = [
     icon: <Icon type="read" />,
     title: 'News',
   },
-  {
-    route: paths.SETTINGS,
-    icon: <Icon type="setting" />,
-    title: 'Settings',
-  },
+  // {
+  //   route: paths.SETTINGS,
+  //   icon: <Icon type="setting" />,
+  //   title: 'Settings',
+  // },
 ]
 
 interface Props {

@@ -24,15 +24,12 @@ const query = gql`
   }
 `
 
-type QueryType = { employees: Pick<Employee, 'id' | 'access'> }
+type QueryType = { employees: Pick<Employee, 'id' | 'access'>[] }
 
 function EmployeeTabs({ match, ...props }: Props) {
-  const { data, loading, error } = useQuery<{ employees: Pick<Employee, 'id' | 'access'>[] }>(
-    query,
-    {
-      variables: { input: { id: props.employee.id } },
-    },
-  )
+  const { data, loading, error } = useQuery<QueryType>(query, {
+    variables: { input: { id: props.employee.id } },
+  })
 
   if (error) return <div>Error :(</div>
 
