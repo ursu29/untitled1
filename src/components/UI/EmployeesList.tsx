@@ -27,7 +27,7 @@ export default function EmployeesList({ employees, loading, Avatar }: Props) {
       title: '',
       key: 'avatar',
       className: 'avatar-cell',
-      width: 80,
+      width: 70,
       render: (employee: Employee) => <Avatar id={employee.id} />,
     },
     {

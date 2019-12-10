@@ -7,24 +7,6 @@ export default gql`
       id
       title
       description
-      body {
-        grades {
-          id
-          title
-        }
-        groups {
-          id
-          title
-        }
-        skills {
-          id
-          skill {
-            id
-          }
-          gradeId
-          groupId
-        }
-      }
     }
   }
 `
