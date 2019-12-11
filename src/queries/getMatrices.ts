@@ -12,5 +12,5 @@ export default gql`
 `
 
 export type QueryType = {
-  matrices: Matrix[]
+  matrices: Pick<Matrix, 'id' | 'title' | 'description'>[]
 }

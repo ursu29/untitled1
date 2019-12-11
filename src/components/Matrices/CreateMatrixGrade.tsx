@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import React, { useState } from 'react'
 import getMatrices from '../../queries/getMatrices'
+import getMatrix from '../../queries/getMatrix'
 import { Matrix, MatrixGrade } from '../../types'
 import MatrixDrawer from '../UI/MatrixDrawer'
 
@@ -28,7 +29,7 @@ export default function CreateMatrixGrade({ matrix }: Props) {
   const [mutate, { loading, error }] = useMutation<MutationType>(mutation, {
     refetchQueries: [
       { query: getMatrices },
-      { query: getMatrices, variables: { input: { id: matrix?.id } } },
+      { query: getMatrix, variables: { input: { id: matrix?.id } } },
     ],
     onError: () => {
       console.info('updateSkill error', error)
