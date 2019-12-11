@@ -35,13 +35,13 @@ export default function ProjectTag({ project }: Props) {
             fontSize: isLarge ? 20 : 14,
             lineHeight: isLarge ? '28px' : '22px',
             padding: isLarge ? '6px 20px' : '4px 8px',
-            marginRight: 16,
+            marginRight: isLarge ? 16 : 8,
             userSelect: 'none',
           }}
         >
           <div
             style={{
-              maxWidth: isLarge ? 'unset' : 200,
+              maxWidth: isLarge ? 'unset' : 230,
               overflow: isLarge ? 'unset' : 'hidden',
               textOverflow: isLarge ? 'unset' : 'ellipsis',
             }}
@@ -50,11 +50,13 @@ export default function ProjectTag({ project }: Props) {
           </div>
         </Tag>
       </Link>
-      <div>
-        <Text type="secondary" style={{ fontSize: 12 }}>
-          {project.code}
-        </Text>
-      </div>
+      {isLarge && (
+        <div>
+          <Text type="secondary" style={{ fontSize: 12 }}>
+            {project.code}
+          </Text>
+        </div>
+      )}
     </span>
   )
 }

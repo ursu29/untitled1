@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/react-hooks'
 import { Employee } from '../../types'
 import Skeleton from '../UI/Skeleton'
 import EmployeeDetails from '../Employees/EmployeeDetails'
+import EmployeeMatrices from '../EmployeeMatrices/EmployeeMatrices'
 import Tabs from '../UI/Tabs'
 
 interface Props extends RouteComponentProps {
@@ -52,7 +53,7 @@ function EmployeeTabs({ match, ...props }: Props) {
     tabs.push({
       title: 'Matrices',
       key: 'matrices',
-      body: <div>Matrices</div>,
+      body: <EmployeeMatrices id={employee.id} />,
     })
   }
 

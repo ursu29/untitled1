@@ -1,10 +1,11 @@
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import getMatrix from '../../queries/getMatrix'
 import { Matrix, MatrixGrade, MatrixGroup, Skill } from '../../types'
 import SkillSelect from '../Skills/SkillSelect'
 import Button from '../UI/Button'
+import message from '../../message'
 
 const mutation = gql`
   mutation CreateMatrixSkill($input: CreateMatrixSkillInput) {
@@ -54,12 +55,18 @@ const SkillSelector = ({ onSelect }: { onSelect: (skill: SkillPick) => any }) =>
 }
 
 export default function CreateMatrixSkill({ matrix, grade, group }: Props) {
-  const [mutate, { loading, error }] = useMutation<MutationType>(mutation, {
+  const [mutate, { loading }] = useMutation<MutationType>(mutation, {
     refetchQueries: [{ query: getMatrix, variables: { input: { id: matrix?.id } } }],
-    onError: () => {
-      console.info('updateSkill error', error)
-    },
+    onError: message.warning,
+    onCompleted: () => message.success('Skill is added'),
   })
+
+  useEffect(() => {
+    if (loading) {
+      message.loading('Creating')
+    }
+  })
+
   if (!matrix) return null
   return (
     <SkillSelector

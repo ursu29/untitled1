@@ -5,6 +5,7 @@ import getMatrices from '../../queries/getMatrices'
 import getMatrix from '../../queries/getMatrix'
 import { Matrix, MatrixGrade } from '../../types'
 import MatrixDrawer from '../UI/MatrixDrawer'
+import message from '../../message'
 
 const mutation = gql`
   mutation CreateMatrixGroup($input: CreateMatrixGroupInput!) {
@@ -31,9 +32,8 @@ export default function CreateMatrixGroup({ matrix }: Props) {
       { query: getMatrices },
       { query: getMatrix, variables: { input: { id: matrix?.id } } },
     ],
-    onError: () => {
-      console.info('updateSkill error', error)
-    },
+    onError: message.error,
+    onCompleted: () => message.success('Group id added'),
   })
 
   if (!matrix) return null

@@ -4,6 +4,7 @@ import React from 'react'
 import getMatrix from '../../queries/getMatrix'
 import { Matrix, Skill } from '../../types'
 import SkillTag from '../UI/SkillTag'
+import message from '../../message'
 
 const mutation = gql`
   mutation DeleteMatrixSkill($input: DeleteMatrixSkillInput) {
@@ -28,9 +29,7 @@ interface Props {
 export default function CreateMatrixGrade({ matrix, skill, editable }: Props) {
   const [mutate, { loading, error }] = useMutation<MutationType>(mutation, {
     refetchQueries: [{ query: getMatrix, variables: { input: { id: matrix?.id } } }],
-    onError: () => {
-      console.info('updateSkill error', error)
-    },
+    onError: () => message.error,
   })
   if (!matrix) return null
   return (

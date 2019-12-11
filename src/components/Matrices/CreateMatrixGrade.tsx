@@ -5,6 +5,7 @@ import getMatrices from '../../queries/getMatrices'
 import getMatrix from '../../queries/getMatrix'
 import { Matrix, MatrixGrade } from '../../types'
 import MatrixDrawer from '../UI/MatrixDrawer'
+import message from '../../message'
 
 const mutation = gql`
   mutation CreateMatrixGrade($input: CreateMatrixGradeInput) {
@@ -31,9 +32,8 @@ export default function CreateMatrixGrade({ matrix }: Props) {
       { query: getMatrices },
       { query: getMatrix, variables: { input: { id: matrix?.id } } },
     ],
-    onError: () => {
-      console.info('updateSkill error', error)
-    },
+    onError: message.error,
+    onCompleted: () => message.success('Grade id added'),
   })
   if (!matrix) return null
   return (

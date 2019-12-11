@@ -21,6 +21,8 @@ export interface Employee {
   avatar: string
   status: string
   access: Access
+  experiences: Experience[]
+  matrices: Matrix[]
 }
 
 export interface Tag {
@@ -110,4 +112,19 @@ export interface Matrix {
     skills: MatrixSkill[]
   }
   access: Access
+}
+
+export interface Experience {
+  id: string
+  skill: Skill
+  employee: Employee
+  level: Level
+}
+
+export interface Level {
+  id: string
+  index: number
+  name: string
+  description: string
+  experiences: Experience[]
 }
