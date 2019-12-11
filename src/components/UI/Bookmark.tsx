@@ -59,12 +59,8 @@ export default function BookmarkItem({ bookmark }: Props) {
           </span>
               </>
           )}*/}
-          {bookmark.employee &&
-          <>
-            <BulletDivider />
-            <EmployeeLink employee={bookmark.employee} />
-          </>
-          }
+          <BulletDivider />
+          {bookmark.employee ? <EmployeeLink employee={bookmark.employee} /> : 'Unknown'}
           {bookmark.employee && bookmark.access.write && (
               <>
                 <BulletDivider />
