@@ -10,7 +10,7 @@ export interface Props extends FormComponentProps {
   error?: string
 }
 
-const BookmarkCreateForm = ({ form, onSubmit, bookmark, loading }: Props) => {
+const BookmarkForm = ({ form, onSubmit, bookmark, loading }: Props) => {
   const { getFieldDecorator } = form
 
   const handleSubmit = (e: any) => {
@@ -74,4 +74,4 @@ const BookmarkCreateForm = ({ form, onSubmit, bookmark, loading }: Props) => {
   )
 }
 
-export default Form.create<Props>({ name: 'bookmark_form' })(BookmarkCreateForm)
+export default Form.create<Props>({ name: 'bookmark_form' })(BookmarkForm)

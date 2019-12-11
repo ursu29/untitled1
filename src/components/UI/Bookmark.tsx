@@ -2,6 +2,8 @@ import React from 'react'
 import {Bookmark, Employee, Access, Skill} from '../../types'
 import EmployeeLink from '../UI/EmployeeLink'
 import styled from 'styled-components'
+import UpdateBookmark from '../Bookmarks/UpdateBookmark'
+import DeleteBookmark from '../Bookmarks/DeleteBookmark'
 import { getSkillLink } from '../../paths'
 
 const StyledTitle = styled.a`
@@ -65,9 +67,9 @@ export default function BookmarkItem({ bookmark }: Props) {
           {bookmark.employee && bookmark.access.write && (
               <>
                 <BulletDivider />
-                edit
+                <UpdateBookmark bookmark={bookmark} />
                 &nbsp;or&nbsp;
-                delete
+                <DeleteBookmark bookmark={bookmark} />
               </>
           )}
         </div>

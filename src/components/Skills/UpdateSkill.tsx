@@ -3,7 +3,6 @@ import SkillDrawer from '../UI/SkillDrawer'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import getSkills from '../../queries/getSkills'
-import { Skill, Project, Employee } from '../../types'
 import { RefetchQueryDescription } from 'apollo-client/core/watchQueryOptions'
 
 const mutation = gql`
