@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {Bookmark, Employee, Access, Skill} from '../../types'
 import EmployeeLink from '../UI/EmployeeLink'
 import styled from 'styled-components'
@@ -6,6 +6,7 @@ import UpdateBookmark from '../Bookmarks/UpdateBookmark'
 import DeleteBookmark from '../Bookmarks/DeleteBookmark'
 import LikeBookmark from '../Bookmarks/LikeBookmark'
 import { getSkillLink } from '../../paths'
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 const StyledTitle = styled.a`
   color: #4a4a4a;
@@ -30,47 +31,47 @@ const StyledTag = styled.span`
 interface Props {
   bookmark: Pick<Bookmark, 'id' | 'title' | 'link'> & {
     employee: Pick<Employee, 'id' | 'name' | 'email'>,
-    access: Pick<Access, 'write'>
+    access: Pick<Access, 'write'>,
+    skills?: Pick<Skill, 'id' | 'name'>[]
   }
 }
 
 const BulletDivider = () => <span style={{ color: '#4a4a4a' }}>&nbsp;•&nbsp;</span>
 
-export default function BookmarkItem({ bookmark }: Props) {
-
+export default withRouter(({ bookmark, history }: Props & RouteComponentProps) => {
   return (
-        <div>
-          <StyledTitle href={bookmark.link} target="_blank">{bookmark.title}</StyledTitle>
-          {/*{bookmark.skills && (
-              <>
-                <BulletDivider />
-                <span>
-            {bookmark.skills.map(skill => (
-                <StyledTag
-                    key={skill.id}
-                    onClick={e => {
-                      e.preventDefault()
-                      history.push(getSkillLink(skill.id))
-                    }}
-                >
-                  #{skill.name}
-                </StyledTag>
+    <div>
+      <StyledTitle href={bookmark.link} target="_blank">{bookmark.title}</StyledTitle>
+      {!!bookmark.skills?.length &&
+        <>
+          <BulletDivider/>
+          <span>
+            {bookmark.skills.map(item => (
+              <StyledTag
+                key={item.id}
+                onClick={e => {
+                  e.preventDefault()
+                  history.push(getSkillLink(item.id))
+                }}
+              >
+                #{item.name}
+              </StyledTag>
             ))}
           </span>
-              </>
-          )}*/}
-          <BulletDivider />
-          {bookmark.employee ? <EmployeeLink employee={bookmark.employee} /> : 'Unknown'}
-          {bookmark.employee && bookmark.access.write && (
-              <>
-                <BulletDivider />
-                <UpdateBookmark bookmark={bookmark} />
-                &nbsp;or&nbsp;
-                <DeleteBookmark bookmark={bookmark} />
-              </>
-          )}
-          <BulletDivider />
-          <LikeBookmark bookmark={bookmark} />
-        </div>
-    )
-}
+        </>
+      }
+      <BulletDivider/>
+      {bookmark.employee ? <EmployeeLink employee={bookmark.employee}/> : 'Unknown'}
+      {bookmark.employee && bookmark.access.write && (
+        <>
+          <BulletDivider/>
+          <UpdateBookmark bookmark={bookmark}/>
+          &nbsp;or&nbsp;
+          <DeleteBookmark bookmark={bookmark}/>
+        </>
+      )}
+      <BulletDivider/>
+      <LikeBookmark bookmark={bookmark}/>
+    </div>
+  )
+})

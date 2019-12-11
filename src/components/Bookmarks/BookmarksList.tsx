@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { withRouter } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import query, { QueryType } from '../../queries/getBookmarks';
 import BookmarkItem from '../UI/Bookmark'
@@ -12,7 +11,7 @@ type BookmarkPick = Pick<Bookmark, 'id' | 'title' | 'link'> & {
   access: Pick<Access, "write">
 }
 
-function BookmarksList() {
+export default function BookmarksList() {
   const { data } = useQuery<QueryType>(query)
   const [filter, setFilter] = useState('')
 
@@ -42,5 +41,3 @@ function BookmarksList() {
       </div>
   )
 }
-
-export default withRouter(BookmarksList)
