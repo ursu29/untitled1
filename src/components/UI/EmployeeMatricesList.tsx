@@ -15,8 +15,8 @@ export default function EmployeeMatricesList({
   employee,
   EmployeeMatrixComponent,
 }: Props) {
-  if (!employee) return null
   if (!loading && !matrices) return <div>No matrices yet</div>
+
   const defaultActiveKey = matrices?.[0].id
   return (
     <Skeleton active loading={loading}>

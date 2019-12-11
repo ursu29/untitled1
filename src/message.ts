@@ -14,8 +14,8 @@ const key = 'replace'
 
 const success = (content: string) => message.success({ content, key })
 const warning = (error: any) => message.warning({ content: trimError(error), key })
-const error = (error: any) => message.error(trimError(error))
-const loading = (content: any) => message.loading({ content, key })
+const error = (error: any) => message.error({ content: trimError(error), key })
+const loading = (content: string) => message.loading({ content, key })
 
 export default {
   success,
