@@ -4,6 +4,7 @@ import EmployeeLink from '../UI/EmployeeLink'
 import styled from 'styled-components'
 import UpdateBookmark from '../Bookmarks/UpdateBookmark'
 import DeleteBookmark from '../Bookmarks/DeleteBookmark'
+import LikeBookmark from '../Bookmarks/LikeBookmark'
 import { getSkillLink } from '../../paths'
 
 const StyledTitle = styled.a`
@@ -72,6 +73,8 @@ export default function BookmarkItem({ bookmark }: Props) {
                 <DeleteBookmark bookmark={bookmark} />
               </>
           )}
+          <BulletDivider />
+          <LikeBookmark bookmark={bookmark} />
         </div>
     )
 }

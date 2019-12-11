@@ -38,9 +38,7 @@ export default function DeleteBookmark({ ...props }) {
   const handleDelete = () =>
     deleteBookmark({
       variables: {
-        input: {
-          id: bookmark.id
-        }
+        input: { id: bookmark.id }
       },
     })
   return (
