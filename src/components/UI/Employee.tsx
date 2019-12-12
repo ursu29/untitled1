@@ -10,6 +10,7 @@ const { Text, Title } = Typography
 
 interface Props {
   loading: boolean
+  mobile: boolean
   employee?: Pick<
     Employee,
     | 'id'
@@ -33,7 +34,7 @@ const Description = styled.div`
   flex-direction: column;
 `
 
-export default function EmployeeView({ loading, employee, manager, projects }: Props) {
+export default function EmployeeView({ loading, employee, manager, projects, mobile }: Props) {
   if (!loading && !employee) return <div>Employee info is not provided</div>
   return (
     <PageContent>
@@ -44,16 +45,19 @@ export default function EmployeeView({ loading, employee, manager, projects }: P
               <Card bordered={false} bodyStyle={{ padding: 0, marginBottom: 20 }}>
                 <Card.Meta
                   title={
-                    <div style={{ display: 'flex', alignItems: 'baseline' }}>
-                      <Title level={4}>{employee.name}</Title>
-                      <Button
-                        style={{ marginLeft: 8 }}
-                        onClick={() => {
-                          window.open('http://timemaster.sidenis.com', '_blank')
-                        }}
-                      >
-                        Timemaster
-                      </Button>
+                    <div style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap' }}>
+                      <Title level={4} style={{ paddingRight: 8 }}>
+                        {employee.name}
+                      </Title>
+                      {employee.isMe && (
+                        <Button
+                          onClick={() => {
+                            window.open('http://timemaster.sidenis.com', '_blank')
+                          }}
+                        >
+                          Timemaster
+                        </Button>
+                      )}
                     </div>
                   }
                   description={
@@ -64,10 +68,19 @@ export default function EmployeeView({ loading, employee, manager, projects }: P
                       </Text>
                       <Text>{employee.email}</Text>
                       <Text>{employee.phoneNumber}</Text>
-                      <Text>Bonus: {employee.bonuses} ₽</Text>
+                      {employee.isMe && employee.bonuses && (
+                        <Text>Bonus: {employee.bonuses} ₽</Text>
+                      )}
                     </Description>
                   }
-                  avatar={<Avatar size={150} shape="square" icon="user" src={employee.avatar} />}
+                  avatar={
+                    <Avatar
+                      size={mobile ? 60 : 150}
+                      shape="square"
+                      icon="user"
+                      src={employee?.avatar}
+                    />
+                  }
                 />
               </Card>
               <div>

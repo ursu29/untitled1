@@ -1,10 +1,9 @@
-import { Employee, Project, Skill } from './types'
+import { Employee, Project, Skill, Matrix } from './types'
 
 const PATHS = {
   PROFILE: '/profile',
   EMPLOYEES: '/employees',
   PROJECTS: '/projects',
-  GUILD_PROJECTS: '/guild',
   SKILLS: '/skills',
   STATS: '/stats',
   BOOKMARKS: '/bookmarks',
@@ -18,5 +17,6 @@ const PATHS = {
 export const getEmployeeLink = (email: Employee['email']) => PATHS.EMPLOYEES + '/' + email + '/'
 export const getProjectLink = (code: Project['code']) => PATHS.PROJECTS + '/' + code + '/'
 export const getSkillLink = (id: Skill['id']) => PATHS.SKILLS + '/' + id + '/'
+export const getMatrixLink = (id: Matrix['id']) => PATHS.MATRICES + '/' + id + '/'
 
 export default PATHS

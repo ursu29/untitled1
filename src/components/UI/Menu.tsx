@@ -15,11 +15,6 @@ const menuItems = [
     title: 'Projects',
   },
   {
-    route: paths.GUILD_PROJECTS,
-    icon: <Icon type="experiment" />,
-    title: 'Guild projects',
-  },
-  {
     route: paths.SKILLS,
     icon: <Icon type="tool" />,
     title: 'Skills',
@@ -49,11 +44,11 @@ const menuItems = [
     icon: <Icon type="read" />,
     title: 'News',
   },
-  {
-    route: paths.SETTINGS,
-    icon: <Icon type="setting" />,
-    title: 'Settings',
-  },
+  // {
+  //   route: paths.SETTINGS,
+  //   icon: <Icon type="setting" />,
+  //   title: 'Settings',
+  // },
 ]
 
 interface Props {

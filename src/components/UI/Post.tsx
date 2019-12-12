@@ -1,9 +1,12 @@
 import { Typography } from 'antd'
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import * as Showdown from 'showdown'
 import { Employee, Post, File } from '../../types'
 import EmployeeLink from './EmployeeLink'
 import styled from 'styled-components'
+import Gallery from 'react-photo-gallery'
+//@ts-ignore
+import Carousel, { Modal, ModalGateway } from 'react-images'
 
 const Image = styled.img`
   max-width: 300px;
@@ -32,6 +35,20 @@ interface Props {
 }
 
 export default function PostItem({ post }: Props) {
+  const [currentImage, setCurrentImage] = useState(0)
+  const [viewerIsOpen, setViewerIsOpen] = useState(false)
+
+  const openLightbox = useCallback((event, { photo, index }) => {
+    console.log('index', index)
+    setCurrentImage(index)
+    setViewerIsOpen(true)
+  }, [])
+
+  const closeLightbox = () => {
+    setCurrentImage(0)
+    setViewerIsOpen(false)
+  }
+
   return (
     <>
       <Text>{post.createdAt}</Text>
@@ -44,10 +61,28 @@ export default function PostItem({ post }: Props) {
         }}
       />
       <EmployeeLink employee={post.createdBy} />
-      <div>
-        {post.images.map((image: File) => (
-          <Image key={image.id} src={image.url} />
-        ))}
+      <div style={{ maxWidth: 700 }}>
+        <Gallery
+          onClick={openLightbox}
+          photos={post.images.map(image => ({
+            src: image.url,
+            width: 4,
+            height: 3,
+          }))}
+        />
+        <ModalGateway>
+          {viewerIsOpen ? (
+            <Modal onClose={closeLightbox}>
+              <Carousel
+                currentIndex={currentImage}
+                views={post.images.map(x => ({
+                  source: x.url,
+                  caption: x.fileName,
+                }))}
+              />
+            </Modal>
+          ) : null}
+        </ModalGateway>
       </div>
     </>
   )

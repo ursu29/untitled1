@@ -18,7 +18,9 @@ export default function EmployeeCard({ loading, employee }: Props) {
       <Skeleton loading={loading} active avatar paragraph={false}>
         {employee && (
           <>
-            <Title level={4}>Manager</Title>
+            <Title level={3} style={{ fontWeight: 'normal' }}>
+              Manager
+            </Title>
             <Card bordered={false} bodyStyle={{ padding: 0 }}>
               <Card.Meta
                 title={<Link to={getEmployeeLink(employee.email)}>{employee.name}</Link>}
