@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { List, Skeleton, Input, Tag, Row, Col } from 'antd'
+import { List, Skeleton, Input, Tag } from 'antd'
 import { File, Employee } from '../../types'
 import FuzzySearch from 'fuzzy-search'
 

@@ -6,7 +6,14 @@ import UpdateBookmark from '../Bookmarks/UpdateBookmark'
 import DeleteBookmark from '../Bookmarks/DeleteBookmark'
 import LikeBookmark from '../Bookmarks/LikeBookmark'
 import { getSkillLink } from '../../paths'
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom'
+
+const StyledBookmark = styled.div`
+  color: #8d96ac;
+  margin-top: ${props => props.theme.padding / 2}px;
+  margin-bottom: ${props => props.theme.padding / 2}px;
+  padding: ${props => props.theme.padding / 4}px ${props => props.theme.padding / 2}px;
+`
 
 const StyledTitle = styled.a`
   color: #4a4a4a;
@@ -40,7 +47,7 @@ const BulletDivider = () => <span style={{ color: '#4a4a4a' }}>&nbsp;•&nbsp;</
 
 export default withRouter(({ bookmark, history }: Props & RouteComponentProps) => {
   return (
-    <div>
+    <StyledBookmark>
       <StyledTitle href={bookmark.link} target="_blank">{bookmark.title}</StyledTitle>
       {!!bookmark.skills?.length &&
         <>
@@ -72,6 +79,6 @@ export default withRouter(({ bookmark, history }: Props & RouteComponentProps) =
       )}
       <BulletDivider/>
       <LikeBookmark bookmark={bookmark}/>
-    </div>
+    </StyledBookmark>
   )
 })
