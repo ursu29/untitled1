@@ -32,6 +32,7 @@ export interface Tag {
 export interface Post {
   id: string
   title: string
+  titleTranslated: string
   body: string
   bodyTranslated: string
   createdAt: string
@@ -40,6 +41,7 @@ export interface Post {
   createdBy: Employee
   updatedBy: Employee
   images: File[]
+  tags: Tag[]
 }
 
 export interface Project {
@@ -127,4 +129,11 @@ export interface Level {
   name: string
   description: string
   experiences: Experience[]
+}
+
+export interface Tag {
+  id: string
+  name: string
+  description: string
+  posts: Post[]
 }

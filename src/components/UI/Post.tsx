@@ -1,18 +1,13 @@
-import { Typography } from 'antd'
+import { Typography, Tag } from 'antd'
 import React, { useState, useCallback } from 'react'
 import * as Showdown from 'showdown'
 import { Employee, Post, File } from '../../types'
 import EmployeeLink from './EmployeeLink'
 import styled from 'styled-components'
 import Gallery from 'react-photo-gallery'
+import { Tag as TagType } from '../../types'
 //@ts-ignore
 import Carousel, { Modal, ModalGateway } from 'react-images'
-
-const Image = styled.img`
-  max-width: 300px;
-  max-height: 150px;
-  margin-right: ${props => props.theme.padding + 'px'};
-`
 
 const converter = new Showdown.Converter({
   tables: true,
@@ -21,25 +16,26 @@ const converter = new Showdown.Converter({
   tasklists: true,
 })
 
-const { Text, Title } = Typography
+const { Text, Title, Paragraph } = Typography
 
 type PostPick = Pick<
   Post,
   'id' | 'title' | 'body' | 'bodyTranslated' | 'createdAt' | 'updatedAt' | 'images'
 > & {
   createdBy: Pick<Employee, 'id' | 'name' | 'email'>
+  tags?: Pick<TagType, 'id' | 'name' | 'description'>[]
 }
 
 interface Props {
   post: PostPick
+  edit?: any
 }
 
-export default function PostItem({ post }: Props) {
+export default function PostItem({ post, edit }: Props) {
   const [currentImage, setCurrentImage] = useState(0)
   const [viewerIsOpen, setViewerIsOpen] = useState(false)
 
   const openLightbox = useCallback((event, { photo, index }) => {
-    console.log('index', index)
     setCurrentImage(index)
     setViewerIsOpen(true)
   }, [])
@@ -51,7 +47,9 @@ export default function PostItem({ post }: Props) {
 
   return (
     <>
-      <Text>{post.createdAt}</Text>
+      <Text>
+        {post.createdAt} {edit}
+      </Text>
       <Title level={3} style={{ marginTop: 8 }}>
         {post.title}
       </Title>
@@ -60,7 +58,16 @@ export default function PostItem({ post }: Props) {
           __html: converter.makeHtml(post.body),
         }}
       />
-      <EmployeeLink employee={post.createdBy} />
+
+      {post.tags && (
+        <Paragraph>
+          {post.tags?.map(tag => (
+            <Tag key={tag.id} color="blue">
+              {tag.name}
+            </Tag>
+          ))}
+        </Paragraph>
+      )}
       <div style={{ maxWidth: 700 }}>
         <Gallery
           onClick={openLightbox}
@@ -84,6 +91,7 @@ export default function PostItem({ post }: Props) {
           ) : null}
         </ModalGateway>
       </div>
+      <EmployeeLink employee={post.createdBy} />
     </>
   )
 }

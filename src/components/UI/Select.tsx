@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { Select } from 'antd'
+import CSS from 'csstype'
 
 interface Item {
   value: string
@@ -8,13 +9,20 @@ interface Item {
 
 interface Props {
   loading: boolean
+  value?: any
+  placeholder?: string
+  style?: CSS.Properties
   items?: Item[]
-  onSelect: (key: Item['key']) => void
+  onSelect: (value: any) => void
   onBlur?: () => void
   autoFocus?: boolean
+  mode?: 'default' | 'multiple' | 'tags'
 }
 
-export default function PortalSelect({ items, loading, autoFocus, onBlur, onSelect }: Props) {
+function PortalSelect(
+  { items, loading, mode, style, placeholder, autoFocus, onBlur, onSelect, value }: Props,
+  ref: any,
+) {
   useEffect(() => {
     if (autoFocus) {
       const select = document.getElementById('portal-select')
@@ -26,20 +34,24 @@ export default function PortalSelect({ items, loading, autoFocus, onBlur, onSele
 
   return (
     <Select
+      value={value}
+      ref={ref}
       onBlur={onBlur}
       id="portal-select"
       autoFocus={autoFocus}
       loading={loading}
-      style={{ width: 120 }}
+      placeholder={placeholder}
+      style={{ width: 120, ...style }}
+      mode={mode || 'default'}
       showSearch
       labelInValue
-      onChange={(item: Item) => {
-        onSelect(item.key)
+      onChange={(value: Item | Item[]) => {
+        onSelect(value)
       }}
     >
       {items?.map(item => {
         return (
-          <Select.Option key={item.key} value={item.key}>
+          <Select.Option key={item.key} value={item.key} title={item.value}>
             {item.value}
           </Select.Option>
         )
@@ -47,3 +59,5 @@ export default function PortalSelect({ items, loading, autoFocus, onBlur, onSele
     </Select>
   )
 }
+
+export default React.forwardRef(PortalSelect)

@@ -5,12 +5,13 @@ import { ButtonProps } from 'antd/es/button'
 interface Props extends PropsWithChildren<any> {
   size?: ButtonProps['size']
   type?: ButtonProps['type']
-  onClick: () => void
+  icon?: ButtonProps['icon']
+  onClick?: () => void
 }
 
-export default function PortalButton({ children, type, size, onClick }: Props) {
+export default function PortalButton({ children, icon, type, size, onClick }: Props) {
   return (
-    <Button type={type} size={size} onClick={onClick}>
+    <Button icon={icon} type={type} size={size} onClick={onClick}>
       {children}
     </Button>
   )
