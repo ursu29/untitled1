@@ -3,6 +3,8 @@ import BookmarkDrawer from '../UI/BookmarkDrawer'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import getBookmarks from '../../queries/getBookmarks'
+import Button from '../UI/Button'
+import message from '../../message'
 
 const mutation = gql`
   mutation updateBookmark($input: UpdateBookmarkInput!) {
@@ -25,10 +27,11 @@ export default function UpdateBookmark({ ...props }) {
     onError: () => {
       console.info('updateBookmark error', error)
     },
+    onCompleted: () => message.success('Bookmark is updated')
   })
   return (
     <BookmarkDrawer
-      togglerText="Edit"
+      toggler={<Button size="small" type="link">Edit</Button>}
       drawerLabel="Edit bookmark"
       bookmark={bookmark}
       loading={loading}

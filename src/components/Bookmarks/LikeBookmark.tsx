@@ -4,6 +4,7 @@ import gql from 'graphql-tag'
 import { Icon } from 'antd'
 import styled from 'styled-components'
 import getBookmarks from '../../queries/getBookmarks'
+import { Bookmark } from "../../types";
 
 const StyledControl = styled.span<{ active: Boolean }>`
   text-align: baseline;
@@ -28,8 +29,13 @@ type MutationType = {
   }
 }
 
-export default function LikeBookmark({...props }) {
-  const [bookmark] = useState<any>(props.bookmark)
+type BookmarkPick = Pick<Bookmark, 'id'| 'likes' | 'likedByMe'>
+
+interface Props {
+  bookmark: BookmarkPick
+}
+
+export default function LikeBookmark({bookmark }: Props) {
   const [toggleBookmarklike, {error}] = useMutation<MutationType>(mutation, {
     refetchQueries: [ {query: getBookmarks} ],
     onError: () => {

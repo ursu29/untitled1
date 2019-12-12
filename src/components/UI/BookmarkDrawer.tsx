@@ -1,21 +1,11 @@
 import React, { useState } from 'react'
 import { Button, Drawer } from 'antd'
 import BookmarkForm, { Props as FormProps } from './BookmarkForm'
-import styled from 'styled-components'
 import { IconProps } from 'antd/lib/icon'
-
-const StyledLabel = styled.span`
-  color: #8d96ac;
-  cursor: pointer;
-  &:hover {
-    color: #1890ff;
-  }
-`
 
 interface Props {
   loading: boolean
-  togglerLabel?: string
-  togglerText?: string
+  toggler: any
   drawerLabel: string
   bookmark?: FormProps['bookmark']
   icon?: IconProps['type']
@@ -26,18 +16,7 @@ export default function BookmarkDrawer(props: Props) {
   const [visible, toggleVisibility] = useState(false)
   return (
     <>
-      {props.togglerText && <StyledLabel
-        onClick={e => {
-          e.preventDefault()
-          toggleVisibility(true)
-        }}>
-        {props.togglerText}
-      </StyledLabel>}
-      {props.icon && <Button
-        icon={props.icon}
-        title={props.togglerLabel}
-        onClick={() => toggleVisibility(true)}
-      ></Button>}
+      {React.cloneElement(props.toggler, {onClick: () => toggleVisibility(true)})}
       <Drawer
         maskClosable={false}
         title={props.drawerLabel}

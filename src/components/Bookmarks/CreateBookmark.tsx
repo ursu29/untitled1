@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import BookmarkDrawer from '../UI/BookmarkDrawer'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import getBookmarks from '../../queries/getBookmarks'
 import styled from 'styled-components'
+import Button from '../UI/Button'
+import message from '../../message'
 
 const Controls = styled.div`
   margin-bottom: 8px;
@@ -29,14 +31,20 @@ export default function CreateBookmark() {
   const [bookmark, setBookmark] = useState<any>(null)
   const [createBookmark, { loading, error }] = useMutation<MutationType>(mutation, {
     refetchQueries: [{ query: getBookmarks }],
-    onError: () => {
-      console.info('createBookmark error', error)
-    },
+    onError: message.error,
+    onCompleted: () => message.success('Bookmark is added')
+  });
+
+  useEffect(() => {
+    if (loading) {
+      message.loading('Creating bookmark')
+    }
   })
+
   return (
     <Controls>
       <BookmarkDrawer
-        togglerLabel="Add"
+        toggler={<Button icon="plus"/>}
         icon="plus"
         drawerLabel="Create bookmark"
         bookmark={bookmark}

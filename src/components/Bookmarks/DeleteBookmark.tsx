@@ -3,15 +3,8 @@ import { Popconfirm } from 'antd'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import getBookmarks from '../../queries/getBookmarks'
-import styled from 'styled-components'
-
-const StyledControl = styled.span`
-  color: #8d96ac;
-  cursor: pointer;
-  &:hover {
-    color: #1890ff;
-  }
-`
+import Button from '../UI/Button'
+import message from '../../message'
 
 const mutation = gql`
   mutation deleteBookmark($input: DeleteBookmarkInput!) {
@@ -34,6 +27,7 @@ export default function DeleteBookmark({ ...props }) {
     onError: () => {
       console.info('deleteBookmark error', error)
     },
+    onCompleted: () => message.success('Bookmark is deleted')
   })
   const handleDelete = () =>
     deleteBookmark({
@@ -49,7 +43,7 @@ export default function DeleteBookmark({ ...props }) {
       okText="Yes"
       cancelText="No"
     >
-      <StyledControl>Delete</StyledControl>
+      <Button type="link" size="small">Delete</Button>
     </Popconfirm>
   )
 }

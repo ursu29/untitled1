@@ -1,14 +1,20 @@
 import React from 'react'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
 import PageContent from '../UI/PageContent'
-import BookmarksList from './BookmarksList'
+import BookmarksList from '../UI/BookmarksList'
 import CreateBookmark from './CreateBookmark'
+import { useQuery } from '@apollo/react-hooks'
+import query, { QueryType } from '../../queries/getBookmarks'
+import UpdateBookmark from './UpdateBookmark'
+import DeleteBookmark from './DeleteBookmark'
+import LikeBookmark from './LikeBookmark'
 
 export default function BookmarksPage() {
+  const { data, loading } = useQuery<QueryType>(query);
   return (
     <PageContent>
       <CreateBookmark/>
-      <BookmarksList/>
+      <BookmarksList loading={loading} bookmarks={data?.bookmarks}
+                     UpdateBookmark={UpdateBookmark} DeleteBookmark={DeleteBookmark} LikeBookmark={LikeBookmark} />
     </PageContent>
   )
 }

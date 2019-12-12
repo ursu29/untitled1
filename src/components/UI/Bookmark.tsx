@@ -1,18 +1,15 @@
 import React, { useState } from 'react'
 import {Bookmark, Employee, Access, Skill} from '../../types'
-import EmployeeLink from '../UI/EmployeeLink'
+import EmployeeLink from './EmployeeLink'
 import styled from 'styled-components'
-import UpdateBookmark from '../Bookmarks/UpdateBookmark'
-import DeleteBookmark from '../Bookmarks/DeleteBookmark'
-import LikeBookmark from '../Bookmarks/LikeBookmark'
 import { getSkillLink } from '../../paths'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 
 const StyledBookmark = styled.div`
   color: #8d96ac;
-  margin-top: ${props => props.theme.padding / 2}px;
-  margin-bottom: ${props => props.theme.padding / 2}px;
-  padding: ${props => props.theme.padding / 4}px ${props => props.theme.padding / 2}px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding: 2px 4px;
 `
 
 const StyledTitle = styled.a`
@@ -36,6 +33,9 @@ const StyledTag = styled.span`
 `
 
 interface Props {
+  edit?: any
+  remove?: any
+  like?: any
   bookmark: Pick<Bookmark, 'id' | 'title' | 'link'> & {
     employee: Pick<Employee, 'id' | 'name' | 'email'>,
     access: Pick<Access, 'write'>,
@@ -45,7 +45,7 @@ interface Props {
 
 const BulletDivider = () => <span style={{ color: '#4a4a4a' }}>&nbsp;•&nbsp;</span>
 
-export default withRouter(({ bookmark, history }: Props & RouteComponentProps) => {
+export default withRouter(({ bookmark, history, edit, remove, like }: Props & RouteComponentProps) => {
   return (
     <StyledBookmark>
       <StyledTitle href={bookmark.link} target="_blank">{bookmark.title}</StyledTitle>
@@ -72,13 +72,13 @@ export default withRouter(({ bookmark, history }: Props & RouteComponentProps) =
       {bookmark.employee && bookmark.access.write && (
         <>
           <BulletDivider/>
-          <UpdateBookmark bookmark={bookmark}/>
-          &nbsp;or&nbsp;
-          <DeleteBookmark bookmark={bookmark}/>
+          {edit}
+          or
+          {remove}
         </>
       )}
       <BulletDivider/>
-      <LikeBookmark bookmark={bookmark}/>
+      {like}
     </StyledBookmark>
   )
 })

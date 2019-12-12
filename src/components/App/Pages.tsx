@@ -40,12 +40,9 @@ export default function Pages() {
           <Route path={paths.SKILLS + '/:id'} component={Skill} />
           <Route path={paths.SKILLS} component={Skills} />
           <Route path={paths.STATS} component={Placeholder} />
-          <Route path={paths.BOOKMARKS} component={Placeholder} />
+          <Route path={paths.BOOKMARKS} component={Bookmarks} />
           <Route path={paths.MATRICES + '/:id'} component={Matrix} />
           <Route path={paths.MATRICES} component={Matrices} />
-          <Route path={paths.BOOKMARKS} component={Bookmarks} />
-          <Route path={paths.MATRICES + '/:id'} component={Placeholder} />
-          <Route path={paths.MATRICES} component={Placeholder} />
           <Route path={paths.SHARED_FILES} component={Files} />
           <Route path={paths.NEWS + '/:id'} component={Post} />
           <Route path={paths.NEWS} component={News} />
