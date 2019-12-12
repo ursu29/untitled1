@@ -44,7 +44,6 @@ export default function EditPost({ post }: Props) {
           uid: image.id,
         })),
       }}
-      form={<Form />}
       size="large"
       drawerLabel="Edit post"
       toggler={<Button type="link" icon="edit"></Button>}
