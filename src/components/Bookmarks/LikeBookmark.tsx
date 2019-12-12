@@ -3,7 +3,7 @@ import {useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { Icon } from 'antd'
 import styled from 'styled-components'
-import getBookmarks from "../../queries/getBookmarks";
+import getBookmarks from '../../queries/getBookmarks'
 
 const StyledControl = styled.span<{ active: Boolean }>`
   text-align: baseline;

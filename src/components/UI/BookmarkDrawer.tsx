@@ -4,12 +4,6 @@ import BookmarkForm, { Props as FormProps } from './BookmarkForm'
 import styled from 'styled-components'
 import { IconProps } from 'antd/lib/icon'
 
-const Controls = styled.div`
-  margin-bottom: 8px;
-  display: flex;
-  justify-content: flex-end;
-`
-
 const StyledLabel = styled.span`
   color: #8d96ac;
   cursor: pointer;
@@ -39,28 +33,26 @@ export default function BookmarkDrawer(props: Props) {
         }}>
         {props.togglerText}
       </StyledLabel>}
-      <Controls>
-        {props.icon && <Button
-          icon={props.icon}
-          title={props.togglerLabel}
-          onClick={() => toggleVisibility(true)}
-        ></Button>}
-        <Drawer
-          maskClosable={false}
-          title={props.drawerLabel}
-          width={480}
-          onClose={() => toggleVisibility(false)}
-          visible={visible}
-        >
-          <BookmarkForm
-            loading={props.loading}
-            bookmark={props.bookmark}
-            onSubmit={bookmark => {
-              props.onSubmit(bookmark, () => toggleVisibility(false))
-            }}
-          />
-        </Drawer>
-      </Controls>
+      {props.icon && <Button
+        icon={props.icon}
+        title={props.togglerLabel}
+        onClick={() => toggleVisibility(true)}
+      ></Button>}
+      <Drawer
+        maskClosable={false}
+        title={props.drawerLabel}
+        width={480}
+        onClose={() => toggleVisibility(false)}
+        visible={visible}
+      >
+        <BookmarkForm
+          loading={props.loading}
+          bookmark={props.bookmark}
+          onSubmit={bookmark => {
+            props.onSubmit(bookmark, () => toggleVisibility(false))
+          }}
+        />
+      </Drawer>
     </>
   )
 }
