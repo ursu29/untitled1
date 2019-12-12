@@ -5,7 +5,7 @@ import { Skill } from '../../types'
 import styled from 'styled-components'
 import { IconProps } from 'antd/lib/icon'
 
-const Controls = styled.div`
+const Wrapper = styled.div`
   margin-bottom: 8px;
   display: flex;
   justify-content: flex-end;
@@ -23,7 +23,7 @@ interface Props {
 export default function SkillDrawer(props: Props) {
   const [visible, toggleVisibility] = useState(false)
   return (
-    <Controls>
+    <Wrapper>
       <Button
         icon={props.icon}
         title={props.togglerLabel}
@@ -44,6 +44,6 @@ export default function SkillDrawer(props: Props) {
           }}
         />
       </Drawer>
-    </Controls>
+    </Wrapper>
   )
 }

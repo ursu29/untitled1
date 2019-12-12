@@ -21,7 +21,9 @@ export default function MatrixSelect({ onSelect, ...props }: Props) {
       autoFocus={!loading && props.autoFocus}
       loading={loading}
       onBlur={props.onBlur}
-      onSelect={onSelect}
+      onSelect={value => {
+        onSelect(value.key)
+      }}
       items={data?.matrices.map(item => {
         return {
           key: item.id,
