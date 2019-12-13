@@ -6,7 +6,7 @@ interface Props {
   loading: boolean
   employee?: Pick<Employee, 'id'>
   matrices?: Pick<Matrix, 'id' | 'title' | 'description'>[]
-  EmployeeMatrixComponent: any
+  EmployeeMatrixComponent: React.FC<any>
 }
 
 export default function EmployeeMatricesList({

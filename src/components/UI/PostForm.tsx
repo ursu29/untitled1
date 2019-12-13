@@ -28,7 +28,12 @@ const converter = new Showdown.Converter({
   tasklists: true,
 })
 
-type PostPick = Pick<Post, 'title' | 'body' | 'bodyTranslated' | 'sendEmail'>
+type PostPick = Partial<
+  Pick<Post, 'title' | 'body' | 'bodyTranslated' | 'sendEmail'> & {
+    tags: any
+    images: any
+  }
+>
 
 interface Props extends FormComponentProps {
   loading: boolean
@@ -81,7 +86,6 @@ class PostForm extends React.Component<Props> {
   }
 
   handlePublish = () => {
-    console.log(this.state.values)
     this.props.onSubmit(
       {
         title: this.state.values.title,
