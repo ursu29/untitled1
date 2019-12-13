@@ -11,11 +11,13 @@ export default function SkillTabs(props: Props) {
   let tabs = [
     {
       title: 'Mentions',
+      icon: 'user',
       key: 'mentions',
       body: <div>Mentions</div>,
     },
     {
       title: 'Bookmarks',
+      icon: 'book',
       key: 'bookmarks',
       body: <div>Bookmarks</div>,
     },

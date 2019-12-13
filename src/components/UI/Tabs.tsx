@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tabs } from 'antd'
+import { Tabs, Icon } from 'antd'
 import { withRouter, RouteComponentProps, matchPath } from 'react-router-dom'
 import paths, { getEmployeeLink } from '../../paths'
 import PageContent from './PageContent'
@@ -46,7 +46,14 @@ function PortalTabs({ location, history, tabs, tab }: Props) {
     >
       {tabs.map(tab => {
         return (
-          <TabPane tab={tab.title} key={tab.key}>
+          <TabPane
+            tab={
+              <>
+                {tab.icon && <Icon type={tab.icon} />} {tab.title}
+              </>
+            }
+            key={tab.key}
+          >
             <div style={{ padding: '20px 60px' }}>{tab.body}</div>
           </TabPane>
         )

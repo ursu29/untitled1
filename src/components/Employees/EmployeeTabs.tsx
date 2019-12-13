@@ -40,10 +40,12 @@ function EmployeeTabs({ match, ...props }: Props) {
     {
       title: 'Skills',
       key: 'skills',
+      icon: 'crown',
       body: <div>Skills</div>,
     },
     {
       title: 'Bookmarks',
+      icon: 'book',
       key: 'bookmarks',
       body: <div>Bookmarks</div>,
     },
@@ -53,8 +55,15 @@ function EmployeeTabs({ match, ...props }: Props) {
     tabs.push({
       title: 'Matrices',
       key: 'matrices',
+      icon: 'number',
       body: <EmployeeMatrices id={employee.id} />,
     })
+    // tabs.push({
+    //   title: 'Personal development',
+    //   key: 'personal-development',
+    //   icon: 'number',
+    //   body: <div>Personal development</div>,
+    // })
   }
 
   return (

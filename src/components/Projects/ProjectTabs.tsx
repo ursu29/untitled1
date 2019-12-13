@@ -11,16 +11,19 @@ export default function ProjectTabs(props: Props) {
   let tabs = [
     {
       title: 'Employees',
+      icon: 'user',
       key: 'employees',
       body: <div>Employees</div>,
     },
     {
       title: 'Managers',
+      icon: 'user-add',
       key: 'managers',
       body: <div>Managers</div>,
     },
     {
       title: 'Skills',
+      icon: 'crown',
       key: 'skills',
       body: <div>Skills</div>,
     },
