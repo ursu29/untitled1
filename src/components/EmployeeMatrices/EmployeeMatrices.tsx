@@ -5,6 +5,8 @@ import { Employee } from '../../types'
 import Controls from '../UI/Controls'
 import EmployeeMatricesList from '../UI/EmployeeMatricesList'
 import AttachMatrix from './AttachMatrix'
+import DetachMatrix from './DetachMatrix'
+import ExportMatrixToExcel from './ExportMatrixToExcel'
 import EmployeeMatrix from './EmployeeMatrix'
 
 interface Props {
@@ -28,6 +30,8 @@ export default function EmployeeMatrices({ id }: Props) {
         matrices={employee?.matrices}
         employee={employee}
         EmployeeMatrixComponent={EmployeeMatrix}
+        DetachMatrix={DetachMatrix}
+        ExportMatrixToExcel={ExportMatrixToExcel}
       />
     </>
   )

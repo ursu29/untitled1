@@ -15,7 +15,7 @@ const mutation = gql`
 `
 
 type Props = {
-  employee: Pick<Employee, 'id'>
+  employee?: Pick<Employee, 'id'>
   matrix: Pick<Matrix, 'id'>
 }
 
@@ -24,7 +24,7 @@ export default React.memo(({ employee, matrix }: Props) => {
     refetchQueries: [
       {
         query: getEmployeeMatrices,
-        variables: { input: { id: employee.id } },
+        variables: { input: { id: employee?.id } },
       },
     ],
     onError: message.error,
@@ -38,15 +38,11 @@ export default React.memo(({ employee, matrix }: Props) => {
   })
 
   const handleClick = useCallback(() => {
-    detach({
-      variables: {
-        employee: employee.id,
-        matrix: matrix.id,
-      },
-    })
+    detach({ variables: { input: { employee: employee?.id, matrix: matrix.id } } })
   }, [employee, matrix])
 
-  if (data) return <div>Detached</div>
+  if (!employee) return null
+  if (data) return <span>Detached</span>
 
   return (
     <Button loading={loading} onClick={handleClick}>

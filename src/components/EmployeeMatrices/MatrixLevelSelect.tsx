@@ -6,7 +6,7 @@ import { useQuery } from '@apollo/react-hooks'
 
 interface Props {
   loading?: boolean
-  level: Pick<Level, 'id' | 'name'> | undefined
+  level: Pick<Level, 'id' | 'name' | 'index'> | undefined
   onSelect: (level: Pick<Level, 'id' | 'name'>) => any
   onDeselect: () => any
 }
@@ -49,7 +49,7 @@ export default function MatrixLevelSelect({ level, onSelect, onDeselect, loading
       value={
         level && {
           key: level.id,
-          value: level.name,
+          value: getName(level.index),
         }
       }
       onSelect={item => {

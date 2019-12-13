@@ -5,6 +5,7 @@ export default gql`
   query getEmployeeExperiences($input: EmployeesInput) {
     employees(input: $input) {
       id
+      name
       experiences {
         id
         skill {
@@ -20,7 +21,7 @@ export default gql`
   }
 `
 
-type EmployeePick = Pick<Employee, 'id' | 'experiences'>
+type EmployeePick = Pick<Employee, 'id' | 'name' | 'experiences'>
 
 export type QueryType = {
   employees: EmployeePick[]

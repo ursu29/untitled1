@@ -1,12 +1,15 @@
 import React from 'react'
 import { Tabs, Skeleton } from 'antd'
 import { Matrix, Employee } from '../../types'
+import Controls from './Controls'
 
 interface Props {
   loading: boolean
   employee?: Pick<Employee, 'id'>
-  matrices?: Pick<Matrix, 'id' | 'title' | 'description'>[]
+  matrices?: Exclude<Matrix, 'access'>[]
   EmployeeMatrixComponent: React.FC<any>
+  DetachMatrix: React.FC<any>
+  ExportMatrixToExcel: React.FC<any>
 }
 
 export default function EmployeeMatricesList({
@@ -14,6 +17,8 @@ export default function EmployeeMatricesList({
   loading,
   employee,
   EmployeeMatrixComponent,
+  DetachMatrix,
+  ExportMatrixToExcel,
 }: Props) {
   if (!loading && !matrices) return <div>No matrices yet</div>
 
@@ -23,7 +28,12 @@ export default function EmployeeMatricesList({
       <Tabs defaultActiveKey={defaultActiveKey} size="small" type="line" tabPosition="left">
         {matrices?.map(matrix => (
           <Tabs.TabPane tab={matrix.title} key={matrix.id}>
-            <EmployeeMatrixComponent matrix={matrix} employee={employee} />
+            <EmployeeMatrixComponent
+              matrix={matrix}
+              employee={employee}
+              DetachMatrix={DetachMatrix}
+              ExportMatrixToExcel={ExportMatrixToExcel}
+            />
           </Tabs.TabPane>
         ))}
       </Tabs>

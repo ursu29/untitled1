@@ -25,7 +25,7 @@ export default function Controls({ back, children }: Props) {
         bodyStyle={{ padding: '8px 0', display: 'flex', justifyContent: 'flex-end' }}
       > */}
       <div>{back}</div>
-      {children}
+      <div>{children}</div>
       {/* </Card> */}
     </ControlBar>
   )

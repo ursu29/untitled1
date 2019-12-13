@@ -5,13 +5,28 @@ import { useQuery } from '@apollo/react-hooks'
 import MatrixWithExperiences from '../UI/MatrixWithExperiences'
 import Skeleton from '../UI/Skeleton'
 import EmployeeMatrixExperience from './EmployeeMatrixExperience'
+import Controls from '../UI/Controls'
+import Divider from '../UI/Divider'
 
 interface Props {
   matrix: Matrix
   employee: Pick<Employee, 'id'>
+  DetachMatrix: React.FC<{
+    employee?: Pick<Employee, 'id'>
+    matrix: Pick<Matrix, 'id'>
+  }>
+  ExportMatrixToExcel: React.FC<{
+    matrix: Exclude<Matrix, 'access'>
+    employee?: Pick<Employee, 'id' | 'name' | 'experiences'>
+  }>
 }
 
-export default function EmployeeMatrix({ employee, matrix }: Props) {
+export default function EmployeeMatrix({
+  employee,
+  matrix,
+  DetachMatrix,
+  ExportMatrixToExcel,
+}: Props) {
   const { data, loading } = useQuery<QueryType>(getEmployeeExperiences, {
     variables: { input: { id: employee.id } },
   })
@@ -23,6 +38,11 @@ export default function EmployeeMatrix({ employee, matrix }: Props) {
         employee={data?.employees[0]}
         EmployeeMatrixExperience={EmployeeMatrixExperience}
       />
+      <Controls>
+        <DetachMatrix matrix={matrix} employee={employee} />
+        <Divider type="vertical" />
+        <ExportMatrixToExcel matrix={matrix} employee={data?.employees[0]} />
+      </Controls>
     </Skeleton>
   )
 }
