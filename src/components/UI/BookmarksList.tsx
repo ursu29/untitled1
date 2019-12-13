@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import BookmarkItem from './Bookmark'
-import { Employee, Access, Bookmark } from '../../types/index'
+import { Employee, Access, Bookmark } from '../../types'
 import { List, Input, Skeleton } from 'antd';
 import FuzzySearch from 'fuzzy-search';
 

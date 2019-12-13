@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Drawer } from 'antd'
+import { Drawer } from 'antd'
 import BookmarkForm, { Props as FormProps } from './BookmarkForm'
 import { IconProps } from 'antd/lib/icon'
 

@@ -21,7 +21,7 @@ type MutationType = {
 }
 
 export default function UpdateBookmark({ ...props }) {
-  const [bookmark, setBookmark] = useState<any>(props.bookmark)
+  const [bookmark] = useState(props.bookmark)
   const [updateBookmark, {loading, error}] = useMutation<MutationType>(mutation, {
     refetchQueries: [{query: getBookmarks}],
     onError: () => {
@@ -36,7 +36,6 @@ export default function UpdateBookmark({ ...props }) {
       bookmark={bookmark}
       loading={loading}
       onSubmit={(bookmark, onDone) => {
-        setBookmark(bookmark)
         updateBookmark({variables: {input: bookmark}, update: onDone})
       }}
     />

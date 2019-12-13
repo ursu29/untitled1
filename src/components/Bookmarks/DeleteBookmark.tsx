@@ -5,6 +5,7 @@ import gql from 'graphql-tag'
 import getBookmarks from '../../queries/getBookmarks'
 import Button from '../UI/Button'
 import message from '../../message'
+import { Bookmark } from '../../types'
 
 const mutation = gql`
   mutation deleteBookmark($input: DeleteBookmarkInput!) {
@@ -20,8 +21,13 @@ type MutationType = {
   }
 }
 
-export default function DeleteBookmark({ ...props }) {
-  const [bookmark] = useState<any>(props.bookmark)
+type BookmarkPick = Pick<Bookmark, 'id'>
+
+interface Props {
+  bookmark: BookmarkPick
+}
+
+export default function DeleteBookmark({ bookmark }: Props) {
   const [deleteBookmark, {error}] = useMutation<MutationType>(mutation, {
     refetchQueries: [ {query: getBookmarks} ],
     onError: () => {

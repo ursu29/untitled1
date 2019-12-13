@@ -28,8 +28,7 @@ type MutationType = {
 }
 
 export default function CreateBookmark() {
-  const [bookmark, setBookmark] = useState<any>(null)
-  const [createBookmark, { loading, error }] = useMutation<MutationType>(mutation, {
+  const [createBookmark, { loading }] = useMutation<MutationType>(mutation, {
     refetchQueries: [{ query: getBookmarks }],
     onError: message.error,
     onCompleted: () => message.success('Bookmark is added')
@@ -47,11 +46,11 @@ export default function CreateBookmark() {
         toggler={<Button icon="plus"/>}
         icon="plus"
         drawerLabel="Create bookmark"
-        bookmark={bookmark}
         loading={loading}
         onSubmit={(bookmark, onDone) => {
-          setBookmark(bookmark)
-          createBookmark({ variables: { input: bookmark }, update: onDone })
+          createBookmark({
+            variables: { input: bookmark },
+            update: onDone })
         }}
       />
     </Controls>

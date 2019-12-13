@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 import { Icon } from 'antd'
 import styled from 'styled-components'
 import getBookmarks from '../../queries/getBookmarks'
-import { Bookmark } from "../../types";
+import { Bookmark } from '../../types'
 
 const StyledControl = styled.span<{ active: Boolean }>`
   text-align: baseline;
