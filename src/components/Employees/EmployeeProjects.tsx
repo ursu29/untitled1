@@ -41,7 +41,9 @@ export default function EmployeeProjects(props: Props) {
   if (error) return <div>Error :(</div>
 
   const projects = data?.employees?.[0]?.projects
-  // const leadingProjects = data?.employees?.[0]?.projects
+  const leadingProjects = data?.employees?.[0]?.leadingProjects
 
-  return <ProjectTagList loading={loading} projects={projects} />
+  return (
+    <ProjectTagList small loading={loading} projects={projects} leadingProjects={leadingProjects} />
+  )
 }

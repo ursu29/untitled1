@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tag, Typography } from 'antd'
+import { Tag, Typography, Icon, Tooltip } from 'antd'
 import { Project } from '../../types'
 import { Link } from 'react-router-dom'
 import { getProjectLink } from '../../paths'
@@ -9,6 +9,8 @@ import { useMediaQuery } from 'react-responsive'
 const { Text } = Typography
 
 interface Props {
+  small?: boolean
+  leading?: boolean
   project: Pick<Project, 'id' | 'name' | 'code'>
 }
 
@@ -19,10 +21,10 @@ const COLORS: any = {
   sr: '#8C94AF',
 }
 
-export default function ProjectTag({ project }: Props) {
+export default function ProjectTag({ project, small = false, leading }: Props) {
   const codeStarts = project.code.split('-')[0]?.toLowerCase()
   const color = codeStarts ? COLORS[codeStarts] : COLORS.is
-  const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
+  const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH }) && !small
   return (
     <span style={{ marginBottom: 8, display: 'inline-block' }}>
       <Link to={getProjectLink(project.code)}>
@@ -32,10 +34,10 @@ export default function ProjectTag({ project }: Props) {
           style={{
             cursor: 'pointer',
             borderRadius: 2,
-            fontSize: isLarge ? 20 : 14,
-            lineHeight: isLarge ? '28px' : '22px',
-            padding: isLarge ? '6px 20px' : '4px 8px',
-            marginRight: isLarge ? 16 : 8,
+            fontSize: isLarge ? 18 : 14,
+            lineHeight: isLarge ? '24px' : '20px',
+            padding: isLarge ? '5px 20px' : '4px 10px',
+            marginRight: isLarge ? 16 : 10,
             userSelect: 'none',
           }}
         >
@@ -46,6 +48,14 @@ export default function ProjectTag({ project }: Props) {
               textOverflow: isLarge ? 'unset' : 'ellipsis',
             }}
           >
+            {leading && (
+              <>
+                <Tooltip placement="top" title="Manager">
+                  <Icon type="crown" />
+                </Tooltip>
+                &nbsp;
+              </>
+            )}
             {project.name}
           </div>
         </Tag>
