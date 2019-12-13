@@ -22,21 +22,24 @@ export default function EmployeeMatricesList({
 }: Props) {
   if (!loading && !matrices) return <div>No matrices yet</div>
 
-  const defaultActiveKey = matrices?.[0].id
+  const defaultActiveKey = matrices?.[0]?.id
   return (
     <Skeleton active loading={loading}>
-      <Tabs defaultActiveKey={defaultActiveKey} size="small" type="line" tabPosition="left">
-        {matrices?.map(matrix => (
-          <Tabs.TabPane tab={matrix.title} key={matrix.id}>
-            <EmployeeMatrixComponent
-              matrix={matrix}
-              employee={employee}
-              DetachMatrix={DetachMatrix}
-              ExportMatrixToExcel={ExportMatrixToExcel}
-            />
-          </Tabs.TabPane>
-        ))}
-      </Tabs>
+      {!matrices && <div>No matrices yet</div>}
+      {matrices && (
+        <Tabs defaultActiveKey={defaultActiveKey} size="small" type="line" tabPosition="left">
+          {matrices?.map(matrix => (
+            <Tabs.TabPane tab={matrix.title} key={matrix.id}>
+              <EmployeeMatrixComponent
+                matrix={matrix}
+                employee={employee}
+                DetachMatrix={DetachMatrix}
+                ExportMatrixToExcel={ExportMatrixToExcel}
+              />
+            </Tabs.TabPane>
+          ))}
+        </Tabs>
+      )}
     </Skeleton>
   )
 }
