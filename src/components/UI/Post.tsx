@@ -4,8 +4,8 @@ import * as Showdown from 'showdown'
 import { Employee, Post, File } from '../../types'
 import EmployeeLink from './EmployeeLink'
 import styled from 'styled-components'
-import Gallery from 'react-photo-gallery'
 import { Tag as TagType } from '../../types'
+import Gallery from 'react-photo-gallery'
 //@ts-ignore
 import Carousel, { Modal, ModalGateway } from 'react-images'
 

@@ -29,7 +29,7 @@ export default function UpdatePost({ post }: Props) {
     <Drawer
       size="large"
       drawerLabel="Edit post"
-      toggler={<Button type="link" icon="edit"></Button>}
+      toggler={<Button type="link" size="small" icon="edit"></Button>}
       content={
         <PostForm
           loading={loading}

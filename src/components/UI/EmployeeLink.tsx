@@ -2,7 +2,7 @@ import React from 'react'
 import { Employee } from '../../types'
 import { Link } from 'react-router-dom'
 import { getEmployeeLink } from '../../paths'
-import { Typography } from 'antd'
+import { Typography, Button } from 'antd'
 
 const { Text } = Typography
 
@@ -11,9 +11,5 @@ interface Props {
 }
 
 export default function EmployeeLink({ employee }: Props) {
-  return (
-    <Link to={getEmployeeLink(employee.email)}>
-      <Text>{employee.name}</Text>
-    </Link>
-  )
+  return <Link to={getEmployeeLink(employee.email)}>{employee.name}</Link>
 }

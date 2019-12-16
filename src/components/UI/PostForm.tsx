@@ -9,6 +9,7 @@ import {
   Upload,
   Modal as AntdModal,
   Tabs,
+  Tag,
   Typography,
 } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
@@ -21,8 +22,10 @@ import { Post } from '../../types'
 import Gallery from 'react-photo-gallery'
 //@ts-ignore
 import Carousel, { Modal, ModalGateway } from 'react-images'
+import PostFormLocations from './PostFormLocations'
 
 const { Title } = Typography
+const { CheckableTag } = Tag
 
 const converter = new Showdown.Converter({
   tables: true,
@@ -30,15 +33,6 @@ const converter = new Showdown.Converter({
   strikethrough: true,
   tasklists: true,
 })
-
-function getBase64(file: any) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => resolve(reader.result)
-    reader.onerror = error => reject(error)
-  })
-}
 
 type PostPick = Partial<
   Pick<Post, 'title' | 'body' | 'bodyTranslated' | 'sendEmail'> & {
@@ -131,6 +125,14 @@ class PostForm extends React.Component<Props> {
     })
   }
 
+  setLocations = (locations: any) => {
+    console.log('locations', locations)
+    this.updateValues({
+      ...this.state.values,
+      locations,
+    })
+  }
+
   setBodyTranslated = (bodyTranslated: any) => {
     this.updateValues({
       ...this.state.values,
@@ -141,7 +143,17 @@ class PostForm extends React.Component<Props> {
   setSelectedTab = (selectedTab: any) => this.setState({ selectedTab })
 
   handleImageChange = ({ fileList: images }: any) => {
-    this.updateValues({ ...this.state.values, images })
+    this.setState({ values: { ...this.state.values, images } })
+    if (!this.props.values) {
+      // store only already uploaded images
+      localStorage.setItem(
+        'postValues',
+        JSON.stringify({
+          ...this.state.values,
+          images: images?.filter((i: any) => i.url || i.response?.[0]?.url),
+        }),
+      )
+    }
   }
 
   handleReturn = () => this.setState({ showPostPreview: false })
@@ -169,6 +181,8 @@ class PostForm extends React.Component<Props> {
 
     const TagSelect = this.props.TagSelect
 
+    console.log('locations', post.locations)
+
     return (
       <>
         <ModalGateway>
@@ -193,7 +207,8 @@ class PostForm extends React.Component<Props> {
         </ModalGateway>
         <AntdModal
           okText="Publish"
-          width={800}
+          width={1000}
+          bodyStyle={{ maxHeight: 600, overflowY: 'auto' }}
           title="Preview"
           visible={this.state.showPostPreview}
           onOk={this.handlePublish}
@@ -206,20 +221,22 @@ class PostForm extends React.Component<Props> {
               <Gallery
                 onClick={this.openLightbox}
                 photos={
-                  post.images?.map((image: any) => {
-                    return {
-                      src: image.url || image.response?.[0]?.url,
-                      width: 4,
-                      height: 3,
-                    }
-                  }) || []
+                  post.images
+                    ?.filter((x: any) => x.url || x.response?.[0]?.url)
+                    .map((image: any) => {
+                      return {
+                        src: image.url || image.response?.[0]?.url,
+                        width: 4,
+                        height: 3,
+                      }
+                    }) || []
                 }
               />
             </>
           )}
         </AntdModal>
         <Form layout="vertical" onSubmit={this.handleSubmit} style={{ marginBottom: 16 }}>
-          <Tabs>
+          <Tabs animated={false}>
             <Tabs.TabPane tab="Russian" key="russian">
               <Form.Item>
                 {getFieldDecorator('title', {
@@ -290,12 +307,7 @@ class PostForm extends React.Component<Props> {
               initialValue: post?.tags,
             })(<TagSelect multiple />)}
           </Form.Item>
-          <Form.Item>
-            {getFieldDecorator('sendEmail', {
-              initialValue: post?.sendEmail,
-              valuePropName: 'checked',
-            })(<Checkbox>Make a newsletter</Checkbox>)}
-          </Form.Item>
+          <PostFormLocations values={post.locations} onChange={this.setLocations} />
           <Row type="flex" justify="space-between">
             <Col></Col>
             <Col>
