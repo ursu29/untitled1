@@ -10,7 +10,7 @@ interface Props {
   onChange: (values: string[] | undefined) => void
 }
 
-export default function PostFormLocations({ values = [LOCATIONS[0]], onChange }: Props) {
+export default function PostFormLocations({ values, onChange }: Props) {
   const [show, toggleShow] = useState(Boolean(values))
 
   const handleChange = useCallback(
@@ -33,8 +33,10 @@ export default function PostFormLocations({ values = [LOCATIONS[0]], onChange }:
           checked={show}
           onChange={() => {
             toggleShow(!show)
-            if (!show) {
+            if (show) {
               onChange(undefined)
+            } else {
+              onChange([LOCATIONS[0]])
             }
           }}
         >

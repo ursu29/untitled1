@@ -181,8 +181,6 @@ class PostForm extends React.Component<Props> {
 
     const TagSelect = this.props.TagSelect
 
-    console.log('locations', post.locations)
-
     return (
       <>
         <ModalGateway>
@@ -325,6 +323,12 @@ class PostForm extends React.Component<Props> {
 export default Form.create<Props>({
   name: 'post_form',
   onValuesChange: (_, __, values: any) => {
-    localStorage.setItem('postValues', JSON.stringify(values))
+    const string = localStorage.getItem('postValues')
+    const prevValues = string && JSON.parse(string)
+    if (prevValues) {
+      localStorage.setItem('postValues', JSON.stringify({ ...prevValues, ...values }))
+    } else {
+      localStorage.setItem('postValues', JSON.stringify(values))
+    }
   },
 })(PostForm)

@@ -9,8 +9,8 @@ const Placeholder = () => <UnderConstruction />
 const PageNotFound = () => <PageContent>Page is not found</PageContent>
 const Profile = lazy(() => import('../Profile/ProfilePage'))
 const Settings = lazy(() => import('../Settings/SettingsPage'))
-const News = lazy(() => import('../News/NewsPage'))
-const Post = lazy(() => import('../News/PostPage'))
+const News = lazy(() => import('../Posts/NewsPage'))
+const Post = lazy(() => import('../Posts/PostPage'))
 const Skills = lazy(() => import('../Skills/SkillsPage'))
 const Skill = lazy(() => import('../Skills/SkillPage'))
 const Files = lazy(() => import('../Files/FilesPage'))
@@ -43,8 +43,8 @@ export default function Pages() {
           <Route path={paths.MATRICES + '/:id'} component={Matrix} />
           <Route path={paths.MATRICES} component={Matrices} />
           <Route path={paths.SHARED_FILES} component={Files} />
-          <Route path={paths.NEWS + '/:id'} component={Post} />
-          <Route path={paths.NEWS} component={News} />
+          <Route path={paths.POSTS + '/:id'} component={Post} />
+          <Route path={paths.POSTS} component={News} />
           <Route path={paths.SETTINGS} component={Settings} />
           <Route component={PageNotFound} />
         </Switch>

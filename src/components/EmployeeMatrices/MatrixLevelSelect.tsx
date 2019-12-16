@@ -43,6 +43,7 @@ export default function MatrixLevelSelect({ level, onSelect, onDeselect, loading
     })
   return (
     <Select
+      size="small"
       style={{ width: 150 }}
       allowClear
       loading={loading || queryLoading}

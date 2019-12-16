@@ -6,6 +6,8 @@ import EmployeeLink from './EmployeeLink'
 import styled from 'styled-components'
 import { Tag as TagType } from '../../types'
 import Gallery from 'react-photo-gallery'
+import { Link } from 'react-router-dom'
+import { getPostLink } from '../../paths'
 //@ts-ignore
 import Carousel, { Modal, ModalGateway } from 'react-images'
 
@@ -47,9 +49,11 @@ export default function PostItem({ post, edit }: Props) {
 
   return (
     <>
-      <Text>
-        {post.createdAt} {edit}
-      </Text>
+      <Link to={getPostLink(post.id)}>
+        <Text>
+          {post.createdAt} {edit}
+        </Text>
+      </Link>
       <Title level={3} style={{ marginTop: 8 }}>
         {post.title}
       </Title>

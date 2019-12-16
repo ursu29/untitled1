@@ -40,7 +40,7 @@ const menuItems = [
     title: 'Files',
   },
   {
-    route: paths.NEWS,
+    route: paths.POSTS,
     icon: <Icon type="read" />,
     title: 'News',
   },

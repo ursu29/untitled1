@@ -11,6 +11,7 @@ interface Props {
   allowClear?: boolean
   value?: any
   placeholder?: string
+  size?: 'default' | 'small'
   style?: any
   items?: Item[]
   onSelect: (value: any) => void
@@ -29,6 +30,7 @@ function PortalSelect(
     placeholder,
     autoFocus,
     onBlur,
+    size,
     onSelect,
     value,
   }: Props,
@@ -51,6 +53,7 @@ function PortalSelect(
       allowClear={allowClear}
       id="portal-select"
       autoFocus={autoFocus}
+      size={size}
       loading={loading}
       placeholder={placeholder}
       style={{ width: 120, ...style }}
