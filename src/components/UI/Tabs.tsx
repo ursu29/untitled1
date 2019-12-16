@@ -26,10 +26,11 @@ function PortalTabs({ location, history, tabs, tab }: Props) {
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   const padding = isLarge ? 60 : 15
   return (
-    // <div style={{ maxWidth: isLarge ? 'unset' : 'calc(100vw - 80px)' }}>
     <Tabs
+      animated={false}
       tabBarStyle={{ paddingLeft: padding, paddingRight: padding }}
       defaultActiveKey={tab || tabs[0].key}
+      tabBarGutter={0}
       onTabClick={(tab: string) => {
         // const { pathname } = location
         // const url = pathname.substr(0, pathname.lastIndexOf('/')) + '/' + tab
@@ -59,7 +60,6 @@ function PortalTabs({ location, history, tabs, tab }: Props) {
         )
       })}
     </Tabs>
-    // </div>
   )
 }
 

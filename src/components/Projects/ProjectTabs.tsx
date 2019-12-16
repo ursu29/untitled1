@@ -1,6 +1,7 @@
 import React from 'react'
 import { Project } from '../../types'
 import Tabs from '../UI/Tabs'
+import ProjectEmployees from './ProjectEmployees'
 
 interface Props {
   tab: string
@@ -13,7 +14,7 @@ export default function ProjectTabs(props: Props) {
       title: 'Employees',
       icon: 'user',
       key: 'employees',
-      body: <div>Employees</div>,
+      body: <ProjectEmployees project={props.project} />,
     },
     {
       title: 'Managers',

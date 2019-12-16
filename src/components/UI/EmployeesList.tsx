@@ -17,9 +17,10 @@ interface Props {
   employees?: EmployeePick[]
   loading: boolean
   Avatar: any
+  fixed?: boolean
 }
 
-export default function EmployeesList({ employees, loading, Avatar }: Props) {
+export default function EmployeesList({ employees, loading, Avatar, fixed }: Props) {
   const [filter, setFilter] = useState('')
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   let columns: any = [
@@ -211,8 +212,8 @@ export default function EmployeesList({ employees, loading, Avatar }: Props) {
       //@ts-ignore
       columns={columns}
       rowKey="id"
-      size="small"
-      scroll={{ y: 'calc(100vh - 90px)' }}
+      size="middle"
+      scroll={fixed ? { y: 'calc(100vh - 102px)' } : undefined}
       title={() => (
         <Input
           placeholder="Find employee"
