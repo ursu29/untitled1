@@ -7,7 +7,7 @@ import {
   Input,
   Row,
   Upload,
-  Modal,
+  Modal as AntdModal,
   Tabs,
   Typography,
 } from 'antd'
@@ -18,6 +18,9 @@ import 'react-mde/lib/styles/css/react-mde-all.css'
 import * as Showdown from 'showdown'
 import { GATEWAY } from '../../config'
 import { Post } from '../../types'
+import Gallery from 'react-photo-gallery'
+//@ts-ignore
+import Carousel, { Modal, ModalGateway } from 'react-images'
 
 const { Title } = Typography
 
@@ -27,6 +30,15 @@ const converter = new Showdown.Converter({
   strikethrough: true,
   tasklists: true,
 })
+
+function getBase64(file: any) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = error => reject(error)
+  })
+}
 
 type PostPick = Partial<
   Pick<Post, 'title' | 'body' | 'bodyTranslated' | 'sendEmail'> & {
@@ -58,7 +70,7 @@ class PostForm extends React.Component<Props> {
       values: localStorage.getItem('postValues')
         ? JSON.parse(localStorage.getItem('postValues')!)
         : {},
-      showModal: false,
+      showPostPreview: false,
     }
     this.clearForm = this.clearForm.bind(this)
   }
@@ -71,11 +83,11 @@ class PostForm extends React.Component<Props> {
 
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    this.setState({ publishAttempt: true, showModal: false })
+    this.setState({ publishAttempt: true, showPostPreview: false })
     this.props.form.validateFields((err, values) => {
       if (!err && this.state.values.body) {
         this.setState({
-          showModal: true,
+          showPostPreview: true,
           values: {
             ...this.state.values,
             ...values,
@@ -93,7 +105,7 @@ class PostForm extends React.Component<Props> {
         bodyTranslated: this.state.values.bodyTranslated,
         sendEmail: this.state.values.sendEmail,
         tags: this.state.values.tags?.map((tag: any) => tag.id),
-        images: this.state.values.fileList?.map((file: any) => file.response?.[0]?.id),
+        images: this.state.values.images?.map((file: any) => file.id || file.response?.[0]?.id),
       },
       this.clearForm,
     )
@@ -101,12 +113,8 @@ class PostForm extends React.Component<Props> {
 
   public clearForm() {
     this.props.form.resetFields()
-    this.setState({ values: null, showModal: false, publishAttempt: false })
-    if (this.props.values) {
-      localStorage.removeItem('postValuesEdit')
-    } else {
-      localStorage.removeItem('postValues')
-    }
+    this.setState({ values: null, showPostPreview: false, publishAttempt: false })
+    localStorage.removeItem('postValues')
   }
 
   updateValues(values: any) {
@@ -131,13 +139,27 @@ class PostForm extends React.Component<Props> {
   }
 
   setSelectedTab = (selectedTab: any) => this.setState({ selectedTab })
-  handleImageChange = ({ fileList }: any) => {
-    this.updateValues({
-      ...this.state.values,
-      fileList,
+
+  handleImageChange = ({ fileList: images }: any) => {
+    this.updateValues({ ...this.state.values, images })
+  }
+
+  handleReturn = () => this.setState({ showPostPreview: false })
+
+  handlePreview = async (file: any) => {
+    this.setState({
+      currentImage: this.state.values.images.findIndex((i: any) => i.url === file.url),
+      showImagePreview: true,
     })
   }
-  handleReturn = () => this.setState({ showModal: false })
+
+  openLightbox = (event: any, { photo, index }: any) => {
+    this.setState({ showImagePreview: true, currentImage: index })
+  }
+
+  closeLightbox = (event: any) => {
+    this.setState({ showImagePreview: false, currentImage: 0 })
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form
@@ -149,17 +171,53 @@ class PostForm extends React.Component<Props> {
 
     return (
       <>
-        <Modal
+        <ModalGateway>
+          {this.state.showImagePreview ? (
+            <Modal
+              onClose={this.closeLightbox}
+              styles={{
+                blanket: (base: any, state: any) => ({ ...base, zIndex: 1100 }),
+                positioner: (base: any, state: any) => ({ ...base, zIndex: 1110 }),
+                dialog: (base: any, state: any) => ({ ...base, zIndex: 1120 }),
+              }}
+            >
+              <Carousel
+                currentIndex={this.state.currentImage}
+                views={post.images.map((x: any) => ({
+                  source: x.url || x.response?.[0]?.url,
+                  caption: x.fileName,
+                }))}
+              />
+            </Modal>
+          ) : null}
+        </ModalGateway>
+        <AntdModal
           okText="Publish"
           width={800}
           title="Preview"
-          visible={this.state.showModal}
+          visible={this.state.showPostPreview}
           onOk={this.handlePublish}
           onCancel={this.handleReturn}
         >
-          <Title level={4}>{post.title}</Title>
-          <div dangerouslySetInnerHTML={{ __html: converter.makeHtml(post.body) }}></div>
-        </Modal>
+          {this.state.showPostPreview && (
+            <>
+              <Title level={4}>{post.title}</Title>
+              <div dangerouslySetInnerHTML={{ __html: converter.makeHtml(post.body) }}></div>
+              <Gallery
+                onClick={this.openLightbox}
+                photos={
+                  post.images?.map((image: any) => {
+                    return {
+                      src: image.url || image.response?.[0]?.url,
+                      width: 4,
+                      height: 3,
+                    }
+                  }) || []
+                }
+              />
+            </>
+          )}
+        </AntdModal>
         <Form layout="vertical" onSubmit={this.handleSubmit} style={{ marginBottom: 16 }}>
           <Tabs>
             <Tabs.TabPane tab="Russian" key="russian">
@@ -212,14 +270,15 @@ class PostForm extends React.Component<Props> {
           </Tabs>
           <Form.Item>
             <Upload
-              listType="picture"
-              fileList={post.fileList}
+              listType="picture-card"
+              fileList={post.images}
               action={GATEWAY + '/upload'}
               name="files"
               onChange={this.handleImageChange}
+              onPreview={this.handlePreview}
               multiple
             >
-              {post.fileList?.length >= 10 ? null : (
+              {post.images?.length >= 10 ? null : (
                 <Button>
                   <Icon type="upload" /> Upload Photos
                 </Button>

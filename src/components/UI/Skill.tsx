@@ -3,6 +3,7 @@ import { Skill, Project, Employee } from '../../types'
 import PageContent from './PageContent'
 import { Skeleton, Typography, Tag } from 'antd'
 import EmployeeLink from './EmployeeLink'
+import Controls from './Controls'
 
 const { Text, Title, Paragraph } = Typography
 
@@ -28,7 +29,7 @@ export default ({ loading, skill, editComponent }: Props) => {
       <Skeleton loading={loading} active>
         {skill && (
           <div>
-            {editComponent}
+            <Controls>{editComponent}</Controls>
             <Title level={1}>{skill.name}</Title>
             <Paragraph>{skill.description}</Paragraph>
             {skill.isMatrixOnly && (

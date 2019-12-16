@@ -20,7 +20,7 @@ interface Props {
   post: Partial<Post>
 }
 
-export default function EditPost({ post }: Props) {
+export default function UpdatePost({ post }: Props) {
   const [updatePost, { data, loading, error }] = useMutation(mutation, {
     refetchQueries: [{ query: getPosts }],
   })

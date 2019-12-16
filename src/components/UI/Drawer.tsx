@@ -20,18 +20,19 @@ export default function PortalDrawer({ drawerLabel, toggler, content, size }: Pr
         onClose={() => toggleVisibility(false)}
         visible={visible}
       >
-        {React.cloneElement(content, {
-          onSubmit: (values: any, reset: () => void) => {
-            if (content.props.onSubmit) {
-              content.props.onSubmit(values, () => {
-                if (reset) {
-                  reset()
-                }
-                toggleVisibility(false)
-              })
-            }
-          },
-        })}
+        {visible &&
+          React.cloneElement(content, {
+            onSubmit: (values: any, reset: () => void) => {
+              if (content.props.onSubmit) {
+                content.props.onSubmit(values, () => {
+                  if (reset) {
+                    reset()
+                  }
+                  toggleVisibility(false)
+                })
+              }
+            },
+          })}
       </Drawer>
     </>
   )

@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Row } from 'antd'
+import { Button, Col, Form, Input, Row, Checkbox } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
 import React from 'react'
 import { Skill } from '../../types'
@@ -8,13 +8,14 @@ type SkillPick = Partial<Skill> & {
 }
 
 export interface Props extends FormComponentProps {
-  onSubmit: (skill: SkillPick) => void
+  onSubmit: (skill: SkillPick, reset?: () => void) => void
   loading?: boolean
   skill?: SkillPick
   error?: string
+  parentSkillSelect: any
 }
 
-const SkillForm = ({ form, onSubmit, skill, loading }: Props) => {
+const SkillForm = ({ form, onSubmit, skill, loading, parentSkillSelect }: Props) => {
   const { getFieldDecorator } = form
 
   const handleSubmit = (e: any) => {
@@ -68,7 +69,7 @@ const SkillForm = ({ form, onSubmit, skill, loading }: Props) => {
           </Form.Item>
         </Col>
       </Row>
-      {/* <Row gutter={16}>
+      <Row gutter={16}>
         <Col>
           <Form.Item label="Parent skill">
             {getFieldDecorator('parent', {
@@ -79,33 +80,26 @@ const SkillForm = ({ form, onSubmit, skill, loading }: Props) => {
                   message: 'please enter parent skill',
                 },
               ],
-            })(<SkillSelect allowAddNew={false} />)}
+            })(parentSkillSelect)}
           </Form.Item>
         </Col>
-      </Row> */}
-      {/* <DashQuery query={skillsAdminAccess()}>
-        {({ access }: { access: Access }) => {
-          if (!access.read) return null
-          return (
-            <Row gutter={16}>
-              <Col>
-                <Form.Item>
-                  {getFieldDecorator('isMatrixOnly', {
-                    valuePropName: 'checked',
-                    initialValue: skill && skill.isMatrixOnly,
-                    rules: [
-                      {
-                        required: false,
-                        message: 'please enter parent skill',
-                      },
-                    ],
-                  })(<Checkbox disabled={!access.write}>For matrices only</Checkbox>)}
-                </Form.Item>
-              </Col>
-            </Row>
-          )
-        }}
-      </DashQuery> */}
+      </Row>
+      <Row gutter={16}>
+        <Col>
+          <Form.Item>
+            {getFieldDecorator('isMatrixOnly', {
+              valuePropName: 'checked',
+              initialValue: skill && skill.isMatrixOnly,
+              rules: [
+                {
+                  required: false,
+                  message: 'please enter parent skill',
+                },
+              ],
+            })(<Checkbox>For matrices only</Checkbox>)}
+          </Form.Item>
+        </Col>
+      </Row>
       <Row>
         <Col>
           <Button loading={loading} type="primary" htmlType="submit">
