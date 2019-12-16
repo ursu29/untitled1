@@ -61,7 +61,7 @@ function NewsFeed({ editable, location, history }: Props) {
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Input value={filter} onChange={value => setFilter(value)} />
+        <Input placeholder="Find post" value={filter} onChange={value => setFilter(value)} />
         <Button
           style={{ marginLeft: 8 }}
           icon="filter"

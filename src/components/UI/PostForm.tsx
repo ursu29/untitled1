@@ -9,7 +9,6 @@ import {
   Upload,
   Modal as AntdModal,
   Tabs,
-  Tag,
   Typography,
 } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
@@ -25,7 +24,6 @@ import Carousel, { Modal, ModalGateway } from 'react-images'
 import PostFormLocations from './PostFormLocations'
 
 const { Title } = Typography
-const { CheckableTag } = Tag
 
 const converter = new Showdown.Converter({
   tables: true,
@@ -113,46 +111,42 @@ class PostForm extends React.Component<Props> {
 
   updateValues(values: any) {
     if (!this.props.values) {
-      localStorage.setItem('postValues', JSON.stringify(values))
+      const string = localStorage.getItem('postValues')
+      const prevValues = string && JSON.parse(string)
+      console.log(prevValues, values, JSON.stringify({ ...prevValues, ...values }))
+      if (prevValues) {
+        this.setState({ values: { ...prevValues, ...values } })
+        localStorage.setItem('postValues', JSON.stringify({ ...prevValues, ...values }))
+      } else {
+        this.setState({ values })
+        localStorage.setItem('postValues', JSON.stringify(values))
+      }
+    } else {
+      this.setState({ values })
     }
-    this.setState({ values })
   }
 
-  setBody = (body: any) => {
-    this.updateValues({
-      ...this.state.values,
-      body,
-    })
-  }
+  setBody = (body: any) => this.updateValues({ body })
 
-  setLocations = (locations: any) => {
-    console.log('locations', locations)
-    this.updateValues({
-      ...this.state.values,
-      locations,
-    })
-  }
+  setLocations = (locations: any) => this.updateValues({ locations })
 
-  setBodyTranslated = (bodyTranslated: any) => {
-    this.updateValues({
-      ...this.state.values,
-      bodyTranslated,
-    })
-  }
+  setBodyTranslated = (bodyTranslated: any) => this.updateValues({ bodyTranslated })
 
   setSelectedTab = (selectedTab: any) => this.setState({ selectedTab })
 
   handleImageChange = ({ fileList: images }: any) => {
     this.setState({ values: { ...this.state.values, images } })
     if (!this.props.values) {
-      // store only already uploaded images
-      localStorage.setItem(
-        'postValues',
-        JSON.stringify({
-          ...this.state.values,
-          images: images?.filter((i: any) => i.url || i.response?.[0]?.url),
-        }),
-      )
+      const string = localStorage.getItem('postValues')
+      const prevValues = string && JSON.parse(string)
+      const values = {
+        images: images?.filter((i: any) => i.url || i.response?.[0]?.url),
+      }
+      if (prevValues) {
+        localStorage.setItem('postValues', JSON.stringify({ ...prevValues, ...values }))
+      } else {
+        localStorage.setItem('postValues', JSON.stringify(values))
+      }
     }
   }
 

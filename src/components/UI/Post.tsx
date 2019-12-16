@@ -65,6 +65,7 @@ function PostItem({ post, edit, history }: Props) {
             <Tag
               key={tag.id}
               color="blue"
+              style={{ cursor: 'pointer' }}
               onClick={() => {
                 history.push({
                   pathname: PATHS.POSTS,
