@@ -7,6 +7,7 @@ import Button from '../UI/Button'
 import Controls from '../UI/Controls'
 import TagSelect from '../Tags/TagSelect'
 import Drawer from '../UI/Drawer'
+import Divider from '../UI/Divider'
 import message from '../../message'
 
 const mutation = gql`
@@ -51,6 +52,7 @@ export default function CreatePost() {
           }
         />
       </Controls>
+      <Divider />
     </>
   )
 }

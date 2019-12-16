@@ -303,7 +303,7 @@ class PostForm extends React.Component<Props> {
           <Form.Item>
             {getFieldDecorator('tags', {
               initialValue: post?.tags,
-            })(<TagSelect multiple />)}
+            })(<TagSelect allowAddNew multiple />)}
           </Form.Item>
           <PostFormLocations values={post.locations} onChange={this.setLocations} />
           <Row type="flex" justify="space-between">

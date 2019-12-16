@@ -9,7 +9,7 @@ const Placeholder = () => <UnderConstruction />
 const PageNotFound = () => <PageContent>Page is not found</PageContent>
 const Profile = lazy(() => import('../Profile/ProfilePage'))
 const Settings = lazy(() => import('../Settings/SettingsPage'))
-const News = lazy(() => import('../Posts/NewsPage'))
+const News = lazy(() => import('../Posts/PostsPage'))
 const Post = lazy(() => import('../Posts/PostPage'))
 const Skills = lazy(() => import('../Skills/SkillsPage'))
 const Skill = lazy(() => import('../Skills/SkillPage'))
