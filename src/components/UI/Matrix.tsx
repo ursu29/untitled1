@@ -7,12 +7,12 @@ export const MatrixCell = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
+  padding: 12px 8px;
 `
 
 export const MatrixRow = styled.div`
   display: flex;
-  padding: 16px;
+  /* padding: 16px; */
 `
 
 export const MatrixGroup = styled.div`
@@ -29,6 +29,7 @@ export const MatrixGrade = styled.div`
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
+  padding: 8px;
   background-color: #f7f7f7;
 `
 

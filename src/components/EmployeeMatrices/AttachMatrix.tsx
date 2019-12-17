@@ -37,7 +37,7 @@ export default function AttachMatrix({ employee }: Props) {
   if (!show)
     return (
       <Button loading={loading} onClick={() => toggle(true)}>
-        Add Matrix
+        Attach Matrix
       </Button>
     )
   return (

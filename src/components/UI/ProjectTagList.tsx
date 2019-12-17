@@ -10,14 +10,21 @@ type ProjectPick = Pick<Project, 'id' | 'code' | 'name'>
 interface Props {
   loading?: boolean
   title?: string
+  small?: boolean
   projects?: ProjectPick[]
-  leadingProject?: ProjectPick[]
+  leadingProjects?: ProjectPick[]
 }
 
-export default function ProjectTagList({ loading, title, projects }: Props) {
+export default function ProjectTagList({
+  loading,
+  title,
+  small,
+  projects,
+  leadingProjects,
+}: Props) {
   // if (!loading && !projects) return null
   return (
-    <div style={{ marginBottom: 20 }}>
+    <div style={{ marginBottom: 16 }}>
       <Skeleton
         loading={loading}
         active
@@ -25,18 +32,22 @@ export default function ProjectTagList({ loading, title, projects }: Props) {
           rows: 1,
         }}
       >
-        {projects && (
-          <>
-            <Title level={3} style={{ fontWeight: 'normal' }}>
-              {title || 'Projects'}
-            </Title>
-            {projects?.length ? (
-              projects.map(project => <ProjectTag key={project.id} project={project} />)
-            ) : (
-              <div>No projects</div>
-            )}
-          </>
-        )}
+        {projects &&
+          (projects?.length ? (
+            projects.map(project => {
+              const leading = leadingProjects?.find(i => i.id === project.id)
+              return (
+                <ProjectTag
+                  small={small}
+                  key={project.id}
+                  project={project}
+                  leading={Boolean(leading)}
+                />
+              )
+            })
+          ) : (
+            <div>No projects</div>
+          ))}
       </Skeleton>
     </div>
   )

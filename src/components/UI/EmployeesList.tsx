@@ -1,12 +1,10 @@
+import { Input, Table } from 'antd'
 import React, { useState } from 'react'
-import { Skeleton, Table, Input } from 'antd'
-import PageContent from './PageContent'
-import { Employee } from '../../types'
-import { ColumnProps } from 'antd/es/table'
 import { Link } from 'react-router-dom'
-import paths, { getEmployeeLink } from '../../paths'
 import { COLLAPSE_WIDTH } from '../../config'
 import { useMediaQuery } from 'react-responsive'
+import { getEmployeeLink } from '../../paths'
+import { Employee } from '../../types'
 
 type EmployeePick = Pick<
   Employee,
@@ -17,9 +15,10 @@ interface Props {
   employees?: EmployeePick[]
   loading: boolean
   Avatar: any
+  fixed?: boolean
 }
 
-export default function EmployeesList({ employees, loading, Avatar }: Props) {
+export default function EmployeesList({ employees, loading, Avatar, fixed }: Props) {
   const [filter, setFilter] = useState('')
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   let columns: any = [
@@ -211,8 +210,8 @@ export default function EmployeesList({ employees, loading, Avatar }: Props) {
       //@ts-ignore
       columns={columns}
       rowKey="id"
-      size="small"
-      scroll={{ y: 'calc(100vh - 90px)' }}
+      size="middle"
+      scroll={fixed ? { y: 'calc(100vh - 102px)' } : undefined}
       title={() => (
         <Input
           placeholder="Find employee"

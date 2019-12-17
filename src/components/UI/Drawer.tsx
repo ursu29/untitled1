@@ -2,26 +2,13 @@ import React, { useState } from 'react'
 import { Drawer } from 'antd'
 
 interface Props {
-  loading: boolean
-  Form: any
-  values?: any
   drawerLabel: string
   toggler: any
+  content: any
   size?: 'default' | 'large'
-  onSubmit: (values: any, onDone: () => void) => void
-  TagSelect: any
 }
 
-export default function PortalDrawer({
-  loading,
-  drawerLabel,
-  values,
-  Form,
-  TagSelect,
-  toggler,
-  size,
-  onSubmit,
-}: Props) {
+export default function PortalDrawer({ drawerLabel, toggler, content, size }: Props) {
   const [visible, toggleVisibility] = useState(false)
   return (
     <>
@@ -33,19 +20,19 @@ export default function PortalDrawer({
         onClose={() => toggleVisibility(false)}
         visible={visible}
       >
-        <Form
-          loading={loading}
-          values={values}
-          TagSelect={TagSelect} //TODO!!!!!!!!!!!
-          onSubmit={(values: any, reset: () => void) => {
-            onSubmit(values, () => {
-              toggleVisibility(false)
-              if (reset) {
-                reset()
+        {visible &&
+          React.cloneElement(content, {
+            onSubmit: (values: any, reset: () => void) => {
+              if (content.props.onSubmit) {
+                content.props.onSubmit(values, () => {
+                  if (reset) {
+                    reset()
+                  }
+                  toggleVisibility(false)
+                })
               }
-            })
-          }}
-        />
+            },
+          })}
       </Drawer>
     </>
   )

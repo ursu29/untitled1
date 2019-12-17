@@ -24,10 +24,12 @@ type MutationType = {
 
 interface Props {
   value?: any
-  onChange: (value: TagPick[]) => void
+  onChange: (value: { key: string; label: string; id: string }[]) => void
+  allowAddNew?: boolean
+  multiple?: boolean
 }
 
-function TagSelect({ value, onChange }: Props, ref: any) {
+function TagSelect({ value, allowAddNew, multiple, onChange }: Props, ref: any) {
   const { data, loading, error } = useQuery<QueryType>(query, {
     onError: message.error,
   })
@@ -50,7 +52,7 @@ function TagSelect({ value, onChange }: Props, ref: any) {
       loading={loading || mutateLoading}
       style={{ width: '100%' }}
       placeholder="Select tags"
-      mode="tags"
+      mode={allowAddNew ? 'tags' : multiple ? 'multiple' : 'default'}
       items={data?.tags.map(tag => ({
         value: tag.name,
         key: tag.name,

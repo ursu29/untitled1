@@ -1,13 +1,13 @@
-import { Typography, Tag } from 'antd'
-import React, { useState, useCallback } from 'react'
-import * as Showdown from 'showdown'
-import { Employee, Post, File } from '../../types'
-import EmployeeLink from './EmployeeLink'
-import styled from 'styled-components'
-import Gallery from 'react-photo-gallery'
-import { Tag as TagType } from '../../types'
+import { Tag, Typography } from 'antd'
+import React, { useCallback, useState } from 'react'
 //@ts-ignore
 import Carousel, { Modal, ModalGateway } from 'react-images'
+import Gallery from 'react-photo-gallery'
+import * as Showdown from 'showdown'
+import { Employee, Post, Tag as TagType } from '../../types'
+import EmployeeLink from './EmployeeLink'
+import { withRouter, RouteComponentProps } from 'react-router-dom'
+import PATHS from '../../paths'
 
 const converter = new Showdown.Converter({
   tables: true,
@@ -26,12 +26,12 @@ type PostPick = Pick<
   tags?: Pick<TagType, 'id' | 'name' | 'description'>[]
 }
 
-interface Props {
+interface Props extends RouteComponentProps {
   post: PostPick
   edit?: any
 }
 
-export default function PostItem({ post, edit }: Props) {
+function PostItem({ post, edit, history }: Props) {
   const [currentImage, setCurrentImage] = useState(0)
   const [viewerIsOpen, setViewerIsOpen] = useState(false)
 
@@ -62,7 +62,17 @@ export default function PostItem({ post, edit }: Props) {
       {post.tags && (
         <Paragraph>
           {post.tags?.map(tag => (
-            <Tag key={tag.id} color="blue">
+            <Tag
+              key={tag.id}
+              color="blue"
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                history.push({
+                  pathname: PATHS.POSTS,
+                  search: '?tag=' + tag.name,
+                })
+              }}
+            >
               {tag.name}
             </Tag>
           ))}
@@ -95,3 +105,5 @@ export default function PostItem({ post, edit }: Props) {
     </>
   )
 }
+
+export default withRouter(PostItem)

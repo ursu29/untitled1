@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react'
 import { Select } from 'antd'
-import CSS from 'csstype'
 
 interface Item {
   value: string
@@ -9,9 +8,11 @@ interface Item {
 
 interface Props {
   loading: boolean
+  allowClear?: boolean
   value?: any
   placeholder?: string
-  style?: CSS.Properties
+  size?: 'default' | 'small'
+  style?: any
   items?: Item[]
   onSelect: (value: any) => void
   onBlur?: () => void
@@ -20,7 +21,19 @@ interface Props {
 }
 
 function PortalSelect(
-  { items, loading, mode, style, placeholder, autoFocus, onBlur, onSelect, value }: Props,
+  {
+    items,
+    loading,
+    mode,
+    style,
+    allowClear,
+    placeholder,
+    autoFocus,
+    onBlur,
+    size,
+    onSelect,
+    value,
+  }: Props,
   ref: any,
 ) {
   useEffect(() => {
@@ -37,8 +50,10 @@ function PortalSelect(
       value={value}
       ref={ref}
       onBlur={onBlur}
+      allowClear={allowClear}
       id="portal-select"
       autoFocus={autoFocus}
+      size={size}
       loading={loading}
       placeholder={placeholder}
       style={{ width: 120, ...style }}

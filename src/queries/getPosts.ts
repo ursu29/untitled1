@@ -2,8 +2,8 @@ import gql from 'graphql-tag'
 import { Post, Employee, Tag } from '../types'
 
 export default gql`
-  {
-    posts {
+  query getPosts($input: PostsInput) {
+    posts(input: $input) {
       id
       title
       titleTranslated

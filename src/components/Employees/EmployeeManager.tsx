@@ -3,6 +3,8 @@ import { Employee } from '../../types'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import EmployeeCard from '../UI/EmployeeCard'
+import Section from '../UI/Section'
+import Skeleton from '../UI/Skeleton'
 
 const query = gql`
   query GetEmployeeManager($input: EmployeesInput) {
@@ -60,5 +62,13 @@ export default function EmployeeManager(props: Props) {
 
   const employee = data?.employees?.[0]
 
-  return <EmployeeCard loading={loading} employee={employee?.manager} />
+  return (
+    <Skeleton active avatar line loading={loading}>
+      {employee?.manager && (
+        <Section title="Manager">
+          <EmployeeCard employee={employee?.manager} />
+        </Section>
+      )}
+    </Skeleton>
+  )
 }

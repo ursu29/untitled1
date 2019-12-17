@@ -3,6 +3,7 @@ import { Project } from '../../types'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import ProjectView from '../UI/Project'
+import ProjectManagers from './ProjectManagers'
 
 interface Props {
   project: Pick<Project, 'id'>
@@ -22,9 +23,16 @@ const query = gql`
 type ProjectPick = Pick<Project, 'id' | 'name' | 'code' | 'description'>
 
 export default function ProjectDetails(props: Props) {
+  const input = { id: props.project.id }
   const { data, loading, error } = useQuery<{ projects: ProjectPick[] }>(query, {
-    variables: { input: { id: props.project.id } },
+    variables: { input },
   })
   const project = data?.projects?.[0]
-  return <ProjectView loading={loading} project={project} />
+  return (
+    <ProjectView
+      loading={loading}
+      project={project}
+      managers={<ProjectManagers project={input} />}
+    />
+  )
 }

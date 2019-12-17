@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
-import SkillDrawer from '../UI/SkillDrawer'
 import { useMutation } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
-import getSkills from '../../queries/getSkills'
 import { RefetchQueryDescription } from 'apollo-client/core/watchQueryOptions'
+import gql from 'graphql-tag'
+import React, { useEffect, useState } from 'react'
+import message from '../../message'
+import getSkills from '../../queries/getSkills'
+import Button from '../UI/Button'
+import Drawer from '../UI/Drawer'
+import SkillForm from '../UI/SkillForm'
+import SkillSelect from './SkillSelect'
 
 const mutation = gql`
   mutation updateSkill($input: UpdateSkillInput) {
@@ -30,21 +34,31 @@ export default function UpdateSkill({ refetchQueries, ...props }: Props) {
   const [skill, setSkill] = useState<SkillPick | undefined>(props.skill)
   const [updateSkill, { loading, error }] = useMutation<MutationType>(mutation, {
     refetchQueries: [{ query: getSkills }, ...refetchQueries],
-    onError: () => {
-      console.info('updateSkill error', error)
-    },
+    onError: message.error,
+    onCompleted: () => message.success('Skill updated'),
   })
+
+  useEffect(() => {
+    if (loading) {
+      message.loading('Updating')
+    }
+  })
+
   return (
-    <SkillDrawer
-      togglerLabel="Edit"
-      icon="edit"
+    <Drawer
+      toggler={<Button icon="edit">Edit skill</Button>}
       drawerLabel={'Edit a skill ' + skill?.name}
-      skill={skill}
-      loading={loading}
-      onSubmit={(skill, onDone) => {
-        setSkill(skill)
-        updateSkill({ variables: { input: skill }, update: onDone })
-      }}
+      content={
+        <SkillForm
+          loading={loading}
+          skill={skill}
+          parentSkillSelect={<SkillSelect wide />}
+          onSubmit={(skill: any, onDone: any) => {
+            setSkill(skill)
+            updateSkill({ variables: { input: skill }, update: onDone })
+          }}
+        />
+      }
     />
   )
 }

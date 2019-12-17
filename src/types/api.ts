@@ -97,11 +97,13 @@ export interface MatrixSkill {
 export interface MatrixGroup {
   id: string
   title: string
+  description: string
 }
 
 export interface MatrixGrade {
   id: string
   title: string
+  description: string
 }
 
 export interface Matrix {

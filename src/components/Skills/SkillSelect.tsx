@@ -33,27 +33,30 @@ type SkillPick = Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'>
 
 type Props = {
   value?: SkillPick
-  onSelect: (skill: SkillPick) => any
+  onSelect?: (skill: SkillPick) => any
   onBlur?: any
   defaultOpen?: boolean
   autoFocus?: boolean
   matrixSkillsOnly?: boolean
-  returnValue?: string
   allowAddNew?: boolean
+  wide?: boolean
+  size?: 'default' | 'small'
 }
 
-export default function SkillSelect({ onSelect, ...props }: Props) {
+export default function SkillSelect({ onSelect, wide, size, ...props }: Props) {
   const { data, loading, error } = useQuery<QueryType>(getSkills)
 
   return (
     <Select
+      style={{ width: wide ? '100%' : 150 }}
       autoFocus={!loading && props.autoFocus}
       loading={loading}
+      size={size}
       onBlur={props.onBlur}
       onSelect={id => {
         const skill = data!.skills.find(skill => skill.id === id)
         if (skill) {
-          onSelect(skill)
+          onSelect && onSelect(skill)
         }
       }}
       items={data?.skills
