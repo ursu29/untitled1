@@ -33,6 +33,10 @@ export default function BookmarksList({
   const searcher = new FuzzySearch(bookmarks || [], ['title'])
   const filteredItems: BookmarkPick[] = searcher.search(filter.trim())
 
+  if (!loading && !filter && !filteredItems.length) {
+    return <div>No bookmarks yet</div>
+  }
+
   return (
     <Skeleton loading={loading} active>
       <Input
