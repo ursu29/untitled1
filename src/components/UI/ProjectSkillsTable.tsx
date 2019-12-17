@@ -64,6 +64,10 @@ type EmployeePick = Pick<Employee, 'id' | 'name' | 'email' | 'position'>
 
 const EmployeeSkillMatrix: React.FC<EmployeeSkillMatrixProps> = ({ project }) => {
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
+  if (!project.skills || !project.skills.length) {
+    return <div>Project has no skills</div>
+  }
+
   const columns: any = [
     {
       title: 'Name',
