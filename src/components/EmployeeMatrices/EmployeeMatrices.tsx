@@ -10,12 +10,13 @@ import ExportMatrixToExcel from './ExportMatrixToExcel'
 import EmployeeMatrix from './EmployeeMatrix'
 
 interface Props {
-  id: Employee['id']
+  employee?: Pick<Employee, 'id'>
 }
 
-export default function EmployeeMatrices({ id }: Props) {
+export default function EmployeeMatrices(props: Props) {
   const { data, loading, error } = useQuery<QueryType>(getEmployeeMatrices, {
-    variables: { input: { id } },
+    variables: { input: { id: props?.employee?.id } },
+    skip: !props?.employee,
   })
 
   const employee = data?.employees?.[0]

@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react'
 import { useMutation } from '@apollo/react-hooks'
+import { RefetchQueryDescription } from 'apollo-client/core/watchQueryOptions'
 import gql from 'graphql-tag'
+import React, { useEffect, useState } from 'react'
+import message from '../../message'
 import getSkills from '../../queries/getSkills'
-import { Skill, Project, Employee } from '../../types'
+import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import SkillForm from '../UI/SkillForm'
-import message from '../../message'
-import Button from '../UI/Button'
 import SkillSelect from './SkillSelect'
-import { RefetchQueryDescription } from 'apollo-client/core/watchQueryOptions'
 
 const mutation = gql`
   mutation updateSkill($input: UpdateSkillInput) {

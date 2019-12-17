@@ -4,9 +4,9 @@ import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import { Employee } from '../../types'
 import Skeleton from '../UI/Skeleton'
-import EmployeeDetails from '../Employees/EmployeeDetails'
 import EmployeeMatrices from '../EmployeeMatrices/EmployeeMatrices'
 import Tabs from '../UI/Tabs'
+import EmployeeBookmarks from './EmployeeBookmarks'
 
 interface Props extends RouteComponentProps {
   employee: Pick<Employee, 'id'>
@@ -47,7 +47,7 @@ function EmployeeTabs({ match, ...props }: Props) {
       title: 'Bookmarks',
       icon: 'book',
       key: 'bookmarks',
-      body: <div>Bookmarks</div>,
+      body: <EmployeeBookmarks employee={employee} />,
     },
   ]
 
@@ -56,7 +56,7 @@ function EmployeeTabs({ match, ...props }: Props) {
       title: 'Matrices',
       key: 'matrices',
       icon: 'number',
-      body: <EmployeeMatrices id={employee.id} />,
+      body: <EmployeeMatrices employee={employee} />,
     })
     // tabs.push({
     //   title: 'Personal development',
