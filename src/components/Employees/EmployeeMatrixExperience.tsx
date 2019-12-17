@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
-import { Experience, Skill, Employee } from '../../types'
+import { Experience, Skill, Employee, Level } from '../../types'
 import gql from 'graphql-tag'
 import MatrixExperience from '../UI/MatrixExperience'
 import { useMutation } from '@apollo/react-hooks'
-import MatrixLevelSelect from './MatrixLevelSelect'
+import MatrixLevelSelect from '../EmployeeMatrices/MatrixLevelSelect'
 import getEmployeeExperiences from '../../queries/getEmployeeExperiences'
 import message from '../../message'
 
@@ -32,8 +32,11 @@ const deleteExperience = gql`
 `
 
 interface Props {
-  experience?: Experience
-  skill: Skill
+  experience?: {
+    id: Experience['id']
+    level: Pick<Level, 'id' | 'index' | 'name'>
+  }
+  skill?: Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'>
   editable: boolean
   employee?: Pick<Employee, 'id'>
 }
@@ -68,6 +71,7 @@ export default function EmployeeMatrixExperience({ experience, skill, employee, 
     if (deleteLoading) message.loading('Removing')
   })
 
+  if (!skill) return null
   if (!employee) return <div>Employee is not provided</div>
 
   return (

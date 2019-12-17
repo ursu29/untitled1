@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { MatrixCell } from './Matrix'
 import { Tooltip } from 'antd'
-import { Skill, Experience } from '../../types'
+import { Skill, Level, Experience } from '../../types'
 
 interface Props {
   skill: Pick<Skill, 'id' | 'name' | 'description'>
-  experience?: Experience
+  experience?: {
+    id: Experience['id']
+    level: Pick<Level, 'id' | 'index' | 'name'>
+  }
   matrixLevelSelect: any
 }
 

@@ -53,8 +53,8 @@ export default function SkillSelect({ onSelect, wide, size, ...props }: Props) {
       loading={loading}
       size={size}
       onBlur={props.onBlur}
-      onSelect={id => {
-        const skill = data!.skills.find(skill => skill.id === id)
+      onSelect={(value: { key: string }) => {
+        const skill = data!.skills.find(skill => skill.id === value.key)
         if (skill) {
           onSelect && onSelect(skill)
         }

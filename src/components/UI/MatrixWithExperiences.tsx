@@ -9,13 +9,13 @@ interface Props {
   employee?: Pick<Employee, 'id'> & {
     experiences: ExperienceDetails[]
   }
-  EmployeeMatrixExperience: any
+  EmployeeSkillExperience: any
 }
 
 export default function MatrixWithExperiences({
   matrix,
   employee,
-  EmployeeMatrixExperience,
+  EmployeeSkillExperience,
 }: Props) {
   const { groups, grades, skills } = matrix.body
   return (
@@ -39,7 +39,7 @@ export default function MatrixWithExperiences({
               .map(({ skill }) => {
                 const experience = employee?.experiences.find(i => i.skill.id === skill.id)
                 return (
-                  <EmployeeMatrixExperience
+                  <EmployeeSkillExperience
                     experience={experience}
                     key={skill.id}
                     skill={skill}

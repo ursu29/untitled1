@@ -4,7 +4,7 @@ import { Matrix, Employee } from '../../types'
 import { useQuery } from '@apollo/react-hooks'
 import MatrixWithExperiences from '../UI/MatrixWithExperiences'
 import Skeleton from '../UI/Skeleton'
-import EmployeeMatrixExperience from './EmployeeMatrixExperience'
+import EmployeeSkillExperience from '../Employees/EmployeeMatrixExperience'
 import Controls from '../UI/Controls'
 import Divider from '../UI/Divider'
 
@@ -33,7 +33,7 @@ export default function EmployeeMatrix({
       <MatrixWithExperiences
         matrix={matrix}
         employee={data?.employees[0]}
-        EmployeeMatrixExperience={EmployeeMatrixExperience}
+        EmployeeSkillExperience={EmployeeSkillExperience}
       />
       <Controls>
         <DetachMatrix matrix={matrix} employee={employee} />

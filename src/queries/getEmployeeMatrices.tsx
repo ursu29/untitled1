@@ -30,6 +30,7 @@ export default gql`
               id
               name
               description
+              isMatrixOnly
             }
             groupId
             gradeId

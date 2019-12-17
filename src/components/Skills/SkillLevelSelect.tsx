@@ -11,36 +11,9 @@ interface Props {
   onDeselect: () => any
 }
 
-const getName = (index: number) => {
-  const names: any = {
-    0: 'Unknown',
-    1: 'Theoretical knowledge',
-    2: 'Practical knowledge',
-    3: 'Practical knowledge',
-  }
-  return names[index] || '?'
-}
-
-const getColor = (index: number): string => {
-  const names: any = {
-    0: '#f9f9f9',
-    1: '#efefb4',
-    2: '#bbeabb',
-  }
-  return names[index] || '#f9f9f9'
-}
-
 export default function MatrixLevelSelect({ level, onSelect, onDeselect, loading }: Props) {
   const { data, loading: queryLoading } = useQuery<QueryType>(getLevels)
-  const filteredLevels = data?.levels
-    .sort((a, b) => a.index - b.index)
-    .filter(level => level.index !== 3)
-    .map(level => {
-      return {
-        ...level,
-        name: getName(level.index),
-      }
-    })
+  const sortedLevels = data?.levels.sort((a, b) => a.index - b.index)
   return (
     <Select
       size="small"
@@ -51,20 +24,20 @@ export default function MatrixLevelSelect({ level, onSelect, onDeselect, loading
         level &&
         data?.levels && {
           key: level.id,
-          value: getName(level.index),
+          value: level.name,
         }
       }
       onSelect={item => {
         if (!item) {
           onDeselect()
         } else {
-          const level = filteredLevels?.find(level => level.id === item.key)
+          const level = sortedLevels?.find(level => level.id === item.key)
           if (level) {
             onSelect(level)
           }
         }
       }}
-      items={filteredLevels?.map(level => ({
+      items={sortedLevels?.map(level => ({
         ...level,
         key: level.id,
         value: level.name,

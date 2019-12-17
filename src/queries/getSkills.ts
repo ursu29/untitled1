@@ -2,8 +2,8 @@ import gql from 'graphql-tag'
 import { Skill, Employee } from '../types'
 
 export default gql`
-  {
-    skills {
+  query getSkills($input: SkillsInput) {
+    skills(input: $input) {
       id
       name
       description

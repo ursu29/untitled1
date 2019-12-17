@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/react-hooks'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import query, { QueryType } from '../../queries/getSkills'
 import Tree from '../UI/Tree'
@@ -7,6 +7,7 @@ import { getSkillLink } from '../../paths'
 import gql from 'graphql-tag'
 import getSkills from '../../queries/getSkills'
 import { useMutation } from '@apollo/react-hooks'
+import message from '../../message'
 
 const mutation = gql`
   mutation updateSkill($input: UpdateSkillInput) {
@@ -24,14 +25,18 @@ type MutationType = {
 
 function SkillsTree({ history }: RouteComponentProps) {
   const { data, loading, error } = useQuery<QueryType>(query)
-  const [updateSkill, { loading: mutationLoading, error: mutationError }] = useMutation<
-    MutationType
-  >(mutation, {
+  const [updateSkill, { loading: mutationLoading }] = useMutation<MutationType>(mutation, {
     refetchQueries: [{ query: getSkills }],
-    onError: () => {
-      console.info('updateSkill error', error)
-    },
+    onError: message.error,
+    onCompleted: () => message.success('Skill added'),
   })
+
+  useEffect(() => {
+    if (mutationLoading) {
+      message.loading('Adding skill')
+    }
+  })
+
   if (error) return <div>Error :(</div>
 
   return (

@@ -21,10 +21,11 @@ interface Props {
   loading: boolean
   skill?: SkillPick
   projects?: any
+  experience?: any
   editComponent: React.ReactNode
 }
 
-export default ({ loading, skill, projects, editComponent }: Props) => {
+export default ({ loading, skill, projects, experience, editComponent }: Props) => {
   return (
     <PageContent>
       <Skeleton loading={loading} active>
@@ -48,6 +49,7 @@ export default ({ loading, skill, projects, editComponent }: Props) => {
               </Col>
               <Col md={24} lg={10}>
                 {projects}
+                {experience}
               </Col>
             </Row>
           </div>

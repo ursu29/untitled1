@@ -27,6 +27,8 @@ export default {
         skill {
           id
           name
+          description
+          isMatrixOnly
         }
       }
     `,
@@ -40,5 +42,5 @@ export type EmployeeDetails = Pick<
 
 export type ExperienceDetails = Pick<Experience, 'id'> & {
   level: Pick<Level, 'id' | 'index' | 'name'>
-  skill: Pick<Skill, 'id' | 'name'>
+  skill: Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'>
 }

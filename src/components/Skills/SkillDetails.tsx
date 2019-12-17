@@ -5,6 +5,7 @@ import { Employee, Project, Skill } from '../../types'
 import SkillView from '../UI/Skill'
 import UpdateSkill from './UpdateSkill'
 import SkillProjects from './SkillProjects'
+import SkillExperience from './SkillExperience'
 
 const query = gql`
   query getSkill($input: SkillsInput) {
@@ -59,6 +60,7 @@ function SkillPage(props: Props) {
       loading={loading}
       skill={skill}
       projects={<SkillProjects skill={skill} />}
+      experience={<SkillExperience skill={{ id: props.skill.id }} />}
       editComponent={
         <UpdateSkill
           refetchQueries={[{ query, variables }]}

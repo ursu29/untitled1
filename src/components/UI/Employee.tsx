@@ -87,14 +87,16 @@ export default function EmployeeView({ loading, employee, manager, projects, mob
                 <a
                   href={`https://outlook.office.com/owa/?path=/mail/action/compose&to=${employee.email}`}
                   target="_blank"
+                  style={{ paddingRight: 8 }}
                 >
                   <Button shape="circle-outline">
                     <img src={outlook} />
                   </Button>
-                </a>{' '}
+                </a>
                 <a
                   href={`https://projects.microsoft.com/l/chat/0/0?users=${employee.email}`}
                   target="_blank"
+                  style={{ paddingRight: 8 }}
                 >
                   <Button shape="circle-outline">
                     <img src={teams} />
