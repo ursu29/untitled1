@@ -46,8 +46,8 @@ export default function UpdateSkill({ refetchQueries, ...props }: Props) {
 
   return (
     <Drawer
-      toggler={<Button icon="edit">Edit skill</Button>}
-      drawerLabel={'Edit a skill ' + skill?.name}
+      toggler={<Button size="small" icon="edit" type="link"></Button>}
+      drawerLabel={'Edit skill ' + skill?.name}
       content={
         <SkillForm
           loading={loading}
