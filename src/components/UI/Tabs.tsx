@@ -1,7 +1,7 @@
 import React from 'react'
 import { Tabs, Icon } from 'antd'
 import { withRouter, RouteComponentProps, matchPath } from 'react-router-dom'
-import paths, { getEmployeeLink } from '../../paths'
+import paths, { getEmployeeLink, getProjectLink } from '../../paths'
 import PageContent from './PageContent'
 import { useMediaQuery } from 'react-responsive'
 import { COLLAPSE_WIDTH } from '../../config'
@@ -38,10 +38,13 @@ function PortalTabs({ location, history, tabs, tab }: Props) {
         // setKey(Math.random())
         const employees: any = matchPath(location.pathname, { path: paths.EMPLOYEES + '/:email' })
         const profile: any = matchPath(location.pathname, { path: paths.PROFILE })
+        const projects: any = matchPath(location.pathname, { path: paths.PROJECTS + '/:code' })
         if (profile) {
           history.push(paths.PROFILE + '/' + tab)
         } else if (employees) {
           history.push(getEmployeeLink(employees.params.email) + tab)
+        } else if (projects) {
+          history.push(getProjectLink(projects.params.code) + tab)
         }
       }}
     >

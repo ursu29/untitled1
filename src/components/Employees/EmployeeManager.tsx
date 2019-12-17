@@ -3,6 +3,7 @@ import { Employee } from '../../types'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import EmployeeCard from '../UI/EmployeeCard'
+import Section from '../UI/Section'
 
 const query = gql`
   query GetEmployeeManager($input: EmployeesInput) {
@@ -60,5 +61,9 @@ export default function EmployeeManager(props: Props) {
 
   const employee = data?.employees?.[0]
 
-  return <EmployeeCard loading={loading} employee={employee?.manager} />
+  return (
+    <Section title="Manager">
+      <EmployeeCard loading={loading} employee={employee?.manager} />
+    </Section>
+  )
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import { Project } from '../../types'
 import Tabs from '../UI/Tabs'
 import ProjectEmployees from './ProjectEmployees'
+import ProjectSkills from './ProjectSkills'
 
 interface Props {
   tab: string
@@ -12,21 +13,15 @@ export default function ProjectTabs(props: Props) {
   let tabs = [
     {
       title: 'Employees',
-      icon: 'user',
+      icon: 'team',
       key: 'employees',
       body: <ProjectEmployees project={props.project} />,
-    },
-    {
-      title: 'Managers',
-      icon: 'user-add',
-      key: 'managers',
-      body: <div>Managers</div>,
     },
     {
       title: 'Skills',
       icon: 'crown',
       key: 'skills',
-      body: <div>Skills</div>,
+      body: <ProjectSkills project={props.project} />,
     },
   ]
   return <Tabs tabs={tabs} tab={props.tab} />

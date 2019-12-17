@@ -1,12 +1,10 @@
+import { Input, Table } from 'antd'
 import React, { useState } from 'react'
-import { Skeleton, Table, Input } from 'antd'
-import PageContent from './PageContent'
-import { Employee } from '../../types'
-import { ColumnProps } from 'antd/es/table'
 import { Link } from 'react-router-dom'
-import paths, { getEmployeeLink } from '../../paths'
 import { COLLAPSE_WIDTH } from '../../config'
 import { useMediaQuery } from 'react-responsive'
+import { getEmployeeLink } from '../../paths'
+import { Employee } from '../../types'
 
 type EmployeePick = Pick<
   Employee,

@@ -3,8 +3,8 @@ import { Employee } from '../../types'
 import { Row, Col, Skeleton, Card, Typography, Avatar, Button, Icon, Badge } from 'antd'
 import styled from 'styled-components'
 import PageContent from './PageContent'
-import teamsIcon from '../../icons/teams'
-import outlookIcon from '../../icons/outlook'
+import teams from '../../svg/teams.svg'
+import outlook from '../../svg/outlook.svg'
 
 const { Text, Title } = Typography
 
@@ -89,7 +89,7 @@ export default function EmployeeView({ loading, employee, manager, projects, mob
                   target="_blank"
                 >
                   <Button shape="circle-outline">
-                    <Icon component={outlookIcon} />
+                    <img src={outlook} />
                   </Button>
                 </a>{' '}
                 <a
@@ -97,7 +97,7 @@ export default function EmployeeView({ loading, employee, manager, projects, mob
                   target="_blank"
                 >
                   <Button shape="circle-outline">
-                    <Icon component={teamsIcon} />
+                    <img src={teams} />
                   </Button>
                 </a>{' '}
                 <Badge

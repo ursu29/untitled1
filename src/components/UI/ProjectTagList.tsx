@@ -32,28 +32,22 @@ export default function ProjectTagList({
           rows: 1,
         }}
       >
-        {projects && (
-          <>
-            <Title level={3} style={{ fontWeight: 'normal' }}>
-              {title || 'Projects'}
-            </Title>
-            {projects?.length ? (
-              projects.map(project => {
-                const leading = leadingProjects?.find(i => i.id === project.id)
-                return (
-                  <ProjectTag
-                    small={small}
-                    key={project.id}
-                    project={project}
-                    leading={Boolean(leading)}
-                  />
-                )
-              })
-            ) : (
-              <div>No projects</div>
-            )}
-          </>
-        )}
+        {projects &&
+          (projects?.length ? (
+            projects.map(project => {
+              const leading = leadingProjects?.find(i => i.id === project.id)
+              return (
+                <ProjectTag
+                  small={small}
+                  key={project.id}
+                  project={project}
+                  leading={Boolean(leading)}
+                />
+              )
+            })
+          ) : (
+            <div>No projects</div>
+          ))}
       </Skeleton>
     </div>
   )

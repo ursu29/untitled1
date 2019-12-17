@@ -15,10 +15,7 @@ interface Props {
     employee?: Pick<Employee, 'id'>
     matrix: Pick<Matrix, 'id'>
   }>
-  ExportMatrixToExcel: React.FC<{
-    matrix: Exclude<Matrix, 'access'>
-    employee?: Pick<Employee, 'id' | 'name' | 'experiences'>
-  }>
+  ExportMatrixToExcel: any
 }
 
 export default function EmployeeMatrix({

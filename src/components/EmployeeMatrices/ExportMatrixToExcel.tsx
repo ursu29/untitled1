@@ -2,10 +2,13 @@ import React from 'react'
 import { Matrix, Employee } from '../../types'
 import Button from '../UI/Button'
 import { GATEWAY } from '../../config'
+import { ExperienceDetails } from '../../fragments'
 
 type Props = {
   matrix: Exclude<Matrix, 'access'>
-  employee?: Pick<Employee, 'id' | 'name' | 'experiences'>
+  employee?: Pick<Employee, 'id' | 'name'> & {
+    experiences: ExperienceDetails[]
+  }
 }
 
 export default function ExportMatrixToExcel({ matrix, employee }: Props) {

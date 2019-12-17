@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { Employee } from './types'
+import { Employee, Experience, Level, Skill } from './types'
 
 export default {
   Employee: {
@@ -15,9 +15,30 @@ export default {
       }
     `,
   },
+  Experience: {
+    Details: gql`
+      fragment ExperienceDetails on Experience {
+        id
+        level {
+          id
+          index
+          name
+        }
+        skill {
+          id
+          name
+        }
+      }
+    `,
+  },
 }
 
 export type EmployeeDetails = Pick<
   Employee,
   'id' | 'name' | 'location' | 'country' | 'position' | 'phoneNumber' | 'email'
 >
+
+export type ExperienceDetails = Pick<Experience, 'id'> & {
+  level: Pick<Level, 'id' | 'index' | 'name'>
+  skill: Pick<Skill, 'id' | 'name'>
+}

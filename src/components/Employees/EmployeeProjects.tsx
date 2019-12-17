@@ -3,6 +3,7 @@ import { Employee, Project } from '../../types'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import ProjectTagList from '../UI/ProjectTagList'
+import Section from '../UI/Section'
 
 interface Props {
   employee?: Pick<Employee, 'id'>
@@ -44,6 +45,13 @@ export default function EmployeeProjects(props: Props) {
   const leadingProjects = data?.employees?.[0]?.leadingProjects
 
   return (
-    <ProjectTagList small loading={loading} projects={projects} leadingProjects={leadingProjects} />
+    <Section title="Projects">
+      <ProjectTagList
+        small
+        loading={loading}
+        projects={projects}
+        leadingProjects={leadingProjects}
+      />
+    </Section>
   )
 }

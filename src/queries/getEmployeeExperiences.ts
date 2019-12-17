@@ -1,5 +1,6 @@
 import gql from 'graphql-tag'
 import { Employee } from '../types'
+import fragments, { ExperienceDetails } from '../fragments'
 
 export default gql`
   query getEmployeeExperiences($input: EmployeesInput) {
@@ -7,21 +8,16 @@ export default gql`
       id
       name
       experiences {
-        id
-        skill {
-          id
-        }
-        level {
-          id
-          index
-          name
-        }
+        ...ExperienceDetails
       }
     }
   }
+  ${fragments.Experience.Details}
 `
 
-type EmployeePick = Pick<Employee, 'id' | 'name' | 'experiences'>
+type EmployeePick = Pick<Employee, 'id' | 'name'> & {
+  experiences: ExperienceDetails[]
+}
 
 export type QueryType = {
   employees: EmployeePick[]

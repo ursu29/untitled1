@@ -1,17 +1,15 @@
 import React from 'react'
-import { Employee, Matrix, Skill, Experience } from '../../types'
+import { Employee, Matrix, Skill, Level, Experience } from '../../types'
 import { Tooltip } from 'antd'
 import { MatrixRow, MatrixGroup, MatrixGrade } from './Matrix'
+import { ExperienceDetails } from '../../fragments'
 
 interface Props {
   matrix: Matrix
-  employee?: Pick<Employee, 'id' | 'experiences'>
-  EmployeeMatrixExperience: React.FC<{
-    experience?: Experience
-    skill: Skill
-    editable: boolean
-    employee?: Pick<Employee, 'id'>
-  }>
+  employee?: Pick<Employee, 'id'> & {
+    experiences: ExperienceDetails[]
+  }
+  EmployeeMatrixExperience: any
 }
 
 export default function MatrixWithExperiences({

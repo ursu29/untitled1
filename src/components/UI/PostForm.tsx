@@ -113,7 +113,6 @@ class PostForm extends React.Component<Props> {
     if (!this.props.values) {
       const string = localStorage.getItem('postValues')
       const prevValues = string && JSON.parse(string)
-      console.log(prevValues, values, JSON.stringify({ ...prevValues, ...values }))
       if (prevValues) {
         this.setState({ values: { ...prevValues, ...values } })
         localStorage.setItem('postValues', JSON.stringify({ ...prevValues, ...values }))
