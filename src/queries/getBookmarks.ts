@@ -1,9 +1,9 @@
 import gql from 'graphql-tag'
-import {Bookmark, Employee, Skill} from '../types'
+import { Bookmark, Employee, Skill } from '../types'
 
-export default gql `
-  {
-    bookmarks {
+export default gql`
+  query getBookmarks($input: BookmarksInput) {
+    bookmarks(input: $input) {
       id
       title
       link
@@ -16,6 +16,7 @@ export default gql `
         id
         name
       }
+
       likes {
         id
       }
@@ -29,10 +30,10 @@ export default gql `
   }
 `
 type BookmarkPick = Pick<
-    Bookmark,
-    'id' | 'title' | 'link' | 'skills'| 'likes' | 'access' | 'createdAt' | 'likedByMe'
+  Bookmark,
+  'id' | 'title' | 'link' | 'skills' | 'likes' | 'access' | 'createdAt' | 'likedByMe'
 > & {
-  employee: Pick<Employee, 'id' | 'name' | 'email'>,
+  employee: Pick<Employee, 'id' | 'name' | 'email'>
   skill: Pick<Skill, 'id' | 'name'>
 }
 

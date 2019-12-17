@@ -6,6 +6,9 @@ import getBookmarks from '../../queries/getBookmarks'
 import styled from 'styled-components'
 import Button from '../UI/Button'
 import message from '../../message'
+import Drawer from '../UI/Drawer'
+import BookmarkForm from '../UI/BookmarkForm'
+import Divider from '../UI/Divider'
 
 const Controls = styled.div`
   margin-bottom: 8px;
@@ -31,8 +34,8 @@ export default function CreateBookmark() {
   const [createBookmark, { loading }] = useMutation<MutationType>(mutation, {
     refetchQueries: [{ query: getBookmarks }],
     onError: message.error,
-    onCompleted: () => message.success('Bookmark is added')
-  });
+    onCompleted: () => message.success('Bookmark is added'),
+  })
 
   useEffect(() => {
     if (loading) {
@@ -41,18 +44,25 @@ export default function CreateBookmark() {
   })
 
   return (
-    <Controls>
-      <BookmarkDrawer
-        toggler={<Button icon="plus"/>}
-        icon="plus"
-        drawerLabel="Create bookmark"
-        loading={loading}
-        onSubmit={(bookmark, onDone) => {
-          createBookmark({
-            variables: { input: bookmark },
-            update: onDone })
-        }}
-      />
-    </Controls>
+    <>
+      <Controls>
+        <Drawer
+          toggler={<Button icon="plus">Add bookmark</Button>}
+          drawerLabel="Create bookmark"
+          content={
+            <BookmarkForm
+              loading={loading}
+              onSubmit={(bookmark: any, update: any) => {
+                createBookmark({
+                  variables: { input: bookmark },
+                  update,
+                })
+              }}
+            />
+          }
+        />
+      </Controls>
+      <Divider />
+    </>
   )
 }

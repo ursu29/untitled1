@@ -28,17 +28,15 @@ interface Props {
 }
 
 export default function DeleteBookmark({ bookmark }: Props) {
-  const [deleteBookmark, {error}] = useMutation<MutationType>(mutation, {
-    refetchQueries: [ {query: getBookmarks} ],
-    onError: () => {
-      console.info('deleteBookmark error', error)
-    },
-    onCompleted: () => message.success('Bookmark is deleted')
+  const [deleteBookmark, { error }] = useMutation<MutationType>(mutation, {
+    refetchQueries: [{ query: getBookmarks }],
+    onError: () => message.error,
+    onCompleted: () => message.success('Bookmark is deleted'),
   })
   const handleDelete = () =>
     deleteBookmark({
       variables: {
-        input: { id: bookmark.id }
+        input: { id: bookmark.id },
       },
     })
   return (
@@ -49,7 +47,9 @@ export default function DeleteBookmark({ bookmark }: Props) {
       okText="Yes"
       cancelText="No"
     >
-      <Button type="link" size="small">Delete</Button>
+      <Button type="link" size="small" style={{ paddingRight: 0 }}>
+        Delete
+      </Button>
     </Popconfirm>
   )
 }
