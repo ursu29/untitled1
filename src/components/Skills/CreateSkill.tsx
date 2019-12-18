@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import getSkills from '../../queries/getSkills'
-import { Skill } from '../../types'
-import Drawer from '../UI/Drawer'
-import Button from '../UI/Button'
-import SkillForm from '../UI/SkillForm'
+import React, { useEffect, useState } from 'react'
 import message from '../../message'
+import getSkills from '../../queries/getSkills'
+import Button from '../UI/Button'
+import Drawer from '../UI/Drawer'
+import SkillForm from '../UI/SkillForm'
 import SkillSelect from './SkillSelect'
 
 const mutation = gql`
@@ -25,7 +24,7 @@ type MutationType = {
 
 export default function CreateSkill() {
   const [skill, setSkill] = useState<any>(null)
-  const [createSkill, { loading, error }] = useMutation<MutationType>(mutation, {
+  const [createSkill, { loading }] = useMutation<MutationType>(mutation, {
     refetchQueries: [{ query: getSkills }],
     onError: message.error,
     onCompleted: () => message.success('Skill added'),

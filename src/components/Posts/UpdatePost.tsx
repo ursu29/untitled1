@@ -7,6 +7,7 @@ import TagSelect from '../Tags/TagSelect'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import PostForm from '../UI/PostForm'
+import message from '../../message'
 
 const mutation = gql`
   mutation updatePost($input: UpdatePostInput) {
@@ -21,8 +22,9 @@ interface Props {
 }
 
 export default function UpdatePost({ post }: Props) {
-  const [updatePost, { data, loading, error }] = useMutation(mutation, {
+  const [updatePost, { loading }] = useMutation(mutation, {
     refetchQueries: [{ query: getPosts }],
+    onError: message.error,
   })
 
   return (

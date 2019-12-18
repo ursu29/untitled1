@@ -1,9 +1,9 @@
-import React from 'react'
-import Select from '../UI/Select'
+import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import React from 'react'
 import getSkills, { QueryType } from '../../queries/getSkills'
 import { Skill } from '../../types'
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import Select from '../UI/Select'
 
 export const mutation = gql`
   mutation CreateSkill($input: CreateSkillInput) {
@@ -44,7 +44,7 @@ type Props = {
 }
 
 export default function SkillSelect({ onSelect, wide, size, ...props }: Props) {
-  const { data, loading, error } = useQuery<QueryType>(getSkills)
+  const { data, loading } = useQuery<QueryType>(getSkills)
 
   return (
     <Select

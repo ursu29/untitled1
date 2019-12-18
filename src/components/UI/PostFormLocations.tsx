@@ -23,7 +23,7 @@ export default function PostFormLocations({ values, onChange }: Props) {
         onChange(values?.filter(i => i !== LOCATIONS[0]).concat(tag))
       }
     },
-    [values],
+    [values, onChange],
   )
 
   return (

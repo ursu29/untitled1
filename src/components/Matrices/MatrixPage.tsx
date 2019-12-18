@@ -13,7 +13,7 @@ interface Props extends RouteComponentProps<{ id: string }> {}
 
 function MatrixPage({ match }: Props) {
   const { id } = match.params
-  const { data, loading, error } = useQuery<QueryType>(getMatrix, {
+  const { data, loading } = useQuery<QueryType>(getMatrix, {
     variables: { input: { id } },
     skip: !id,
   })

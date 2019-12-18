@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
-import { Bookmark, Employee, Access, Skill } from '../../types'
-import EmployeeLink from './EmployeeLink'
+import React from 'react'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { getSkillLink } from '../../paths'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { Access, Bookmark, Employee, Skill } from '../../types'
+import EmployeeLink from './EmployeeLink'
 
 const StyledBookmark = styled.div`
   color: #8d96ac;

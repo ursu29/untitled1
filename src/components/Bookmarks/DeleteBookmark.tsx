@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import { Popconfirm } from 'antd'
 import { useMutation } from '@apollo/react-hooks'
+import { Popconfirm } from 'antd'
 import gql from 'graphql-tag'
-import getBookmarks from '../../queries/getBookmarks'
-import Button from '../UI/Button'
+import React from 'react'
 import message from '../../message'
+import getBookmarks from '../../queries/getBookmarks'
 import { Bookmark } from '../../types'
+import Button from '../UI/Button'
 
 const mutation = gql`
   mutation deleteBookmark($input: DeleteBookmarkInput!) {
@@ -28,9 +28,9 @@ interface Props {
 }
 
 export default function DeleteBookmark({ bookmark }: Props) {
-  const [deleteBookmark, { error }] = useMutation<MutationType>(mutation, {
+  const [deleteBookmark] = useMutation<MutationType>(mutation, {
     refetchQueries: [{ query: getBookmarks }],
-    onError: () => message.error,
+    onError: message.error,
     onCompleted: () => message.success('Bookmark is deleted'),
   })
   const handleDelete = () =>

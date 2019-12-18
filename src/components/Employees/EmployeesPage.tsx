@@ -5,7 +5,7 @@ import EmployeesList from '../UI/EmployeesList'
 import EmployeeAvatar from './EmployeeAvatar'
 
 export default function EmployeesPage() {
-  const { data, loading, error } = useQuery<QueryType>(query, { fetchPolicy: 'cache-first' })
+  const { data, loading } = useQuery<QueryType>(query, { fetchPolicy: 'cache-first' })
   return (
     <EmployeesList fixed loading={loading} employees={data?.employees} Avatar={EmployeeAvatar} />
   )

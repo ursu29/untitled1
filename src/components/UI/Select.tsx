@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react'
 import { Select } from 'antd'
+import React, { useEffect } from 'react'
 
 interface Item {
   value: string

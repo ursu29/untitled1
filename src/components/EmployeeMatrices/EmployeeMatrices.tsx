@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default function EmployeeMatrices(props: Props) {
-  const { data, loading, error } = useQuery<QueryType>(getEmployeeMatrices, {
+  const { data, loading } = useQuery<QueryType>(getEmployeeMatrices, {
     variables: { input: { id: props?.employee?.id } },
     skip: !props?.employee,
   })

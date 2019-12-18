@@ -1,8 +1,7 @@
-import { Avatar, Card, Skeleton, Typography } from 'antd'
+import { Skeleton } from 'antd'
 import React from 'react'
 import { Project } from '../../types'
 import ProjectTag from './ProjectTag'
-
 
 type ProjectPick = Pick<Project, 'id' | 'code' | 'name'>
 
@@ -13,12 +12,7 @@ interface Props {
   leadingProjects?: ProjectPick[]
 }
 
-export default function ProjectTagList({
-  loading,
-  small,
-  projects,
-  leadingProjects,
-}: Props) {
+export default function ProjectTagList({ loading, small, projects, leadingProjects }: Props) {
   // if (!loading && !projects) return null
   return (
     <div style={{ marginBottom: 16 }}>

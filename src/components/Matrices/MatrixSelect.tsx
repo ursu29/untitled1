@@ -1,9 +1,8 @@
+import { useQuery } from '@apollo/react-hooks'
 import React from 'react'
-import Select from '../UI/Select'
-import gql from 'graphql-tag'
 import getMatrices, { QueryType } from '../../queries/getMatrices'
 import { Matrix } from '../../types'
-import { useQuery } from '@apollo/react-hooks'
+import Select from '../UI/Select'
 
 type MatrixPick = Pick<Matrix, 'id' | 'title' | 'description'>
 
@@ -15,7 +14,7 @@ type Props = {
 }
 
 export default function MatrixSelect({ onSelect, ...props }: Props) {
-  const { data, loading, error } = useQuery<QueryType>(getMatrices)
+  const { data, loading } = useQuery<QueryType>(getMatrices)
   return (
     <Select
       autoFocus={!loading && props.autoFocus}

@@ -1,10 +1,7 @@
 import React from 'react'
-import { Employee } from '../../types'
 import { Link } from 'react-router-dom'
 import { getEmployeeLink } from '../../paths'
-import { Typography, Button } from 'antd'
-
-const { Text } = Typography
+import { Employee } from '../../types'
 
 interface Props {
   employee: Pick<Employee, 'id' | 'name' | 'email'> | null

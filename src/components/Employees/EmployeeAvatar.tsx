@@ -20,7 +20,7 @@ interface Props {
 
 export default ({ id }: Props) => {
   const [show, toggleShow] = useState(false)
-  const [load, { data, loading, called }] = useLazyQuery<{
+  const [load, { data, called }] = useLazyQuery<{
     employees: Pick<Employee, 'id' | 'avatar'>[]
   }>(query, {
     variables: { input: { id } },

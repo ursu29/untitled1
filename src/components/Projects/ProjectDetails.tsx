@@ -24,7 +24,7 @@ type ProjectPick = Pick<Project, 'id' | 'name' | 'code' | 'description'>
 
 export default function ProjectDetails(props: Props) {
   const input = { id: props.project.id }
-  const { data, loading, error } = useQuery<{ projects: ProjectPick[] }>(query, {
+  const { data, loading } = useQuery<{ projects: ProjectPick[] }>(query, {
     variables: { input },
   })
   const project = data?.projects?.[0]

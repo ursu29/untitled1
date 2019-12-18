@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
-import {useMutation} from '@apollo/react-hooks'
-import gql from 'graphql-tag'
+import { useMutation } from '@apollo/react-hooks'
 import { Icon } from 'antd'
+import gql from 'graphql-tag'
+import React from 'react'
 import styled from 'styled-components'
 import getBookmarks from '../../queries/getBookmarks'
 import { Bookmark } from '../../types'
+import message from '../../message'
 
 const StyledControl = styled.span<{ active: Boolean }>`
   text-align: baseline;
@@ -29,18 +30,16 @@ type MutationType = {
   }
 }
 
-type BookmarkPick = Pick<Bookmark, 'id'| 'likes' | 'likedByMe'>
+type BookmarkPick = Pick<Bookmark, 'id' | 'likes' | 'likedByMe'>
 
 interface Props {
   bookmark: BookmarkPick
 }
 
-export default function LikeBookmark({bookmark }: Props) {
-  const [toggleBookmarklike, {error}] = useMutation<MutationType>(mutation, {
-    refetchQueries: [ {query: getBookmarks} ],
-    onError: () => {
-      console.info('toggleBookmarklike error', error)
-    },
+export default function LikeBookmark({ bookmark }: Props) {
+  const [toggleBookmarklike] = useMutation<MutationType>(mutation, {
+    refetchQueries: [{ query: getBookmarks }],
+    onError: message.error,
   })
   const handleClick = (e: any) => {
     e.preventDefault()

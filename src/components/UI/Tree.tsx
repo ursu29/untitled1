@@ -1,4 +1,4 @@
-import { Input, Skeleton, Tree, Button } from 'antd'
+import { Input, Skeleton, Tree } from 'antd'
 import React from 'react'
 
 const { TreeNode } = Tree

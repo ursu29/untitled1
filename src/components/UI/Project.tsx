@@ -1,12 +1,9 @@
+import { Col, Row, Skeleton, Typography } from 'antd'
 import React from 'react'
 import { Project } from '../../types'
-import { Row, Col, Skeleton, Card, Typography, Avatar, Button, Icon, Badge } from 'antd'
-import styled from 'styled-components'
 import PageContent from './PageContent'
-import teamsIcon from '../../icons/teams'
-import outlookIcon from '../../icons/outlook'
 
-const { Text, Title } = Typography
+const { Title } = Typography
 
 interface Props {
   loading: boolean

@@ -1,12 +1,11 @@
-import React from 'react'
+import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import React from 'react'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { Employee } from '../../types'
 import EmployeeDetails from '../Employees/EmployeeDetails'
 import EmployeeTabs from '../Employees/EmployeeTabs'
-import { useQuery } from '@apollo/react-hooks'
-import { Employee } from '../../types'
 import Skeleton from '../UI/Skeleton'
-import { withRouter, RouteComponentProps } from 'react-router-dom'
-import PostList from '../UI/Timeline'
 
 const query = gql`
   {

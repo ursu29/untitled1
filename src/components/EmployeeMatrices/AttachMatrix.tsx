@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import { Employee } from '../../types'
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import React, { useEffect, useState } from 'react'
+import message from '../../message'
+import getEmployeeMatrices from '../../queries/getEmployeeMatrices'
+import { Employee } from '../../types'
 import MatrixSelect from '../Matrices/MatrixSelect'
 import Button from '../UI/Button'
-import message from '../../message'
-import getEmployeeMatrices, { QueryType } from '../../queries/getEmployeeMatrices'
 
 const mutation = gql`
   mutation attachMatrixToEmployee($input: AttachMatrixToEmployeeInput) {

@@ -32,7 +32,7 @@ interface Props {
 
 export default function UpdateSkill({ refetchQueries, ...props }: Props) {
   const [skill, setSkill] = useState<SkillPick | undefined>(props.skill)
-  const [updateSkill, { loading, error }] = useMutation<MutationType>(mutation, {
+  const [updateSkill, { loading }] = useMutation<MutationType>(mutation, {
     refetchQueries: [{ query: getSkills }, ...refetchQueries],
     onError: message.error,
     onCompleted: () => message.success('Skill updated'),

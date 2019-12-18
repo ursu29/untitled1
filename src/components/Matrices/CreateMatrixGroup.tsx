@@ -27,7 +27,7 @@ interface Props {
 
 export default function CreateMatrixGroup({ matrix }: Props) {
   const [group, setGroup] = useState<MatrixGrade | undefined>(undefined)
-  const [mutate, { loading, error }] = useMutation<MutationType>(mutation, {
+  const [mutate, { loading }] = useMutation<MutationType>(mutation, {
     refetchQueries: [
       { query: getMatrices },
       { query: getMatrix, variables: { input: { id: matrix?.id } } },

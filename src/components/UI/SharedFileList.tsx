@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { List, Skeleton, Input, Tag } from 'antd'
-import { File, Employee } from '../../types'
+import { Input, List, Skeleton, Tag } from 'antd'
 import FuzzySearch from 'fuzzy-search'
+import React, { useState } from 'react'
+import { Employee, File } from '../../types'
 
 const { CheckableTag } = Tag
 
@@ -58,7 +58,7 @@ export default function({ files, loading }: Props) {
             <List.Item.Meta
               style={{ wordBreak: 'break-all' }}
               title={
-                <a href={file.url} target="_blank">
+                <a href={file.url} target="_blank" rel="noopener noreferrer">
                   {file.fileName}
                 </a>
               }

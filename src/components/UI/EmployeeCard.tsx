@@ -1,10 +1,8 @@
-import { Avatar, Card, Skeleton, Typography } from 'antd'
+import { Avatar, Card, Skeleton } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { getEmployeeLink } from '../../paths'
 import { Employee } from '../../types'
-
-const { Title } = Typography
 
 interface Props {
   loading?: boolean

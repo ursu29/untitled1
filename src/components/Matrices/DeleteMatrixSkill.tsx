@@ -27,9 +27,10 @@ interface Props {
 }
 
 export default function CreateMatrixGrade({ matrix, skill, editable }: Props) {
-  const [mutate, { loading, error }] = useMutation<MutationType>(mutation, {
+  const [mutate] = useMutation<MutationType>(mutation, {
     refetchQueries: [{ query: getMatrix, variables: { input: { id: matrix?.id } } }],
-    onError: () => message.error,
+    onError: message.error,
+    onCompleted: () => message.success('Skill is deleted'),
   })
   if (!matrix) return null
   return (

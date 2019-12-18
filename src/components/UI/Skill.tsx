@@ -1,9 +1,8 @@
+import { Col, Row, Skeleton, Tag, Typography } from 'antd'
 import React from 'react'
-import { Skill, Project, Employee } from '../../types'
-import PageContent from './PageContent'
-import { Skeleton, Typography, Tag, Row, Col, Divider } from 'antd'
+import { Employee, Project, Skill } from '../../types'
 import EmployeeLink from './EmployeeLink'
-import Controls from './Controls'
+import PageContent from './PageContent'
 
 const { Text, Title, Paragraph } = Typography
 

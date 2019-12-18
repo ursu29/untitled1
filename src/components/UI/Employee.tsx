@@ -1,10 +1,10 @@
+import { Avatar, Badge, Button, Card, Col, Row, Skeleton, Typography } from 'antd'
 import React from 'react'
-import { Employee } from '../../types'
-import { Row, Col, Skeleton, Card, Typography, Avatar, Button, Icon, Badge } from 'antd'
 import styled from 'styled-components'
-import PageContent from './PageContent'
-import teams from '../../svg/teams.svg'
 import outlook from '../../svg/outlook.svg'
+import teams from '../../svg/teams.svg'
+import { Employee } from '../../types'
+import PageContent from './PageContent'
 
 const { Text, Title } = Typography
 
@@ -87,19 +87,21 @@ export default function EmployeeView({ loading, employee, manager, projects, mob
                 <a
                   href={`https://outlook.office.com/owa/?path=/mail/action/compose&to=${employee.email}`}
                   target="_blank"
+                  rel="noopener noreferrer"
                   style={{ paddingRight: 8 }}
                 >
                   <Button shape="circle-outline">
-                    <img src={outlook} />
+                    <img src={outlook} alt="outlook" />
                   </Button>
                 </a>
                 <a
                   href={`https://projects.microsoft.com/l/chat/0/0?users=${employee.email}`}
                   target="_blank"
+                  rel="noopener noreferrer"
                   style={{ paddingRight: 8 }}
                 >
                   <Button shape="circle-outline">
-                    <img src={teams} />
+                    <img src={teams} alt="teams" />
                   </Button>
                 </a>{' '}
                 <Badge

@@ -30,7 +30,7 @@ interface Props {
 }
 
 function TagSelect({ value, allowAddNew, multiple, onChange }: Props, ref: any) {
-  const { data, loading, error } = useQuery<QueryType>(query, {
+  const { data, loading } = useQuery<QueryType>(query, {
     onError: message.error,
   })
   const [mutate, { loading: mutateLoading }] = useMutation<MutationType>(mutation, {

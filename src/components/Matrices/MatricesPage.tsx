@@ -6,7 +6,7 @@ import CreateMatrix from './CreateMatrix'
 import PageContent from '../UI/PageContent'
 
 export default function EmployeesPage() {
-  const { data, loading, error } = useQuery<QueryType>(query, { fetchPolicy: 'cache-first' })
+  const { data, loading } = useQuery<QueryType>(query, { fetchPolicy: 'cache-first' })
   return (
     <PageContent>
       <CreateMatrix />

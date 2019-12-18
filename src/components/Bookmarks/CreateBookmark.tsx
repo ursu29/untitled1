@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import BookmarkDrawer from '../UI/BookmarkDrawer'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import getBookmarks from '../../queries/getBookmarks'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import Button from '../UI/Button'
 import message from '../../message'
-import Drawer from '../UI/Drawer'
+import getBookmarks from '../../queries/getBookmarks'
 import BookmarkForm from '../UI/BookmarkForm'
+import Button from '../UI/Button'
 import Divider from '../UI/Divider'
+import Drawer from '../UI/Drawer'
 
 const Controls = styled.div`
   margin-bottom: 8px;

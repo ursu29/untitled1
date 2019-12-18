@@ -1,26 +1,25 @@
 import {
   Button,
-  Checkbox,
   Col,
   Form,
   Icon,
   Input,
-  Row,
-  Upload,
   Modal as AntdModal,
+  Row,
   Tabs,
   Typography,
+  Upload,
 } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
 import React from 'react'
+//@ts-ignore
+import Carousel, { Modal, ModalGateway } from 'react-images'
 import ReactMde from 'react-mde'
 import 'react-mde/lib/styles/css/react-mde-all.css'
+import Gallery from 'react-photo-gallery'
 import * as Showdown from 'showdown'
 import { GATEWAY } from '../../config'
 import { Post } from '../../types'
-import Gallery from 'react-photo-gallery'
-//@ts-ignore
-import Carousel, { Modal, ModalGateway } from 'react-images'
 import PostFormLocations from './PostFormLocations'
 
 const { Title } = Typography

@@ -1,7 +1,6 @@
+import { Skeleton, Tabs } from 'antd'
 import React from 'react'
-import { Tabs, Skeleton } from 'antd'
-import { Matrix, Employee } from '../../types'
-import Controls from './Controls'
+import { Employee, Matrix } from '../../types'
 
 interface Props {
   loading: boolean

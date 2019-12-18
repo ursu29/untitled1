@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function ProjectManagers({ project }: Props) {
-  const { data, loading, error } = useQuery<QueryType>(query, {
+  const { data, loading } = useQuery<QueryType>(query, {
     variables: { input: project },
     onError: message.error,
   })

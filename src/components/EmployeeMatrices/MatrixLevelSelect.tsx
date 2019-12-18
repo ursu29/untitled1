@@ -21,14 +21,14 @@ const getName = (index: number) => {
   return names[index] || '?'
 }
 
-const getColor = (index: number): string => {
-  const names: any = {
-    0: '#f9f9f9',
-    1: '#efefb4',
-    2: '#bbeabb',
-  }
-  return names[index] || '#f9f9f9'
-}
+// const getColor = (index: number): string => {
+//   const names: any = {
+//     0: '#f9f9f9',
+//     1: '#efefb4',
+//     2: '#bbeabb',
+//   }
+//   return names[index] || '#f9f9f9'
+// }
 
 export default function MatrixLevelSelect({ level, onSelect, onDeselect, loading }: Props) {
   const { data, loading: queryLoading } = useQuery<QueryType>(getLevels)

@@ -1,8 +1,8 @@
-import React from 'react'
-import { Employee, Matrix, Skill, Level, Experience } from '../../types'
 import { Tooltip } from 'antd'
-import { MatrixRow, MatrixGroup, MatrixGrade } from './Matrix'
+import React from 'react'
 import { ExperienceDetails } from '../../fragments'
+import { Employee, Matrix } from '../../types'
+import { MatrixGrade, MatrixGroup, MatrixRow } from './Matrix'
 
 interface Props {
   matrix: Matrix

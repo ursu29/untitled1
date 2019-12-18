@@ -20,7 +20,7 @@ type Props = {
 }
 
 export default React.memo(({ employee, matrix }: Props) => {
-  const [detach, { loading, data, error }] = useMutation(mutation, {
+  const [detach, { loading, data }] = useMutation(mutation, {
     refetchQueries: [
       {
         query: getEmployeeMatrices,
@@ -39,7 +39,7 @@ export default React.memo(({ employee, matrix }: Props) => {
 
   const handleClick = useCallback(() => {
     detach({ variables: { input: { employee: employee?.id, matrix: matrix.id } } })
-  }, [employee, matrix])
+  }, [employee, matrix, detach])
 
   if (!employee) return null
   if (data) return <span>Detached</span>

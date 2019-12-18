@@ -1,17 +1,16 @@
 import { useQuery } from '@apollo/react-hooks'
-import React, { useState, useEffect } from 'react'
+import FuzzySearch from 'fuzzy-search'
+import queryString from 'query-string'
+import React, { useEffect, useState } from 'react'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
+import PATHS from '../../paths'
 import getPosts, { QueryType } from '../../queries/getPosts'
+import TagSelect from '../Tags/TagSelect'
+import Button from '../UI/Button'
+import Input from '../UI/Input'
 import Post from '../UI/Post'
 import Timeline from '../UI/Timeline'
 import UpdatePost from './UpdatePost'
-import Input from '../UI/Input'
-import FuzzySearch from 'fuzzy-search'
-import TagSelect from '../Tags/TagSelect'
-import Button from '../UI/Button'
-import Divider from '../UI/Divider'
-import queryString from 'query-string'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
-import PATHS from '../../paths'
 
 interface Props extends RouteComponentProps {
   editable?: boolean
@@ -40,7 +39,7 @@ function NewsFeed({ editable, location, history }: Props) {
       setTagFilter(queryTags)
       setShowTagFilter(true)
     }
-  })
+  }, [setTagFilter, location, tagFilter])
 
   if (error) return <div>Error :(</div>
 

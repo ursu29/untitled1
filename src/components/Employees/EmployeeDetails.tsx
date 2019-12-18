@@ -1,14 +1,12 @@
-import React from 'react'
-import { Employee } from '../../types'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import React from 'react'
+import { useMediaQuery } from 'react-responsive'
+import { COLLAPSE_WIDTH } from '../../config'
+import { Employee } from '../../types'
 import EmployeeView from '../UI/Employee'
 import EmployeeManager from './EmployeeManager'
 import EmployeeProjects from './EmployeeProjects'
-import Skeleton from '../UI/Skeleton'
-import PageContent from '../UI/PageContent'
-import { useMediaQuery } from 'react-responsive'
-import { COLLAPSE_WIDTH } from '../../config'
 
 interface Props {
   employee: Pick<Employee, 'id'>

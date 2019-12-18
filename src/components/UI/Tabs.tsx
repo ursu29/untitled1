@@ -1,11 +1,10 @@
-import React from 'react'
-import { Tabs, Icon } from 'antd'
-import { withRouter, RouteComponentProps, matchPath } from 'react-router-dom'
-import paths, { getEmployeeLink, getProjectLink } from '../../paths'
-import PageContent from './PageContent'
-import { useMediaQuery } from 'react-responsive'
-import { COLLAPSE_WIDTH } from '../../config'
+import { Icon, Tabs } from 'antd'
 import { IconProps } from 'antd/lib/icon'
+import React from 'react'
+import { useMediaQuery } from 'react-responsive'
+import { matchPath, RouteComponentProps, withRouter } from 'react-router-dom'
+import { COLLAPSE_WIDTH } from '../../config'
+import paths, { getEmployeeLink, getProjectLink } from '../../paths'
 
 const { TabPane } = Tabs
 

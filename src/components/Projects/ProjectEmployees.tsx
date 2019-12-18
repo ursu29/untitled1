@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function ProjectEmployees({ project }: Props) {
-  const { data, loading, error } = useQuery<QueryType>(getProjectEmployees, {
+  const { data, loading } = useQuery<QueryType>(getProjectEmployees, {
     variables: { input: { id: project.id } },
     onError: message.error,
   })

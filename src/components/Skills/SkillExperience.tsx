@@ -14,7 +14,7 @@ interface SkillExperienceProps {
 }
 
 function SkillExperience(props: SkillExperienceProps) {
-  const { data, loading, error } = useQuery<QueryType>(getExperiences, {
+  const { data, loading } = useQuery<QueryType>(getExperiences, {
     variables: {
       input: {
         employee: props.employee.id,
@@ -59,7 +59,7 @@ export default function PreloadDetails({ skill }: Props) {
   if (!loading && !data?.profile) return <div>Employee is not found</div>
 
   return (
-    <Skeleton loading={loading} avatar>
+    <Skeleton loading={loading || skillLoading} avatar>
       <Section title="My level">
         {data?.profile && <SkillExperience skill={skillData?.skills[0]} employee={data.profile} />}
       </Section>

@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
-import BookmarkDrawer from '../UI/BookmarkDrawer'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import getBookmarks from '../../queries/getBookmarks'
-import Button from '../UI/Button'
+import React from 'react'
 import message from '../../message'
-import Drawer from '../UI/Drawer'
+import getBookmarks from '../../queries/getBookmarks'
 import BookmarkForm from '../UI/BookmarkForm'
+import Button from '../UI/Button'
+import Drawer from '../UI/Drawer'
 
 const mutation = gql`
   mutation updateBookmark($input: UpdateBookmarkInput!) {

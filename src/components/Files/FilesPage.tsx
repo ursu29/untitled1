@@ -3,12 +3,15 @@ import React, { useEffect } from 'react'
 import getSharedFiles, { QueryType } from '../../queries/getSharedFiles'
 import PageContent from '../UI/PageContent'
 import SharedFileList from '../UI/SharedFileList'
+import message from '../../message'
 
 let timeout: any
 let fileList: QueryType['sharedFiles'] | null = null
 
 export default function FilesPage() {
-  const { data, loading, error, refetch } = useQuery<QueryType>(getSharedFiles)
+  const { data, loading, refetch } = useQuery<QueryType>(getSharedFiles, {
+    onError: message.error,
+  })
 
   const loadDelayed = () => {
     timeout = setTimeout(() => {

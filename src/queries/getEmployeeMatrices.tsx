@@ -1,6 +1,5 @@
 import gql from 'graphql-tag'
 import { Employee, Matrix } from '../types'
-import { access } from 'fs'
 
 export default gql`
   query getEmployeeMatrices($input: EmployeesInput) {

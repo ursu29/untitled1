@@ -3,9 +3,9 @@ import gql from 'graphql-tag'
 import React from 'react'
 import { Employee, Project, Skill } from '../../types'
 import SkillView from '../UI/Skill'
-import UpdateSkill from './UpdateSkill'
-import SkillProjects from './SkillProjects'
 import SkillExperience from './SkillExperience'
+import SkillProjects from './SkillProjects'
+import UpdateSkill from './UpdateSkill'
 
 const query = gql`
   query getSkill($input: SkillsInput) {
@@ -48,7 +48,7 @@ interface Props {
 
 function SkillPage(props: Props) {
   const variables = { input: { id: props.skill.id } }
-  const { data, loading, error } = useQuery<{ skills: SkillPick[] }>(query, {
+  const { data, loading } = useQuery<{ skills: SkillPick[] }>(query, {
     variables,
     skip: !props.skill,
   })
