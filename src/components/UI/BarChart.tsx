@@ -54,7 +54,7 @@ const countUniqueItems = (arr: { key: string; value: string }[]): Record<string,
   }
 
   return arr.reduce((acc: any, it) => {
-    if (!acc.hasOwnProperty(it)) acc[it.key] = 1
+    if (!acc.hasOwnProperty(it.key)) acc[it.key] = 1
     else acc[it.key] += 1
 
     return acc
