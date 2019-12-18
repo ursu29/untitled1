@@ -1,13 +1,12 @@
 import { Tag, Typography } from 'antd'
 import React, { useCallback, useState } from 'react'
 //@ts-ignore
-import Carousel, { Modal, ModalGateway } from 'react-images'
-import Gallery from 'react-photo-gallery'
 import * as Showdown from 'showdown'
 import { Employee, Post, Tag as TagType } from '../../types'
 import EmployeeLink from './EmployeeLink'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import PATHS from '../../paths'
+import Gallery from '../UI/Gallery'
 
 const converter = new Showdown.Converter({
   tables: true,
@@ -32,19 +31,6 @@ interface Props extends RouteComponentProps {
 }
 
 function PostItem({ post, edit, history }: Props) {
-  const [currentImage, setCurrentImage] = useState(0)
-  const [viewerIsOpen, setViewerIsOpen] = useState(false)
-
-  const openLightbox = useCallback((event, { photo, index }) => {
-    setCurrentImage(index)
-    setViewerIsOpen(true)
-  }, [])
-
-  const closeLightbox = () => {
-    setCurrentImage(0)
-    setViewerIsOpen(false)
-  }
-
   return (
     <>
       <Text>
@@ -78,28 +64,8 @@ function PostItem({ post, edit, history }: Props) {
           ))}
         </Paragraph>
       )}
-      <div style={{ maxWidth: 700 }}>
-        <Gallery
-          onClick={openLightbox}
-          photos={post.images.map(image => ({
-            src: image.url,
-            width: 4,
-            height: 3,
-          }))}
-        />
-        <ModalGateway>
-          {viewerIsOpen ? (
-            <Modal onClose={closeLightbox}>
-              <Carousel
-                currentIndex={currentImage}
-                views={post.images.map(x => ({
-                  source: x.url,
-                  caption: x.fileName,
-                }))}
-              />
-            </Modal>
-          ) : null}
-        </ModalGateway>
+      <div>
+        <Gallery images={post.images} />
       </div>
       <EmployeeLink employee={post.createdBy} />
     </>

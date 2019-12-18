@@ -18,7 +18,8 @@ import React from 'react'
 import Carousel, { Modal, ModalGateway } from 'react-images'
 import ReactMde from 'react-mde'
 import 'react-mde/lib/styles/css/react-mde-all.css'
-import Gallery from 'react-photo-gallery'
+// import Gallery from 'react-photo-gallery'
+import Gallery from '../UI/Gallery'
 import * as Showdown from 'showdown'
 import { GATEWAY } from '../../config'
 import { Post } from '../../types'
@@ -200,8 +201,6 @@ class PostForm extends React.Component<Props> {
 
     const TagSelect = this.props.TagSelect
 
-    console.log('post.locations', post.locations)
-
     return (
       <>
         <ModalGateway>
@@ -238,15 +237,13 @@ class PostForm extends React.Component<Props> {
               <Title level={4}>{post.title}</Title>
               <div dangerouslySetInnerHTML={{ __html: converter.makeHtml(post.body) }}></div>
               <Gallery
-                onClick={this.openLightbox}
-                photos={
+                images={
                   post.images
                     ?.filter((x: any) => x.url || x.response?.[0]?.url)
                     .map((image: any) => {
                       return {
-                        src: image.url || image.response?.[0]?.url,
-                        width: 4,
-                        height: 3,
+                        id: image.id,
+                        url: image.url || image.response?.[0]?.url,
                       }
                     }) || []
                 }
