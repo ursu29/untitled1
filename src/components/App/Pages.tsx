@@ -14,6 +14,7 @@ const Post = lazy(() => import('../Posts/PostPage'))
 const Skills = lazy(() => import('../Skills/SkillsPage'))
 const Skill = lazy(() => import('../Skills/SkillPage'))
 const Files = lazy(() => import('../Files/FilesPage'))
+const Statistics = lazy(() => import('../Statistics/StatisticsPage'))
 const Bookmarks = lazy(() => import('../Bookmarks/BookmarksPage'))
 const Employees = lazy(() => import('../Employees/EmployeesPage'))
 const Employee = lazy(() => import('../Employees/EmployeePage'))
@@ -39,13 +40,13 @@ export default function Pages() {
           <Route path={paths.SKILLS + '/:id:/:tab'} component={Skill} />
           <Route path={paths.SKILLS + '/:id'} component={Skill} />
           <Route path={paths.SKILLS} component={Skills} />
-          <Route path={paths.STATS} component={Placeholder} />
           <Route path={paths.BOOKMARKS} component={Bookmarks} />
           <Route path={paths.MATRICES + '/:id'} component={Matrix} />
           <Route path={paths.MATRICES} component={Matrices} />
           <Route path={paths.SHARED_FILES} component={Files} />
           <Route path={paths.POSTS + '/:id'} component={Post} />
           <Route path={paths.POSTS} component={News} />
+          <Route path={paths.STATISTICS} component={Statistics} />
           <Route path={paths.SETTINGS} component={Settings} />
           <Route component={PageNotFound} />
         </Switch>

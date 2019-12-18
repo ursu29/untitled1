@@ -11,17 +11,17 @@ const menuItems = [
   },
   {
     route: paths.PROJECTS,
-    icon: <Icon type="project" />,
+    icon: <Icon type="folder-open" />,
     title: 'Projects',
   },
   {
     route: paths.SKILLS,
-    icon: <Icon type="tool" />,
+    icon: <Icon type="crown" />,
     title: 'Skills',
   },
   {
-    route: paths.STATS,
-    icon: <Icon type="pie-chart" />,
+    route: paths.STATISTICS,
+    icon: <Icon type="line-chart" />,
     title: 'Statistics',
   },
   {
@@ -36,12 +36,12 @@ const menuItems = [
   },
   {
     route: paths.SHARED_FILES,
-    icon: <Icon type="file" />,
+    icon: <Icon type="file-image" />,
     title: 'Files',
   },
   {
     route: paths.POSTS,
-    icon: <Icon type="read" />,
+    icon: <Icon type="fire" />,
     title: 'News',
   },
   // {
