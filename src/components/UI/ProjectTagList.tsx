@@ -3,13 +3,11 @@ import React from 'react'
 import { Project } from '../../types'
 import ProjectTag from './ProjectTag'
 
-const { Title } = Typography
 
 type ProjectPick = Pick<Project, 'id' | 'code' | 'name'>
 
 interface Props {
   loading?: boolean
-  title?: string
   small?: boolean
   projects?: ProjectPick[]
   leadingProjects?: ProjectPick[]
@@ -17,7 +15,6 @@ interface Props {
 
 export default function ProjectTagList({
   loading,
-  title,
   small,
   projects,
   leadingProjects,

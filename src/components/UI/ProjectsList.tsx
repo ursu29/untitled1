@@ -3,6 +3,7 @@ import React from 'react'
 import { Project } from '../../types'
 import PageContent from './PageContent'
 import ProjectTagList from './ProjectTagList'
+import Section from './Section'
 
 const { Title } = Typography
 
@@ -19,7 +20,11 @@ const ProjectGroup = ({ title, projects, code }: ProjectGroupProps) => {
 
   if (!projectsFiltered) return null
 
-  return <ProjectTagList projects={projectsFiltered} title={title} />
+  return (
+    <Section title={title}>
+      <ProjectTagList projects={projectsFiltered} />
+    </Section>
+  )
 }
 
 interface Props {
