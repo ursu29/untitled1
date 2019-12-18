@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react'
-import Title from 'antd/lib/typography/Title'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
-import styled, { keyframes } from 'styled-components/macro'
-import paths, { getSkillLink } from '../../paths'
 import { Tooltip } from 'antd'
+import Title from 'antd/lib/typography/Title'
+import React, { useEffect, useRef, useState } from 'react'
+import { RouteComponentProps, withRouter, Link } from 'react-router-dom'
+import styled, { keyframes } from 'styled-components/macro'
+import { getSkillLink } from '../../paths'
 
 const StyledContainer = styled.div`
   text-overflow: ellipsis;
@@ -29,7 +29,7 @@ const SmartTooltip = ({ children, tooltipTitle }: SmartTooltipProps) => {
     if (!containerEl) return
 
     setHasEllipsis(isEllipsisActive(containerEl))
-  })
+  }, [setHasEllipsis])
 
   return (
     <StyledContainer ref={containerRef}>
@@ -139,7 +139,7 @@ const StyledPercentage = styled.span`
 interface ChartRowProps extends RouteComponentProps {
   title: string
   value: number
-  id?: string
+  id: string
   highestValue: number
   itemsCount: number
   rowColor?: string
@@ -162,16 +162,7 @@ const ChartRow = withRouter(
       <StyledChartRow data-cy="ChartRow">
         <StyledRowValues>
           <SmartTooltip tooltipTitle={title}>
-            <a
-              title={title}
-              onClick={() => {
-                if (id) {
-                  history.push(getSkillLink(id))
-                }
-              }}
-            >
-              <span className="label">{title}</span>
-            </a>
+            <Link to={getSkillLink(id)}>{title}</Link>
           </SmartTooltip>
           <span className="amount">&nbsp;({value})</span>
         </StyledRowValues>
@@ -211,9 +202,9 @@ export default ({ items, title = '', itemsSliceCount = 30 }: Props) => {
           const item = items.find(i => key === i.key)
           return (
             <ChartRow
-              key={title}
+              key={item!.key}
               title={item?.value || 'Unnamed'}
-              id={item?.key}
+              id={item!.key}
               value={value}
               itemsCount={items.length}
               highestValue={highestValue}

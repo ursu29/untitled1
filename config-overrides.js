@@ -1,5 +1,5 @@
 const {
-  useBabelRc,
+  // useBabelRc,
   override,
   fixBabelImports,
   addLessLoader,
@@ -25,7 +25,7 @@ const options = {
 }
 
 module.exports = override(
-  useBabelRc(),
+  // useBabelRc(),
   fixBabelImports('import', {
     libraryName: 'antd',
     libraryDirectory: 'es',

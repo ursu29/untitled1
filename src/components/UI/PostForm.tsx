@@ -4,8 +4,10 @@ import {
   Form,
   Icon,
   Input,
+  Badge,
   Modal as AntdModal,
   Row,
+  Checkbox,
   Tabs,
   Typography,
   Upload,
@@ -32,7 +34,7 @@ const converter = new Showdown.Converter({
 })
 
 type PostPick = Partial<
-  Pick<Post, 'title' | 'body' | 'bodyTranslated' | 'sendEmail'> & {
+  Pick<Post, 'title' | 'body' | 'bodyTranslated'> & {
     tags: any
     images: any
   }
@@ -42,7 +44,10 @@ interface Props extends FormComponentProps {
   loading: boolean
   values?: PostPick
   onSubmit: (
-    values: Pick<Post, 'title' | 'body' | 'bodyTranslated' | 'sendEmail'> & {
+    values: Pick<
+      Post,
+      'title' | 'titleTranslated' | 'body' | 'bodyTranslated' | 'isTranslated' | 'locations'
+    > & {
       images: string[]
       tags: string[]
     },
@@ -72,11 +77,28 @@ class PostForm extends React.Component<Props> {
     }
   }
 
+  updateState = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    this.props.form.validateFields((err, values) => {
+      if (values.isTranslated !== this.state.values.isTranslated) {
+        this.setState({
+          values: {
+            ...this.state.values,
+            ...values,
+          },
+        })
+      }
+    })
+  }
+
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     this.setState({ publishAttempt: true, showPostPreview: false })
     this.props.form.validateFields((err, values) => {
-      if (!err && this.state.values.body) {
+      const isValid = !err && this.state.values.body
+      const isTranslatedValid =
+        (values.isTranslated && this.state.values.bodyTranslated) || !values.isTranslated
+      if (isValid && isTranslatedValid) {
         this.setState({
           showPostPreview: true,
           values: {
@@ -93,8 +115,10 @@ class PostForm extends React.Component<Props> {
       {
         title: this.state.values.title,
         body: this.state.values.body,
+        isTranslated: this.state.values.isTranslated,
+        titleTranslated: this.state.values.titleTranslated,
         bodyTranslated: this.state.values.bodyTranslated,
-        sendEmail: this.state.values.sendEmail,
+        locations: this.state.values.locations,
         tags: this.state.values.tags?.map((tag: any) => tag.id),
         images: this.state.values.images?.map((file: any) => file.id || file.response?.[0]?.id),
       },
@@ -120,7 +144,7 @@ class PostForm extends React.Component<Props> {
         localStorage.setItem('postValues', JSON.stringify(values))
       }
     } else {
-      this.setState({ values })
+      this.setState({ values: { ...this.state.values, ...values } })
     }
   }
 
@@ -166,12 +190,17 @@ class PostForm extends React.Component<Props> {
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form
+    const { getFieldDecorator, getFieldError } = this.props.form
 
     const post = this.state.values || {}
     const bodyError = this.state.publishAttempt && !post.body
 
+    const bodyTranslatedError =
+      this.state.publishAttempt && post?.isTranslated && !post.bodyTranslated
+
     const TagSelect = this.props.TagSelect
+
+    console.log('post.locations', post.locations)
 
     return (
       <>
@@ -225,7 +254,18 @@ class PostForm extends React.Component<Props> {
             </>
           )}
         </AntdModal>
-        <Form layout="vertical" onSubmit={this.handleSubmit} style={{ marginBottom: 16 }}>
+        <Form
+          layout="vertical"
+          onSubmit={this.handleSubmit}
+          style={{ marginBottom: 16 }}
+          onChange={this.updateState}
+        >
+          <Form.Item>
+            {getFieldDecorator('isTranslated', {
+              initialValue: post?.isTranslated,
+              valuePropName: 'checked',
+            })(<Checkbox>With translation</Checkbox>)}
+          </Form.Item>
           <Tabs animated={false}>
             <Tabs.TabPane tab="Russian" key="russian">
               <Form.Item>
@@ -250,30 +290,39 @@ class PostForm extends React.Component<Props> {
                 />
               </Form.Item>
             </Tabs.TabPane>
-            <Tabs.TabPane tab="English" key="english">
-              <Form.Item>
-                {getFieldDecorator('titleTranslated', {
-                  initialValue: post?.titleTranslated,
-                  rules: [{ required: false, message: 'Please add some title!' }],
-                })(<Input placeholder="Post title" />)}
-              </Form.Item>
-              <Form.Item
-                validateStatus={bodyError ? 'error' : ''}
-                help={bodyError ? 'Please add some content!' : ''}
-                style={{ flexGrow: 1 }}
+            {post?.isTranslated && (
+              <Tabs.TabPane
+                tab={
+                  <Badge dot={bodyTranslatedError || Boolean(getFieldError('titleTranslated'))}>
+                    English
+                  </Badge>
+                }
+                key="english"
               >
-                <ReactMde
-                  value={post.bodyTranslated}
-                  minEditorHeight={400}
-                  onChange={this.setBodyTranslated}
-                  selectedTab={this.state.selectedTab}
-                  onTabChange={this.setSelectedTab}
-                  generateMarkdownPreview={markdown =>
-                    Promise.resolve(converter.makeHtml(markdown))
-                  }
-                />
-              </Form.Item>
-            </Tabs.TabPane>
+                <Form.Item>
+                  {getFieldDecorator('titleTranslated', {
+                    initialValue: post?.titleTranslated,
+                    rules: [{ required: post?.isTranslated, message: 'Please add some title!' }],
+                  })(<Input placeholder="Post title" />)}
+                </Form.Item>
+                <Form.Item
+                  validateStatus={bodyTranslatedError ? 'error' : ''}
+                  help={bodyTranslatedError ? 'Please add some content!' : ''}
+                  style={{ flexGrow: 1 }}
+                >
+                  <ReactMde
+                    value={post.bodyTranslated}
+                    minEditorHeight={400}
+                    onChange={this.setBodyTranslated}
+                    selectedTab={this.state.selectedTab}
+                    onTabChange={this.setSelectedTab}
+                    generateMarkdownPreview={markdown =>
+                      Promise.resolve(converter.makeHtml(markdown))
+                    }
+                  />
+                </Form.Item>
+              </Tabs.TabPane>
+            )}
           </Tabs>
           <Form.Item>
             <Upload

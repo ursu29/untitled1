@@ -32,12 +32,13 @@ export interface Tag {
 export interface Post {
   id: string
   title: string
-  titleTranslated: string
   body: string
+  isTranslated: boolean
+  titleTranslated: string
   bodyTranslated: string
   createdAt: string
   updatedAt: string
-  sendEmail: boolean
+  locations: string[]
   createdBy: Employee
   updatedBy: Employee
   images: File[]

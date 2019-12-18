@@ -1,5 +1,5 @@
 import { Checkbox, Form, Tag } from 'antd'
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 
 const { CheckableTag } = Tag
 
@@ -25,6 +25,12 @@ export default function PostFormLocations({ values, onChange }: Props) {
     },
     [values, onChange],
   )
+
+  useEffect(() => {
+    if (values && !show) {
+      toggleShow(true)
+    }
+  }, [values, show])
 
   return (
     <>

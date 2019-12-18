@@ -50,7 +50,6 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-optional-chaining": "7.7.5",
     "@types/file-saver": "^2.0.1",
     "@types/fuzzy-search": "^2.1.0",
     "@types/jest": "24.0.23",

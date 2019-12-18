@@ -6,11 +6,13 @@ export default gql`
     posts(input: $input) {
       id
       title
-      titleTranslated
       body
+      isTranslated
+      titleTranslated
       bodyTranslated
       createdAt
       updatedAt
+      locations
       createdBy {
         id
         name
@@ -33,11 +35,13 @@ type PostPick = Pick<
   Post,
   | 'id'
   | 'title'
-  | 'titleTranslated'
   | 'body'
+  | 'isTranslated'
+  | 'titleTranslated'
   | 'bodyTranslated'
   | 'createdAt'
   | 'updatedAt'
+  | 'locations'
   | 'images'
 > & {
   createdBy: Pick<Employee, 'id' | 'name' | 'email'>

@@ -3,9 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 import paths from '../../paths'
 import Content from '../UI/Content'
 import PageContent from '../UI/PageContent'
-import UnderConstruction from '../UI/UnderConstruction'
 
-const Placeholder = () => <UnderConstruction />
 const PageNotFound = () => <PageContent>Page is not found</PageContent>
 const Profile = lazy(() => import('../Profile/ProfilePage'))
 const Settings = lazy(() => import('../Settings/SettingsPage'))
