@@ -2,6 +2,7 @@ import React from 'react'
 import { Skill } from '../../types'
 import Tabs from '../UI/Tabs'
 import SkillBookmarks from './SkillBookmarks'
+import SkillMentions from './SkillMentions'
 
 interface Props {
   tab: string
@@ -14,7 +15,7 @@ export default function SkillTabs(props: Props) {
       title: 'Mentions',
       icon: 'user',
       key: 'mentions',
-      body: <div>Mentions</div>,
+      body: <SkillMentions skill={props.skill} />,
     },
     {
       title: 'Bookmarks',
