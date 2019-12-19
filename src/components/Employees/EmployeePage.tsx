@@ -11,6 +11,7 @@ const query = gql`
   query getEmployees($input: EmployeesInput) {
     employees(input: $input) {
       id
+      isMe
     }
   }
 `
@@ -18,7 +19,7 @@ const query = gql`
 function EmployeePage({ match }: RouteComponentProps<{ email: string; tab: string }>) {
   const { email, tab } = match.params
 
-  const { data, loading, error } = useQuery<{ employees: Pick<Employee, 'id'>[] }>(query, {
+  const { data, loading, error } = useQuery<{ employees: Pick<Employee, 'id' | 'isMe'>[] }>(query, {
     variables: { input: { email } },
   })
 

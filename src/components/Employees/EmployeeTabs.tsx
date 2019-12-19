@@ -7,6 +7,7 @@ import Skeleton from '../UI/Skeleton'
 import EmployeeMatrices from '../EmployeeMatrices/EmployeeMatrices'
 import Tabs from '../UI/Tabs'
 import EmployeeBookmarks from './EmployeeBookmarks'
+import EmployeeSkills from './EmployeeSkills'
 
 interface Props extends RouteComponentProps {
   employee: Pick<Employee, 'id'>
@@ -41,7 +42,7 @@ function EmployeeTabs({ match, ...props }: Props) {
       title: 'Skills',
       key: 'skills',
       icon: 'crown',
-      body: <div>Skills</div>,
+      body: <EmployeeSkills employee={employee} editable={employee?.access.write || false} />,
     },
     {
       title: 'Bookmarks',
