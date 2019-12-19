@@ -1,8 +1,6 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { File } from '../../types'
 import Gallery from 'react-photo-gallery'
-import { useMediaQuery } from 'react-responsive'
-import { COLLAPSE_WIDTH } from '../../config'
 import { Skeleton } from 'antd'
 
 //@ts-ignore
@@ -54,7 +52,6 @@ export default function PortalGallery({ images }: Props) {
   const [currentImage, setCurrentImage] = useState(0)
   const [viewerIsOpen, setViewerIsOpen] = useState(false)
 
-  const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   const openLightbox = useCallback((event, { photo, index }) => {
     setCurrentImage(index)
     setViewerIsOpen(true)
@@ -64,6 +61,10 @@ export default function PortalGallery({ images }: Props) {
     setCurrentImage(0)
     setViewerIsOpen(false)
   }
+
+  useEffect(() => {
+    setRenderImages([])
+  }, [images])
 
   return (
     <>
