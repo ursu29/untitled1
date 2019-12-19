@@ -64,9 +64,7 @@ function PostItem({ post, edit, history }: Props) {
           ))}
         </Paragraph>
       )}
-      <div>
-        <Gallery images={post.images} />
-      </div>
+      <Gallery images={post.images} />
       <EmployeeLink employee={post.createdBy} />
     </>
   )

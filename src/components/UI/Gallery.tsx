@@ -3,6 +3,7 @@ import { File } from '../../types'
 import Gallery from 'react-photo-gallery'
 import { useMediaQuery } from 'react-responsive'
 import { COLLAPSE_WIDTH } from '../../config'
+import { Skeleton } from 'antd'
 
 //@ts-ignore
 import Carousel, { Modal, ModalGateway } from 'react-images'
@@ -67,16 +68,26 @@ export default function PortalGallery({ images }: Props) {
   return (
     <>
       {renderImages.length !== images.length && (
-        <div style={{ position: 'fixed', right: '0', visibility: 'hidden' }}>
-          {images.map(image => (
-            <ImageSize
-              key={image.id}
-              url={image.url}
-              onLoad={renderImage => {
-                setRenderImages([...renderImages, renderImage])
-              }}
-            />
-          ))}
+        <div style={{ paddingBottom: 8 }}>
+          <div style={{ position: 'fixed', right: '0', visibility: 'hidden' }}>
+            {images.map(image => (
+              <ImageSize
+                key={image.id}
+                url={image.url}
+                onLoad={renderImage => {
+                  setRenderImages([...renderImages, renderImage])
+                }}
+              />
+            ))}
+          </div>
+          <Skeleton
+            active
+            loading
+            title={false}
+            paragraph={{
+              rows: 2,
+            }}
+          />
         </div>
       )}
 
@@ -94,7 +105,7 @@ export default function PortalGallery({ images }: Props) {
         ) : null}
       </ModalGateway>
       {renderImages.length === images.length && (
-        <div style={{ width: isLarge ? 700 : 300 }}>
+        <div>
           <Gallery targetRowHeight={200} onClick={openLightbox} photos={renderImages} />
         </div>
       )}

@@ -21,6 +21,7 @@ export default gql`
       images {
         id
         url
+        fileName
       }
       tags {
         id

@@ -323,7 +323,7 @@ class PostForm extends React.Component<Props> {
           </Tabs>
           <Form.Item>
             <Upload
-              listType="picture-card"
+              // listType="picture-card"
               fileList={post.images}
               action={GATEWAY + '/upload'}
               name="files"

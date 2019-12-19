@@ -46,6 +46,7 @@ export default function UpdatePost({ post }: Props) {
             images: post.images?.map(image => ({
               ...image,
               uid: image.id,
+              name: image.fileName,
             })),
           }}
           onSubmit={(values, reset) => {
