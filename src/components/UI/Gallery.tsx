@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { File } from '../../types'
 import Gallery from 'react-photo-gallery'
 import { Skeleton } from 'antd'
+import VisibilitySensor from 'react-visibility-sensor'
 
 //@ts-ignore
 import Carousel, { Modal, ModalGateway } from 'react-images'
@@ -48,6 +49,7 @@ interface Props {
 }
 
 export default function PortalGallery({ images }: Props) {
+  const [show, toggleShow] = useState(false)
   const [renderImages, setRenderImages] = useState<GalleryImage[]>([])
   const [currentImage, setCurrentImage] = useState(0)
   const [viewerIsOpen, setViewerIsOpen] = useState(false)
@@ -67,49 +69,52 @@ export default function PortalGallery({ images }: Props) {
   }, [images])
 
   return (
-    <>
-      {renderImages.length !== images.length && (
-        <div style={{ paddingBottom: 8 }}>
-          <div style={{ position: 'fixed', right: '0', visibility: 'hidden' }}>
-            {images.map(image => (
-              <ImageSize
-                key={image.id}
-                url={image.url}
-                onLoad={renderImage => {
-                  setRenderImages([...renderImages, renderImage])
-                }}
-              />
-            ))}
-          </div>
-          <Skeleton
-            active
-            loading
-            title={false}
-            paragraph={{
-              rows: 2,
-            }}
-          />
-        </div>
-      )}
-
-      <ModalGateway>
-        {viewerIsOpen ? (
-          <Modal onClose={closeLightbox}>
-            <Carousel
-              currentIndex={currentImage}
-              views={images.map(x => ({
-                source: x.url,
-                caption: x.fileName,
-              }))}
+    <VisibilitySensor onChange={toggleShow}>
+      <div>
+        {renderImages.length !== images.length && (
+          <div style={{ paddingBottom: 8 }}>
+            <div style={{ position: 'fixed', right: '0', visibility: 'hidden' }}>
+              {show &&
+                images.map(image => (
+                  <ImageSize
+                    key={image.id}
+                    url={image.url}
+                    onLoad={renderImage => {
+                      setRenderImages([...renderImages, renderImage])
+                    }}
+                  />
+                ))}
+            </div>
+            <Skeleton
+              active
+              loading
+              title={false}
+              paragraph={{
+                rows: 2,
+              }}
             />
-          </Modal>
-        ) : null}
-      </ModalGateway>
-      {renderImages.length === images.length && (
-        <div>
-          <Gallery targetRowHeight={200} onClick={openLightbox} photos={renderImages} />
-        </div>
-      )}
-    </>
+          </div>
+        )}
+
+        <ModalGateway>
+          {viewerIsOpen ? (
+            <Modal onClose={closeLightbox}>
+              <Carousel
+                currentIndex={currentImage}
+                views={images.map(x => ({
+                  source: x.url,
+                  caption: x.fileName,
+                }))}
+              />
+            </Modal>
+          ) : null}
+        </ModalGateway>
+        {renderImages.length === images.length && (
+          <div>
+            <Gallery targetRowHeight={200} onClick={openLightbox} photos={renderImages} />
+          </div>
+        )}
+      </div>
+    </VisibilitySensor>
   )
 }
