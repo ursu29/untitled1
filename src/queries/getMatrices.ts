@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { Matrix } from '../types'
+import { Matrix, Access } from '../types'
 
 export default gql`
   {
@@ -8,9 +8,13 @@ export default gql`
       title
       description
     }
+    matricesAccess {
+      read
+    }
   }
 `
 
 export type QueryType = {
   matrices: Pick<Matrix, 'id' | 'title' | 'description'>[]
+  matricesAccess: Pick<Access, 'read'>
 }
