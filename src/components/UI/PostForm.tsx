@@ -80,7 +80,9 @@ class PostForm extends React.Component<Props> {
 
   updateState = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    console.log('here')
     this.props.form.validateFields((err, values) => {
+      console.log('values', values)
       if (values.isTranslated !== this.state.values.isTranslated) {
         this.setState({
           values: {
@@ -191,7 +193,7 @@ class PostForm extends React.Component<Props> {
   }
 
   render() {
-    const { getFieldDecorator, getFieldError } = this.props.form
+    const { getFieldDecorator, getFieldError, getFieldValue } = this.props.form
 
     const post = this.state.values || {}
     const bodyError = this.state.publishAttempt && !post.body
@@ -251,12 +253,7 @@ class PostForm extends React.Component<Props> {
             </>
           )}
         </AntdModal>
-        <Form
-          layout="vertical"
-          onSubmit={this.handleSubmit}
-          style={{ marginBottom: 16 }}
-          onChange={this.updateState}
-        >
+        <Form layout="vertical" onSubmit={this.handleSubmit} style={{ marginBottom: 16 }}>
           <Form.Item>
             {getFieldDecorator('isTranslated', {
               initialValue: post?.isTranslated,
@@ -287,7 +284,7 @@ class PostForm extends React.Component<Props> {
                 />
               </Form.Item>
             </Tabs.TabPane>
-            {post?.isTranslated && (
+            {getFieldValue('isTranslated') && (
               <Tabs.TabPane
                 tab={
                   <Badge dot={bodyTranslatedError || Boolean(getFieldError('titleTranslated'))}>
