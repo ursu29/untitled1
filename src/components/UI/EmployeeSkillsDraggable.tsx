@@ -21,7 +21,7 @@ const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
 const getListStyle = (isDraggingOver: boolean): any => ({
   background: isDraggingOver ? 'lightgray' : 'none',
   display: 'flex',
-  overflow: 'auto',
+  overflow: 'hidden',
   flexWrap: 'wrap',
   maxWidth: '100%',
   minHeight: '32px',
