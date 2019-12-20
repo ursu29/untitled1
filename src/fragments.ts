@@ -33,6 +33,19 @@ export default {
       }
     `,
   },
+  Skill: {
+    Details: gql`
+      fragment SkillDetails on Skill {
+        id
+        name
+        description
+        parent {
+          id
+        }
+        isMatrixOnly
+      }
+    `,
+  },
 }
 
 export type EmployeeDetails = Pick<
@@ -43,4 +56,8 @@ export type EmployeeDetails = Pick<
 export type ExperienceDetails = Pick<Experience, 'id'> & {
   level: Pick<Level, 'id' | 'index' | 'name'>
   skill: Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'>
+}
+
+export type SkillDetails = Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'> & {
+  parent: Pick<Skill, 'id'>
 }

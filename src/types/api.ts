@@ -52,6 +52,7 @@ export interface Project {
   description: string
   leaders: Employee[]
   employees: Employee[]
+  access: Access
 }
 
 export interface File {
