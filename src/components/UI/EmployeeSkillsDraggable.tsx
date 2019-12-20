@@ -62,6 +62,8 @@ function LevelSection({
     // eslint-disable-next-line
   }, [experiences])
 
+  const filteredExperiences = experiences.filter(e => e.level.id === level.id)
+
   return (
     <Section
       title={
@@ -91,8 +93,8 @@ function LevelSection({
         <Droppable droppableId={level.id} direction="horizontal">
           {(provided: any, snapshot: any) => (
             <div ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
-              {experiences
-                .filter(e => e.level.id === level.id)
+              {!filteredExperiences.length && <div>No skills yet</div>}
+              {filteredExperiences
                 .sort((one, two) => (one.skill.name > two.skill.name ? 1 : -1))
                 .map((item, index) => (
                   <Draggable key={item.id} draggableId={item.id} index={index}>

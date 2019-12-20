@@ -34,7 +34,8 @@ function SkillTreeSelect({ disabledSkills = [], ...props }: Props, ref: any) {
     if (value?.toString() !== newValues?.toString()) {
       setValue(newValues)
     }
-  }, [props.value, value])
+    //eslint-disable-next-line
+  }, [props.value])
 
   return (
     <TreeSelect
