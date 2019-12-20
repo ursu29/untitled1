@@ -6,6 +6,10 @@ import { Employee } from '../../types'
 import Skeleton from '../UI/Skeleton'
 import EmployeeDetails from '../Employees/EmployeeDetails'
 import EmployeeTabs from '../Employees/EmployeeTabs'
+import Controls from '../UI/Controls'
+import Back from '../UI/Back'
+import paths from '../../paths'
+import PageContent from '../UI/PageContent'
 
 const query = gql`
   query getEmployees($input: EmployeesInput) {
@@ -33,7 +37,10 @@ function EmployeePage({ match }: RouteComponentProps<{ email: string; tab: strin
 
   return (
     <Skeleton loading={loading || !data} avatar>
-      <EmployeeDetails employee={employee} />
+      <PageContent>
+        <Controls back={<Back goto={paths.EMPLOYEES} />} />
+        <EmployeeDetails employee={employee} />
+      </PageContent>
       <EmployeeTabs employee={employee} tab={tab} />
     </Skeleton>
   )

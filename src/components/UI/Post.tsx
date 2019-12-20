@@ -1,12 +1,12 @@
 import { Tag, Typography } from 'antd'
-import React, { useCallback, useState } from 'react'
+import React from 'react'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 //@ts-ignore
 import * as Showdown from 'showdown'
-import { Employee, Post, Tag as TagType } from '../../types'
-import EmployeeLink from './EmployeeLink'
-import { withRouter, RouteComponentProps } from 'react-router-dom'
 import PATHS from '../../paths'
+import { Employee, Post, Tag as TagType } from '../../types'
 import Gallery from '../UI/Gallery'
+import EmployeeLink from './EmployeeLink'
 
 const converter = new Showdown.Converter({
   tables: true,

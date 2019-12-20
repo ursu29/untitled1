@@ -59,6 +59,7 @@ function LevelSection({
     if (skills.toString() !== newSkills.toString()) {
       setSkills(newSkills)
     }
+    // eslint-disable-next-line
   }, [experiences])
 
   return (
@@ -92,6 +93,7 @@ function LevelSection({
             <div ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
               {experiences
                 .filter(e => e.level.id === level.id)
+                .sort((one, two) => (one.skill.name > two.skill.name ? 1 : -1))
                 .map((item, index) => (
                   <Draggable key={item.id} draggableId={item.id} index={index}>
                     {(provided: any, snapshot: any) => (
@@ -163,6 +165,7 @@ export default function EmployeeSkillsDraggable({
     if (sortMapStringify(experiences) !== sortMapStringify(props.experiences)) {
       setExperiences(props.experiences)
     }
+    // eslint-disable-next-line
   }, [props.experiences])
 
   return (

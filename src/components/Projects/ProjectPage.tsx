@@ -6,6 +6,10 @@ import { Project } from '../../types'
 import Skeleton from '../UI/Skeleton'
 import ProjectDetails from './ProjectDetails'
 import ProjectTabs from './ProjectTabs'
+import Controls from '../UI/Controls'
+import Back from '../UI/Back'
+import paths from '../../paths'
+import PageContent from '../UI/PageContent'
 
 interface Props extends RouteComponentProps<{ code: string; tab: string }> {}
 
@@ -33,7 +37,10 @@ function ProjectPage({ match }: Props) {
 
   return (
     <Skeleton loading={loading || !data}>
-      <ProjectDetails project={project} />
+      <PageContent>
+        <Controls back={<Back goto={paths.PROJECTS} />} />
+        <ProjectDetails project={project} />
+      </PageContent>
       <ProjectTabs project={project} tab={tab} />
     </Skeleton>
   )

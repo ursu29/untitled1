@@ -1,11 +1,10 @@
 import { useLazyQuery, useQuery } from '@apollo/react-hooks'
 import React, { useEffect } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
-import paths from '../../paths'
 import getPosts, { QueryType } from '../../queries/getPosts'
-import Button from '../UI/Button'
 import Controls from '../UI/Controls'
-import Divider from '../UI/Divider'
+import Back from '../UI/Back'
+import paths from '../../paths'
 import PageContent from '../UI/PageContent'
 import Post from '../UI/Post'
 import Skeleton from '../UI/Skeleton'
@@ -29,8 +28,7 @@ function PostPage({ match, history }: RouteComponentProps<{ id: string }>) {
 
   return (
     <PageContent>
-      <Controls back={<Button icon="arrow-left" onClick={() => history.push(paths.POSTS)} />} />
-      <Divider />
+      <Controls back={<Back goto={paths.POSTS} />} />
       <Skeleton active loading={preloading || loading}>
         {post && <Post post={post} />}
         {!post && <div>Post is not found</div>}

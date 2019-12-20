@@ -6,6 +6,7 @@ import { Employee } from '../../types'
 import EmployeeDetails from '../Employees/EmployeeDetails'
 import EmployeeTabs from '../Employees/EmployeeTabs'
 import Skeleton from '../UI/Skeleton'
+import PageContent from '../UI/PageContent'
 
 const query = gql`
   {
@@ -26,7 +27,9 @@ function ProfilePage({ match }: RouteComponentProps<{ tab: string }>) {
 
   return (
     <Skeleton loading={loading || !data} avatar>
-      <EmployeeDetails employee={data.profile} />
+      <PageContent>
+        <EmployeeDetails employee={data.profile} />
+      </PageContent>
       <EmployeeTabs employee={data.profile} tab={match.params.tab} />
     </Skeleton>
   )

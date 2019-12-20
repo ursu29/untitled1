@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import query, { QueryType } from '../../queries/getProjectSkills'
-import { useQuery, useMutation } from '@apollo/react-hooks'
-import { Project, Skill } from '../../types'
-import Skeleton from '../UI/Skeleton'
-import Section from '../UI/Section'
-import SkillTreeSelect from '../Skills/SkillTreeSelect'
-import SkillTag from '../UI/SkillTag'
-import PageContent from '../UI/PageContent'
-import Button from '../UI/Button'
+import { useMutation, useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import React, { useEffect, useState } from 'react'
 import message from '../../message'
+import query, { QueryType } from '../../queries/getProjectSkills'
+import { Project, Skill } from '../../types'
+import SkillTreeSelect from '../Skills/SkillTreeSelect'
+import Button from '../UI/Button'
+import Section from '../UI/Section'
+import Skeleton from '../UI/Skeleton'
+import SkillTag from '../UI/SkillTag'
 
 const mutation = gql`
   mutation updateProjectSkills($input: UpdateProjectSkillsInput) {
@@ -59,6 +58,7 @@ export default function ProjectTechnologies(props: Props) {
     if (skills?.toString() !== selectedSkills?.toString()) {
       setSelectedSkills(skills)
     }
+    // eslint-disable-next-line
   }, [data])
 
   const project = data?.projects?.[0]
@@ -68,39 +68,37 @@ export default function ProjectTechnologies(props: Props) {
   const showSelect = editable && edit
 
   return (
-    <PageContent>
-      <Section
-        title={
-          <div>
-            Technologies{' '}
-            {editable && (
-              <Button
-                size="small"
-                icon={edit ? 'check' : 'edit'}
-                type="link"
-                onClick={() => {
-                  if (edit) {
-                    mutate({
-                      variables: {
-                        input: {
-                          project: props.project.id,
-                          skills: (selectedSkills || []).map((i: any) => i.id),
-                        },
+    <Section
+      title={
+        <div>
+          Technologies{' '}
+          {editable && (
+            <Button
+              size="small"
+              icon={edit ? 'check' : 'edit'}
+              type="link"
+              onClick={() => {
+                if (edit) {
+                  mutate({
+                    variables: {
+                      input: {
+                        project: props.project.id,
+                        skills: (selectedSkills || []).map((i: any) => i.id),
                       },
-                    })
-                  }
-                  toggleEdit(!edit)
-                }}
-              />
-            )}
-          </div>
-        }
-      >
-        <Skeleton loading={loading || mutateLoading} active line>
-          {showSelect && <SkillTreeSelect value={selectedSkills} onChange={setSelectedSkills} />}
-          {!showSelect && <SkillTags skills={skills} />}
-        </Skeleton>
-      </Section>
-    </PageContent>
+                    },
+                  })
+                }
+                toggleEdit(!edit)
+              }}
+            />
+          )}
+        </div>
+      }
+    >
+      <Skeleton loading={loading || mutateLoading} active line>
+        {showSelect && <SkillTreeSelect value={selectedSkills} onChange={setSelectedSkills} />}
+        {!showSelect && <SkillTags skills={skills} />}
+      </Skeleton>
+    </Section>
   )
 }

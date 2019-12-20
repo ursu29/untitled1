@@ -1,5 +1,9 @@
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
+import paths from '../../paths'
+import Back from '../UI/Back'
+import Controls from '../UI/Controls'
+import PageContent from '../UI/PageContent'
 import SkillDetails from './SkillDetails'
 import SkillTabs from './SkillTabs'
 
@@ -10,7 +14,10 @@ function ProjectPage({ match }: Props) {
 
   return (
     <>
-      <SkillDetails skill={{ id }} />
+      <PageContent>
+        <Controls back={<Back goto={paths.SKILLS} />} />
+        <SkillDetails skill={{ id }} />
+      </PageContent>
       <SkillTabs skill={{ id }} tab={tab} />
     </>
   )

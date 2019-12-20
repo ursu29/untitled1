@@ -17,10 +17,6 @@ class ImageSize extends React.Component<{
   url: string
   onLoad: (image: GalleryImage) => void
 }> {
-  constructor(props: any) {
-    super(props)
-  }
-
   shouldComponentUpdate(props: any) {
     if (props.url !== this.props.url) return true
     return false

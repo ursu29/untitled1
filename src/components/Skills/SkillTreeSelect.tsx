@@ -34,7 +34,7 @@ function SkillTreeSelect({ disabledSkills = [], ...props }: Props, ref: any) {
     if (value?.toString() !== newValues?.toString()) {
       setValue(newValues)
     }
-  }, [props.value])
+  }, [props.value, value])
 
   return (
     <TreeSelect
