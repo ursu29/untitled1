@@ -6,6 +6,7 @@ import getBookmarks from '../../queries/getBookmarks'
 import BookmarkForm from '../UI/BookmarkForm'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
+import SkillTreeSelect from '../Skills/SkillTreeSelect'
 
 const mutation = gql`
   mutation updateBookmark($input: UpdateBookmarkInput!) {
@@ -40,6 +41,7 @@ export default function UpdateBookmark({ ...props }) {
         <BookmarkForm
           loading={loading}
           bookmark={props.bookmark}
+          SkillTreeSelect={SkillTreeSelect}
           onSubmit={(bookmark: any, update) => {
             updateBookmark({
               variables: { input: bookmark },

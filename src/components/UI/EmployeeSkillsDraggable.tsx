@@ -113,7 +113,7 @@ function LevelSection({
       )}
       {edit && (
         <SkillTreeSelect
-          skills={skills}
+          value={skills}
           disabledSkills={experiences.filter(i => i.level.id !== level.id).map(i => i.skill.id)}
           onChange={(items: any) => {
             setSkills(items)

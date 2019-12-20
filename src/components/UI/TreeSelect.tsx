@@ -27,11 +27,12 @@ interface Props {
   onChange: (value: string | string[]) => void
 }
 
-function PortalTreeSelect({ loading, value, multiple, items, onChange }: Props) {
+function PortalTreeSelect({ loading, value, multiple, items, onChange }: Props, ref: any) {
   if (!items) return null
   const tree = buildTree(items)
   return (
     <TreeSelect
+      ref={ref}
       loading={loading}
       onChange={onChange}
       value={value}
@@ -56,4 +57,4 @@ function propsAreEqual(prevProps: Props, nextProps: Props) {
   )
 }
 
-export default React.memo(PortalTreeSelect, propsAreEqual)
+export default React.memo(React.forwardRef(PortalTreeSelect), propsAreEqual)

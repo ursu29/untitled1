@@ -8,6 +8,7 @@ import BookmarkForm from '../UI/BookmarkForm'
 import Button from '../UI/Button'
 import Divider from '../UI/Divider'
 import Drawer from '../UI/Drawer'
+import SkillTreeSelect from '../Skills/SkillTreeSelect'
 
 const Controls = styled.div`
   margin-bottom: 8px;
@@ -51,6 +52,7 @@ export default function CreateBookmark() {
           content={
             <BookmarkForm
               loading={loading}
+              SkillTreeSelect={SkillTreeSelect}
               onSubmit={(bookmark: any, update: any) => {
                 createBookmark({
                   variables: { input: bookmark },

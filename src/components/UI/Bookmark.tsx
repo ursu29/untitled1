@@ -23,7 +23,7 @@ const StyledTitle = styled.a`
 const StyledTag = styled.span`
   color: #8d96ac;
   cursor: pointer;
-  padding-right: ${props => props.theme.padding / 4}px;
+  padding-right: 4px;
   &:last-child {
     padding-right: 0;
   }

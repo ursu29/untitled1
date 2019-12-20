@@ -7,9 +7,10 @@ export interface Props extends FormComponentProps {
   onSubmit: (bookmark: Bookmark, onDone?: () => void) => void
   loading?: boolean
   bookmark?: Bookmark
+  SkillTreeSelect: any
 }
 
-const BookmarkForm = ({ form, onSubmit, bookmark, loading }: Props) => {
+const BookmarkForm = ({ form, onSubmit, bookmark, loading, SkillTreeSelect }: Props) => {
   const { getFieldDecorator } = form
 
   const handleSubmit = (e: any) => {
@@ -19,6 +20,7 @@ const BookmarkForm = ({ form, onSubmit, bookmark, loading }: Props) => {
         onSubmit({
           id: bookmark?.id,
           ...values,
+          skills: values.skills?.map((i: any) => i.id),
         })
       }
     })
@@ -63,6 +65,11 @@ const BookmarkForm = ({ form, onSubmit, bookmark, loading }: Props) => {
           </Form.Item>
         </Col>
       </Row>
+      <Form.Item>
+        {getFieldDecorator('skills', {
+          initialValue: bookmark?.skills,
+        })(<SkillTreeSelect />)}
+      </Form.Item>
       <Row>
         <Col>
           <Button loading={loading} type="primary" htmlType="submit">

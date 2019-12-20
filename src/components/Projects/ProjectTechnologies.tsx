@@ -97,7 +97,7 @@ export default function ProjectTechnologies(props: Props) {
         }
       >
         <Skeleton loading={loading || mutateLoading} active line>
-          {showSelect && <SkillTreeSelect skills={selectedSkills} onChange={setSelectedSkills} />}
+          {showSelect && <SkillTreeSelect value={selectedSkills} onChange={setSelectedSkills} />}
           {!showSelect && <SkillTags skills={skills} />}
         </Skeleton>
       </Section>

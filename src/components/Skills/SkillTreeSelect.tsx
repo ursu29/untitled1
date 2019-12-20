@@ -9,7 +9,7 @@ import message from '../../message'
 type SkillPick = Pick<Skill, 'id' | 'name'>
 
 interface Props {
-  skills?: SkillPick[]
+  value?: SkillPick[]
   disabledSkills?: string[]
   onChange?: (value: SkillPick[]) => void
 }
@@ -21,23 +21,24 @@ const convertSkillsToTreeValue = (skills?: SkillPick[]) => {
   return
 }
 
-export default function SkillTreeSelect({ disabledSkills = [], ...props }: Props) {
+function SkillTreeSelect({ disabledSkills = [], ...props }: Props, ref: any) {
   const [value, setValue] = useState<string | string[] | undefined>(
-    convertSkillsToTreeValue(props.skills),
+    convertSkillsToTreeValue(props.value),
   )
   const { data, loading } = useQuery<QueryType>(query, {
     onError: message.error,
   })
 
   useEffect(() => {
-    const newValues = convertSkillsToTreeValue(props.skills)
+    const newValues = convertSkillsToTreeValue(props.value)
     if (value?.toString() !== newValues?.toString()) {
       setValue(newValues)
     }
-  }, [props.skills])
+  }, [props.value])
 
   return (
     <TreeSelect
+      ref={ref}
       loading={loading}
       multiple={true}
       value={value}
@@ -58,3 +59,5 @@ export default function SkillTreeSelect({ disabledSkills = [], ...props }: Props
     />
   )
 }
+
+export default React.forwardRef(SkillTreeSelect)
