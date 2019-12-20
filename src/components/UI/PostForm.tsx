@@ -78,22 +78,6 @@ class PostForm extends React.Component<Props> {
     }
   }
 
-  updateState = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    console.log('here')
-    this.props.form.validateFields((err, values) => {
-      console.log('values', values)
-      if (values.isTranslated !== this.state.values.isTranslated) {
-        this.setState({
-          values: {
-            ...this.state.values,
-            ...values,
-          },
-        })
-      }
-    })
-  }
-
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     this.setState({ publishAttempt: true, showPostPreview: false })
@@ -230,7 +214,7 @@ class PostForm extends React.Component<Props> {
           width={1000}
           bodyStyle={{ maxHeight: 600, overflowY: 'auto' }}
           title="Preview"
-          visible={this.state.showPostPreview}
+          visible={this.state.showPostPreview && !this.props.loading}
           onOk={this.handlePublish}
           onCancel={this.handleReturn}
         >
