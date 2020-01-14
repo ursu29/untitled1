@@ -6,19 +6,12 @@ import SkillLevelSelect from '../Skills/SkillLevelSelect'
 import MatrixLevelSelect from '../EmployeeMatrices/MatrixLevelSelect'
 import getEmployeeExperiences from '../../queries/getEmployeeExperiences'
 import getExperiences from '../../queries/getExperiences'
+import updateExperience from '../../queries/updateExperience'
 import message from '../../message'
 
 const createExperience = gql`
   mutation createExperience($input: CreateExperienceInput) {
     createExperience(input: $input) {
-      id
-    }
-  }
-`
-
-const updateExperience = gql`
-  mutation updateExperience($input: UpdateExperienceInput) {
-    updateExperience(input: $input) {
       id
     }
   }

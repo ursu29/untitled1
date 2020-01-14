@@ -8,14 +8,7 @@ import { useQuery, useMutation } from '@apollo/react-hooks'
 import EmployeeSkillsDraggable from '../UI/EmployeeSkillsDraggable'
 import gql from 'graphql-tag'
 import message from '../../message'
-
-const updateExperience = gql`
-  mutation updateExperience($input: UpdateExperienceInput) {
-    updateExperience(input: $input) {
-      id
-    }
-  }
-`
+import updateExperience from '../../queries/updateExperience'
 
 const updateExperiences = gql`
   mutation updateExperiences($input: UpdateExperiencesInput) {
@@ -66,7 +59,7 @@ export default function EmployeeSkills({ employee, editable }: Props) {
           editable={editable}
           levels={levels.sort((one, two) => (one.index < two.index ? 1 : -1))}
           experiences={experiences}
-          onMoveSkill={(skill, level) => updateOne({ variables: { input: { skill, level } } })}
+          onMoveSkill={(id, level) => updateOne({ variables: { input: { id, level } } })}
           onGroupUpdate={(skills, level) => {
             updateMany({
               variables: { input: { skills, level, employee: employee.id } },

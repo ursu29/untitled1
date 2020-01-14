@@ -5,19 +5,12 @@ import MatrixExperience from '../UI/MatrixExperience'
 import { useMutation } from '@apollo/react-hooks'
 import MatrixLevelSelect from '../EmployeeMatrices/MatrixLevelSelect'
 import getEmployeeExperiences from '../../queries/getEmployeeExperiences'
+import updateExperience from '../../queries/updateExperience'
 import message from '../../message'
 
 const createExperience = gql`
   mutation createExperience($input: CreateExperienceInput) {
     createExperience(input: $input) {
-      id
-    }
-  }
-`
-
-const updateExperience = gql`
-  mutation updateExperience($input: UpdateExperienceInput) {
-    updateExperience(input: $input) {
       id
     }
   }
