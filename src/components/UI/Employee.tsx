@@ -91,7 +91,7 @@ export default function EmployeeView({ loading, employee, manager, projects, mob
                 </Button>
               </a>
               <a
-                href={`https://projects.microsoft.com/l/chat/0/0?users=${employee.email}`}
+                href={`https://teams.microsoft.com/l/chat/0/0?users=${employee.email}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ paddingRight: 8 }}
