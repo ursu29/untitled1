@@ -73,7 +73,7 @@ const SkillForm = ({ form, onSubmit, skill, loading, parentSkillSelect }: Props)
         <Col>
           <Form.Item label="Parent skill">
             {getFieldDecorator('parent', {
-              initialValue: skill && skill.parent,
+              initialValue: skill?.parent,
               rules: [
                 {
                   required: false,

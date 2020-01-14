@@ -13,27 +13,11 @@ export const mutation = gql`
   }
 `
 
-// const NotFound = ({ name, onAdd }: any) => {
-//   const [mutate] = useMutation(mutation, {
-//     variables: { input: { name } },
-//     refetchQueries: [{ query: getSkills }],
-//   })
-
-//   return (
-//     <>
-//       <div>Skill is not found</div>
-//       <div style={{ padding: '8px', cursor: 'pointer', color: '#333' }} onClick={() => mutate()}>
-//         Add item
-//       </div>
-//     </>
-//   )
-// }
-
 type SkillPick = Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'>
 
 type Props = {
   value?: SkillPick
-  onSelect?: (skill: SkillPick) => any
+  onChange?: (skill: string) => any
   onBlur?: any
   defaultOpen?: boolean
   autoFocus?: boolean
@@ -43,20 +27,22 @@ type Props = {
   size?: 'default' | 'small'
 }
 
-export default function SkillSelect({ onSelect, wide, size, ...props }: Props) {
+function SkillSelect({ onChange, value, wide, size, ...props }: Props, ref: any) {
   const { data, loading } = useQuery<QueryType>(getSkills)
-
+  const skill = data?.skills.find(i => i.id === String(value))
   return (
     <Select
+      ref={ref}
       style={{ width: wide ? '100%' : 150 }}
       autoFocus={!loading && props.autoFocus}
       loading={loading}
       size={size}
+      value={skill && { key: skill.name, value: skill.name }}
       onBlur={props.onBlur}
       onSelect={(value: { key: string }) => {
-        const skill = data!.skills.find(skill => skill.id === value.key)
+        const skill = data!.skills.find(skill => skill.name === value.key)
         if (skill) {
-          onSelect && onSelect(skill)
+          onChange && onChange(skill.id)
         }
       }}
       items={data?.skills
@@ -66,10 +52,12 @@ export default function SkillSelect({ onSelect, wide, size, ...props }: Props) {
         })
         .map(skill => {
           return {
-            key: skill.id,
+            key: skill.name,
             value: skill.name,
           }
         })}
     />
   )
 }
+
+export default React.forwardRef(SkillSelect)

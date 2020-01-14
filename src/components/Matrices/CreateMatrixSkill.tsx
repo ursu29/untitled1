@@ -27,9 +27,7 @@ interface Props {
   group: MatrixGroup
 }
 
-type SkillPick = Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'>
-
-const SkillSelector = ({ onSelect }: { onSelect: (skill: SkillPick) => any }) => {
+const SkillSelector = ({ onSelect }: { onSelect: (skill: string) => any }) => {
   const [adding, toggleAdding] = useState(false)
   if (adding) {
     return (
@@ -40,7 +38,7 @@ const SkillSelector = ({ onSelect }: { onSelect: (skill: SkillPick) => any }) =>
         onBlur={() => {
           toggleAdding(false)
         }}
-        onSelect={(skill: SkillPick) => {
+        onChange={(skill: string) => {
           toggleAdding(false)
           onSelect(skill)
         }}
@@ -75,7 +73,7 @@ export default function CreateMatrixSkill({ matrix, grade, group }: Props) {
           variables: {
             input: {
               matrixId: matrix.id,
-              skillId: skill.id,
+              skillId: skill,
               gradeId: grade.id,
               groupId: group.id,
             },
