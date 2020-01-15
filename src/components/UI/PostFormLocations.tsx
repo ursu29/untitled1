@@ -11,7 +11,6 @@ interface Props {
 }
 
 export default function PostFormLocations({ values, onChange }: Props) {
-  console.log('values', values, Boolean(values?.length))
   const [show, toggleShow] = useState(Boolean(values?.length))
 
   const handleChange = useCallback(

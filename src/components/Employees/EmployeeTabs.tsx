@@ -8,6 +8,7 @@ import EmployeeMatrices from '../EmployeeMatrices/EmployeeMatrices'
 import Tabs from '../UI/Tabs'
 import EmployeeBookmarks from './EmployeeBookmarks'
 import EmployeeSkills from './EmployeeSkills'
+import EmployeeDevelopmentPlan from './EmployeeDevelopmentPlan'
 
 interface Props extends RouteComponentProps {
   employee: Pick<Employee, 'id'>
@@ -59,12 +60,12 @@ function EmployeeTabs({ match, ...props }: Props) {
       icon: 'number',
       body: <EmployeeMatrices employee={employee} />,
     })
-    // tabs.push({
-    //   title: 'Personal development',
-    //   key: 'personal-development',
-    //   icon: 'number',
-    //   body: <div>Personal development</div>,
-    // })
+    tabs.push({
+      title: 'Personal development',
+      key: 'development-plan',
+      icon: 'rise',
+      body: <EmployeeDevelopmentPlan employee={employee} />,
+    })
   }
 
   return (

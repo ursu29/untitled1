@@ -1,11 +1,11 @@
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import message from '../../message'
 import getMatrix from '../../queries/getMatrix'
-import { Matrix, MatrixGrade, MatrixGroup, Skill } from '../../types'
+import { Matrix, MatrixGrade, MatrixGroup } from '../../types'
 import SkillSelect from '../Skills/SkillSelect'
 import Button from '../UI/Button'
-import message from '../../message'
 
 const mutation = gql`
   mutation CreateMatrixSkill($input: CreateMatrixSkillInput) {

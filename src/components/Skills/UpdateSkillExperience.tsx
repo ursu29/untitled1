@@ -77,8 +77,6 @@ export default function EmployeeMatrixExperience({ experience, skill, employee }
   if (!skill) return <div>No skill</div>
   if (!employee) return <div>Employee is not provided</div>
 
-  console.log('skill', skill)
-
   const Select = skill.isMatrixOnly ? MatrixLevelSelect : SkillLevelSelect
 
   return (

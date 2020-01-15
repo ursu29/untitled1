@@ -141,3 +141,50 @@ export interface Tag {
   description: string
   posts: Post[]
 }
+export interface DevelopmentGoal {
+  id: string
+  description: string
+  successCriteria: string
+  isAchieved: boolean
+  comment: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface DevelopmentPlan {
+  id: string
+  createdAt: string
+  updatedAt: string
+  employee: Employee
+  developmentRoles: {
+    id: string
+    webDeveloper: boolean
+    actuarialBusinessAnalyst: boolean
+    agileCoach: boolean
+    automationQA: boolean
+    dotnetDeveloper: boolean
+    devOps: boolean
+    infrastructureArchitect: boolean
+    javaDeveloper: boolean
+    manualQA: boolean
+    mathematician: boolean
+    scrumMaster: boolean
+    solutionArchitect: boolean
+    teamLead: boolean
+    uxExpert: boolean
+  }
+  guildContribution: {
+    id: string
+    internalProject: boolean
+    education: boolean
+    noContribution: boolean
+    startup: boolean
+    custom: string
+  }
+  previousGoals: DevelopmentGoal[]
+  actualGoals: DevelopmentGoal[]
+  amountOfTime: string
+  longTermGoals: string
+  lookBackNegative: string
+  lookBackPositive: string
+}

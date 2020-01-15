@@ -54,8 +54,6 @@ export default function SkillMentions(props: Props) {
   const levels = levelsData?.levels || []
   const skill = data?.skills?.[0]
 
-  console.log('skill', data)
-
   return (
     <Skeleton active loading={loading || levelsLoading}>
       {levels

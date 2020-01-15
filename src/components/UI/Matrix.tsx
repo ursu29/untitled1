@@ -48,7 +48,6 @@ export const MatrixBody = React.memo(
     DeleteMatrixSkill,
   }: MatrixBodyProps) => {
     if (!matrix) return null
-    console.log(matrix)
     const editable = matrix.access.write
     const { groups, grades, skills } = matrix.body
     return (
