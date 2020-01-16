@@ -150,7 +150,7 @@ function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
               onChange(
                 value.map(i => {
                   if (i.id === record.id) {
-                    const { key, item } = record
+                    const { key, ...item } = record
                     return {
                       ...item,
                       isAchieved: !record.isAchieved,
