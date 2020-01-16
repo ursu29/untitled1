@@ -181,7 +181,7 @@ function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
           title="Sure to delete?"
           onConfirm={() => {
             if (onChange) {
-              onChange(value.filter((i, index) => (i.id && i.id !== record.id) || index !== key))
+              onChange(value.filter((i, index) => (i.id ? i.id !== record.id : index !== key)))
             }
           }}
         >
