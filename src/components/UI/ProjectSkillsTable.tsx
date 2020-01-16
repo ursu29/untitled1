@@ -117,7 +117,7 @@ const EmployeeSkillMatrix: React.FC<EmployeeSkillMatrixProps> = ({ project }) =>
     <Table
       //@ts-ignore
       dataSource={project.employees}
-      pagination={{ pageSize: 50 }}
+      pagination={false}
       //@ts-ignore
       columns={columns}
       rowKey="id"

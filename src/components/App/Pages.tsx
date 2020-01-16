@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import paths from '../../paths'
 import Content from '../UI/Content'
 import PageContent from '../UI/PageContent'
@@ -26,7 +26,7 @@ export default function Pages() {
     <Content>
       <Suspense fallback={<div></div>}>
         <Switch>
-          <Route path="/" exact component={Profile} />
+          <Redirect exact from="/" to="/profile" />
           <Route path={paths.PROFILE + '/:tab'} component={Profile} />
           <Route path={paths.PROFILE} component={Profile} />
           <Route path={paths.EMPLOYEES + '/:email/:tab'} component={Employee} />

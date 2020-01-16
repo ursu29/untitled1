@@ -26,7 +26,7 @@ export default function EmployeeMatricesList({
     <Skeleton active loading={loading}>
       {!matrices && <div>No matrices yet</div>}
       {matrices && (
-        <Tabs defaultActiveKey={defaultActiveKey} size="small" type="line" tabPosition="left">
+        <Tabs defaultActiveKey={defaultActiveKey} size="small" type="line" tabPosition="top">
           {matrices?.map(matrix => (
             <Tabs.TabPane tab={matrix.title} key={matrix.id}>
               <EmployeeMatrixComponent

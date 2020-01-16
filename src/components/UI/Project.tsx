@@ -15,7 +15,7 @@ export default function EmployeeView({ loading, project, managers }: Props) {
   return (
     <Skeleton loading={loading} avatar active>
       {project && (
-        <Row>
+        <Row gutter={24}>
           <Col md={24} lg={14} style={{ marginBottom: 20 }}>
             <Title>{project.name}</Title>
             <Typography.Paragraph>{project.description}</Typography.Paragraph>
