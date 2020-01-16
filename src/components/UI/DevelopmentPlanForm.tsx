@@ -21,8 +21,8 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
         onChange({
           id: value?.id,
           ...values,
-          actualGoals: values.actualGoals.map(({ __typename, ...i }: any) => i),
-          previousGoals: values.previousGoals.map(({ __typename, ...i }: any) => i),
+          actualGoals: values.actualGoals?.map(({ __typename, ...i }: any) => i),
+          previousGoals: values.previousGoals?.map(({ __typename, ...i }: any) => i),
         })
       }
     })
@@ -93,31 +93,31 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
             <div>
               {getFieldDecorator('developmentRoles.solutionArchitect', {
                 valuePropName: 'checked',
-                initialValue: value?.developmentRoles.solutionArchitect,
+                initialValue: value?.developmentRoles?.solutionArchitect,
               })(<Checkbox>Solution Architect (UI and/or Backend)</Checkbox>)}
             </div>
             <div>
               {getFieldDecorator('developmentRoles.webDeveloper', {
                 valuePropName: 'checked',
-                initialValue: value?.developmentRoles.webDeveloper,
+                initialValue: value?.developmentRoles?.webDeveloper,
               })(<Checkbox>Web/UI Developer</Checkbox>)}
             </div>
             <div>
               {getFieldDecorator('developmentRoles.javaDeveloper', {
                 valuePropName: 'checked',
-                initialValue: value?.developmentRoles.javaDeveloper,
+                initialValue: value?.developmentRoles?.javaDeveloper,
               })(<Checkbox>Java Developer</Checkbox>)}
             </div>
             <div>
               {getFieldDecorator('developmentRoles.dotnetDeveloper', {
                 valuePropName: 'checked',
-                initialValue: value?.developmentRoles.dotnetDeveloper,
+                initialValue: value?.developmentRoles?.dotnetDeveloper,
               })(<Checkbox>.NET Developer (C#)</Checkbox>)}
             </div>
             <div>
               {getFieldDecorator('developmentRoles.uxExpert', {
                 valuePropName: 'checked',
-                initialValue: value?.developmentRoles.uxExpert,
+                initialValue: value?.developmentRoles?.uxExpert,
               })(<Checkbox>UI/UI Expert</Checkbox>)}
             </div>
           </Col>
@@ -125,26 +125,26 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
             <div>
               {getFieldDecorator('developmentRoles.devOps', {
                 valuePropName: 'checked',
-                initialValue: value?.developmentRoles.devOps,
+                initialValue: value?.developmentRoles?.devOps,
               })(<Checkbox>DevOps</Checkbox>)}
             </div>
             <div>
               {getFieldDecorator('developmentRoles.infrastructureArchitect', {
                 valuePropName: 'checked',
-                initialValue: value?.developmentRoles.infrastructureArchitect,
+                initialValue: value?.developmentRoles?.infrastructureArchitect,
               })(<Checkbox>Infrastructure Architect</Checkbox>)}
             </div>
             <div>
               {' '}
               {getFieldDecorator('developmentRoles.manualQA', {
                 valuePropName: 'checked',
-                initialValue: value?.developmentRoles.manualQA,
+                initialValue: value?.developmentRoles?.manualQA,
               })(<Checkbox>Manual QA</Checkbox>)}
             </div>
             <div>
               {getFieldDecorator('developmentRoles.automationQA', {
                 valuePropName: 'checked',
-                initialValue: value?.developmentRoles.automationQA,
+                initialValue: value?.developmentRoles?.automationQA,
               })(<Checkbox>Automation QA</Checkbox>)}
             </div>
           </Col>
@@ -156,19 +156,19 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
           <div>
             {getFieldDecorator('developmentRoles.scrumMaster', {
               valuePropName: 'checked',
-              initialValue: value?.developmentRoles.scrumMaster,
+              initialValue: value?.developmentRoles?.scrumMaster,
             })(<Checkbox>Scrum Master</Checkbox>)}
           </div>
           <div>
             {getFieldDecorator('developmentRoles.teamLead', {
               valuePropName: 'checked',
-              initialValue: value?.developmentRoles.teamLead,
+              initialValue: value?.developmentRoles?.teamLead,
             })(<Checkbox>Team Lead</Checkbox>)}
           </div>
           <div>
             {getFieldDecorator('developmentRoles.agileCoach', {
               valuePropName: 'checked',
-              initialValue: value?.developmentRoles.agileCoach,
+              initialValue: value?.developmentRoles?.agileCoach,
             })(<Checkbox>Agile Coach</Checkbox>)}
           </div>
         </Row>
@@ -179,13 +179,13 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
           <div>
             {getFieldDecorator('developmentRoles.mathematician', {
               valuePropName: 'checked',
-              initialValue: value?.developmentRoles.mathematician,
+              initialValue: value?.developmentRoles?.mathematician,
             })(<Checkbox>Mathematician / Quant</Checkbox>)}
           </div>
           <div>
             {getFieldDecorator('developmentRoles.actuarialBusinessAnalyst', {
               valuePropName: 'checked',
-              initialValue: value?.developmentRoles.actuarialBusinessAnalyst,
+              initialValue: value?.developmentRoles?.actuarialBusinessAnalyst,
             })(<Checkbox>Actuarial Business Analyst</Checkbox>)}
           </div>
         </Row>
@@ -235,30 +235,30 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
           <div>
             {getFieldDecorator('guildContribution.noContribution', {
               valuePropName: 'checked',
-              initialValue: value?.guildContribution.noContribution,
+              initialValue: value?.guildContribution?.noContribution,
             })(<Checkbox>No contribution</Checkbox>)}
           </div>
           <div>
             {getFieldDecorator('guildContribution.education', {
               valuePropName: 'checked',
-              initialValue: value?.guildContribution.education,
+              initialValue: value?.guildContribution?.education,
             })(<Checkbox>Education, presentations; topic(s)</Checkbox>)}
           </div>
           <div>
             {getFieldDecorator('guildContribution.internalProject', {
               valuePropName: 'checked',
-              initialValue: value?.guildContribution.internalProject,
+              initialValue: value?.guildContribution?.internalProject,
             })(<Checkbox>Contribution in an internal project</Checkbox>)}
           </div>
           <div>
             {getFieldDecorator('guildContribution.startup', {
               valuePropName: 'checked',
-              initialValue: value?.guildContribution.startup,
+              initialValue: value?.guildContribution?.startup,
             })(<Checkbox>New startup idea</Checkbox>)}
           </div>
           <div style={{ paddingTop: 8, maxWidth: 250 }}>
             {getFieldDecorator('guildContribution.custom', {
-              initialValue: value?.guildContribution.custom,
+              initialValue: value?.guildContribution?.custom,
             })(<Input placeholder="Custom type"></Input>)}
           </div>
         </Row>

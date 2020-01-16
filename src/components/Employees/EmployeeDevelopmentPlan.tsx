@@ -22,7 +22,7 @@ interface Props {
 
 export default function EmployeeDevelopmentPlan(props: Props) {
   const { data, loading, error } = useQuery<QueryType>(getDevelopmentPlans, {
-    variables: { employee: props.employee?.id },
+    variables: { input: { employee: props.employee?.id } },
     skip: !props.employee,
   })
 
@@ -43,10 +43,13 @@ export default function EmployeeDevelopmentPlan(props: Props) {
   return (
     <div>
       <Skeleton active loading={loading}>
-        <DevelopmentPlanForm
-          value={plan}
-          onChange={(value: any) => debounced({ variables: { input: value } })}
-        />
+        {!plan && <div>Plan is not found</div>}
+        {plan && (
+          <DevelopmentPlanForm
+            value={plan}
+            onChange={(value: any) => debounced({ variables: { input: value } })}
+          />
+        )}
       </Skeleton>
     </div>
   )
