@@ -119,9 +119,13 @@ function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
   const handleSave = ({ key, ...item }: any) => {
     if (onChange) {
       onChange(
-        value.map(i => {
-          if (i.id !== item.id) return i
-          return item
+        value.map((i, index) => {
+          if ((i.id && i.id === item.id) || index === key) {
+            return {
+              ...item,
+            }
+          }
+          return i
         }),
       )
     }
@@ -147,10 +151,10 @@ function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
           checked={record.isAchieved}
           onChange={() => {
             if (onChange) {
+              const { key, ...item } = record
               onChange(
-                value.map(i => {
-                  if (i.id === record.id) {
-                    const { key, ...item } = record
+                value.map((i, index) => {
+                  if ((i.id && i.id === record.id) || index === key) {
                     return {
                       ...item,
                       isAchieved: !record.isAchieved,
@@ -172,12 +176,12 @@ function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
     {
       width: '50px',
       dataIndex: 'operation',
-      render: (text: any, record: any) => (
+      render: (text: any, { key, ...record }: any) => (
         <Popconfirm
           title="Sure to delete?"
           onConfirm={() => {
             if (onChange) {
-              onChange(value.filter(i => i.id !== record.id))
+              onChange(value.filter((i, index) => (i.id && i.id !== record.id) || index !== key))
             }
           }}
         >
@@ -190,7 +194,7 @@ function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
     <div>
       <Table
         dataSource={value.map((i, index) => ({
-          key: index,
+          key: i.id || index,
           ...i,
         }))}
         components={components}
