@@ -11,7 +11,7 @@ export default function Section({ title, children }: Props) {
       <Title level={3} style={{ fontWeight: 'normal' }}>
         {title}
       </Title>
-      {children}
+      <div>{children}</div>
     </div>
   )
 }

@@ -4,7 +4,7 @@ import getLevels, { QueryType as LevelsQueryType } from '../../queries/getLevels
 import { Skill, Experience, Level, Employee } from '../../types'
 import Skeleton from '../UI/Skeleton'
 import Section from '../UI/Section'
-import EmployeeLink from '../UI/EmployeeLink'
+import EmployeeTag from '../UI/EmployeeTag'
 import gql from 'graphql-tag'
 
 const query = gql`
@@ -66,11 +66,7 @@ export default function SkillMentions(props: Props) {
                 <div>No one knows that at this level</div>
               )}
               {levelExperiences?.map(i => {
-                return (
-                  <span key={i.id} style={{ paddingRight: 8 }}>
-                    <EmployeeLink employee={i.employee} />
-                  </span>
-                )
+                return <EmployeeTag employee={i.employee} />
               })}
             </Section>
           )
