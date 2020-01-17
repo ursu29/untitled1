@@ -48,14 +48,14 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
             <Form.Item label="Positive">
               {getFieldDecorator('lookBackPositive', {
                 initialValue: value?.lookBackPositive,
-              })(<Input.TextArea onBlur={handleSubmit} />)}
+              })(<Input.TextArea rows={4} onBlur={handleSubmit} />)}
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item label="Negative">
               {getFieldDecorator('lookBackNegative', {
                 initialValue: value?.lookBackNegative,
-              })(<Input.TextArea onBlur={handleSubmit} />)}
+              })(<Input.TextArea rows={4} onBlur={handleSubmit} />)}
             </Form.Item>
           </Col>
         </Row>
@@ -71,6 +71,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
           initialValue: value?.previousGoals,
         })(
           <DevelopmentGoals
+            showAchievedSwitch
             onChange={values => {
               form.setFieldsValue({
                 previousGoals: values,
@@ -199,7 +200,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
         </Paragraph>
         {getFieldDecorator('longTermGoals', {
           initialValue: value?.longTermGoals,
-        })(<Input.TextArea placeholder="Describe new goal" onBlur={handleSubmit} />)}
+        })(<Input.TextArea rows={4} placeholder="Describe new goal" onBlur={handleSubmit} />)}
       </Form.Item>
       <Form.Item>
         <Title level={3}>Short Term goals (nearest 6 months, i.e. up to the next assessment)</Title>
@@ -215,6 +216,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
           initialValue: value?.actualGoals,
         })(
           <DevelopmentGoals
+            showAchievedSwitch={false}
             onChange={values => {
               form.setFieldsValue({
                 actualGoals: values,
@@ -275,6 +277,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
           initialValue: value?.amountOfTime,
         })(
           <Input.TextArea
+            rows={4}
             placeholder="Describe time needed for guild projects"
             onBlur={handleSubmit}
           />,

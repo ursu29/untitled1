@@ -6,7 +6,6 @@ import message from '../../message'
 import getBookmarks from '../../queries/getBookmarks'
 import BookmarkForm from '../UI/BookmarkForm'
 import Button from '../UI/Button'
-import Divider from '../UI/Divider'
 import Drawer from '../UI/Drawer'
 import SkillTreeSelect from '../Skills/SkillTreeSelect'
 
@@ -63,7 +62,6 @@ export default function CreateBookmark() {
           }
         />
       </Controls>
-      <Divider />
     </>
   )
 }

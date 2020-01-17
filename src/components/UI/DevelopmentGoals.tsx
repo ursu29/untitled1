@@ -6,6 +6,7 @@ import styled from 'styled-components'
 interface Props {
   value?: Partial<DevelopmentGoal>[]
   onChange?: (items: Partial<DevelopmentGoal>[]) => void
+  showAchievedSwitch: boolean
 }
 
 const EditableContext = React.createContext(null)
@@ -63,12 +64,6 @@ class EditableCell extends React.Component<any> {
     return editing ? (
       <Form.Item style={{ margin: 0 }}>
         {form.getFieldDecorator(dataIndex, {
-          rules: [
-            {
-              required: true,
-              message: `${title} is required.`,
-            },
-          ],
           initialValue: record[dataIndex],
         })(<Input ref={node => (this.input = node)} onPressEnter={this.save} onBlur={this.save} />)}
       </Form.Item>
@@ -131,7 +126,7 @@ function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
     }
   }
 
-  const columns = [
+  let columns: any = [
     {
       title: 'Goal',
       dataIndex: 'description',
@@ -143,8 +138,13 @@ function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
       dataIndex: 'successCriteria',
       editable: true,
     },
-    {
+  ]
+
+  if (props.showAchievedSwitch) {
+    columns.push({
       title: 'Achieved?',
+      width: '100px',
+      align: 'center',
       dataIndex: 'isAchieved',
       render: (text: any, record: any) => (
         <Switch
@@ -167,7 +167,10 @@ function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
           }}
         />
       ),
-    },
+    })
+  }
+
+  columns = columns.concat([
     {
       title: 'Comment',
       dataIndex: 'comment',
@@ -189,7 +192,8 @@ function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
         </Popconfirm>
       ),
     },
-  ]
+  ])
+
   return (
     <div>
       <Table
@@ -208,7 +212,7 @@ function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
           }
           return {
             ...col,
-            onCell: record => ({
+            onCell: (record: any) => ({
               record,
               editable: col.editable,
               dataIndex: col.dataIndex,

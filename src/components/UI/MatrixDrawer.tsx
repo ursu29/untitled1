@@ -23,12 +23,7 @@ export default function SkillDrawer(props: Props) {
   const [visible, toggleVisibility] = useState(false)
   return (
     <Controls>
-      <Button
-        size="small"
-        icon={props.icon}
-        title={props.togglerLabel}
-        onClick={() => toggleVisibility(true)}
-      >
+      <Button icon={props.icon} title={props.togglerLabel} onClick={() => toggleVisibility(true)}>
         {props.togglerLabel}
       </Button>
       <Drawer
