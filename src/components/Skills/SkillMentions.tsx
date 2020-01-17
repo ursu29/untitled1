@@ -65,9 +65,11 @@ export default function SkillMentions(props: Props) {
               {(!levelExperiences || !levelExperiences.length) && (
                 <div>No one knows that at this level</div>
               )}
-              {levelExperiences?.map(i => {
-                return <EmployeeTag employee={i.employee} />
-              })}
+              {levelExperiences
+                ?.filter(i => i.employee)
+                .map(i => {
+                  return <EmployeeTag employee={i.employee} />
+                })}
             </Section>
           )
         })}
