@@ -81,7 +81,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
           />,
         )}
       </Form.Item>
-      <div>
+      <div style={{ marginBottom: 16 }}>
         <Title level={3}>Personal Development</Title>
         <Paragraph style={{ maxWidth: 550 }}>
           Below there is a list of roles in three main categories: technical, business analysis and
@@ -119,7 +119,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
               {getFieldDecorator('developmentRoles.uxExpert', {
                 valuePropName: 'checked',
                 initialValue: value?.developmentRoles?.uxExpert,
-              })(<Checkbox>UI/UI Expert</Checkbox>)}
+              })(<Checkbox>UI/UX Expert</Checkbox>)}
             </div>
           </Col>
           <Col span={7}>
@@ -136,7 +136,6 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
               })(<Checkbox>Infrastructure Architect</Checkbox>)}
             </div>
             <div>
-              {' '}
               {getFieldDecorator('developmentRoles.manualQA', {
                 valuePropName: 'checked',
                 initialValue: value?.developmentRoles?.manualQA,
@@ -151,7 +150,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
           </Col>
         </Row>
       </div>
-      <div style={{ marginTop: 16 }}>
+      <div style={{ marginBottom: 16 }}>
         <Title level={4}>Agile Coaching / Leading skills</Title>
         <Row>
           <div>
@@ -231,7 +230,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
         <Paragraph style={{ maxWidth: 550 }}>
           In general each employee has in average 20 person days per year for guild activities. This
           amount of time is agreed with our clients. The work should be scheduled in blocks of 1-2
-          weeks wherever possible to be able to concentrate on a result. More info
+          weeks wherever possible to be able to concentrate on a result.
         </Paragraph>
         <Row>
           <div>
@@ -258,7 +257,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
               initialValue: value?.guildContribution?.startup,
             })(<Checkbox>New startup idea</Checkbox>)}
           </div>
-          <div style={{ paddingTop: 8, maxWidth: 250 }}>
+          <div style={{ paddingTop: 8, maxWidth: 300 }}>
             {getFieldDecorator('guildContribution.custom', {
               initialValue: value?.guildContribution?.custom,
             })(<Input placeholder="Custom type"></Input>)}

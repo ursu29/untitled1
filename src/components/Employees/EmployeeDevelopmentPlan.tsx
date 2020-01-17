@@ -1,12 +1,13 @@
-import React, { useEffect, useCallback } from 'react'
+import { useMutation, useQuery } from '@apollo/react-hooks'
+import gql from 'graphql-tag'
+import React, { useCallback, useEffect } from 'react'
+import { debounce } from 'throttle-debounce'
+import message from '../../message'
+import getDevelopmentPlans, { QueryType } from '../../queries/getDevelopmentPlans'
 import { Employee } from '../../types'
 import DevelopmentPlanForm from '../UI/DevelopmentPlanForm'
-import gql from 'graphql-tag'
-import getDevelopmentPlans, { QueryType } from '../../queries/getDevelopmentPlans'
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import ExportDevelopmentPlan from './ExportDevelopmentPlan'
 import Skeleton from '../UI/Skeleton'
-import message from '../../message'
-import { throttle, debounce } from 'throttle-debounce'
 
 const mutation = gql`
   mutation updateDevelopmentPlan($input: UpdateDevelopmentPlanInput) {
@@ -45,10 +46,13 @@ export default function EmployeeDevelopmentPlan(props: Props) {
       <Skeleton active loading={loading}>
         {!plan && <div>Plan is not found</div>}
         {plan && (
-          <DevelopmentPlanForm
-            value={plan}
-            onChange={(value: any) => debounced({ variables: { input: value } })}
-          />
+          <>
+            <DevelopmentPlanForm
+              value={plan}
+              onChange={(value: any) => debounced({ variables: { input: value } })}
+            />
+            <ExportDevelopmentPlan plan={plan} />
+          </>
         )}
       </Skeleton>
     </div>
