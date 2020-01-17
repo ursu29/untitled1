@@ -23,6 +23,7 @@ interface Props {
   loading?: boolean
   items?: Item[]
   onDrop?: (id: Item['id'], parent?: Item['id']) => void
+  controls: any
 }
 
 function treeify(list: Item[]): Leaf[] {
@@ -149,12 +150,16 @@ export default class SkillsTree extends React.Component<Props> {
   }
 
   render() {
-    const { items, onDrop } = this.props
+    const { items, onDrop, controls } = this.props
     const { expandedKeys, autoExpandParent, searchValue } = this.state
     const filteredItems = this.filterItems(searchValue, items)
     return (
       <Skeleton loading={this.props.loading} active paragraph={{ rows: 10 }}>
-        <Search style={{ marginBottom: 8 }} placeholder="Search" onChange={this.handleSearch} />
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
+          <Search placeholder="Search" onChange={this.handleSearch} />
+          {controls && <div style={{ marginLeft: 8 }}>{controls}</div>}
+        </div>
+
         <Tree
           onExpand={this.handleExpand}
           expandedKeys={expandedKeys}

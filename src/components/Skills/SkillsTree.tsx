@@ -8,6 +8,7 @@ import gql from 'graphql-tag'
 import getSkills from '../../queries/getSkills'
 import { useMutation } from '@apollo/react-hooks'
 import message from '../../message'
+import CreateSkill from './CreateSkill'
 
 const mutation = gql`
   mutation updateSkill($input: UpdateSkillInput) {
@@ -42,6 +43,7 @@ function SkillsTree({ history }: RouteComponentProps) {
   return (
     <Tree
       loading={loading}
+      controls={<CreateSkill />}
       onDoubleClick={item => {
         history.push(getSkillLink(item.id))
       }}

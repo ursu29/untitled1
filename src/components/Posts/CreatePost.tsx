@@ -32,27 +32,22 @@ export default function CreatePost() {
   })
 
   return (
-    <>
-      <Controls>
-        <Drawer
-          size="large"
-          drawerLabel="Create a new post"
-          toggler={<Button icon="edit">New post</Button>}
-          content={
-            <PostForm
-              loading={loading}
-              TagSelect={TagSelect}
-              onSubmit={(values, update) => {
-                createPost({
-                  variables: { input: values },
-                  update,
-                })
-              }}
-            />
-          }
+    <Drawer
+      size="large"
+      drawerLabel="Create a new post"
+      toggler={<Button icon="edit">New post</Button>}
+      content={
+        <PostForm
+          loading={loading}
+          TagSelect={TagSelect}
+          onSubmit={(values, update) => {
+            createPost({
+              variables: { input: values },
+              update,
+            })
+          }}
         />
-      </Controls>
-      <Divider />
-    </>
+      }
+    />
   )
 }

@@ -14,6 +14,7 @@ import UpdatePost from './UpdatePost'
 
 interface Props extends RouteComponentProps {
   editable?: boolean
+  createPost: any
 }
 
 function getQueryTags(query: string) {
@@ -26,7 +27,7 @@ function getQueryTags(query: string) {
   return queryTags
 }
 
-function NewsFeed({ editable, location, history }: Props) {
+function NewsFeed({ editable, createPost, location, history }: Props) {
   const queryTags = getQueryTags(location.search)
   const [filter, setFilter] = useState('')
   const [showTagFilter, setShowTagFilter] = useState(Boolean(queryTags.length))
@@ -66,6 +67,7 @@ function NewsFeed({ editable, location, history }: Props) {
           icon="filter"
           onClick={() => setShowTagFilter(!showTagFilter)}
         />
+        {createPost && <div style={{ marginLeft: 8 }}>{createPost}</div>}
       </div>
       {showTagFilter && (
         <div style={{ marginTop: 8 }}>

@@ -15,11 +15,13 @@ interface Props {
   UpdateBookmark: React.FC<{ bookmark: BookmarkPick }>
   DeleteBookmark: React.FC<{ bookmark: BookmarkPick }>
   LikeBookmark: React.FC<{ bookmark: any }>
+  createBookmark: any
 }
 
 export default function BookmarksList({
   loading,
   bookmarks,
+  createBookmark,
   UpdateBookmark,
   DeleteBookmark,
   LikeBookmark,
@@ -39,12 +41,15 @@ export default function BookmarksList({
 
   return (
     <Skeleton loading={loading} active>
-      <Input
-        style={{ marginBottom: 8 }}
-        placeholder="Search"
-        onChange={(e: any) => setFilter(e.target.value)}
-        value={filter}
-      />
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Input
+          style={{ marginBottom: 8 }}
+          placeholder="Search"
+          onChange={(e: any) => setFilter(e.target.value)}
+          value={filter}
+        />
+        {createBookmark && <div style={{ marginLeft: 8 }}>{createBookmark}</div>}
+      </div>
       <List
         pagination={{
           pageSize: 25,

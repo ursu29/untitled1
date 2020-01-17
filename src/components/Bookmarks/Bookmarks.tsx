@@ -4,6 +4,7 @@ import UpdateBookmark from './UpdateBookmark'
 import DeleteBookmark from './DeleteBookmark'
 import LikeBookmark from './LikeBookmark'
 import BookmarksList from '../UI/BookmarksList'
+import CreateBookmark from './CreateBookmark'
 
 interface Props {
   loading: boolean
@@ -15,6 +16,7 @@ export default function Bookmarks({ bookmarks, loading }: Props) {
     <BookmarksList
       loading={loading}
       bookmarks={bookmarks}
+      createBookmark={<CreateBookmark />}
       UpdateBookmark={UpdateBookmark}
       DeleteBookmark={DeleteBookmark}
       LikeBookmark={LikeBookmark}

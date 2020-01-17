@@ -22,8 +22,7 @@ export default function PostsPage() {
   const editable = data?.postsEditor.write
   return (
     <PageContent>
-      {editable && <CreatePost />}
-      <NewsFeed editable={editable} />
+      <NewsFeed editable={editable} createPost={editable && <CreatePost />} />
     </PageContent>
   )
 }
