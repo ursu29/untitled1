@@ -57,7 +57,7 @@ function PortalTabs({ location, history, tabs, tab }: Props) {
             }
             key={tab.key}
           >
-            <div style={{ padding: '20px 60px' }}>{tab.body}</div>
+            <div style={{ padding: isLarge ? '20px 60px' : '5px 15px' }}>{tab.body}</div>
           </TabPane>
         )
       })}
