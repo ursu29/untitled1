@@ -188,3 +188,20 @@ export interface DevelopmentPlan {
   lookBackNegative: string
   lookBackPositive: string
 }
+
+export interface EvaluationAttribute {
+  id: string
+  title: string
+  description: string
+  group: string
+  index: number
+  evaluations: Evaluation[]
+}
+
+export interface Evaluation {
+  id: string
+  fromWho: Employee
+  toWhom: Employee
+  evaluation: number
+  evaluationAttribute: EvaluationAttribute
+}

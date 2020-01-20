@@ -9,6 +9,7 @@ import Tabs from '../UI/Tabs'
 import EmployeeBookmarks from './EmployeeBookmarks'
 import EmployeeSkills from './EmployeeSkills'
 import EmployeeDevelopmentPlan from './EmployeeDevelopmentPlan'
+import EmployeeEvaluation from './EmployeeEvaluation'
 
 interface Props extends RouteComponentProps {
   employee: Pick<Employee, 'id'>
@@ -19,15 +20,25 @@ const query = gql`
   query getEmployees($input: EmployeesInput) {
     employees(input: $input) {
       id
+      manager {
+        id
+        name
+        isMe
+      }
       access {
         read
         write
       }
+      isMe
     }
   }
 `
 
-type QueryType = { employees: Pick<Employee, 'id' | 'access'>[] }
+type QueryType = {
+  employees: (Pick<Employee, 'id' | 'access' | 'isMe'> & {
+    manager: Pick<Employee, 'id' | 'name' | 'isMe'>
+  })[]
+}
 
 function EmployeeTabs({ match, ...props }: Props) {
   const { data, loading, error } = useQuery<QueryType>(query, {
@@ -59,6 +70,12 @@ function EmployeeTabs({ match, ...props }: Props) {
       key: 'matrices',
       icon: 'number',
       body: <EmployeeMatrices employee={employee} />,
+    })
+    tabs.push({
+      title: 'Self Evaluation Form',
+      key: 'evaluation',
+      icon: 'star',
+      body: <EmployeeEvaluation employee={employee} />,
     })
     tabs.push({
       title: 'Personal development',
