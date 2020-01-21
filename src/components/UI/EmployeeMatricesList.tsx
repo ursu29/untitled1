@@ -30,7 +30,7 @@ export default function EmployeeMatricesList({
           defaultActiveKey={defaultActiveKey}
           animated={false}
           size="small"
-          type="line"
+          type="card"
           tabPosition="top"
         >
           {matrices?.map(matrix => (
