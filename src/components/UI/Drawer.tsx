@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Drawer } from 'antd'
+import { useMediaQuery } from 'react-responsive'
 
 interface Props {
   drawerLabel: string
@@ -10,13 +11,15 @@ interface Props {
 
 export default function PortalDrawer({ drawerLabel, toggler, content, size }: Props) {
   const [visible, toggleVisibility] = useState(false)
+  const drawerWidth = size === 'large' ? 800 : 48
+  const isLarge = useMediaQuery({ minWidth: drawerWidth })
   return (
     <>
       {React.cloneElement(toggler, { onClick: () => toggleVisibility(true) })}
       <Drawer
         maskClosable={false}
         title={drawerLabel}
-        width={size === 'large' ? 800 : 480}
+        width={isLarge ? drawerWidth : '100%'}
         onClose={() => toggleVisibility(false)}
         visible={visible}
       >
