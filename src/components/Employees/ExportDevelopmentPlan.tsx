@@ -23,11 +23,11 @@ export default function ExportMatrixToExcel({ plan }: Props) {
         .then(res => res.arrayBuffer())
         .then(data => {
           const blob = new Blob([data], {
-            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
           })
-          saveAs(blob, `development_plan_${new Date().toLocaleDateString()}.xlsx`)
+          saveAs(blob, `development_plan_${new Date().toLocaleDateString()}.docx`)
         })
     })
   }
-  return <Button onClick={handleExport}>Export to excel</Button>
+  return <Button onClick={handleExport}>Export</Button>
 }
