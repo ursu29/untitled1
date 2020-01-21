@@ -1,6 +1,5 @@
 import React from 'react'
 import NewsFeed from './NewsFeed'
-import CreatePost from './CreatePost'
 import PageContent from '../UI/PageContent'
 import gql from 'graphql-tag'
 import { Access } from '../../types'
@@ -22,7 +21,7 @@ export default function PostsPage() {
   const editable = data?.postsEditor.write
   return (
     <PageContent>
-      <NewsFeed editable={editable} createPost={editable && <CreatePost />} />
+      <NewsFeed editable={editable} />
     </PageContent>
   )
 }

@@ -19,7 +19,14 @@ const { Text, Title, Paragraph } = Typography
 
 type PostPick = Pick<
   Post,
-  'id' | 'title' | 'body' | 'bodyTranslated' | 'createdAt' | 'updatedAt' | 'images'
+  | 'id'
+  | 'title'
+  | 'titleTranslated'
+  | 'body'
+  | 'bodyTranslated'
+  | 'createdAt'
+  | 'updatedAt'
+  | 'images'
 > & {
   createdBy: Pick<Employee, 'id' | 'name' | 'email'>
   tags?: Pick<TagType, 'id' | 'name' | 'description'>[]
@@ -28,20 +35,21 @@ type PostPick = Pick<
 interface Props extends RouteComponentProps {
   post: PostPick
   edit?: any
+  showTranslated?: boolean
 }
 
-function PostItem({ post, edit, history }: Props) {
+function PostItem({ post, showTranslated, edit, history }: Props) {
   return (
     <>
       <Text>
         {post.createdAt} {edit}
       </Text>
       <Title level={3} style={{ marginTop: 8 }}>
-        {post.title}
+        {showTranslated ? post.titleTranslated : post.title}
       </Title>
       <div
         dangerouslySetInnerHTML={{
-          __html: converter.makeHtml(post.body),
+          __html: converter.makeHtml(showTranslated ? post.bodyTranslated : post.body),
         }}
       />
 
