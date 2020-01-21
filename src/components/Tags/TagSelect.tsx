@@ -63,12 +63,12 @@ function TagSelect({ value, allowAddNew, multiple, onChange }: Props, ref: any) 
         if (newTag) {
           mutate({
             variables: { input: { name: newTag.key } },
-            update: () => {
+            update: (_, { data }) => {
               onChange(
                 values.map((value: { key: string; value: string }) => {
                   return {
                     ...value,
-                    id: data?.tags.find(i => i.name === value.key)?.id,
+                    id: data?.createTag.id,
                   }
                 }),
               )
