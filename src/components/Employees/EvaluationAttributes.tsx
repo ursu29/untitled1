@@ -24,7 +24,7 @@ interface Props {
 }
 
 function EvaluationAttributes({ evaluations, employee, ...props }: Props) {
-  const { data, loading, error } = useQuery<QueryType>(getEvaluationAttributes)
+  const { data, loading } = useQuery<QueryType>(getEvaluationAttributes)
 
   const [evaluate, { loading: evaluateLoading }] = useMutation(mutation, {
     refetchQueries: [{ query: getEvaluations, variables: { input: { employee: employee.id } } }],

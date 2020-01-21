@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react'
-import { Button, Col, Form, Input, Row, Typography, Checkbox } from 'antd'
-import DevelopmentGoals from './DevelopmentGoals'
-import { DevelopmentPlan } from '../../types'
+import { Checkbox, Col, Form, Input, Row, Typography } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
+import React from 'react'
+import { DevelopmentPlan } from '../../types'
+import DevelopmentGoals from './DevelopmentGoals'
 
-const { Title, Text, Paragraph } = Typography
+const { Title, Paragraph } = Typography
 
 type PlanPick = Exclude<DevelopmentPlan, 'employee'>
 

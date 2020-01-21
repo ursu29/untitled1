@@ -22,7 +22,7 @@ interface Props {
 }
 
 export default function EmployeeDevelopmentPlan(props: Props) {
-  const { data, loading, error } = useQuery<QueryType>(getDevelopmentPlans, {
+  const { data, loading } = useQuery<QueryType>(getDevelopmentPlans, {
     variables: { input: { employee: props.employee?.id } },
     skip: !props.employee,
   })

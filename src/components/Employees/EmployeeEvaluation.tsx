@@ -1,7 +1,7 @@
+import { useQuery } from '@apollo/react-hooks'
 import React from 'react'
-import { Employee } from '../../types'
-import { useQuery, useMutation } from '@apollo/react-hooks'
 import getEvaluations, { QueryType } from '../../queries/getEvaluations'
+import { Employee } from '../../types'
 import EvaluationAttributes from './EvaluationAttributes'
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 }
 
 function EmployeeEvaluation({ employee }: Props) {
-  const { data, loading, error } = useQuery<QueryType>(getEvaluations, {
+  const { data, loading } = useQuery<QueryType>(getEvaluations, {
     variables: { input: { employee: employee.id } },
   })
   return (

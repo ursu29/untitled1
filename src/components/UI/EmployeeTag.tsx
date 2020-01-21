@@ -1,8 +1,8 @@
+import { Tag } from 'antd'
 import React from 'react'
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { getEmployeeLink } from '../../paths'
 import { Employee } from '../../types'
-import { Tag } from 'antd'
 
 interface Props {
   employee: Pick<Employee, 'id' | 'name' | 'email'> | null

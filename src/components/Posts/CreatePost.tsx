@@ -1,14 +1,12 @@
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import React, { useEffect } from 'react'
-import getPosts from '../../queries/getPosts'
-import PostForm from '../UI/PostForm'
-import Button from '../UI/Button'
-import Controls from '../UI/Controls'
-import TagSelect from '../Tags/TagSelect'
-import Drawer from '../UI/Drawer'
-import Divider from '../UI/Divider'
 import message from '../../message'
+import getPosts from '../../queries/getPosts'
+import TagSelect from '../Tags/TagSelect'
+import Button from '../UI/Button'
+import Drawer from '../UI/Drawer'
+import PostForm from '../UI/PostForm'
 
 const mutation = gql`
   mutation createPost($input: CreatePostInput) {

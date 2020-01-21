@@ -6,7 +6,6 @@ import PageContent from '../UI/PageContent'
 
 const PageNotFound = () => <PageContent>Page is not found</PageContent>
 const Profile = lazy(() => import('../Profile/ProfilePage'))
-const Settings = lazy(() => import('../Settings/SettingsPage'))
 const News = lazy(() => import('../Posts/PostsPage'))
 const Post = lazy(() => import('../Posts/PostPage'))
 const Skills = lazy(() => import('../Skills/SkillsPage'))
@@ -45,7 +44,6 @@ export default function Pages() {
           <Route path={paths.POSTS + '/:id'} component={Post} />
           <Route path={paths.POSTS} component={News} />
           <Route path={paths.STATISTICS} component={Statistics} />
-          <Route path={paths.SETTINGS} component={Settings} />
           <Route component={PageNotFound} />
         </Switch>
       </Suspense>
