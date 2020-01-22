@@ -42,4 +42,4 @@ Analyze bundle size with:
 
 # Contribute
 
-Please check https://portal.sidenis.com/client/projects/guild-Dashboard/managers and contact anyone from the list
+Please check https://portal.sidenis.com/client/projects/guild-Portal/managers and contact anyone from the list
