@@ -58,7 +58,7 @@ export default function EmployeeSkills({ employee, editable }: Props) {
         <EmployeeSkillsDraggable
           editable={editable}
           levels={levels.sort((one, two) => (one.index < two.index ? 1 : -1))}
-          experiences={experiences}
+          experiences={experiences.filter(e => !e.skill.isMatrixOnly)}
           onMoveSkill={(id, level) => updateOne({ variables: { input: { id, level } } })}
           onGroupUpdate={(skills, level) => {
             updateMany({

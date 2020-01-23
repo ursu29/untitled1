@@ -117,6 +117,8 @@ function LevelSection({
       )}
       {edit && (
         <SkillTreeSelect
+          SkillTreeSelect
+          isIncludeMatrixSkills={false}
           value={skills}
           disabledSkills={experiences.filter(i => i.level.id !== level.id).map(i => i.skill.id)}
           onChange={(items: any) => {

@@ -12,6 +12,7 @@ interface Props {
   value?: SkillPick[]
   disabledSkills?: string[]
   onChange?: (value: SkillPick[]) => void
+  isIncludeMatrixSkills?: boolean
 }
 
 const convertSkillsToTreeValue = (skills?: SkillPick[]) => {
@@ -21,7 +22,10 @@ const convertSkillsToTreeValue = (skills?: SkillPick[]) => {
   return
 }
 
-function SkillTreeSelect({ disabledSkills = [], ...props }: Props, ref: any) {
+function SkillTreeSelect(
+  { disabledSkills = [], isIncludeMatrixSkills = true, ...props }: Props,
+  ref: any,
+) {
   const [value, setValue] = useState<string | string[] | undefined>(
     convertSkillsToTreeValue(props.value),
   )
@@ -50,13 +54,18 @@ function SkillTreeSelect({ disabledSkills = [], ...props }: Props, ref: any) {
         }
         setValue(skills)
       }}
-      items={data?.skills?.map(skill => ({
-        title: skill.name,
-        key: skill.id,
-        value: skill.name,
-        parentKey: skill.parent?.id,
-        disabled: disabledSkills.includes(skill.id),
-      }))}
+      items={data?.skills
+        ?.filter(i => {
+          if (isIncludeMatrixSkills) return true
+          return !i.isMatrixOnly
+        })
+        .map(skill => ({
+          title: skill.name,
+          key: skill.id,
+          value: skill.name,
+          parentKey: skill.parent?.id,
+          disabled: disabledSkills.includes(skill.id),
+        }))}
     />
   )
 }

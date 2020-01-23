@@ -6,8 +6,11 @@ const buildTree = (items: Item[]) => {
   items.forEach(aData => (hashTable[aData.key] = { ...aData, children: [] }))
   let dataTree: any = []
   items.forEach(aData => {
-    if (aData.parentKey) hashTable[aData.parentKey].children.push(hashTable[aData.key])
-    else dataTree.push(hashTable[aData.key])
+    if (aData.parentKey) {
+      if (hashTable[aData.parentKey]) {
+        hashTable[aData.parentKey].children.push(hashTable[aData.key])
+      }
+    } else dataTree.push(hashTable[aData.key])
   })
   return dataTree
 }
