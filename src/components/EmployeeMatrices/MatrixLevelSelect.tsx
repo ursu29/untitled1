@@ -50,7 +50,7 @@ export default function MatrixLevelSelect({ level, onSelect, onDeselect, loading
       value={
         level &&
         data?.levels && {
-          key: level.id,
+          key: getName(level.index),
           value: getName(level.index),
         }
       }
@@ -58,7 +58,7 @@ export default function MatrixLevelSelect({ level, onSelect, onDeselect, loading
         if (!item) {
           onDeselect()
         } else {
-          const level = filteredLevels?.find(level => level.id === item.key)
+          const level = filteredLevels?.find(level => getName(level.index) === item.key)
           if (level) {
             onSelect(level)
           }
@@ -66,7 +66,7 @@ export default function MatrixLevelSelect({ level, onSelect, onDeselect, loading
       }}
       items={filteredLevels?.map(level => ({
         ...level,
-        key: level.id,
+        key: getName(level.index),
         value: level.name,
       }))}
     />
