@@ -1,31 +1,15 @@
-import {
-  Button,
-  Col,
-  Form,
-  Icon,
-  Input,
-  Badge,
-  Modal as AntdModal,
-  Row,
-  Checkbox,
-  Tabs,
-  Typography,
-  Upload,
-} from 'antd'
+import { Badge, Button, Checkbox, Col, Form, Icon, Input, Row, Tabs, Upload } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
 import React from 'react'
 //@ts-ignore
 import Carousel, { Modal, ModalGateway } from 'react-images'
 import ReactMde from 'react-mde'
 import 'react-mde/lib/styles/css/react-mde-all.css'
-// import Gallery from 'react-photo-gallery'
-import Gallery from '../UI/Gallery'
 import * as Showdown from 'showdown'
 import { GATEWAY } from '../../config'
 import { Post } from '../../types'
 import PostFormLocations from './PostFormLocations'
-
-const { Title } = Typography
+import PostPrewiew from './PostPreview'
 
 const converter = new Showdown.Converter({
   tables: true,
@@ -209,34 +193,12 @@ class PostForm extends React.Component<Props> {
             </Modal>
           ) : null}
         </ModalGateway>
-        <AntdModal
-          okText="Publish"
-          width={1000}
-          bodyStyle={{ maxHeight: 600, overflowY: 'auto' }}
-          title="Preview"
+        <PostPrewiew
+          post={post}
+          handlePublish={this.handlePublish}
+          handleReturn={this.handleReturn}
           visible={this.state.showPostPreview && !this.props.loading}
-          onOk={this.handlePublish}
-          onCancel={this.handleReturn}
-        >
-          {this.state.showPostPreview && (
-            <>
-              <Title level={4}>{post.title}</Title>
-              <div dangerouslySetInnerHTML={{ __html: converter.makeHtml(post.body) }}></div>
-              <Gallery
-                images={
-                  post.images
-                    ?.filter((x: any) => x.url || x.response?.[0]?.url)
-                    .map((image: any) => {
-                      return {
-                        id: image.id,
-                        url: image.url || image.response?.[0]?.url,
-                      }
-                    }) || []
-                }
-              />
-            </>
-          )}
-        </AntdModal>
+        />
         <Form layout="vertical" onSubmit={this.handleSubmit} style={{ marginBottom: 16 }}>
           <Form.Item>
             {getFieldDecorator('isTranslated', {
