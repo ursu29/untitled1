@@ -9,12 +9,19 @@ interface Props {
 }
 
 export default function EmployeeBookmarks({ skill }: Props) {
+  const variables = { input: { skill: skill?.id } }
   const { data, loading } = useQuery<QueryType>(query, {
-    variables: { input: { skill: skill?.id } },
+    variables,
     skip: !skill,
   })
 
   if (!skill) return <div>Skill is not found</div>
 
-  return <Bookmarks loading={loading} bookmarks={data?.bookmarks} />
+  return (
+    <Bookmarks
+      refetchQueries={[{ query, variables }]}
+      loading={loading}
+      bookmarks={data?.bookmarks}
+    />
+  )
 }

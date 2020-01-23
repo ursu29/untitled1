@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import getBookmarks from '../../queries/getBookmarks'
 import { Bookmark } from '../../types'
 import message from '../../message'
+import { PureQueryOptions } from 'apollo-client'
 
 const StyledControl = styled.span<{ active: Boolean }>`
   text-align: baseline;
@@ -34,11 +35,12 @@ type BookmarkPick = Pick<Bookmark, 'id' | 'likes' | 'likedByMe'>
 
 interface Props {
   bookmark: BookmarkPick
+  refetchQueries?: PureQueryOptions[]
 }
 
-export default function LikeBookmark({ bookmark }: Props) {
+export default function LikeBookmark({ bookmark, refetchQueries = [] }: Props) {
   const [toggleBookmarklike] = useMutation<MutationType>(mutation, {
-    refetchQueries: [{ query: getBookmarks }],
+    refetchQueries: [{ query: getBookmarks }, ...refetchQueries],
     onError: message.error,
   })
   const handleClick = (e: any) => {

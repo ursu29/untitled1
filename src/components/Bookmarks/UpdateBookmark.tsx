@@ -7,6 +7,13 @@ import BookmarkForm from '../UI/BookmarkForm'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import SkillTreeSelect from '../Skills/SkillTreeSelect'
+import { PureQueryOptions } from 'apollo-client'
+import { Bookmark, Employee, Access } from '../../types'
+
+type BookmarkPick = Pick<Bookmark, 'id' | 'title' | 'link' | 'skills'> & {
+  employee: Pick<Employee, 'id' | 'name' | 'email'>
+  access: Pick<Access, 'write'>
+}
 
 const mutation = gql`
   mutation updateBookmark($input: UpdateBookmarkInput!) {
@@ -22,9 +29,14 @@ type MutationType = {
   }
 }
 
-export default function UpdateBookmark({ ...props }) {
+interface Props {
+  bookmark: BookmarkPick
+  refetchQueries?: PureQueryOptions[]
+}
+
+export default function UpdateBookmark({ bookmark, refetchQueries = [] }: Props) {
   const [updateBookmark, { loading }] = useMutation<MutationType>(mutation, {
-    refetchQueries: [{ query: getBookmarks }],
+    refetchQueries: [{ query: getBookmarks }, ...refetchQueries],
     onError: () => message.error,
     onCompleted: () => message.success('Bookmark is updated'),
   })
@@ -40,7 +52,7 @@ export default function UpdateBookmark({ ...props }) {
       content={
         <BookmarkForm
           loading={loading}
-          bookmark={props.bookmark}
+          bookmark={bookmark}
           SkillTreeSelect={SkillTreeSelect}
           onSubmit={(bookmark: any, update) => {
             updateBookmark({

@@ -29,7 +29,7 @@ export default function EmployeeMatricesList({
         <Tabs
           defaultActiveKey={defaultActiveKey}
           animated={false}
-          size="small"
+          // size="small"
           type="card"
           tabPosition="top"
         >

@@ -3,6 +3,7 @@ import BookmarkItem from './Bookmark'
 import { Employee, Access, Bookmark } from '../../types'
 import { List, Input, Skeleton } from 'antd'
 import FuzzySearch from 'fuzzy-search'
+import { PureQueryOptions } from 'apollo-client'
 
 type BookmarkPick = Pick<Bookmark, 'id' | 'title' | 'link'> & {
   employee: Pick<Employee, 'id' | 'name' | 'email'>
@@ -12,10 +13,11 @@ type BookmarkPick = Pick<Bookmark, 'id' | 'title' | 'link'> & {
 interface Props {
   loading: boolean
   bookmarks?: BookmarkPick[]
-  UpdateBookmark: React.FC<{ bookmark: BookmarkPick }>
-  DeleteBookmark: React.FC<{ bookmark: BookmarkPick }>
-  LikeBookmark: React.FC<{ bookmark: any }>
+  UpdateBookmark: React.FC<any>
+  DeleteBookmark: React.FC<any>
+  LikeBookmark: React.FC<any>
   createBookmark: any
+  refetchQueries?: PureQueryOptions[]
 }
 
 export default function BookmarksList({
@@ -25,6 +27,7 @@ export default function BookmarksList({
   UpdateBookmark,
   DeleteBookmark,
   LikeBookmark,
+  refetchQueries,
 }: Props) {
   const [filter, setFilter] = useState('')
 
@@ -35,15 +38,10 @@ export default function BookmarksList({
   const searcher = new FuzzySearch(bookmarks || [], ['title'])
   const filteredItems: BookmarkPick[] = searcher.search(filter.trim())
 
-  if (!loading && !filter && !filteredItems.length) {
-    return <div>No bookmarks yet</div>
-  }
-
   return (
     <Skeleton loading={loading} active>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
         <Input
-          style={{ marginBottom: 8 }}
           placeholder="Search"
           onChange={(e: any) => setFilter(e.target.value)}
           value={filter}
@@ -61,9 +59,9 @@ export default function BookmarksList({
           return (
             <BookmarkItem
               key={item.id}
-              edit={<UpdateBookmark bookmark={item} />}
-              remove={<DeleteBookmark bookmark={item} />}
-              like={<LikeBookmark bookmark={item} />}
+              edit={<UpdateBookmark refetchQueries={refetchQueries} bookmark={item} />}
+              remove={<DeleteBookmark refetchQueries={refetchQueries} bookmark={item} />}
+              like={<LikeBookmark refetchQueries={refetchQueries} bookmark={item} />}
               bookmark={item}
             />
           )

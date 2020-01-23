@@ -68,7 +68,7 @@ export default function SkillMentions(props: Props) {
               {levelExperiences
                 ?.filter(i => i.employee)
                 .map(i => {
-                  return <EmployeeTag employee={i.employee} />
+                  return <EmployeeTag key={i.id} employee={i.employee} />
                 })}
             </Section>
           )

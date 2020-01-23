@@ -1,12 +1,17 @@
 import { Button, Col, Form, Input, Row } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
 import React from 'react'
-import { Bookmark } from '../../types'
+import { Bookmark, Employee, Access } from '../../types'
+
+type BookmarkPick = Pick<Bookmark, 'id' | 'title' | 'link' | 'skills'> & {
+  employee: Pick<Employee, 'id' | 'name' | 'email'>
+  access: Pick<Access, 'write'>
+}
 
 export interface Props extends FormComponentProps {
   onSubmit: (bookmark: Bookmark, onDone?: () => void) => void
   loading?: boolean
-  bookmark?: Bookmark
+  bookmark?: BookmarkPick
   SkillTreeSelect: any
 }
 
