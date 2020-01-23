@@ -18,17 +18,20 @@ const mutation = gql`
 `
 
 interface Props {
-  employee?: Pick<Employee, 'id'>
+  employee?: Pick<Employee, 'id' | 'name'>
 }
 
 export default function EmployeeDevelopmentPlan(props: Props) {
+  const variables = { input: { employee: props.employee?.id } }
+
   const { data, loading } = useQuery<QueryType>(getDevelopmentPlans, {
-    variables: { input: { employee: props.employee?.id } },
+    variables,
     skip: !props.employee,
   })
 
   const [update, { loading: mutateLoading }] = useMutation(mutation, {
     onCompleted: () => message.success('Plan is updated'),
+    refetchQueries: [{ query: getDevelopmentPlans, variables }],
   })
 
   const debounced = useCallback(debounce(500, update), [update])
@@ -51,7 +54,7 @@ export default function EmployeeDevelopmentPlan(props: Props) {
               value={plan}
               onChange={(value: any) => debounced({ variables: { input: value } })}
             />
-            <ExportDevelopmentPlan plan={plan} />
+            <ExportDevelopmentPlan employee={props.employee!} plan={plan} />
           </>
         )}
       </Skeleton>

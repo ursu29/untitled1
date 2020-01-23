@@ -1,13 +1,14 @@
 import React from 'react'
 import { GATEWAY } from '../../config'
-import { DevelopmentPlan } from '../../types'
+import { DevelopmentPlan, Employee } from '../../types'
 import Button from '../UI/Button'
 
 type Props = {
   plan: DevelopmentPlan
+  employee: Pick<Employee, 'name'>
 }
 
-export default function ExportMatrixToExcel({ plan }: Props) {
+export default function ExportMatrixToExcel({ plan, employee }: Props) {
   const handleExport = () => {
     const url = `${GATEWAY}/export-development-plan`
     import('file-saver').then(({ saveAs }) => {
@@ -25,7 +26,7 @@ export default function ExportMatrixToExcel({ plan }: Props) {
           const blob = new Blob([data], {
             type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
           })
-          saveAs(blob, `development_plan_${new Date().toLocaleDateString()}.docx`)
+          saveAs(blob, `development_plan_${employee.name}_${new Date().toLocaleDateString()}.docx`)
         })
     })
   }

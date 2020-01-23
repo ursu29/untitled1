@@ -20,6 +20,7 @@ const query = gql`
   query getEmployees($input: EmployeesInput) {
     employees(input: $input) {
       id
+      name
       manager {
         id
         name
@@ -35,7 +36,7 @@ const query = gql`
 `
 
 type QueryType = {
-  employees: (Pick<Employee, 'id' | 'access' | 'isMe'> & {
+  employees: (Pick<Employee, 'id' | 'name' | 'access' | 'isMe'> & {
     manager: Pick<Employee, 'id' | 'name' | 'isMe'>
   })[]
 }
