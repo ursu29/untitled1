@@ -90,14 +90,19 @@ function LevelSection({
       key={level.id}
     >
       {!edit && (
-        <Droppable droppableId={level.id} direction="horizontal">
+        <Droppable droppableId={level.id} direction="horizontal" isDropDisabled={!editable}>
           {(provided: any, snapshot: any) => (
             <div ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
               {!filteredExperiences.length && <div>No skills yet</div>}
               {filteredExperiences
                 .sort((one, two) => (one.skill.name > two.skill.name ? 1 : -1))
                 .map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                  <Draggable
+                    key={item.id}
+                    draggableId={item.id}
+                    index={index}
+                    isDragDisabled={!editable}
+                  >
                     {(provided: any, snapshot: any) => (
                       <div
                         ref={provided.innerRef}
