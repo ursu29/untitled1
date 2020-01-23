@@ -149,7 +149,7 @@ export default function EvaluationTable({
   ]
 
   return (
-    <div style={{ maxWidth: 800 }}>
+    <div>
       <Table
         expandIconAsCell={false}
         expandIconColumnIndex={-1}

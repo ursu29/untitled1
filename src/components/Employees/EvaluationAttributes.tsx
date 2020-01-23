@@ -3,6 +3,7 @@ import getEvaluationAttributes, { QueryType } from '../../queries/getEvaluationA
 import { Evaluation, Employee } from '../../types'
 import Skeleton from '../UI/Skeleton'
 import EvaluationTable from '../UI/EvaluationTable'
+import EvaluationHelper from '../UI/EvaluationHelper'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import getEvaluations from '../../queries/getEvaluations'
@@ -39,22 +40,25 @@ function EvaluationAttributes({ evaluations, employee, ...props }: Props) {
 
   return (
     <Skeleton active loading={props.loading || loading}>
-      <EvaluationTable
-        evaluationAttributes={data?.evaluationAttributes}
-        evaluations={evaluations}
-        employee={employee}
-        onEvaluate={({ toWhom, evaluation, evaluationAttribute }: any) => {
-          evaluate({
-            variables: {
-              input: {
-                toWhom,
-                evaluation,
-                evaluationAttribute,
+      <div style={{ maxWidth: 800 }}>
+        <EvaluationHelper />
+        <EvaluationTable
+          evaluationAttributes={data?.evaluationAttributes}
+          evaluations={evaluations}
+          employee={employee}
+          onEvaluate={({ toWhom, evaluation, evaluationAttribute }: any) => {
+            evaluate({
+              variables: {
+                input: {
+                  toWhom,
+                  evaluation,
+                  evaluationAttribute,
+                },
               },
-            },
-          })
-        }}
-      />
+            })
+          }}
+        />
+      </div>
     </Skeleton>
   )
 }
