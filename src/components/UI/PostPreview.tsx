@@ -14,7 +14,7 @@ const converter = new Showdown.Converter({
 })
 
 type PostPick = Partial<
-  Pick<Post, 'title' | 'body' | 'bodyTranslated' | 'isTranslated'> & {
+  Pick<Post, 'title' | 'body' | 'bodyTranslated' | 'titleTranslated' | 'isTranslated'> & {
     tags: any
     images: any
   }
@@ -55,7 +55,7 @@ function PostPreview({ handlePublish, post, handleReturn, visible }: Props) {
         onCancel={handleReturn}
       >
         <>
-          <Title level={4}>{showTranslated ? post.bodyTranslated : post.title}</Title>
+          <Title level={4}>{showTranslated ? post.titleTranslated : post.title}</Title>
           <div
             dangerouslySetInnerHTML={{
               __html: converter.makeHtml((showTranslated ? post.bodyTranslated : post.body) || ''),
