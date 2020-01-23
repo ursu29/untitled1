@@ -79,7 +79,7 @@ function Posts({
         if (!showTranslated) return true
         return i.isTranslated
       }),
-    ['title', 'body'],
+    showTranslated ? ['titleTranslated', 'bodyTranslated'] : ['title', 'body'],
   )
   const filteredPosts: PostPick[] = searcher.search(filter.trim())
 
