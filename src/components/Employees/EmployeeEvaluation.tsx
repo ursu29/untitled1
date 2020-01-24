@@ -5,7 +5,7 @@ import { Employee } from '../../types'
 import EvaluationAttributes from './EvaluationAttributes'
 
 interface Props {
-  employee: Pick<Employee, 'id' | 'isMe'> & {
+  employee: Pick<Employee, 'id' | 'name' | 'isMe'> & {
     manager: Pick<Employee, 'id' | 'name' | 'isMe'>
   }
 }

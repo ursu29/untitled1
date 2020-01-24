@@ -8,6 +8,7 @@ import { Employee } from '../../types'
 import DevelopmentPlanForm from '../UI/DevelopmentPlanForm'
 import ExportDevelopmentPlan from './ExportDevelopmentPlan'
 import Skeleton from '../UI/Skeleton'
+import Controls from '../UI/Controls'
 
 const mutation = gql`
   mutation updateDevelopmentPlan($input: UpdateDevelopmentPlanInput) {
@@ -50,11 +51,13 @@ export default function EmployeeDevelopmentPlan(props: Props) {
         {!plan && <div>Plan is not found</div>}
         {plan && (
           <>
+            <Controls>
+              <ExportDevelopmentPlan employee={props.employee!} plan={plan} />
+            </Controls>
             <DevelopmentPlanForm
               value={plan}
               onChange={(value: any) => debounced({ variables: { input: value } })}
             />
-            <ExportDevelopmentPlan employee={props.employee!} plan={plan} />
           </>
         )}
       </Skeleton>

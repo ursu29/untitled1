@@ -40,7 +40,7 @@ export default function ExportMatrices({ matrices, employee }: Props) {
     })
   }
   return (
-    <Button disabled={loading} onClick={handleExport} style={{ marginRight: 8 }}>
+    <Button disabled={loading} onClick={handleExport} style={{ marginLeft: 8 }}>
       Export
     </Button>
   )

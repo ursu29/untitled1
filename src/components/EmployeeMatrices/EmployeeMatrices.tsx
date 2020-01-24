@@ -24,8 +24,8 @@ export default function EmployeeMatrices(props: Props) {
   return (
     <>
       <Controls>
-        <ExportMatrices matrices={employee?.matrices} employee={employee} />
         <AttachMatrix employee={employee} />
+        <ExportMatrices matrices={employee?.matrices} employee={employee} />
       </Controls>
       <EmployeeMatricesList
         loading={loading}

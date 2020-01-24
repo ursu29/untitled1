@@ -8,6 +8,8 @@ import { useQuery, useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import getEvaluations from '../../queries/getEvaluations'
 import message from '../../message'
+import Controls from '../UI/Controls'
+import ExportEvaluations from './ExportEvaluations'
 
 const mutation = gql`
   mutation evaluate($input: EvaluateInput!) {
@@ -19,7 +21,7 @@ const mutation = gql`
 interface Props {
   evaluations?: Evaluation[]
   loading: boolean
-  employee: Pick<Employee, 'id' | 'isMe'> & {
+  employee: Pick<Employee, 'id' | 'name' | 'isMe'> & {
     manager: Pick<Employee, 'id' | 'name' | 'isMe'>
   }
 }
@@ -40,25 +42,30 @@ function EvaluationAttributes({ evaluations, employee, ...props }: Props) {
 
   return (
     <Skeleton active loading={props.loading || loading}>
-      <div style={{ maxWidth: 800 }}>
-        <EvaluationHelper />
-        <EvaluationTable
+      <Controls>
+        <ExportEvaluations
           evaluationAttributes={data?.evaluationAttributes}
           evaluations={evaluations}
           employee={employee}
-          onEvaluate={({ toWhom, evaluation, evaluationAttribute }: any) => {
-            evaluate({
-              variables: {
-                input: {
-                  toWhom,
-                  evaluation,
-                  evaluationAttribute,
-                },
-              },
-            })
-          }}
         />
-      </div>
+      </Controls>
+      <EvaluationHelper />
+      <EvaluationTable
+        evaluationAttributes={data?.evaluationAttributes}
+        evaluations={evaluations}
+        employee={employee}
+        onEvaluate={({ toWhom, evaluation, evaluationAttribute }: any) => {
+          evaluate({
+            variables: {
+              input: {
+                toWhom,
+                evaluation,
+                evaluationAttribute,
+              },
+            },
+          })
+        }}
+      />
     </Skeleton>
   )
 }
