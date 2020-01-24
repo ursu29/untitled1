@@ -36,7 +36,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
         handleSubmit()
       }}
     >
-      <Form.Item>
+      <div>
         <Title level={3}>Look Back</Title>
         <Paragraph style={{ maxWidth: 550 }}>
           Capture some positive and negative statements on last reporting period i.e. last year or
@@ -59,6 +59,17 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
             </Form.Item>
           </Col>
         </Row>
+      </div>
+      <Form.Item>
+        <Title level={3}>Look Forward</Title>
+        <Paragraph style={{ maxWidth: 550 }}>
+          Capture interest in the project and how the future is perceived from a project point of
+          view. I.e. would the employee like to stay in the project, is happy with current position
+          in the project, would like to change project, etc
+        </Paragraph>
+        {getFieldDecorator('lookForward', {
+          initialValue: value?.lookForward,
+        })(<Input.TextArea rows={4} onBlur={handleSubmit} />)}
       </Form.Item>
       <Form.Item>
         <Title level={3}>Previous Goals</Title>

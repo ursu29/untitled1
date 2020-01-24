@@ -187,6 +187,7 @@ export interface DevelopmentPlan {
   longTermGoals: string
   lookBackNegative: string
   lookBackPositive: string
+  lookForward: string
 }
 
 export interface EvaluationAttribute {
