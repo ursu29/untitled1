@@ -6,18 +6,16 @@ interface Props {
   loading: boolean
   employee?: Pick<Employee, 'id'>
   matrices?: Exclude<Matrix, 'access'>[]
-  EmployeeMatrixComponent: React.FC<any>
+  EmployeeMatrix: React.FC<any>
   DetachMatrix: React.FC<any>
-  ExportMatrixToExcel: React.FC<any>
 }
 
 export default function EmployeeMatricesList({
   matrices,
   loading,
   employee,
-  EmployeeMatrixComponent,
+  EmployeeMatrix,
   DetachMatrix,
-  ExportMatrixToExcel,
 }: Props) {
   if (!loading && !matrices) return <div>No matrices yet</div>
 
@@ -26,21 +24,10 @@ export default function EmployeeMatricesList({
     <Skeleton active loading={loading}>
       {!matrices && <div>No matrices yet</div>}
       {matrices && (
-        <Tabs
-          defaultActiveKey={defaultActiveKey}
-          animated={false}
-          // size="small"
-          type="card"
-          tabPosition="top"
-        >
+        <Tabs defaultActiveKey={defaultActiveKey} animated={false} type="card" tabPosition="top">
           {matrices?.map(matrix => (
             <Tabs.TabPane tab={matrix.title} key={matrix.id}>
-              <EmployeeMatrixComponent
-                matrix={matrix}
-                employee={employee}
-                DetachMatrix={DetachMatrix}
-                ExportMatrixToExcel={ExportMatrixToExcel}
-              />
+              <EmployeeMatrix matrix={matrix} employee={employee} DetachMatrix={DetachMatrix} />
             </Tabs.TabPane>
           ))}
         </Tabs>

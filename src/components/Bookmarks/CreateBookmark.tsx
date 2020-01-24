@@ -2,19 +2,12 @@ import { useMutation } from '@apollo/react-hooks'
 import { PureQueryOptions } from 'apollo-client'
 import gql from 'graphql-tag'
 import React, { useEffect } from 'react'
-import styled from 'styled-components'
 import message from '../../message'
 import getBookmarks from '../../queries/getBookmarks'
 import SkillTreeSelect from '../Skills/SkillTreeSelect'
 import BookmarkForm from '../UI/BookmarkForm'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
-
-const Controls = styled.div`
-  margin-bottom: 8px;
-  display: flex;
-  justify-content: flex-end;
-`
 
 const mutation = gql`
   mutation createBookmark($input: CreateBookmarkInput!) {

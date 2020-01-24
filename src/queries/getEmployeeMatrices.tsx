@@ -5,6 +5,7 @@ export default gql`
   query getEmployeeMatrices($input: EmployeesInput) {
     employees(input: $input) {
       id
+      name
       matrices {
         id
         title
@@ -43,6 +44,7 @@ export default gql`
 export type QueryType = {
   employees: {
     id: Employee['id']
+    name: Employee['name']
     matrices: Matrix[]
   }[]
 }
