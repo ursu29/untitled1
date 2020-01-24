@@ -37,7 +37,7 @@ function EmployeePage({ match }: RouteComponentProps<{ email: string; tab: strin
 
   return (
     <Skeleton loading={loading || !data} avatar>
-      <PageContent>
+      <PageContent noBottom>
         <Controls back={<Back goto={paths.EMPLOYEES} />} />
         <EmployeeDetails employee={employee} />
       </PageContent>

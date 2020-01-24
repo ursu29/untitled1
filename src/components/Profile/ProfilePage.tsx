@@ -27,7 +27,7 @@ function ProfilePage({ match }: RouteComponentProps<{ tab: string }>) {
 
   return (
     <Skeleton loading={loading || !data} avatar>
-      <PageContent>
+      <PageContent noBottom>
         <EmployeeDetails employee={data.profile} />
       </PageContent>
       <EmployeeTabs employee={data.profile} tab={match.params.tab} />
