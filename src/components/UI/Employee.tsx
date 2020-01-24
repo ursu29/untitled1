@@ -47,7 +47,7 @@ export default function EmployeeView({ loading, employee, manager, projects, mob
                     <Title level={4} style={{ paddingRight: 8 }}>
                       {employee.name}
                     </Title>
-                    {employee.isMe && (
+                    {employee.isMe && !mobile && (
                       <Button
                         onClick={() => {
                           window.open('http://timemaster.sidenis.com', '_blank')
@@ -71,7 +71,7 @@ export default function EmployeeView({ loading, employee, manager, projects, mob
                 }
                 avatar={
                   <Avatar
-                    size={mobile ? 60 : 150}
+                    size={mobile ? 150 : 150}
                     shape="square"
                     icon="user"
                     src={employee?.avatar}

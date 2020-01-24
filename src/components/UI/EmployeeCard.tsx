@@ -15,13 +15,15 @@ export default function EmployeeCard({ loading, employee }: Props) {
     <div style={{ marginBottom: 20 }}>
       <Skeleton loading={loading} active avatar paragraph={false}>
         {employee && (
-          <Card bordered={false} bodyStyle={{ padding: 0 }}>
-            <Card.Meta
-              title={<Link to={getEmployeeLink(employee.email)}>{employee.name}</Link>}
-              description={employee.position}
-              avatar={<Avatar size={55} shape="circle" icon="user" src={employee.avatar} />}
-            />
-          </Card>
+          <Link to={getEmployeeLink(employee.email)}>
+            <Card hoverable bordered={true} bodyStyle={{ padding: 10 }}>
+              <Card.Meta
+                title={employee.name}
+                description={employee.position}
+                avatar={<Avatar size={55} shape="circle" icon="user" src={employee.avatar} />}
+              />
+            </Card>
+          </Link>
         )}
       </Skeleton>
     </div>
