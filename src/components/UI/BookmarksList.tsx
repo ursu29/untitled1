@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import BookmarkItem from './Bookmark'
 import { Employee, Access, Bookmark } from '../../types'
 import { List, Input, Skeleton } from 'antd'
-import FuzzySearch from 'fuzzy-search'
 import { PureQueryOptions } from 'apollo-client'
 
 type BookmarkPick = Pick<Bookmark, 'id' | 'title' | 'link'> & {
@@ -35,8 +34,9 @@ export default function BookmarksList({
     return <div>No bookmarks found</div>
   }
 
-  const searcher = new FuzzySearch(bookmarks || [], ['title'])
-  const filteredItems: BookmarkPick[] = searcher.search(filter.trim())
+  const filteredItems: BookmarkPick[] = (bookmarks || []).filter(bookmark => {
+    return bookmark.title?.toLowerCase().includes(filter.trim().toLowerCase())
+  })
 
   return (
     <Skeleton loading={loading} active>

@@ -1,5 +1,4 @@
 import { Input, List, Skeleton, Tag } from 'antd'
-import FuzzySearch from 'fuzzy-search'
 import React, { useState } from 'react'
 import { Employee, File } from '../../types'
 
@@ -26,8 +25,11 @@ export default function({ files, loading }: Props) {
     if (type === null) return true
     return item.type === type
   })
-  const searcher = new FuzzySearch(filteredByTypeFiles, ['fileName'])
-  const filteredFiles: FilesPick[] = searcher.search(filter.trim())
+
+  const filteredFiles: FilesPick[] = (filteredByTypeFiles || []).filter(file => {
+    return file.fileName?.toLowerCase().includes(filter.trim().toLowerCase())
+  })
+
   return (
     <Skeleton loading={loading} active>
       <Input

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, PropsWithChildren } from 'react'
 import { Skeleton, Timeline, Input, Button, Switch } from 'antd'
 import queryString from 'query-string'
-import FuzzySearch from 'fuzzy-search'
 import PostItem from './Post'
 import { Post, Employee, Tag } from '../../types'
 import PATHS from '../../paths'
@@ -67,21 +66,29 @@ function Posts({
     }
   }, [setTagFilter, location, tagFilter])
 
-  const searcher = new FuzzySearch(
-    (posts || [])
-      .filter(i => {
-        if (!tagFilter.length) return true
-        const tagFilterIds = tagFilter.map(i => i.key)
-        const tagIds = i.tags?.map(i => i.name) || []
-        return tagFilterIds.every(i => tagIds.includes(i))
-      })
-      .filter(i => {
-        if (!showTranslated) return true
-        return i.isTranslated
-      }),
-    showTranslated ? ['titleTranslated', 'bodyTranslated'] : ['title', 'body'],
-  )
-  const filteredPosts: PostPick[] = searcher.search(filter.trim())
+  const filteredPosts = (posts || [])
+    .filter(i => {
+      if (!tagFilter.length) return true
+      const tagFilterIds = tagFilter.map(i => i.key)
+      const tagIds = i.tags?.map(i => i.name) || []
+      return tagFilterIds.every(i => tagIds.includes(i))
+    })
+    .filter(i => {
+      if (!showTranslated) return true
+      return i.isTranslated
+    })
+    .filter(post => {
+      if (showTranslated) {
+        return (
+          post.titleTranslated?.toLowerCase().includes(filter.trim().toLowerCase()) ||
+          post.bodyTranslated?.toLowerCase().includes(filter.trim().toLowerCase())
+        )
+      }
+      return (
+        post.title?.toLowerCase().includes(filter.trim().toLowerCase()) ||
+        post.body?.toLowerCase().includes(filter.trim().toLowerCase())
+      )
+    })
 
   return (
     <Skeleton loading={loading} active>
