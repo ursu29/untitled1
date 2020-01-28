@@ -70,7 +70,7 @@ const BookmarkForm = ({ form, onSubmit, bookmark, loading, SkillTreeSelect }: Pr
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item>
+      <Form.Item label="Skills">
         {getFieldDecorator('skills', {
           initialValue: bookmark?.skills,
         })(<SkillTreeSelect />)}

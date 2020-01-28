@@ -53,6 +53,10 @@ export default function({ files, loading }: Props) {
           pageSize: 25,
           hideOnSinglePage: true,
           showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+          onChange: () => {
+            document.body.scrollTop = 0 // For Safari
+            document.documentElement.scrollTop = 0
+          },
         }}
         dataSource={filteredFiles}
         renderItem={file => (

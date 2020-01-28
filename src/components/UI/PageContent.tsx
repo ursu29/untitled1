@@ -13,7 +13,6 @@ const Container = styled.div<{ isLarge: boolean; noBottom: boolean }>`
 
 export default function PageContent(props: { noBottom: boolean } & PropsWithChildren<any>) {
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
-  console.log('noBottom', props.noBottom)
   return (
     <Container isLarge={isLarge} noBottom={props.noBottom}>
       {props.children}

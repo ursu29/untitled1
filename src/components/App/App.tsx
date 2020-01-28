@@ -34,19 +34,19 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     const isNotAuthenticated = !!graphQLErrors.find(e => e.extensions?.code === 'UNAUTHENTICATED')
     if (isNotAuthenticated) {
-      console.log('corrupted token, try to authorize again')
+      console.info('corrupted token, try to authorize again')
       client.writeData({ data: { unauthenticated: true } })
       ReactDOM.render(<App />, document.getElementById('root'))
     }
     graphQLErrors.map(({ message, locations, path }) =>
-      console.log(
+      console.error(
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}, Code: }`,
       ),
     )
   }
 
   if (networkError) {
-    console.log(`[Network error]: ${networkError}`)
+    console.error(`[Network error]: ${networkError}`)
   }
 })
 
