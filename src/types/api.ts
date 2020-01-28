@@ -206,3 +206,9 @@ export interface Evaluation {
   evaluation: number
   evaluationAttribute: EvaluationAttribute
 }
+
+export interface EvaluationReviewer {
+  id: string
+  fromWho: Employee
+  toWhom: Employee
+}

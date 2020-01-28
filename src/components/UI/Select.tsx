@@ -1,5 +1,6 @@
 import { Select } from 'antd'
 import React, { useEffect } from 'react'
+import { SelectProps } from 'antd/es/select'
 
 interface Item {
   value: string
@@ -60,7 +61,7 @@ function PortalSelect(
       mode={mode || 'default'}
       showSearch
       labelInValue
-      onChange={(value: Item | Item[]) => {
+      onChange={(value: Item | Item[], option: any) => {
         onSelect(value)
       }}
     >

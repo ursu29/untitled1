@@ -1,0 +1,62 @@
+import React, { useEffect } from 'react'
+import { EvaluationReviewer, Employee } from '../../types'
+import Button from '../UI/Button'
+import gql from 'graphql-tag'
+import { useMutation } from '@apollo/react-hooks'
+import getEvaluationReviewers from '../../queries/getEvaluationReviewers'
+import message from '../../message'
+
+const mutation = gql`
+  mutation deleteEvaluationReviewer($input: DeleteEvaluationReviewerInput) {
+    deleteEvaluationReviewer(input: $input) {
+      id
+    }
+  }
+`
+
+interface Props {
+  reviewer: {
+    id: EvaluationReviewer['id']
+    fromWho: Pick<Employee, 'id' | 'name'>
+    toWhom: Pick<Employee, 'id' | 'name'>
+  }
+}
+
+function DeleteEmployeeReviewer({ reviewer }: Props) {
+  const [mutate, { loading }] = useMutation(mutation, {
+    variables: {
+      input: {
+        id: reviewer.id,
+      },
+    },
+    refetchQueries: [
+      {
+        query: getEvaluationReviewers,
+        variables: {
+          input: {
+            toWhom: reviewer.toWhom.id,
+          },
+        },
+      },
+    ],
+    onCompleted: () => message.success('Reviewer removed'),
+    onError: message.error,
+  })
+
+  useEffect(() => {
+    if (loading) {
+      message.loading('Updating')
+    }
+  })
+
+  return (
+    <div>
+      {reviewer.fromWho.name}
+      <div>
+        <Button type="link" icon="delete" onClick={mutate} />
+      </div>
+    </div>
+  )
+}
+
+export default DeleteEmployeeReviewer

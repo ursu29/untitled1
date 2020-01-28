@@ -1,6 +1,6 @@
 import React from 'react'
 import { Table, Rate, Icon } from 'antd'
-import { EvaluationAttribute, Evaluation, Employee } from '../../types'
+import { EvaluationAttribute, EvaluationReviewer, Evaluation, Employee } from '../../types'
 
 const parent: { title: string; key: string; children?: any }[] = [
   {
@@ -39,7 +39,14 @@ interface Props {
   employee: Pick<Employee, 'id' | 'isMe'> & {
     manager: Pick<Employee, 'id' | 'name' | 'isMe'>
   }
+  reviewers?: {
+    id: EvaluationReviewer['id']
+    fromWho: Pick<Employee, 'id' | 'name'>
+    toWhom: Pick<Employee, 'id' | 'name'>
+  }[]
   onEvaluate: (value: { toWhom: string; evaluation: number; evaluationAttribute: string }) => void
+  DeleteEmployeeReviewer: any
+  editable: boolean
 }
 
 export default function EvaluationTable({
@@ -47,6 +54,9 @@ export default function EvaluationTable({
   onEvaluate,
   employee,
   evaluations,
+  editable,
+  DeleteEmployeeReviewer,
+  reviewers = [],
 }: Props) {
   if (!evaluationAttributes?.length) return <div>Attributes are not found</div>
 
@@ -65,8 +75,9 @@ export default function EvaluationTable({
 
   const columns: any = [
     {
-      title: 'Attribute',
+      title: 'Attribute description',
       dataIndex: 'title',
+      width: 400,
       render: (text: any, item: any) => {
         if (item.children) return <strong>{item.title}</strong>
 
@@ -106,23 +117,29 @@ export default function EvaluationTable({
           return i.evaluationAttribute.id === item.id && i.fromWho.id === employee.id
         })
         return (
-          <Rate
-            disabled={!employee.isMe}
-            onChange={value => {
-              onEvaluate({
-                toWhom: employee.id,
-                evaluation: value,
-                evaluationAttribute: item.id,
-              })
-            }}
-            count={3}
-            value={evaluation?.evaluation || 0}
-          />
+          <div style={{ whiteSpace: 'nowrap' }}>
+            <Rate
+              disabled={!employee.isMe}
+              onChange={value => {
+                onEvaluate({
+                  toWhom: employee.id,
+                  evaluation: value,
+                  evaluationAttribute: item.id,
+                })
+              }}
+              count={3}
+              value={evaluation?.evaluation || 0}
+            />
+          </div>
         )
       },
     },
     {
-      title: 'Team Lead ' + employee.manager.name,
+      title: (
+        <div>
+          Team Lead<div>{employee.manager.name}</div>
+        </div>
+      ),
       align: 'center',
       width: 120,
       render: (text: any, item: any) => {
@@ -131,30 +148,63 @@ export default function EvaluationTable({
           return i.evaluationAttribute.id === item.id && i.fromWho.id === employee.manager.id
         })
         return (
-          <Rate
-            disabled={!employee.manager.isMe}
-            onChange={value => {
-              onEvaluate({
-                toWhom: employee.id,
-                evaluation: value,
-                evaluationAttribute: item.id,
-              })
-            }}
-            count={3}
-            value={evaluation?.evaluation || 0}
-          />
+          <div style={{ whiteSpace: 'nowrap' }}>
+            <Rate
+              disabled={!employee.manager.isMe}
+              onChange={value => {
+                onEvaluate({
+                  toWhom: employee.id,
+                  evaluation: value,
+                  evaluationAttribute: item.id,
+                })
+              }}
+              count={3}
+              value={evaluation?.evaluation || 0}
+            />
+          </div>
         )
       },
     },
+    ...reviewers?.map(reviewer => {
+      return {
+        title: editable ? <DeleteEmployeeReviewer reviewer={reviewer} /> : reviewer.fromWho.name,
+        align: 'center',
+        width: 120,
+        render: (text: any, item: any) => {
+          if (item.children) return null
+          const evaluation = evaluations?.find(i => {
+            return i.evaluationAttribute.id === item.id && i.fromWho.id === employee.manager.id
+          })
+          return (
+            <div style={{ whiteSpace: 'nowrap' }}>
+              <Rate
+                disabled={!employee.manager.isMe}
+                onChange={value => {
+                  onEvaluate({
+                    toWhom: employee.id,
+                    evaluation: value,
+                    evaluationAttribute: item.id,
+                  })
+                }}
+                count={3}
+                value={evaluation?.evaluation || 0}
+              />
+            </div>
+          )
+        },
+      }
+    }),
   ]
 
   return (
     <div>
       <Table
+        style={{ maxWidth: 1100 }}
         expandIconAsCell={false}
         expandIconColumnIndex={-1}
         defaultExpandAllRows
         columns={columns}
+        scroll={{ x: 500 }}
         dataSource={tree}
         pagination={false}
       />

@@ -9,7 +9,7 @@ import Tabs from '../UI/Tabs'
 import EmployeeBookmarks from './EmployeeBookmarks'
 import EmployeeSkills from './EmployeeSkills'
 import EmployeeDevelopmentPlan from './EmployeeDevelopmentPlan'
-import EmployeeEvaluation from './EmployeeEvaluation'
+import EmployeeEvaluation from '../EmployeeEvaluation/EmployeeEvaluation'
 
 interface Props extends RouteComponentProps {
   employee: Pick<Employee, 'id'>
