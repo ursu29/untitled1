@@ -8,9 +8,9 @@
   "printWidth": 100,
   "overrides": [
     {
-      "files": "*.test.js",
+      "files": "*spec.js",
       "options": {
-        "semi": true
+        "semi": false
       }
     },
     {
