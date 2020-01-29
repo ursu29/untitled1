@@ -83,16 +83,6 @@ export default function EvaluationTable({
       render: (text: any, item: any) => {
         if (item.children) return <strong>{item.title}</strong>
 
-        const myEvaluation =
-          evaluations?.find(i => {
-            return i.evaluationAttribute.id === item.id && i.fromWho.id === employee.id
-          })?.evaluation || 0
-
-        const myManagerEvaluation =
-          evaluations?.find(i => {
-            return i.evaluationAttribute.id === item.id && i.fromWho.id === employee.manager.id
-          })?.evaluation || 0
-
         const filtered = evaluations?.filter(i => i.evaluationAttribute.id === item.id) || []
 
         let showMark = false
@@ -115,15 +105,17 @@ export default function EvaluationTable({
 
         return (
           <div key={item.key} style={{ paddingLeft: 16, display: 'flex', alignItems: 'center' }}>
-            <Icon
-              type="exclamation"
-              style={{
-                color: '#FAAD14',
-                fontSize: '150%',
-                fontWeight: 'bold',
-                visibility: showMark ? 'visible' : 'hidden',
-              }}
-            />
+            {showBaseColumns && (
+              <Icon
+                type="exclamation"
+                style={{
+                  color: '#FAAD14',
+                  fontSize: '150%',
+                  fontWeight: 'bold',
+                  visibility: showMark ? 'visible' : 'hidden',
+                }}
+              />
+            )}
             {item.title}
           </div>
         )
