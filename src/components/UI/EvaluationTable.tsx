@@ -93,6 +93,26 @@ export default function EvaluationTable({
             return i.evaluationAttribute.id === item.id && i.fromWho.id === employee.manager.id
           })?.evaluation || 0
 
+        const filtered = evaluations?.filter(i => i.evaluationAttribute.id === item.id) || []
+
+        let showMark = false
+
+        if (filtered.length !== 2 + reviewers.length) {
+          // me + teamlead + reviewers
+          showMark = true
+        }
+
+        if (filtered.length < 2) {
+          showMark = true
+          if (filtered.every(i => i.evaluation === 0)) {
+            showMark = false
+          }
+        } else {
+          if (filtered.some(i => i.evaluation !== filtered[0].evaluation)) {
+            showMark = true
+          }
+        }
+
         return (
           <div key={item.key} style={{ paddingLeft: 16, display: 'flex', alignItems: 'center' }}>
             <Icon
@@ -101,7 +121,7 @@ export default function EvaluationTable({
                 color: '#FAAD14',
                 fontSize: '150%',
                 fontWeight: 'bold',
-                visibility: myEvaluation !== myManagerEvaluation ? 'visible' : 'hidden',
+                visibility: showMark ? 'visible' : 'hidden',
               }}
             />
             {item.title}
