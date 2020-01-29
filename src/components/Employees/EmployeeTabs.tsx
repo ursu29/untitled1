@@ -98,7 +98,7 @@ function EmployeeTabs({ match, ...props }: Props) {
                 ),
               })
             }
-            return <Tabs tabs={tabs} tab={props.tab} />
+            return <Tabs controlled tabs={tabs} tab={props.tab} />
           }}
         </EmployeeEvaluationReviewersAccess>
       )}

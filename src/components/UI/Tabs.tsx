@@ -19,16 +19,26 @@ interface Tab {
 interface Props extends RouteComponentProps {
   tab?: string
   tabs: Tab[]
+  controlled?: boolean
 }
 
-function PortalTabs({ location, history, tabs, tab }: Props) {
+function PortalTabs({ location, history, controlled, tabs, tab }: Props) {
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   const padding = isLarge ? 60 : 15
+
+  const addditionalProps = controlled
+    ? {
+        activeKey: tab || tabs[0].key,
+      }
+    : {}
+
   return (
     <Tabs
       animated={false}
       tabBarStyle={{ paddingLeft: padding, paddingRight: padding }}
       defaultActiveKey={tab || tabs[0].key}
+      {...addditionalProps}
+      // activeKey={controlled ? tab || tabs[0].key : undefined}
       tabBarGutter={0}
       onTabClick={(tab: string) => {
         // const { pathname } = location
