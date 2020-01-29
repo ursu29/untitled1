@@ -1,7 +1,7 @@
-import React, { PropsWithChildren } from 'react'
-import { Employee } from '../../types'
-import getEvaluationReviewers, { QueryType } from '../../queries/getEvaluationReviewers'
 import { useQuery } from '@apollo/react-hooks'
+import { PropsWithChildren } from 'react'
+import getEvaluationReviewers, { QueryType } from '../../queries/getEvaluationReviewers'
+import { Employee } from '../../types'
 
 interface Props extends PropsWithChildren<any> {
   employee: Pick<Employee, 'id'>

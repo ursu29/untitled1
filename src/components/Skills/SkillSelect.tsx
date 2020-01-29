@@ -1,17 +1,8 @@
 import { useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import React from 'react'
 import getSkills, { QueryType } from '../../queries/getSkills'
 import { Skill } from '../../types'
 import Select from '../UI/Select'
-
-// export const mutation = gql`
-//   mutation CreateSkill($input: CreateSkillInput) {
-//     createSkill(input: $input) {
-//       id
-//     }
-//   }
-// `
 
 type SkillPick = Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'>
 

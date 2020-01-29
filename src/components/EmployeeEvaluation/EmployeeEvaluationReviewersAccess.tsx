@@ -1,7 +1,7 @@
-import React, { PropsWithChildren } from 'react'
-import { Employee, Access } from '../../types'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import { PropsWithChildren } from 'react'
+import { Access, Employee } from '../../types'
 
 const query = gql`
   query evaluationReviewersAccess($input: EvaluationReviewersAccessInput) {

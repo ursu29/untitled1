@@ -1,6 +1,5 @@
 import { Select } from 'antd'
 import React, { useEffect } from 'react'
-import { SelectProps } from 'antd/es/select'
 
 interface Item {
   value: string
