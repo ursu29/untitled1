@@ -2,7 +2,7 @@ import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import { Employee } from '../../types'
+import { Employee, Access } from '../../types'
 import Skeleton from '../UI/Skeleton'
 import EmployeeMatrices from '../EmployeeMatrices/EmployeeMatrices'
 import Tabs from '../UI/Tabs'
@@ -10,6 +10,7 @@ import EmployeeBookmarks from './EmployeeBookmarks'
 import EmployeeSkills from './EmployeeSkills'
 import EmployeeDevelopmentPlan from './EmployeeDevelopmentPlan'
 import EmployeeEvaluation from '../EmployeeEvaluation/EmployeeEvaluation'
+import EmployeeEvaluationReviewersAccess from '../EmployeeEvaluation/EmployeeEvaluationReviewersAccess'
 
 interface Props extends RouteComponentProps {
   employee: Pick<Employee, 'id'>
@@ -72,12 +73,8 @@ function EmployeeTabs({ match, ...props }: Props) {
       icon: 'number',
       body: <EmployeeMatrices employee={employee} />,
     })
-    tabs.push({
-      title: 'Self Evaluation Form',
-      key: 'evaluation',
-      icon: 'star',
-      body: <EmployeeEvaluation employee={employee} />,
-    })
+  }
+  if (employee?.access.write) {
     tabs.push({
       title: 'Personal development',
       key: 'development-plan',
@@ -88,7 +85,23 @@ function EmployeeTabs({ match, ...props }: Props) {
 
   return (
     <Skeleton loading={loading} padding={60}>
-      <Tabs tabs={tabs} tab={props.tab} />
+      {employee && (
+        <EmployeeEvaluationReviewersAccess employee={employee}>
+          {(evaluationTabAccess: Access) => {
+            if (evaluationTabAccess.read) {
+              tabs.push({
+                title: 'Self Evaluation Form',
+                key: 'evaluation',
+                icon: 'star',
+                body: (
+                  <EmployeeEvaluation employee={employee} editable={evaluationTabAccess.write} />
+                ),
+              })
+            }
+            return <Tabs tabs={tabs} tab={props.tab} />
+          }}
+        </EmployeeEvaluationReviewersAccess>
+      )}
     </Skeleton>
   )
 }

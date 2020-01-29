@@ -24,8 +24,12 @@ function EmployeeEvaluationAccessReviewers({ employee, children }: Props) {
       },
     },
   })
-  const editable = data?.evaluationReviewersAccess.write || false
-  return children(editable)
+  return children(
+    data?.evaluationReviewersAccess || {
+      read: false,
+      write: false,
+    },
+  )
 }
 
 export default EmployeeEvaluationAccessReviewers

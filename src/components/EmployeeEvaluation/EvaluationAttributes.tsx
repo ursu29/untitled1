@@ -14,7 +14,6 @@ import AddEvaluationReviewer from './AddEvaluationReviewer'
 import DeleteEmployeeReviewer from './DeleteEmployeeReviewer'
 import Divider from '../UI/Divider'
 import EmployeeEvaluationReviewers from './EmployeeEvaluationReviewers'
-import EmployeeEvaluationReviewersAccess from './EmployeeEvaluationReviewersAccess'
 import EmployeeEvaluation from './EmployeeEvaluation'
 
 const mutation = gql`
@@ -30,9 +29,10 @@ interface Props {
   employee: Pick<Employee, 'id' | 'name' | 'isMe'> & {
     manager: Pick<Employee, 'id' | 'name' | 'isMe'>
   }
+  editable: boolean
 }
 
-function EvaluationAttributes({ evaluations, employee, ...props }: Props) {
+function EvaluationAttributes({ evaluations, editable, employee, ...props }: Props) {
   const { data, loading } = useQuery<QueryType>(getEvaluationAttributes)
 
   const [evaluate, { loading: evaluateLoading }] = useMutation(mutation, {
@@ -48,50 +48,46 @@ function EvaluationAttributes({ evaluations, employee, ...props }: Props) {
 
   return (
     <Skeleton active loading={props.loading || loading}>
-      <EmployeeEvaluationReviewersAccess employee={employee}>
-        {(editable: boolean) => {
+      <EmployeeEvaluationReviewers employee={employee}>
+        {(reviewers: any) => {
           return (
-            <EmployeeEvaluationReviewers employee={employee}>
-              {(reviewers: any) => {
-                return (
-                  <>
-                    <Controls>
-                      {editable && <AddEvaluationReviewer employee={employee} />}
-                      <Divider type="vertical" style={{ visibility: 'hidden' }} />
-                      <ExportEvaluations
-                        evaluationAttributes={data?.evaluationAttributes}
-                        evaluations={evaluations}
-                        employee={employee}
-                        reviewers={reviewers}
-                      />
-                    </Controls>
-                    <EvaluationHelper />
-                    <EvaluationTable
-                      evaluationAttributes={data?.evaluationAttributes}
-                      evaluations={evaluations}
-                      editable={editable}
-                      reviewers={reviewers}
-                      employee={employee}
-                      DeleteEmployeeReviewer={DeleteEmployeeReviewer}
-                      onEvaluate={({ toWhom, evaluation, evaluationAttribute }: any) => {
-                        evaluate({
-                          variables: {
-                            input: {
-                              toWhom,
-                              evaluation,
-                              evaluationAttribute,
-                            },
-                          },
-                        })
-                      }}
-                    />
-                  </>
-                )
-              }}
-            </EmployeeEvaluationReviewers>
+            <>
+              {editable && (
+                <Controls>
+                  <AddEvaluationReviewer employee={employee} />
+                  <Divider type="vertical" style={{ visibility: 'hidden' }} />
+                  <ExportEvaluations
+                    evaluationAttributes={data?.evaluationAttributes}
+                    evaluations={evaluations}
+                    employee={employee}
+                    reviewers={reviewers}
+                  />
+                </Controls>
+              )}
+              <EvaluationHelper />
+              <EvaluationTable
+                evaluationAttributes={data?.evaluationAttributes}
+                evaluations={evaluations}
+                editable={editable}
+                reviewers={reviewers}
+                employee={employee}
+                DeleteEmployeeReviewer={DeleteEmployeeReviewer}
+                onEvaluate={({ toWhom, evaluation, evaluationAttribute }: any) => {
+                  evaluate({
+                    variables: {
+                      input: {
+                        toWhom,
+                        evaluation,
+                        evaluationAttribute,
+                      },
+                    },
+                  })
+                }}
+              />
+            </>
           )
         }}
-      </EmployeeEvaluationReviewersAccess>
+      </EmployeeEvaluationReviewers>
     </Skeleton>
   )
 }

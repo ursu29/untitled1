@@ -12,6 +12,7 @@ export default gql`
       fromWho {
         id
         name
+        isMe
       }
     }
   }
@@ -20,7 +21,7 @@ export default gql`
 export type QueryType = {
   evaluationReviewers: {
     id: EvaluationReviewer['id']
-    fromWho: Pick<Employee, 'id' | 'name'>
+    fromWho: Pick<Employee, 'id' | 'name' | 'isMe'>
     toWhom: Pick<Employee, 'id' | 'name'>
   }[]
 }

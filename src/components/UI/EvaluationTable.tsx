@@ -36,12 +36,12 @@ const parent: { title: string; key: string; children?: any }[] = [
 interface Props {
   evaluationAttributes?: Exclude<EvaluationAttribute, 'evaluations'>[]
   evaluations?: Evaluation[]
-  employee: Pick<Employee, 'id' | 'isMe'> & {
+  employee: Pick<Employee, 'id' | 'name' | 'isMe'> & {
     manager: Pick<Employee, 'id' | 'name' | 'isMe'>
   }
   reviewers?: {
     id: EvaluationReviewer['id']
-    fromWho: Pick<Employee, 'id' | 'name'>
+    fromWho: Pick<Employee, 'id' | 'name' | 'isMe'>
     toWhom: Pick<Employee, 'id' | 'name'>
   }[]
   onEvaluate: (value: { toWhom: string; evaluation: number; evaluationAttribute: string }) => void
@@ -73,7 +73,9 @@ export default function EvaluationTable({
     })
     .filter(i => i.children)
 
-  const columns: any = [
+  const showBaseColumns = editable || employee.isMe
+
+  let columns: any = [
     {
       title: 'Attribute description',
       dataIndex: 'title',
@@ -107,8 +109,11 @@ export default function EvaluationTable({
         )
       },
     },
-    {
-      title: 'You',
+  ]
+
+  if (showBaseColumns) {
+    columns.push({
+      title: employee.isMe ? 'You' : employee.name,
       align: 'center',
       width: 120,
       render: (text: any, item: any) => {
@@ -133,8 +138,9 @@ export default function EvaluationTable({
           </div>
         )
       },
-    },
-    {
+    })
+
+    columns.push({
       title: (
         <div>
           Team Lead<div>{employee.manager.name}</div>
@@ -164,8 +170,11 @@ export default function EvaluationTable({
           </div>
         )
       },
-    },
-    ...reviewers?.map(reviewer => {
+    })
+  }
+
+  columns = columns.concat(
+    reviewers?.map(reviewer => {
       return {
         title: editable ? <DeleteEmployeeReviewer reviewer={reviewer} /> : reviewer.fromWho.name,
         align: 'center',
@@ -173,12 +182,12 @@ export default function EvaluationTable({
         render: (text: any, item: any) => {
           if (item.children) return null
           const evaluation = evaluations?.find(i => {
-            return i.evaluationAttribute.id === item.id && i.fromWho.id === employee.manager.id
+            return i.evaluationAttribute.id === item.id && i.fromWho.id === reviewer.fromWho.id
           })
           return (
             <div style={{ whiteSpace: 'nowrap' }}>
               <Rate
-                disabled={!employee.manager.isMe}
+                disabled={!reviewer.fromWho.isMe}
                 onChange={value => {
                   onEvaluate({
                     toWhom: employee.id,
@@ -194,7 +203,7 @@ export default function EvaluationTable({
         },
       }
     }),
-  ]
+  )
 
   return (
     <div>
