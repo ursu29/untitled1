@@ -35,6 +35,15 @@ const Description = styled.div`
 
 export default function EmployeeView({ loading, employee, manager, projects, mobile }: Props) {
   if (!loading && !employee) return <div>Employee info is not provided</div>
+
+  const employeeDetails = employee && (
+    <>
+      <Text>{employee.email}</Text>
+      <Text>{employee.phoneNumber}</Text>
+      {employee.isMe && employee.bonuses && <Text>Bonus: {employee.bonuses} ₽</Text>}
+    </>
+  )
+
   return (
     <Skeleton loading={loading} avatar active>
       {employee && (
@@ -44,7 +53,7 @@ export default function EmployeeView({ loading, employee, manager, projects, mob
               <Card.Meta
                 title={
                   <div style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap' }}>
-                    <Title level={4} style={{ paddingRight: 8 }}>
+                    <Title level={4} style={{ paddingRight: 8, whiteSpace: 'normal' }}>
                       {employee.name}
                     </Title>
                     {employee.isMe && !mobile && (
@@ -61,17 +70,13 @@ export default function EmployeeView({ loading, employee, manager, projects, mob
                 description={
                   <Description>
                     <Text>{employee.position}</Text>
-                    <Text>
-                      {employee.country} / {employee.location}
-                    </Text>
-                    <Text>{employee.email}</Text>
-                    <Text>{employee.phoneNumber}</Text>
-                    {employee.isMe && employee.bonuses && <Text>Bonus: {employee.bonuses} ₽</Text>}
+                    <Text>{employee.location}</Text>
+                    {!mobile && employeeDetails}
                   </Description>
                 }
                 avatar={
                   <Avatar
-                    size={mobile ? 150 : 150}
+                    size={mobile ? 135 : 150}
                     shape="square"
                     icon="user"
                     src={employee?.avatar}
@@ -79,6 +84,7 @@ export default function EmployeeView({ loading, employee, manager, projects, mob
                 }
               />
             </Card>
+            {mobile && <Description style={{ marginBottom: 10 }}>{employeeDetails}</Description>}
             <div>
               <a
                 href={`https://outlook.office.com/owa/?path=/mail/action/compose&to=${employee.email}`}
