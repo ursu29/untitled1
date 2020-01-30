@@ -10,6 +10,7 @@ import Controls from '../UI/Controls'
 import Back from '../UI/Back'
 import paths from '../../paths'
 import PageContent from '../UI/PageContent'
+import NotFound from '../UI/NotFound'
 
 const query = gql`
   query getEmployees($input: EmployeesInput) {
@@ -33,7 +34,7 @@ function EmployeePage({ match }: RouteComponentProps<{ email: string; tab: strin
 
   const employee = data?.employees?.[0]
 
-  if (!employee) return <div>Employee is not found</div>
+  if (!employee) return <NotFound message="Employee is not found" />
 
   return (
     <Skeleton loading={loading || !data} avatar>
