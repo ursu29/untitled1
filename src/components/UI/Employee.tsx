@@ -107,7 +107,13 @@ export default function EmployeeView({ loading, employee, manager, projects, mob
                 </Button>
               </a>{' '}
               <Badge
-                color={employee.status === 'Available' ? 'green' : 'red'}
+                color={
+                  employee.status === 'Available'
+                    ? 'green'
+                    : employee.status === 'Unavailable'
+                    ? 'gray'
+                    : 'red'
+                }
                 text={employee.status}
               />
             </div>
