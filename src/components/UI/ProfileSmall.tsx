@@ -35,7 +35,13 @@ export default function SiderProfile({ loading, profile }: Props) {
                     <Text strong>{profile.name}</Text>
                     <br />
                     <Badge
-                      color={profile.status === 'Available' ? 'green' : 'red'}
+                      color={
+                        profile.status === 'Available'
+                          ? 'green'
+                          : profile.status === 'Unavailable'
+                          ? 'gray'
+                          : 'red'
+                      }
                       text={profile.status}
                     />
                   </>
