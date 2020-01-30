@@ -152,37 +152,39 @@ export default function EvaluationTable({
       },
     })
 
-    columns.push({
-      title: (
-        <div>
-          Team Lead<div>{employee.manager.name}</div>
-        </div>
-      ),
-      align: 'center',
-      width: 120,
-      render: (text: any, item: any) => {
-        if (item.children) return null
-        const evaluation = evaluations?.find(i => {
-          return i.evaluationAttribute.id === item.id && i.fromWho.id === employee.manager.id
-        })
-        return (
-          <div style={{ whiteSpace: 'nowrap' }}>
-            <Rate
-              disabled={!employee.manager.isMe}
-              onChange={value => {
-                onEvaluate({
-                  toWhom: employee.id,
-                  evaluation: value,
-                  evaluationAttribute: item.id,
-                })
-              }}
-              count={3}
-              value={evaluation?.evaluation || 0}
-            />
+    if (employee.manager) {
+      columns.push({
+        title: (
+          <div>
+            Team Lead<div>{employee.manager?.name}</div>
           </div>
-        )
-      },
-    })
+        ),
+        align: 'center',
+        width: 120,
+        render: (text: any, item: any) => {
+          if (item.children) return null
+          const evaluation = evaluations?.find(i => {
+            return i.evaluationAttribute.id === item.id && i.fromWho.id === employee.manager?.id
+          })
+          return (
+            <div style={{ whiteSpace: 'nowrap' }}>
+              <Rate
+                disabled={!employee.manager?.isMe}
+                onChange={value => {
+                  onEvaluate({
+                    toWhom: employee.id,
+                    evaluation: value,
+                    evaluationAttribute: item.id,
+                  })
+                }}
+                count={3}
+                value={evaluation?.evaluation || 0}
+              />
+            </div>
+          )
+        },
+      })
+    }
   }
 
   columns = columns.concat(

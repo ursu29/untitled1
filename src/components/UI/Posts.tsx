@@ -101,7 +101,7 @@ function Posts({
         />
         <Switch
           checkedChildren="En"
-          unCheckedChildren="All"
+          unCheckedChildren="Ru"
           onChange={() => setTranslated(!showTranslated)}
           style={{ marginLeft: 8 }}
           checked={showTranslated}

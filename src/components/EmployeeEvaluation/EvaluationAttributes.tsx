@@ -51,16 +51,18 @@ function EvaluationAttributes({ evaluations, editable, employee, ...props }: Pro
         {(reviewers: any) => {
           return (
             <>
-              {editable && (
+              {(editable || employee.isMe) && (
                 <Controls>
-                  <AddEvaluationReviewer employee={employee} />
+                  {editable && <AddEvaluationReviewer employee={employee} />}
                   <Divider type="vertical" style={{ visibility: 'hidden' }} />
-                  <ExportEvaluations
-                    evaluationAttributes={data?.evaluationAttributes}
-                    evaluations={evaluations}
-                    employee={employee}
-                    reviewers={reviewers}
-                  />
+                  {(editable || employee.isMe) && (
+                    <ExportEvaluations
+                      evaluationAttributes={data?.evaluationAttributes}
+                      evaluations={evaluations}
+                      employee={employee}
+                      reviewers={reviewers}
+                    />
+                  )}
                 </Controls>
               )}
               <EvaluationHelper />
