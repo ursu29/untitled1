@@ -132,6 +132,7 @@ function Posts({
       )}
       <br />
       <br />
+      {!posts?.length && <div>No posts yet</div>}
       <Timeline style={{ maxWidth: 650 }}>
         {filteredPosts?.map(post => (
           <Timeline.Item key={post.id}>
