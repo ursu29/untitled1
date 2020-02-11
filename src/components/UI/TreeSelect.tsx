@@ -37,10 +37,16 @@ function PortalTreeSelect({ loading, value, multiple, items, onChange }: Props, 
     <TreeSelect
       ref={ref}
       loading={loading}
-      onChange={onChange}
-      value={value}
+      onChange={value => {
+        //@ts-ignore
+        onChange(value?.map(({ label }) => label))
+      }}
+      //@ts-ignore
+      value={value ? [value].flat().map(i => ({ value: i, label: i })) : undefined}
       style={{ width: '100%' }}
       showCheckedStrategy="SHOW_ALL"
+      treeCheckStrictly
+      labelInValue
       treeCheckable
       dropdownStyle={{ maxHeight: 300, overflow: 'auto' }}
       multiple={multiple}
