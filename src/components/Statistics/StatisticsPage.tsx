@@ -8,13 +8,13 @@ import Skeleton from '../UI/Skeleton'
 import PageContent from '../UI/PageContent'
 
 const query = gql`
-  {
+  query getExperiences($input: ExperiencesInput) {
     levels {
       id
       name
       index
     }
-    experiences {
+    experiences(input: $input) {
       id
       level {
         id
@@ -42,7 +42,13 @@ type QueryType = {
 }
 
 export default function StatisticsPage() {
-  const { data, loading } = useQuery<QueryType>(query)
+  const { data, loading } = useQuery<QueryType>(query, {
+    variables: {
+      input: {
+        noMatrixSkills: true,
+      },
+    },
+  })
 
   const levels = data?.levels || []
   const experiences = data?.experiences
