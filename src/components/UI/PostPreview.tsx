@@ -4,6 +4,7 @@ import * as Showdown from 'showdown'
 import { Post } from '../../types'
 import Gallery from '../UI/Gallery'
 import styled from 'styled-components'
+import { NEWS_FEED_WIDTH } from '../../config'
 
 const { Title } = Typography
 
@@ -41,7 +42,7 @@ function PostPreview({ handlePublish, post, handleReturn, visible }: Props) {
     <div>
       <Modal
         okText="Publish"
-        width={1000}
+        width={NEWS_FEED_WIDTH}
         centered
         bodyStyle={{ maxHeight: '80vh', overflowY: 'auto' }}
         title={
