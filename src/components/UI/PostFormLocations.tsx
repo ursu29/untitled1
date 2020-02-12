@@ -3,24 +3,28 @@ import React, { useState, useCallback, useEffect } from 'react'
 
 const { CheckableTag } = Tag
 
-const LOCATIONS = ['All', 'Saint Petersburg', 'Tomsk', 'Kaliningrad', 'Zürich']
+const LOCATIONS_EN = ['All', 'Saint Petersburg', 'Tomsk', 'Kaliningrad', 'Zürich']
+const LOCATIONS_RU = ['Saint Petersburg', 'Tomsk', 'Kaliningrad']
 
 interface Props {
+  isTranslated: boolean
   values?: string[]
   onChange: (values: string[] | undefined) => void
 }
 
-export default function PostFormLocations({ values, onChange }: Props) {
+export default function PostFormLocations({ isTranslated, values, onChange }: Props) {
   const [show, toggleShow] = useState(Boolean(values?.length))
+
+  const LOCATIONS = isTranslated ? LOCATIONS_EN : LOCATIONS_RU
 
   const handleChange = useCallback(
     (tag: string) => {
-      if (tag === LOCATIONS[0]) {
+      if (tag === 'All') {
         onChange([tag])
       } else if (values?.includes(tag)) {
-        onChange(values.filter(i => i !== tag && i !== LOCATIONS[0]))
+        onChange((values || []).filter(i => i !== tag && i !== 'All'))
       } else {
-        onChange(values?.filter(i => i !== LOCATIONS[0]).concat(tag))
+        onChange((values || []).filter(i => i !== 'All').concat(tag))
       }
     },
     [values, onChange],
@@ -42,7 +46,9 @@ export default function PostFormLocations({ values, onChange }: Props) {
             if (show) {
               onChange(undefined)
             } else {
-              onChange([LOCATIONS[0]])
+              if (isTranslated) {
+                onChange(['All'])
+              }
             }
           }}
         >

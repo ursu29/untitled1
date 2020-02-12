@@ -3,8 +3,16 @@ import { Modal, Typography, Switch } from 'antd'
 import * as Showdown from 'showdown'
 import { Post } from '../../types'
 import Gallery from '../UI/Gallery'
+import styled from 'styled-components'
 
 const { Title } = Typography
+
+const Wrapper = styled.div`
+  img {
+    max-width: 100%;
+    padding: 8px 0;
+  }
+`
 
 const converter = new Showdown.Converter({
   tables: true,
@@ -54,7 +62,7 @@ function PostPreview({ handlePublish, post, handleReturn, visible }: Props) {
         onOk={handlePublish}
         onCancel={handleReturn}
       >
-        <>
+        <Wrapper>
           <Title level={4}>{showTranslated ? post.titleTranslated : post.title}</Title>
           <div
             dangerouslySetInnerHTML={{
@@ -73,7 +81,7 @@ function PostPreview({ handlePublish, post, handleReturn, visible }: Props) {
                 }) || []
             }
           />
-        </>
+        </Wrapper>
       </Modal>
     </div>
   )

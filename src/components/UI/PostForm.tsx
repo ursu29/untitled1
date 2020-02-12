@@ -3,20 +3,14 @@ import { FormComponentProps } from 'antd/lib/form/Form'
 import React from 'react'
 //@ts-ignore
 import Carousel, { Modal, ModalGateway } from 'react-images'
-import ReactMde from 'react-mde'
 import 'react-mde/lib/styles/css/react-mde-all.css'
-import * as Showdown from 'showdown'
 import { GATEWAY } from '../../config'
 import { Post } from '../../types'
 import PostFormLocations from './PostFormLocations'
 import PostPrewiew from './PostPreview'
-
-const converter = new Showdown.Converter({
-  tables: true,
-  simplifiedAutoLink: true,
-  strikethrough: true,
-  tasklists: true,
-})
+import MarkdownEditor from './MarkdownEditor'
+import copyToCliboard from '../../utils/copyToClipboard'
+import message from '../../message'
 
 type PostPick = Partial<
   Pick<Post, 'title' | 'body' | 'bodyTranslated'> & {
@@ -47,7 +41,6 @@ class PostForm extends React.Component<Props> {
     super(props)
     this.state = {
       publishAttempt: false,
-      selectedTab: 'write',
       values: localStorage.getItem('postValues')
         ? JSON.parse(localStorage.getItem('postValues')!)
         : {},
@@ -125,8 +118,6 @@ class PostForm extends React.Component<Props> {
 
   setBodyTranslated = (bodyTranslated: any) => this.updateValues({ bodyTranslated })
 
-  setSelectedTab = (selectedTab: any) => this.setState({ selectedTab })
-
   handleImageChange = ({ fileList: images }: any) => {
     this.setState({ values: { ...this.state.values, images } })
     if (!this.props.values) {
@@ -200,15 +191,18 @@ class PostForm extends React.Component<Props> {
           visible={this.state.showPostPreview && !this.props.loading}
         />
         <Form layout="vertical" onSubmit={this.handleSubmit} style={{ marginBottom: 16 }}>
-          <Form.Item>
+          <Form.Item style={{ marginBottom: 0 }}>
             {getFieldDecorator('isTranslated', {
               initialValue: post?.isTranslated,
               valuePropName: 'checked',
             })(<Checkbox>With translation</Checkbox>)}
           </Form.Item>
           <Tabs animated={false}>
-            <Tabs.TabPane tab="Russian" key="russian">
-              <Form.Item>
+            <Tabs.TabPane
+              tab={<Badge dot={bodyError || Boolean(getFieldError('title'))}>Russian</Badge>}
+              key="russian"
+            >
+              <Form.Item style={{ marginBottom: 4 }}>
                 {getFieldDecorator('title', {
                   initialValue: post?.title,
                   rules: [{ required: true, message: 'Please add some title!' }],
@@ -217,17 +211,9 @@ class PostForm extends React.Component<Props> {
               <Form.Item
                 validateStatus={bodyError ? 'error' : ''}
                 help={bodyError ? 'Please add some content!' : ''}
+                style={{ marginBottom: 0 }}
               >
-                <ReactMde
-                  value={post.body}
-                  minEditorHeight={400}
-                  onChange={this.setBody}
-                  selectedTab={this.state.selectedTab}
-                  onTabChange={this.setSelectedTab}
-                  generateMarkdownPreview={markdown =>
-                    Promise.resolve(converter.makeHtml(markdown))
-                  }
-                />
+                <MarkdownEditor id="postBody" value={post.body} onChange={this.setBody} />
               </Form.Item>
             </Tabs.TabPane>
             {getFieldValue('isTranslated') && (
@@ -239,7 +225,7 @@ class PostForm extends React.Component<Props> {
                 }
                 key="english"
               >
-                <Form.Item>
+                <Form.Item style={{ marginBottom: 4 }}>
                   {getFieldDecorator('titleTranslated', {
                     initialValue: post?.titleTranslated,
                     rules: [{ required: post?.isTranslated, message: 'Please add some title!' }],
@@ -248,17 +234,12 @@ class PostForm extends React.Component<Props> {
                 <Form.Item
                   validateStatus={bodyTranslatedError ? 'error' : ''}
                   help={bodyTranslatedError ? 'Please add some content!' : ''}
-                  style={{ flexGrow: 1 }}
+                  style={{ flexGrow: 1, marginBottom: 0 }}
                 >
-                  <ReactMde
+                  <MarkdownEditor
+                    id="postBodyTranslated"
                     value={post.bodyTranslated}
-                    minEditorHeight={400}
                     onChange={this.setBodyTranslated}
-                    selectedTab={this.state.selectedTab}
-                    onTabChange={this.setSelectedTab}
-                    generateMarkdownPreview={markdown =>
-                      Promise.resolve(converter.makeHtml(markdown))
-                    }
                   />
                 </Form.Item>
               </Tabs.TabPane>
@@ -266,12 +247,15 @@ class PostForm extends React.Component<Props> {
           </Tabs>
           <Form.Item>
             <Upload
-              // listType="picture-card"
               fileList={post.images}
               action={GATEWAY + '/upload'}
               name="files"
               onChange={this.handleImageChange}
               onPreview={this.handlePreview}
+              onDownload={value => {
+                copyToCliboard(value.response[0].url)
+                message.success('Link copied')
+              }}
               multiple
             >
               {post.images?.length >= 10 ? null : (
@@ -286,7 +270,11 @@ class PostForm extends React.Component<Props> {
               initialValue: post?.tags,
             })(<TagSelect allowAddNew multiple />)}
           </Form.Item>
-          <PostFormLocations values={post.locations} onChange={this.setLocations} />
+          <PostFormLocations
+            isTranslated={getFieldValue('isTranslated')}
+            values={post.locations}
+            onChange={this.setLocations}
+          />
           <Row type="flex" justify="space-between">
             <Col></Col>
             <Col>

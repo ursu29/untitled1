@@ -3,9 +3,16 @@ import { File } from '../../types'
 import Gallery from 'react-photo-gallery'
 import { Skeleton } from 'antd'
 import VisibilitySensor from 'react-visibility-sensor'
+import styled from 'styled-components'
 
 //@ts-ignore
 import Carousel, { Modal, ModalGateway } from 'react-images'
+
+const Wrapper = styled.div`
+  /* img {
+    padding: 0 !important;
+  } */
+`
 
 type GalleryImage = {
   src: string
@@ -106,9 +113,9 @@ export default function PortalGallery({ images }: Props) {
           ) : null}
         </ModalGateway>
         {renderImages.length === images.length && (
-          <div>
+          <Wrapper>
             <Gallery targetRowHeight={200} onClick={openLightbox} photos={renderImages} />
-          </div>
+          </Wrapper>
         )}
       </div>
     </VisibilitySensor>
