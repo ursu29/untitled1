@@ -40,8 +40,10 @@ export default class MarkdownEditor extends Component<Props> {
 
   componentDidUpdate() {
     if (this.simplemde) {
-      if (this.props.value !== this.simplemde.value()) {
-        this.simplemde.value(this.props.value)
+      if (this.props.value) {
+        if (this.props.value !== this.simplemde.value()) {
+          this.simplemde.value(this.props.value)
+        }
       }
     }
   }
