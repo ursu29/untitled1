@@ -23,7 +23,7 @@ export default function SiderProfile({ loading, profile }: Props) {
         bordered={false}
         style={{ borderRight: 'none' }}
         size={isLarge ? 'default' : 'small'}
-        bodyStyle={(!isLarge && { paddingLeft: 16 }) || undefined}
+        bodyStyle={(!isLarge && { padding: 8, paddingTop: 12 }) || undefined}
       >
         <Skeleton loading={loading} avatar active paragraph={false}>
           {profile &&

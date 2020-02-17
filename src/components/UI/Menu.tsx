@@ -6,6 +6,15 @@ import { useQuery } from '@apollo/react-hooks'
 import Skeleton from '../UI/Skeleton'
 import gql from 'graphql-tag'
 import { Access } from '../../types'
+import { useMediaQuery } from 'react-responsive'
+import { COLLAPSE_WIDTH } from '../../config'
+import styled from 'styled-components'
+
+const Width = styled.div<{ isLarge: boolean }>`
+  .ant-menu-inline-collapsed > .ant-menu-item {
+    padding: 0 ${props => (props.isLarge ? '32px !important' : '22px !important')};
+  }
+`
 
 const query = gql`
   {
@@ -25,6 +34,8 @@ interface Props {
 
 function PortalMenu(props: Props) {
   const { data, loading } = useQuery<QueryType>(query)
+
+  const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
 
   const menuItems = [
     {
@@ -73,27 +84,29 @@ function PortalMenu(props: Props) {
 
   return (
     <Skeleton padding={20} active loading={loading}>
-      <Menu
-        defaultSelectedKeys={[props.path]}
-        selectedKeys={[props.path]}
-        mode="inline"
-        theme="light"
-        style={{ border: 'none' }}
-      >
-        {menuItems
-          // .filter(i => !!i)
-          .map(item => {
-            if (!item) return null
-            return (
-              <Menu.Item key={item.route}>
-                <Link to={item.route} key={item.route}>
-                  {item.icon}
-                  <span>{item.title}</span>
-                </Link>
-              </Menu.Item>
-            )
-          })}
-      </Menu>
+      <Width isLarge={isLarge}>
+        <Menu
+          defaultSelectedKeys={[props.path]}
+          selectedKeys={[props.path]}
+          mode="inline"
+          theme="light"
+          style={{ border: 'none', width: isLarge ? 240 : 60 }}
+        >
+          {menuItems
+            // .filter(i => !!i)
+            .map(item => {
+              if (!item) return null
+              return (
+                <Menu.Item key={item.route}>
+                  <Link to={item.route} key={item.route}>
+                    {item.icon}
+                    <span>{item.title}</span>
+                  </Link>
+                </Menu.Item>
+              )
+            })}
+        </Menu>
+      </Width>
     </Skeleton>
   )
 }

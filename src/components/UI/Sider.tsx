@@ -10,7 +10,7 @@ interface Props extends PropsWithChildren<any> {}
 function PortalSider({ children }: Props) {
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   return (
-    <Sider theme="light" collapsed={!isLarge} width="240">
+    <Sider theme="light" collapsed={!isLarge} width="240" collapsedWidth="60">
       {children}
     </Sider>
   )
