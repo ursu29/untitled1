@@ -121,9 +121,12 @@ export default class SkillsTree extends React.Component<Props> {
         const afterStr = item.title.substr(index + searchValue.length)
         const title =
           searchValue && index > -1 ? (
-            <span style={{ display: 'flex' }} onDoubleClick={handleDoubleClick}>
+            <span
+              style={{ display: 'flex', whiteSpace: 'pre-wrap' }}
+              onDoubleClick={handleDoubleClick}
+            >
               {beforeStr}
-              <span style={{ color: '#f50', whiteSpace: 'pre-wrap' }}>{middleStr}</span>
+              <span style={{ color: '#f50' }}>{middleStr}</span>
               {afterStr}
             </span>
           ) : (
