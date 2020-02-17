@@ -116,9 +116,9 @@ export default class SkillsTree extends React.Component<Props> {
       if (item.children) {
         const handleDoubleClick = () => this.props.onDoubleClick(item)
         const index = item.title.toLowerCase().indexOf(searchValue.toLowerCase())
-        const beforeStr = item.title.substr(0, index)
-        const middleStr = item.title.substr(index, index + searchValue.length)
-        const afterStr = item.title.substr(index + searchValue.length)
+        const beforeStr = item.title.substring(0, index)
+        const middleStr = item.title.substring(index, index + searchValue.length)
+        const afterStr = item.title.substring(index + searchValue.length)
         const title =
           searchValue && index > -1 ? (
             <span
