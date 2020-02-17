@@ -123,7 +123,7 @@ export default class SkillsTree extends React.Component<Props> {
           searchValue && index > -1 ? (
             <span style={{ display: 'flex' }} onDoubleClick={handleDoubleClick}>
               {beforeStr}
-              <span style={{ color: '#f50' }}>{middleStr}</span>
+              <span style={{ color: '#f50', whiteSpace: 'pre-wrap' }}>{middleStr}</span>
               {afterStr}
             </span>
           ) : (
