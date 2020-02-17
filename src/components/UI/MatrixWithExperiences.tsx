@@ -3,6 +3,7 @@ import React from 'react'
 import { ExperienceDetails } from '../../fragments'
 import { Employee, Matrix } from '../../types'
 import { MatrixGrade, MatrixGroup, MatrixRow } from './Matrix'
+import Divider from '../UI/Divider'
 
 interface Props {
   matrix: Matrix
@@ -29,28 +30,31 @@ export default function MatrixWithExperiences({
         ))}
       </MatrixRow>
       {groups.map(group => (
-        <MatrixRow key={group.title}>
-          <MatrixGroup>
-            <Tooltip title={group.description}>{group.title}</Tooltip>
-          </MatrixGroup>
-          {grades.map(grade => {
-            const content = skills
-              .filter(skill => skill.groupId === group.id && skill.gradeId === grade.id)
-              .map(({ skill }) => {
-                const experience = employee?.experiences.find(i => i.skill.id === skill.id)
-                return (
-                  <EmployeeSkillExperience
-                    experience={experience}
-                    key={skill.id}
-                    skill={skill}
-                    editable={matrix.access.write || false}
-                    employee={employee}
-                  />
-                )
-              })
-            return <MatrixGrade key={grade.title}>{content.length ? content : '-'}</MatrixGrade>
-          })}
-        </MatrixRow>
+        <>
+          <Divider type="horizontal" />
+          <MatrixRow key={group.title}>
+            <MatrixGroup>
+              <Tooltip title={group.description}>{group.title}</Tooltip>
+            </MatrixGroup>
+            {grades.map(grade => {
+              const content = skills
+                .filter(skill => skill.groupId === group.id && skill.gradeId === grade.id)
+                .map(({ skill }) => {
+                  const experience = employee?.experiences.find(i => i.skill.id === skill.id)
+                  return (
+                    <EmployeeSkillExperience
+                      experience={experience}
+                      key={skill.id}
+                      skill={skill}
+                      editable={matrix.access.write || false}
+                      employee={employee}
+                    />
+                  )
+                })
+              return <MatrixGrade key={grade.title}>{content.length ? content : '-'}</MatrixGrade>
+            })}
+          </MatrixRow>
+        </>
       ))}
     </div>
   )

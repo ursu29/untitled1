@@ -3,7 +3,7 @@ import { Divider } from 'antd'
 
 interface Props extends PropsWithChildren<any> {
   type?: 'vertical' | 'horizontal'
-  style: React.CSSProperties
+  style?: React.CSSProperties
 }
 
 export default function PortalDivider({ children, style, type }: Props) {

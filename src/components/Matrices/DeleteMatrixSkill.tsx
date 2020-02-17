@@ -38,6 +38,7 @@ export default function CreateMatrixGrade({ matrix, skill, editable }: Props) {
       closable={editable}
       clickable
       skill={skill}
+      style={{ marginRight: 0 }}
       onClose={() => {
         mutate({
           variables: {

@@ -2,12 +2,13 @@ import React from 'react'
 import { Matrix } from '../../types'
 import { Skeleton } from 'antd'
 import styled from 'styled-components'
+import Divider from '../UI/Divider'
 
 export const MatrixCell = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 8px;
+  padding: 8px;
 `
 
 export const MatrixRow = styled.div`
@@ -31,6 +32,7 @@ export const MatrixGrade = styled.div`
   flex-direction: column;
   padding: 8px;
   background-color: #f7f7f7;
+  margin-right: 8px;
 `
 
 interface MatrixBodyProps
@@ -55,11 +57,11 @@ export const MatrixBody = React.memo(
         <MatrixRow>
           <MatrixGroup>
             {editable && (
-              <>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 <CreateMatrixGroup matrix={matrix} />
                 &nbsp;\&nbsp;
                 <CreateMatrixGrade matrix={matrix} />
-              </>
+              </div>
             )}
           </MatrixGroup>
           {grades.map(grade => (
@@ -70,25 +72,28 @@ export const MatrixBody = React.memo(
         </MatrixRow>
         {groups.map(group => {
           return (
-            <MatrixRow key={group.id}>
-              <MatrixGroup>{group.title}</MatrixGroup>
-              {grades.map(grade => {
-                const content = skills
-                  .filter(skill => skill.groupId === group.id && skill.gradeId === grade.id)
-                  .map(({ skill }) => (
-                    <MatrixCell key={skill.id}>
-                      <DeleteMatrixSkill skill={skill} matrix={matrix} editable={editable} />
-                    </MatrixCell>
-                  ))
-                if (editable)
-                  content.push(
-                    <MatrixCell key="-1">
-                      <CreateMatrixSkill grade={grade} group={group} matrix={matrix} />
-                    </MatrixCell>,
-                  )
-                return <MatrixGrade key={grade.id}>{content.length ? content : '-'}</MatrixGrade>
-              })}
-            </MatrixRow>
+            <div key={group.id}>
+              <Divider />
+              <MatrixRow key={group.id}>
+                <MatrixGroup>{group.title}</MatrixGroup>
+                {grades.map(grade => {
+                  const content = skills
+                    .filter(skill => skill.groupId === group.id && skill.gradeId === grade.id)
+                    .map(({ skill }) => (
+                      <MatrixCell key={skill.id}>
+                        <DeleteMatrixSkill skill={skill} matrix={matrix} editable={editable} />
+                      </MatrixCell>
+                    ))
+                  if (editable)
+                    content.push(
+                      <MatrixCell key="-1">
+                        <CreateMatrixSkill grade={grade} group={group} matrix={matrix} />
+                      </MatrixCell>,
+                    )
+                  return <MatrixGrade key={grade.id}>{content.length ? content : '-'}</MatrixGrade>
+                })}
+              </MatrixRow>
+            </div>
           )
         })}
       </div>
