@@ -7,7 +7,7 @@ import Divider from '../UI/Divider'
 export const MatrixCell = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 8px;
 `
 
