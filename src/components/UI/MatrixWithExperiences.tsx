@@ -7,7 +7,7 @@ import Divider from '../UI/Divider'
 
 interface Props {
   matrix: Matrix
-  employee?: Pick<Employee, 'id'> & {
+  employee?: Pick<Employee, 'id' | 'access'> & {
     experiences: ExperienceDetails[]
   }
   EmployeeSkillExperience: any
@@ -46,7 +46,7 @@ export default function MatrixWithExperiences({
                       experience={experience}
                       key={skill.id}
                       skill={skill}
-                      editable={matrix.access.write || false}
+                      editable={employee?.access.write || false}
                       employee={employee}
                     />
                   )
