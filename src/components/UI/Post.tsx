@@ -14,6 +14,7 @@ const converter = new Showdown.Converter({
   simplifiedAutoLink: true,
   strikethrough: true,
   tasklists: true,
+  simpleLineBreaks: true,
 })
 
 const Wrapper = styled.div`
