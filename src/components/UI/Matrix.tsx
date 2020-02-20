@@ -9,6 +9,7 @@ export const MatrixCell = styled.div`
   align-items: center;
   justify-content: flex-start;
   padding: 8px;
+  word-break: break-word;
 `
 
 export const MatrixRow = styled.div`

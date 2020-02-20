@@ -10,6 +10,7 @@ const StyledBookmark = styled.div`
   margin-top: 4px;
   margin-bottom: 4px;
   padding: 2px 4px;
+  word-break: break-word;
 `
 
 const StyledTitle = styled.a`
