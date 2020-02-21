@@ -5,6 +5,7 @@ import PostItem from './Post'
 import { Post, Employee, Tag } from '../../types'
 import PATHS from '../../paths'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { NEWS_FEED_WIDTH } from '../../config'
 
 type PostPick = Pick<
   Post,
@@ -132,7 +133,8 @@ function Posts({
       )}
       <br />
       <br />
-      <Timeline style={{ maxWidth: 650 }}>
+      {!posts?.length && <div>No posts yet</div>}
+      <Timeline style={{ maxWidth: NEWS_FEED_WIDTH }}>
         {filteredPosts?.map(post => (
           <Timeline.Item key={post.id}>
             <PostItem

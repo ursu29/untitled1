@@ -7,14 +7,22 @@ import PATHS from '../../paths'
 import { Employee, Post, Tag as TagType } from '../../types'
 import Gallery from '../UI/Gallery'
 import EmployeeLink from './EmployeeLink'
+import styled from 'styled-components'
 
 const converter = new Showdown.Converter({
   tables: true,
   simplifiedAutoLink: true,
   strikethrough: true,
   tasklists: true,
+  simpleLineBreaks: true,
 })
 
+const Wrapper = styled.div`
+  img {
+    max-width: 100%;
+    padding: 8px 0;
+  }
+`
 const { Text, Title, Paragraph } = Typography
 
 type PostPick = Pick<
@@ -41,37 +49,41 @@ interface Props extends RouteComponentProps {
 function PostItem({ post, showTranslated, edit, history }: Props) {
   return (
     <>
-      <Text>
-        {post.createdAt} {edit}
-      </Text>
-      <Title level={3} style={{ marginTop: 8 }}>
-        {showTranslated ? post.titleTranslated : post.title}
-      </Title>
-      <div
-        dangerouslySetInnerHTML={{
-          __html: converter.makeHtml(showTranslated ? post.bodyTranslated : post.body),
-        }}
-      />
+      <Wrapper>
+        <Text>
+          {post.createdAt} {edit}
+        </Text>
+        <Title level={3} style={{ marginTop: 8 }}>
+          {showTranslated ? post.titleTranslated : post.title}
+        </Title>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: converter.makeHtml(showTranslated ? post.bodyTranslated : post.body),
+          }}
+        />
+      </Wrapper>
 
-      {post.tags && (
-        <Paragraph>
-          {post.tags?.map(tag => (
-            <Tag
-              key={tag.id}
-              color="blue"
-              style={{ cursor: 'pointer' }}
-              onClick={() => {
-                history.push({
-                  pathname: PATHS.POSTS,
-                  search: '?tag=' + tag.name,
-                })
-              }}
-            >
-              {tag.name}
-            </Tag>
-          ))}
-        </Paragraph>
-      )}
+      <p>
+        {post.tags && (
+          <Paragraph>
+            {post.tags?.map(tag => (
+              <Tag
+                key={tag.id}
+                color="blue"
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  history.push({
+                    pathname: PATHS.POSTS,
+                    search: '?tag=' + tag.name,
+                  })
+                }}
+              >
+                {tag.name}
+              </Tag>
+            ))}
+          </Paragraph>
+        )}
+      </p>
       <Gallery images={post.images} />
       <EmployeeLink employee={post.createdBy} />
     </>

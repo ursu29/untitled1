@@ -199,6 +199,18 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
               initialValue: value?.developmentRoles?.actuarialBusinessAnalyst,
             })(<Checkbox>Actuarial Business Analyst</Checkbox>)}
           </div>
+          <div>
+            {getFieldDecorator('developmentRoles.productOwner', {
+              valuePropName: 'checked',
+              initialValue: value?.developmentRoles?.productOwner,
+            })(<Checkbox>Product Owner</Checkbox>)}
+          </div>
+          <div>
+            {getFieldDecorator('developmentRoles.dataAnalyst', {
+              valuePropName: 'checked',
+              initialValue: value?.developmentRoles?.dataAnalyst,
+            })(<Checkbox>Data Analyst</Checkbox>)}
+          </div>
         </Row>
       </div>
       <Form.Item>

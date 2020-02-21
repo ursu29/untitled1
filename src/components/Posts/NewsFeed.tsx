@@ -15,8 +15,6 @@ function NewsFeed({ editable }: Props) {
 
   if (error) return <div>Error :(</div>
 
-  if (!loading && !data?.posts?.length) return <div>No posts yet</div>
-
   const posts = data?.posts || []
 
   return (

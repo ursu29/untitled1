@@ -172,6 +172,8 @@ export interface DevelopmentPlan {
     solutionArchitect: boolean
     teamLead: boolean
     uxExpert: boolean
+    productOwner: boolean
+    dataAnalyst: boolean
   }
   guildContribution: {
     id: string

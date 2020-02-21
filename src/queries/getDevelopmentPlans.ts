@@ -22,6 +22,8 @@ export default gql`
         solutionArchitect
         teamLead
         uxExpert
+        productOwner
+        dataAnalyst
       }
       guildContribution {
         internalProject

@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import MatrixForm from './MatrixForm'
 
 const Controls = styled.div`
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
   display: flex;
   justify-content: flex-end;
 `
@@ -23,7 +23,12 @@ export default function SkillDrawer(props: Props) {
   const [visible, toggleVisibility] = useState(false)
   return (
     <Controls>
-      <Button icon={props.icon} title={props.togglerLabel} onClick={() => toggleVisibility(true)}>
+      <Button
+        icon={props.icon}
+        size="small"
+        title={props.togglerLabel}
+        onClick={() => toggleVisibility(true)}
+      >
         {props.togglerLabel}
       </Button>
       <Drawer

@@ -3,14 +3,24 @@ import { Modal, Typography, Switch } from 'antd'
 import * as Showdown from 'showdown'
 import { Post } from '../../types'
 import Gallery from '../UI/Gallery'
+import styled from 'styled-components'
+import { NEWS_FEED_WIDTH } from '../../config'
 
 const { Title } = Typography
+
+const Wrapper = styled.div`
+  img {
+    max-width: 100%;
+    padding: 8px 0;
+  }
+`
 
 const converter = new Showdown.Converter({
   tables: true,
   simplifiedAutoLink: true,
   strikethrough: true,
   tasklists: true,
+  simpleLineBreaks: true,
 })
 
 type PostPick = Partial<
@@ -33,7 +43,7 @@ function PostPreview({ handlePublish, post, handleReturn, visible }: Props) {
     <div>
       <Modal
         okText="Publish"
-        width={1000}
+        width={NEWS_FEED_WIDTH}
         centered
         bodyStyle={{ maxHeight: '80vh', overflowY: 'auto' }}
         title={
@@ -54,7 +64,7 @@ function PostPreview({ handlePublish, post, handleReturn, visible }: Props) {
         onOk={handlePublish}
         onCancel={handleReturn}
       >
-        <>
+        <Wrapper>
           <Title level={4}>{showTranslated ? post.titleTranslated : post.title}</Title>
           <div
             dangerouslySetInnerHTML={{
@@ -73,7 +83,7 @@ function PostPreview({ handlePublish, post, handleReturn, visible }: Props) {
                 }) || []
             }
           />
-        </>
+        </Wrapper>
       </Modal>
     </div>
   )

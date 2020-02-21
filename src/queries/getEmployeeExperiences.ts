@@ -10,12 +10,16 @@ export default gql`
       experiences {
         ...ExperienceDetails
       }
+      access {
+        read
+        write
+      }
     }
   }
   ${fragments.Experience.Details}
 `
 
-type EmployeePick = Pick<Employee, 'id' | 'name'> & {
+type EmployeePick = Pick<Employee, 'id' | 'name' | 'access'> & {
   experiences: ExperienceDetails[]
 }
 
