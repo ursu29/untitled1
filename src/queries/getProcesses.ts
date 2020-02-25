@@ -31,7 +31,7 @@ export default gql`
 type ProcessPick = Pick<Process, 'id' | 'customer' | 'type' | 'isRotation' | 'title'> & {
   steps: (Pick<ProcessStep, 'id' | 'title' | 'description' | 'type' | 'sendToTeamlead'> & {
     responsibleUsers: EmployeeDetails[]
-    parentStep: Pick<ProcessStep, 'id'>
+    parentSteps: Pick<ProcessStep, 'id'>[]
   })[]
 }
 

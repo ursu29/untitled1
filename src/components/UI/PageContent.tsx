@@ -11,10 +11,12 @@ const Container = styled.div<{ isLarge: boolean; noBottom: boolean }>`
   padding-bottom: ${props => (props.noBottom ? small : props.isLarge ? large : small)};
 `
 
-export default function PageContent(props: { noBottom: boolean } & PropsWithChildren<any>) {
+export default function PageContent(
+  props: { noBottom: boolean; style: any } & PropsWithChildren<any>,
+) {
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   return (
-    <Container isLarge={isLarge} noBottom={props.noBottom}>
+    <Container isLarge={isLarge} noBottom={props.noBottom} style={props.style}>
       {props.children}
     </Container>
   )
