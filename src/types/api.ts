@@ -214,3 +214,63 @@ export interface EvaluationReviewer {
   fromWho: Employee
   toWhom: Employee
 }
+
+export interface Vacancy {
+  id: string
+  position: string
+  reason: string
+  project: Project
+  responsibilities: string
+  requiredSkills: string
+  additionalSkills: string
+  location: Location
+  isPublished: boolean
+  isClosed: boolean
+}
+
+export interface Location {
+  id: string
+  name: string
+  code: string
+  description: string
+}
+
+export interface Process {
+  id: string
+  title: string
+  customer: 'internal' | 'swissre' | 'allianz'
+  type: 'onboarding' | 'offboarding'
+  isRotation: boolean
+}
+
+export interface ProcessStep {
+  id: string
+  type: 'approve' | 'notify'
+  responsibleUsers: Employee[]
+  parentSteps: ProcessStep[] | null
+  process: Process
+  title: string
+  description: string
+  sendToTeamlead: boolean
+}
+
+export interface ProcessExecution {
+  id: string
+  status: 'running' | 'finished' | 'cancelled'
+  process: Process
+  vacancy: Vacancy
+}
+
+export interface ProcessExecutionStep {
+  id: string
+  execution: ProcessExecution
+  step: ProcessStep
+  isDone: boolean
+}
+
+export interface ProcessExecutionComment {
+  body: string
+  employeeAzureId: string
+  createdAt: string
+  step: ProcessExecutionStep
+}
