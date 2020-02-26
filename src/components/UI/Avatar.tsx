@@ -5,6 +5,7 @@ interface Props {
   size?: number
   shape?: 'square' | 'circle'
   src?: string
+  alt?: string
 }
 
 export default (props: Props) => (
@@ -13,5 +14,6 @@ export default (props: Props) => (
     shape={props.shape || 'circle'}
     icon="user"
     src={props.src}
+    alt={props.alt}
   />
 )

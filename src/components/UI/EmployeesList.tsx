@@ -27,7 +27,7 @@ export default function EmployeesList({ employees, loading, Avatar, fixed }: Pro
       key: 'avatar',
       className: 'avatar-cell',
       width: 70,
-      render: (employee: Employee) => <Avatar id={employee.id} />,
+      render: (employee: Employee) => <Avatar id={employee.id} alt={employee.name} />,
     },
     {
       title: 'Name',

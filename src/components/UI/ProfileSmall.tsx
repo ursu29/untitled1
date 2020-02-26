@@ -15,7 +15,9 @@ interface Props {
 
 export default function SiderProfile({ loading, profile }: Props) {
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
-  const avatar = <Avatar shape="square" size="large" icon="user" src={profile?.avatar} />
+  const avatar = (
+    <Avatar shape="square" size="large" icon="user" src={profile?.avatar} alt={profile?.name} />
+  )
   return (
     <Link to={paths.PROFILE}>
       <Card

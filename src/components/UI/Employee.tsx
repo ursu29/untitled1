@@ -80,6 +80,7 @@ export default function EmployeeView({ loading, employee, manager, projects, mob
                     shape="square"
                     icon="user"
                     src={employee?.avatar}
+                    alt={employee?.name}
                   />
                 }
               />

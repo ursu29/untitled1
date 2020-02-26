@@ -20,7 +20,15 @@ export default function EmployeeCard({ loading, employee }: Props) {
               <Card.Meta
                 title={employee.name}
                 description={employee.position}
-                avatar={<Avatar size={55} shape="circle" icon="user" src={employee.avatar} />}
+                avatar={
+                  <Avatar
+                    size={55}
+                    shape="circle"
+                    icon="user"
+                    src={employee.avatar}
+                    alt={employee.name}
+                  />
+                }
               />
             </Card>
           </Link>
