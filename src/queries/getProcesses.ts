@@ -19,7 +19,11 @@ export default gql`
           ...EmployeeDetails
         }
         sendToTeamlead
+        hasComment
         parentSteps {
+          id
+        }
+        process {
           id
         }
       }
@@ -29,9 +33,13 @@ export default gql`
 `
 
 type ProcessPick = Pick<Process, 'id' | 'customer' | 'type' | 'isRotation' | 'title'> & {
-  steps: (Pick<ProcessStep, 'id' | 'title' | 'description' | 'type' | 'sendToTeamlead'> & {
+  steps: (Pick<
+    ProcessStep,
+    'id' | 'title' | 'description' | 'type' | 'sendToTeamlead' | 'hasComment'
+  > & {
     responsibleUsers: EmployeeDetails[]
     parentSteps: Pick<ProcessStep, 'id'>[]
+    process: Pick<Process, 'id'>
   })[]
 }
 

@@ -33,6 +33,6 @@ export const RowWrapper = styled.div`
     background: lightgray;
     position: absolute;
     left: 16px;
-    top: 24px;
+    top: 32px;
   }
 `

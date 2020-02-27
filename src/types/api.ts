@@ -252,6 +252,7 @@ export interface ProcessStep {
   title: string
   description: string
   sendToTeamlead: boolean
+  hasComment: boolean
 }
 
 export interface ProcessExecution {
