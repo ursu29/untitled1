@@ -20,9 +20,10 @@ interface Props extends RouteComponentProps {
   tab?: string
   tabs: Tab[]
   controlled?: boolean
+  noPadding?: boolean
 }
 
-function PortalTabs({ location, history, controlled, tabs, tab }: Props) {
+function PortalTabs({ location, history, noPadding, controlled, tabs, tab }: Props) {
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   const padding = isLarge ? 60 : 15
 
@@ -35,7 +36,7 @@ function PortalTabs({ location, history, controlled, tabs, tab }: Props) {
   return (
     <Tabs
       animated={false}
-      tabBarStyle={{ paddingLeft: padding, paddingRight: padding }}
+      tabBarStyle={{ paddingLeft: padding, paddingRight: padding, marginBottom: 0 }}
       defaultActiveKey={tab || tabs[0].key}
       {...addditionalProps}
       // activeKey={controlled ? tab || tabs[0].key : undefined}
@@ -70,7 +71,9 @@ function PortalTabs({ location, history, controlled, tabs, tab }: Props) {
             }
             key={tab.key}
           >
-            <div style={{ padding: isLarge ? '20px 60px' : '5px 15px' }}>{tab.body}</div>
+            <div style={{ padding: noPadding ? 0 : isLarge ? '20px 60px' : '5px 15px' }}>
+              {tab.body}
+            </div>
           </TabPane>
         )
       })}

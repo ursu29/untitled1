@@ -18,7 +18,7 @@ function ProcessStepForm({
 
   return (
     <Form>
-      <Form.Item label="Title">
+      <Form.Item style={{ marginBottom: 0 }} label="Title">
         <Controller
           as={<Input />}
           name="title"
@@ -27,7 +27,7 @@ function ProcessStepForm({
           defaultValue={step.title}
         />
       </Form.Item>
-      <Form.Item label="Description">
+      <Form.Item style={{ marginBottom: 0 }} label="Description">
         <Controller
           as={<Input.TextArea rows={4} />}
           name="description"
@@ -36,7 +36,7 @@ function ProcessStepForm({
           defaultValue={step.description}
         />
       </Form.Item>
-      <Form.Item label="Responsible">
+      <Form.Item style={{ marginBottom: 0 }} label="Responsible">
         <Controller
           as={<EmployeeSelect wide mode="multiple" />}
           name="responsibleUsers"
@@ -45,7 +45,7 @@ function ProcessStepForm({
           defaultValue={step.responsibleUsers}
         />
       </Form.Item>
-      <Form.Item>
+      <Form.Item style={{ marginBottom: 0 }}>
         <Controller
           as={
             <Radio.Group>
@@ -61,7 +61,7 @@ function ProcessStepForm({
           defaultValue={step.type || 'notify'}
         />
       </Form.Item>
-      <Form.Item>
+      <Form.Item style={{ marginBottom: 0 }}>
         <Controller
           as={<Checkbox>Include comment</Checkbox>}
           name="hasComment"
@@ -72,7 +72,7 @@ function ProcessStepForm({
           defaultValue={step.hasComment}
         />
       </Form.Item>
-      <Form.Item>
+      <Form.Item style={{ marginBottom: 0 }}>
         <Controller
           as={<Checkbox>Send notification to teamlead</Checkbox>}
           name="sendToTeamlead"

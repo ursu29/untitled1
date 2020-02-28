@@ -223,7 +223,7 @@ export interface Vacancy {
   responsibilities: string
   requiredSkills: string
   additionalSkills: string
-  location: Location
+  locations: Location[]
   isPublished: boolean
   isClosed: boolean
 }

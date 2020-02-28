@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
-import { Button, Card, Icon, Input } from 'antd'
+import { Button, Card, Icon } from 'antd'
 import gql from 'graphql-tag'
 import React, { useState } from 'react'
 import getProcesses from '../../queries/getProcesses'
@@ -22,6 +22,7 @@ export default function ProcessStep({ step }: { step: Partial<ProcessStepType> }
 
   return (
     <Card
+      size="small"
       title={step.title || 'Untitled'}
       extra={
         <Button size="small" type="default" onClick={() => setCollapsed(!collapsed)}>

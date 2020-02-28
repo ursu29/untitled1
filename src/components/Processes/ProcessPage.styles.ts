@@ -12,7 +12,7 @@ export const ColumnWrapper = styled.div`
     z-index: 0;
     width: 1px;
     height: calc(100% - 32px);
-    background: lightgray;
+    background: #eee;
     position: absolute;
     left: 32px;
     top: 0;
@@ -30,9 +30,9 @@ export const RowWrapper = styled.div`
     z-index: 0;
     width: calc(100% - 32px);
     height: 1px;
-    background: lightgray;
+    background: #eee;
     position: absolute;
     left: 16px;
-    top: 32px;
+    top: 21px;
   }
 `

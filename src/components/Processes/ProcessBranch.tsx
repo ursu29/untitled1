@@ -31,7 +31,7 @@ export default function Branch({
       <ColumnWrapper>
         <div
           style={{
-            width: 400,
+            width: 360,
             position: 'relative',
             backgroundColor: 'white',
             zIndex: 10,

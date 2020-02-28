@@ -84,10 +84,20 @@ function PortalMenu(props: Props) {
       icon: <Icon type="fire" />,
       title: 'News',
     },
+    {
+      route: paths.VACANCIES,
+      icon: <Icon type="idcard" />,
+      title: 'Vacancies',
+    },
+    {
+      route: paths.HR,
+      icon: <Icon type="user-add" />,
+      title: 'HR Tool',
+    },
     data?.processesAccess.read
       ? {
           route: paths.PROCESSES,
-          icon: <Icon type="question" />,
+          icon: <Icon type="branches" />,
           title: 'Processes',
         }
       : null,

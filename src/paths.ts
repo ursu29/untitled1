@@ -1,4 +1,4 @@
-import { Employee, Project, Skill, Matrix, Post, Process } from './types'
+import { Employee, Project, Skill, Matrix, Post, Process, Vacancy } from './types'
 
 const PATHS = {
   PROFILE: '/profile',
@@ -13,6 +13,8 @@ const PATHS = {
   SETTINGS: '/settings',
   EVENTS: '/events',
   PROCESSES: '/processes',
+  VACANCIES: '/vacancies',
+  HR: '/hr',
 }
 
 export const getEmployeeLink = (email: Employee['email']) => PATHS.EMPLOYEES + '/' + email + '/'
@@ -21,5 +23,6 @@ export const getSkillLink = (id: Skill['id']) => PATHS.SKILLS + '/' + id + '/'
 export const getMatrixLink = (id: Matrix['id']) => PATHS.MATRICES + '/' + id + '/'
 export const getPostLink = (id: Post['id']) => PATHS.POSTS + '/' + id + '/'
 export const getProcessLink = (id: Process['id']) => PATHS.PROCESSES + '/' + id + '/'
+export const getVacanciesLink = (id: Vacancy['id']) => PATHS.VACANCIES + '/' + id + '/'
 
 export default PATHS
