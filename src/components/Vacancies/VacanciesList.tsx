@@ -1,6 +1,6 @@
 import React from 'react'
 import { QueryType } from '../../queries/getVacancies'
-import { Table } from 'antd'
+import { Table, Button } from 'antd'
 
 interface Props {
   items?: QueryType['vacancies']
@@ -23,7 +23,13 @@ function ProcessList({ items }: Props) {
             return <span>{i.locations?.map(i => i.name).join(' ,') ?? '-'}</span>
           },
         },
-        { key: 'actions' },
+        {
+          key: 'actions',
+          align: 'right',
+          render: () => {
+            return <Button>Rotate</Button>
+          },
+        },
       ]}
       dataSource={items}
       pagination={false}
