@@ -24,6 +24,7 @@ const Processes = lazy(() => import('../Processes/ProcessesPage'))
 const Vacancies = lazy(() => import('../Vacancies/VacanciesPage'))
 const Vacancy = lazy(() => import('../Vacancies/VacancyPage'))
 const HR = lazy(() => import('../HR/HRPage'))
+const HRProcess = lazy(() => import('../HR/HRProcessPage'))
 
 export default function Pages() {
   return (
@@ -53,6 +54,7 @@ export default function Pages() {
           <Route path={paths.PROCESSES} component={Processes} />
           <Route path={paths.VACANCIES + '/:id'} component={Vacancy} />
           <Route path={paths.VACANCIES} component={Vacancies} />
+          <Route path={paths.HR + '/:id'} component={HRProcess} />
           <Route path={paths.HR} component={HR} />
           <Route component={PageNotFound} />
         </Switch>

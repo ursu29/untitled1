@@ -270,6 +270,7 @@ export interface ProcessExecutionStep {
 }
 
 export interface ProcessExecutionComment {
+  id: string
   body: string
   employeeAzureId: string
   createdAt: string

@@ -4,6 +4,8 @@ import { Table } from 'antd'
 import { Button, Popconfirm } from 'antd'
 import PageContent from '../UI/PageContent'
 import AbortProcessExecution from './AbortProcessExecution'
+import { getProcessExecutionLink } from '../../paths'
+import { Link } from 'react-router-dom'
 
 interface Props {
   items?: QueryType['processExecutions']
@@ -35,7 +37,9 @@ function ProcessList({ items }: Props) {
           render: (_, process) => {
             return (
               <>
-                <Button>Open</Button>{' '}
+                <Link to={getProcessExecutionLink(process.id)}>
+                  <Button>Open</Button>
+                </Link>{' '}
                 <AbortProcessExecution id={process.id}>
                   {(abort: any) => {
                     return (
