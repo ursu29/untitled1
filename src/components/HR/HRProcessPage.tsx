@@ -46,7 +46,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
   }
 
   return (
-    <div style={{ overflow: 'auto', minHeight: '100%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       {executionProcess.process.type === 'onboarding' && (
         <>
           <PageContent noBottom>
@@ -57,22 +57,24 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
           <Divider />
         </>
       )}
-      <PageContent noTop>
-        <ActiveProcessBranch
-          executionSteps={executionProcess.executionSteps}
-          steps={executionProcess.process.steps}
-          onComplete={step =>
-            complete({
-              variables: {
-                input: {
-                  step: step.id,
-                  execution: executionProcess.id,
+      <div style={{ overflow: 'auto', flexGrow: 1 }}>
+        <PageContent noTop>
+          <ActiveProcessBranch
+            executionSteps={executionProcess.executionSteps}
+            steps={executionProcess.process.steps}
+            onComplete={step =>
+              complete({
+                variables: {
+                  input: {
+                    step: step.id,
+                    execution: executionProcess.id,
+                  },
                 },
-              },
-            })
-          }
-        />
-      </PageContent>
+              })
+            }
+          />
+        </PageContent>
+      </div>
     </div>
   )
 }
