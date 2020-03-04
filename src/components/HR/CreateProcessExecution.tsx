@@ -36,7 +36,7 @@ function CreateProcessExecution() {
   if (show) {
     return (
       <ProcessSelect
-        style={{ width: 200 }}
+        style={{ width: 240 }}
         defaultOpen={true}
         onBlur={hideSelect}
         onSelect={process => create({ variables: { input: { process } } })}

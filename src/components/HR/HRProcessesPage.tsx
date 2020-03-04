@@ -14,7 +14,8 @@ function HRPage() {
     <Skeleton active loading={loading} padding={24}>
       <PageContent noBottom>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography.Title>Open processes</Typography.Title> <CreateProcessExecution />
+          <Typography.Title>Open processes</Typography.Title>
+          <CreateProcessExecution />
         </div>
       </PageContent>
       <ActiveProcesses processExecutions={data?.processExecutions || []} />

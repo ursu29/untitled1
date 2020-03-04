@@ -14,7 +14,7 @@ export const ColumnWrapper = styled.div`
     height: calc(100% - 32px);
     background: #eee;
     position: absolute;
-    left: 32px;
+    left: 22px;
     top: 0;
   }
   & + & {
@@ -33,6 +33,6 @@ export const RowWrapper = styled.div`
     background: #eee;
     position: absolute;
     left: 16px;
-    top: 21px;
+    top: 22px;
   }
 `
