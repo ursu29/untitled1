@@ -37,40 +37,43 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
 
   const executionProcess = data?.processExecutions?.[0]
 
+  if (loading) {
+    return <Skeleton active loading={loading} padding={20} />
+  }
+
+  if (!executionProcess) {
+    return <PageContent>Process is not found</PageContent>
+  }
+
   return (
-    <Skeleton active loading={loading} padding={20}>
-      {!executionProcess && <PageContent>Process is not found</PageContent>}
-      {executionProcess && (
-        <div>
-          {executionProcess.process.type === 'onboarding' && (
-            <>
-              <PageContent noBottom>
-                <ActiveStepCard title="Open Vacancy" status="pending" employees={[]}>
-                  <Vacancy id={executionProcess.vacancy?.id} />
-                </ActiveStepCard>
-              </PageContent>
-              <Divider />
-            </>
-          )}
-          <PageContent noTop>
-            <ActiveProcessBranch
-              executionSteps={executionProcess.executionSteps}
-              steps={executionProcess.process.steps}
-              onComplete={step =>
-                complete({
-                  variables: {
-                    input: {
-                      step: step.id,
-                      execution: executionProcess.id,
-                    },
-                  },
-                })
-              }
-            />
+    <div style={{ overflow: 'auto', minHeight: '100%' }}>
+      {executionProcess.process.type === 'onboarding' && (
+        <>
+          <PageContent noBottom>
+            <ActiveStepCard title="Open Vacancy" status="pending" employees={[]}>
+              <Vacancy id={executionProcess.vacancy?.id} />
+            </ActiveStepCard>
           </PageContent>
-        </div>
+          <Divider />
+        </>
       )}
-    </Skeleton>
+      <PageContent noTop>
+        <ActiveProcessBranch
+          executionSteps={executionProcess.executionSteps}
+          steps={executionProcess.process.steps}
+          onComplete={step =>
+            complete({
+              variables: {
+                input: {
+                  step: step.id,
+                  execution: executionProcess.id,
+                },
+              },
+            })
+          }
+        />
+      </PageContent>
+    </div>
   )
 }
 
