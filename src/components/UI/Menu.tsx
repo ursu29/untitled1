@@ -21,11 +21,15 @@ const query = gql`
     matricesAccess {
       read
     }
+    processesAccess {
+      read
+    }
   }
 `
 
 type QueryType = {
   matricesAccess: Pick<Access, 'read'>
+  processesAccess: Pick<Access, 'read'>
 }
 
 interface Props {
@@ -80,6 +84,23 @@ function PortalMenu(props: Props) {
       icon: <Icon type="fire" />,
       title: 'News',
     },
+    {
+      route: paths.VACANCIES,
+      icon: <Icon type="idcard" />,
+      title: 'Vacancies',
+    },
+    {
+      route: paths.HR,
+      icon: <Icon type="user-add" />,
+      title: 'HR Tool',
+    },
+    data?.processesAccess.read
+      ? {
+          route: paths.PROCESSES,
+          icon: <Icon type="branches" />,
+          title: 'Processes',
+        }
+      : null,
   ]
 
   return (
@@ -92,19 +113,17 @@ function PortalMenu(props: Props) {
           theme="light"
           style={{ border: 'none', width: isLarge ? 240 : 60 }}
         >
-          {menuItems
-            // .filter(i => !!i)
-            .map(item => {
-              if (!item) return null
-              return (
-                <Menu.Item key={item.route}>
-                  <Link to={item.route} key={item.route}>
-                    {item.icon}
-                    <span>{item.title}</span>
-                  </Link>
-                </Menu.Item>
-              )
-            })}
+          {menuItems.map(item => {
+            if (!item) return null
+            return (
+              <Menu.Item key={item.route}>
+                <Link to={item.route} key={item.route}>
+                  {item.icon}
+                  <span>{item.title}</span>
+                </Link>
+              </Menu.Item>
+            )
+          })}
         </Menu>
       </Width>
     </Skeleton>

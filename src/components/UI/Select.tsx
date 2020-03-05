@@ -6,7 +6,7 @@ interface Item {
   key: string
 }
 
-interface Props {
+export interface Props {
   loading: boolean
   allowClear?: boolean
   value?: any

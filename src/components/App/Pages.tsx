@@ -19,6 +19,12 @@ const Matrices = lazy(() => import('../Matrices/MatricesPage'))
 const Matrix = lazy(() => import('../Matrices/MatrixPage'))
 const Projects = lazy(() => import('../Projects/ProjectsPage'))
 const Project = lazy(() => import('../Projects/ProjectPage'))
+const Process = lazy(() => import('../Processes/ProcessPage'))
+const Processes = lazy(() => import('../Processes/ProcessesPage'))
+const Vacancies = lazy(() => import('../Vacancies/VacanciesPage'))
+const Vacancy = lazy(() => import('../Vacancies/VacancyPage'))
+const HR = lazy(() => import('../HR/HRProcessesPage'))
+const HRProcess = lazy(() => import('../HR/HRProcessPage'))
 
 export default function Pages() {
   return (
@@ -44,6 +50,12 @@ export default function Pages() {
           <Route path={paths.POSTS + '/:id'} component={Post} />
           <Route path={paths.POSTS} component={News} />
           <Route path={paths.STATISTICS} component={Statistics} />
+          <Route path={paths.PROCESSES + '/:id'} component={Process} />
+          <Route path={paths.PROCESSES} component={Processes} />
+          <Route path={paths.VACANCIES + '/:id'} component={Vacancy} />
+          <Route path={paths.VACANCIES} component={Vacancies} />
+          <Route path={paths.HR + '/:id'} component={HRProcess} />
+          <Route path={paths.HR} component={HR} />
           <Route component={PageNotFound} />
         </Switch>
       </Suspense>

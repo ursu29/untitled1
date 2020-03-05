@@ -3,7 +3,6 @@ import { FormComponentProps } from 'antd/lib/form/Form'
 import React from 'react'
 //@ts-ignore
 import Carousel, { Modal, ModalGateway } from 'react-images'
-import 'react-mde/lib/styles/css/react-mde-all.css'
 import { GATEWAY } from '../../config'
 import { Post } from '../../types'
 import PostFormLocations from './PostFormLocations'
