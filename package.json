@@ -64,7 +64,7 @@
     "@types/simplemde": "^1.11.7",
     "@types/styled-components": "4.4.1",
     "@types/throttle-debounce": "^2.1.0",
-    "cypress": "4.0.2",
+    "cypress": "4.1.0",
     "prettier": "^1.19.1",
     "react-scripts": "3.3.0",
     "source-map-explorer": "2.1.2",

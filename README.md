@@ -40,6 +40,20 @@ Analyze bundle size with:
 
 `yarn analyze`
 
+# Testing
+
+Install deps
+
+`npm install -g yarn && yarn install`
+
+Run application
+
+`yarn start`
+
+Run cypress
+
+`yarn cypress:open`
+
 # Contribute
 
 Please check https://portal.sidenis.com/client/projects/guild-Portal/managers and contact anyone from the list
