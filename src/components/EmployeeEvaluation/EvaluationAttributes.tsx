@@ -1,29 +1,39 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import message from '../../message'
 import getEvaluationAttributes, { QueryType } from '../../queries/getEvaluationAttributes'
 import getEvaluations from '../../queries/getEvaluations'
-import { Employee, Evaluation } from '../../types'
+import { Employee, Evaluation, EvaluationComment } from '../../types'
 import Controls from '../UI/Controls'
 import Divider from '../UI/Divider'
 import EvaluationHelper from '../UI/EvaluationHelper'
-import EvaluationTable from '../UI/EvaluationTable'
+import EvaluationTable from './EvaluationTable'
 import Skeleton from '../UI/Skeleton'
 import AddEvaluationReviewer from './AddEvaluationReviewer'
 import DeleteEmployeeReviewer from './DeleteEmployeeReviewer'
 import EmployeeEvaluationReviewers from './EmployeeEvaluationReviewers'
 import ExportEvaluations from './ExportEvaluations'
+import { debounce } from 'throttle-debounce'
 
-const mutation = gql`
+const evaluateMutation = gql`
   mutation evaluate($input: EvaluateInput!) {
     evaluate(input: $input) {
       id
     }
   }
 `
+const commentMutation = gql`
+  mutation commentEvaluation($input: CommentEvaluationInput!) {
+    commentEvaluation(input: $input) {
+      id
+    }
+  }
+`
+
 interface Props {
   evaluations?: Evaluation[]
+  comments?: Exclude<EvaluationComment, 'employee'>[]
   loading: boolean
   employee: Pick<Employee, 'id' | 'name' | 'isMe'> & {
     manager: Pick<Employee, 'id' | 'name' | 'isMe'>
@@ -31,19 +41,42 @@ interface Props {
   editable: boolean
 }
 
-function EvaluationAttributes({ evaluations, editable, employee, ...props }: Props) {
+function EvaluationAttributes({ evaluations, editable, comments, employee, ...props }: Props) {
   const { data, loading } = useQuery<QueryType>(getEvaluationAttributes)
 
-  const [evaluate, { loading: evaluateLoading }] = useMutation(mutation, {
-    refetchQueries: [{ query: getEvaluations, variables: { input: { employee: employee.id } } }],
+  const [evaluate, { loading: evaluateLoading }] = useMutation(evaluateMutation, {
+    refetchQueries: [
+      {
+        query: getEvaluations,
+        variables: {
+          evaluationsInput: { employee: employee?.id },
+          evaluationCommmentsInput: { employee: employee?.id },
+        },
+      },
+    ],
     onCompleted: () => message.success('Evaluation form is updated'),
   })
 
+  const [comment, { loading: commentLoading }] = useMutation(commentMutation, {
+    refetchQueries: [
+      {
+        query: getEvaluations,
+        variables: {
+          evaluationsInput: { employee: employee?.id },
+          evaluationCommmentsInput: { employee: employee?.id },
+        },
+      },
+    ],
+    onCompleted: () => message.success('Evaluation form is updated'),
+  })
+
+  const commentDebounce = debounce(800, comment)
+
   useEffect(() => {
-    if (evaluateLoading) {
+    if (evaluateLoading || commentLoading) {
       message.loading('Updating')
     }
-  })
+  }, [evaluateLoading, commentLoading])
 
   return (
     <Skeleton active loading={props.loading || loading}>
@@ -69,6 +102,7 @@ function EvaluationAttributes({ evaluations, editable, employee, ...props }: Pro
               <EvaluationTable
                 evaluationAttributes={data?.evaluationAttributes}
                 evaluations={evaluations}
+                comments={comments}
                 editable={editable}
                 reviewers={reviewers}
                 employee={employee}
@@ -79,6 +113,17 @@ function EvaluationAttributes({ evaluations, editable, employee, ...props }: Pro
                       input: {
                         toWhom,
                         evaluation,
+                        evaluationAttribute,
+                      },
+                    },
+                  })
+                }}
+                onComment={({ body, evaluationAttribute }: any) => {
+                  commentDebounce({
+                    variables: {
+                      input: {
+                        employee: employee.id,
+                        body,
                         evaluationAttribute,
                       },
                     },

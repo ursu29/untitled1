@@ -1,9 +1,12 @@
 import gql from 'graphql-tag'
-import { Evaluation } from '../types'
+import { Evaluation, EvaluationComment } from '../types'
 
 export default gql`
-  query getEvaluations($input: EvaluationsInput!) {
-    evaluations(input: $input) {
+  query getEvaluations(
+    $evaluationsInput: EvaluationsInput!
+    $evaluationCommmentsInput: EvaluationCommentsInput!
+  ) {
+    evaluations(input: $evaluationsInput) {
       id
       fromWho {
         id
@@ -18,9 +21,17 @@ export default gql`
         id
       }
     }
+    evaluationComments(input: $evaluationCommmentsInput) {
+      id
+      body
+      evaluationAttribute {
+        id
+      }
+    }
   }
 `
 
 export type QueryType = {
   evaluations: Exclude<Evaluation, 'evaluationAttributes'>[]
+  evaluationComments: Exclude<EvaluationComment, 'employee'>[]
 }

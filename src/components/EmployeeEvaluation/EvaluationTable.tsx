@@ -1,6 +1,12 @@
 import React from 'react'
-import { Table, Rate, Icon } from 'antd'
-import { EvaluationAttribute, EvaluationReviewer, Evaluation, Employee } from '../../types'
+import { Table, Rate, Icon, Input } from 'antd'
+import {
+  EvaluationAttribute,
+  EvaluationComment,
+  EvaluationReviewer,
+  Evaluation,
+  Employee,
+} from '../../types'
 
 const parent: { title: string; key: string; children?: any }[] = [
   {
@@ -36,6 +42,7 @@ const parent: { title: string; key: string; children?: any }[] = [
 interface Props {
   evaluationAttributes?: Exclude<EvaluationAttribute, 'evaluations'>[]
   evaluations?: Evaluation[]
+  comments?: Exclude<EvaluationComment, 'employee'>[]
   employee: Pick<Employee, 'id' | 'name' | 'isMe'> & {
     manager: Pick<Employee, 'id' | 'name' | 'isMe'>
   }
@@ -45,6 +52,7 @@ interface Props {
     toWhom: Pick<Employee, 'id' | 'name'>
   }[]
   onEvaluate: (value: { toWhom: string; evaluation: number; evaluationAttribute: string }) => void
+  onComment: (value: { body: string; evaluationAttribute: string }) => void
   DeleteEmployeeReviewer: any
   editable: boolean
 }
@@ -52,8 +60,10 @@ interface Props {
 export default function EvaluationTable({
   evaluationAttributes,
   onEvaluate,
+  onComment,
   employee,
   evaluations,
+  comments,
   editable,
   DeleteEmployeeReviewer,
   reviewers = [],
@@ -103,20 +113,39 @@ export default function EvaluationTable({
           }
         }
 
+        const comment = comments?.find(i => {
+          return i.evaluationAttribute.id === item.id
+        })
+
         return (
-          <div key={item.key} style={{ paddingLeft: 16, display: 'flex', alignItems: 'center' }}>
-            {showBaseColumns && (
-              <Icon
-                type="exclamation"
-                style={{
-                  color: '#FAAD14',
-                  fontSize: '150%',
-                  fontWeight: 'bold',
-                  visibility: showMark ? 'visible' : 'hidden',
+          <div style={{ paddingLeft: 16 }}>
+            <div key={item.key} style={{ display: 'flex', alignItems: 'center' }}>
+              {showBaseColumns && (
+                <Icon
+                  type="exclamation"
+                  style={{
+                    color: '#FAAD14',
+                    fontSize: '150%',
+                    fontWeight: 'bold',
+                    visibility: showMark ? 'visible' : 'hidden',
+                  }}
+                />
+              )}
+              {item.title}
+            </div>
+            {showMark && (
+              <Input
+                placeholder="Comment"
+                defaultValue={comment?.body}
+                onChange={e => {
+                  onComment({
+                    evaluationAttribute: item.key,
+                    body: e.target.value,
+                  })
                 }}
+                style={{ marginTop: 8 }}
               />
             )}
-            {item.title}
           </div>
         )
       },

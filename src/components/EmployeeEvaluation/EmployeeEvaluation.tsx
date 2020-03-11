@@ -13,7 +13,10 @@ interface Props {
 
 function EmployeeEvaluation({ employee, editable }: Props) {
   const { data, loading } = useQuery<QueryType>(getEvaluations, {
-    variables: { input: { employee: employee?.id } },
+    variables: {
+      evaluationsInput: { employee: employee?.id },
+      evaluationCommmentsInput: { employee: employee?.id },
+    },
     skip: !employee,
   })
 
@@ -25,6 +28,7 @@ function EmployeeEvaluation({ employee, editable }: Props) {
       employee={employee}
       loading={loading}
       evaluations={data?.evaluations}
+      comments={data?.evaluationComments}
     />
   )
 }

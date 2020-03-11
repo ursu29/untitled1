@@ -272,7 +272,14 @@ export interface ProcessExecutionStep {
 export interface ProcessExecutionComment {
   id: string
   body: string
-  employeeAzureId: string
+  employee: Employee
   createdAt: string
   step: ProcessExecutionStep
+}
+
+export interface EvaluationComment {
+  id: string
+  body: string
+  employee: Employee
+  evaluationAttribute: EvaluationAttribute
 }

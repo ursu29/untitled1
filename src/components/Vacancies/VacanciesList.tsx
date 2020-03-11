@@ -7,7 +7,6 @@ interface Props {
 }
 
 function ProcessList({ items }: Props) {
-  console.log('items', items)
   return (
     <Table<QueryType['vacancies'][0]>
       rowKey="id"

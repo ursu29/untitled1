@@ -42,7 +42,6 @@ function EmployeeSelect({ onChange, value, wide, size, mode, ...props }: Props, 
       }
       onBlur={props.onBlur}
       onSelect={(value: any) => {
-        console.log('mode', mode)
         if (!mode || mode === 'default') {
           const employee = data!.employees.find(employee => employee.name === value.key)
           if (employee) {
@@ -51,7 +50,6 @@ function EmployeeSelect({ onChange, value, wide, size, mode, ...props }: Props, 
         } else {
           const names = value.map((i: any) => i.key)
           const employees = data!.employees.filter(employee => names.includes(employee.name))
-          console.log('names', names, employees)
           onChange && onChange(employees.map(i => i.id))
         }
       }}
