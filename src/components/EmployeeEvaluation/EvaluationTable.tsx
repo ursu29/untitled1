@@ -52,7 +52,7 @@ interface Props {
     toWhom: Pick<Employee, 'id' | 'name'>
   }[]
   onEvaluate: (value: { toWhom: string; evaluation: number; evaluationAttribute: string }) => void
-  onComment: (value: { body: string; evaluationAttribute: string }) => void
+  onComment: (value: { body: string; evaluationAttribute?: string }) => void
   DeleteEmployeeReviewer: any
   editable: boolean
 }
@@ -114,7 +114,7 @@ export default function EvaluationTable({
         }
 
         const comment = comments?.find(i => {
-          return i.evaluationAttribute.id === item.id
+          return i.evaluationAttribute?.id === item.id
         })
 
         return (
@@ -248,6 +248,8 @@ export default function EvaluationTable({
     }),
   )
 
+  const comment = comments?.find(i => !i.evaluationAttribute)
+
   return (
     <div>
       <Table
@@ -259,6 +261,17 @@ export default function EvaluationTable({
         scroll={{ x: 500 }}
         dataSource={tree}
         pagination={false}
+      />
+      <Input.TextArea
+        placeholder="Overall comment"
+        defaultValue={comment?.body}
+        rows={4}
+        onChange={e => {
+          onComment({
+            body: e.target.value,
+          })
+        }}
+        style={{ marginTop: 8 }}
       />
     </div>
   )
