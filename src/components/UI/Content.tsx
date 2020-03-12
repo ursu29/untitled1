@@ -11,7 +11,7 @@ function Content({ children }: PropsWithChildren<any>) {
         style={{
           height: '100%',
           boxSizing: 'border-box',
-          maxWidth: isLarge ? '1200px' : 'calc(100vw - 60px)',
+          maxWidth: isLarge ? '1280px' : 'calc(100vw - 60px)',
         }}
       >
         <Card
