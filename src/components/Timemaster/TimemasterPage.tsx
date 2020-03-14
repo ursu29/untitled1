@@ -1,64 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Result } from 'antd'
+import React, {useEffect} from 'react'
+import {notification, Button} from 'antd'
+
+const openNotification = () => {
+  notification.open({
+    message: 'If timemaster is not available, probably you\'re not authorized',
+    description:
+      <Button onClick={() => {
+        window.open("https://timemaster-new.sidenis.com", '__blank')
+      }}>Login</Button>,
+     duration: 4,
+  });
+};
+
 
 function TimemasterPage() {
-  const [unauthorized, setUnauthorized] = useState(false)
-
   useEffect(() => {
-    setTimeout(() => {
-      const iframe: any = document.getElementById('tm_iframe')
-      console.log(iframe)
-      try {
-        console.log(iframe.contentWindow)
-      } catch (err) {
-        console.log(err)
-        // setUnauthorized(true)
-      }
-    }, 3000)
+    openNotification()
   }, [])
-
-  if (unauthorized) {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-          width: '100%',
-        }}
-      >
-        <Result
-          status="403"
-          title="403"
-          subTitle="Sorry, looks like you're not authorized to Timemaster"
-          extra={
-            <Button
-              onClick={() => {
-                window.open('https://timemaster.sidenis.com', '_blank')
-              }}
-            >
-              Authorize
-            </Button>
-          }
-        />
-      </div>
-    )
-  }
-
   return (
     <div style={{ height: '100vh', width: '100%' }}>
       <iframe
         id="tm_iframe"
         width="100%"
-        referrerPolicy="unsafe-url"
         height="100%"
         frameBorder="0"
         src="https://timemaster-new.sidenis.com"
         title="Timemaster"
-        onError={e => {
-          console.info('captured:', e)
-        }}
       ></iframe>
     </div>
   )
