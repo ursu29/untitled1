@@ -27,6 +27,7 @@ export default gql`
       evaluationAttribute {
         id
       }
+      editable
     }
   }
 `

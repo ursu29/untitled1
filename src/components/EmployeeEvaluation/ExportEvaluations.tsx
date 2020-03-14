@@ -1,11 +1,12 @@
 import React from 'react'
 import { GATEWAY } from '../../config'
-import { Employee, Evaluation, EvaluationAttribute, EvaluationReviewer } from '../../types'
+import { Employee, Evaluation, EvaluationAttribute, EvaluationReviewer, EvaluationComment } from '../../types'
 import Button from '../UI/Button'
 
 type Props = {
   evaluations?: Evaluation[]
   evaluationAttributes?: EvaluationAttribute[]
+  comments?: EvaluationComment[]
   employee: Pick<Employee, 'name'>
   reviewers?: {
     id: EvaluationReviewer['id']
@@ -19,6 +20,7 @@ export default function ExportEvaluations({
   evaluations,
   employee,
   reviewers,
+  comments,
 }: Props) {
   const handleExport = () => {
     const url = `${GATEWAY}/export-evaluations`
@@ -33,6 +35,7 @@ export default function ExportEvaluations({
           evaluations,
           reviewers,
           employee,
+          comments,
         }),
       })
         .then(res => res.arrayBuffer())

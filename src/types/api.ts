@@ -282,4 +282,5 @@ export interface EvaluationComment {
   body: string
   employee: Employee
   evaluationAttribute: EvaluationAttribute
+  editable: boolean
 }

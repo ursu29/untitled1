@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect } from 'react'
+import { debounce } from 'throttle-debounce'
 import message from '../../message'
 import getEvaluationAttributes, { QueryType } from '../../queries/getEvaluationAttributes'
 import getEvaluations from '../../queries/getEvaluations'
@@ -8,13 +9,12 @@ import { Employee, Evaluation, EvaluationComment } from '../../types'
 import Controls from '../UI/Controls'
 import Divider from '../UI/Divider'
 import EvaluationHelper from '../UI/EvaluationHelper'
-import EvaluationTable from './EvaluationTable'
 import Skeleton from '../UI/Skeleton'
 import AddEvaluationReviewer from './AddEvaluationReviewer'
 import DeleteEmployeeReviewer from './DeleteEmployeeReviewer'
 import EmployeeEvaluationReviewers from './EmployeeEvaluationReviewers'
+import EvaluationTable from './EvaluationTable'
 import ExportEvaluations from './ExportEvaluations'
-import { debounce } from 'throttle-debounce'
 
 const evaluateMutation = gql`
   mutation evaluate($input: EvaluateInput!) {
@@ -55,6 +55,7 @@ function EvaluationAttributes({ evaluations, editable, comments, employee, ...pr
       },
     ],
     onCompleted: () => message.success('Evaluation form is updated'),
+    onError: message.error
   })
 
   const [comment, { loading: commentLoading }] = useMutation(commentMutation, {
@@ -68,6 +69,7 @@ function EvaluationAttributes({ evaluations, editable, comments, employee, ...pr
       },
     ],
     onCompleted: () => message.success('Evaluation form is updated'),
+    onError: message.error
   })
 
   const commentDebounce = debounce(800, comment)
@@ -94,6 +96,7 @@ function EvaluationAttributes({ evaluations, editable, comments, employee, ...pr
                       evaluations={evaluations}
                       employee={employee}
                       reviewers={reviewers}
+                      comments={comments}
                     />
                   )}
                 </Controls>
