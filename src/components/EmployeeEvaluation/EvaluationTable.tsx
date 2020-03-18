@@ -137,7 +137,7 @@ export default function EvaluationTable({
               <Input
                 placeholder="Comment"
                 defaultValue={comment?.body}
-                disabled={!comment?.editable}
+                disabled={employee.isMe}
                 onChange={e => {
                   onComment({
                     evaluationAttribute: item.key,
@@ -267,7 +267,7 @@ export default function EvaluationTable({
         placeholder="Overall comment"
         defaultValue={comment?.body}
         rows={4}
-        disabled={!comment?.editable}
+        disabled={employee.isMe}
         onChange={e => {
           onComment({
             body: e.target.value,
