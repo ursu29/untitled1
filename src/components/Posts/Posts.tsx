@@ -6,19 +6,13 @@ import { Post, Employee, Tag } from '../../types'
 import PATHS from '../../paths'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { NEWS_FEED_WIDTH } from '../../config'
+import TagSelect from '../Tags/TagSelect'
+import CreatePost from './CreatePost'
+import UpdatePost from './UpdatePost'
 
 type PostPick = Pick<
   Post,
-  | 'id'
-  | 'title'
-  | 'body'
-  | 'isTranslated'
-  | 'titleTranslated'
-  | 'bodyTranslated'
-  | 'createdAt'
-  | 'updatedAt'
-  | 'locations'
-  | 'images'
+  'id' | 'title' | 'body' | 'isTranslated' | 'createdAt' | 'updatedAt' | 'locations' | 'images'
 > & {
   createdBy: Pick<Employee, 'id' | 'name' | 'email'>
   tags?: Pick<Tag, 'id' | 'name' | 'description'>[]
@@ -27,9 +21,6 @@ type PostPick = Pick<
 interface Props extends PropsWithChildren<any>, RouteComponentProps {
   loading?: boolean
   posts?: PostPick[]
-  CreatePost: React.FC<any>
-  TagSelect: React.FC<any>
-  UpdatePost: React.FC<any>
   editable: boolean
 }
 
@@ -43,16 +34,7 @@ function getQueryTags(query: string) {
   return queryTags
 }
 
-function Posts({
-  posts,
-  history,
-  TagSelect,
-  UpdatePost,
-  CreatePost,
-  location,
-  loading,
-  ...props
-}: Props) {
+function Posts({ posts, history, location, loading, ...props }: Props) {
   const queryTags = getQueryTags(location.search)
   const [filter, setFilter] = useState('')
   const [showTranslated, setTranslated] = useState(false)
@@ -79,12 +61,6 @@ function Posts({
       return i.isTranslated
     })
     .filter(post => {
-      if (showTranslated) {
-        return (
-          post.titleTranslated?.toLowerCase().includes(filter.trim().toLowerCase()) ||
-          post.bodyTranslated?.toLowerCase().includes(filter.trim().toLowerCase())
-        )
-      }
       return (
         post.title?.toLowerCase().includes(filter.trim().toLowerCase()) ||
         post.body?.toLowerCase().includes(filter.trim().toLowerCase())
@@ -102,7 +78,7 @@ function Posts({
         />
         <Switch
           checkedChildren="En"
-          unCheckedChildren="Ru"
+          unCheckedChildren="All"
           onChange={() => setTranslated(!showTranslated)}
           style={{ marginLeft: 8 }}
           checked={showTranslated}
@@ -137,11 +113,7 @@ function Posts({
       <Timeline style={{ maxWidth: NEWS_FEED_WIDTH }}>
         {filteredPosts?.map(post => (
           <Timeline.Item key={post.id}>
-            <PostItem
-              edit={props.editable ? <UpdatePost post={post} /> : null}
-              post={post}
-              showTranslated={showTranslated}
-            />
+            <PostItem edit={props.editable ? <UpdatePost post={post} /> : null} post={post} />
           </Timeline.Item>
         ))}
       </Timeline>

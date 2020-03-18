@@ -8,8 +8,6 @@ export default gql`
       title
       body
       isTranslated
-      titleTranslated
-      bodyTranslated
       createdAt
       updatedAt
       locations
@@ -34,16 +32,7 @@ export default gql`
 
 type PostPick = Pick<
   Post,
-  | 'id'
-  | 'title'
-  | 'body'
-  | 'isTranslated'
-  | 'titleTranslated'
-  | 'bodyTranslated'
-  | 'createdAt'
-  | 'updatedAt'
-  | 'locations'
-  | 'images'
+  'id' | 'title' | 'body' | 'isTranslated' | 'createdAt' | 'updatedAt' | 'locations' | 'images'
 > & {
   createdBy: Pick<Employee, 'id' | 'name' | 'email'>
   tags?: Pick<Tag, 'id' | 'name' | 'description'>[]

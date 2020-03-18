@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import { Modal, Typography, Switch } from 'antd'
+import { Modal, Typography } from 'antd'
+import React from 'react'
 import * as Showdown from 'showdown'
-import { Post } from '../../types'
-import Gallery from '../UI/Gallery'
 import styled from 'styled-components'
 import { NEWS_FEED_WIDTH } from '../../config'
+import { Post } from '../../types'
+import Gallery from '../UI/Gallery'
 
 const { Title } = Typography
 
@@ -24,7 +24,7 @@ const converter = new Showdown.Converter({
 })
 
 type PostPick = Partial<
-  Pick<Post, 'title' | 'body' | 'bodyTranslated' | 'titleTranslated' | 'isTranslated'> & {
+  Pick<Post, 'title' | 'body' | 'isTranslated'> & {
     tags: any
     images: any
   }
@@ -38,7 +38,6 @@ interface Props {
 }
 
 function PostPreview({ handlePublish, post, handleReturn, visible }: Props) {
-  const [showTranslated, setTranslated] = useState(false)
   return (
     <div>
       <Modal
@@ -46,29 +45,16 @@ function PostPreview({ handlePublish, post, handleReturn, visible }: Props) {
         width={NEWS_FEED_WIDTH}
         centered
         bodyStyle={{ maxHeight: '80vh', overflowY: 'auto' }}
-        title={
-          <div>
-            Preview{' '}
-            {post.isTranslated && (
-              <Switch
-                checkedChildren="En"
-                unCheckedChildren="Ru"
-                onChange={() => setTranslated(!showTranslated)}
-                style={{ marginLeft: 8 }}
-                checked={showTranslated}
-              />
-            )}
-          </div>
-        }
+        title={<div>Preview</div>}
         visible={visible}
         onOk={handlePublish}
         onCancel={handleReturn}
       >
         <Wrapper>
-          <Title level={4}>{showTranslated ? post.titleTranslated : post.title}</Title>
+          <Title level={4}>{post.title}</Title>
           <div
             dangerouslySetInnerHTML={{
-              __html: converter.makeHtml((showTranslated ? post.bodyTranslated : post.body) || ''),
+              __html: converter.makeHtml(post.body || ''),
             }}
           ></div>
           <Gallery

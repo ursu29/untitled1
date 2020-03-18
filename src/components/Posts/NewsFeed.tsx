@@ -1,10 +1,7 @@
 import { useQuery } from '@apollo/react-hooks'
 import React from 'react'
 import getPosts, { QueryType } from '../../queries/getPosts'
-import TagSelect from '../Tags/TagSelect'
-import Posts from '../UI/Posts'
-import CreatePost from './CreatePost'
-import UpdatePost from './UpdatePost'
+import Posts from './Posts'
 
 interface Props {
   editable?: boolean
@@ -17,16 +14,7 @@ function NewsFeed({ editable }: Props) {
 
   const posts = data?.posts || []
 
-  return (
-    <Posts
-      loading={loading}
-      editable={editable}
-      CreatePost={CreatePost}
-      posts={posts}
-      UpdatePost={UpdatePost}
-      TagSelect={TagSelect}
-    />
-  )
+  return <Posts loading={loading} editable={editable} posts={posts} />
 }
 
 export default NewsFeed

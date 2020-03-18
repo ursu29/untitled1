@@ -24,7 +24,7 @@ type MutationType = {
 
 interface Props {
   value?: any
-  onChange: (value: { key: string; label: string; id: string }[]) => void
+  onChange?: (value: { key: string; label: string; id: string }[]) => void
   allowAddNew?: boolean
   multiple?: boolean
 }
@@ -64,25 +64,27 @@ function TagSelect({ value, allowAddNew, multiple, onChange }: Props, ref: any) 
           mutate({
             variables: { input: { name: newTag.key } },
             update: (_, { data }) => {
-              onChange(
-                values.map((value: { key: string; value: string }) => {
-                  return {
-                    ...value,
-                    id: data?.createTag.id,
-                  }
-                }),
-              )
+              onChange &&
+                onChange(
+                  values.map((value: { key: string; value: string }) => {
+                    return {
+                      ...value,
+                      id: data?.createTag.id,
+                    }
+                  }),
+                )
             },
           })
         }
-        onChange(
-          values.map((value: { key: string; value: string }) => {
-            return {
-              ...value,
-              id: data?.tags.find(i => i.name === value.key)?.id,
-            }
-          }),
-        )
+        onChange &&
+          onChange(
+            values.map((value: { key: string; value: string }) => {
+              return {
+                ...value,
+                id: data?.tags.find(i => i.name === value.key)?.id,
+              }
+            }),
+          )
       }}
     />
   )

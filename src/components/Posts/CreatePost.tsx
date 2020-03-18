@@ -3,10 +3,9 @@ import gql from 'graphql-tag'
 import React, { useEffect } from 'react'
 import message from '../../message'
 import getPosts from '../../queries/getPosts'
-import TagSelect from '../Tags/TagSelect'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
-import PostForm from '../UI/PostForm'
+import PostForm from './PostForm'
 
 const mutation = gql`
   mutation createPost($input: CreatePostInput) {
@@ -37,7 +36,6 @@ export default function CreatePost() {
       content={
         <PostForm
           loading={loading}
-          TagSelect={TagSelect}
           onSubmit={(values, update) => {
             createPost({
               variables: { input: values },

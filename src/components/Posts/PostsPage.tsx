@@ -19,6 +19,7 @@ type QueryType = { postsEditor: Access }
 export default function PostsPage() {
   const { data } = useQuery<QueryType>(query)
   const editable = data?.postsEditor.write
+
   return (
     <PageContent>
       <NewsFeed editable={editable} />

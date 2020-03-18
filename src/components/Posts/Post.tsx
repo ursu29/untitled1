@@ -6,7 +6,7 @@ import * as Showdown from 'showdown'
 import PATHS from '../../paths'
 import { Employee, Post, Tag as TagType } from '../../types'
 import Gallery from '../UI/Gallery'
-import EmployeeLink from './EmployeeLink'
+import EmployeeLink from '../UI/EmployeeLink'
 import styled from 'styled-components'
 
 const converter = new Showdown.Converter({
@@ -27,14 +27,7 @@ const { Text, Title, Paragraph } = Typography
 
 type PostPick = Pick<
   Post,
-  | 'id'
-  | 'title'
-  | 'titleTranslated'
-  | 'body'
-  | 'bodyTranslated'
-  | 'createdAt'
-  | 'updatedAt'
-  | 'images'
+  'id' | 'title' | 'body' | 'isTranslated' | 'createdAt' | 'updatedAt' | 'images'
 > & {
   createdBy: Pick<Employee, 'id' | 'name' | 'email'>
   tags?: Pick<TagType, 'id' | 'name' | 'description'>[]
@@ -43,10 +36,9 @@ type PostPick = Pick<
 interface Props extends RouteComponentProps {
   post: PostPick
   edit?: any
-  showTranslated?: boolean
 }
 
-function PostItem({ post, showTranslated, edit, history }: Props) {
+function PostItem({ post, edit, history }: Props) {
   return (
     <>
       <Wrapper>
@@ -54,11 +46,11 @@ function PostItem({ post, showTranslated, edit, history }: Props) {
           {post.createdAt} {edit}
         </Text>
         <Title level={3} style={{ marginTop: 8 }}>
-          {showTranslated ? post.titleTranslated : post.title}
+          {post.title}
         </Title>
         <div
           dangerouslySetInnerHTML={{
-            __html: converter.makeHtml(showTranslated ? post.bodyTranslated : post.body),
+            __html: converter.makeHtml(post.body),
           }}
         />
       </Wrapper>

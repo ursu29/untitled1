@@ -34,8 +34,6 @@ export interface Post {
   title: string
   body: string
   isTranslated: boolean
-  titleTranslated: string
-  bodyTranslated: string
   createdAt: string
   updatedAt: string
   locations: string[]

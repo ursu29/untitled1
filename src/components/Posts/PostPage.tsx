@@ -6,7 +6,7 @@ import Controls from '../UI/Controls'
 import Back from '../UI/Back'
 import paths from '../../paths'
 import PageContent from '../UI/PageContent'
-import Post from '../UI/Post'
+import Post from './Post'
 import Skeleton from '../UI/Skeleton'
 
 function PostPage({ match, history }: RouteComponentProps<{ id: string }>) {

@@ -1,13 +1,12 @@
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import React from 'react'
+import message from '../../message'
 import getPosts from '../../queries/getPosts'
 import { Post } from '../../types'
-import TagSelect from '../Tags/TagSelect'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
-import PostForm from '../UI/PostForm'
-import message from '../../message'
+import PostForm from './PostForm'
 
 const mutation = gql`
   mutation updatePost($input: UpdatePostInput) {
@@ -35,7 +34,6 @@ export default function UpdatePost({ post }: Props) {
       content={
         <PostForm
           loading={loading}
-          TagSelect={TagSelect}
           values={{
             ...post,
             tags: post.tags?.map(tag => ({

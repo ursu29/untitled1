@@ -1,18 +1,19 @@
-import { Badge, Button, Checkbox, Col, Form, Icon, Input, Row, Tabs, Upload } from 'antd'
+import { Button, Checkbox, Col, Form, Icon, Input, Row, Upload } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
 import React from 'react'
 //@ts-ignore
 import Carousel, { Modal, ModalGateway } from 'react-images'
 import { GATEWAY } from '../../config'
+import message from '../../message'
 import { Post } from '../../types'
+import copyToCliboard from '../../utils/copyToClipboard'
+import TagSelect from '../Tags/TagSelect'
+import MarkdownEditor from '../UI/MarkdownEditor'
 import PostFormLocations from './PostFormLocations'
 import PostPrewiew from './PostPreview'
-import MarkdownEditor from './MarkdownEditor'
-import copyToCliboard from '../../utils/copyToClipboard'
-import message from '../../message'
 
 type PostPick = Partial<
-  Pick<Post, 'title' | 'body' | 'bodyTranslated'> & {
+  Pick<Post, 'title' | 'body'> & {
     tags: any
     images: any
   }
@@ -22,16 +23,12 @@ interface Props extends FormComponentProps {
   loading: boolean
   values?: PostPick
   onSubmit: (
-    values: Pick<
-      Post,
-      'title' | 'titleTranslated' | 'body' | 'bodyTranslated' | 'isTranslated' | 'locations'
-    > & {
+    values: Pick<Post, 'title' | 'body' | 'isTranslated' | 'locations'> & {
       images: string[]
       tags: string[]
     },
     reset: () => void,
   ) => void
-  TagSelect: any
 }
 
 class PostForm extends React.Component<Props> {
@@ -59,9 +56,7 @@ class PostForm extends React.Component<Props> {
     this.setState({ publishAttempt: true, showPostPreview: false })
     this.props.form.validateFields((err, values) => {
       const isValid = !err && this.state.values.body
-      const isTranslatedValid =
-        (values.isTranslated && this.state.values.bodyTranslated) || !values.isTranslated
-      if (isValid && isTranslatedValid) {
+      if (isValid) {
         this.setState({
           showPostPreview: true,
           values: {
@@ -79,8 +74,6 @@ class PostForm extends React.Component<Props> {
         title: this.state.values.title,
         body: this.state.values.body,
         isTranslated: this.state.values.isTranslated,
-        titleTranslated: this.state.values.titleTranslated,
-        bodyTranslated: this.state.values.bodyTranslated,
         locations: this.state.values.locations,
         tags: this.state.values.tags?.map((tag: any) => tag.id),
         images: this.state.values.images?.map((file: any) => file.id || file.response?.[0]?.id),
@@ -114,8 +107,6 @@ class PostForm extends React.Component<Props> {
   setBody = (body: any) => this.updateValues({ body })
 
   setLocations = (locations: any) => this.updateValues({ locations })
-
-  setBodyTranslated = (bodyTranslated: any) => this.updateValues({ bodyTranslated })
 
   handleImageChange = ({ fileList: images }: any) => {
     this.setState({ values: { ...this.state.values, images } })
@@ -151,15 +142,10 @@ class PostForm extends React.Component<Props> {
   }
 
   render() {
-    const { getFieldDecorator, getFieldError, getFieldValue } = this.props.form
+    const { getFieldDecorator, getFieldValue } = this.props.form
 
     const post = this.state.values || {}
     const bodyError = this.state.publishAttempt && !post.body
-
-    const bodyTranslatedError =
-      this.state.publishAttempt && post?.isTranslated && !post.bodyTranslated
-
-    const TagSelect = this.props.TagSelect
 
     return (
       <>
@@ -190,60 +176,19 @@ class PostForm extends React.Component<Props> {
           visible={this.state.showPostPreview && !this.props.loading}
         />
         <Form layout="vertical" onSubmit={this.handleSubmit} style={{ marginBottom: 16 }}>
-          <Form.Item style={{ marginBottom: 0 }}>
-            {getFieldDecorator('isTranslated', {
-              initialValue: post?.isTranslated,
-              valuePropName: 'checked',
-            })(<Checkbox>With translation</Checkbox>)}
+          <Form.Item>
+            {getFieldDecorator('title', {
+              initialValue: post?.title,
+              rules: [{ required: true, message: 'Please add title!' }],
+            })(<Input placeholder="Post title" />)}
           </Form.Item>
-          <Tabs animated={false}>
-            <Tabs.TabPane
-              tab={<Badge dot={bodyError || Boolean(getFieldError('title'))}>Russian</Badge>}
-              key="russian"
-            >
-              <Form.Item style={{ marginBottom: 4 }}>
-                {getFieldDecorator('title', {
-                  initialValue: post?.title,
-                  rules: [{ required: true, message: 'Please add some title!' }],
-                })(<Input placeholder="Post title" />)}
-              </Form.Item>
-              <Form.Item
-                validateStatus={bodyError ? 'error' : ''}
-                help={bodyError ? 'Please add some content!' : ''}
-                style={{ marginBottom: 0 }}
-              >
-                <MarkdownEditor id="postBody" value={post.body} onChange={this.setBody} />
-              </Form.Item>
-            </Tabs.TabPane>
-            {getFieldValue('isTranslated') && (
-              <Tabs.TabPane
-                tab={
-                  <Badge dot={bodyTranslatedError || Boolean(getFieldError('titleTranslated'))}>
-                    English
-                  </Badge>
-                }
-                key="english"
-              >
-                <Form.Item style={{ marginBottom: 4 }}>
-                  {getFieldDecorator('titleTranslated', {
-                    initialValue: post?.titleTranslated,
-                    rules: [{ required: post?.isTranslated, message: 'Please add some title!' }],
-                  })(<Input placeholder="Post title" />)}
-                </Form.Item>
-                <Form.Item
-                  validateStatus={bodyTranslatedError ? 'error' : ''}
-                  help={bodyTranslatedError ? 'Please add some content!' : ''}
-                  style={{ flexGrow: 1, marginBottom: 0 }}
-                >
-                  <MarkdownEditor
-                    id="postBodyTranslated"
-                    value={post.bodyTranslated}
-                    onChange={this.setBodyTranslated}
-                  />
-                </Form.Item>
-              </Tabs.TabPane>
-            )}
-          </Tabs>
+          <Form.Item
+            validateStatus={bodyError ? 'error' : ''}
+            help={bodyError ? 'Please add some content!' : ''}
+            style={{ marginBottom: 0 }}
+          >
+            <MarkdownEditor id="postBody" value={post.body} onChange={this.setBody} />
+          </Form.Item>
           <Form.Item>
             <Upload
               fileList={post.images}
@@ -268,6 +213,12 @@ class PostForm extends React.Component<Props> {
             {getFieldDecorator('tags', {
               initialValue: post?.tags,
             })(<TagSelect allowAddNew multiple />)}
+          </Form.Item>
+          <Form.Item>
+            {getFieldDecorator('isTranslated', {
+              initialValue: post?.isTranslated,
+              valuePropName: 'checked',
+            })(<Checkbox>Translated</Checkbox>)}
           </Form.Item>
           <PostFormLocations
             isTranslated={getFieldValue('isTranslated')}
