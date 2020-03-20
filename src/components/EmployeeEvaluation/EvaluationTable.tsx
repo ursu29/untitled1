@@ -134,8 +134,9 @@ export default function EvaluationTable({
               {item.title}
             </div>
             {showMark && (
-              <Input
+              <Input.TextArea
                 placeholder="Comment"
+                rows={3}
                 defaultValue={comment?.body}
                 disabled={employee.isMe}
                 onChange={e => {

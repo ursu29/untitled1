@@ -4,9 +4,7 @@ import React from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { COLLAPSE_WIDTH } from '../../config'
 import { Employee } from '../../types'
-import EmployeeView from '../UI/Employee'
-import EmployeeManager from './EmployeeManager'
-import EmployeeProjects from './EmployeeProjects'
+import EmployeeView from './Employee'
 
 interface Props {
   employee: Pick<Employee, 'id'>
@@ -54,13 +52,5 @@ export default function EmployeeDetails(props: Props) {
 
   const employee = data?.employees?.[0]
 
-  return (
-    <EmployeeView
-      mobile={!isLarge}
-      loading={loading}
-      employee={employee}
-      manager={<EmployeeManager employee={props.employee} />}
-      projects={<EmployeeProjects employee={props.employee} />}
-    />
-  )
+  return <EmployeeView mobile={!isLarge} loading={loading} employee={employee} />
 }

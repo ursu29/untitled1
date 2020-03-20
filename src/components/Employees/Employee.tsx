@@ -4,6 +4,10 @@ import styled from 'styled-components'
 import outlook from '../../svg/outlook.svg'
 import teams from '../../svg/teams.svg'
 import { Employee } from '../../types'
+import EmployeeManager from './EmployeeManager'
+import EmployeeProjects from './EmployeeProjects'
+import { Link } from 'react-router-dom'
+import PATHS from '../../paths'
 
 const { Text, Title } = Typography
 
@@ -24,8 +28,6 @@ interface Props {
     | 'status'
     | 'phoneNumber'
   >
-  manager?: any
-  projects?: any
 }
 
 const Description = styled.div`
@@ -33,7 +35,7 @@ const Description = styled.div`
   flex-direction: column;
 `
 
-export default function EmployeeView({ loading, employee, manager, projects, mobile }: Props) {
+export default function EmployeeView({ loading, employee, mobile }: Props) {
   if (!loading && !employee) return <div>Employee info is not provided</div>
 
   const employeeDetails = employee && (
@@ -57,13 +59,9 @@ export default function EmployeeView({ loading, employee, manager, projects, mob
                       {employee.name}
                     </Title>
                     {employee.isMe && !mobile && (
-                      <Button
-                        onClick={() => {
-                          window.open('http://timemaster.sidenis.com', '_blank')
-                        }}
-                      >
-                        Timemaster
-                      </Button>
+                      <Link to={PATHS.TIMEMASTER}>
+                        <Button>Timemaster</Button>
+                      </Link>
                     )}
                   </div>
                 }
@@ -120,8 +118,8 @@ export default function EmployeeView({ loading, employee, manager, projects, mob
             </div>
           </Col>
           <Col md={24} lg={10}>
-            {manager}
-            {projects}
+            <EmployeeManager employee={employee} />
+            <EmployeeProjects employee={employee} />
           </Col>
         </Row>
       )}
