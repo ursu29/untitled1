@@ -22,7 +22,7 @@ function ProcessList({ items }: Props) {
       columns={[
         { key: 'type', dataIndex: 'process.type', title: 'Type' },
         { key: 'title', dataIndex: 'process.title', title: 'Name' },
-        { key: 'project', dataIndex: 'vacancy.project.title', title: 'Project' },
+        { key: 'project', dataIndex: 'vacancy.project.name', title: 'Project' },
         {
           key: 'location',
           dataIndex: 'vacancy.location.name',

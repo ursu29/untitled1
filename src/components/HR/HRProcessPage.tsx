@@ -3,6 +3,7 @@ import { Divider } from 'antd'
 import React, { useEffect } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import getProcessExecution, { QueryType } from '../../queries/getProcessExecution'
+import getProcessExecutions from '../../queries/getProcessExecutions'
 import Skeleton from '../UI/Skeleton'
 import Vacancy from '../Vacancies/Vacancy'
 import ActiveStepCard from './ActiveStepCard'
@@ -25,6 +26,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
 
   const [complete, completeArgs] = useMutation(mutation, {
     refetchQueries: [{ query: getProcessExecution, variables }],
+    awaitRefetchQueries: true,
     onError: message.error,
     onCompleted: () => message.success('Step is done'),
   })
@@ -50,14 +52,25 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
       {executionProcess.process.type === 'onboarding' && (
         <>
           <PageContent noBottom>
-            <ActiveStepCard title="Open Vacancy" status="pending" employees={[]}>
-              <Vacancy id={executionProcess.vacancy?.id} />
+            <ActiveStepCard
+              title="Open Vacancy"
+              status={executionProcess.vacancy.isPublished ? 'done' : 'active'}
+              employees={[]}
+            >
+              <Vacancy
+                id={executionProcess.vacancy?.id}
+                refetchQueries={[
+                  { query: getProcessExecution, variables: { input: { id: match.params.id } } },
+                  { query: getProcessExecutions },
+                ]}
+                editable
+              />
             </ActiveStepCard>
           </PageContent>
           <Divider />
         </>
       )}
-      <div style={{ overflow: 'auto', flexGrow: 1 }}>
+      <div style={{ overflow: 'auto', width: '100%', height: '100%' }}>
         <PageContent noTop>
           <ActiveProcessBranch
             executionSteps={executionProcess.executionSteps}

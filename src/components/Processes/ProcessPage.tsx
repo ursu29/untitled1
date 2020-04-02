@@ -30,7 +30,7 @@ function ProcessPage({ match }: RouteComponentProps<{ id: string }>) {
   const process = data?.processes[0]
 
   return (
-    <PageContent style={{ overflow: 'auto', width: '100%', height: '100%' }}>
+    <PageContent style={{ overflow: 'auto', width: '100%', height: '100%', flexGrow: 1 }}>
       <Skeleton active loading={loading}>
         {process && (
           <Branch

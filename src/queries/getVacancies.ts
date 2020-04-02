@@ -19,6 +19,7 @@ export default gql`
         id
         name
       }
+      customer
       isPublished
     }
   }

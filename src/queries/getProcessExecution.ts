@@ -21,6 +21,7 @@ export default gql`
       }
       vacancy {
         id
+        isPublished
       }
       executionSteps {
         id
@@ -47,7 +48,7 @@ type ProcessExecutionPick = {
   process: Pick<Process, 'id' | 'type'> & {
     steps: ProcessStepDetails[]
   }
-  vacancy: Pick<Vacancy, 'id'>
+  vacancy: Pick<Vacancy, 'id' | 'isPublished'>
   executionSteps: (Pick<ProcessExecutionStep, 'id' | 'isDone'> & {
     step: Pick<ProcessStep, 'id'>
     comments: Pick<ProcessExecutionComment, 'id' | 'body'> & {

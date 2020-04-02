@@ -12,8 +12,8 @@ function ProcessList({ items }: Props) {
       rowKey="id"
       columns={[
         { key: 'position', dataIndex: 'position', title: 'Position' },
-        { key: 'client', title: 'Client' },
-        { key: 'team', dataIndex: 'project.title', title: 'Team' },
+        { key: 'client', dataIndex: 'customer', title: 'Client' },
+        { key: 'team', dataIndex: 'project.name', title: 'Team' },
         {
           key: 'location',
           dataIndex: '.location.name',
