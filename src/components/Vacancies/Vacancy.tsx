@@ -51,9 +51,29 @@ function Vacancy({
       {vacancy && editable && (
         <VacancyForm
           vacancy={vacancy}
-          onSave={({ isPublished, __typename, ...values }) => {
+          onSave={({
+            id,
+            reason,
+            locations,
+            position,
+            responsibilities,
+            requiredSkills,
+            additionalSkills,
+            project,
+          }) => {
             update({
-              variables: { input: values },
+              variables: {
+                input: {
+                  id,
+                  reason,
+                  locations,
+                  position,
+                  responsibilities,
+                  requiredSkills,
+                  additionalSkills,
+                  project,
+                },
+              },
             })
           }}
           onPublish={values => {
