@@ -16,7 +16,7 @@ variables:
   containerRegistry: 'sideniscontainerrepository.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)-$(Build.SourceBranchName)-$(Build.SourceVersion)'
-  
+
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
