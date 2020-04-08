@@ -4,8 +4,7 @@ import gql from 'graphql-tag'
 import React, { useEffect } from 'react'
 import message from '../../message'
 import getBookmarks from '../../queries/getBookmarks'
-import SkillTreeSelect from '../Skills/SkillTreeSelect'
-import BookmarkForm from '../UI/BookmarkForm'
+import BookmarkForm from './BookmarkForm'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 
@@ -48,7 +47,6 @@ export default function CreateBookmark({ refetchQueries = [] }: Props) {
         content={
           <BookmarkForm
             loading={loading}
-            SkillTreeSelect={SkillTreeSelect}
             onSubmit={(bookmark: any, update: any) => {
               createBookmark({
                 variables: { input: bookmark },

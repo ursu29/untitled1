@@ -20,7 +20,7 @@ function VacancyForm({ vacancy, form, onSave, onPublish }: Props) {
           <Form.Item label="Position">
             {getFieldDecorator('position', {
               initialValue: vacancy?.position,
-              rules: [{ required: true, message: 'Please add position!' }],
+              // rules: [{ required: true, message: 'Please add position!' }],
             })(<Input placeholder="Add position" />)}
           </Form.Item>
         </Col>
@@ -58,7 +58,7 @@ function VacancyForm({ vacancy, form, onSave, onPublish }: Props) {
           <Form.Item label="Required skills">
             {getFieldDecorator('requiredSkills', {
               initialValue: vacancy?.requiredSkills,
-              rules: [{ required: true, message: 'What is essential' }],
+              // rules: [{ required: true, message: 'What is essential' }],
             })(<Input.TextArea autoSize placeholder="Add position" />)}
           </Form.Item>
         </Col>

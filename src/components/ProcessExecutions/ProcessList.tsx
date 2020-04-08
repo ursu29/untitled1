@@ -22,13 +22,13 @@ function ProcessList({ items }: Props) {
       columns={[
         { key: 'type', dataIndex: 'process.type', title: 'Type' },
         { key: 'title', dataIndex: 'process.title', title: 'Name' },
-        { key: 'project', dataIndex: 'vacancy.project.name', title: 'Project' },
+        { key: 'project', dataIndex: 'project.name', title: 'Project' },
         {
           key: 'location',
-          dataIndex: 'vacancy.location.name',
+          dataIndex: 'locations',
           title: 'Location',
           render: (_, process) => {
-            return <span>{process.vacancy?.locations?.map(i => i.name).join(' ,') ?? '-'}</span>
+            return <span>{process?.locations?.map(i => i.name).join(' ,') ?? '-'}</span>
           },
         },
         {

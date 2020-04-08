@@ -59,7 +59,11 @@ export default function Branch({ steps, startItem, executionSteps, parent, onCom
           <ActiveStepCard title={step.title} status={status} employees={step.responsibleUsers}>
             {status === 'active' && (
               <Controls>
-                <Button type="primary" onClick={() => onComplete(step)}>
+                <Button
+                  type="primary"
+                  disabled={!step.responsibleUsers?.find(i => i.isMe)}
+                  onClick={() => onComplete(step)}
+                >
                   Complete
                 </Button>
               </Controls>

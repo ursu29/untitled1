@@ -87,6 +87,7 @@ const fragments = {
           name
           email
           avatar
+          isMe
         }
         sendToTeamlead
         hasComment
@@ -123,6 +124,6 @@ export type ProcessStepDetails = Pick<
   ProcessStep,
   'id' | 'title' | 'description' | 'type' | 'sendToTeamlead' | 'hasComment'
 > & {
-  responsibleUsers: Pick<Employee, 'id' | 'name' | 'email' | 'avatar'>[] | null
+  responsibleUsers: Pick<Employee, 'id' | 'name' | 'email' | 'avatar' | 'isMe'>[] | null
   parentSteps: Pick<ProcessStep, 'id'>[]
 }

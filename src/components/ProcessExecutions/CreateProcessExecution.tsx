@@ -3,8 +3,10 @@ import { Button } from 'antd'
 import gql from 'graphql-tag'
 import React, { useCallback, useState, useEffect } from 'react'
 import getProcessExecutions from '../../queries/getProcessExecutions'
-import ProcessSelect from '../Processes/ProcessSelect'
+
 import message from '../../message'
+import Drawer from '../UI/Drawer'
+import CreateProcessForm from './CreateProcessForm'
 
 const mutation = gql`
   mutation createProcessExecution($input: CreateProcessExecutionInput) {
@@ -15,14 +17,9 @@ const mutation = gql`
 `
 
 function CreateProcessExecution() {
-  const [show, setShow] = useState(false)
-  const showSelect = useCallback(() => setShow(true), [])
-  const hideSelect = useCallback(() => setShow(false), [])
-
   const [create, args] = useMutation(mutation, {
     refetchQueries: [{ query: getProcessExecutions }],
     onCompleted: () => {
-      hideSelect()
       message.success('New process is added')
     },
   })
@@ -33,18 +30,23 @@ function CreateProcessExecution() {
     }
   }, [args.loading])
 
-  if (show) {
-    return (
-      <ProcessSelect
-        style={{ width: 240 }}
-        defaultOpen={true}
-        onBlur={hideSelect}
-        onSelect={process => create({ variables: { input: { process } } })}
-      />
-    )
-  }
-
-  return <Button onClick={showSelect}>Add process</Button>
+  return (
+    <Drawer
+      toggler={<Button>Start process</Button>}
+      drawerLabel="Start new process"
+      content={
+        <CreateProcessForm
+          loading={args.loading}
+          onSubmit={(bookmark: any, update: any) => {
+            create({
+              variables: { input: bookmark },
+              update,
+            })
+          }}
+        />
+      }
+    />
+  )
 }
 
 export default CreateProcessExecution

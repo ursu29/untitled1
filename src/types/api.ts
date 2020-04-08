@@ -258,6 +258,8 @@ export interface ProcessExecution {
   status: 'running' | 'finished' | 'cancelled'
   process: Process
   vacancy: Vacancy
+  locations: Location[]
+  project: Project
 }
 
 export interface ProcessExecutionStep {

@@ -1,6 +1,7 @@
 import React from 'react'
 import { QueryType } from '../../queries/getVacancies'
-import { Table, Button } from 'antd'
+import { Table, Button, Divider } from 'antd'
+import Rotate from './Rotate'
 
 interface Props {
   items?: QueryType['vacancies']
@@ -25,8 +26,14 @@ function ProcessList({ items }: Props) {
         {
           key: 'actions',
           align: 'right',
-          render: () => {
-            return <Button>Rotate</Button>
+          render: (_, vacancy) => {
+            return (
+              <>
+                <Rotate vacancy={vacancy} />
+                <Divider type="vertical" />
+                <Button icon="form">Send CV</Button>
+              </>
+            )
           },
         },
       ]}

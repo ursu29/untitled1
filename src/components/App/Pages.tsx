@@ -23,8 +23,8 @@ const Process = lazy(() => import('../Processes/ProcessPage'))
 const Processes = lazy(() => import('../Processes/ProcessesPage'))
 const Vacancies = lazy(() => import('../Vacancies/VacanciesPage'))
 const Vacancy = lazy(() => import('../Vacancies/VacancyPage'))
-const HR = lazy(() => import('../HR/HRProcessesPage'))
-const HRProcess = lazy(() => import('../HR/HRProcessPage'))
+const HR = lazy(() => import('../ProcessExecutions/HRProcessesPage'))
+const HRProcess = lazy(() => import('../ProcessExecutions/HRProcessPage'))
 const Timemaster = lazy(() => import('../Timemaster/TimemasterPage'))
 
 export default function Pages() {

@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { Vacancy, Project, Location } from '../types'
+import { Vacancy, Project, Location, Employee } from '../types'
 
 export default gql`
   query getVacancies($input: VacanciesInput) {
@@ -21,6 +21,10 @@ export default gql`
       }
       customer
       isPublished
+      rotateEmployees {
+        id
+        isMe
+      }
     }
   }
 `
@@ -31,6 +35,7 @@ type VacancyPick = Pick<
 > & {
   project: Pick<Project, 'id' | 'name'>
   locations: Pick<Location, 'id' | 'name' | 'code'>[]
+  rotateEmployees: Pick<Employee, 'id' | 'isMe'>[]
 }
 
 export type QueryType = {

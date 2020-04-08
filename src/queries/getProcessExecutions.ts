@@ -15,14 +15,14 @@ export default gql`
       vacancy {
         id
         position
-        project {
-          id
-          name
-        }
-        locations {
-          id
-          name
-        }
+      }
+      project {
+        id
+        name
+      }
+      locations {
+        id
+        name
       }
     }
   }
@@ -31,10 +31,9 @@ export default gql`
 type ProcessExecutionPick = {
   id: string
   process: Pick<Process, 'id' | 'title' | 'customer' | 'type' | 'isRotation'>
-  vacancy: Pick<Vacancy, 'id' | 'position'> & {
-    project: Pick<Project, 'id' | 'name'>
-    locations: Pick<Location, 'id' | 'name'>[]
-  }
+  vacancy: Pick<Vacancy, 'id' | 'position'>
+  project: Pick<Project, 'id' | 'name'>
+  locations: Pick<Location, 'id' | 'name'>[]
 }
 
 export type QueryType = {

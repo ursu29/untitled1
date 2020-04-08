@@ -41,11 +41,6 @@ function ActiveProcesses({ processExecutions }: Props) {
       key: 'rotation',
       body: <ProcessList items={processExecutions.filter(i => i.process.isRotation)} />,
     },
-    {
-      title: 'Want to rotate',
-      key: 'to_rotate',
-      body: <div>Who wants to rotate</div>,
-    },
   ]
 
   return <Tabs noPadding tabs={tabs} />
