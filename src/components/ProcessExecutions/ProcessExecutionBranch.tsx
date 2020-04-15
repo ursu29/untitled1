@@ -2,9 +2,9 @@ import React from 'react'
 import { QueryType } from '../../queries/getProcesses'
 import { QueryType as ExecutionQueryType } from '../../queries/getProcessExecution'
 import { ColumnWrapper, RowWrapper } from '../Processes/ProcessPage.styles'
-import ActiveStepCard from './ActiveStepCard'
+import ActiveStepCard from './ExecutionStepCard'
 import Controls from '../UI/Controls'
-import { Button } from 'antd'
+import { Button, Input, Form } from 'antd'
 
 type Step = QueryType['processes'][0]['steps'][0]
 
@@ -14,9 +14,17 @@ interface Props {
   startItem?: Step
   parent?: Step
   onComplete: (step: Step) => void
+  onComment?: (id: string, comment: string) => void
 }
 
-export default function Branch({ steps, startItem, executionSteps, parent, onComplete }: Props) {
+export default function Branch({
+  steps,
+  startItem,
+  executionSteps,
+  parent,
+  onComplete,
+  onComment,
+}: Props) {
   if (!steps?.length) return null
 
   const step = startItem
@@ -57,6 +65,16 @@ export default function Branch({ steps, startItem, executionSteps, parent, onCom
           }}
         >
           <ActiveStepCard title={step.title} status={status} employees={step.responsibleUsers}>
+            {step.hasComment && (
+              <Form.Item>
+                <Input.TextArea
+                  defaultValue={executionStep?.description}
+                  placeholder="Description"
+                  autoSize
+                  onChange={e => onComment?.(step.id, e.target.value)}
+                />
+              </Form.Item>
+            )}
             {status === 'active' && (
               <Controls>
                 <Button

@@ -10,7 +10,6 @@ export default gql`
         title
         customer
         type
-        isRotation
       }
       vacancy {
         id
@@ -30,7 +29,7 @@ export default gql`
 
 type ProcessExecutionPick = {
   id: string
-  process: Pick<Process, 'id' | 'title' | 'customer' | 'type' | 'isRotation'>
+  process: Pick<Process, 'id' | 'title' | 'customer' | 'type'>
   vacancy: Pick<Vacancy, 'id' | 'position'>
   project: Pick<Project, 'id' | 'name'>
   locations: Pick<Location, 'id' | 'name'>[]

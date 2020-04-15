@@ -28,7 +28,11 @@ export default function Branch({
 
   return (
     <>
-      <ColumnWrapper>
+      <ColumnWrapper
+        style={{
+          marginBottom: 50,
+        }}
+      >
         <div
           style={{
             width: 360,

@@ -1,7 +1,15 @@
-import { Button, Checkbox, Col, Form, Radio, Row, Select, Typography } from 'antd'
+import { Button, Col, Form, Radio, Row, Select, Input } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
 import React from 'react'
 import { Process } from '../../types'
+
+const CustomerSelect = React.forwardRef((props, ref) => (
+  <Select {...props}>
+    <Select.Option value="internal">Internal</Select.Option>
+    <Select.Option value="swissre">Swissre</Select.Option>
+    <Select.Option value="allianz">Allianz</Select.Option>
+  </Select>
+))
 
 export interface Props extends FormComponentProps {
   onSubmit: (process: Process, onDone?: () => void) => void
@@ -24,21 +32,18 @@ function ProcessForm({ form, onSubmit, data, loading }: Props) {
   return (
     <Form layout="vertical" onSubmit={handleSubmit}>
       <Row>
-        <Form.Item>
-          {getFieldDecorator('isRotation', {
-            valuePropName: 'checked',
-            initialValue: data?.isRotation,
-          })(<Checkbox>Rotation</Checkbox>)}
-          {getFieldValue('isRotation') && (
-            <div style={{ marginTop: 16 }}>
-              <Typography.Text type="secondary">
-                Rotation consists of 2 procesess of onboarding and offboarding individually. First
-                select the process and then the client
-              </Typography.Text>
-            </div>
-          )}
+        <Form.Item label="Title">
+          {getFieldDecorator('title', {
+            initialValue: data?.title,
+            rules: [
+              {
+                required: true,
+                message: 'please type title',
+              },
+            ],
+          })(<Input />)}
         </Form.Item>
-        <Form.Item>
+        <Form.Item label="Type">
           {getFieldDecorator('type', {
             valuePropName: 'checked',
             initialValue: data?.type,
@@ -52,6 +57,7 @@ function ProcessForm({ form, onSubmit, data, loading }: Props) {
             <Radio.Group>
               <Radio value="onboarding">Onboarding</Radio>
               <Radio value="offboarding">Offboaring</Radio>
+              <Radio value="rotation">Rotation</Radio>
             </Radio.Group>,
           )}
         </Form.Item>
@@ -64,14 +70,21 @@ function ProcessForm({ form, onSubmit, data, loading }: Props) {
               },
             ],
             initialValue: data?.customer,
-          })(
-            <Select>
-              <Select.Option value="internal">Internal</Select.Option>
-              <Select.Option value="swissre">Swissre</Select.Option>
-              <Select.Option value="allianz">Allianz</Select.Option>
-            </Select>,
-          )}
+          })(<CustomerSelect />)}
         </Form.Item>
+        {getFieldValue('type') === 'rotation' && (
+          <Form.Item label="Next Customer">
+            {getFieldDecorator('nextCustomer', {
+              rules: [
+                {
+                  required: true,
+                  message: 'please choose customer',
+                },
+              ],
+              initialValue: data?.nextCustomer,
+            })(<CustomerSelect />)}
+          </Form.Item>
+        )}
       </Row>
       <Row>
         <Col>

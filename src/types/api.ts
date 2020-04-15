@@ -233,12 +233,15 @@ export interface Location {
   description: string
 }
 
+export type Customer = 'internal' | 'swissre' | 'allianz'
+export type ProcessType = 'onboarding' | 'offboarding' | 'rotation'
+
 export interface Process {
   id: string
   title: string
-  customer: 'internal' | 'swissre' | 'allianz'
-  type: 'onboarding' | 'offboarding'
-  isRotation: boolean
+  customer: Customer
+  nextCustomer: Customer
+  type: ProcessType
 }
 
 export interface ProcessStep {
@@ -265,6 +268,7 @@ export interface ProcessExecution {
 export interface ProcessExecutionStep {
   id: string
   execution: ProcessExecution
+  description: string
   step: ProcessStep
   isDone: boolean
 }

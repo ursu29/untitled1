@@ -6,6 +6,7 @@ import getProcesses, { QueryType } from '../../queries/getProcesses'
 import PageContent from '../UI/PageContent'
 import Skeleton from '../UI/Skeleton'
 import Branch from './ProcessBranch'
+import { Divider, Typography } from 'antd'
 
 const mutation = gql`
   mutation createProcessStep($input: CreateProcessStepInput) {
@@ -29,16 +30,33 @@ function ProcessPage({ match }: RouteComponentProps<{ id: string }>) {
 
   const process = data?.processes[0]
 
+  const branches = process?.steps.filter(i => !i.parentSteps?.length)
+
   return (
     <PageContent style={{ overflow: 'auto', width: '100%', height: '100%', flexGrow: 1 }}>
       <Skeleton active loading={loading}>
         {process && (
-          <Branch
-            steps={process.steps}
-            onCreate={(values: any) => {
-              create({ variables: { input: { ...values, process: process.id } } })
-            }}
-          />
+          <div>
+            <Typography.Title>{process.title}</Typography.Title>
+            {branches?.map((i, index) => {
+              return (
+                <div key={i.id}>
+                  <Branch
+                    steps={process.steps.filter(item => {
+                      if (!item.parentSteps?.length) {
+                        return item.id === i.id
+                      }
+                      return true
+                    })}
+                    onCreate={(values: any) => {
+                      create({ variables: { input: { ...values, process: process.id } } })
+                    }}
+                  />
+                  {index < branches.length - 1 && <Divider />}
+                </div>
+              )
+            })}
+          </div>
         )}
       </Skeleton>
     </PageContent>

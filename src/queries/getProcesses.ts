@@ -9,7 +9,6 @@ export default gql`
       title
       customer
       type
-      isRotation
       steps {
         ...ProcessStepDetails
       }
@@ -18,7 +17,7 @@ export default gql`
   ${fragments.ProcessStep.Details}
 `
 
-type ProcessPick = Pick<Process, 'id' | 'customer' | 'type' | 'isRotation' | 'title'> & {
+type ProcessPick = Pick<Process, 'id' | 'customer' | 'type' | 'title'> & {
   steps: ProcessStepDetails[]
 }
 

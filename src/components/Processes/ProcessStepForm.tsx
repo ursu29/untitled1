@@ -49,8 +49,8 @@ function ProcessStepForm({
         <Controller
           as={
             <Radio.Group>
-              <Radio value="notify">Autocomplete</Radio>
               <Radio value="approve">Add 'Complete' button</Radio>
+              <Radio value="notify">Autocomplete</Radio>
             </Radio.Group>
           }
           name="type"

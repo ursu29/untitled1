@@ -25,6 +25,6 @@ export const getMatrixLink = (id: Matrix['id']) => PATHS.MATRICES + '/' + id + '
 export const getPostLink = (id: Post['id']) => PATHS.POSTS + '/' + id + '/'
 export const getProcessLink = (id: Process['id']) => PATHS.PROCESSES + '/' + id + '/'
 export const getProcessExecutionLink = (id: ProcessExecution['id']) => PATHS.HR + '/' + id + '/'
-export const getVacanciesLink = (id: Vacancy['id']) => PATHS.VACANCIES + '/' + id + '/'
+export const getVacancyLink = (id: Vacancy['id']) => PATHS.VACANCIES + '/' + id + '/'
 
 export default PATHS

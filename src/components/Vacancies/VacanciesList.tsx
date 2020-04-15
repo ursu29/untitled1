@@ -2,17 +2,35 @@ import React from 'react'
 import { QueryType } from '../../queries/getVacancies'
 import { Table, Button, Divider } from 'antd'
 import Rotate from './Rotate'
+import { getVacancyLink } from '../../paths'
+import { withRouter, RouteComponentProps } from 'react-router-dom'
 
 interface Props {
   items?: QueryType['vacancies']
 }
 
-function ProcessList({ items }: Props) {
+function ProcessList({ items, history }: Props & RouteComponentProps) {
   return (
     <Table<QueryType['vacancies'][0]>
       rowKey="id"
       columns={[
-        { key: 'position', dataIndex: 'position', title: 'Position' },
+        {
+          key: 'position',
+          dataIndex: 'position',
+          title: 'Position',
+          render: (_, i) => {
+            return (
+              <Button
+                type="link"
+                onClick={() => {
+                  history.push(getVacancyLink(i.id))
+                }}
+              >
+                {i.position}
+              </Button>
+            )
+          },
+        },
         { key: 'client', dataIndex: 'customer', title: 'Client' },
         { key: 'team', dataIndex: 'project.name', title: 'Team' },
         {
@@ -31,7 +49,14 @@ function ProcessList({ items }: Props) {
               <>
                 <Rotate vacancy={vacancy} />
                 <Divider type="vertical" />
-                <Button icon="form">Send CV</Button>
+                <a
+                  href={`https://outlook.office.com/owa/?path=/mail/action/compose&to=Stepan.Krychkov@Sidenis.com&subject=Rotate to ${vacancy.project.name}&body=I want to apply this vacancy. My CV is attached`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ paddingRight: 8 }}
+                >
+                  <Button icon="form">Send CV</Button>
+                </a>
               </>
             )
           },
@@ -43,4 +68,4 @@ function ProcessList({ items }: Props) {
   )
 }
 
-export default ProcessList
+export default withRouter(ProcessList)

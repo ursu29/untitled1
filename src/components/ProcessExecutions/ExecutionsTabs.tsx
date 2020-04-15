@@ -17,29 +17,17 @@ function ActiveProcesses({ processExecutions }: Props) {
     {
       title: 'Onboarding',
       key: 'onboarding',
-      body: (
-        <ProcessList
-          items={processExecutions.filter(
-            i => i.process.type === 'onboarding' && !i.process.isRotation,
-          )}
-        />
-      ),
+      body: <ProcessList items={processExecutions.filter(i => i.process.type === 'onboarding')} />,
     },
     {
       title: 'Offboarding',
       key: 'offboarding',
-      body: (
-        <ProcessList
-          items={processExecutions.filter(
-            i => i.process.type === 'offboarding' && !i.process.isRotation,
-          )}
-        />
-      ),
+      body: <ProcessList items={processExecutions.filter(i => i.process.type === 'offboarding')} />,
     },
     {
       title: 'Rotation',
       key: 'rotation',
-      body: <ProcessList items={processExecutions.filter(i => i.process.isRotation)} />,
+      body: <ProcessList items={processExecutions.filter(i => i.process.type === 'rotation')} />,
     },
   ]
 

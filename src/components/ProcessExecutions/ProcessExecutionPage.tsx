@@ -1,20 +1,29 @@
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { Divider } from 'antd'
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import getProcessExecution, { QueryType } from '../../queries/getProcessExecution'
 import getProcessExecutions from '../../queries/getProcessExecutions'
 import Skeleton from '../UI/Skeleton'
 import Vacancy from '../Vacancies/Vacancy'
-import ActiveStepCard from './ActiveStepCard'
+import ActiveStepCard from './ExecutionStepCard'
 import PageContent from '../UI/PageContent'
-import ActiveProcessBranch from './ActiveProcessBranch'
+import ActiveProcessBranch from './ProcessExecutionBranch'
 import gql from 'graphql-tag'
 import message from '../../message'
+import { debounce } from 'throttle-debounce'
 
 const mutation = gql`
   mutation completeProcessExecutionStep($input: CompleteProcessExecutionStepInput!) {
     completeProcessExecutionStep(input: $input) {
+      id
+    }
+  }
+`
+
+const commentMutation = gql`
+  mutation commentProcessExecutionStep($input: CommentProcessExecutionStepInput!) {
+    commentProcessExecutionStep(input: $input) {
       id
     }
   }
@@ -31,11 +40,23 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
     onCompleted: () => message.success('Step is done'),
   })
 
+  const [comment, commentArgs] = useMutation(commentMutation, {
+    refetchQueries: [{ query: getProcessExecution, variables }],
+    awaitRefetchQueries: true,
+    onError: message.error,
+    onCompleted: () => message.success('Step is done'),
+  })
+
+  const commentDebounced = debounce(1000, comment)
+
   useEffect(() => {
     if (completeArgs.loading) {
       message.loading('Finishing step')
     }
-  }, [completeArgs.loading])
+    if (commentArgs.loading) {
+      message.loading('Comment updated')
+    }
+  }, [completeArgs.loading, commentArgs.loading])
 
   const executionProcess = data?.processExecutions?.[0]
 
@@ -46,6 +67,8 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
   if (!executionProcess) {
     return <PageContent>Process is not found</PageContent>
   }
+
+  const branches = executionProcess.process?.steps.filter(i => !i.parentSteps?.length)
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -72,20 +95,39 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
       )}
       <div style={{ overflow: 'auto', width: '100%', height: '100%' }}>
         <PageContent noTop>
-          <ActiveProcessBranch
-            executionSteps={executionProcess.executionSteps}
-            steps={executionProcess.process.steps}
-            onComplete={step =>
-              complete({
-                variables: {
-                  input: {
-                    step: step.id,
-                    execution: executionProcess.id,
-                  },
-                },
-              })
-            }
-          />
+          {branches?.map((i, index) => {
+            return (
+              <div key={i.id}>
+                <ActiveProcessBranch
+                  executionSteps={executionProcess.executionSteps}
+                  steps={executionProcess.process.steps.filter(item => {
+                    if (!item.parentSteps?.length) {
+                      return item.id === i.id
+                    }
+                    return true
+                  })}
+                  onComplete={step =>
+                    complete({
+                      variables: {
+                        input: {
+                          step: step.id,
+                          execution: executionProcess.id,
+                        },
+                      },
+                    })
+                  }
+                  onComment={(step, description) => {
+                    commentDebounced({
+                      variables: {
+                        input: { step, description, execution: executionProcess.id },
+                      },
+                    })
+                  }}
+                />
+                {index < branches.length - 1 && <Divider />}
+              </div>
+            )
+          })}
         </PageContent>
       </div>
     </div>
