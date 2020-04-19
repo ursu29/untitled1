@@ -68,7 +68,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
     return <PageContent>Process is not found</PageContent>
   }
 
-  const branches = executionProcess.process?.steps.filter(i => !i.parentSteps?.length)
+  const branches = executionProcess.process?.steps.filter((i) => !i.parentSteps?.length)
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -100,13 +100,13 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
               <div key={i.id}>
                 <ActiveProcessBranch
                   executionSteps={executionProcess.executionSteps}
-                  steps={executionProcess.process.steps.filter(item => {
+                  steps={executionProcess.process.steps.filter((item) => {
                     if (!item.parentSteps?.length) {
                       return item.id === i.id
                     }
                     return true
                   })}
-                  onComplete={step =>
+                  onComplete={(step) =>
                     complete({
                       variables: {
                         input: {

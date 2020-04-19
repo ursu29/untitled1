@@ -65,9 +65,21 @@
     "@types/styled-components": "4.4.1",
     "@types/throttle-debounce": "^2.1.0",
     "cypress": "4.1.0",
-    "prettier": "^1.19.1",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.1.4",
+    "prettier": "^2.0.4",
     "react-scripts": "3.3.0",
     "source-map-explorer": "2.1.2",
     "typescript": "3.7.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
   }
 }

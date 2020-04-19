@@ -1,8 +1,8 @@
 import { Avatar, Badge, Button, Card, Col, Row, Skeleton, Typography } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
-import outlook from '../../svg/outlook.svg'
-import teams from '../../svg/teams.svg'
+import { ReactComponent as OutlookIcon } from '../../svg/outlook.svg'
+import { ReactComponent as TeamsIcon } from '../../svg/teams.svg'
 import { Employee } from '../../types'
 import EmployeeManager from './EmployeeManager'
 import EmployeeProjects from './EmployeeProjects'
@@ -91,8 +91,15 @@ export default function EmployeeView({ loading, employee, mobile }: Props) {
                 rel="noopener noreferrer"
                 style={{ paddingRight: 8 }}
               >
-                <Button shape="circle-outline">
-                  <img src={outlook} alt="outlook" />
+                <Button
+                  shape="circle-outline"
+                  style={{
+                    display: 'inline-flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <OutlookIcon />
                 </Button>
               </a>
               <a
@@ -101,8 +108,15 @@ export default function EmployeeView({ loading, employee, mobile }: Props) {
                 rel="noopener noreferrer"
                 style={{ paddingRight: 8 }}
               >
-                <Button shape="circle-outline">
-                  <img src={teams} alt="teams" />
+                <Button
+                  shape="circle-outline"
+                  style={{
+                    display: 'inline-flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <TeamsIcon />
                 </Button>
               </a>{' '}
               <Badge

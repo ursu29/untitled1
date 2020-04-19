@@ -1,17 +1,21 @@
-import React, {useEffect} from 'react'
-import {notification, Button} from 'antd'
+import React, { useEffect } from 'react'
+import { notification, Button } from 'antd'
 
 const openNotification = () => {
   notification.open({
-    message: 'If timemaster is not available, probably you\'re not authorized',
-    description:
-      <Button onClick={() => {
-        window.open("https://timemaster-new.sidenis.com", '__blank')
-      }}>Login</Button>,
-     duration: 4,
-  });
-};
-
+    message: "If timemaster is not available, probably you're not authorized",
+    description: (
+      <Button
+        onClick={() => {
+          window.open('https://timemaster-new.sidenis.com', '__blank')
+        }}
+      >
+        Login
+      </Button>
+    ),
+    duration: 4,
+  })
+}
 
 function TimemasterPage() {
   useEffect(() => {

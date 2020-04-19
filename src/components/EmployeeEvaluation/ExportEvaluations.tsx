@@ -1,6 +1,12 @@
 import React from 'react'
 import { GATEWAY } from '../../config'
-import { Employee, Evaluation, EvaluationAttribute, EvaluationReviewer, EvaluationComment } from '../../types'
+import {
+  Employee,
+  Evaluation,
+  EvaluationAttribute,
+  EvaluationReviewer,
+  EvaluationComment,
+} from '../../types'
 import Button from '../UI/Button'
 
 type Props = {
@@ -38,8 +44,8 @@ export default function ExportEvaluations({
           comments,
         }),
       })
-        .then(res => res.arrayBuffer())
-        .then(data => {
+        .then((res) => res.arrayBuffer())
+        .then((data) => {
           const blob = new Blob([data], {
             type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
           })

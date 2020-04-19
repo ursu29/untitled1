@@ -4,9 +4,9 @@ import { useMediaQuery } from 'react-responsive'
 import styled, { css } from 'styled-components'
 import { COLLAPSE_WIDTH } from '../../config'
 import { QueryType } from '../../queries/getProjectEmployeesExperiences'
-import confident from '../../svg/confident.svg'
-import experienced from '../../svg/experienced.svg'
-import studying from '../../svg/studying.svg'
+import { ReactComponent as ConfidentIcon } from '../../svg/confident.svg'
+import { ReactComponent as ExperiencedIcon } from '../../svg/experienced.svg'
+import { ReactComponent as StudyingIcon } from '../../svg/studying.svg'
 import { Employee, Level, Skill } from '../../types'
 import EmployeeLink from './EmployeeLink'
 
@@ -15,7 +15,7 @@ type EmployeeSkillMatrixProps = {
 }
 
 function getEmployeeSkillLevel(employee: Partial<Employee>, skill: Partial<Skill>): Level | null {
-  const exp = employee.experiences!.find(e => e.skill.id === skill.id)
+  const exp = employee.experiences!.find((e) => e.skill.id === skill.id)
   if (!exp) {
     return null
   }
@@ -30,7 +30,7 @@ function bySkillNameAZ(a: Partial<Skill>, b: Partial<Skill>) {
 
 const SkillIcon = styled.div<{ minor?: boolean }>`
   height: 32px;
-  ${props =>
+  ${(props) =>
     props.minor &&
     css`
       font-size: 15px;
@@ -48,13 +48,13 @@ const SkillIcon = styled.div<{ minor?: boolean }>`
 const levelIcons = [
   <SkillIcon minor>•</SkillIcon>,
   <SkillIcon>
-    <img src={studying} alt="" />
+    <ConfidentIcon />
   </SkillIcon>,
   <SkillIcon>
-    <img src={experienced} alt="" />
+    <ExperiencedIcon />
   </SkillIcon>,
   <SkillIcon>
-    <img src={confident} alt="" />
+    <StudyingIcon />
   </SkillIcon>,
 ]
 
@@ -84,7 +84,7 @@ const EmployeeSkillMatrix: React.FC<EmployeeSkillMatrixProps> = ({ project }) =>
       defaultSortOrder: 'ascend',
     },
   ].concat(
-    project.skills?.sort(bySkillNameAZ).map(skill => {
+    project.skills?.sort(bySkillNameAZ).map((skill) => {
       const col: any = {
         align: 'center',
         key: skill.id,

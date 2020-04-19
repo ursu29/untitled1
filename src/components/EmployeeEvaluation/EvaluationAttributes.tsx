@@ -55,7 +55,7 @@ function EvaluationAttributes({ evaluations, editable, comments, employee, ...pr
       },
     ],
     onCompleted: () => message.success('Evaluation form is updated'),
-    onError: message.error
+    onError: message.error,
   })
 
   const [comment, { loading: commentLoading }] = useMutation(commentMutation, {
@@ -69,7 +69,7 @@ function EvaluationAttributes({ evaluations, editable, comments, employee, ...pr
       },
     ],
     onCompleted: () => message.success('Evaluation form is updated'),
-    onError: message.error
+    onError: message.error,
   })
 
   const commentDebounce = debounce(800, comment)
