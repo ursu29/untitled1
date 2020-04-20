@@ -13,6 +13,8 @@ import Vacancy from '../Vacancies/Vacancy'
 import ActiveStepCard from './ExecutionStepCard'
 import ActiveProcessBranch from './ProcessExecutionBranch'
 import ProcessExecutionRotation from './ProcessExecutionRotation'
+import NotAllowed from '../UI/NotAllowed'
+import isForbidden from '../../utils/isForbidden'
 
 const mutation = gql`
   mutation completeProcessExecutionStep($input: CompleteProcessExecutionStepInput!) {
@@ -32,7 +34,7 @@ const commentMutation = gql`
 
 function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
   const variables = { input: { id: match.params.id } }
-  const { data, loading } = useQuery<QueryType>(getProcessExecution, { variables })
+  const { data, loading, error } = useQuery<QueryType>(getProcessExecution, { variables })
 
   const [complete, completeArgs] = useMutation(mutation, {
     refetchQueries: [{ query: getProcessExecution, variables }],
@@ -58,6 +60,14 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
       message.loading('Comment updated')
     }
   }, [completeArgs.loading, commentArgs.loading])
+
+  if (isForbidden(error)) {
+    return (
+      <PageContent>
+        <NotAllowed />
+      </PageContent>
+    )
+  }
 
   const processExecution = data?.processExecutions?.[0]
 

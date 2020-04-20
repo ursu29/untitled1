@@ -12,7 +12,7 @@ import styled from 'styled-components'
 
 const Width = styled.div<{ isLarge: boolean }>`
   .ant-menu-inline-collapsed > .ant-menu-item {
-    padding: 0 ${props => (props.isLarge ? '32px !important' : '22px !important')};
+    padding: 0 ${(props) => (props.isLarge ? '32px !important' : '22px !important')};
   }
 `
 
@@ -94,11 +94,13 @@ function PortalMenu(props: Props) {
       icon: <Icon type="idcard" />,
       title: 'Vacancies',
     },
-    {
-      route: paths.HR,
-      icon: <Icon type="user-add" />,
-      title: 'HR Tool',
-    },
+    data?.processesAccess.read
+      ? {
+          route: paths.HR,
+          icon: <Icon type="user-add" />,
+          title: 'HR Tool',
+        }
+      : null,
     data?.processesAccess.read
       ? {
           route: paths.PROCESSES,
@@ -118,7 +120,7 @@ function PortalMenu(props: Props) {
           theme="light"
           style={{ border: 'none', width: isLarge ? 240 : 60 }}
         >
-          {menuItems.map(item => {
+          {menuItems.map((item) => {
             if (!item) return null
             return (
               <Menu.Item key={item.route}>

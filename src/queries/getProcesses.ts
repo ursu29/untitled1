@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import fragments, { ProcessStepDetails } from '../fragments'
-import { Process } from '../types'
+import { Process, Access } from '../types'
 
 export default gql`
   query getProcesses($input: ProcessesInput) {

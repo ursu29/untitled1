@@ -6,10 +6,18 @@ import ActiveProcesses from './ExecutionsTabs'
 import { Typography } from 'antd'
 import PageContent from '../UI/PageContent'
 import CreateProcessExecution from './CreateProcessExecution'
+import NotAllowed from '../UI/NotAllowed'
+import isForbidden from '../../utils/isForbidden'
 
 function HRPage() {
-  const { data, loading } = useQuery<QueryType>(getProcessExecutions)
-
+  const { data, loading, error } = useQuery<QueryType>(getProcessExecutions)
+  if (isForbidden(error)) {
+    return (
+      <PageContent>
+        <NotAllowed />
+      </PageContent>
+    )
+  }
   return (
     <Skeleton active loading={loading} padding={24}>
       <PageContent noBottom>

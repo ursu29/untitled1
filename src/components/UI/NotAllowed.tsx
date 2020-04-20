@@ -16,7 +16,7 @@ function NotAllowed({ history }: RouteComponentProps) {
       <Result
         status="403"
         title="Not allowed"
-        subTitle="Sorry, you are have no access this page."
+        subTitle="Sorry, you are have no access to this page."
         extra={
           history.length && (
             <Button type="default" key="console" onClick={history.goBack}>
