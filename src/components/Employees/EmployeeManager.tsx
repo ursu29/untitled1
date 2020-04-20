@@ -2,7 +2,7 @@ import React from 'react'
 import { Employee } from '../../types'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import EmployeeCard from '../UI/EmployeeCard'
+import EmployeeCard from './EmployeeCard'
 import Section from '../UI/Section'
 import Skeleton from '../UI/Skeleton'
 

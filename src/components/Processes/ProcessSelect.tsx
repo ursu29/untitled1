@@ -6,11 +6,11 @@ import getProcesses, { QueryType } from '../../queries/getProcesses'
 
 interface Props extends Exclude<SelectProps, 'loading'> {}
 
-function ProcessSelect(props: Props) {
+function ProcessSelect(props: Props, ref: any) {
   const { data, loading } = useQuery<QueryType>(getProcesses)
   return (
     <Select {...props} loading={loading}>
-      {data?.processes?.map(item => {
+      {data?.processes?.map((item) => {
         return (
           <Select.Option key={item.id} value={item.id} title={item.title}>
             {item.title}
@@ -21,4 +21,4 @@ function ProcessSelect(props: Props) {
   )
 }
 
-export default ProcessSelect
+export default React.forwardRef(ProcessSelect)

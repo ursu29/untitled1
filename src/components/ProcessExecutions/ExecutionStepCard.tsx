@@ -15,10 +15,10 @@ const statuses: Record<string, ReactNode> = {
   ),
 }
 
-function ActiveStepCard({ title, status, employees, children }: Props) {
+function ActiveStepCard({ title, description, status, employees, children }: Props) {
   const extra = (
     <div>
-      {employees?.map(i => {
+      {employees?.map((i) => {
         return (
           <Tooltip key={i.id} placement="top" title={i.name}>
             <Avatar src={i.avatar} shape="circle" size="small" />
@@ -42,6 +42,7 @@ function ActiveStepCard({ title, status, employees, children }: Props) {
       headStyle={{ borderBottom: 0, fontWeight: 'normal' }}
       bodyStyle={!Boolean(children) ? { padding: 0 } : undefined}
     >
+      <div>{description}</div>
       {children}
     </Card>
   )

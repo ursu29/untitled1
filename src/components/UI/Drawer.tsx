@@ -9,7 +9,7 @@ interface Props {
   size?: 'default' | 'large'
 }
 
-export default function PortalDrawer({ drawerLabel, toggler, content, size }: Props) {
+export default function ({ drawerLabel, toggler, content, size }: Props) {
   const [visible, toggleVisibility] = useState(false)
   const drawerWidth = size === 'large' ? 800 : 480
   const isLarge = useMediaQuery({ minWidth: drawerWidth })

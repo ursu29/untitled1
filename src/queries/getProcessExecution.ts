@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
-import fragments, { ProcessStepDetails } from '../fragments'
-import { Process, ProcessExecutionStep, ProcessStep, Vacancy } from '../types'
+import fragments, { ProcessStepDetails, EmployeeDetails } from '../fragments'
+import { Process, ProcessExecutionStep, ProcessStep, Vacancy, Employee } from '../types'
 
 export default gql`
   query getProcessExecutions($input: ProcessExecutionsInput) {
@@ -16,6 +16,9 @@ export default gql`
       vacancy {
         id
         isPublished
+        rotateEmployees {
+          ...EmployeeDetails
+        }
       }
       executionSteps {
         id
@@ -27,6 +30,7 @@ export default gql`
       }
     }
   }
+  ${fragments.Employee.Details}
   ${fragments.ProcessStep.Details}
 `
 
@@ -35,7 +39,9 @@ type ProcessExecutionPick = {
   process: Pick<Process, 'id' | 'type'> & {
     steps: ProcessStepDetails[]
   }
-  vacancy: Pick<Vacancy, 'id' | 'isPublished'>
+  vacancy: Pick<Vacancy, 'id' | 'isPublished'> & {
+    rotateEmployees: EmployeeDetails[]
+  }
   executionSteps: (Pick<ProcessExecutionStep, 'id' | 'description' | 'isDone'> & {
     step: Pick<ProcessStep, 'id'>
     // comments: Pick<ProcessExecutionComment, 'id' | 'body'> & {

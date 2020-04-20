@@ -1,17 +1,18 @@
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import { useMutation, useQuery } from '@apollo/react-hooks'
 import { Divider } from 'antd'
-import React, { useEffect, useMemo } from 'react'
+import gql from 'graphql-tag'
+import React, { useEffect } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { debounce } from 'throttle-debounce'
+import message from '../../message'
 import getProcessExecution, { QueryType } from '../../queries/getProcessExecution'
 import getProcessExecutions from '../../queries/getProcessExecutions'
+import PageContent from '../UI/PageContent'
 import Skeleton from '../UI/Skeleton'
 import Vacancy from '../Vacancies/Vacancy'
 import ActiveStepCard from './ExecutionStepCard'
-import PageContent from '../UI/PageContent'
 import ActiveProcessBranch from './ProcessExecutionBranch'
-import gql from 'graphql-tag'
-import message from '../../message'
-import { debounce } from 'throttle-debounce'
+import ProcessExecutionRotation from './ProcessExecutionRotation'
 
 const mutation = gql`
   mutation completeProcessExecutionStep($input: CompleteProcessExecutionStepInput!) {
@@ -58,30 +59,31 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
     }
   }, [completeArgs.loading, commentArgs.loading])
 
-  const executionProcess = data?.processExecutions?.[0]
+  const processExecution = data?.processExecutions?.[0]
 
   if (loading) {
     return <Skeleton active loading={loading} padding={20} />
   }
 
-  if (!executionProcess) {
+  if (!processExecution) {
     return <PageContent>Process is not found</PageContent>
   }
 
-  const branches = executionProcess.process?.steps.filter((i) => !i.parentSteps?.length)
+  const branches = processExecution.process?.steps.filter((i) => !i.parentSteps?.length)
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      {executionProcess.process.type === 'onboarding' && (
+      {processExecution.process.type === 'onboarding' && (
         <>
           <PageContent noBottom>
+            <ProcessExecutionRotation processExecution={processExecution} />
             <ActiveStepCard
               title="Open Vacancy"
-              status={executionProcess.vacancy.isPublished ? 'done' : 'active'}
+              status={processExecution.vacancy.isPublished ? 'done' : 'active'}
               employees={[]}
             >
               <Vacancy
-                id={executionProcess.vacancy?.id}
+                id={processExecution.vacancy?.id}
                 refetchQueries={[
                   { query: getProcessExecution, variables: { input: { id: match.params.id } } },
                   { query: getProcessExecutions },
@@ -99,8 +101,8 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
             return (
               <div key={i.id}>
                 <ActiveProcessBranch
-                  executionSteps={executionProcess.executionSteps}
-                  steps={executionProcess.process.steps.filter((item) => {
+                  executionSteps={processExecution.executionSteps}
+                  steps={processExecution.process.steps.filter((item) => {
                     if (!item.parentSteps?.length) {
                       return item.id === i.id
                     }
@@ -111,7 +113,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                       variables: {
                         input: {
                           step: step.id,
-                          execution: executionProcess.id,
+                          execution: processExecution.id,
                         },
                       },
                     })
@@ -119,7 +121,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                   onComment={(step, description) => {
                     commentDebounced({
                       variables: {
-                        input: { step, description, execution: executionProcess.id },
+                        input: { step, description, execution: processExecution.id },
                       },
                     })
                   }}

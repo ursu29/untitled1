@@ -3,7 +3,7 @@ import { Project } from '../../types'
 import { useQuery } from '@apollo/react-hooks'
 import query, { QueryType } from '../../queries/getProjectManagers'
 import Skeleton from '../UI/Skeleton'
-import EmployeeCard from '../UI/EmployeeCard'
+import EmployeeCard from '../Employees/EmployeeCard'
 import Section from '../UI/Section'
 import message from '../../message'
 
@@ -21,7 +21,7 @@ export default function ProjectManagers({ project }: Props) {
   return (
     <Section title={leaders.length > 1 ? 'Managers' : 'Manager'}>
       <Skeleton active avatar line loading={loading}>
-        {leaders?.map(employee => (
+        {leaders?.map((employee) => (
           <EmployeeCard key={employee.id} employee={employee} />
         ))}
         {!leaders.length && <div>Project has no manager</div>}

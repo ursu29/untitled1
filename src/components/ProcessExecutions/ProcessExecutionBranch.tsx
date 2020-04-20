@@ -28,15 +28,15 @@ export default function Branch({
   if (!steps?.length) return null
 
   const step = startItem
-    ? steps.find(i => i.id === startItem.id)
-    : steps.find(i => !i.parentSteps.length)
+    ? steps.find((i) => i.id === startItem.id)
+    : steps.find((i) => !i.parentSteps.length)
   if (!step) return null
 
-  const nextSteps = steps.filter(i => i.parentSteps?.find(i => i.id === step.id))
+  const nextSteps = steps.filter((i) => i.parentSteps?.find((i) => i.id === step.id))
   const hasNextSteps = Boolean(nextSteps.length)
 
-  const executionStep = executionSteps?.find(i => i.step.id === step.id)
-  const executionStepParent = parent && executionSteps?.find(i => i.step.id === parent.id)
+  const executionStep = executionSteps?.find((i) => i.step.id === step.id)
+  const executionStepParent = parent && executionSteps?.find((i) => i.step.id === parent.id)
 
   let status: 'pending' | 'active' | 'done' = 'pending'
   if (executionStep?.isDone) {
@@ -64,14 +64,19 @@ export default function Branch({
             zIndex: 10,
           }}
         >
-          <ActiveStepCard title={step.title} status={status} employees={step.responsibleUsers}>
+          <ActiveStepCard
+            title={step.title}
+            description={step.description}
+            status={status}
+            employees={step.responsibleUsers}
+          >
             {step.hasComment && (
               <Form.Item>
                 <Input.TextArea
                   defaultValue={executionStep?.description}
-                  placeholder="Description"
+                  placeholder="Comment"
                   autoSize
-                  onChange={e => onComment?.(step.id, e.target.value)}
+                  onChange={(e) => onComment?.(step.id, e.target.value)}
                 />
               </Form.Item>
             )}
@@ -79,7 +84,7 @@ export default function Branch({
               <Controls>
                 <Button
                   type="primary"
-                  disabled={!step.responsibleUsers?.find(i => i.isMe)}
+                  disabled={!step.responsibleUsers?.find((i) => i.isMe)}
                   onClick={() => onComplete(step)}
                 >
                   Complete
@@ -91,7 +96,7 @@ export default function Branch({
         {hasNextSteps && (
           <>
             <RowWrapper>
-              {nextSteps.map(i => (
+              {nextSteps.map((i) => (
                 <Branch
                   key={i.id}
                   steps={steps}

@@ -12,7 +12,7 @@ export interface Props extends FormComponentProps {
   value?: Partial<ProcessExecution>
 }
 
-const ActiveProcessForm = ({ form, onSubmit, value, loading }: Props) => {
+const CreateProcessForm = ({ form, onSubmit, value, loading }: Props) => {
   const { getFieldDecorator } = form
 
   const handleSubmit = (e: any) => {
@@ -36,7 +36,7 @@ const ActiveProcessForm = ({ form, onSubmit, value, loading }: Props) => {
       </Form.Item>
       <Form.Item label="Locations">
         {getFieldDecorator('locations', {
-          initialValue: value?.locations?.map(i => i.id),
+          initialValue: value?.locations?.map((i) => i.id),
         })(<LocationSelect mode="multiple" wide />)}
       </Form.Item>
       <Form.Item label="Project">
@@ -55,4 +55,4 @@ const ActiveProcessForm = ({ form, onSubmit, value, loading }: Props) => {
   )
 }
 
-export default Form.create<Props>({ name: 'active_process_form' })(ActiveProcessForm)
+export default Form.create<Props>({ name: 'active_process_form' })(CreateProcessForm)

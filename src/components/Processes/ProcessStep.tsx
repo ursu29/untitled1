@@ -81,10 +81,10 @@ export default function ProcessStep({ step }: { step: Partial<ProcessStepType> }
         <ProcessStepForm
           step={{
             ...step,
-            responsibleUsers: step.responsibleUsers?.map(i => i.id),
+            responsibleUsers: step.responsibleUsers?.map((i) => i.id),
           }}
           loading={loading}
-          onUpdate={data =>
+          onUpdate={(data) =>
             update({
               variables: {
                 input: {
