@@ -2,7 +2,7 @@ import React from 'react'
 import { Project } from '../../types'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import ProjectView from '../UI/Project'
+import ProjectView from './Project'
 import ProjectManagers from './ProjectManagers'
 import ProjectTechnologies from './ProjectTechnologies'
 interface Props {

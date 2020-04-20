@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import fragments, { EmployeeDetails, ProcessStepDetails } from '../fragments'
-import { Access, Process, ProcessExecutionStep, ProcessStep, Vacancy } from '../types'
+import { Process, ProcessExecutionStep, ProcessStep, Vacancy } from '../types'
 
 export default gql`
   query getProcessExecutions($input: ProcessExecutionsInput) {

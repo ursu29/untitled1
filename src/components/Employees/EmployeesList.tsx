@@ -127,7 +127,7 @@ export default function EmployeesList({ employees, loading, Avatar, fixed }: Pro
       },
     ],
     onFilter: (value: string[], record: EmployeePick) => {
-      return value.some(v => record.position && record.position.toLowerCase().includes(v))
+      return value.some((v) => record.position && record.position.toLowerCase().includes(v))
     },
   }
 
@@ -154,7 +154,7 @@ export default function EmployeesList({ employees, loading, Avatar, fixed }: Pro
       },
     ],
     onFilter: (value: string[], record: EmployeePick) => {
-      return value.some(v => record.position && record.position.toLowerCase().includes(v))
+      return value.some((v) => record.position && record.position.toLowerCase().includes(v))
     },
     render: (text: any, record: EmployeePick) => {
       if (record.position) {
@@ -202,7 +202,7 @@ export default function EmployeesList({ employees, loading, Avatar, fixed }: Pro
     <Table
       loading={loading}
       tableLayout="fixed"
-      dataSource={employees?.filter(employee => {
+      dataSource={employees?.filter((employee) => {
         if (!filter) return true
         return employee.name.toLowerCase().includes(filter.toLowerCase())
       })}

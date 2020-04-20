@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { Process, Vacancy, Project, Location, Access } from '../types'
+import { Process, Vacancy, Project, Location } from '../types'
 
 export default gql`
   {

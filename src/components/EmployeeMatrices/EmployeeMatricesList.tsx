@@ -25,7 +25,7 @@ export default function EmployeeMatricesList({
       {!matrices && <div>No matrices yet</div>}
       {matrices && (
         <Tabs defaultActiveKey={defaultActiveKey} animated={false} type="card" tabPosition="top">
-          {matrices?.map(matrix => (
+          {matrices?.map((matrix) => (
             <Tabs.TabPane tab={matrix.title} key={matrix.id}>
               <EmployeeMatrix matrix={matrix} employee={employee} DetachMatrix={DetachMatrix} />
             </Tabs.TabPane>

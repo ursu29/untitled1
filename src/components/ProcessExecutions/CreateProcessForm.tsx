@@ -1,9 +1,9 @@
-import { Button, Col, Form, Input, Row } from 'antd'
+import { Button, Col, Form, Row } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
 import React from 'react'
-import ProcessSelect from '../Processes/ProcessSelect'
 import { ProcessExecution } from '../../types'
 import LocationSelect from '../Locations/LocationSelect'
+import ProcessSelect from '../Processes/ProcessSelect'
 import ProjectSelect from '../Projects/ProjectSelect'
 
 export interface Props extends FormComponentProps {

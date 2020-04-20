@@ -3,7 +3,7 @@ import { QueryType } from '../../queries/getBookmarks'
 import UpdateBookmark from './UpdateBookmark'
 import DeleteBookmark from './DeleteBookmark'
 import LikeBookmark from './LikeBookmark'
-import BookmarksList from '../UI/BookmarksList'
+import BookmarksList from './BookmarksList'
 import CreateBookmark from './CreateBookmark'
 import { PureQueryOptions } from 'apollo-client'
 

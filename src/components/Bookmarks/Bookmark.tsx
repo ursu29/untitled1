@@ -3,7 +3,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { getSkillLink } from '../../paths'
 import { Access, Bookmark, Employee, Skill } from '../../types'
-import EmployeeLink from './EmployeeLink'
+import EmployeeLink from '../Employees/EmployeeLink'
 
 const StyledBookmark = styled.div`
   color: #8d96ac;
@@ -59,10 +59,10 @@ export default withRouter(
           <>
             <BulletDivider />
             <span>
-              {bookmark.skills.map(item => (
+              {bookmark.skills.map((item) => (
                 <StyledTag
                   key={item.id}
-                  onClick={e => {
+                  onClick={(e) => {
                     e.preventDefault()
                     history.push(getSkillLink(item.id))
                   }}

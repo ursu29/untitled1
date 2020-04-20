@@ -4,7 +4,7 @@ import getEmployeeExperiences, { QueryType } from '../../queries/getEmployeeExpe
 import { Employee, Matrix } from '../../types'
 import EmployeeSkillExperience from '../Employees/EmployeeMatrixExperience'
 import Controls from '../UI/Controls'
-import MatrixWithExperiences from '../UI/MatrixWithExperiences'
+import MatrixWithExperiences from '../Matrices/MatrixWithExperiences'
 import Skeleton from '../UI/Skeleton'
 
 interface Props {

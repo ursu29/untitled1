@@ -8,6 +8,7 @@ function EmployeeProvider(props: { value: any } & PropsWithChildren<any>) {
 
   useEffect(() => {
     setEmployee(props.value)
+    //eslint-disable-next-line
   }, [JSON.stringify(props.value)])
 
   return <EmployeeContext.Provider value={value}>{props.children}</EmployeeContext.Provider>

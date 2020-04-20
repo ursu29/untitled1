@@ -22,7 +22,7 @@ export const MatrixGroup = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: ${props => props.theme.padding}px;
+  padding: ${(props) => props.theme.padding}px;
 `
 
 export const MatrixGrade = styled.div`
@@ -65,21 +65,21 @@ export const MatrixBody = React.memo(
               </div>
             )}
           </MatrixGroup>
-          {grades.map(grade => (
+          {grades.map((grade) => (
             <MatrixGrade key={grade.id} style={{ justifyContent: 'center' }}>
               {grade.title}
             </MatrixGrade>
           ))}
         </MatrixRow>
-        {groups.map(group => {
+        {groups.map((group) => {
           return (
             <div key={group.id}>
               <Divider />
               <MatrixRow key={group.id}>
                 <MatrixGroup>{group.title}</MatrixGroup>
-                {grades.map(grade => {
+                {grades.map((grade) => {
                   const content = skills
-                    .filter(skill => skill.groupId === group.id && skill.gradeId === grade.id)
+                    .filter((skill) => skill.groupId === group.id && skill.gradeId === grade.id)
                     .map(({ skill }) => (
                       <MatrixCell key={skill.id}>
                         <DeleteMatrixSkill skill={skill} matrix={matrix} editable={editable} />

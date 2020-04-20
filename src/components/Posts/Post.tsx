@@ -6,7 +6,7 @@ import * as Showdown from 'showdown'
 import PATHS from '../../paths'
 import { Employee, Post, Tag as TagType } from '../../types'
 import Gallery from '../UI/Gallery'
-import EmployeeLink from '../UI/EmployeeLink'
+import EmployeeLink from '../Employees/EmployeeLink'
 import styled from 'styled-components'
 
 const converter = new Showdown.Converter({
@@ -58,7 +58,7 @@ function PostItem({ post, edit, history }: Props) {
       <p>
         {post.tags && (
           <Paragraph>
-            {post.tags?.map(tag => (
+            {post.tags?.map((tag) => (
               <Tag
                 key={tag.id}
                 color="blue"

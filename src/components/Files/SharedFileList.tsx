@@ -17,16 +17,16 @@ const getFolderPath = (webUrl: string) => {
   return webUrl.slice(webUrl.indexOf('.com/') + '.com/'.length)
 }
 
-export default function({ files, loading }: Props) {
+export default function ({ files, loading }: Props) {
   const [filter, setFilter] = useState('')
   const [type, setType] = useState<File['type'] | null>(null)
   if (!loading && !files) return null
-  const filteredByTypeFiles = (files || []).filter(item => {
+  const filteredByTypeFiles = (files || []).filter((item) => {
     if (type === null) return true
     return item.type === type
   })
 
-  const filteredFiles: FilesPick[] = (filteredByTypeFiles || []).filter(file => {
+  const filteredFiles: FilesPick[] = (filteredByTypeFiles || []).filter((file) => {
     return file.fileName?.toLowerCase().includes(filter.trim().toLowerCase())
   })
 
@@ -59,7 +59,7 @@ export default function({ files, loading }: Props) {
           },
         }}
         dataSource={filteredFiles}
-        renderItem={file => (
+        renderItem={(file) => (
           <List.Item key={file.id}>
             <List.Item.Meta
               style={{ wordBreak: 'break-all' }}

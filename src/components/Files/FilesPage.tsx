@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/react-hooks'
 import React, { useEffect } from 'react'
 import getSharedFiles, { QueryType } from '../../queries/getSharedFiles'
 import PageContent from '../UI/PageContent'
-import SharedFileList from '../UI/SharedFileList'
+import SharedFileList from './SharedFileList'
 import message from '../../message'
 
 let timeout: any

@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
-import SkillTreeSelect from '../Skills/SkillTreeSelect'
 import { Employee } from '../../types'
 import query, { QueryType } from '../../queries/getEmployeeExperiences'
 import getLevels, { QueryType as LQueryType } from '../../queries/getLevels'
 import Skeleton from '../UI/Skeleton'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import EmployeeSkillsDraggable from '../UI/EmployeeSkillsDraggable'
+import EmployeeSkillsDraggable from './EmployeeSkillsDraggable'
 import gql from 'graphql-tag'
 import message from '../../message'
 import updateExperience from '../../queries/updateExperience'
@@ -58,14 +57,13 @@ export default function EmployeeSkills({ employee, editable }: Props) {
         <EmployeeSkillsDraggable
           editable={editable}
           levels={levels.sort((one, two) => (one.index < two.index ? 1 : -1))}
-          experiences={experiences.filter(e => !e.skill.isMatrixOnly)}
+          experiences={experiences.filter((e) => !e.skill.isMatrixOnly)}
           onMoveSkill={(id, level) => updateOne({ variables: { input: { id, level } } })}
           onGroupUpdate={(skills, level) => {
             updateMany({
               variables: { input: { skills, level, employee: employee.id } },
             })
           }}
-          SkillTreeSelect={SkillTreeSelect}
         />
       )}
     </Skeleton>

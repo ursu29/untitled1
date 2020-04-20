@@ -65,7 +65,9 @@ class EditableCell extends React.Component<any> {
       <Form.Item style={{ margin: 0 }}>
         {form.getFieldDecorator(dataIndex, {
           initialValue: record[dataIndex],
-        })(<Input ref={node => (this.input = node)} onPressEnter={this.save} onBlur={this.save} />)}
+        })(
+          <Input ref={(node) => (this.input = node)} onPressEnter={this.save} onBlur={this.save} />,
+        )}
       </Form.Item>
     ) : (
       <EditableCellWrap
@@ -206,7 +208,7 @@ function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
         bordered
         /* 
         //@ts-ignore */
-        columns={columns.map(col => {
+        columns={columns.map((col) => {
           if (!col.editable) {
             return col
           }

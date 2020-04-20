@@ -1,7 +1,7 @@
 import { Col, Row, Skeleton, Tag, Typography } from 'antd'
 import React from 'react'
 import { Employee, Project, Skill } from '../../types'
-import EmployeeLink from './EmployeeLink'
+import EmployeeLink from '../Employees/EmployeeLink'
 
 const { Text, Title, Paragraph } = Typography
 

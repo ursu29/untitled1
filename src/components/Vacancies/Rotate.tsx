@@ -3,7 +3,7 @@ import getVacancies, { QueryType } from '../../queries/getVacancies'
 import { Button } from 'antd'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
-import { useEmployee } from '../../utils/employee'
+import { useEmployee } from '../../utils/withEmployee'
 
 const rotateRequest = gql`
   mutation rotateRequest($input: RotateRequestInput) {
@@ -35,7 +35,7 @@ function Rotate({ vacancy }: { vacancy: QueryType['vacancies'][0] }) {
     refetchQueries: [{ query: getVacancies }],
   })
 
-  const isRotating = vacancy.rotateEmployees?.find(i => i.isMe)
+  const isRotating = vacancy.rotateEmployees?.find((i) => i.isMe)
 
   if (isRotating) {
     return (

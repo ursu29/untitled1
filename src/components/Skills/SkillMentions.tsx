@@ -4,7 +4,7 @@ import getLevels, { QueryType as LevelsQueryType } from '../../queries/getLevels
 import { Skill, Experience, Level, Employee } from '../../types'
 import Skeleton from '../UI/Skeleton'
 import Section from '../UI/Section'
-import EmployeeTag from '../UI/EmployeeTag'
+import EmployeeTag from '../Employees/EmployeeTag'
 import gql from 'graphql-tag'
 
 const query = gql`
@@ -58,16 +58,16 @@ export default function SkillMentions(props: Props) {
     <Skeleton active loading={loading || levelsLoading}>
       {levels
         .sort((a, b) => b.index - a.index)
-        .map(level => {
-          const levelExperiences = skill?.experiences.filter(i => i.level.id === level.id)
+        .map((level) => {
+          const levelExperiences = skill?.experiences.filter((i) => i.level.id === level.id)
           return (
             <Section key={level.id} title={level.name}>
               {(!levelExperiences || !levelExperiences.length) && (
                 <div>No one knows that at this level</div>
               )}
               {levelExperiences
-                ?.filter(i => i.employee)
-                .map(i => {
+                ?.filter((i) => i.employee)
+                .map((i) => {
                   return <EmployeeTag key={i.id} employee={i.employee} />
                 })}
             </Section>

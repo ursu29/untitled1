@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Experience, Skill, Employee, Level } from '../../types'
 import gql from 'graphql-tag'
-import MatrixExperience from '../UI/MatrixExperience'
+import MatrixExperience from '../Matrices/MatrixExperience'
 import { useMutation } from '@apollo/react-hooks'
 import MatrixLevelSelect from '../EmployeeMatrices/MatrixLevelSelect'
 import getEmployeeExperiences from '../../queries/getEmployeeExperiences'
@@ -76,7 +76,7 @@ export default function EmployeeMatrixExperience({ experience, skill, employee, 
           <MatrixLevelSelect
             loading={createLoading || updateLoading || deleteLoading}
             level={experience?.level}
-            onSelect={level => {
+            onSelect={(level) => {
               if (!experience) {
                 create({
                   variables: {

@@ -8,7 +8,7 @@ import SkillTreeSelect from '../Skills/SkillTreeSelect'
 import Button from '../UI/Button'
 import Section from '../UI/Section'
 import Skeleton from '../UI/Skeleton'
-import SkillTag from '../UI/SkillTag'
+import SkillTag from '../Skills/SkillTag'
 
 const mutation = gql`
   mutation updateProjectSkills($input: UpdateProjectSkillsInput) {
@@ -23,7 +23,7 @@ function SkillTags({ skills }: { skills?: SkillsPick }) {
   if (!skills?.length) return <div>No technologies yet</div>
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-      {skills?.map(skill => (
+      {skills?.map((skill) => (
         <SkillTag key={skill.id} skill={skill} />
       ))}
     </div>

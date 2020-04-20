@@ -31,7 +31,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
   return (
     <Form
       layout="vertical"
-      onChange={e => {
+      onChange={(e) => {
         e.preventDefault()
         handleSubmit()
       }}
@@ -83,7 +83,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
         })(
           <DevelopmentGoals
             showAchievedSwitch
-            onChange={values => {
+            onChange={(values) => {
               form.setFieldsValue({
                 previousGoals: values,
               })
@@ -239,7 +239,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
         })(
           <DevelopmentGoals
             showAchievedSwitch={false}
-            onChange={values => {
+            onChange={(values) => {
               form.setFieldsValue({
                 actualGoals: values,
               })

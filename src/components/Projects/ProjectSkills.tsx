@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/react-hooks'
 import * as React from 'react'
 import query, { QueryType } from '../../queries/getProjectEmployeesExperiences'
 import { Project } from '../../types'
-import ProjectSkillsTable from '../UI/ProjectSkillsTable'
+import ProjectSkillsTable from './ProjectSkillsTable'
 import Skeleton from '../UI/Skeleton'
 import message from '../../message'
 

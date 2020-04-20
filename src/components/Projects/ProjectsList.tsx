@@ -1,9 +1,9 @@
 import { Skeleton, Typography } from 'antd'
 import React from 'react'
 import { Project } from '../../types'
-import PageContent from './PageContent'
+import PageContent from '../UI/PageContent'
 import ProjectTagList from './ProjectTagList'
-import Section from './Section'
+import Section from '../UI/Section'
 
 const { Title } = Typography
 
@@ -14,7 +14,7 @@ interface ProjectGroupProps {
 }
 
 const ProjectGroup = ({ title, projects, code }: ProjectGroupProps) => {
-  const projectsFiltered = projects?.filter(project =>
+  const projectsFiltered = projects?.filter((project) =>
     project.code.toLowerCase().startsWith(code.toLowerCase()),
   )
 

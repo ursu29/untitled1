@@ -2,7 +2,7 @@ import React from 'react'
 import { Skill, Project } from '../../types'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import ProjectTagList from '../UI/ProjectTagList'
+import ProjectTagList from '../Projects/ProjectTagList'
 import Section from '../UI/Section'
 import Skeleton from '../UI/Skeleton'
 

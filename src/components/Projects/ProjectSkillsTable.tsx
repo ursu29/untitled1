@@ -8,7 +8,7 @@ import { ReactComponent as ConfidentIcon } from '../../svg/confident.svg'
 import { ReactComponent as ExperiencedIcon } from '../../svg/experienced.svg'
 import { ReactComponent as StudyingIcon } from '../../svg/studying.svg'
 import { Employee, Level, Skill } from '../../types'
-import EmployeeLink from './EmployeeLink'
+import EmployeeLink from '../Employees/EmployeeLink'
 
 type EmployeeSkillMatrixProps = {
   project: QueryType['projects'][0]

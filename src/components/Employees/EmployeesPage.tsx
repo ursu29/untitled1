@@ -1,7 +1,7 @@
 import React from 'react'
 import query, { QueryType } from '../../queries/getEmployees'
 import { useQuery } from '@apollo/react-hooks'
-import EmployeesList from '../UI/EmployeesList'
+import EmployeesList from './EmployeesList'
 import EmployeeAvatar from './EmployeeAvatar'
 
 export default function EmployeesPage() {

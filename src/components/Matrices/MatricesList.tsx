@@ -15,7 +15,7 @@ export default function MatricesList({ loading, matrices }: Props) {
     <Skeleton active loading={loading}>
       {matrices && (
         <List>
-          {matrices.map(matrix => {
+          {matrices.map((matrix) => {
             return (
               <List.Item key={matrix.id}>
                 <List.Item.Meta

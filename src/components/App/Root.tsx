@@ -6,7 +6,7 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import NotAuthorized from '../UI/NotAuthorized'
 import NotAnswering from '../UI/NotAnswering'
-import { EmployeeProvider } from '../../utils/employee'
+import { EmployeeProvider } from '../../utils/withEmployee'
 
 const query = gql`
   {

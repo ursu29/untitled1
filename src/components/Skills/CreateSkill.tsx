@@ -5,7 +5,7 @@ import message from '../../message'
 import getSkills from '../../queries/getSkills'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
-import SkillForm from '../UI/SkillForm'
+import SkillForm from './SkillForm'
 import SkillSelect from './SkillSelect'
 
 const mutation = gql`

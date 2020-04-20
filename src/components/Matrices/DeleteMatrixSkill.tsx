@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import React from 'react'
 import getMatrix from '../../queries/getMatrix'
 import { Matrix, Skill } from '../../types'
-import SkillTag from '../UI/SkillTag'
+import SkillTag from '../Skills/SkillTag'
 import message from '../../message'
 
 const mutation = gql`

@@ -2,7 +2,7 @@ import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { Project } from '../../types'
 import getProjectEmployees, { QueryType } from '../../queries/getProjectEmployees'
-import EmployeesList from '../UI/EmployeesList'
+import EmployeesList from '../Employees/EmployeesList'
 import EmployeeAvatar from '../Employees/EmployeeAvatar'
 import message from '../../message'
 

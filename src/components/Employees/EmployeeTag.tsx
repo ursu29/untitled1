@@ -14,7 +14,7 @@ function EmployeeLink({ employee, history }: Props & RouteComponentProps) {
   return (
     <Tag
       style={{ cursor: 'pointer', marginBottom: 4 }}
-      onClick={e => {
+      onClick={(e) => {
         e.preventDefault()
         history.push(getEmployeeLink(employee.email))
       }}
