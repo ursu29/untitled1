@@ -12,7 +12,7 @@ function ProcessSelect(props: Props, ref: any) {
     <Select {...props} loading={loading}>
       {data?.processes?.map((item) => {
         return (
-          <Select.Option key={item.id} value={item.id} title={item.title}>
+          <Select.Option key={item.id} value={item.id} title={item.type}>
             {item.title}
           </Select.Option>
         )

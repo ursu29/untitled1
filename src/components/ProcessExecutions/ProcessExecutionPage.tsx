@@ -11,7 +11,7 @@ import PageContent from '../UI/PageContent'
 import Skeleton from '../UI/Skeleton'
 import Vacancy from '../Vacancies/Vacancy'
 import ActiveStepCard from './ExecutionStepCard'
-import ActiveProcessBranch from './ProcessExecutionBranch'
+import ProcessExecutionBranch from './ProcessExecutionBranch'
 import ProcessExecutionRotation from './ProcessExecutionRotation'
 import NotAllowed from '../UI/NotAllowed'
 import isForbidden from '../../utils/isForbidden'
@@ -110,7 +110,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
           {branches?.map((i, index) => {
             return (
               <div key={i.id}>
-                <ActiveProcessBranch
+                <ProcessExecutionBranch
                   executionSteps={processExecution.executionSteps}
                   steps={processExecution.process.steps.filter((item) => {
                     if (!item.parentSteps?.length) {
@@ -118,6 +118,11 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                     }
                     return true
                   })}
+                  active={
+                    processExecution.process.type === 'onboarding'
+                      ? processExecution.vacancy.isPublished
+                      : true
+                  }
                   onComplete={(step) =>
                     complete({
                       variables: {

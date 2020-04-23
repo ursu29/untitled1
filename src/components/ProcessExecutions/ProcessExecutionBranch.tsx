@@ -12,6 +12,7 @@ interface Props {
   steps?: Step[]
   executionSteps?: ExecutionQueryType['processExecutions'][0]['executionSteps']
   startItem?: Step
+  active: boolean
   parent?: Step
   onComplete: (step: Step) => void
   onComment?: (id: string, comment: string) => void
@@ -22,6 +23,7 @@ export default function Branch({
   startItem,
   executionSteps,
   parent,
+  active,
   onComplete,
   onComment,
 }: Props) {
@@ -53,6 +55,10 @@ export default function Branch({
     }
   }
 
+  if (!active) {
+    status = 'pending'
+  }
+
   return (
     <>
       <ColumnWrapper>
@@ -76,11 +82,12 @@ export default function Branch({
                   defaultValue={executionStep?.description}
                   placeholder="Comment"
                   autoSize
+                  disabled={!active}
                   onChange={(e) => onComment?.(step.id, e.target.value)}
                 />
               </Form.Item>
             )}
-            {status === 'active' && (
+            {status === 'active' && step.type === 'approve' && (
               <Controls>
                 <Button
                   type="primary"
@@ -98,6 +105,7 @@ export default function Branch({
             <RowWrapper>
               {nextSteps.map((i) => (
                 <Branch
+                  active={active}
                   key={i.id}
                   steps={steps}
                   startItem={i}

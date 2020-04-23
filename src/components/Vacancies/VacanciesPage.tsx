@@ -13,7 +13,7 @@ function VacanciesPage() {
       <PageContent noBottom>
         <Typography.Title>Open vacancies</Typography.Title>
       </PageContent>
-      <VacanciesList items={data?.vacancies || []} />
+      <VacanciesList items={data?.vacancies} />
     </Skeleton>
   )
 }

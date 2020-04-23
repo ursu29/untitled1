@@ -4,12 +4,16 @@ import { Table, Button, Divider } from 'antd'
 import Rotate from './Rotate'
 import { getVacancyLink } from '../../paths'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
+import PageContent from '../UI/PageContent'
 
 interface Props {
   items?: QueryType['vacancies']
 }
 
-function ProcessList({ items, history }: Props & RouteComponentProps) {
+function ProcessList({ items = [], history }: Props & RouteComponentProps) {
+  if (!items.length) {
+    return <PageContent noTop>No active vacancies</PageContent>
+  }
   return (
     <Table<QueryType['vacancies'][0]>
       rowKey="id"
@@ -38,7 +42,7 @@ function ProcessList({ items, history }: Props & RouteComponentProps) {
           dataIndex: '.location.name',
           title: 'Location',
           render: (_, i) => {
-            return <span>{i.locations?.map(i => i.name).join(' ,') ?? '-'}</span>
+            return <span>{i.locations?.map((i) => i.name).join(' ,') ?? '-'}</span>
           },
         },
         {
