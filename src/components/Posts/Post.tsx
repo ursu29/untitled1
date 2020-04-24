@@ -18,6 +18,10 @@ const converter = new Showdown.Converter({
 })
 
 const Wrapper = styled.div`
+  ul,
+  ol {
+    margin-bottom: 1rem;
+  }
   img {
     max-width: 100%;
     padding: 8px 0;
@@ -45,7 +49,7 @@ function PostItem({ post, edit, history }: Props) {
         <Text>
           {post.createdAt} {edit}
         </Text>
-        <Title level={3} style={{ marginTop: 8 }}>
+        <Title level={2} style={{ marginTop: 8 }}>
           {post.title}
         </Title>
         <div
@@ -58,7 +62,7 @@ function PostItem({ post, edit, history }: Props) {
       <p>
         {post.tags && (
           <Paragraph>
-            {post.tags?.map(tag => (
+            {post.tags?.map((tag) => (
               <Tag
                 key={tag.id}
                 color="blue"

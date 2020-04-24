@@ -25,12 +25,24 @@ export default class MarkdownEditor extends Component<Props> {
     const { value, onChange } = this.props
     const element = document.getElementById(this.props.id)
     if (element) {
-      this.simplemde = new SimpleMDE({ element, spellChecker: false })
+      this.simplemde = new SimpleMDE({
+        element,
+        showIcons: [
+          'heading-1',
+          'heading-2',
+          'heading-3',
+          'table',
+          'strikethrough',
+          'code',
+          'horizontal-rule',
+        ],
+        spellChecker: false,
+      })
       let simplemde = this.simplemde
       if (value) {
         simplemde.value(value)
       }
-      simplemde.codemirror.on('change', function() {
+      simplemde.codemirror.on('change', function () {
         if (value !== simplemde.value()) {
           onChange(simplemde.value())
         }
