@@ -16,6 +16,7 @@ const PATHS = {
   VACANCIES: '/vacancies',
   HR: '/hr',
   TIMEMASTER: '/timemaster',
+  WIKI: '/wiki',
 }
 
 export const getEmployeeLink = (email: Employee['email']) => PATHS.EMPLOYEES + '/' + email + '/'
