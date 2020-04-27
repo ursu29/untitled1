@@ -7,7 +7,7 @@ const openNotification = () => {
     description: (
       <Button
         onClick={() => {
-          //window.open('https://timemaster-new.sidenis.com', '__blank')
+          window.open('https://wiki.sidenis.com', '__blank')
         }}
       >
         Login
@@ -28,7 +28,7 @@ function WikiPage() {
         width="100%"
         height="100%"
         frameBorder="0"
-        //src="https://timemaster-new.sidenis.com"
+        src="https://wiki.sidenis.com"
         title="WIKI"
       ></iframe>
     </div>
