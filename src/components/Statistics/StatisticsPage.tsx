@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useMediaQuery } from 'react-responsive'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import { Typography, Row, Col } from 'antd'
+import { Typography, Row, Col, Button } from 'antd'
 
 import { Experience, Level, Skill } from '../../types'
 import Skeleton from '../UI/Skeleton'
 import PageContent from '../UI/PageContent'
 import BarChart from '../UI/BarChart'
 import { getSkillLink } from '../../paths'
+import SkillStatistic from './SkillStatistic'
 
 /**
  * Queries definition
@@ -54,9 +56,9 @@ type QueryType = {
 }
 
 /**
- * Getting skills array with the desired length and levels, sort ascending
+ * Getting skills array with the desired length and levels, no-zero rate, sort rate ascending
  * @param skills - Skill array
- * @param count - Results number; if omit - return all array
+ * @param count - Results number;
  * @param levelId - Skills level; if omit - execute for all levels
  */
 const getHighestSkills = (skills: QueryType['skills'], count: number, levelId?: string) =>
@@ -69,10 +71,15 @@ const getHighestSkills = (skills: QueryType['skills'], count: number, levelId?: 
       link: getSkillLink(skill.id),
     }))
     .sort((a, b) => b.rate - a.rate)
+    .filter((skill) => skill.rate > 0)
     .slice(0, count)
 
 /**
+ *
+ *
  * Render function
+ *
+ *
  */
 export default function StatisticsPage() {
   const { data, loading } = useQuery<QueryType>(query, {
@@ -83,14 +90,23 @@ export default function StatisticsPage() {
     },
   })
 
+  const [isSkillChosen, setIsSkillChosen] = useState(false)
+  const [skillChosen, setSkillChosen] = useState([{ name: '', rate: 0, link: '' }])
+  const [skillChosenTitle, setSkillChosenTitle] = useState('')
+
+  const isMakeTitleColumn = useMediaQuery({ maxWidth: 520 })
+
   const levels = data?.levels || []
   const skills = data?.skills || []
 
   // Fill the complete skills array
-  const skillsByLevels = [{ index: -1, name: 'Skills', skills: getHighestSkills(skills, 10) }]
+  const skillsByLevels = [
+    { id: 'none', index: -1, name: 'Skills', skills: getHighestSkills(skills, 10) },
+  ]
 
   levels.forEach((level) =>
     skillsByLevels.push({
+      id: level.id,
       index: level.index,
       name: level.name,
       skills: getHighestSkills(skills, 5, level.id),
@@ -98,16 +114,38 @@ export default function StatisticsPage() {
   )
 
   // Color pallette for bar charts
-  const barPallette = ['#FBBC20', '#88C673', '#70DEC4', '#1890FF', 'red']
+  const barPallette = ['#FBBC20', '#88C673', '#70DEC4', '#1890FF', '#21DEEA']
 
   const { Title } = Typography
 
   // One instance of bar chart
   const barChartContainer = (skillId: number) => (
     <div style={{ marginTop: '50px' }}>
-      <Title
-        level={4}
-      >{`Top ${skillsByLevels[skillId].skills.length} ${skillsByLevels[skillId].name}`}</Title>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: isMakeTitleColumn ? 'column' : 'row',
+          alignItems: 'baseline',
+        }}
+      >
+        <div>
+          <Title
+            level={4}
+          >{`Top ${skillsByLevels[skillId].skills.length} ${skillsByLevels[skillId].name}`}</Title>
+        </div>
+        <div
+          style={{
+            fontFamily: 'Segoe UI, Arial',
+            fontSize: '14px',
+            color: '#1890FF',
+            marginLeft: '20px',
+            cursor: 'pointer',
+          }}
+          onClick={() => handleCheckAllClick(skillId, skills)}
+        >
+          Check All
+        </div>
+      </div>
       <BarChart
         data={skillsByLevels[skillId].skills}
         dataKey="rate"
@@ -116,6 +154,22 @@ export default function StatisticsPage() {
       />
     </div>
   )
+
+  // Clicked on 'check all' button
+  const handleCheckAllClick = (skillId: number, skills: QueryType['skills']) => {
+    const levelId = skillsByLevels[skillId].id
+
+    if (levelId === 'none') {
+      setSkillChosen(getHighestSkills(skills, 1000))
+      setSkillChosenTitle('All')
+    } else {
+      setSkillChosen(getHighestSkills(skills, 1000, levelId))
+      setSkillChosenTitle(levels.find((level) => level.id === levelId)?.name || '')
+    }
+
+    setIsSkillChosen(true)
+    window.scrollTo(0, 0)
+  }
 
   // Show skeleton during loading
   if (loading) {
@@ -129,21 +183,38 @@ export default function StatisticsPage() {
   return (
     <PageContent>
       <Title level={1}>Skills Statistics</Title>
-      <Row>
-        <Col span={24}>{barChartContainer(0)}</Col>
-      </Row>
-      <Row>
-        <Col span={10}>{barChartContainer(1)}</Col>
-        <Col span={10} offset={2}>
-          {barChartContainer(2)}
-        </Col>
-      </Row>
-      <Row>
-        <Col span={10}>{barChartContainer(3)}</Col>
-        <Col span={10} offset={2}>
-          {barChartContainer(4)}
-        </Col>
-      </Row>
+      {isSkillChosen ? (
+        <>
+          <Button
+            icon="arrow-left"
+            size="small"
+            style={{ borderColor: 'transparent', paddingLeft: 0, marginBottom: 4 }}
+            type="ghost"
+            onClick={() => setIsSkillChosen(false)}
+          >
+            Back
+          </Button>
+          <SkillStatistic items={skillChosen} title={skillChosenTitle} itemsSliceCount={1000} />
+        </>
+      ) : (
+        <>
+          <Row>
+            <Col span={24}>{barChartContainer(0)}</Col>
+          </Row>
+          <Row>
+            <Col span={10}>{barChartContainer(1)}</Col>
+            <Col span={10} offset={2}>
+              {barChartContainer(2)}
+            </Col>
+          </Row>
+          <Row>
+            <Col span={10}>{barChartContainer(3)}</Col>
+            <Col span={10} offset={2}>
+              {barChartContainer(4)}
+            </Col>
+          </Row>
+        </>
+      )}
     </PageContent>
   )
 }

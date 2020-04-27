@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { useMediaQuery } from 'react-responsive'
 import { BarChart, Bar, XAxis, LabelList, ResponsiveContainer, Text } from 'recharts'
@@ -47,11 +47,7 @@ export default withRouter(
       const cuttingFirstWordEllipsis = name.split(' ')[0].slice(0, MAX_WORD_LENGTH - 3) + '... ' // only first word of the label with ellipsis
 
       const labeledLink = () => (
-        <a
-          onClick={() => {
-            history.push(link)
-          }}
-        >
+        <g onClick={() => history.push(link)} style={{ cursor: 'pointer' }}>
           <Text
             x={isLabelRotate ? (labelAngle < 60 ? x + width / 2 : x + width) : x}
             y={height + y + 35}
@@ -68,7 +64,7 @@ export default withRouter(
               ? cuttingFirstWordEllipsis
               : cuttingName}
           </Text>
-        </a>
+        </g>
       )
 
       return nameTooLong ? (
