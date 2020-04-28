@@ -26,6 +26,7 @@ const Vacancy = lazy(() => import('../Vacancies/VacancyPage'))
 const HR = lazy(() => import('../ProcessExecutions/ProcessExecutionsPage'))
 const HRProcess = lazy(() => import('../ProcessExecutions/ProcessExecutionPage'))
 const Timemaster = lazy(() => import('../Timemaster/TimemasterPage'))
+const Wiki = lazy(() => import('../Wiki/WikiPage'))
 
 export default function Pages() {
   return (
@@ -58,6 +59,7 @@ export default function Pages() {
           <Route path={paths.HR + '/:id'} component={HRProcess} />
           <Route path={paths.HR} component={HR} />
           <Route path={paths.TIMEMASTER} component={Timemaster} />
+          <Route path={paths.WIKI} component={Wiki} />
           <Route component={PageNotFound} />
         </Switch>
       </Suspense>

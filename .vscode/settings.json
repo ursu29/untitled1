@@ -2,5 +2,6 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "workbench.colorCustomizations": {
     "titleBar.activeBackground": "#18609f"
-  }
+  },
+  "eslint.enable": false
 }

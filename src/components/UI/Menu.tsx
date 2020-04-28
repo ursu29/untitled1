@@ -90,6 +90,11 @@ function PortalMenu(props: Props) {
       title: 'Timemaster',
     },
     {
+      route: paths.WIKI,
+      icon: <Icon type="question-circle" />,
+      title: 'WIKI',
+    },
+    {
       route: paths.VACANCIES,
       icon: <Icon type="idcard" />,
       title: 'Vacancies',
