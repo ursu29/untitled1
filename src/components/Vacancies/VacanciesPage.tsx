@@ -9,7 +9,7 @@ import { Typography } from 'antd'
 function VacanciesPage() {
   const { data, loading } = useQuery<QueryType>(getVacancies)
   return (
-    <Skeleton active loading={loading} padding={20}>
+    <Skeleton active loading={loading} withOffset>
       <PageContent noBottom>
         <Typography.Title>Open vacancies</Typography.Title>
       </PageContent>

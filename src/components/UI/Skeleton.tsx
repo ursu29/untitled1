@@ -1,16 +1,19 @@
 import React, { PropsWithChildren } from 'react'
 import { Skeleton as AntSkeleton } from 'antd'
+import useOffset from '../../utils/useOffset'
 
 interface Props extends PropsWithChildren<any> {
   loading: boolean
   avatar?: boolean
   line?: boolean
-  padding?: number
+  withOffset?: boolean
+  // padding?: number
 }
 
-export default function Skeleton({ loading, padding = 0, children, line, avatar }: Props) {
+export default function Skeleton({ loading, withOffset, children, line, avatar }: Props) {
+  const { offset } = useOffset()
   return (
-    <div style={{ padding: loading && padding ? `0 ${padding}px` : 0 }}>
+    <div style={{ padding: loading && withOffset ? offset : 0 }}>
       <AntSkeleton loading={loading} active avatar={avatar} paragraph={!line}>
         {children}
       </AntSkeleton>

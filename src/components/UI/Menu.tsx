@@ -111,7 +111,7 @@ function PortalMenu(props: Props) {
   ]
 
   return (
-    <Skeleton padding={20} active loading={loading}>
+    <Skeleton withOffset active loading={loading}>
       <Width isLarge={isLarge}>
         <Menu
           defaultSelectedKeys={[props.path]}

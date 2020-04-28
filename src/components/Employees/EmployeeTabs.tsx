@@ -84,7 +84,7 @@ function EmployeeTabs({ match, ...props }: Props) {
   }
 
   return (
-    <Skeleton loading={loading} padding={60}>
+    <Skeleton loading={loading} withOffset>
       {employee && (
         <EmployeeEvaluationReviewersAccess employee={employee}>
           {(evaluationTabAccess: Access) => {

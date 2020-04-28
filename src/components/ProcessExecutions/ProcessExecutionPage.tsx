@@ -72,7 +72,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
   const processExecution = data?.processExecutions?.[0]
 
   if (loading) {
-    return <Skeleton active loading={loading} padding={20} />
+    return <Skeleton active loading={loading} withOffset />
   }
 
   if (!processExecution) {
