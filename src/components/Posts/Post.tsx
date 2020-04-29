@@ -1,21 +1,12 @@
 import { Tag, Typography } from 'antd'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
-//@ts-ignore
-import * as Showdown from 'showdown'
+import styled from 'styled-components'
 import PATHS from '../../paths'
 import { Employee, Post, Tag as TagType } from '../../types'
-import Gallery from '../UI/Gallery'
+import markdownToHtml from '../../utils/markdownToHtml'
 import EmployeeLink from '../Employees/EmployeeLink'
-import styled from 'styled-components'
-
-const converter = new Showdown.Converter({
-  tables: true,
-  simplifiedAutoLink: true,
-  strikethrough: true,
-  tasklists: true,
-  simpleLineBreaks: true,
-})
+import Gallery from '../UI/Gallery'
 
 const Wrapper = styled.div`
   ul,
@@ -54,7 +45,7 @@ function PostItem({ post, edit, history }: Props) {
         </Title>
         <div
           dangerouslySetInnerHTML={{
-            __html: converter.makeHtml(post.body),
+            __html: markdownToHtml(post.body),
           }}
         />
       </Wrapper>

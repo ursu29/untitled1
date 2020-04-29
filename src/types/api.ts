@@ -224,6 +224,9 @@ export interface Vacancy {
   locations: Location[]
   isPublished: boolean
   isClosed: boolean
+  rotateEmployees: Employee[]
+  responsibleEmployees: Employee[]
+  editable: boolean
 }
 
 export interface Location {

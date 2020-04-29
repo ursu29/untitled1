@@ -8,6 +8,7 @@ import {
   Skill,
   Location,
   Project,
+  Process,
 } from './types'
 
 const fragments = {
@@ -94,6 +95,10 @@ const fragments = {
         parentSteps {
           id
         }
+        process {
+          id
+          type
+        }
       }
     `,
   },
@@ -126,4 +131,5 @@ export type ProcessStepDetails = Pick<
 > & {
   responsibleUsers: Pick<Employee, 'id' | 'name' | 'email' | 'avatar' | 'isMe'>[] | null
   parentSteps: Pick<ProcessStep, 'id'>[]
+  process: Pick<Process, 'id' | 'type'>
 }

@@ -15,8 +15,8 @@ const Wrapper = styled.div`
 
 interface Props {
   id: string
-  value: any
-  onChange: (value: any) => void
+  value?: any
+  onChange?: (value: any) => void
 }
 
 export default class MarkdownEditor extends Component<Props> {
@@ -44,7 +44,7 @@ export default class MarkdownEditor extends Component<Props> {
       }
       simplemde.codemirror.on('change', function () {
         if (value !== simplemde.value()) {
-          onChange(simplemde.value())
+          onChange?.(simplemde.value())
         }
       })
     }

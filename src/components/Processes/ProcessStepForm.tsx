@@ -50,7 +50,9 @@ function ProcessStepForm({
           as={
             <Radio.Group>
               <Radio value="approve">Add 'Complete' button</Radio>
-              <Radio value="notify">Autocomplete</Radio>
+              <Radio value="notify" disabled={!step.parentSteps?.length}>
+                Autocomplete
+              </Radio>
             </Radio.Group>
           }
           name="type"
@@ -77,6 +79,7 @@ function ProcessStepForm({
           as={<Checkbox>Send notification to teamlead</Checkbox>}
           name="sendToTeamlead"
           control={control}
+          disabled={step.process.type !== 'onboarding'}
           onChange={([e]) => {
             return e.target.checked
           }}

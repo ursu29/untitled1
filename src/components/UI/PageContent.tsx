@@ -12,7 +12,6 @@ export default function PageContent(
   props: { noBottom: boolean; noTop: boolean; style: any } & PropsWithChildren<any>,
 ) {
   const { offset, offsets } = useOffset()
-  console.log('foofset', offset)
   return (
     <Container offset={offset} small={offsets.SMALL} {...props}>
       {props.children}
