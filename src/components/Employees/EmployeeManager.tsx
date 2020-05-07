@@ -66,7 +66,7 @@ export default function EmployeeManager(props: Props) {
     <Skeleton active avatar line loading={loading}>
       {employee?.manager && (
         <Section title="Manager">
-          <EmployeeCard employee={employee?.manager} />
+          <EmployeeCard id={employee.manager.id} employee={employee.manager} />
         </Section>
       )}
     </Skeleton>

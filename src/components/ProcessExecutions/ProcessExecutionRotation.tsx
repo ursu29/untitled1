@@ -12,6 +12,7 @@ import ROTATE_EMPLOYEE, {
 import CreateProcessForm from './CreateProcessForm'
 import Drawer from '../UI/Drawer.new'
 import getVacancies from '../../queries/getVacancies'
+import EmployeeCard from '../Employees/EmployeeCard'
 
 interface Props {
   processExecution: QueryType['processExecutions'][0]
@@ -37,7 +38,7 @@ function ProcessExecutionRotation({ history, processExecution }: Props & RouteCo
   }
 
   return (
-    <p>
+    <div style={{ paddingBottom: 16 }}>
       <Drawer visible={showDrawer} onClose={() => setShowDrawer(false)}>
         <CreateProcessForm
           onSubmit={({ process, locations, project }) => {
@@ -56,22 +57,24 @@ function ProcessExecutionRotation({ history, processExecution }: Props & RouteCo
         />
       </Drawer>
       <Typography.Title level={3}>Want to rotate</Typography.Title>
-      {employees?.map((i) => {
-        return (
-          <Card bordered={false} key={i.id}>
-            <div>{i.name}</div>
-            <Button
-              onClick={() => {
-                setEmployee(i.id)
-                setShowDrawer(true)
-              }}
-            >
-              Apply
-            </Button>
-          </Card>
-        )
-      })}
-    </p>
+      <div style={{ display: 'flex' }}>
+        {employees?.map((i) => {
+          return (
+            <div key={i.id} style={{ minWidth: 300, marginRight: 16 }}>
+              <EmployeeCard id={i.id} />
+              <Button
+                onClick={() => {
+                  setEmployee(i.id)
+                  setShowDrawer(true)
+                }}
+              >
+                Apply
+              </Button>
+            </div>
+          )
+        })}
+      </div>
+    </div>
   )
 }
 

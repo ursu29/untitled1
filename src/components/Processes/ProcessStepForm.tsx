@@ -60,7 +60,7 @@ function ProcessStepForm({
           onChange={([e]) => {
             return e.target.value
           }}
-          defaultValue={step.type || 'notify'}
+          defaultValue={step.type || 'approve'}
         />
       </Form.Item>
       <Form.Item style={{ marginBottom: 0 }}>
@@ -76,10 +76,9 @@ function ProcessStepForm({
       </Form.Item>
       <Form.Item style={{ marginBottom: 0 }}>
         <Controller
-          as={<Checkbox>Send notification to teamlead</Checkbox>}
+          as={<Checkbox>Send notification to the project manager</Checkbox>}
           name="sendToTeamlead"
           control={control}
-          disabled={step.process.type !== 'onboarding'}
           onChange={([e]) => {
             return e.target.checked
           }}
