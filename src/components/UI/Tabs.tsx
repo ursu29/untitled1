@@ -14,6 +14,7 @@ interface Tab {
   icon?: IconProps['type']
   body: any
   hidden?: boolean
+  noPadding?: boolean
 }
 
 interface Props extends RouteComponentProps {
@@ -61,7 +62,7 @@ function PortalTabs({ location, history, noPadding, controlled, tabs, tab }: Pro
         }
       }}
     >
-      {tabs.map(tab => {
+      {tabs.map((tab) => {
         return (
           <TabPane
             tab={
@@ -71,7 +72,11 @@ function PortalTabs({ location, history, noPadding, controlled, tabs, tab }: Pro
             }
             key={tab.key}
           >
-            <div style={{ padding: noPadding ? 0 : isLarge ? '20px 60px' : '5px 15px' }}>
+            <div
+              style={{
+                padding: noPadding || tab.noPadding ? 0 : isLarge ? '20px 60px' : '5px 15px',
+              }}
+            >
               {tab.body}
             </div>
           </TabPane>

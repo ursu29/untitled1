@@ -7,6 +7,7 @@ import Skeleton from '../UI/Skeleton'
 import EmployeeMatrices from '../EmployeeMatrices/EmployeeMatrices'
 import Tabs from '../UI/Tabs'
 import EmployeeBookmarks from './EmployeeBookmarks'
+import EmployeeCV from './EmployeeCV'
 import EmployeeSkills from './EmployeeSkills'
 import EmployeeDevelopmentPlan from './EmployeeDevelopmentPlan'
 import EmployeeEvaluation from '../EmployeeEvaluation/EmployeeEvaluation'
@@ -22,6 +23,7 @@ const query = gql`
     employees(input: $input) {
       id
       name
+      email
       manager {
         id
         name
@@ -37,7 +39,7 @@ const query = gql`
 `
 
 type QueryType = {
-  employees: (Pick<Employee, 'id' | 'name' | 'access' | 'isMe'> & {
+  employees: (Pick<Employee, 'id' | 'name' | 'email' | 'access' | 'isMe'> & {
     manager: Pick<Employee, 'id' | 'name' | 'isMe'>
   })[]
 }
@@ -56,12 +58,14 @@ function EmployeeTabs({ match, ...props }: Props) {
       title: 'Skills',
       key: 'skills',
       icon: 'crown',
+      noPadding: false,
       body: <EmployeeSkills employee={employee} editable={employee?.access.write || false} />,
     },
     {
       title: 'Bookmarks',
       icon: 'book',
       key: 'bookmarks',
+      noPadding: false,
       body: <EmployeeBookmarks employee={employee} />,
     },
   ]
@@ -71,6 +75,7 @@ function EmployeeTabs({ match, ...props }: Props) {
       title: 'Matrices',
       key: 'matrices',
       icon: 'number',
+      noPadding: false,
       body: <EmployeeMatrices employee={employee} />,
     })
   }
@@ -79,9 +84,26 @@ function EmployeeTabs({ match, ...props }: Props) {
       title: 'Personal development',
       key: 'development-plan',
       icon: 'rise',
+      noPadding: false,
       body: <EmployeeDevelopmentPlan employee={employee} />,
     })
   }
+
+  tabs.push(
+    //TODO: apply access rules!
+    {
+      title: 'CV',
+      icon: 'form',
+      key: 'cv',
+      noPadding: true,
+      body: (
+        <EmployeeCV
+          editable={employee?.access.write || false}
+          employee={{ id: employee?.id || '', email: employee?.email || '' }}
+        />
+      ),
+    },
+  )
 
   return (
     <Skeleton loading={loading} padding={60}>
@@ -93,6 +115,7 @@ function EmployeeTabs({ match, ...props }: Props) {
                 title: 'Self Evaluation Form',
                 key: 'evaluation',
                 icon: 'star',
+                noPadding: false,
                 body: (
                   <EmployeeEvaluation employee={employee} editable={evaluationTabAccess.write} />
                 ),

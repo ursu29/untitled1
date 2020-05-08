@@ -25,6 +25,17 @@ export interface Employee {
   matrices: Matrix[]
 }
 
+export interface CurriculumVitae {
+  id: string
+  company: string
+  dateStart: string
+  dateEnd: string
+  project: string
+  position: string
+  responsibilities: string
+  level: string
+}
+
 export interface Tag {
   id: string
 }

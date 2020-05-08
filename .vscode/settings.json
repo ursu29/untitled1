@@ -1,7 +1,32 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
-  "workbench.colorCustomizations": {
-    "titleBar.activeBackground": "#18609f"
-  },
+<<<<<<< Updated upstream
   "eslint.enable": false
+=======
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#18609f",
+    "activityBar.activeBackground": "#1f7bcb",
+    "activityBar.activeBorder": "#8a1554",
+    "activityBar.background": "#1f7bcb",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#8a1554",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "statusBar.background": "#18609f",
+    "statusBar.border": "#18609f",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#1f7bcb",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.border": "#18609f",
+    "titleBar.inactiveBackground": "#18609f99",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "eslint.enable": false,
+  "peacock.color": "#18609f",
+  "cSpell.words": [
+    "Popconfirm",
+    "Sidenis",
+    "vitaes"
+  ]
+>>>>>>> Stashed changes
 }
