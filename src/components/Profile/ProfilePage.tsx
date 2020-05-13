@@ -12,12 +12,13 @@ const query = gql`
   {
     profile {
       id
+      email
     }
   }
 `
 
 function ProfilePage({ match }: RouteComponentProps<{ tab: string }>) {
-  const { data, loading, error } = useQuery<{ profile: Pick<Employee, 'id'> }>(query)
+  const { data, loading, error } = useQuery<{ profile: Pick<Employee, 'id' | 'email'> }>(query)
 
   if (error) return <div>Error :(</div>
 

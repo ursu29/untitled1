@@ -17,8 +17,8 @@ import message from '../../message'
  * Queries definition
  */
 const query = gql`
-  query curriculumVitaes($input: CurriculumVitaesInput) {
-    curriculumVitaes(input: $input) {
+  query curriculumVitae($input: CurriculumVitaeInput) {
+    curriculumVitae(input: $input) {
       id
       vitaes {
         id
@@ -45,7 +45,7 @@ const mutation = gql`
  * Types definition
  */
 type PropsTableType = {
-  curriculumVitaes: Pick<
+  curriculumVitae: Pick<
     CurriculumVitae,
     | 'id'
     | 'company'
@@ -59,7 +59,7 @@ type PropsTableType = {
 }
 
 type QueryType = {
-  curriculumVitaes: {
+  curriculumVitae: {
     id: Pick<CurriculumVitae, 'id'>
     vitaes: Pick<
       CurriculumVitae,
@@ -72,7 +72,7 @@ type QueryType = {
       | 'responsibilities'
       | 'level'
     >[]
-  }[]
+  }
 }
 
 interface PropsGeneral extends FormComponentProps {
@@ -81,8 +81,9 @@ interface PropsGeneral extends FormComponentProps {
 }
 
 interface PropsTable {
-  data?: PropsTableType['curriculumVitaes'] | []
+  data?: PropsTableType['curriculumVitae'] | []
   onChange?: (items: Partial<CurriculumVitae>[]) => void
+  editable: boolean
 }
 
 /**
@@ -101,14 +102,13 @@ function EmployeeCV({ employee, editable, form }: PropsGeneral) {
   const { email } = employee
 
   const variables = { input: { employeeEmail: email } } // variables for queries
-
   // Curriculum vitaes query
   const { data, loading } = useQuery<QueryType>(query, {
     variables,
   })
 
-  const curriculumVitaes = data?.curriculumVitaes[0]?.vitaes || [] // full user's vitaes list
-  const curriculumVitaesID = data?.curriculumVitaes[0]?.id || '' // list id
+  const vitaes = data?.curriculumVitae?.vitaes || [] // full user's vitaes list
+  const curriculumVitaeID = data?.curriculumVitae?.id || '' // list id
 
   const { getFieldDecorator } = form
 
@@ -141,8 +141,8 @@ function EmployeeCV({ employee, editable, form }: PropsGeneral) {
         }
 
         onChange({
-          id: curriculumVitaesID,
-          employeeAzureEmail: employee.email,
+          id: curriculumVitaeID,
+          employeeEmail: employee.email,
           vitaes: values.cvForm.map((vitae: any) => ({
             id: vitae.id,
             position: vitae.position,
@@ -163,13 +163,14 @@ function EmployeeCV({ employee, editable, form }: PropsGeneral) {
       {getFieldDecorator('cvForm')(
         <Form layout="vertical">
           <CurriculumVitaeTable
-            data={curriculumVitaes}
+            data={vitaes}
             onChange={(values) => {
               form.setFieldsValue({
                 cvForm: values,
               })
               handleSubmit()
             }}
+            editable={editable}
           />
         </Form>,
       )}
@@ -182,7 +183,7 @@ function EmployeeCV({ employee, editable, form }: PropsGeneral) {
  * Table component
  *
  */
-function CurriculumVitaeTable({ onChange, ...props }: PropsTable) {
+function CurriculumVitaeTable({ onChange, editable, ...props }: PropsTable) {
   const [isNoTimeEndList, setIsNoTimeEndList] = React.useState(['']) // list with rows ids without any date end
 
   const isDatePickersToColumn = useMediaQuery({ maxWidth: 1000 }) // date pickers to column direction
@@ -259,8 +260,8 @@ function CurriculumVitaeTable({ onChange, ...props }: PropsTable) {
     {
       title: 'Company',
       dataIndex: 'company',
-      width: '15%',
-      editable: true,
+      width: editable ? '15%' : '10%',
+      editable,
     },
     {
       title: 'Time',
@@ -271,76 +272,93 @@ function CurriculumVitaeTable({ onChange, ...props }: PropsTable) {
           style={{
             display: 'flex',
             flexDirection: isDatePickersToColumn ? 'column' : 'row',
-            width: isDatePickersToColumn ? '110px' : '260px',
-            justifyContent: 'space-between',
+            width: editable ? (isDatePickersToColumn ? '110px' : '260px') : '190px',
+            justifyContent: editable ? 'space-between' : 'start',
             alignItems: 'center',
           }}
         >
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div>
-              <DatePicker
-                defaultValue={
-                  record.dateStart ? moment(moment(record.dateStart), dateFormatList) : null
-                }
-                disabledDate={(current) => disabledDate(current, record.dateEnd, true)}
-                format={dateFormatList}
-                onChange={(date) =>
-                  onChange && onChange(immutableValueChange(record.id, 'dateStart', date))
-                }
+          {editable ? (
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div>
+                <DatePicker
+                  defaultValue={
+                    record.dateStart ? moment(moment(record.dateStart), dateFormatList) : null
+                  }
+                  disabledDate={(current) => disabledDate(current, record.dateEnd, true)}
+                  format={dateFormatList}
+                  onChange={(date) =>
+                    onChange && onChange(immutableValueChange(record.id, 'dateStart', date))
+                  }
+                  disabled={!editable}
+                  style={{
+                    width: '125px',
+                  }}
+                />
+              </div>
+              <div
                 style={{
-                  width: '125px',
+                  height: isDatePickersToColumn ? '5px' : '25px',
                 }}
-              />
+              ></div>
             </div>
-            <div
-              style={{
-                height: isDatePickersToColumn ? '5px' : '25px',
-              }}
-            ></div>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div>
-              <DatePicker
-                defaultValue={
-                  record.dateEnd ? moment(moment(record.dateEnd), dateFormatList) : null
-                }
-                disabledDate={(current) => disabledDate(current, record.dateStart, false)}
-                format={dateFormatList}
-                onChange={(date) =>
-                  onChange && onChange(immutableValueChange(record.id, 'dateEnd', date))
-                }
-                disabled={isNoTimeEndList.includes(record.key)}
-                {...getDateEndValue(record.id)}
+          ) : (
+            <div style={{ display: 'flex' }}>
+              {record.dateStart ? moment(record.dateStart).format(dateFormatList[0]) : null}
+              <div style={{ marginLeft: '10px', marginRight: '10px' }}>-</div>
+            </div>
+          )}
+          {editable ? (
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div>
+                <DatePicker
+                  defaultValue={
+                    record.dateEnd ? moment(moment(record.dateEnd), dateFormatList) : null
+                  }
+                  disabledDate={(current) => disabledDate(current, record.dateStart, false)}
+                  format={dateFormatList}
+                  onChange={(date) =>
+                    onChange && onChange(immutableValueChange(record.id, 'dateEnd', date))
+                  }
+                  disabled={isNoTimeEndList.includes(record.key) || !editable}
+                  {...getDateEndValue(record.id)}
+                  style={{
+                    width: '125px',
+                  }}
+                />
+              </div>
+              <div
                 style={{
-                  width: '125px',
-                }}
-              />
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'flex-end',
-                justifyContent: 'right',
-                height: '25px',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              <Checkbox
-                checked={isNoTimeEndList.includes(record.key)}
-                onChange={(e) => {
-                  isNoTimeEndList.includes(record.key)
-                    ? setIsNoTimeEndList(isNoTimeEndList.filter((key) => key !== record.key))
-                    : setIsNoTimeEndList([...isNoTimeEndList, record.key])
-
-                  onChange &&
-                    e.target.checked &&
-                    onChange(immutableValueChange(record.id, 'dateEnd', null))
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  justifyContent: 'right',
+                  height: '25px',
+                  whiteSpace: 'nowrap',
                 }}
               >
-                for the present
-              </Checkbox>
+                <Checkbox
+                  checked={isNoTimeEndList.includes(record.key)}
+                  disabled={!editable}
+                  onChange={(e) => {
+                    isNoTimeEndList.includes(record.key)
+                      ? setIsNoTimeEndList(isNoTimeEndList.filter((key) => key !== record.key))
+                      : setIsNoTimeEndList([...isNoTimeEndList, record.key])
+
+                    onChange &&
+                      e.target.checked &&
+                      onChange(immutableValueChange(record.id, 'dateEnd', null))
+                  }}
+                >
+                  for the present
+                </Checkbox>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div>
+              {record.dateEnd
+                ? moment(record.dateEnd).format(dateFormatList[0])
+                : 'for the present'}
+            </div>
+          )}
         </div>
       ),
     },
@@ -350,36 +368,45 @@ function CurriculumVitaeTable({ onChange, ...props }: PropsTable) {
       width: '10%',
       render: (text: any, record: any) =>
         isWordSidenis(record.company) ? (
-          <Select
-            showSearch
-            placeholder="Select a project"
-            optionFilterProp="children"
-            style={{ width: isDatePickersToColumn ? 80 : 150 }}
-            value={
-              allProjectsList
+          editable ? (
+            <Select
+              showSearch
+              placeholder="Select a project"
+              optionFilterProp="children"
+              disabled={!editable}
+              style={{ width: isDatePickersToColumn ? 80 : 150 }}
+              value={
+                allProjectsList
+                  ? allProjectsList.filter((project) => project.id === record.project)[0]?.name
+                  : ''
+              }
+              filterOption={(input: any, option: any) =>
+                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+              onChange={(projectId: any) => {
+                onChange && onChange(immutableValueChange(record.id, 'project', projectId))
+              }}
+            >
+              {allProjectsList
+                .sort((a, b) => (a.name > b.name ? 1 : -1))
+                .map((project) => (
+                  <Option key={project.id} value={project.id} style={{ overflow: 'visible' }}>
+                    {project.name}
+                  </Option>
+                ))}
+            </Select>
+          ) : (
+            <div>
+              {allProjectsList
                 ? allProjectsList.filter((project) => project.id === record.project)[0]?.name
-                : ''
-            }
-            filterOption={(input: any, option: any) =>
-              option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-            onChange={(projectId: any) => {
-              onChange && onChange(immutableValueChange(record.id, 'project', projectId))
-            }}
-          >
-            {allProjectsList
-              .sort((a, b) => (a.name > b.name ? 1 : -1))
-              .map((project) => (
-                <Option key={project.id} value={project.id} style={{ overflow: 'visible' }}>
-                  {project.name}
-                </Option>
-              ))}
-          </Select>
+                : ''}
+            </div>
+          )
         ) : (
           <div
             style={{
               display: 'flex',
-              justifyContent: 'center',
+              justifyContent: editable ? 'center' : 'flex-start',
               width: isDatePickersToColumn ? 80 : 150,
             }}
           >
@@ -390,52 +417,60 @@ function CurriculumVitaeTable({ onChange, ...props }: PropsTable) {
     {
       title: 'Position',
       dataIndex: 'position',
-      editable: true,
+      editable,
       width: '12%',
     },
     {
       title: 'Responsibilities',
       dataIndex: 'responsibilities',
-      editable: true,
+      editable,
       width: '20%',
     },
     {
       title: 'Level',
       dataIndex: 'level',
-      editable: true,
+      editable,
       width: '10%',
     },
     {
       dataIndex: 'operation',
       width: '1%',
-      render: (text: any, record: any) => (
-        <Popconfirm
-          title="Sure to delete?"
-          onConfirm={() => {
-            if (onChange) {
-              onChange(
-                value.filter((i, index) => (i.id ? i.id !== record.id : index !== record.key)),
-              )
-            }
-          }}
-        >
-          <Button type="link" icon="delete" />
-        </Popconfirm>
-      ),
+      render: (text: any, record: any) =>
+        editable ? (
+          <Popconfirm
+            title="Sure to delete?"
+            onConfirm={() => {
+              if (onChange) {
+                onChange(
+                  value.filter((i, index) => (i.id ? i.id !== record.id : index !== record.key)),
+                )
+              }
+            }}
+          >
+            <Button type="link" icon="delete" />
+          </Popconfirm>
+        ) : (
+          ''
+        ),
     },
   ]
 
+  const StyledTable = styled(Table)`
+    td {
+      vertical-align: top;
+    }
+  `
+
   return (
     <div>
-      <Table
+      <StyledTable
         dataSource={value.map((i, index) => ({
           key: i.id || index,
           ...i,
         }))}
         components={components}
         pagination={false}
-        /* 
-        //@ts-ignore */
+        //@ts-ignore
         columns={columns.map((col) => {
           if (!col.editable) {
             return col
@@ -452,25 +487,27 @@ function CurriculumVitaeTable({ onChange, ...props }: PropsTable) {
           }
         })}
       />
-      <Button
-        style={{ margin: '15px 0 20px 10px' }}
-        onClick={() => {
-          if (onChange) {
-            onChange(
-              value.concat({
-                company: '',
-                dateStart: '',
-                dateEnd: '',
-                position: '',
-                responsibilities: '',
-                level: '',
-              }),
-            )
-          }
-        }}
-      >
-        Add new job
-      </Button>
+      {editable && (
+        <Button
+          style={{ margin: '15px 0 20px 10px' }}
+          onClick={() => {
+            if (onChange) {
+              onChange(
+                value.concat({
+                  company: '',
+                  dateStart: '',
+                  dateEnd: '',
+                  position: '',
+                  responsibilities: '',
+                  level: '',
+                }),
+              )
+            }
+          }}
+        >
+          Add new job
+        </Button>
+      )}
     </div>
   )
 }

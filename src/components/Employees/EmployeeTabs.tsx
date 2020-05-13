@@ -11,15 +11,18 @@ import EmployeeCV from './EmployeeCV'
 import EmployeeSkills from './EmployeeSkills'
 import EmployeeDevelopmentPlan from './EmployeeDevelopmentPlan'
 import EmployeeEvaluation from '../EmployeeEvaluation/EmployeeEvaluation'
-import EmployeeEvaluationReviewersAccess from '../EmployeeEvaluation/EmployeeEvaluationReviewersAccess'
 
 interface Props extends RouteComponentProps {
-  employee: Pick<Employee, 'id'>
+  employee: Pick<Employee, 'id' | 'email'>
   tab?: string
 }
 
 const query = gql`
-  query getEmployees($input: EmployeesInput) {
+  query getEmployees(
+    $input: EmployeesInput
+    $inputEmail: CurriculumVitaeInput
+    $inputToWhom: EvaluationReviewersAccessInput
+  ) {
     employees(input: $input) {
       id
       name
@@ -35,23 +38,43 @@ const query = gql`
       }
       isMe
     }
+    curriculumVitaeAccess(input: $inputEmail) {
+      accessRights {
+        read
+        write
+      }
+    }
+    evaluationReviewersAccess(input: $inputToWhom) {
+      read
+      write
+    }
   }
 `
 
 type QueryType = {
   employees: (Pick<Employee, 'id' | 'name' | 'email' | 'access' | 'isMe'> & {
-    manager: Pick<Employee, 'id' | 'name' | 'isMe'>
+    manager: Pick<Employee, 'id' | 'name' | 'email' | 'isMe'>
   })[]
+  curriculumVitaeAccess: {
+    accessRights: { read: boolean; write: boolean }
+  }
+  evaluationReviewersAccess: Access
 }
 
 function EmployeeTabs({ match, ...props }: Props) {
   const { data, loading, error } = useQuery<QueryType>(query, {
-    variables: { input: { id: props.employee.id } },
+    variables: {
+      input: { id: props.employee.id },
+      inputEmail: { employeeEmail: props.employee.email },
+      inputToWhom: { toWhom: props.employee.id },
+    },
   })
 
   if (error) return <div>Error :(</div>
 
   const employee = data?.employees?.[0]
+  const curriculumVitaeAccess = data?.curriculumVitaeAccess?.accessRights
+  const evaluationReviewersAccess = data?.evaluationReviewersAccess
 
   let tabs = [
     {
@@ -88,43 +111,33 @@ function EmployeeTabs({ match, ...props }: Props) {
       body: <EmployeeDevelopmentPlan employee={employee} />,
     })
   }
-
-  tabs.push(
-    //TODO: apply access rules!
-    {
+  if (curriculumVitaeAccess?.read) {
+    tabs.push({
       title: 'CV',
       icon: 'form',
       key: 'cv',
       noPadding: true,
       body: (
         <EmployeeCV
-          editable={employee?.access.write || false}
+          editable={curriculumVitaeAccess?.write}
           employee={{ id: employee?.id || '', email: employee?.email || '' }}
         />
       ),
-    },
-  )
+    })
+  }
+  if (evaluationReviewersAccess?.read) {
+    tabs.push({
+      title: 'Self Evaluation Form',
+      key: 'evaluation',
+      icon: 'star',
+      noPadding: false,
+      body: <EmployeeEvaluation employee={employee} editable={evaluationReviewersAccess?.write} />,
+    })
+  }
 
   return (
     <Skeleton loading={loading} padding={60}>
-      {employee && (
-        <EmployeeEvaluationReviewersAccess employee={employee}>
-          {(evaluationTabAccess: Access) => {
-            if (evaluationTabAccess.read) {
-              tabs.push({
-                title: 'Self Evaluation Form',
-                key: 'evaluation',
-                icon: 'star',
-                noPadding: false,
-                body: (
-                  <EmployeeEvaluation employee={employee} editable={evaluationTabAccess.write} />
-                ),
-              })
-            }
-            return <Tabs controlled tabs={tabs} tab={props.tab} />
-          }}
-        </EmployeeEvaluationReviewersAccess>
-      )}
+      {employee && <Tabs controlled tabs={tabs} tab={props.tab} />}
     </Skeleton>
   )
 }
