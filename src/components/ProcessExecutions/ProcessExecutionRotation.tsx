@@ -1,18 +1,18 @@
 import { useMutation } from '@apollo/react-hooks'
-import { Button, Typography, Card } from 'antd'
+import { Button, Typography } from 'antd'
 import React, { useState } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { getProcessExecutionLink } from '../../paths'
 import { QueryType } from '../../queries/getProcessExecution'
 import getProcessExecutions from '../../queries/getProcessExecutions'
+import getVacancies from '../../queries/getVacancies'
 import ROTATE_EMPLOYEE, {
   MutationResult as RotateEmployeeMutationResult,
   MutationVariables as RotateEmployeeMutationVariables,
 } from '../../queries/rotateEmployee'
-import CreateProcessForm from './CreateProcessForm'
-import Drawer from '../UI/Drawer.new'
-import getVacancies from '../../queries/getVacancies'
 import EmployeeCard from '../Employees/EmployeeCard'
+import Drawer from '../UI/Drawer.new'
+import CreateProcessForm from './CreateProcessForm'
 
 interface Props {
   processExecution: QueryType['processExecutions'][0]

@@ -95,6 +95,11 @@ function PortalMenu(props: Props) {
       title: 'WIKI',
     },
     {
+      route: paths.OFFICE_PLANNER,
+      icon: <Icon type="import" />,
+      title: 'Office planner',
+    },
+    {
       route: paths.VACANCIES,
       icon: <Icon type="idcard" />,
       title: 'Vacancies',

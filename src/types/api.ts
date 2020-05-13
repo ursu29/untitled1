@@ -23,6 +23,7 @@ export interface Employee {
   access: Access
   experiences: Experience[]
   matrices: Matrix[]
+  worksFromOffice: string[]
 }
 
 export interface Tag {
@@ -290,4 +291,12 @@ export interface EvaluationComment {
   employee: Employee
   evaluationAttribute: EvaluationAttribute
   editable: boolean
+}
+
+export interface OfficeDay {
+  id: string
+  employeeLimit: number
+  employeeCount: number
+  date: string
+  location: Location
 }
