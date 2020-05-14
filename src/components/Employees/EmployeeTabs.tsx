@@ -107,7 +107,6 @@ function EmployeeTabs({ match, ...props }: Props) {
       body: <EmployeeDevelopmentPlan employee={employee} />,
     })
   }
-  console.log('curriculumVitaeAccess', curriculumVitaeAccess)
   if (curriculumVitaeAccess?.read) {
     tabs.push({
       title: 'CV',

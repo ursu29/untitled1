@@ -12,6 +12,7 @@ import { CurriculumVitae, Employee } from '../../types'
 import queryProjects, { QueryType as ProjectsQueryType } from '../../queries/getProjects'
 import Skeleton from '../UI/Skeleton'
 import message from '../../message'
+import './styles.css'
 
 /**
  * Queries definition
@@ -195,7 +196,6 @@ function EmployeeCV({ employee, editable, form }: PropsGeneral) {
  */
 function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTable) {
   const [isNoTimeEndList, setIsNoTimeEndList] = React.useState(['']) // list with rows ids without any date end
-  console.log(isNoTimeEndList)
   const isDatePickersToColumn = useMediaQuery({ maxWidth: 1000 }) // date pickers to column direction
 
   // Projects list query
@@ -475,6 +475,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
         loading={loading}
         components={components}
         pagination={false}
+        rowClassName={() => 'tableRowTopAlign'}
         //@ts-ignore
         columns={columns.map((col) => {
           if (!col.editable) {
