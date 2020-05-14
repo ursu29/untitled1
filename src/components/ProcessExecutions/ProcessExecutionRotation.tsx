@@ -61,7 +61,7 @@ function ProcessExecutionRotation({ history, processExecution }: Props & RouteCo
         {employees?.map((i) => {
           return (
             <div key={i.id} style={{ minWidth: 300, marginRight: 16 }}>
-              <EmployeeCard id={i.id} />
+              <EmployeeCard email={i.email} />
               <Button
                 onClick={() => {
                   setEmployee(i.id)

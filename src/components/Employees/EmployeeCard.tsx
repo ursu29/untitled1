@@ -7,13 +7,13 @@ import { useQuery } from '@apollo/react-hooks'
 import getEmployee, { QueryType } from '../../queries/getEmployee'
 
 interface Props {
-  id: string
+  email: string
   employee?: Pick<Employee, 'id' | 'name' | 'email' | 'position' | 'avatar'>
 }
 
 export default function EmployeeCard(props: Props) {
   const { data, loading } = useQuery<QueryType>(getEmployee, {
-    variables: { id: props.id },
+    variables: { email: props.email },
     skip: Boolean(props.employee),
   })
 

@@ -17,18 +17,21 @@ import message from '../../message'
  * Queries definition
  */
 const query = gql`
-  query curriculumVitae($input: CurriculumVitaeInput) {
-    curriculumVitae(input: $input) {
+  query getEmployeeCV($email: String!) {
+    employeeByEmail(email: $email) {
       id
-      vitaes {
+      curriculumVitae {
         id
-        company
-        dateStart
-        dateEnd
-        project
-        position
-        responsibilities
-        level
+        vitaes {
+          id
+          company
+          dateStart
+          dateEnd
+          project
+          position
+          responsibilities
+          level
+        }
       }
     }
   }
@@ -59,19 +62,22 @@ type PropsTableType = {
 }
 
 type QueryType = {
-  curriculumVitae: {
-    id: Pick<CurriculumVitae, 'id'>
-    vitaes: Pick<
-      CurriculumVitae,
-      | 'id'
-      | 'company'
-      | 'dateStart'
-      | 'dateEnd'
-      | 'project'
-      | 'position'
-      | 'responsibilities'
-      | 'level'
-    >[]
+  employeeByEmail: {
+    id: Employee['id']
+    curriculumVitae: {
+      id: Pick<CurriculumVitae, 'id'>
+      vitaes: Pick<
+        CurriculumVitae,
+        | 'id'
+        | 'company'
+        | 'dateStart'
+        | 'dateEnd'
+        | 'project'
+        | 'position'
+        | 'responsibilities'
+        | 'level'
+      >[]
+    }
   }
 }
 
@@ -82,6 +88,7 @@ interface PropsGeneral extends FormComponentProps {
 
 interface PropsTable {
   data?: PropsTableType['curriculumVitae'] | []
+  loading?: boolean
   onChange?: (items: Partial<CurriculumVitae>[]) => void
   editable: boolean
 }
@@ -101,21 +108,23 @@ const isWordSidenis = (word: string) => word.toLowerCase() === 'sidenis'
 function EmployeeCV({ employee, editable, form }: PropsGeneral) {
   const { email } = employee
 
-  const variables = { input: { employeeEmail: email } } // variables for queries
+  const variables = { email } // variables for queries
   // Curriculum vitaes query
   const { data, loading } = useQuery<QueryType>(query, {
     variables,
   })
 
-  const vitaes = data?.curriculumVitae?.vitaes || [] // full user's vitaes list
-  const curriculumVitaeID = data?.curriculumVitae?.id || '' // list id
+  const vitaes = data?.employeeByEmail?.curriculumVitae?.vitaes || [] // full user's vitaes list
+  const curriculumVitaeID = data?.employeeByEmail?.curriculumVitae?.id || '' // list id
 
   const { getFieldDecorator } = form
 
   // Curriculum vitaes mutation
   const [update, { loading: mutateLoading }] = useMutation(mutation, {
     onCompleted: () => message.success('Curriculum vitae is updated'),
+    awaitRefetchQueries: true,
     refetchQueries: [{ query, variables }],
+    onError: message.error,
   })
 
   const debounced = React.useCallback(debounce(500, update), [update])
@@ -159,11 +168,12 @@ function EmployeeCV({ employee, editable, form }: PropsGeneral) {
   }
 
   return (
-    <Skeleton loading={loading} active>
+    <Skeleton loading={loading} active withOffset>
       {getFieldDecorator('cvForm')(
         <Form layout="vertical">
           <CurriculumVitaeTable
             data={vitaes}
+            loading={mutateLoading}
             onChange={(values) => {
               form.setFieldsValue({
                 cvForm: values,
@@ -183,9 +193,9 @@ function EmployeeCV({ employee, editable, form }: PropsGeneral) {
  * Table component
  *
  */
-function CurriculumVitaeTable({ onChange, editable, ...props }: PropsTable) {
+function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTable) {
   const [isNoTimeEndList, setIsNoTimeEndList] = React.useState(['']) // list with rows ids without any date end
-
+  console.log(isNoTimeEndList)
   const isDatePickersToColumn = useMediaQuery({ maxWidth: 1000 }) // date pickers to column direction
 
   // Projects list query
@@ -455,19 +465,14 @@ function CurriculumVitaeTable({ onChange, editable, ...props }: PropsTable) {
     },
   ]
 
-  const StyledTable = styled(Table)`
-    td {
-      vertical-align: top;
-    }
-  `
-
   return (
-    <div>
-      <StyledTable
+    <div className="cv">
+      <Table
         dataSource={value.map((i, index) => ({
           key: i.id || index,
           ...i,
         }))}
+        loading={loading}
         components={components}
         pagination={false}
         //@ts-ignore

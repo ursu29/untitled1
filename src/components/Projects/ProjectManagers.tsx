@@ -22,7 +22,7 @@ export default function ProjectManagers({ project }: Props) {
     <Section title={leaders.length > 1 ? 'Managers' : 'Manager'}>
       <Skeleton active avatar line loading={loading}>
         {leaders?.map((employee) => (
-          <EmployeeCard key={employee.id} id={employee.id} employee={employee} />
+          <EmployeeCard key={employee.id} email={employee.email} employee={employee} />
         ))}
         {!leaders.length && <div>Project has no manager</div>}
       </Skeleton>
