@@ -4,6 +4,7 @@ import { Form, Input, Row, Col, Button, Divider } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
 import ProjectSelect from '../Projects/ProjectSelect'
 import LocationSelect from '../Locations/LocationSelect'
+import MarkdownEditor from '../UI/MarkdownEditor'
 
 interface Props extends FormComponentProps {
   vacancy: Partial<Vacancy>
@@ -20,7 +21,7 @@ function VacancyForm({ vacancy, form, onSave, onPublish }: Props) {
           <Form.Item label="Position">
             {getFieldDecorator('position', {
               initialValue: vacancy?.position,
-              // rules: [{ required: true, message: 'Please add position!' }],
+              rules: [{ required: true, message: 'Please add position!' }],
             })(<Input placeholder="Add position" />)}
           </Form.Item>
         </Col>
@@ -43,7 +44,7 @@ function VacancyForm({ vacancy, form, onSave, onPublish }: Props) {
         <Col span={12}>
           <Form.Item label="Locations">
             {getFieldDecorator('locations', {
-              initialValue: vacancy?.locations?.map(i => i.id),
+              initialValue: vacancy?.locations?.map((i) => i.id),
             })(<LocationSelect wide mode="multiple" />)}
           </Form.Item>
         </Col>
@@ -51,48 +52,61 @@ function VacancyForm({ vacancy, form, onSave, onPublish }: Props) {
       <Form.Item label="Responsibilities">
         {getFieldDecorator('responsibilities', {
           initialValue: vacancy?.responsibilities,
-        })(<Input.TextArea autoSize placeholder="What will employee do" />)}
+        })(<MarkdownEditor id="responsibilities" />)}
       </Form.Item>
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item label="Required skills">
             {getFieldDecorator('requiredSkills', {
               initialValue: vacancy?.requiredSkills,
-              // rules: [{ required: true, message: 'What is essential' }],
-            })(<Input.TextArea autoSize placeholder="Add position" />)}
+            })(<MarkdownEditor id="requiredSkills" />)}
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item label="Additional skills">
             {getFieldDecorator('additionalSkills', {
               initialValue: vacancy?.additionalSkills,
-            })(<Input.TextArea autoSize placeholder="What is nice to have" />)}
+            })(<MarkdownEditor id="additionalSkills" />)}
           </Form.Item>
         </Col>
       </Row>
       <Row type="flex" justify="end" align="middle">
         <Button
-          onClick={() =>
-            onSave({
-              ...vacancy,
-              ...form.getFieldsValue(),
+          onClick={() => {
+            form.validateFields((error: any, values: any) => {
+              if (error) {
+                return
+              }
+              onPublish({
+                ...vacancy,
+                ...values,
+              })
             })
-          }
+          }}
         >
           Save
         </Button>
-        <Divider type="vertical" />
-        <Button
-          onClick={() =>
-            onPublish({
-              ...vacancy,
-              ...form.getFieldsValue(),
-            })
-          }
-          type="primary"
-        >
-          Publish
-        </Button>
+        {!vacancy.isPublished && (
+          <>
+            <Divider type="vertical" />
+            <Button
+              onClick={() => {
+                form.validateFields((error: any, values: any) => {
+                  if (error) {
+                    return
+                  }
+                  onPublish({
+                    ...vacancy,
+                    ...values,
+                  })
+                })
+              }}
+              type="primary"
+            >
+              Publish
+            </Button>
+          </>
+        )}
       </Row>
     </Form>
   )

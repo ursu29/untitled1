@@ -95,6 +95,11 @@ function PortalMenu(props: Props) {
       title: 'WIKI',
     },
     {
+      route: paths.OFFICE_PLANNER,
+      icon: <Icon type="import" />,
+      title: 'Office planner',
+    },
+    {
       route: paths.VACANCIES,
       icon: <Icon type="idcard" />,
       title: 'Vacancies',
@@ -116,7 +121,7 @@ function PortalMenu(props: Props) {
   ]
 
   return (
-    <Skeleton padding={20} active loading={loading}>
+    <Skeleton withOffset active loading={loading}>
       <Width isLarge={isLarge}>
         <Menu
           defaultSelectedKeys={[props.path]}

@@ -1,17 +1,18 @@
 import { useMutation } from '@apollo/react-hooks'
-import { Button, Typography, Card } from 'antd'
+import { Button, Typography } from 'antd'
 import React, { useState } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { getProcessExecutionLink } from '../../paths'
 import { QueryType } from '../../queries/getProcessExecution'
 import getProcessExecutions from '../../queries/getProcessExecutions'
+import getVacancies from '../../queries/getVacancies'
 import ROTATE_EMPLOYEE, {
   MutationResult as RotateEmployeeMutationResult,
   MutationVariables as RotateEmployeeMutationVariables,
 } from '../../queries/rotateEmployee'
-import CreateProcessForm from './CreateProcessForm'
+import EmployeeCard from '../Employees/EmployeeCard'
 import Drawer from '../UI/Drawer.new'
-import getVacancies from '../../queries/getVacancies'
+import CreateProcessForm from './CreateProcessForm'
 
 interface Props {
   processExecution: QueryType['processExecutions'][0]
@@ -37,7 +38,7 @@ function ProcessExecutionRotation({ history, processExecution }: Props & RouteCo
   }
 
   return (
-    <p>
+    <div style={{ paddingBottom: 16 }}>
       <Drawer visible={showDrawer} onClose={() => setShowDrawer(false)}>
         <CreateProcessForm
           onSubmit={({ process, locations, project }) => {
@@ -56,22 +57,24 @@ function ProcessExecutionRotation({ history, processExecution }: Props & RouteCo
         />
       </Drawer>
       <Typography.Title level={3}>Want to rotate</Typography.Title>
-      {employees?.map((i) => {
-        return (
-          <Card bordered={false} key={i.id}>
-            <div>{i.name}</div>
-            <Button
-              onClick={() => {
-                setEmployee(i.id)
-                setShowDrawer(true)
-              }}
-            >
-              Apply
-            </Button>
-          </Card>
-        )
-      })}
-    </p>
+      <div style={{ display: 'flex' }}>
+        {employees?.map((i) => {
+          return (
+            <div key={i.id} style={{ minWidth: 300, marginRight: 16 }}>
+              <EmployeeCard id={i.id} />
+              <Button
+                onClick={() => {
+                  setEmployee(i.id)
+                  setShowDrawer(true)
+                }}
+              >
+                Apply
+              </Button>
+            </div>
+          )
+        })}
+      </div>
+    </div>
   )
 }
 

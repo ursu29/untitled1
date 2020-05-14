@@ -72,7 +72,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
   const processExecution = data?.processExecutions?.[0]
 
   if (loading) {
-    return <Skeleton active loading={loading} padding={20} />
+    return <Skeleton active loading={loading} withOffset />
   }
 
   if (!processExecution) {
@@ -90,7 +90,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
             <ActiveStepCard
               title="Open Vacancy"
               status={processExecution.vacancy.isPublished ? 'done' : 'active'}
-              employees={[]}
+              employees={processExecution.vacancy.responsibleEmployees}
             >
               <Vacancy
                 id={processExecution.vacancy?.id}
@@ -98,7 +98,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                   { query: getProcessExecution, variables: { input: { id: match.params.id } } },
                   { query: getProcessExecutions },
                 ]}
-                editable
+                editable={processExecution.vacancy.editable}
               />
             </ActiveStepCard>
           </PageContent>

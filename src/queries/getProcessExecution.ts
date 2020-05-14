@@ -19,6 +19,11 @@ export default gql`
         rotateEmployees {
           ...EmployeeDetails
         }
+        responsibleEmployees {
+          ...EmployeeDetails
+          avatar
+        }
+        editable
       }
       executionSteps {
         id
@@ -39,8 +44,11 @@ type ProcessExecutionPick = {
   process: Pick<Process, 'id' | 'type'> & {
     steps: ProcessStepDetails[]
   }
-  vacancy: Pick<Vacancy, 'id' | 'isPublished'> & {
+  vacancy: Pick<Vacancy, 'id' | 'isPublished' | 'editable'> & {
     rotateEmployees: EmployeeDetails[]
+    responsibleEmployees: (EmployeeDetails & {
+      avatar: string
+    })[]
   }
   executionSteps: (Pick<ProcessExecutionStep, 'id' | 'description' | 'isDone'> & {
     step: Pick<ProcessStep, 'id'>

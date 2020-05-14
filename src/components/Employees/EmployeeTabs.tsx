@@ -39,10 +39,8 @@ const query = gql`
       isMe
     }
     curriculumVitaeAccess(input: $inputEmail) {
-      accessRights {
-        read
-        write
-      }
+      read
+      write
     }
     evaluationReviewersAccess(input: $inputToWhom) {
       read
@@ -55,9 +53,7 @@ type QueryType = {
   employees: (Pick<Employee, 'id' | 'name' | 'email' | 'access' | 'isMe'> & {
     manager: Pick<Employee, 'id' | 'name' | 'email' | 'isMe'>
   })[]
-  curriculumVitaeAccess: {
-    accessRights: { read: boolean; write: boolean }
-  }
+  curriculumVitaeAccess: Access
   evaluationReviewersAccess: Access
 }
 
@@ -73,7 +69,7 @@ function EmployeeTabs({ match, ...props }: Props) {
   if (error) return <div>Error :(</div>
 
   const employee = data?.employees?.[0]
-  const curriculumVitaeAccess = data?.curriculumVitaeAccess?.accessRights
+  const curriculumVitaeAccess = data?.curriculumVitaeAccess
   const evaluationReviewersAccess = data?.evaluationReviewersAccess
 
   let tabs = [
@@ -111,6 +107,7 @@ function EmployeeTabs({ match, ...props }: Props) {
       body: <EmployeeDevelopmentPlan employee={employee} />,
     })
   }
+  console.log('curriculumVitaeAccess', curriculumVitaeAccess)
   if (curriculumVitaeAccess?.read) {
     tabs.push({
       title: 'CV',
@@ -136,7 +133,7 @@ function EmployeeTabs({ match, ...props }: Props) {
   }
 
   return (
-    <Skeleton loading={loading} padding={60}>
+    <Skeleton loading={loading} withOffset>
       {employee && <Tabs controlled tabs={tabs} tab={props.tab} />}
     </Skeleton>
   )

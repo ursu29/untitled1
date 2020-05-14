@@ -23,6 +23,7 @@ export interface Employee {
   access: Access
   experiences: Experience[]
   matrices: Matrix[]
+  worksFromOffice: string[]
 }
 
 export interface CurriculumVitae {
@@ -235,6 +236,9 @@ export interface Vacancy {
   locations: Location[]
   isPublished: boolean
   isClosed: boolean
+  rotateEmployees: Employee[]
+  responsibleEmployees: Employee[]
+  editable: boolean
 }
 
 export interface Location {
@@ -298,4 +302,12 @@ export interface EvaluationComment {
   employee: Employee
   evaluationAttribute: EvaluationAttribute
   editable: boolean
+}
+
+export interface OfficeDay {
+  id: string
+  employeeLimit: number
+  employeeCount: number
+  date: string
+  location: Location
 }

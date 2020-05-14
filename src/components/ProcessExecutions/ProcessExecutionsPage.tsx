@@ -19,7 +19,7 @@ function HRPage() {
     )
   }
   return (
-    <Skeleton active loading={loading} padding={24}>
+    <Skeleton active loading={loading} withOffset>
       <PageContent noBottom>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Typography.Title>Open processes</Typography.Title>
