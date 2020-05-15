@@ -240,9 +240,9 @@ function OfficePlannerPage() {
                   alignItems: 'center',
                 }}
               >
-                <div style={{ marginRight: 8 }}>
-                  {employeesQuery.data?.employees.length} employees
-                </div>
+                {Boolean(allEmployees.length) && (
+                  <div style={{ marginRight: 8 }}>{allEmployees.length} employees</div>
+                )}
                 <Button
                   style={{ marginRight: 8 }}
                   disabled={actionsDisabled}
