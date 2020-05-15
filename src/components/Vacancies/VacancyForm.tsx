@@ -77,7 +77,7 @@ function VacancyForm({ vacancy, form, onSave, onPublish }: Props) {
               if (error) {
                 return
               }
-              onPublish({
+              onSave({
                 ...vacancy,
                 ...values,
               })
