@@ -1,16 +1,15 @@
-import React, { useState } from 'react'
-import PageContent from '../UI/PageContent'
-import { Table, Button, Switch, Input, Tabs, Typography, Divider } from 'antd'
+import { useMutation, useQuery } from '@apollo/react-hooks'
+import { Button, Input, Switch, Table, Tabs, Typography } from 'antd'
 import dayjs from 'dayjs'
 import gql from 'graphql-tag'
-import { useQuery, useMutation } from '@apollo/react-hooks'
-import Skeleton from '../UI/Skeleton'
-import { Employee, OfficeDay } from '../../types'
+import React, { useState } from 'react'
 import message from '../../message'
+import { Access, Employee, OfficeDay } from '../../types'
+import PageContent from '../UI/PageContent'
 
 const DAYS_IN_A_ROW = 7
 
-const getEmployees = gql`
+const query = gql`
   query getEmployees($input: EmployeesInput) {
     employees(input: $input) {
       id
@@ -18,6 +17,10 @@ const getEmployees = gql`
       email
       isMe
       worksFromOffice
+    }
+    officeAccess {
+      read
+      write
     }
   }
 `
@@ -50,12 +53,19 @@ const updateOfficeDayMutation = gql`
 type EmployeePick = Pick<Employee, 'id' | 'name' | 'email' | 'isMe' | 'worksFromOffice'>
 type OfficeDayPick = Pick<OfficeDay, 'id' | 'date' | 'employeeLimit' | 'employeeCount'>
 
+const LOCATIONS = [
+  { key: 'SAINT_PETERSBURG', title: 'Saint Petersburg' },
+  { key: 'TOMSK', title: 'Tomsk' },
+  { key: 'ZURICH', title: 'Zürich' },
+]
+
 function OfficePlannerPage() {
   const today = new Date()
   const [firstDate, setFirstDate] = useState(today)
+  const [currentLocation, setCurrentLocation] = useState('SAINT_PETERSBURG')
 
-  const employeesQuery = useQuery<{ employees: EmployeePick[] }>(getEmployees, {
-    variables: { input: { locations: ['SAINT_PETERSBURG'] } },
+  const employeesQuery = useQuery<{ employees: EmployeePick[]; officeAccess: Access }>(query, {
+    variables: { input: { locations: [currentLocation] } },
   })
 
   const daysQuery = useQuery<{ officeDays: OfficeDayPick[] }>(getOfficeDays, {
@@ -68,7 +78,7 @@ function OfficePlannerPage() {
   })
 
   const refetchQueries = [
-    { query: getEmployees, variables: { input: { locations: ['SAINT_PETERSBURG'] } } },
+    { query: query, variables: { input: { locations: [currentLocation] } } },
     {
       query: getOfficeDays,
       variables: {
@@ -92,10 +102,9 @@ function OfficePlannerPage() {
     onError: message.error,
   })
 
-  const loading = employeesQuery.loading
+  if (employeesQuery.error) return <div>Something happened. Please contact portal manager</div>
 
-  if (employeesQuery.error) return <div>Something is wrong</div>
-  if (loading) return <Skeleton loading={loading} withOffset />
+  const editable = employeesQuery.data?.officeAccess.write
 
   const dates = Array.from({ length: DAYS_IN_A_ROW }).map((i, index) => {
     let nextDay = new Date(firstDate)
@@ -103,11 +112,19 @@ function OfficePlannerPage() {
     return nextDay
   })
 
+  const datesFormatted = dates.map((i) => dayjs(i).format('YYYY-MM-DD'))
+
   //sort me first
-  const employees = employeesQuery.data?.employees
+
+  const allEmployees = employeesQuery.data?.employees || []
+  const employees = allEmployees
     ? employeesQuery.data?.employees
         .filter((i) => i.isMe)
-        .concat(employeesQuery.data.employees.filter((i) => !i.isMe))
+        .concat(
+          employeesQuery.data.employees
+            .filter((i) => !i.isMe)
+            .filter((i) => i.worksFromOffice.some((day) => datesFormatted.includes(day))),
+        )
     : []
 
   const columns = [
@@ -115,6 +132,7 @@ function OfficePlannerPage() {
       title: () => <div>Name</div>,
       dataIndex: 'name',
       key: 'name',
+      width: 200,
     },
     ...dates.map((date) => {
       return {
@@ -122,7 +140,7 @@ function OfficePlannerPage() {
           const formattedDate = dayjs(date).format('YYYY-MM-DD')
           const officeDay = daysQuery.data?.officeDays.find((i) => i.date === formattedDate)
           const employeeLimit = officeDay?.employeeLimit || 15
-          const employeeMaxCount = Math.ceil((employees.length * employeeLimit) / 100)
+          const employeeMaxCount = Math.ceil((allEmployees.length * employeeLimit) / 100)
 
           const handleChange = (e: any) => {
             if (e.target.value !== employeeLimit.toString()) {
@@ -140,22 +158,24 @@ function OfficePlannerPage() {
 
           return (
             <div key={date.toISOString()}>
-              <div>{formattedDate}</div>
+              <div>{dayjs(date).format('DD MMM')}</div>
               {!daysQuery.loading && (
                 <>
-                  <div style={{ whiteSpace: 'nowrap' }}>
-                    <Input
-                      type="number"
-                      style={{ width: 70, marginRight: 4 }}
-                      defaultValue={employeeLimit}
-                      onPressEnter={handleChange}
-                      onBlur={handleChange}
-                      placeholder="15"
-                      min="0"
-                      max="100"
-                    />
-                    %
-                  </div>
+                  {editable && (
+                    <div style={{ whiteSpace: 'nowrap' }}>
+                      <Input
+                        type="number"
+                        style={{ width: 70, marginRight: 4 }}
+                        defaultValue={employeeLimit}
+                        onPressEnter={handleChange}
+                        onBlur={handleChange}
+                        placeholder="15"
+                        min="0"
+                        max="100"
+                      />
+                      %
+                    </div>
+                  )}
                   <div>
                     {officeDay?.employeeCount || 0} from {employeeMaxCount}
                   </div>
@@ -173,7 +193,7 @@ function OfficePlannerPage() {
               onChange={() => {
                 apply({
                   variables: {
-                    input: { date: formattedDate, location: 'SAINT_PETERSBURG' },
+                    input: { date: formattedDate, location: currentLocation },
                   },
                 })
               }}
@@ -184,64 +204,78 @@ function OfficePlannerPage() {
     }),
   ]
 
-  const actionsDisabled = applyArgs.loading || daysQuery.loading || updateDayArgs.loading
+  const actionsDisabled =
+    applyArgs.loading || daysQuery.loading || updateDayArgs.loading || employeesQuery.loading
 
   return (
     <PageContent>
       <Typography.Title level={1}>Office Planner</Typography.Title>
-      <Tabs>
-        <Tabs.TabPane key="Saint Petersburg" tab="Saint Petersburg">
-          <div
-            style={{
-              marginBottom: 16,
-              display: 'flex',
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-            }}
-          >
-            <div style={{ marginRight: 8 }}>{employees.length} employees</div>
-            <Button
-              style={{ marginRight: 8 }}
-              disabled={actionsDisabled}
-              onClick={() => {
-                let nextDay = new Date(firstDate)
-                nextDay.setDate(nextDay.getDate() - DAYS_IN_A_ROW)
-                setFirstDate(nextDay)
-              }}
-            >
-              Previous week
-            </Button>
-            <Button
-              onClick={() => {
-                setFirstDate(today)
-              }}
-              disabled={actionsDisabled}
-              type="primary"
-              style={{ marginRight: 8 }}
-            >
-              Today
-            </Button>
-            <Button
-              disabled={actionsDisabled}
-              onClick={() => {
-                let nextDay = new Date(firstDate)
-                nextDay.setDate(nextDay.getDate() + DAYS_IN_A_ROW)
-                setFirstDate(nextDay)
-              }}
-            >
-              Next week
-            </Button>
-          </div>
-          <Table<EmployeePick>
-            size="small"
-            loading={actionsDisabled}
-            bordered
-            rowKey="id"
-            dataSource={employees}
-            columns={columns}
-            pagination={false}
-          />
-        </Tabs.TabPane>
+      <Tabs
+        animated={false}
+        type="card"
+        activeKey={currentLocation}
+        onChange={(location) => {
+          setCurrentLocation(location)
+        }}
+      >
+        {LOCATIONS.map((i) => {
+          return (
+            <Tabs.TabPane key={i.key} tab={i.title}>
+              <div
+                style={{
+                  marginBottom: 16,
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                }}
+              >
+                <div style={{ marginRight: 8 }}>
+                  {employeesQuery.data?.employees.length} employees
+                </div>
+                <Button
+                  style={{ marginRight: 8 }}
+                  disabled={actionsDisabled}
+                  onClick={() => {
+                    let nextDay = new Date(firstDate)
+                    nextDay.setDate(nextDay.getDate() - DAYS_IN_A_ROW)
+                    setFirstDate(nextDay)
+                  }}
+                >
+                  Previous week
+                </Button>
+                <Button
+                  onClick={() => {
+                    setFirstDate(today)
+                  }}
+                  disabled={actionsDisabled}
+                  type="primary"
+                  style={{ marginRight: 8 }}
+                >
+                  Today
+                </Button>
+                <Button
+                  disabled={actionsDisabled}
+                  onClick={() => {
+                    let nextDay = new Date(firstDate)
+                    nextDay.setDate(nextDay.getDate() + DAYS_IN_A_ROW)
+                    setFirstDate(nextDay)
+                  }}
+                >
+                  Next week
+                </Button>
+              </div>
+              <Table<EmployeePick>
+                size="small"
+                loading={actionsDisabled}
+                bordered
+                rowKey="id"
+                dataSource={employees}
+                columns={columns}
+                pagination={false}
+              />
+            </Tabs.TabPane>
+          )
+        })}
       </Tabs>
     </PageContent>
   )
