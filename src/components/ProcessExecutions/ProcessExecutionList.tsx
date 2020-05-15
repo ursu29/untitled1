@@ -1,6 +1,6 @@
 import React from 'react'
 import { QueryType } from '../../queries/getProcessExecutions'
-import { Table } from 'antd'
+import { Table, Tag } from 'antd'
 import { Button, Popconfirm } from 'antd'
 import PageContent from '../UI/PageContent'
 import AbortProcessExecution from './AbortProcessExecution'
@@ -74,26 +74,30 @@ function ProcessList({ items }: Props) {
           render: (_, process) => {
             return (
               <>
+                {process.status === 'cancelled' && <Tag color="volcano">Cancelled</Tag>}
+                {process.status === 'finished' && <Tag color="green">Completed</Tag>}
                 <Link to={getProcessExecutionLink(process.id)}>
                   <Button>Open</Button>
                 </Link>{' '}
-                <AbortProcessExecution id={process.id}>
-                  {(abort: any) => {
-                    return (
-                      <Popconfirm
-                        placement="top"
-                        title={'Are you sure?'}
-                        onConfirm={abort}
-                        okText="Yes"
-                        cancelText="No"
-                      >
-                        <span>
-                          <Button>Abort</Button>
-                        </span>
-                      </Popconfirm>
-                    )
-                  }}
-                </AbortProcessExecution>
+                {process.status === 'running' && (
+                  <AbortProcessExecution id={process.id}>
+                    {(abort: any) => {
+                      return (
+                        <Popconfirm
+                          placement="top"
+                          title={'Are you sure?'}
+                          onConfirm={abort}
+                          okText="Yes"
+                          cancelText="No"
+                        >
+                          <span>
+                            <Button>Abort</Button>
+                          </span>
+                        </Popconfirm>
+                      )
+                    }}
+                  </AbortProcessExecution>
+                )}
               </>
             )
           },

@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { Process, Vacancy, Project, Location } from '../types'
+import { Process, Vacancy, Project, Location, ProcessExecution } from '../types'
 
 export default gql`
   {
@@ -11,6 +11,7 @@ export default gql`
         customer
         type
       }
+      status
       vacancy {
         id
         position
@@ -33,6 +34,7 @@ type ProcessExecutionPick = {
   vacancy: Pick<Vacancy, 'id' | 'position'>
   project: Pick<Project, 'id' | 'name'>
   locations: Pick<Location, 'id' | 'name'>[]
+  status: ProcessExecution['status']
 }
 
 export type QueryType = {

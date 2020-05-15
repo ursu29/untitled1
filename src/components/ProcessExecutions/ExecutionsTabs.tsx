@@ -12,26 +12,45 @@ function ActiveProcesses({ processExecutions }: Props) {
     {
       title: 'All',
       key: 'all',
-      body: <ProcessList items={processExecutions} />,
+      body: <ProcessList items={processExecutions.filter((i) => i.status === 'running')} />,
     },
     {
       title: 'Onboarding',
       key: 'onboarding',
       body: (
-        <ProcessList items={processExecutions.filter((i) => i.process.type === 'onboarding')} />
+        <ProcessList
+          items={processExecutions.filter(
+            (i) => i.status === 'running' && i.process.type === 'onboarding',
+          )}
+        />
       ),
     },
     {
       title: 'Offboarding',
       key: 'offboarding',
       body: (
-        <ProcessList items={processExecutions.filter((i) => i.process.type === 'offboarding')} />
+        <ProcessList
+          items={processExecutions.filter(
+            (i) => i.status === 'running' && i.process.type === 'offboarding',
+          )}
+        />
       ),
     },
     {
       title: 'Rotation',
       key: 'rotation',
-      body: <ProcessList items={processExecutions.filter((i) => i.process.type === 'rotation')} />,
+      body: (
+        <ProcessList
+          items={processExecutions.filter(
+            (i) => i.status === 'running' && i.process.type === 'rotation',
+          )}
+        />
+      ),
+    },
+    {
+      title: 'Archived',
+      key: 'archived',
+      body: <ProcessList items={processExecutions.filter((i) => i.status !== 'running')} />,
     },
   ]
 

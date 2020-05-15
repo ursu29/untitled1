@@ -41,7 +41,7 @@ export default function CreateBookmark({ refetchQueries = [] }: Props) {
   return (
     <>
       <Drawer
-        toggler={<Button icon="plus">Create new process</Button>}
+        toggler={<Button>Create new process</Button>}
         drawerLabel="Create process"
         content={
           <ProcessForm
