@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@apollo/react-hooks'
 import { Button, Input, Switch, Table, Tabs, Typography } from 'antd'
 import dayjs from 'dayjs'
 import gql from 'graphql-tag'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import message from '../../message'
 import { Access, Employee, OfficeDay } from '../../types'
 import PageContent from '../UI/PageContent'
@@ -15,6 +15,7 @@ const query = gql`
       id
       name
       email
+      location
       isMe
       worksFromOffice
     }
@@ -50,7 +51,10 @@ const updateOfficeDayMutation = gql`
   }
 `
 
-type EmployeePick = Pick<Employee, 'id' | 'name' | 'email' | 'isMe' | 'worksFromOffice'>
+type EmployeePick = Pick<
+  Employee,
+  'id' | 'name' | 'email' | 'location' | 'isMe' | 'worksFromOffice'
+>
 type OfficeDayPick = Pick<OfficeDay, 'id' | 'date' | 'employeeLimit' | 'employeeCount'>
 
 const LOCATIONS = [
@@ -102,8 +106,6 @@ function OfficePlannerPage() {
     onError: message.error,
   })
 
-  if (employeesQuery.error) return <div>Something happened. Please contact portal manager</div>
-
   const editable = employeesQuery.data?.officeAccess.write
 
   const dates = Array.from({ length: DAYS_IN_A_ROW }).map((i, index) => {
@@ -111,21 +113,30 @@ function OfficePlannerPage() {
     nextDay.setDate(nextDay.getDate() + index)
     return nextDay
   })
-
   const datesFormatted = dates.map((i) => dayjs(i).format('YYYY-MM-DD'))
 
-  //sort me first
-
   const allEmployees = employeesQuery.data?.employees || []
-  const employees = allEmployees
-    ? employeesQuery.data?.employees
-        .filter((i) => i.isMe)
-        .concat(
-          employeesQuery.data.employees
-            .filter((i) => !i.isMe)
-            .filter((i) => i.worksFromOffice.some((day) => datesFormatted.includes(day))),
-        )
-    : []
+  const me = allEmployees.find((i) => i.isMe)
+
+  //sort me first
+  const employees = (me ? [me] : []).concat(
+    allEmployees
+      .filter((i) => !i.isMe)
+      .filter((i) => i.worksFromOffice.some((day) => datesFormatted.includes(day))),
+  )
+
+  useEffect(() => {
+    if (me) {
+      if (me.location === 'Tomsk') {
+        setCurrentLocation('TOMSK')
+      }
+      if (me.location === 'Zurich') {
+        setCurrentLocation('ZURICH')
+      }
+    }
+  }, [me])
+
+  if (employeesQuery.error) return <div>Something happened. Please contact portal manager</div>
 
   const columns = [
     {
