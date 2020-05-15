@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu, Icon } from 'antd'
+import { Menu, Icon, Tag } from 'antd'
 import { Link } from 'react-router-dom'
 import paths from '../../paths'
 import { useQuery } from '@apollo/react-hooks'
@@ -98,11 +98,13 @@ function PortalMenu(props: Props) {
       route: paths.OFFICE_PLANNER,
       icon: <Icon type="import" />,
       title: 'Office planner',
+      isNew: true,
     },
     {
       route: paths.VACANCIES,
       icon: <Icon type="idcard" />,
       title: 'Vacancies',
+      isNew: true,
     },
     data?.processesAccess.read
       ? {
@@ -137,6 +139,11 @@ function PortalMenu(props: Props) {
                 <Link to={item.route} key={item.route}>
                   {item.icon}
                   <span>{item.title}</span>
+                  {item.isNew && (
+                    <Tag color="red" style={{ marginLeft: 8 }}>
+                      New
+                    </Tag>
+                  )}
                 </Link>
               </Menu.Item>
             )
