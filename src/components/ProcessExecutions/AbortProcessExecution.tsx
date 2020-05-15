@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 import { PropsWithChildren, useEffect } from 'react'
 import message from '../../message'
 import getProcessExecutions from '../../queries/getProcessExecutions'
+import getVacancies from '../../queries/getVacancies'
 
 const mutation = gql`
   mutation abortProcessExecution($input: AbortProcessExecutionInput!) {
@@ -15,7 +16,7 @@ const mutation = gql`
 function AbortProcessExecution({ id, children }: { id: string } & PropsWithChildren<any>) {
   const [abort, args] = useMutation(mutation, {
     variables: { input: { id } },
-    refetchQueries: [{ query: getProcessExecutions }],
+    refetchQueries: [{ query: getProcessExecutions }, { query: getVacancies }],
     onCompleted: () => {
       message.success('Process is aborted')
     },
