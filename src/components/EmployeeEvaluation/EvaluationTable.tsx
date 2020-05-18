@@ -71,17 +71,17 @@ export default function EvaluationTable({
   if (!evaluationAttributes?.length) return <div>Attributes are not found</div>
 
   const tree = parent
-    .map(i => {
+    .map((i) => {
       const attributes = (evaluationAttributes || [])
-        .filter(attribute => attribute.group === i.key)
-        .map(i => ({ ...i, key: i.id }))
+        .filter((attribute) => attribute.group === i.key)
+        .map((i) => ({ ...i, key: i.id }))
         .sort((a, b) => a.index - b.index)
       return {
         ...i,
         children: attributes.length ? attributes : null,
       }
     })
-    .filter(i => i.children)
+    .filter((i) => i.children)
 
   const showBaseColumns = editable || employee.isMe
 
@@ -93,7 +93,7 @@ export default function EvaluationTable({
       render: (text: any, item: any) => {
         if (item.children) return <strong>{item.title}</strong>
 
-        const filtered = evaluations?.filter(i => i.evaluationAttribute.id === item.id) || []
+        const filtered = evaluations?.filter((i) => i.evaluationAttribute.id === item.id) || []
 
         let showMark = false
 
@@ -104,16 +104,16 @@ export default function EvaluationTable({
 
         if (filtered.length < 2) {
           showMark = true
-          if (filtered.every(i => i.evaluation === 0)) {
+          if (filtered.every((i) => i.evaluation === 0)) {
             showMark = false
           }
         } else {
-          if (filtered.some(i => i.evaluation !== filtered[0].evaluation)) {
+          if (filtered.some((i) => i.evaluation !== filtered[0].evaluation)) {
             showMark = true
           }
         }
 
-        const comment = comments?.find(i => {
+        const comment = comments?.find((i) => {
           return i.evaluationAttribute?.id === item.id
         })
 
@@ -138,8 +138,8 @@ export default function EvaluationTable({
                 placeholder="Comment"
                 rows={3}
                 defaultValue={comment?.body}
-                disabled={employee.isMe}
-                onChange={e => {
+                disabled={employee.isMe || !editable}
+                onChange={(e) => {
                   onComment({
                     evaluationAttribute: item.key,
                     body: e.target.value,
@@ -161,14 +161,14 @@ export default function EvaluationTable({
       width: 120,
       render: (text: any, item: any) => {
         if (item.children) return null
-        const evaluation = evaluations?.find(i => {
+        const evaluation = evaluations?.find((i) => {
           return i.evaluationAttribute.id === item.id && i.fromWho.id === employee.id
         })
         return (
           <div style={{ whiteSpace: 'nowrap' }}>
             <Rate
               disabled={!employee.isMe}
-              onChange={value => {
+              onChange={(value) => {
                 onEvaluate({
                   toWhom: employee.id,
                   evaluation: value,
@@ -194,14 +194,14 @@ export default function EvaluationTable({
         width: 120,
         render: (text: any, item: any) => {
           if (item.children) return null
-          const evaluation = evaluations?.find(i => {
+          const evaluation = evaluations?.find((i) => {
             return i.evaluationAttribute.id === item.id && i.fromWho.id === employee.manager?.id
           })
           return (
             <div style={{ whiteSpace: 'nowrap' }}>
               <Rate
                 disabled={!employee.manager?.isMe}
-                onChange={value => {
+                onChange={(value) => {
                   onEvaluate({
                     toWhom: employee.id,
                     evaluation: value,
@@ -219,21 +219,21 @@ export default function EvaluationTable({
   }
 
   columns = columns.concat(
-    reviewers?.map(reviewer => {
+    reviewers?.map((reviewer) => {
       return {
         title: editable ? <DeleteEmployeeReviewer reviewer={reviewer} /> : reviewer.fromWho.name,
         align: 'center',
         width: 120,
         render: (text: any, item: any) => {
           if (item.children) return null
-          const evaluation = evaluations?.find(i => {
+          const evaluation = evaluations?.find((i) => {
             return i.evaluationAttribute.id === item.id && i.fromWho.id === reviewer.fromWho.id
           })
           return (
             <div style={{ whiteSpace: 'nowrap' }}>
               <Rate
                 disabled={!reviewer.fromWho.isMe}
-                onChange={value => {
+                onChange={(value) => {
                   onEvaluate({
                     toWhom: employee.id,
                     evaluation: value,
@@ -250,7 +250,7 @@ export default function EvaluationTable({
     }),
   )
 
-  const comment = comments?.find(i => !i.evaluationAttribute)
+  const comment = comments?.find((i) => !i.evaluationAttribute)
 
   return (
     <div>
@@ -268,8 +268,8 @@ export default function EvaluationTable({
         placeholder="Overall comment"
         defaultValue={comment?.body}
         rows={4}
-        disabled={employee.isMe}
-        onChange={e => {
+        disabled={employee.isMe || !editable}
+        onChange={(e) => {
           onComment({
             body: e.target.value,
           })
