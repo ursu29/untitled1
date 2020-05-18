@@ -28,7 +28,10 @@ export default function ProcessStep({ step }: { step: Partial<ProcessStepType> }
   const [update, { loading }] = useMutation(updateProcessStep, {
     refetchQueries: [{ query: getProcesses, variables: { input: { id: step?.process?.id } } }],
     awaitRefetchQueries: true,
-    onCompleted: () => message.success('Step is added'),
+    onCompleted: () => {
+      message.success('Step is updated')
+      setCollapsed(true)
+    },
     onError: message.error,
   })
 
@@ -42,7 +45,7 @@ export default function ProcessStep({ step }: { step: Partial<ProcessStepType> }
 
   useEffect(() => {
     if (loading) {
-      message.loading('Adding new step')
+      message.loading('Updating step')
     }
     if (removeLoading) {
       message.loading('Removing step')

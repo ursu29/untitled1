@@ -58,6 +58,7 @@ function ProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                       }
                       return true
                     })}
+                    loading={loading}
                     onCreate={(values: any) => {
                       create({ variables: { input: { ...values, process: process.id } } })
                     }}

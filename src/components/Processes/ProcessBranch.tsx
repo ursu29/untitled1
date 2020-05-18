@@ -8,21 +8,23 @@ export default function Branch({
   steps,
   parent,
   isLast,
+  loading,
   onCreate,
 }: {
   steps?: QueryType['processes'][0]['steps']
   parent?: string
   isLast?: boolean
+  loading?: boolean
   onCreate: (value: any) => void
 }) {
   if (!steps?.length) return null
   const firstStep = parent
-    ? steps.find(i => i.id === parent)
-    : steps.find(i => !i.parentSteps.length)
+    ? steps.find((i) => i.id === parent)
+    : steps.find((i) => !i.parentSteps.length)
 
   if (!firstStep) return null
 
-  const nextSteps = steps.filter(i => i.parentSteps?.find(i => i.id === firstStep.id))
+  const nextSteps = steps.filter((i) => i.parentSteps?.find((i) => i.id === firstStep.id))
 
   const hasNextSteps = Boolean(nextSteps.length)
 
@@ -46,6 +48,7 @@ export default function Branch({
             <Button
               size="small"
               type="dashed"
+              loading={loading}
               style={{
                 position: 'absolute',
                 left: 'calc(100% + 8px)',
@@ -84,6 +87,7 @@ export default function Branch({
           <Button
             size="small"
             type="dashed"
+            loading={loading}
             style={{
               position: 'absolute',
               top: 'calc(100% + 8px)',

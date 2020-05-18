@@ -139,7 +139,7 @@ function PortalMenu(props: Props) {
                 <Link to={item.route} key={item.route}>
                   {item.icon}
                   <span>{item.title}</span>
-                  {item.isNew && (
+                  {item.isNew && isLarge && (
                     <Tag color="red" style={{ marginLeft: 8 }}>
                       New
                     </Tag>
