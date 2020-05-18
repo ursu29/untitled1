@@ -39,7 +39,7 @@ function ActiveStepCard({ title, description, status, employees, children }: Pro
       }
       extra={extra}
       style={{ opacity: status === 'pending' ? 0.6 : 1 }}
-      headStyle={{ borderBottom: 0, fontWeight: 'normal' }}
+      headStyle={{ borderBottom: 0, fontWeight: 'normal', whiteSpace: 'normal' }}
       bodyStyle={!Boolean(children) ? { padding: 0 } : undefined}
     >
       <div>{description}</div>

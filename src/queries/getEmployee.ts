@@ -12,7 +12,7 @@ export default gql`
 `
 
 export type QueryType = {
-  employee: EmployeeDetails & {
+  employeeByEmail: EmployeeDetails & {
     avatar: string
   }
 }

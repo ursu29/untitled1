@@ -17,7 +17,7 @@ export default function EmployeeCard(props: Props) {
     skip: Boolean(props.employee),
   })
 
-  const employee = props.employee || data?.employee
+  const employee = props.employee || data?.employeeByEmail
 
   return (
     <div style={{ marginBottom: 8 }}>

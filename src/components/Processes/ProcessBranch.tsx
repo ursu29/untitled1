@@ -1,7 +1,7 @@
 import { Button, Icon } from 'antd'
 import React from 'react'
 import { QueryType } from '../../queries/getProcesses'
-import { ColumnWrapper, RowWrapper } from './ProcessPage.styles'
+import { ColumnWrapper, RowWrapper, ProcessStepWrapper } from './ProcessPage.styles'
 import ProcessStep from './ProcessStep'
 
 export default function Branch({
@@ -34,16 +34,20 @@ export default function Branch({
         style={{
           marginBottom: 50,
         }}
+        hasNextSteps={hasNextSteps}
+        editable={true}
       >
         <div
           style={{
-            width: 360,
+            width: 320,
             position: 'relative',
             backgroundColor: 'white',
             zIndex: 10,
           }}
         >
-          <ProcessStep step={firstStep} />
+          <ProcessStepWrapper hasNextSteps={hasNextSteps}>
+            <ProcessStep step={firstStep} />
+          </ProcessStepWrapper>
           {isLast && (
             <Button
               size="small"
@@ -67,7 +71,7 @@ export default function Branch({
         </div>
         {hasNextSteps && (
           <>
-            <RowWrapper>
+            <RowWrapper hasSeveralSteps={nextSteps.length > 1}>
               {nextSteps.map((i, index) => {
                 const isLast = nextSteps.length - 1 === index
                 return (

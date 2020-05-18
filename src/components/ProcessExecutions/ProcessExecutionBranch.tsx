@@ -1,7 +1,7 @@
 import React from 'react'
 import { QueryType } from '../../queries/getProcesses'
 import { QueryType as ExecutionQueryType } from '../../queries/getProcessExecution'
-import { ColumnWrapper, RowWrapper } from '../Processes/ProcessPage.styles'
+import { ColumnWrapper, RowWrapper, ProcessStepWrapper } from '../Processes/ProcessPage.styles'
 import ActiveStepCard from './ExecutionStepCard'
 import Controls from '../UI/Controls'
 import { Button, Input, Form } from 'antd'
@@ -61,48 +61,50 @@ export default function Branch({
 
   return (
     <>
-      <ColumnWrapper>
+      <ColumnWrapper editable={false}>
         <div
           style={{
-            width: 360,
+            width: 340,
             position: 'relative',
             backgroundColor: 'white',
             zIndex: 10,
           }}
         >
-          <ActiveStepCard
-            title={step.title}
-            description={step.description}
-            status={status}
-            employees={step.responsibleUsers}
-          >
-            {step.hasComment && (
-              <Form.Item>
-                <Input.TextArea
-                  defaultValue={executionStep?.description}
-                  placeholder="Comment"
-                  autoSize
-                  disabled={!active}
-                  onChange={(e) => onComment?.(step.id, e.target.value)}
-                />
-              </Form.Item>
-            )}
-            {status === 'active' && step.type === 'approve' && (
-              <Controls>
-                <Button
-                  type="primary"
-                  disabled={!step.responsibleUsers?.find((i) => i.isMe)}
-                  onClick={() => onComplete(step)}
-                >
-                  Complete
-                </Button>
-              </Controls>
-            )}
-          </ActiveStepCard>
+          <ProcessStepWrapper hasNextSteps={hasNextSteps}>
+            <ActiveStepCard
+              title={step.title}
+              description={step.description}
+              status={status}
+              employees={step.responsibleUsers}
+            >
+              {step.hasComment && (
+                <Form.Item>
+                  <Input.TextArea
+                    defaultValue={executionStep?.description}
+                    placeholder="Comment"
+                    autoSize
+                    disabled={!active}
+                    onChange={(e) => onComment?.(step.id, e.target.value)}
+                  />
+                </Form.Item>
+              )}
+              {status === 'active' && step.type === 'approve' && (
+                <Controls>
+                  <Button
+                    type="primary"
+                    disabled={!step.responsibleUsers?.find((i) => i.isMe)}
+                    onClick={() => onComplete(step)}
+                  >
+                    Complete
+                  </Button>
+                </Controls>
+              )}
+            </ActiveStepCard>
+          </ProcessStepWrapper>
         </div>
         {hasNextSteps && (
           <>
-            <RowWrapper>
+            <RowWrapper hasSeveralSteps={nextSteps.length > 1}>
               {nextSteps.map((i) => (
                 <Branch
                   active={active}

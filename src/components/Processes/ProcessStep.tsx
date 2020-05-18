@@ -60,7 +60,7 @@ export default function ProcessStep({ step }: { step: Partial<ProcessStepType> }
           <Button size="small" type="default" onClick={() => setCollapsed(!collapsed)}>
             <Icon type={collapsed ? 'caret-down' : 'caret-up'} />
           </Button>
-          <div style={{ paddingLeft: 16 }}>{step.title || 'Untitled'}</div>
+          <div style={{ paddingLeft: 8 }}>{step.title || 'Untitled'}</div>
         </div>
       }
       extra={
