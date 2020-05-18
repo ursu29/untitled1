@@ -61,6 +61,7 @@ function PortalMenu(props: Props) {
       route: paths.STATISTICS,
       icon: <Icon type="line-chart" />,
       title: 'Statistics',
+      status: 'updated',
     },
     {
       route: paths.BOOKMARKS,
@@ -98,19 +99,20 @@ function PortalMenu(props: Props) {
       route: paths.OFFICE_PLANNER,
       icon: <Icon type="import" />,
       title: 'Office planner',
-      isNew: true,
+      status: 'new',
     },
     {
       route: paths.VACANCIES,
       icon: <Icon type="idcard" />,
       title: 'Vacancies',
-      isNew: true,
+      status: 'new',
     },
     data?.processesAccess.read
       ? {
           route: paths.HR,
           icon: <Icon type="user-add" />,
           title: 'HR Tool',
+          status: 'new',
         }
       : null,
     data?.processesAccess.read
@@ -118,6 +120,7 @@ function PortalMenu(props: Props) {
           route: paths.PROCESSES,
           icon: <Icon type="branches" />,
           title: 'Processes',
+          status: 'new',
         }
       : null,
   ]
@@ -139,9 +142,22 @@ function PortalMenu(props: Props) {
                 <Link to={item.route} key={item.route}>
                   {item.icon}
                   <span>{item.title}</span>
-                  {item.isNew && isLarge && (
-                    <Tag color="red" style={{ marginLeft: 8 }}>
-                      New
+                  {item.status && isLarge && (
+                    <Tag
+                      style={{
+                        fontSize: 11,
+                        marginLeft: 8,
+                        padding: '0 4px',
+                        textTransform: 'uppercase',
+                        lineHeight: 1.5,
+                      }}
+                      color={(() => {
+                        if (item.status === 'updated') return 'green'
+                        if (item.status === 'new') return 'volcano'
+                      })()}
+                    >
+                      {item.status === 'new' && 'New'}
+                      {item.status === 'updated' && 'Updated'}
                     </Tag>
                   )}
                 </Link>
