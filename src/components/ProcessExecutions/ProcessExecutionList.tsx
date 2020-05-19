@@ -77,7 +77,13 @@ function ProcessList({ items }: Props) {
                 {process.status === 'cancelled' && <Tag color="volcano">Cancelled</Tag>}
                 {process.status === 'finished' && <Tag color="green">Completed</Tag>}
                 <Link to={getProcessExecutionLink(process.id)}>
-                  <Button>Open</Button>
+                  <Button
+                    onClick={() => {
+                      window.scrollTo(0, 0)
+                    }}
+                  >
+                    Open
+                  </Button>
                 </Link>{' '}
                 {process.status === 'running' && (
                   <AbortProcessExecution id={process.id}>
