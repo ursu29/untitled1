@@ -5,6 +5,7 @@ import { COLLAPSE_WIDTH } from '../../config'
 import { useMediaQuery } from 'react-responsive'
 import { getEmployeeLink } from '../../paths'
 import { Employee } from '../../types'
+import EmployeeAvatar from './EmployeeAvatar'
 
 type EmployeePick = Pick<
   Employee,
@@ -14,11 +15,10 @@ type EmployeePick = Pick<
 interface Props {
   employees?: EmployeePick[]
   loading: boolean
-  Avatar: any
   fixed?: boolean
 }
 
-export default function EmployeesList({ employees, loading, Avatar, fixed }: Props) {
+export default function EmployeesList({ employees, loading, fixed }: Props) {
   const [filter, setFilter] = useState('')
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   let columns: any = [
@@ -27,7 +27,9 @@ export default function EmployeesList({ employees, loading, Avatar, fixed }: Pro
       key: 'avatar',
       className: 'avatar-cell',
       width: 70,
-      render: (employee: Employee) => <Avatar id={employee.id} alt={employee.name} />,
+      render: (employee: Employee) => (
+        <EmployeeAvatar email={employee.email} size={60} loadImmediatelly={false} />
+      ),
     },
     {
       title: 'Name',

@@ -3,7 +3,6 @@ import { useQuery } from '@apollo/react-hooks'
 import { Project } from '../../types'
 import getProjectEmployees, { QueryType } from '../../queries/getProjectEmployees'
 import EmployeesList from '../Employees/EmployeesList'
-import EmployeeAvatar from '../Employees/EmployeeAvatar'
 import message from '../../message'
 
 interface Props {
@@ -15,11 +14,5 @@ export default function ProjectEmployees({ project }: Props) {
     variables: { input: { id: project.id } },
     onError: message.error,
   })
-  return (
-    <EmployeesList
-      loading={loading}
-      employees={data?.projects?.[0].employees}
-      Avatar={EmployeeAvatar}
-    />
-  )
+  return <EmployeesList loading={loading} employees={data?.projects?.[0].employees} />
 }

@@ -1,11 +1,12 @@
+import { Card, Icon } from 'antd'
 import React, { PropsWithChildren, ReactNode } from 'react'
-import { Card, Avatar, Tooltip, Icon } from 'antd'
 import { Employee } from '../../types'
+import EmployeeAvatar from '../Employees/EmployeeAvatar'
 
 interface Props extends PropsWithChildren<any> {
   title: string
   status: 'pending' | 'active' | 'done'
-  employees: Pick<Employee, 'id' | 'name' | 'email' | 'avatar'>[] | null
+  employees: Pick<Employee, 'id' | 'name' | 'email'>[] | null
 }
 
 const statuses: Record<string, ReactNode> = {
@@ -20,9 +21,7 @@ function ActiveStepCard({ title, description, status, employees, children }: Pro
     <div>
       {employees?.map((i) => {
         return (
-          <Tooltip key={i.id} placement="top" title={i.name}>
-            <Avatar src={i.avatar} shape="circle" size="small" />
-          </Tooltip>
+          <EmployeeAvatar key={i.id} email={i.email} size="small" showTooltip loadImmediatelly />
         )
       })}
     </div>
