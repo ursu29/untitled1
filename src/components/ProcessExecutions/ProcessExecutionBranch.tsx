@@ -4,7 +4,7 @@ import { QueryType as ExecutionQueryType } from '../../queries/getProcessExecuti
 import { ColumnWrapper, RowWrapper, ProcessStepWrapper } from '../Processes/ProcessPage.styles'
 import ActiveStepCard from './ExecutionStepCard'
 import Controls from '../UI/Controls'
-import { Button, Input, Form } from 'antd'
+import { Button, Input, Form, Tag, Tooltip } from 'antd'
 
 type Step = QueryType['processes'][0]['steps'][0]
 
@@ -77,6 +77,13 @@ export default function Branch({
               status={status}
               employees={step.responsibleUsers}
             >
+              {step.type === 'notify' && (
+                <div>
+                  <Tooltip placement="bottom" title="Step will be completed in background">
+                    <Tag color="blue">Automatic</Tag>
+                  </Tooltip>
+                </div>
+              )}
               {step.hasComment && (
                 <Form.Item>
                   <Input.TextArea

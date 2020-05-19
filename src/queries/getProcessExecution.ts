@@ -1,13 +1,15 @@
 import gql from 'graphql-tag'
 import fragments, { EmployeeDetails, ProcessStepDetails } from '../fragments'
-import { Process, ProcessExecutionStep, ProcessStep, Vacancy } from '../types'
+import { Process, ProcessExecutionStep, ProcessStep, Vacancy, ProcessExecution } from '../types'
 
 export default gql`
   query getProcessExecutions($input: ProcessExecutionsInput) {
     processExecutions(input: $input) {
       id
+      status
       process {
         id
+        title
         type
         steps {
           ...ProcessStepDetails
@@ -40,7 +42,8 @@ export default gql`
 
 type ProcessExecutionPick = {
   id: string
-  process: Pick<Process, 'id' | 'type'> & {
+  status: ProcessExecution['status']
+  process: Pick<Process, 'id' | 'type' | 'title'> & {
     steps: ProcessStepDetails[]
   }
   vacancy: Pick<Vacancy, 'id' | 'isPublished' | 'editable'> & {

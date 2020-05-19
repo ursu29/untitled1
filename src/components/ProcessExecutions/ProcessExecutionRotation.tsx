@@ -62,14 +62,16 @@ function ProcessExecutionRotation({ history, processExecution }: Props & RouteCo
           return (
             <div key={i.id} style={{ minWidth: 300, marginRight: 16 }}>
               <EmployeeCard email={i.email} />
-              <Button
-                onClick={() => {
-                  setEmployee(i.id)
-                  setShowDrawer(true)
-                }}
-              >
-                Apply
-              </Button>
+              {processExecution.status === 'running' && (
+                <Button
+                  onClick={() => {
+                    setEmployee(i.id)
+                    setShowDrawer(true)
+                  }}
+                >
+                  Apply
+                </Button>
+              )}
             </div>
           )
         })}

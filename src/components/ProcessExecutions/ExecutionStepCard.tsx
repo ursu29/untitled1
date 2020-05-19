@@ -31,14 +31,14 @@ function ActiveStepCard({ title, description, status, employees, children }: Pro
     <Card
       size="small"
       title={
-        <div style={{ display: 'flex', alignItems: 'center', padding: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'top', padding: 0, whiteSpace: 'normal' }}>
           <span>{statuses[status]}</span>
           {title}
         </div>
       }
       extra={extra}
-      style={{ opacity: status === 'pending' ? 0.6 : 1 }}
-      headStyle={{ borderBottom: 0, fontWeight: 'normal', whiteSpace: 'normal' }}
+      style={{ opacity: status === 'pending' ? 0.7 : 1 }}
+      headStyle={{ borderBottom: 0, fontWeight: 'normal' }}
       bodyStyle={!Boolean(children) ? { padding: 0 } : undefined}
     >
       <div>{description}</div>

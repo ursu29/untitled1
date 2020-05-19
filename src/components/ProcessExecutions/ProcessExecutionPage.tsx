@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
-import { Divider } from 'antd'
+import { Divider, Typography, Tag } from 'antd'
 import gql from 'graphql-tag'
 import React, { useEffect } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
@@ -86,6 +86,12 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
       {processExecution.process.type === 'onboarding' && (
         <>
           <PageContent noBottom>
+            <Typography.Title style={{ display: 'flex', alignItems: 'center' }}>
+              <span style={{ marginRight: 8 }}>{processExecution.process.title}</span>
+              {processExecution.status === 'cancelled' && <Tag color="volcano">Cancelled</Tag>}
+              {processExecution.status === 'finished' && <Tag color="green">Completed</Tag>}
+            </Typography.Title>
+
             <ProcessExecutionRotation processExecution={processExecution} />
             <ActiveStepCard
               title="Open Vacancy"
