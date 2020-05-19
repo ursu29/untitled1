@@ -9,6 +9,8 @@ import DevelopmentPlanForm from './DevelopmentPlanForm'
 import ExportDevelopmentPlan from './ExportDevelopmentPlan'
 import Skeleton from '../UI/Skeleton'
 import Controls from '../UI/Controls'
+import { Typography } from 'antd'
+import dayjs from 'dayjs'
 
 const mutation = gql`
   mutation updateDevelopmentPlan($input: UpdateDevelopmentPlanInput) {
@@ -45,13 +47,22 @@ export default function EmployeeDevelopmentPlan(props: Props) {
     }
   })
 
+  console.log(plan?.updatedAt)
   return (
     <div>
       <Skeleton active loading={loading}>
         {!plan && <div>Plan is not found</div>}
         {plan && (
           <>
-            <Controls>
+            <Controls
+              back={
+                plan?.updatedAt ? (
+                  <Typography.Text disabled>
+                    Last updated: {dayjs(plan.updatedAt).format('DD MMM YYYY HH:m')}
+                  </Typography.Text>
+                ) : null
+              }
+            >
               <ExportDevelopmentPlan employee={props.employee!} plan={plan} />
             </Controls>
             <DevelopmentPlanForm
