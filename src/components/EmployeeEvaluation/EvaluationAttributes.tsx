@@ -15,6 +15,8 @@ import DeleteEmployeeReviewer from './DeleteEmployeeReviewer'
 import EmployeeEvaluationReviewers from './EmployeeEvaluationReviewers'
 import EvaluationTable from './EvaluationTable'
 import ExportEvaluations from './ExportEvaluations'
+import dayjs from 'dayjs'
+import { Typography } from 'antd'
 
 const evaluateMutation = gql`
   mutation evaluate($input: EvaluateInput!) {
@@ -80,6 +82,14 @@ function EvaluationAttributes({ evaluations, editable, comments, employee, ...pr
     }
   }, [evaluateLoading, commentLoading])
 
+  let updatedAt: any = null
+
+  evaluations?.forEach((i) => {
+    if (!updatedAt || dayjs(i.updatedAt).isAfter(dayjs(updatedAt))) {
+      updatedAt = i.updatedAt
+    }
+  })
+
   return (
     <Skeleton active loading={props.loading || loading}>
       <EmployeeEvaluationReviewers employee={employee}>
@@ -87,7 +97,15 @@ function EvaluationAttributes({ evaluations, editable, comments, employee, ...pr
           return (
             <>
               {(editable || employee.isMe) && (
-                <Controls>
+                <Controls
+                  back={
+                    updatedAt ? (
+                      <Typography.Text disabled>
+                        Last updated: {dayjs(updatedAt).format('DD MMM YYYY HH:m')}
+                      </Typography.Text>
+                    ) : null
+                  }
+                >
                   {editable && <AddEvaluationReviewer employee={employee} />}
                   <Divider type="vertical" style={{ visibility: 'hidden' }} />
                   {(editable || employee.isMe) && (

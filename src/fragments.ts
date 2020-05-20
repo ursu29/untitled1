@@ -40,6 +40,7 @@ const fragments = {
           description
           isMatrixOnly
         }
+        updatedAt
       }
     `,
   },
@@ -110,7 +111,7 @@ export type EmployeeDetails = Pick<
   'id' | 'name' | 'location' | 'country' | 'position' | 'phoneNumber' | 'email'
 >
 
-export type ExperienceDetails = Pick<Experience, 'id'> & {
+export type ExperienceDetails = Pick<Experience, 'id' | 'updatedAt'> & {
   level: Pick<Level, 'id' | 'index' | 'name'>
   skill: Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'>
 }

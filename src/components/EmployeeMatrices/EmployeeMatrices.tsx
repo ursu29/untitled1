@@ -3,10 +3,9 @@ import React from 'react'
 import getEmployeeMatrices, { QueryType } from '../../queries/getEmployeeMatrices'
 import { Employee } from '../../types'
 import Controls from '../UI/Controls'
-import EmployeeMatricesList from './EmployeeMatricesList'
 import AttachMatrix from './AttachMatrix'
-import DetachMatrix from './DetachMatrix'
-import EmployeeMatrix from './EmployeeMatrix'
+import EmployeeMatricesList from './EmployeeMatricesList'
+import EmployeeMatriceUpdateDate from './EmployeeMatricesUpdateDate'
 import ExportMatrices from './ExportMatrices'
 
 interface Props {
@@ -23,17 +22,11 @@ export default function EmployeeMatrices(props: Props) {
 
   return (
     <>
-      <Controls>
+      <Controls back={<EmployeeMatriceUpdateDate employee={employee} />}>
         <AttachMatrix employee={employee} />
         <ExportMatrices matrices={employee?.matrices} employee={employee} />
       </Controls>
-      <EmployeeMatricesList
-        loading={loading}
-        matrices={employee?.matrices}
-        employee={employee}
-        EmployeeMatrix={EmployeeMatrix}
-        DetachMatrix={DetachMatrix}
-      />
+      <EmployeeMatricesList loading={loading} matrices={employee?.matrices} employee={employee} />
     </>
   )
 }

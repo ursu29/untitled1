@@ -8,6 +8,7 @@ export default gql`
   ) {
     evaluations(input: $evaluationsInput) {
       id
+      updatedAt
       fromWho {
         id
         name

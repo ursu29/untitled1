@@ -30,7 +30,7 @@ export default function MatrixWithExperiences({
         ))}
       </MatrixRow>
       {groups.map((group) => (
-        <>
+        <div key={group.id}>
           <Divider type="horizontal" />
           <MatrixRow key={group.title}>
             <MatrixGroup>
@@ -54,7 +54,7 @@ export default function MatrixWithExperiences({
               return <MatrixGrade key={grade.title}>{content.length ? content : '-'}</MatrixGrade>
             })}
           </MatrixRow>
-        </>
+        </div>
       ))}
     </div>
   )

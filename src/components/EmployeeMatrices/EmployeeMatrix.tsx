@@ -6,18 +6,14 @@ import EmployeeSkillExperience from '../Employees/EmployeeMatrixExperience'
 import Controls from '../UI/Controls'
 import MatrixWithExperiences from '../Matrices/MatrixWithExperiences'
 import Skeleton from '../UI/Skeleton'
+import DetachMatrix from './DetachMatrix'
 
 interface Props {
   matrix: Matrix
   employee: Pick<Employee, 'id'>
-  DetachMatrix: React.FC<{
-    employee?: Pick<Employee, 'id'>
-    matrix: Pick<Matrix, 'id'>
-  }>
-  ExportMatrixToExcel: any
 }
 
-export default function EmployeeMatrix({ employee, matrix, DetachMatrix }: Props) {
+export default function EmployeeMatrix({ employee, matrix }: Props) {
   const { data, loading } = useQuery<QueryType>(getEmployeeExperiences, {
     variables: { input: { id: employee.id } },
   })

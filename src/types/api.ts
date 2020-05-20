@@ -135,6 +135,7 @@ export interface Experience {
   skill: Skill
   employee: Employee
   level: Level
+  updatedAt: string
 }
 
 export interface Level {
@@ -215,6 +216,7 @@ export interface Evaluation {
   id: string
   fromWho: Employee
   toWhom: Employee
+  updatedAt: string
   evaluation: number
   evaluationAttribute: EvaluationAttribute
 }
