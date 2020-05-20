@@ -108,6 +108,16 @@ function EmployeeTabs({ match, ...props }: Props) {
       body: <EmployeeDevelopmentPlan employee={employee} />,
     })
   }
+
+  if (evaluationReviewersAccess?.read) {
+    tabs.push({
+      title: 'Self Evaluation Form',
+      key: 'evaluation',
+      icon: 'star',
+      noPadding: false,
+      body: <EmployeeEvaluation employee={employee} editable={evaluationReviewersAccess?.write} />,
+    })
+  }
   if (curriculumVitaeAccess?.read) {
     tabs.push({
       title: (
@@ -137,15 +147,6 @@ function EmployeeTabs({ match, ...props }: Props) {
           employee={{ id: employee?.id || '', email: employee?.email || '' }}
         />
       ),
-    })
-  }
-  if (evaluationReviewersAccess?.read) {
-    tabs.push({
-      title: 'Self Evaluation Form',
-      key: 'evaluation',
-      icon: 'star',
-      noPadding: false,
-      body: <EmployeeEvaluation employee={employee} editable={evaluationReviewersAccess?.write} />,
     })
   }
 
