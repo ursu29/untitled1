@@ -150,6 +150,7 @@ function PortalMenu(props: Props) {
                         padding: '0 4px',
                         textTransform: 'uppercase',
                         lineHeight: 1.5,
+                        cursor: 'pointer',
                       }}
                       color={(() => {
                         if (item.status === 'updated') return 'green'

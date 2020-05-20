@@ -47,7 +47,6 @@ export default function EmployeeDevelopmentPlan(props: Props) {
     }
   })
 
-  console.log(plan?.updatedAt)
   return (
     <div>
       <Skeleton active loading={loading}>

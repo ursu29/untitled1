@@ -11,6 +11,7 @@ import EmployeeCV from './EmployeeCV'
 import EmployeeSkills from './EmployeeSkills'
 import EmployeeDevelopmentPlan from './EmployeeDevelopmentPlan'
 import EmployeeEvaluation from '../EmployeeEvaluation/EmployeeEvaluation'
+import { Tag } from 'antd'
 
 interface Props extends RouteComponentProps {
   employee: Pick<Employee, 'id' | 'email'>
@@ -72,7 +73,7 @@ function EmployeeTabs({ match, ...props }: Props) {
   const curriculumVitaeAccess = data?.curriculumVitaeAccess
   const evaluationReviewersAccess = data?.evaluationReviewersAccess
 
-  let tabs = [
+  let tabs: any = [
     {
       title: 'Skills',
       key: 'skills',
@@ -109,7 +110,24 @@ function EmployeeTabs({ match, ...props }: Props) {
   }
   if (curriculumVitaeAccess?.read) {
     tabs.push({
-      title: 'CV',
+      title: (
+        <div style={{ display: 'inline-flex', alignItems: 'center' }}>
+          CV
+          <Tag
+            style={{
+              fontSize: 11,
+              marginLeft: 6,
+              padding: '0 4px',
+              textTransform: 'uppercase',
+              lineHeight: 1.3,
+              cursor: 'pointer',
+            }}
+            color="volcano"
+          >
+            New
+          </Tag>
+        </div>
+      ),
       icon: 'form',
       key: 'cv',
       noPadding: true,

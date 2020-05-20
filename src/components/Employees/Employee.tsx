@@ -42,7 +42,7 @@ export default function EmployeeView({ loading, employee, mobile }: Props) {
     <>
       <Text>{employee.email}</Text>
       <Text>{employee.phoneNumber}</Text>
-      {employee.isMe && employee.bonuses && <Text>Bonus: {employee.bonuses} ₽</Text>}
+      {employee.isMe && employee.bonuses ? <Text>Bonus: {employee.bonuses} ₽</Text> : null}
     </>
   )
 

@@ -1,11 +1,15 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
-import { Button, Input, Switch, Table, Tabs, Typography } from 'antd'
+import { Button, Input, Switch, Table, Tabs, Typography, Icon } from 'antd'
 import dayjs from 'dayjs'
 import gql from 'graphql-tag'
 import React, { useState, useEffect } from 'react'
 import message from '../../message'
-import { Access, Employee, OfficeDay } from '../../types'
+import { Access, Employee, OfficeDay, Location } from '../../types'
 import PageContent from '../UI/PageContent'
+import './OfficePlannerPage.css'
+
+const weekday = require('dayjs/plugin/weekday')
+dayjs.extend(weekday)
 
 const DAYS_IN_A_ROW = 7
 
@@ -33,6 +37,10 @@ const getOfficeDays = gql`
       date
       employeeLimit
       employeeCount
+      location {
+        id
+        code
+      }
     }
   }
 `
@@ -55,7 +63,9 @@ type EmployeePick = Pick<
   Employee,
   'id' | 'name' | 'email' | 'location' | 'isMe' | 'worksFromOffice'
 >
-type OfficeDayPick = Pick<OfficeDay, 'id' | 'date' | 'employeeLimit' | 'employeeCount'>
+type OfficeDayPick = Pick<OfficeDay, 'id' | 'date' | 'employeeLimit' | 'employeeCount'> & {
+  location: Pick<Location, 'id' | 'code'>
+}
 
 const LOCATIONS = [
   { key: 'SAINT_PETERSBURG', title: 'Saint Petersburg' },
@@ -63,9 +73,46 @@ const LOCATIONS = [
   { key: 'ZURICH', title: 'Zürich' },
 ]
 
+const LimitInput = ({
+  editable,
+  value = '15',
+  onChange,
+}: {
+  editable?: boolean
+  value: string | number
+  onChange: (value: number) => void
+}) => {
+  const [limit, setLimit] = useState(String(value))
+  if (!editable) return null
+
+  const handleChange = () => {
+    onChange(Number(limit))
+  }
+
+  return (
+    <div style={{ whiteSpace: 'nowrap' }}>
+      <Input
+        type="number"
+        style={{ width: 70, marginRight: 4 }}
+        value={limit}
+        onPressEnter={handleChange}
+        onBlur={handleChange}
+        onChange={(e) => {
+          setLimit(e.target.value)
+        }}
+        placeholder="Limit"
+        min="0"
+        max="100"
+      />
+      %
+    </div>
+  )
+}
+
 function OfficePlannerPage() {
-  const today = new Date()
-  const [firstDate, setFirstDate] = useState(today)
+  //@ts-ignore
+  const thisMonday = dayjs().weekday(1)
+  const [firstDate, setFirstDate] = useState(thisMonday)
   const [currentLocation, setCurrentLocation] = useState('SAINT_PETERSBURG')
 
   const employeesQuery = useQuery<{ employees: EmployeePick[]; officeAccess: Access }>(query, {
@@ -136,31 +183,40 @@ function OfficePlannerPage() {
     }
   }, [me])
 
-  if (employeesQuery.error) return <div>Something happened. Please contact portal manager</div>
+  if (employeesQuery.error) {
+    return <PageContent>Something happened. Please contact portal manager</PageContent>
+  }
 
-  const columns = [
+  const columns: any = [
     {
       title: () => <div>Name</div>,
       dataIndex: 'name',
       key: 'name',
       width: 200,
+      render: (name: string, employee: EmployeePick) => {
+        if (employee.isMe) return 'You'
+        return name
+      },
     },
     ...dates.map((date) => {
+      const isToday = dayjs(date).isSame(dayjs().format('YYYY-MM-DD'), 'day')
       return {
         title: () => {
           const formattedDate = dayjs(date).format('YYYY-MM-DD')
-          const officeDay = daysQuery.data?.officeDays.find((i) => i.date === formattedDate)
+          const officeDay = daysQuery.data?.officeDays.find(
+            (i) => i.date === formattedDate && i.location.code.toUpperCase() === currentLocation,
+          )
           const employeeLimit = officeDay?.employeeLimit || 15
           const employeeMaxCount = Math.ceil((allEmployees.length * employeeLimit) / 100)
 
-          const handleChange = (e: any) => {
-            if (e.target.value !== employeeLimit.toString()) {
+          const handleChange = (value: number) => {
+            if (value !== employeeLimit) {
               updateDay({
                 variables: {
                   input: {
                     date: formattedDate,
-                    employeeLimit: Number(e.target.value),
-                    location: 'SAINT_PETERSBURG',
+                    employeeLimit: value,
+                    location: currentLocation,
                   },
                 },
               })
@@ -169,44 +225,28 @@ function OfficePlannerPage() {
 
           return (
             <div key={date.toISOString()}>
-              <div>{dayjs(date).format('DD MMM')}</div>
+              <div>{dayjs(date).format('ddd, DD MMM')}</div>
               {!daysQuery.loading && (
                 <>
-                  {editable && (
-                    <div style={{ whiteSpace: 'nowrap' }}>
-                      <Input
-                        type="number"
-                        style={{ width: 70, marginRight: 4 }}
-                        defaultValue={employeeLimit}
-                        onPressEnter={handleChange}
-                        onBlur={handleChange}
-                        placeholder="15"
-                        min="0"
-                        max="100"
-                      />
-                      %
-                    </div>
-                  )}
-                  <div>
-                    {officeDay?.employeeCount || 0} from {employeeMaxCount}
-                  </div>
+                  <LimitInput editable={editable} value={employeeLimit} onChange={handleChange} />
+                  <Typography.Text type="secondary">
+                    <Icon type="team" /> {officeDay?.employeeCount || 0} out of {employeeMaxCount}
+                  </Typography.Text>
                 </>
               )}
             </div>
           )
         },
+        className: isToday ? 'office-planner-active' : '',
         render: (employee: EmployeePick) => {
           const formattedDate = dayjs(date).format('YYYY-MM-DD')
+          const pastDay = dayjs(date).isBefore(dayjs().format('YYYY-MM-DD'))
           return (
             <Switch
-              disabled={!employee.isMe}
+              disabled={!employee.isMe || pastDay}
               checked={employee.worksFromOffice.includes(formattedDate)}
               onChange={() => {
-                apply({
-                  variables: {
-                    input: { date: formattedDate, location: currentLocation },
-                  },
-                })
+                apply({ variables: { input: { date: formattedDate, location: currentLocation } } })
               }}
             />
           )
@@ -256,13 +296,13 @@ function OfficePlannerPage() {
                 </Button>
                 <Button
                   onClick={() => {
-                    setFirstDate(today)
+                    setFirstDate(thisMonday)
                   }}
                   disabled={actionsDisabled}
                   type="primary"
                   style={{ marginRight: 8 }}
                 >
-                  Today
+                  This week
                 </Button>
                 <Button
                   disabled={actionsDisabled}
@@ -283,6 +323,7 @@ function OfficePlannerPage() {
                 dataSource={employees}
                 columns={columns}
                 pagination={false}
+                rowClassName={(record) => (record.isMe ? 'office-planner-active' : '')}
               />
             </Tabs.TabPane>
           )
