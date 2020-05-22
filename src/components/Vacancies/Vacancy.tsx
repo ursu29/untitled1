@@ -2,11 +2,12 @@ import React, { useEffect } from 'react'
 import VacancyForm from './VacancyForm'
 import getVacancies, { QueryType } from '../../queries/getVacancies'
 import updateVacancy from '../../queries/updateVacancy'
+import closeVacancy from '../../queries/closeVacancy'
 import publishVacancy from '../../queries/publishVacancy'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import Skeleton from '../UI/Skeleton'
 import message from '../../message'
-import { Typography } from 'antd'
+import { Typography, Tag } from 'antd'
 import markdownToHtml from '../../utils/markdownToHtml'
 
 function Vacancy({
@@ -24,6 +25,13 @@ function Vacancy({
     skip: !id,
   })
 
+  const [close, { loading: closeLoading }] = useMutation(closeVacancy, {
+    onCompleted: () => message.success('Vacancy is closed'),
+    refetchQueries,
+    awaitRefetchQueries: true,
+    onError: message.error,
+  })
+
   const [update, { loading: updateLoading }] = useMutation(updateVacancy, {
     onCompleted: () => message.success('Vacancy is saved'),
     refetchQueries,
@@ -39,10 +47,10 @@ function Vacancy({
   })
 
   useEffect(() => {
-    if (updateLoading || publishLoading) {
+    if (closeLoading || updateLoading || publishLoading) {
       message.loading('Saving')
     }
-  }, [updateLoading, publishLoading])
+  }, [closeLoading, updateLoading, publishLoading])
 
   if (!id) return null
 
@@ -76,18 +84,36 @@ function Vacancy({
   }
   const vacancy = data?.vacancies?.[0]
 
+  const handleClose = () =>
+    close({
+      variables: {
+        input: {
+          id: vacancy?.id,
+        },
+      },
+    })
   const handleSave = save()
   const handlePublish = save(() => publish({ variables: { input: { id: vacancy?.id } } }))
-
+  console.log('vacancy: ', vacancy)
   return (
     <Skeleton active loading={loading}>
       {!vacancy && <div>Vacancy is not found</div>}
       {vacancy && (
         <>
           {editable ? (
-            <VacancyForm vacancy={vacancy} onSave={handleSave} onPublish={handlePublish} />
+            <VacancyForm
+              vacancy={vacancy}
+              onClose={handleClose}
+              onSave={handleSave}
+              onPublish={handlePublish}
+            />
           ) : (
             <div>
+              {vacancy.isClosed && (
+                <div style={{ margin: '-4px 0 10px 0' }}>
+                  <Tag color="red">Vacancy is closed</Tag>
+                </div>
+              )}
               <p>
                 <Typography.Title level={1}>{vacancy.position}</Typography.Title>
               </p>
@@ -97,7 +123,7 @@ function Vacancy({
               </p>
               <p>
                 <Typography.Title level={4}>Location</Typography.Title>
-                <Typography.Text>{vacancy.locations.map((i) => i.name).join(', ')}</Typography.Text>
+                <Typography.Text>{vacancy.locations.map(i => i.name).join(', ')}</Typography.Text>
               </p>
               <p>
                 <Typography.Title level={4}>What will you do</Typography.Title>

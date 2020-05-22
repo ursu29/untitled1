@@ -35,7 +35,7 @@ function Rotate({ vacancy }: { vacancy: QueryType['vacancies'][0] }) {
     refetchQueries: [{ query: getVacancies }],
   })
 
-  const isRotating = vacancy.rotateEmployees?.find((i) => i.isMe)
+  const isRotating = vacancy.rotateEmployees?.find(i => i.isMe)
 
   if (isRotating) {
     return (
@@ -47,7 +47,7 @@ function Rotate({ vacancy }: { vacancy: QueryType['vacancies'][0] }) {
 
   return (
     <Button icon="retweet" onClick={() => rotate()}>
-      Rotate
+      Want to Rotate
     </Button>
   )
 }

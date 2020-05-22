@@ -21,6 +21,7 @@ export default gql`
       }
       customer
       isPublished
+      isClosed
       rotateEmployees {
         id
         isMe
@@ -31,7 +32,13 @@ export default gql`
 
 type VacancyPick = Pick<
   Vacancy,
-  'id' | 'reason' | 'position' | 'responsibilities' | 'requiredSkills' | 'additionalSkills'
+  | 'id'
+  | 'reason'
+  | 'position'
+  | 'responsibilities'
+  | 'requiredSkills'
+  | 'additionalSkills'
+  | 'isClosed'
 > & {
   project: Pick<Project, 'id' | 'name'>
   locations: Pick<Location, 'id' | 'name' | 'code'>[]

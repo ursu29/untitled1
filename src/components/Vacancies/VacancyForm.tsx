@@ -1,6 +1,6 @@
 import React from 'react'
 import { Vacancy } from '../../types'
-import { Form, Input, Row, Col, Button, Divider } from 'antd'
+import { Form, Input, Row, Col, Button, Divider, Popconfirm } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
 import ProjectSelect from '../Projects/ProjectSelect'
 import LocationSelect from '../Locations/LocationSelect'
@@ -8,11 +8,12 @@ import MarkdownEditor from '../UI/MarkdownEditor'
 
 interface Props extends FormComponentProps {
   vacancy: Partial<Vacancy>
+  onClose: (i: any) => void
   onSave: (i: any) => void
   onPublish: (i: Partial<Vacancy>) => void
 }
 
-function VacancyForm({ vacancy, form, onSave, onPublish }: Props) {
+function VacancyForm({ vacancy, form, onClose, onSave, onPublish }: Props) {
   const { getFieldDecorator } = form
   return (
     <Form layout="vertical">
@@ -44,7 +45,7 @@ function VacancyForm({ vacancy, form, onSave, onPublish }: Props) {
         <Col span={12}>
           <Form.Item label="Locations">
             {getFieldDecorator('locations', {
-              initialValue: vacancy?.locations?.map((i) => i.id),
+              initialValue: vacancy?.locations?.map(i => i.id),
             })(<LocationSelect wide mode="multiple" />)}
           </Form.Item>
         </Col>
@@ -71,6 +72,16 @@ function VacancyForm({ vacancy, form, onSave, onPublish }: Props) {
         </Col>
       </Row>
       <Row type="flex" justify="end" align="middle">
+        {vacancy.isPublished && (
+          <Popconfirm
+            title="Are you sure you want to close this vacancy?"
+            onConfirm={() => onClose(vacancy)}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button>Close</Button>
+          </Popconfirm>
+        )}
         <Button
           onClick={() => {
             form.validateFields((error: any, values: any) => {
@@ -83,6 +94,7 @@ function VacancyForm({ vacancy, form, onSave, onPublish }: Props) {
               })
             })
           }}
+          style={{ marginLeft: '10px' }}
         >
           Save
         </Button>

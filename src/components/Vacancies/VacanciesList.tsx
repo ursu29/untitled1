@@ -42,7 +42,7 @@ function ProcessList({ items = [], history }: Props & RouteComponentProps) {
           dataIndex: '.location.name',
           title: 'Location',
           render: (_, i) => {
-            return <span>{i.locations?.map((i) => i.name).join(' ,') ?? '-'}</span>
+            return <span>{i.locations?.map(i => i.name).join(' ,') ?? '-'}</span>
           },
         },
         {
@@ -54,12 +54,12 @@ function ProcessList({ items = [], history }: Props & RouteComponentProps) {
                 <Rotate vacancy={vacancy} />
                 <Divider type="vertical" />
                 <a
-                  href={`https://outlook.office.com/owa/?path=/mail/action/compose&to=Stepan.Krychkov@Sidenis.com&subject=Rotate to ${vacancy.project.name}&body=I want to apply this vacancy. My CV is attached`}
+                  href={`https://outlook.office.com/owa/?path=/mail/action/compose&to=HR1@sidenis.com&subject=Rotate to ${vacancy.project.name}&body=I want to apply this vacancy. My friend's CV is attached.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ paddingRight: 8 }}
                 >
-                  <Button icon="form">Send CV</Button>
+                  <Button icon="form">Suggest a Friend</Button>
                 </a>
               </>
             )
