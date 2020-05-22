@@ -8,6 +8,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { GATEWAY } from '../../config'
 import Root from './Root'
 import Secure from './Secure'
+import { LastLocationProvider } from 'react-router-last-location'
 
 const timezoneOffset = new Date().getTimezoneOffset()
 const timezoneOffsetKey = 'x-timezone-offset'
@@ -44,7 +45,9 @@ const App: React.FC = () => {
     <Secure>
       <ApolloProvider client={client}>
         <Router basename={process.env.REACT_APP_PUBLIC_URL}>
-          <Root />
+          <LastLocationProvider>
+            <Root />
+          </LastLocationProvider>
         </Router>
       </ApolloProvider>
     </Secure>

@@ -64,7 +64,7 @@ function PortalSelect(
         onSelect(value)
       }}
     >
-      {items?.map(item => {
+      {items?.map((item) => {
         return (
           <Select.Option key={item.key} value={item.key} title={item.value}>
             {item.value}

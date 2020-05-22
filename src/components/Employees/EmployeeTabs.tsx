@@ -21,7 +21,7 @@ interface Props extends RouteComponentProps {
 const query = gql`
   query getEmployees(
     $input: EmployeesInput
-    $inputEmail: CurriculumVitaeInput
+    $inputEmail: AccessInput
     $inputToWhom: EvaluationReviewersAccessInput
   ) {
     employees(input: $input) {
@@ -39,10 +39,22 @@ const query = gql`
       }
       isMe
     }
+
     curriculumVitaeAccess(input: $inputEmail) {
       read
       write
     }
+
+    matricesLookReviewersAccess(input: $inputEmail) {
+      read
+      write
+    }
+
+    developmentPlanLookReviewersAccess(input: $inputEmail) {
+      read
+      write
+    }
+
     evaluationReviewersAccess(input: $inputToWhom) {
       read
       write
@@ -55,6 +67,8 @@ type QueryType = {
     manager: Pick<Employee, 'id' | 'name' | 'email' | 'isMe'>
   })[]
   curriculumVitaeAccess: Access
+  matricesLookReviewersAccess: Access
+  developmentPlanLookReviewersAccess: Access
   evaluationReviewersAccess: Access
 }
 
@@ -71,6 +85,8 @@ function EmployeeTabs({ match, ...props }: Props) {
 
   const employee = data?.employees?.[0]
   const curriculumVitaeAccess = data?.curriculumVitaeAccess
+  const matricesAccess = data?.matricesLookReviewersAccess
+  const developmentPlanLookReviewersAccess = data?.developmentPlanLookReviewersAccess
   const evaluationReviewersAccess = data?.evaluationReviewersAccess
 
   let tabs: any = [
@@ -90,7 +106,7 @@ function EmployeeTabs({ match, ...props }: Props) {
     },
   ]
 
-  if (employee?.access.write) {
+  if (matricesAccess?.read) {
     tabs.push({
       title: 'Matrices',
       key: 'matrices',
@@ -99,7 +115,7 @@ function EmployeeTabs({ match, ...props }: Props) {
       body: <EmployeeMatrices employee={employee} />,
     })
   }
-  if (employee?.access.write) {
+  if (developmentPlanLookReviewersAccess?.read) {
     tabs.push({
       title: 'Personal development',
       key: 'development-plan',

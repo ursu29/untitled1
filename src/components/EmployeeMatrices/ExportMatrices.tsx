@@ -30,8 +30,8 @@ export default function ExportMatrices({ matrices, employee }: Props) {
           experiences,
         }),
       })
-        .then(res => res.arrayBuffer())
-        .then(data => {
+        .then((res) => res.arrayBuffer())
+        .then((data) => {
           const blob = new Blob([data], {
             type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
           })
@@ -40,7 +40,7 @@ export default function ExportMatrices({ matrices, employee }: Props) {
     })
   }
   return (
-    <Button disabled={loading} onClick={handleExport} style={{ marginLeft: 8 }}>
+    <Button disabled={loading} onClick={handleExport}>
       Export
     </Button>
   )

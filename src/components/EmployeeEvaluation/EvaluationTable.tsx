@@ -18,7 +18,7 @@ const parent: { title: string; key: string; children?: any }[] = [
     key: 'job_competence',
   },
   {
-    title: 'Communcation skills',
+    title: 'Communication skills',
     key: 'communication_skills',
   },
   {
@@ -187,7 +187,7 @@ export default function EvaluationTable({
       columns.push({
         title: (
           <div>
-            Team Lead<div>{employee.manager?.name}</div>
+            Agile Manager<div>{employee.manager?.name}</div>
           </div>
         ),
         align: 'center',

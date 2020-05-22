@@ -51,7 +51,7 @@ export default function MatrixWithExperiences({
                     />
                   )
                 })
-              return <MatrixGrade key={grade.title}>{content.length ? content : '-'}</MatrixGrade>
+              return <MatrixGrade key={grade.id}>{content.length ? content : '-'}</MatrixGrade>
             })}
           </MatrixRow>
         </div>

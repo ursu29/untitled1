@@ -22,6 +22,7 @@ const fragments = {
         position
         phoneNumber
         email
+        isMe
       }
     `,
   },
@@ -108,7 +109,7 @@ export default fragments
 
 export type EmployeeDetails = Pick<
   Employee,
-  'id' | 'name' | 'location' | 'country' | 'position' | 'phoneNumber' | 'email'
+  'id' | 'name' | 'location' | 'country' | 'position' | 'phoneNumber' | 'email' | 'isMe'
 >
 
 export type ExperienceDetails = Pick<Experience, 'id' | 'updatedAt'> & {

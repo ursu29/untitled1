@@ -6,6 +6,7 @@
   "useTabs": false,
   "jsxBracketSameLine": false,
   "printWidth": 100,
+  "arrowParens": "avoid",
   "overrides": [
     {
       "files": "*spec.js",

@@ -1,10 +1,10 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
-import { Button, Input, Switch, Table, Tabs, Typography, Icon } from 'antd'
+import { Button, Icon, Input, Switch, Table, Tabs, Typography } from 'antd'
 import dayjs from 'dayjs'
 import gql from 'graphql-tag'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import message from '../../message'
-import { Access, Employee, OfficeDay, Location } from '../../types'
+import { Access, Employee, Location, OfficeDay } from '../../types'
 import PageContent from '../UI/PageContent'
 import './OfficePlannerPage.css'
 

@@ -2,11 +2,12 @@ import { useMutation, useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import React, { useCallback, useEffect } from 'react'
 import { debounce } from 'throttle-debounce'
-import message from '../../message'
 import getDevelopmentPlans, { QueryType } from '../../queries/getDevelopmentPlans'
 import { Employee } from '../../types'
+import message from '../../message'
 import DevelopmentPlanForm from './DevelopmentPlanForm'
 import ExportDevelopmentPlan from './ExportDevelopmentPlan'
+import EmployeeReviewers, { ReviewersNames } from './EmployeeReviewers'
 import Skeleton from '../UI/Skeleton'
 import Controls from '../UI/Controls'
 import { Typography } from 'antd'
@@ -21,7 +22,7 @@ const mutation = gql`
 `
 
 interface Props {
-  employee?: Pick<Employee, 'id' | 'name'>
+  employee?: Pick<Employee, 'id' | 'name' | 'email' | 'isMe'>
 }
 
 export default function EmployeeDevelopmentPlan(props: Props) {
@@ -33,7 +34,7 @@ export default function EmployeeDevelopmentPlan(props: Props) {
   })
 
   const [update, { loading: mutateLoading }] = useMutation(mutation, {
-    onCompleted: () => message.success('Plan is updated'),
+    onCompleted: () => message.success('Plan has been updated'),
     refetchQueries: [{ query: getDevelopmentPlans, variables }],
   })
 
@@ -62,8 +63,13 @@ export default function EmployeeDevelopmentPlan(props: Props) {
                 ) : null
               }
             >
+              <EmployeeReviewers
+                employee={props.employee!}
+                reviewersName={ReviewersNames.developmentPlanReviewers}
+              />
               <ExportDevelopmentPlan employee={props.employee!} plan={plan} />
             </Controls>
+
             <DevelopmentPlanForm
               value={plan}
               onChange={(value: any) => debounced({ variables: { input: value } })}

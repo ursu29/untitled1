@@ -7,7 +7,7 @@ import Select, { Props as SelectProps } from '../UI/Select'
 type EmployeePick = Pick<Employee, 'id' | 'name'>
 
 type Props = {
-  value?: EmployeePick
+  value?: any
   onChange?: (employee: string | string[]) => any
   onBlur?: any
   defaultOpen?: boolean
@@ -16,26 +16,44 @@ type Props = {
   wide?: boolean
   size?: 'default' | 'small'
   mode?: SelectProps['mode']
+  keyName?: 'id' | 'email'
+  style?: any
+  loading?: boolean
+  withoutMe?: boolean
 }
 
-function EmployeeSelect({ onChange, value, wide, size, mode, ...props }: Props, ref: any) {
+function EmployeeSelect(
+  {
+    onChange,
+    value,
+    wide,
+    size,
+    mode,
+    keyName: key = 'id',
+    style,
+    loading: parentLoading = false,
+    withoutMe = false,
+    ...props
+  }: Props,
+  ref: any,
+) {
   const { data, loading } = useQuery<QueryType>(getEmployees)
 
-  const employee = Array.isArray(value)
-    ? data?.employees.filter(i => value.includes(i.id))
-    : data?.employees.find(i => i.id === String(value))
+  let employee = Array.isArray(value)
+    ? data?.employees.filter((i) => value.includes(i[key]))
+    : data?.employees.find((i) => i[key] === String(value))
 
   return (
     <Select
       ref={ref}
-      style={{ width: wide ? '100%' : 150 }}
+      style={{ width: wide ? '100%' : 150, ...style }}
       autoFocus={!loading && props.autoFocus}
       mode={mode}
-      loading={loading}
+      loading={loading || parentLoading}
       size={size}
       value={
         Array.isArray(employee)
-          ? employee.map(i => ({ key: i.name, value: i.name }))
+          ? employee.map((i) => ({ key: i.name, value: i.name }))
           : employee
           ? { key: employee.name, value: employee.name }
           : undefined
@@ -43,23 +61,25 @@ function EmployeeSelect({ onChange, value, wide, size, mode, ...props }: Props, 
       onBlur={props.onBlur}
       onSelect={(value: any) => {
         if (!mode || mode === 'default') {
-          const employee = data!.employees.find(employee => employee.name === value.key)
+          const employee = data!.employees.find((employee) => employee.name === value.key)
           if (employee) {
-            onChange && onChange(employee.id)
+            onChange && onChange(employee[key])
           }
         } else {
           const names = value.map((i: any) => i.key)
-          const employees = data!.employees.filter(employee => names.includes(employee.name))
-          onChange && onChange(employees.map(i => i.id))
+          const employees = data!.employees.filter((employee) => names.includes(employee.name))
+          onChange && onChange(employees.map((i) => i[key]))
         }
       }}
-      items={data?.employees.map(employee => {
-        return {
-          id: employee.id,
-          key: employee.name,
-          value: employee.name,
-        }
-      })}
+      items={data?.employees
+        .filter((i) => (withoutMe ? !i.isMe : true))
+        .map((employee) => {
+          return {
+            id: employee.id,
+            key: employee.name,
+            value: employee.name,
+          }
+        })}
     />
   )
 }

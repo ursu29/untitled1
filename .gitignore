@@ -11,3 +11,5 @@ backup/
 __MACOSX
 
 .env.local
+
+.vscode

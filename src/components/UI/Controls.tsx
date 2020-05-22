@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react'
+import React, { Children, PropsWithChildren } from 'react'
 import styled from 'styled-components'
 
 const ControlBar = styled.div<{ withMargin: boolean }>`
@@ -16,7 +16,13 @@ export default function Controls({ back, children }: Props) {
   return (
     <ControlBar withMargin={Boolean(children)}>
       <div>{back}</div>
-      <div>{children}</div>
+      {children && (
+        <div style={{ display: 'flex' }}>
+          {Children.map(children, child => (
+            <div style={{ margin: 'auto', marginLeft: '10px' }}>{child}</div>
+          ))}
+        </div>
+      )}
     </ControlBar>
   )
 }

@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { useMediaQuery } from 'react-responsive'
 import gql from 'graphql-tag'
 import moment from 'moment'
 import { debounce } from 'throttle-debounce'
-import { Table, Button, Popconfirm, Form, Input, DatePicker, Checkbox, Select } from 'antd'
+import { Table, Button, Popconfirm, Form, Input, DatePicker, Checkbox, Select, Tooltip } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
 import styled from 'styled-components'
 
@@ -122,7 +122,7 @@ function EmployeeCV({ employee, editable, form }: PropsGeneral) {
 
   // Curriculum vitaes mutation
   const [update, { loading: mutateLoading }] = useMutation(mutation, {
-    onCompleted: () => message.success('Curriculum vitae is updated'),
+    onCompleted: () => message.success('Curriculum vitae has been updated'),
     awaitRefetchQueries: true,
     refetchQueries: [{ query, variables }],
     onError: message.error,
@@ -195,7 +195,17 @@ function EmployeeCV({ employee, editable, form }: PropsGeneral) {
  *
  */
 function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTable) {
-  const [isNoTimeEndList, setIsNoTimeEndList] = React.useState(['']) // list with rows ids without any date end
+  const [isNoTimeEndList, setIsNoTimeEndList] = useState(['']) // list with rows ids without any date end
+
+  const [showFullResponsibilities, setShowFullResponsibilities] = useState(['']) // "collapsible" cell in the table
+  const [isResponsibilitiesUnderModifying, setIsResponsibilitiesUnderModifying] = useState(['']) // cell is currently modifying
+
+  const showFullResponsibilitiesRef = useRef(showFullResponsibilities) // ref for inserting to setTimeout for closing full height cell
+  showFullResponsibilitiesRef.current = showFullResponsibilities
+
+  const isRespUnderModifyingRef = useRef(isResponsibilitiesUnderModifying) // ref for inserting to setTimeout for list of under modifying cells
+  isRespUnderModifyingRef.current = isResponsibilitiesUnderModifying
+
   const isDatePickersToColumn = useMediaQuery({ maxWidth: 1000 }) // date pickers to column direction
 
   // Projects list query
@@ -220,6 +230,9 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
 
   // Save table changing
   const handleSave = ({ key, ...item }: any) => {
+    setShowFullResponsibilities([])
+    setIsResponsibilitiesUnderModifying([])
+
     if (onChange) {
       onChange(
         value.map((i, index) => {
@@ -433,8 +446,43 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
     {
       title: 'Responsibilities',
       dataIndex: 'responsibilities',
-      editable,
       width: '20%',
+      editable,
+      render: (text: any, record: any) =>
+        text.length > 55 ? (
+          showFullResponsibilities.includes(record.id) ? (
+            <div
+              onClick={() =>
+                setIsResponsibilitiesUnderModifying([
+                  ...isResponsibilitiesUnderModifying,
+                  record.id,
+                ])
+              }
+            >
+              {text}
+            </div>
+          ) : (
+            <Tooltip title={text} mouseEnterDelay={1}>
+              <div
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setShowFullResponsibilities([...showFullResponsibilities, record.id])
+                  setTimeout(() => {
+                    if (!isRespUnderModifyingRef.current.includes(record.id))
+                      setShowFullResponsibilities(
+                        showFullResponsibilitiesRef.current.filter((id) => id !== record.id),
+                      )
+                  }, 5000)
+                }}
+                style={{ cursor: 'pointer' }}
+              >
+                {text.slice(0, 50) + '...'}
+              </div>
+            </Tooltip>
+          )
+        ) : (
+          text
+        ),
     },
     {
       title: 'Level',
@@ -575,12 +623,26 @@ class EditableCell extends React.Component<any> {
     this.form = form
     const { children, dataIndex, record } = this.props
     const { editing } = this.state
+
     return editing ? (
       <Form.Item style={{ margin: 0 }}>
         {form.getFieldDecorator(dataIndex, {
           initialValue: record[dataIndex],
         })(
-          <Input ref={(node) => (this.input = node)} onPressEnter={this.save} onBlur={this.save} />,
+          dataIndex === 'responsibilities' ? (
+            <Input.TextArea
+              ref={(node) => (this.input = node)}
+              onPressEnter={this.save}
+              onBlur={this.save}
+              autoSize
+            />
+          ) : (
+            <Input
+              ref={(node) => (this.input = node)}
+              onPressEnter={this.save}
+              onBlur={this.save}
+            />
+          ),
         )}
       </Form.Item>
     ) : (
