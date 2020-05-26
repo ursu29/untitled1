@@ -26,16 +26,18 @@ export default function Reviewers(props: Props) {
 
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <div
-        style={{
-          marginRight: '8px',
-          fontSize: '15px',
-          opacity: isSpanShown ? 1 : 0,
-          transition: '0.3s opacity',
-        }}
-      >
-        Page reviewers
-      </div>
+      {!!reviewers?.length && (
+        <div
+          style={{
+            marginRight: '8px',
+            fontSize: '15px',
+            opacity: isSpanShown ? 1 : 0,
+            transition: '0.3s opacity',
+          }}
+        >
+          Page reviewers
+        </div>
+      )}
 
       {isAvatarsShown && (
         <div

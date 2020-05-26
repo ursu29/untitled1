@@ -85,7 +85,7 @@ function EmployeeTabs({ match, ...props }: Props) {
 
   const employee = data?.employees?.[0]
   const curriculumVitaeAccess = data?.curriculumVitaeAccess
-  const matricesAccess = data?.matricesLookReviewersAccess
+  const matricesLookReviewersAccess = data?.matricesLookReviewersAccess
   const developmentPlanLookReviewersAccess = data?.developmentPlanLookReviewersAccess
   const evaluationReviewersAccess = data?.evaluationReviewersAccess
 
@@ -106,13 +106,15 @@ function EmployeeTabs({ match, ...props }: Props) {
     },
   ]
 
-  if (matricesAccess?.read) {
+  if (matricesLookReviewersAccess?.read) {
     tabs.push({
       title: 'Matrices',
       key: 'matrices',
       icon: 'number',
       noPadding: false,
-      body: <EmployeeMatrices employee={employee} />,
+      body: (
+        <EmployeeMatrices employee={employee} reviewersListAccess={matricesLookReviewersAccess} />
+      ),
     })
   }
   if (developmentPlanLookReviewersAccess?.read) {
@@ -121,7 +123,12 @@ function EmployeeTabs({ match, ...props }: Props) {
       key: 'development-plan',
       icon: 'rise',
       noPadding: false,
-      body: <EmployeeDevelopmentPlan employee={employee} />,
+      body: (
+        <EmployeeDevelopmentPlan
+          employee={employee}
+          reviewersListAccess={developmentPlanLookReviewersAccess}
+        />
+      ),
     })
   }
 

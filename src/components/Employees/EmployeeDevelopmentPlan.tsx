@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import React, { useCallback, useEffect } from 'react'
 import { debounce } from 'throttle-debounce'
 import getDevelopmentPlans, { QueryType } from '../../queries/getDevelopmentPlans'
-import { Employee } from '../../types'
+import { Employee, Access } from '../../types'
 import message from '../../message'
 import DevelopmentPlanForm from './DevelopmentPlanForm'
 import ExportDevelopmentPlan from './ExportDevelopmentPlan'
@@ -23,6 +23,7 @@ const mutation = gql`
 
 interface Props {
   employee?: Pick<Employee, 'id' | 'name' | 'email' | 'isMe'>
+  reviewersListAccess: Access
 }
 
 export default function EmployeeDevelopmentPlan(props: Props) {
@@ -63,10 +64,13 @@ export default function EmployeeDevelopmentPlan(props: Props) {
                 ) : null
               }
             >
-              <EmployeeReviewers
-                employee={props.employee!}
-                reviewersName={ReviewersNames.developmentPlanReviewers}
-              />
+              {props.reviewersListAccess.read && (
+                <EmployeeReviewers
+                  employee={props.employee!}
+                  reviewersName={ReviewersNames.developmentPlanReviewers}
+                  reviewersListAccess={props.reviewersListAccess}
+                />
+              )}
               <ExportDevelopmentPlan employee={props.employee!} plan={plan} />
             </Controls>
 

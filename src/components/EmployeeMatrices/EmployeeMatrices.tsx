@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/react-hooks'
 import React from 'react'
 import getEmployeeMatrices, { QueryType } from '../../queries/getEmployeeMatrices'
-import { Employee } from '../../types'
+import { Employee, Access } from '../../types'
 import EmployeeReviewers, { ReviewersNames } from '../Employees/EmployeeReviewers'
 import Controls from '../UI/Controls'
 import AttachMatrix from './AttachMatrix'
@@ -11,6 +11,7 @@ import ExportMatrices from './ExportMatrices'
 
 interface Props {
   employee?: Pick<Employee, 'id' | 'name' | 'email' | 'isMe'>
+  reviewersListAccess: Access
 }
 
 export default function EmployeeMatrices(props: Props) {
@@ -24,10 +25,13 @@ export default function EmployeeMatrices(props: Props) {
   return (
     <>
       <Controls back={<EmployeeMatriceUpdateDate employee={employee} />}>
-        <EmployeeReviewers
-          employee={props.employee!}
-          reviewersName={ReviewersNames.matricesReviewers}
-        />
+        {props.reviewersListAccess.read && (
+          <EmployeeReviewers
+            employee={props.employee!}
+            reviewersName={ReviewersNames.matricesReviewers}
+            reviewersListAccess={props.reviewersListAccess}
+          />
+        )}
         <AttachMatrix employee={employee} />
         <ExportMatrices matrices={employee?.matrices} employee={employee} />
       </Controls>

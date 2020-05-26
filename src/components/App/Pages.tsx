@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
+import { BackTop } from 'antd'
 import paths from '../../paths'
 import Content from '../UI/Content'
 import PageContent from '../UI/PageContent'
@@ -33,6 +34,7 @@ export default function Pages() {
   return (
     <Content>
       <Suspense fallback={<div></div>}>
+        <BackTop />
         <Switch>
           <Redirect exact from="/" to="/profile" />
           <Route path={paths.PROFILE + '/:tab'} component={Profile} />

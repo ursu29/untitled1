@@ -1,14 +1,15 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Reviewers from './Reviewers'
 import { QueryType as QueryTypeEmployees } from '../../queries/getEmployees'
 import { reviewersQuery } from '../../queries/employeeReviewers'
-import { Employee } from '../../types'
+import { Employee, Access } from '../../types'
 import message from '../../message'
 
 type Props = {
   employee: Pick<Employee, 'email' | 'isMe'>
   reviewersName: ReviewersNames
+  reviewersListAccess: Access
 }
 
 export enum ReviewersNames {
@@ -18,6 +19,8 @@ export enum ReviewersNames {
 
 const EmployeeReviewers = (props: Props) => {
   const { reviewersName } = props
+  const { read, write } = props.reviewersListAccess
+
   const {
     getDevelopmentPlanReviewers,
     getMatricesReviewers,
@@ -46,8 +49,12 @@ const EmployeeReviewers = (props: Props) => {
     },
   })
 
+  useEffect(() => {
+    loading && message.loading('Loading reviewers')
+  }, [loading])
+
   // Update employee reviewers
-  const [updateReviewers] = useMutation(updateReviewersQuery, {
+  const [updateReviewers, { loading: updateReviewersLoading }] = useMutation(updateReviewersQuery, {
     refetchQueries: [
       {
         query: getReviewersQuery,
@@ -60,13 +67,18 @@ const EmployeeReviewers = (props: Props) => {
     onCompleted: () => {
       message.success('Reviewers have been updated')
     },
+    onError: message.error,
   })
+
+  useEffect(() => {
+    updateReviewersLoading && message.loading('Updating reviewers...')
+  }, [updateReviewersLoading])
 
   return (
     <Reviewers
       reviewers={data?.employeeByEmail[reviewersName] || null}
-      isAvatarsShown={!error && !!data}
-      isAddButtonShown={!error && !props.employee?.isMe}
+      isAvatarsShown={read && !error && !!data}
+      isAddButtonShown={write && !error && !props.employee?.isMe}
       selectIsLoading={loading}
       onBlur={(values: any) =>
         updateReviewers({
