@@ -27,6 +27,10 @@ const query = gql`
       read
       write
     }
+    profile {
+      id
+      location
+    }
   }
 `
 
@@ -97,7 +101,7 @@ const LimitInput = ({
         value={limit}
         onPressEnter={handleChange}
         onBlur={handleChange}
-        onChange={(e) => {
+        onChange={e => {
           setLimit(e.target.value)
         }}
         placeholder="Limit"
@@ -115,7 +119,11 @@ function OfficePlannerPage() {
   const [firstDate, setFirstDate] = useState(thisMonday)
   const [currentLocation, setCurrentLocation] = useState('SAINT_PETERSBURG')
 
-  const employeesQuery = useQuery<{ employees: EmployeePick[]; officeAccess: Access }>(query, {
+  const employeesQuery = useQuery<{
+    employees: EmployeePick[]
+    officeAccess: Access
+    profile: Pick<Employee, 'id' | 'location'>
+  }>(query, {
     variables: { input: { locations: [currentLocation] } },
   })
 
@@ -154,34 +162,35 @@ function OfficePlannerPage() {
   })
 
   const editable = employeesQuery.data?.officeAccess.write
+  const myLocation = employeesQuery.data?.profile.location
 
   const dates = Array.from({ length: DAYS_IN_A_ROW }).map((i, index) => {
     let nextDay = new Date(firstDate)
     nextDay.setDate(nextDay.getDate() + index)
     return nextDay
   })
-  const datesFormatted = dates.map((i) => dayjs(i).format('YYYY-MM-DD'))
+  const datesFormatted = dates.map(i => dayjs(i).format('YYYY-MM-DD'))
 
   const allEmployees = employeesQuery.data?.employees || []
-  const me = allEmployees.find((i) => i.isMe)
+  const me = allEmployees.find(i => i.isMe)
 
   //sort me first
   const employees = (me ? [me] : []).concat(
     allEmployees
-      .filter((i) => !i.isMe)
-      .filter((i) => i.worksFromOffice.some((day) => datesFormatted.includes(day))),
+      .filter(i => !i.isMe)
+      .filter(i => i.worksFromOffice.some(day => datesFormatted.includes(day))),
   )
 
   useEffect(() => {
-    if (me) {
-      if (me.location === 'Tomsk') {
+    if (myLocation) {
+      if (myLocation === 'Tomsk') {
         setCurrentLocation('TOMSK')
       }
-      if (me.location === 'Zurich') {
+      if (myLocation === 'Zurich') {
         setCurrentLocation('ZURICH')
       }
     }
-  }, [me])
+  }, [myLocation])
 
   if (employeesQuery.error) {
     return <PageContent>Something happened. Please contact portal manager</PageContent>
@@ -198,13 +207,13 @@ function OfficePlannerPage() {
         return name
       },
     },
-    ...dates.map((date) => {
+    ...dates.map(date => {
       const isToday = dayjs(date).isSame(dayjs().format('YYYY-MM-DD'), 'day')
       return {
         title: () => {
           const formattedDate = dayjs(date).format('YYYY-MM-DD')
           const officeDay = daysQuery.data?.officeDays.find(
-            (i) => i.date === formattedDate && i.location.code.toUpperCase() === currentLocation,
+            i => i.date === formattedDate && i.location.code.toUpperCase() === currentLocation,
           )
           const employeeLimit = officeDay?.employeeLimit || 15
           const employeeMaxCount = Math.ceil((allEmployees.length * employeeLimit) / 100)
@@ -265,11 +274,11 @@ function OfficePlannerPage() {
         animated={false}
         type="card"
         activeKey={currentLocation}
-        onChange={(location) => {
+        onChange={location => {
           setCurrentLocation(location)
         }}
       >
-        {LOCATIONS.map((i) => {
+        {LOCATIONS.map(i => {
           return (
             <Tabs.TabPane key={i.key} tab={i.title}>
               <div
@@ -323,7 +332,7 @@ function OfficePlannerPage() {
                 dataSource={employees}
                 columns={columns}
                 pagination={false}
-                rowClassName={(record) => (record.isMe ? 'office-planner-active' : '')}
+                rowClassName={record => (record.isMe ? 'office-planner-active' : '')}
               />
             </Tabs.TabPane>
           )
