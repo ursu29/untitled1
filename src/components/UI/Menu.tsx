@@ -12,7 +12,7 @@ import styled from 'styled-components'
 
 const Width = styled.div<{ isLarge: boolean }>`
   .ant-menu-inline-collapsed > .ant-menu-item {
-    padding: 0 ${(props) => (props.isLarge ? '32px !important' : '22px !important')};
+    padding: 0 ${props => (props.isLarge ? '32px !important' : '22px !important')};
   }
 `
 
@@ -90,11 +90,11 @@ function PortalMenu(props: Props) {
       icon: <Icon type="clock-circle" />,
       title: 'Timemaster',
     },
-    {
-      route: paths.WIKI,
-      icon: <Icon type="question-circle" />,
-      title: 'WIKI',
-    },
+    // {
+    //   route: paths.WIKI,
+    //   icon: <Icon type="question-circle" />,
+    //   title: 'WIKI',
+    // },
     {
       route: paths.OFFICE_PLANNER,
       icon: <Icon type="import" />,
@@ -125,49 +125,55 @@ function PortalMenu(props: Props) {
       : null,
   ]
 
+  if (loading) {
+    return (
+      <div style={{ padding: 24 }}>
+        <Skeleton active loading={loading} />
+      </div>
+    )
+  }
+
   return (
-    <Skeleton withOffset active loading={loading}>
-      <Width isLarge={isLarge}>
-        <Menu
-          defaultSelectedKeys={[props.path]}
-          selectedKeys={[props.path]}
-          mode="inline"
-          theme="light"
-          style={{ border: 'none', width: isLarge ? 240 : 60 }}
-        >
-          {menuItems.map((item) => {
-            if (!item) return null
-            return (
-              <Menu.Item key={item.route}>
-                <Link to={item.route} key={item.route}>
-                  {item.icon}
-                  <span>{item.title}</span>
-                  {item.status && isLarge && (
-                    <Tag
-                      style={{
-                        fontSize: 11,
-                        marginLeft: 8,
-                        padding: '0 4px',
-                        textTransform: 'uppercase',
-                        lineHeight: 1.5,
-                        cursor: 'pointer',
-                      }}
-                      color={(() => {
-                        if (item.status === 'updated') return 'green'
-                        if (item.status === 'new') return 'volcano'
-                      })()}
-                    >
-                      {item.status === 'new' && 'New'}
-                      {item.status === 'updated' && 'Updated'}
-                    </Tag>
-                  )}
-                </Link>
-              </Menu.Item>
-            )
-          })}
-        </Menu>
-      </Width>
-    </Skeleton>
+    <Width isLarge={isLarge}>
+      <Menu
+        defaultSelectedKeys={[props.path]}
+        selectedKeys={[props.path]}
+        mode="inline"
+        theme="light"
+        style={{ border: 'none', width: isLarge ? 240 : 60 }}
+      >
+        {menuItems.map(item => {
+          if (!item) return null
+          return (
+            <Menu.Item key={item.route}>
+              <Link to={item.route} key={item.route}>
+                {item.icon}
+                <span>{item.title}</span>
+                {item.status && isLarge && (
+                  <Tag
+                    style={{
+                      fontSize: 11,
+                      marginLeft: 8,
+                      padding: '0 4px',
+                      textTransform: 'uppercase',
+                      lineHeight: 1.5,
+                      cursor: 'pointer',
+                    }}
+                    color={(() => {
+                      if (item.status === 'updated') return 'green'
+                      if (item.status === 'new') return 'volcano'
+                    })()}
+                  >
+                    {item.status === 'new' && 'New'}
+                    {item.status === 'updated' && 'Updated'}
+                  </Tag>
+                )}
+              </Link>
+            </Menu.Item>
+          )
+        })}
+      </Menu>
+    </Width>
   )
 }
 
