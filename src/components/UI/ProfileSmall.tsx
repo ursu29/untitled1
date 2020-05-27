@@ -23,7 +23,11 @@ export default function SiderProfile({ loading, profile }: Props) {
       <Card
         hoverable
         bordered={false}
-        style={{ borderRight: 'none', maxWidth: 'fit-content' }}
+        style={{
+          borderRight: 'none',
+          maxWidth: 'fit-content',
+          minWidth: isLarge ? '240px' : '60px',
+        }}
         size={isLarge ? 'default' : 'small'}
         bodyStyle={(!isLarge && { padding: 8, paddingTop: 12 }) || undefined}
       >
