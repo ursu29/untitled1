@@ -74,6 +74,7 @@ type OfficeDayPick = Pick<OfficeDay, 'id' | 'date' | 'employeeLimit' | 'employee
 const LOCATIONS = [
   { key: 'SAINT_PETERSBURG', title: 'Saint Petersburg' },
   { key: 'TOMSK', title: 'Tomsk' },
+  { key: 'KALININGRAD', title: 'Kaliningrad' },
   { key: 'ZURICH', title: 'Zürich' },
 ]
 
@@ -188,6 +189,9 @@ function OfficePlannerPage() {
       }
       if (myLocation === 'Zurich') {
         setCurrentLocation('ZURICH')
+      }
+      if (myLocation === 'Kaliningrad') {
+        setCurrentLocation('KALININGRAD')
       }
     }
   }, [myLocation])
