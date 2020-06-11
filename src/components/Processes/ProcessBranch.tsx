@@ -19,12 +19,12 @@ export default function Branch({
 }) {
   if (!steps?.length) return null
   const firstStep = parent
-    ? steps.find((i) => i.id === parent)
-    : steps.find((i) => !i.parentSteps.length)
+    ? steps.find(i => i.id === parent)
+    : steps.find(i => !i.parentSteps.length)
 
   if (!firstStep) return null
 
-  const nextSteps = steps.filter((i) => i.parentSteps?.find((i) => i.id === firstStep.id))
+  const nextSteps = steps.filter(i => i.parentSteps?.find(i => i.id === firstStep.id))
 
   const hasNextSteps = Boolean(nextSteps.length)
 

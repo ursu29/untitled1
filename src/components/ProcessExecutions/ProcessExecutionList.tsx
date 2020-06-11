@@ -65,7 +65,15 @@ function ProcessList({ items }: Props) {
           dataIndex: 'locations',
           title: 'Location',
           render: (_, process) => {
-            return <span>{process?.locations?.map((i) => i.name).join(' ,') ?? '-'}</span>
+            return <span>{process?.locations?.map(i => i.name).join(' ,') ?? '-'}</span>
+          },
+        },
+        {
+          key: 'position',
+          dataIndex: 'position',
+          title: 'Position',
+          render: (_, process) => {
+            return <span>{process?.vacancy?.position}</span>
           },
         },
         {

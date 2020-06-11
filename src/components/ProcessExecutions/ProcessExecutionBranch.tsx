@@ -30,15 +30,15 @@ export default function Branch({
   if (!steps?.length) return null
 
   const step = startItem
-    ? steps.find((i) => i.id === startItem.id)
-    : steps.find((i) => !i.parentSteps.length)
+    ? steps.find(i => i.id === startItem.id)
+    : steps.find(i => !i.parentSteps.length)
   if (!step) return null
 
-  const nextSteps = steps.filter((i) => i.parentSteps?.find((i) => i.id === step.id))
+  const nextSteps = steps.filter(i => i.parentSteps?.find(i => i.id === step.id))
   const hasNextSteps = Boolean(nextSteps.length)
 
-  const executionStep = executionSteps?.find((i) => i.step.id === step.id)
-  const executionStepParent = parent && executionSteps?.find((i) => i.step.id === parent.id)
+  const executionStep = executionSteps?.find(i => i.step?.id === step.id)
+  const executionStepParent = parent && executionSteps?.find(i => i.step?.id === parent.id)
 
   let status: 'pending' | 'active' | 'done' = 'pending'
   if (executionStep?.isDone) {
@@ -90,8 +90,10 @@ export default function Branch({
                     defaultValue={executionStep?.description}
                     placeholder="Comment"
                     autoSize
-                    disabled={!active}
-                    onChange={(e) => onComment?.(step.id, e.target.value)}
+                    // disabled={!active}
+                    onChange={e => {
+                      onComment?.(step.id, e.target.value)
+                    }}
                   />
                 </Form.Item>
               )}
@@ -99,7 +101,7 @@ export default function Branch({
                 <Controls>
                   <Button
                     type="primary"
-                    disabled={!step.responsibleUsers?.find((i) => i.isMe)}
+                    disabled={!step.responsibleUsers?.find(i => i.isMe)}
                     onClick={() => onComplete(step)}
                   >
                     Complete
@@ -112,7 +114,7 @@ export default function Branch({
         {hasNextSteps && (
           <>
             <RowWrapper hasSeveralSteps={nextSteps.length > 1}>
-              {nextSteps.map((i) => (
+              {nextSteps.map(i => (
                 <Branch
                   active={active}
                   key={i.id}
@@ -121,6 +123,7 @@ export default function Branch({
                   parent={step}
                   executionSteps={executionSteps}
                   onComplete={onComplete}
+                  onComment={onComment}
                 />
               ))}
             </RowWrapper>

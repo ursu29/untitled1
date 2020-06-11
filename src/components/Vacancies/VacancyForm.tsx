@@ -79,7 +79,7 @@ function VacancyForm({ vacancy, form, onClose, onSave, onPublish }: Props) {
             okText="Yes"
             cancelText="No"
           >
-            <Button>Close</Button>
+            <Button>Terminate vacancy</Button>
           </Popconfirm>
         )}
         <Button

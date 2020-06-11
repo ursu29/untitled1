@@ -94,7 +94,6 @@ function Vacancy({
     })
   const handleSave = save()
   const handlePublish = save(() => publish({ variables: { input: { id: vacancy?.id } } }))
-  console.log('vacancy: ', vacancy)
   return (
     <Skeleton active loading={loading}>
       {!vacancy && <div>Vacancy is not found</div>}
