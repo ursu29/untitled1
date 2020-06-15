@@ -16,6 +16,8 @@ export default gql`
           title
         }
         skills {
+          id
+          type
           skill {
             id
             name

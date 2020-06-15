@@ -25,7 +25,15 @@ export default withRouter(
       <Tooltip placement="left" title={skill.description}>
         <Tag
           closable={closable}
-          style={{ marginTop: 6, marginBottom: 6, display: 'flex', alignItems: 'center', ...style }}
+          style={{
+            marginTop: 6,
+            marginBottom: 6,
+            display: 'flex',
+            justifyContent: 'space-between',
+            width: '100%',
+            alignItems: 'center',
+            ...style,
+          }}
           onClose={(e: any) => {
             e.preventDefault()
             setDeleting(true)
@@ -34,7 +42,7 @@ export default withRouter(
           <span
             style={{
               display: 'inline-block',
-              maxWidth: 150,
+              maxWidth: 100,
               overflow: 'hidden',
               textOverflow: 'ellipsis',
             }}

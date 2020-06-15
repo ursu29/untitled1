@@ -11,9 +11,10 @@ import DetachMatrix from './DetachMatrix'
 interface Props {
   matrix: Matrix
   employee: Pick<Employee, 'id'>
+  isCurrentTab?: boolean
 }
 
-export default function EmployeeMatrix({ employee, matrix }: Props) {
+export default function EmployeeMatrix({ employee, matrix, isCurrentTab }: Props) {
   const { data, loading } = useQuery<QueryType>(getEmployeeExperiences, {
     variables: { input: { id: employee.id } },
   })
@@ -24,6 +25,7 @@ export default function EmployeeMatrix({ employee, matrix }: Props) {
         matrix={matrix}
         employee={data?.employees[0]}
         EmployeeSkillExperience={EmployeeSkillExperience}
+        isCurrentTab={isCurrentTab}
       />
       <Controls>
         <DetachMatrix matrix={matrix} employee={employee} />

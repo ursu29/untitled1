@@ -1,10 +1,10 @@
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import React from 'react'
-import getMatrix from '../../queries/getMatrix'
-import { Matrix, Skill } from '../../types'
-import SkillTag from '../Skills/SkillTag'
-import message from '../../message'
+import getMatrix from '../../../queries/getMatrix'
+import { Matrix, Skill } from '../../../types'
+import SkillTag from '../../Skills/SkillTag'
+import message from '../../../message'
 
 const mutation = gql`
   mutation DeleteMatrixSkill($input: DeleteMatrixSkillInput) {

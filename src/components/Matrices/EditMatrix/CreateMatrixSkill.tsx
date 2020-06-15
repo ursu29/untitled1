@@ -1,11 +1,19 @@
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import React, { useEffect, useState } from 'react'
-import message from '../../message'
-import getMatrix from '../../queries/getMatrix'
-import { Matrix, MatrixGrade, MatrixGroup } from '../../types'
-import SkillSelect from '../Skills/SkillSelect'
-import Button from '../UI/Button'
+import styled from 'styled-components'
+import message from '../../../message'
+import getMatrix from '../../../queries/getMatrix'
+import { Matrix, MatrixGrade, MatrixGroup } from '../../../types'
+import SkillSelect from '../../Skills/SkillSelect'
+import Button from '../../UI/Button'
+
+const AddSkillButton = styled.div`
+  color: lightgray;
+  &:hover {
+    color: #40a9ff;
+  }
+`
 
 const mutation = gql`
   mutation CreateMatrixSkill($input: CreateMatrixSkillInput) {
@@ -46,9 +54,15 @@ const SkillSelector = ({ onSelect }: { onSelect: (skill: string) => any }) => {
     )
   }
   return (
-    <Button type="dashed" onClick={() => toggleAdding(true)}>
-      Add skill
-    </Button>
+    <AddSkillButton>
+      <Button
+        size="small"
+        shape="circle"
+        icon="plus"
+        style={{ color: 'inherit' }}
+        onClick={() => toggleAdding(true)}
+      />
+    </AddSkillButton>
   )
 }
 

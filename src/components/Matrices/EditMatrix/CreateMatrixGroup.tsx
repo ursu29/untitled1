@@ -1,11 +1,11 @@
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import React, { useState } from 'react'
-import getMatrices from '../../queries/getMatrices'
-import getMatrix from '../../queries/getMatrix'
-import { Matrix, MatrixGrade } from '../../types'
-import MatrixDrawer from '../UI/MatrixDrawer'
-import message from '../../message'
+import getMatrices from '../../../queries/getMatrices'
+import getMatrix from '../../../queries/getMatrix'
+import { Matrix, MatrixGrade } from '../../../types'
+import MatrixDrawer from '../../UI/MatrixDrawer'
+import message from '../../../message'
 
 const mutation = gql`
   mutation CreateMatrixGroup($input: CreateMatrixGroupInput!) {
@@ -41,7 +41,6 @@ export default function CreateMatrixGroup({ matrix }: Props) {
   return (
     <MatrixDrawer
       togglerLabel="Add group"
-      // icon="edit"
       drawerLabel={'Cerate a matrix group for a matrix ' + matrix.title}
       data={group}
       loading={loading}

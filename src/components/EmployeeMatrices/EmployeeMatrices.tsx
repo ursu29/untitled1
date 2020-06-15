@@ -6,8 +6,9 @@ import EmployeeReviewers, { ReviewersNames } from '../Employees/EmployeeReviewer
 import Controls from '../UI/Controls'
 import AttachMatrix from './AttachMatrix'
 import EmployeeMatricesList from './EmployeeMatricesList'
-import EmployeeMatriceUpdateDate from './EmployeeMatricesUpdateDate'
+import EmployeeMatricesUpdateDate from './EmployeeMatricesUpdateDate'
 import ExportMatrices from './ExportMatrices'
+import Legend from './Legend'
 
 interface Props {
   employee?: Pick<Employee, 'id' | 'name' | 'email' | 'isMe'>
@@ -24,7 +25,7 @@ export default function EmployeeMatrices(props: Props) {
 
   return (
     <>
-      <Controls back={<EmployeeMatriceUpdateDate employee={employee} />}>
+      <Controls back={<EmployeeMatricesUpdateDate employee={employee} />}>
         {props.reviewersListAccess.read && (
           <EmployeeReviewers
             employee={props.employee!}
@@ -35,6 +36,7 @@ export default function EmployeeMatrices(props: Props) {
         <AttachMatrix employee={employee} />
         <ExportMatrices matrices={employee?.matrices} employee={employee} />
       </Controls>
+      <Legend />
       <EmployeeMatricesList loading={loading} matrices={employee?.matrices} employee={employee} />
     </>
   )

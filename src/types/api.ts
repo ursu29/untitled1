@@ -102,7 +102,8 @@ export interface Access {
 
 export interface MatrixSkill {
   id: string
-  skill: Skill
+  type: string
+  skill: Skill | { id: string }
   gradeId: string
   groupId: string
 }

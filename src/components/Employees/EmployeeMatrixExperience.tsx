@@ -3,7 +3,6 @@ import { Experience, Skill, Employee, Level } from '../../types'
 import gql from 'graphql-tag'
 import MatrixExperience from '../Matrices/MatrixExperience'
 import { useMutation } from '@apollo/react-hooks'
-import MatrixLevelSelect from '../EmployeeMatrices/MatrixLevelSelect'
 import getEmployeeExperiences from '../../queries/getEmployeeExperiences'
 import updateExperience from '../../queries/updateExperience'
 import message from '../../message'
@@ -32,9 +31,18 @@ interface Props {
   skill?: Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'>
   editable: boolean
   employee?: Pick<Employee, 'id'>
+  divClassName?: string
+  type?: string
 }
 
-export default function EmployeeMatrixExperience({ experience, skill, employee, editable }: Props) {
+export default function EmployeeMatrixExperience({
+  experience,
+  skill,
+  employee,
+  editable,
+  divClassName,
+  type,
+}: Props) {
   const refetchQueries = [
     { query: getEmployeeExperiences, variables: { input: { id: employee?.id } } },
   ]
@@ -58,6 +66,37 @@ export default function EmployeeMatrixExperience({ experience, skill, employee, 
     onError,
   })
 
+  const onSelectLevel = (level: any) => {
+    if (!experience) {
+      create({
+        variables: {
+          input: {
+            employee: employee?.id,
+            skill: skill?.id,
+            level: level.id,
+          },
+        },
+      })
+    } else {
+      update({
+        variables: {
+          input: {
+            id: experience.id,
+            level: level.id,
+          },
+        },
+      })
+    }
+  }
+
+  const onDeselectLevel = () => {
+    if (experience) {
+      remove({
+        variables: { input: { id: experience.id } },
+      })
+    }
+  }
+
   useEffect(() => {
     if (createLoading) message.loading('Adding')
     if (updateLoading) message.loading('Updating')
@@ -69,45 +108,13 @@ export default function EmployeeMatrixExperience({ experience, skill, employee, 
 
   return (
     <MatrixExperience
+      type={type}
       skill={skill}
       experience={experience}
-      matrixLevelSelect={
-        editable ? (
-          <MatrixLevelSelect
-            loading={createLoading || updateLoading || deleteLoading}
-            level={experience?.level}
-            onSelect={(level) => {
-              if (!experience) {
-                create({
-                  variables: {
-                    input: {
-                      employee: employee.id,
-                      skill: skill.id,
-                      level: level.id,
-                    },
-                  },
-                })
-              } else {
-                update({
-                  variables: {
-                    input: {
-                      id: experience.id,
-                      level: level.id,
-                    },
-                  },
-                })
-              }
-            }}
-            onDeselect={() => {
-              if (experience) {
-                remove({
-                  variables: { input: { id: experience.id } },
-                })
-              }
-            }}
-          />
-        ) : null
-      }
+      onSelectLevel={onSelectLevel}
+      onDeselectLevel={onDeselectLevel}
+      divClassName={divClassName}
+      editable={editable}
     />
   )
 }
