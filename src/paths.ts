@@ -3,6 +3,7 @@ import { Employee, Project, Skill, Matrix, Post, Process, Vacancy, ProcessExecut
 const PATHS = {
   PROFILE: '/profile',
   EMPLOYEES: '/employees',
+  GUILDS: '/guilds',
   PROJECTS: '/projects',
   SKILLS: '/skills',
   STATISTICS: '/stats',
@@ -22,6 +23,7 @@ const PATHS = {
 
 export const getEmployeeLink = (email: Employee['email']) => PATHS.EMPLOYEES + '/' + email + '/'
 export const getProjectLink = (code: Project['code']) => PATHS.PROJECTS + '/' + code + '/'
+export const getGuildLink = (code: Project['code']) => PATHS.GUILDS + '/' + code + '/'
 export const getSkillLink = (id: Skill['id']) => PATHS.SKILLS + '/' + id + '/'
 export const getMatrixLink = (id: Matrix['id']) => PATHS.MATRICES + '/' + id + '/'
 export const getPostLink = (id: Post['id']) => PATHS.POSTS + '/' + id + '/'

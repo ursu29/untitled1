@@ -43,9 +43,7 @@ export default class MarkdownEditor extends Component<Props> {
         simplemde.value(value)
       }
       simplemde.codemirror.on('change', function () {
-        if (value !== simplemde.value()) {
-          onChange?.(simplemde.value())
-        }
+        onChange?.(simplemde.value())
       })
     }
   }

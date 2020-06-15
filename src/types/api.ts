@@ -313,3 +313,15 @@ export interface OfficeDay {
   date: string
   location: Location
 }
+
+export interface Guild {
+  id: string
+  azureDisplayName: string
+  azureId: string
+  title: string
+  description: string
+  shortDescription: string
+  leaders: Employee[]
+  skills: Skill[]
+  accessWrite: boolean
+}

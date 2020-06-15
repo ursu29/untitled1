@@ -4,7 +4,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { useLastLocation } from 'react-router-last-location'
 
 interface Props {
-  goto: string
+  goto?: string
 }
 
 function Back({ goto, history }: Props & RouteComponentProps) {
@@ -14,7 +14,7 @@ function Back({ goto, history }: Props & RouteComponentProps) {
     <Button
       icon="arrow-left"
       size="small"
-      style={{ borderColor: 'transparent', paddingLeft: 0, marginBottom: 4 }}
+      style={{ borderColor: 'transparent', paddingLeft: 0, marginBottom: 20 }}
       type="ghost"
       onClick={() => history.goBack()}
       disabled={!lastLocation}

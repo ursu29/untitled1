@@ -16,7 +16,7 @@ function NotFound({ history, message }: RouteComponentProps & { message?: string
       <Result
         status="404"
         title="Not found"
-        subTitle={message || 'Sorry, such page is not exist'}
+        subTitle={message || 'Sorry, such page does not exist'}
         extra={
           history.length && (
             <Button type="default" key="console" onClick={history.goBack}>

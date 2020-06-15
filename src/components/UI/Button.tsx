@@ -8,11 +8,20 @@ interface Props extends PropsWithChildren<any> {
   icon?: ButtonProps['icon']
   onClick?: () => void
   style?: any
+  disabled?: boolean
 }
 
-export default function PortalButton({ children, icon, type, size, onClick, style }: Props) {
+export default function PortalButton({
+  children,
+  icon,
+  type,
+  size,
+  onClick,
+  style,
+  disabled,
+}: Props) {
   return (
-    <Button icon={icon} type={type} size={size} onClick={onClick} style={style}>
+    <Button icon={icon} type={type} size={size} onClick={onClick} style={style} disabled={disabled}>
       {children}
     </Button>
   )

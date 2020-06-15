@@ -20,6 +20,8 @@ const Matrices = lazy(() => import('../Matrices/MatricesPage'))
 const Matrix = lazy(() => import('../Matrices/MatrixPage'))
 const Projects = lazy(() => import('../Projects/ProjectsPage'))
 const Project = lazy(() => import('../Projects/ProjectPage'))
+const Guilds = lazy(() => import('../Guilds/GuildsPage'))
+const Guild = lazy(() => import('../Guilds/GuildPage'))
 const Process = lazy(() => import('../Processes/ProcessPage'))
 const Processes = lazy(() => import('../Processes/ProcessesPage'))
 const Vacancies = lazy(() => import('../Vacancies/VacanciesPage'))
@@ -45,6 +47,8 @@ export default function Pages() {
           <Route path={paths.PROJECTS + '/:code/:tab'} component={Project} />
           <Route path={paths.PROJECTS + '/:code'} component={Project} />
           <Route path={paths.PROJECTS} component={Projects} />
+          <Route path={paths.GUILDS + '/:code'} component={Guild} />
+          <Route path={paths.GUILDS} component={Guilds} />
           <Route path={paths.SKILLS + '/:id:/:tab'} component={Skill} />
           <Route path={paths.SKILLS + '/:id'} component={Skill} />
           <Route path={paths.SKILLS} component={Skills} />
