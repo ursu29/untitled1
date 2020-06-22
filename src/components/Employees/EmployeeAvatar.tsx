@@ -22,7 +22,7 @@ interface Props {
   size: AvatarProps['size']
   shape?: AvatarProps['shape']
   showTooltip?: boolean
-  loadImmediatelly?: boolean
+  loadImmediately?: boolean
 }
 
 type QueryType = {
@@ -34,9 +34,9 @@ export default ({
   size,
   shape = 'circle',
   showTooltip = false,
-  loadImmediatelly = true,
+  loadImmediately = true,
 }: Props) => {
-  const [show, toggleShow] = useState(loadImmediatelly)
+  const [show, toggleShow] = useState(loadImmediately)
   const [load, { data, called }] = useLazyQuery<QueryType, { email: string }>(query, {
     variables: { email },
   })

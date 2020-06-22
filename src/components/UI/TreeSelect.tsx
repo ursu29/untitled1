@@ -27,10 +27,14 @@ interface Props {
   loading: boolean
   multiple: boolean
   items?: Item[]
+  searchPlaceholder?: string
   onChange: (value: string | string[]) => void
 }
 
-function PortalTreeSelect({ loading, value, multiple, items, onChange }: Props, ref: any) {
+function PortalTreeSelect(
+  { loading, value, multiple, items, searchPlaceholder, onChange }: Props,
+  ref: any,
+) {
   if (!items) return null
   const tree = buildTree(items)
   return (
@@ -51,6 +55,7 @@ function PortalTreeSelect({ loading, value, multiple, items, onChange }: Props, 
       dropdownStyle={{ maxHeight: 300, overflow: 'auto' }}
       multiple={multiple}
       treeData={tree}
+      searchPlaceholder={searchPlaceholder || ''}
     />
   )
 }

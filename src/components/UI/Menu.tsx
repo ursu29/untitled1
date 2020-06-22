@@ -69,6 +69,11 @@ function PortalMenu(props: Props) {
       status: 'updated',
     },
     {
+      route: paths.STREAM,
+      icon: <Icon type="video-camera" />,
+      title: 'Stream',
+    },
+    {
       route: paths.BOOKMARKS,
       icon: <Icon type="book" />,
       title: 'Bookmarks',

@@ -3,7 +3,7 @@ import { Avatar, Tooltip, Typography } from 'antd'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { Guild } from '../../types'
 import { getEmployeeLink, getGuildLink } from '../../paths'
-import Technologies from './Technologies'
+import Technologies from '../UI/Technologies'
 import { CardWrapper, CardHeader, GuildTitle } from './styled'
 
 interface Props {
@@ -44,7 +44,7 @@ function GuildCard({ guild, style, history }: Props & RouteComponentProps) {
         {guild.shortDescription}
       </Typography.Paragraph>
 
-      <Technologies technologies={guild.skills} shortList />
+      <Technologies technologies={guild.skills} amount={2} isTitleShown />
     </CardWrapper>
   )
 }

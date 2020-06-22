@@ -19,9 +19,9 @@ const statuses: Record<string, ReactNode> = {
 function ActiveStepCard({ title, description, status, employees, children }: Props) {
   const extra = (
     <div>
-      {employees?.map((i) => {
+      {employees?.map(i => {
         return (
-          <EmployeeAvatar key={i.id} email={i.email} size="small" showTooltip loadImmediatelly />
+          <EmployeeAvatar key={i.id} email={i.email} size="small" showTooltip loadImmediately />
         )
       })}
     </div>

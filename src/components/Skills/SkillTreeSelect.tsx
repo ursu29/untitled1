@@ -13,6 +13,7 @@ interface Props {
   disabledSkills?: string[]
   onChange?: (value: SkillPick[]) => void
   isIncludeMatrixSkills?: boolean
+  searchPlaceholder?: string
 }
 
 const convertSkillsToTreeValue = (skills?: SkillPick[]) => {
@@ -66,6 +67,7 @@ function SkillTreeSelect(
           parentKey: skill.parent?.id,
           disabled: disabledSkills.includes(skill.id),
         }))}
+      searchPlaceholder={props.searchPlaceholder}
     />
   )
 }

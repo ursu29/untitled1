@@ -13,6 +13,7 @@ const Skills = lazy(() => import('../Skills/SkillsPage'))
 const Skill = lazy(() => import('../Skills/SkillPage'))
 const Files = lazy(() => import('../Files/FilesPage'))
 const Statistics = lazy(() => import('../Statistics/StatisticsPage'))
+const Stream = lazy(() => import('../Stream/StreamPage'))
 const Bookmarks = lazy(() => import('../Bookmarks/BookmarksPage'))
 const Employees = lazy(() => import('../Employees/EmployeesPage'))
 const Employee = lazy(() => import('../Employees/EmployeePage'))
@@ -59,6 +60,7 @@ export default function Pages() {
           <Route path={paths.POSTS + '/:id'} component={Post} />
           <Route path={paths.POSTS} component={News} />
           <Route path={paths.STATISTICS} component={Statistics} />
+          <Route path={paths.STREAM} component={Stream} />
           <Route path={paths.PROCESSES + '/:id'} component={Process} />
           <Route path={paths.PROCESSES} component={Processes} />
           <Route path={paths.VACANCIES + '/:id'} component={Vacancy} />

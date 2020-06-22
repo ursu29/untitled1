@@ -315,6 +315,22 @@ export interface OfficeDay {
   location: Location
 }
 
+export interface Stream {
+  id: string
+  videoId: string
+  name: string
+  description: string
+  duration: string
+  privacyMode: string
+  likes: number
+  views: number
+  comments: number
+  publishedDate: string
+  posterImageUrl: string
+  creatorName: string
+  creatorMail: string
+  skills: Skill[]
+}
 export interface Guild {
   id: string
   azureDisplayName: string

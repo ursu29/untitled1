@@ -5,7 +5,7 @@ import { useMediaQuery } from 'react-responsive'
 import GuildTitle from './GuildTitle'
 import GuildDescription from './GuildDescription'
 import GuildShortDescription from './GuildShortDescription'
-import Technologies from './Technologies'
+import Technologies from '../UI/Technologies'
 import { MainContent, LeftBlock, RightBlock } from './styled'
 import Controls from '../UI/Controls'
 import Back from '../UI/Back'
@@ -71,7 +71,12 @@ function GuildPage({ match }: Props) {
             editable={editable}
             handleSave={handleSave}
           />
-          <Technologies technologies={guild.skills} editable={editable} handleSave={handleSave} />
+          <Technologies
+            technologies={guild.skills}
+            editable={editable}
+            handleSave={handleSave}
+            isTitleShown
+          />
         </LeftBlock>
 
         <RightBlock singleColumn={singleColumn}>

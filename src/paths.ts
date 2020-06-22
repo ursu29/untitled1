@@ -7,6 +7,7 @@ const PATHS = {
   PROJECTS: '/projects',
   SKILLS: '/skills',
   STATISTICS: '/stats',
+  STREAM: '/stream',
   BOOKMARKS: '/bookmarks',
   POSTS: '/feed',
   MATRICES: '/matrices',
