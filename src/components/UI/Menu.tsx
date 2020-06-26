@@ -100,11 +100,11 @@ function PortalMenu(props: Props) {
       icon: <Icon type="clock-circle" />,
       title: 'Timemaster',
     },
-    // {
-    //   route: paths.WIKI,
-    //   icon: <Icon type="question-circle" />,
-    //   title: 'WIKI',
-    // },
+    {
+      route: paths.WIKI,
+      icon: <Icon type="question-circle" />,
+      title: 'WIKI',
+    },
     {
       route: paths.OFFICE_PLANNER,
       icon: <Icon type="import" />,

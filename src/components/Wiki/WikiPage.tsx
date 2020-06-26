@@ -1,38 +1,29 @@
-import React, { useEffect } from 'react'
-import { notification, Button } from 'antd'
+import React from 'react'
+import { useQuery } from '@apollo/react-hooks'
+import { getPaths, getWikiRootSections, WikiRootSectionQueryType } from '../../queries/wiki'
+import { Typography } from 'antd'
+import PageContent from '../UI/PageContent'
+import MainMenuItem from './MainMenuItem'
+import QrWiFi from './QrWiFi'
 
-const openNotification = () => {
-  notification.open({
-    message: "If WIKI is not available, probably you're not authorized",
-    description: (
-      <Button
-        onClick={() => {
-          window.open('https://wiki.sidenis.com', '__blank')
-        }}
-      >
-        Login
-      </Button>
-    ),
-    duration: 4,
-  })
-}
+export default function WikiPage() {
+  // Get wiki root sections
+  const { data: sections } = useQuery<WikiRootSectionQueryType>(getWikiRootSections)
 
-function WikiPage() {
-  useEffect(() => {
-    openNotification()
-  }, [])
+  // Get all wiki paths
+  const { data, loading, error } = useQuery(getPaths)
+
   return (
-    <div style={{ height: '100vh', width: '100%' }}>
-      <iframe
-        id="tm_iframe"
-        width="100%"
-        height="100%"
-        frameBorder="0"
-        src="https://wiki.sidenis.com"
-        title="WIKI"
-      ></iframe>
-    </div>
+    <PageContent>
+      <Typography.Title style={{ marginBottom: '40px' }}>Wiki</Typography.Title>
+      {sections?.wikiRootSections.map((section, i) => (
+        <MainMenuItem
+          key={i}
+          section={section}
+          paths={data?.wikiPagesPaths.filter((path: string) => path.startsWith(section.path)) || []}
+        />
+      ))}
+      <QrWiFi />
+    </PageContent>
   )
 }
-
-export default WikiPage

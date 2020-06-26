@@ -4,14 +4,14 @@ import Button from '../UI/Button'
 import Input from '../UI/Input'
 
 interface Props {
-  title: string
+  data: string
   editable?: boolean
   handleSave: Function
 }
 
-export default function GuildTitle({ title, editable, handleSave }: Props) {
+export default function TitleEditable({ data, editable, handleSave }: Props) {
   const [isEditing, toggleIsEditing] = useState(false)
-  const [titleInput, setTitleInput] = useState(title)
+  const [titleInput, setTitleInput] = useState(data)
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '40px' }}>
@@ -27,9 +27,7 @@ export default function GuildTitle({ title, editable, handleSave }: Props) {
           }}
         />
       ) : (
-        <Typography.Title style={{ marginRight: '10px', marginBottom: 0 }}>
-          {title}
-        </Typography.Title>
+        <Typography.Title style={{ marginRight: '10px', marginBottom: 0 }}>{data}</Typography.Title>
       )}
       {editable && (
         <Button
@@ -37,8 +35,8 @@ export default function GuildTitle({ title, editable, handleSave }: Props) {
           icon={isEditing ? 'check' : 'edit'}
           type="link"
           onClick={() => {
-            if (isEditing && titleInput !== title) {
-              handleSave({ title: titleInput })
+            if (isEditing && titleInput !== data) {
+              handleSave(titleInput)
             }
             toggleIsEditing(!isEditing)
           }}

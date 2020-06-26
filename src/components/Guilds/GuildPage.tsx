@@ -2,8 +2,8 @@ import React from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { useMediaQuery } from 'react-responsive'
-import GuildTitle from './GuildTitle'
-import GuildDescription from './GuildDescription'
+import TitleEditable from '../UI/TitleEditable'
+import MarkdownEditable from '../UI/MarkdownEditable'
 import GuildShortDescription from './GuildShortDescription'
 import Technologies from '../UI/Technologies'
 import { MainContent, LeftBlock, RightBlock } from './styled'
@@ -59,17 +59,21 @@ function GuildPage({ match }: Props) {
     >
       <Controls back={<Back />} />
 
-      <GuildTitle title={guild.title} editable={editable} handleSave={handleSave} />
+      <TitleEditable
+        data={guild.title}
+        editable={editable}
+        handleSave={(data: string) => handleSave({ title: data })}
+      />
 
       <MainContent singleColumn={singleColumn}>
         <LeftBlock singleColumn={singleColumn}>
           {editable && (
             <GuildShortDescription description={guild.shortDescription} handleSave={handleSave} />
           )}
-          <GuildDescription
-            description={guild.description}
+          <MarkdownEditable
+            data={guild.description}
             editable={editable}
-            handleSave={handleSave}
+            handleSave={(data: string) => handleSave({ description: data })}
           />
           <Technologies
             technologies={guild.skills}

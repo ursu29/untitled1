@@ -31,6 +31,7 @@ const HR = lazy(() => import('../ProcessExecutions/ProcessExecutionsPage'))
 const HRProcess = lazy(() => import('../ProcessExecutions/ProcessExecutionPage'))
 const Timemaster = lazy(() => import('../Timemaster/TimemasterPage'))
 const Wiki = lazy(() => import('../Wiki/WikiPage'))
+const WikiPage = lazy(() => import('../Wiki/Page'))
 const OfficePlanner = lazy(() => import('../OfficePlanner/OfficePlannerPage'))
 
 export default function Pages() {
@@ -68,6 +69,7 @@ export default function Pages() {
           <Route path={paths.HR + '/:id'} component={HRProcess} />
           <Route path={paths.HR} component={HR} />
           <Route path={paths.TIMEMASTER} component={Timemaster} />
+          <Route path={paths.WIKI + '/:path'} component={WikiPage} />
           <Route path={paths.WIKI} component={Wiki} />
           <Route path={paths.OFFICE_PLANNER} component={OfficePlanner} />
           <Route component={PageNotFound} />

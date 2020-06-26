@@ -1,20 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Typography, Popconfirm } from 'antd'
 import Button from '../UI/Button'
 import MarkdownEditor from '../UI/MarkdownEditor'
 import markdownToHtml from '../../utils/markdownToHtml'
 
 interface Props {
-  description: string
+  data: string
   editable?: boolean
   handleSave: Function
+  onEdit?: Function
 }
 
-export default function GuildDescription({ description, editable, handleSave }: Props) {
+export default function MarkdownEditable({ data, editable, handleSave }: Props) {
   const [isEditing, toggleIsEditing] = useState(false)
-  const [descriptionMarkdown, setDescriptionMarkdown] = useState(description)
+  const [descriptionMarkdown, setDescriptionMarkdown] = useState(data)
 
-  const isTouched = descriptionMarkdown !== description
+  const isTouched = descriptionMarkdown !== data
 
   return isEditing ? (
     <div
@@ -27,7 +28,7 @@ export default function GuildDescription({ description, editable, handleSave }: 
       }}
     >
       <MarkdownEditor
-        id="guildDescription"
+        id="markdownEditor"
         value={descriptionMarkdown}
         onChange={(value: any) => {
           setDescriptionMarkdown(value)
@@ -55,7 +56,7 @@ export default function GuildDescription({ description, editable, handleSave }: 
         <Button
           disabled={!isTouched}
           onClick={() => {
-            handleSave({ description: descriptionMarkdown })
+            handleSave(descriptionMarkdown)
             toggleIsEditing(!isEditing)
           }}
           style={{ marginLeft: '10px' }}
@@ -77,16 +78,14 @@ export default function GuildDescription({ description, editable, handleSave }: 
         </Button>
       )}
       <Typography.Paragraph style={{ marginBottom: '30px' }}>
-        {description ? (
+        {data ? (
           <div
             dangerouslySetInnerHTML={{
-              __html: markdownToHtml(description),
+              __html: markdownToHtml(data),
             }}
           />
         ) : (
-          <span style={{ fontSize: '14px', color: 'rgba(0, 0, 0, 0.45)' }}>
-            (guild description)
-          </span>
+          <span style={{ fontSize: '14px', color: 'rgba(0, 0, 0, 0.45)' }}>(description)</span>
         )}
       </Typography.Paragraph>
     </div>

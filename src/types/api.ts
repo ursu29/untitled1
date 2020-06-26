@@ -342,3 +342,17 @@ export interface Guild {
   skills: Skill[]
   accessWrite: boolean
 }
+
+export interface WikiRootSection {
+  id: string
+  title: string
+  description: string
+  icon: string
+  path: string
+}
+export interface WikiPage {
+  id: string
+  title: string
+  body: string
+  path: string
+}
