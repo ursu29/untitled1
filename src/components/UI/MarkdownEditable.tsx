@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Typography, Popconfirm } from 'antd'
 import Button from '../UI/Button'
 import MarkdownEditor from '../UI/MarkdownEditor'
@@ -25,6 +25,7 @@ export default function MarkdownEditable({ data, editable, handleSave }: Props) 
         alignItems: 'flex-end',
         marginBottom: '30px',
         width: 'fit-content',
+        maxWidth: '96%',
       }}
     >
       <MarkdownEditor
@@ -56,7 +57,7 @@ export default function MarkdownEditable({ data, editable, handleSave }: Props) 
         <Button
           disabled={!isTouched}
           onClick={() => {
-            handleSave(descriptionMarkdown)
+            handleSave(descriptionMarkdown.trim())
             toggleIsEditing(!isEditing)
           }}
           style={{ marginLeft: '10px' }}
@@ -66,28 +67,28 @@ export default function MarkdownEditable({ data, editable, handleSave }: Props) 
       </div>
     </div>
   ) : (
-    <div>
-      {editable && (
-        <Button
-          size="small"
-          type="link"
-          style={{ padding: 0 }}
-          onClick={() => toggleIsEditing(!isEditing)}
-        >
-          (edit)
-        </Button>
-      )}
-      <Typography.Paragraph style={{ marginBottom: '30px' }}>
+    <div style={{ display: 'flex' }}>
+      <Typography.Paragraph style={{ marginBottom: '30px', maxWidth: '96%' }}>
         {data ? (
           <div
             dangerouslySetInnerHTML={{
               __html: markdownToHtml(data),
             }}
+            style={{ maxWidth: '100%', overflowX: 'auto' }}
           />
         ) : (
           <span style={{ fontSize: '14px', color: 'rgba(0, 0, 0, 0.45)' }}>(description)</span>
         )}
       </Typography.Paragraph>
+      {editable && (
+        <Button
+          size="small"
+          icon="edit"
+          type="link"
+          style={{ marginLeft: '10px' }}
+          onClick={() => toggleIsEditing(!isEditing)}
+        />
+      )}
     </div>
   )
 }

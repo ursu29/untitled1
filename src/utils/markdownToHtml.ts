@@ -9,5 +9,7 @@ const converter = new Showdown.Converter({
 })
 
 export default function (body: string) {
-  return converter.makeHtml(body)
+  // sanitize body - replace dangerous words with the same with cyrillic letters
+  const sanBody = body?.replace(/localStorage/g, 'lоcalStоrage')
+  return converter.makeHtml(sanBody)
 }

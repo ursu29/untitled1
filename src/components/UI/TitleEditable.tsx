@@ -7,9 +7,10 @@ interface Props {
   data: string
   editable?: boolean
   handleSave: Function
+  emptyValue?: string
 }
 
-export default function TitleEditable({ data, editable, handleSave }: Props) {
+export default function TitleEditable({ data, editable, handleSave, emptyValue }: Props) {
   const [isEditing, toggleIsEditing] = useState(false)
   const [titleInput, setTitleInput] = useState(data)
 
@@ -36,7 +37,7 @@ export default function TitleEditable({ data, editable, handleSave }: Props) {
           type="link"
           onClick={() => {
             if (isEditing && titleInput !== data) {
-              handleSave(titleInput)
+              handleSave(titleInput.trim() ? titleInput.trim() : emptyValue ? emptyValue : '')
             }
             toggleIsEditing(!isEditing)
           }}

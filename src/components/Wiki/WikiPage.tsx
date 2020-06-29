@@ -11,7 +11,7 @@ export default function WikiPage() {
   const { data: sections } = useQuery<WikiRootSectionQueryType>(getWikiRootSections)
 
   // Get all wiki paths
-  const { data, loading, error } = useQuery(getPaths)
+  const { data } = useQuery(getPaths)
 
   return (
     <PageContent>

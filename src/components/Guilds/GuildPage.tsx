@@ -63,6 +63,7 @@ function GuildPage({ match }: Props) {
         data={guild.title}
         editable={editable}
         handleSave={(data: string) => handleSave({ title: data })}
+        emptyValue="(untitled)"
       />
 
       <MainContent singleColumn={singleColumn}>

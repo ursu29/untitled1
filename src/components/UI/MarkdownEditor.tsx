@@ -4,6 +4,7 @@ import 'simplemde/dist/simplemde.min.css'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
+  max-width: 100%;
   img {
     max-width: 100%;
     padding: 8px 0;

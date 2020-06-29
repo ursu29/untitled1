@@ -37,6 +37,7 @@ export default function EmployeeDevelopmentPlan(props: Props) {
   const [update, { loading: mutateLoading }] = useMutation(mutation, {
     onCompleted: () => message.success('Plan has been updated'),
     refetchQueries: [{ query: getDevelopmentPlans, variables }],
+    onError: message.error,
   })
 
   const debounced = useCallback(debounce(500, update), [update])
@@ -76,7 +77,9 @@ export default function EmployeeDevelopmentPlan(props: Props) {
 
             <DevelopmentPlanForm
               value={plan}
-              onChange={(value: any) => debounced({ variables: { input: value } })}
+              onChange={(value: any) =>
+                debounced({ variables: { input: { ...value, lastUpdatedAt: plan?.updatedAt } } })
+              }
             />
           </>
         )}

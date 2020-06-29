@@ -12,13 +12,13 @@ export default function GuildDescription({ description, handleSave }: Props) {
   const [descriptionInput, setDescriptionInput] = useState(description)
 
   return (
-    <div style={{ marginBottom: '20px' }}>
+    <div style={{ marginBottom: '20px', overflowWrap: 'anywhere' }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         {isEditing ? (
           <Input.TextArea
             value={descriptionInput}
             onChange={e => setDescriptionInput(e.target.value)}
-            maxLength={315}
+            maxLength={285}
             style={{
               fontSize: '13px',
               height: '70px',
@@ -42,15 +42,16 @@ export default function GuildDescription({ description, handleSave }: Props) {
           type="link"
           onClick={() => {
             if (isEditing && descriptionInput !== description) {
-              handleSave({ shortDescription: descriptionInput })
+              handleSave({ shortDescription: descriptionInput.trim() })
             }
             toggleIsEditing(!isEditing)
           }}
         />
       </div>
+
       {isEditing && (
         <span style={{ fontSize: '13px', color: 'rgba(0, 0, 0, 0.45)', marginLeft: '5px' }}>
-          {descriptionInput?.length || 0} out of 315...
+          {descriptionInput?.length || 0} out of 285...
         </span>
       )}
     </div>
