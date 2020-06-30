@@ -84,7 +84,7 @@ function EvaluationAttributes({ evaluations, editable, comments, employee, ...pr
 
   let updatedAt: any = null
 
-  evaluations?.forEach((i) => {
+  evaluations?.forEach(i => {
     if (!updatedAt || dayjs(i.updatedAt).isAfter(dayjs(updatedAt))) {
       updatedAt = i.updatedAt
     }
@@ -101,7 +101,7 @@ function EvaluationAttributes({ evaluations, editable, comments, employee, ...pr
                   back={
                     updatedAt ? (
                       <Typography.Text disabled>
-                        Last updated: {dayjs(updatedAt).format('DD MMM YYYY HH:m')}
+                        Last updated: {dayjs(updatedAt).format('DD MMM YYYY HH:mm')}
                       </Typography.Text>
                     ) : null
                   }

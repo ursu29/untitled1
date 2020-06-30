@@ -21,7 +21,7 @@ export default function EmployeeMatrix({ employee }: Props) {
 
   const employeeFound = data?.employees[0]
 
-  employeeFound?.experiences?.forEach((i) => {
+  employeeFound?.experiences?.forEach(i => {
     if (!updatedAt || dayjs(i.updatedAt).isAfter(dayjs(updatedAt))) {
       updatedAt = i.updatedAt
     }
@@ -31,7 +31,7 @@ export default function EmployeeMatrix({ employee }: Props) {
 
   return (
     <Typography.Text disabled>
-      Last updated: {dayjs(updatedAt).format('DD MMM YYYY HH:m')}
+      Last updated: {dayjs(updatedAt).format('DD MMM YYYY HH:mm')}
     </Typography.Text>
   )
 }

@@ -60,7 +60,7 @@ export default function EmployeeDevelopmentPlan(props: Props) {
               back={
                 plan?.updatedAt ? (
                   <Typography.Text disabled>
-                    Last updated: {dayjs(plan.updatedAt).format('DD MMM YYYY HH:m')}
+                    Last updated: {dayjs(plan.updatedAt).format('DD MMM YYYY HH:mm')}
                   </Typography.Text>
                 ) : null
               }
