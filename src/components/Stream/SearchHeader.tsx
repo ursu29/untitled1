@@ -34,7 +34,13 @@ export default function SearchHeader({
         }}
       >
         <div style={{ marginBottom: '5px', whiteSpace: 'nowrap' }}>Search for videos</div>
-        <Input.Search placeholder="Enter title or author" onSearch={value => onSearch(value)} />
+        <Input.Search
+          placeholder="Enter title or author"
+          onSearch={value => onSearch(value)}
+          onChange={e => {
+            if (!e.target.value) onSearch(e.target.value)
+          }}
+        />
       </div>
 
       <div

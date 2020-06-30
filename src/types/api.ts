@@ -326,7 +326,6 @@ export interface Stream {
   views: number
   comments: number
   publishedDate: string
-  posterImageUrl: string
   creatorName: string
   creatorMail: string
   skills: Skill[]

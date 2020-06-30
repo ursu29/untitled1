@@ -18,6 +18,7 @@ import {
   AuthorName,
 } from './styled'
 import { METRICS, videoDuration, uploadDate } from './utils'
+import StreamIcon from '../../svg/microsoft-stream.png'
 
 export default function VideoCard({
   video,
@@ -38,8 +39,16 @@ export default function VideoCard({
   return (
     <CardWrapper isSingleColumn={isSingleColumn}>
       <PreviewBlock isSingleColumn={isSingleColumn} onClick={onClick}>
-        <img src={video.posterImageUrl} alt="" />
-        <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+        <img src={StreamIcon} alt="" style={{ width: '60px', marginLeft: '6px' }} />
+        <div
+          style={{
+            position: 'absolute',
+            marginTop: '42px',
+            width: '118px',
+            display: 'flex',
+            justifyContent: 'flex-end',
+          }}
+        >
           <Duration>{videoDuration(video.duration)}</Duration>
         </div>
       </PreviewBlock>

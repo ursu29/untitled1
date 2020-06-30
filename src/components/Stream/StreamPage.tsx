@@ -33,7 +33,7 @@ export default function StreamPage() {
   const { data, fetchMore, loading, error } = useQuery<StreamQueryType>(getStream, {
     variables,
   })
-  console.log(data)
+
   useEffect(() => {
     fetchMore({
       variables,

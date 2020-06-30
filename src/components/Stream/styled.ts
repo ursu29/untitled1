@@ -7,7 +7,14 @@ export const CardWrapper = styled.div<{ isSingleColumn: boolean }>`
 `
 
 export const PreviewBlock = styled.div<{ isSingleColumn: boolean }>`
-  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  background-color: #c100530f;
+  border: 1px solid #c1005347;
+  border-radius: 4px;
+  justify-content: center;
+  width: 120px;
+  height: 90px;
   cursor: pointer;
   margin-bottom: ${props => (props.isSingleColumn ? '10px' : 0)};
 `

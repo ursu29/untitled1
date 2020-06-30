@@ -14,7 +14,6 @@ export const getStream = gql`
       views
       comments
       publishedDate
-      posterImageUrl
       creatorName
       creatorMail
       skills {
