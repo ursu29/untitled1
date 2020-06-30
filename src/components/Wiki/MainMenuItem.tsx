@@ -51,6 +51,19 @@ export default function MainMenuItem({
   const { title, description, icon, path } = section
   const isMobileView = useMediaQuery({ maxWidth: 400 })
 
+  const isLinkExternal = path.includes('http')
+
+  const ConditionalLink = (props: any) =>
+    !isLinkExternal ? (
+      <Link to={path} style={props.style}>
+        {props.children}
+      </Link>
+    ) : (
+      <a href={path} target="_blank" rel="noopener noreferrer">
+        {props.children}
+      </a>
+    )
+
   // Get editing access
   const { data } = useQuery(wikiEditingAccess)
 
@@ -62,16 +75,16 @@ export default function MainMenuItem({
         marginBottom: '40px',
       }}
     >
-      <Link to={path}>
+      <ConditionalLink>
         <IconStyled>
           <Icon type={icon} style={{ fontSize: '35px', color: '#1890FF' }} />
         </IconStyled>
-      </Link>
+      </ConditionalLink>
 
       <div style={{ display: 'flex', flexDirection: 'column', width: '70%' }}>
-        <Link to={path} style={{ width: 'fit-content' }}>
+        <ConditionalLink style={{ width: 'fit-content' }}>
           <Title>{title}</Title>
-        </Link>
+        </ConditionalLink>
 
         <div
           style={{
@@ -83,7 +96,7 @@ export default function MainMenuItem({
           {description}
         </div>
 
-        {data?.wikiEditingAccess.write && (
+        {data?.wikiEditingAccess.write && !isLinkExternal && (
           <div style={{ marginBottom: '-20px' }}>
             <PageScheme paths={paths} sectionPath={section.path} />
           </div>
