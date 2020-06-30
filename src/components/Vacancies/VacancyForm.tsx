@@ -71,6 +71,15 @@ function VacancyForm({ vacancy, form, onClose, onSave, onPublish }: Props) {
           </Form.Item>
         </Col>
       </Row>
+      <Row gutter={16}>
+        <Col span={12}>
+          <Form.Item label="Hired employee">
+            {getFieldDecorator('employeeComment', {
+              initialValue: vacancy?.employeeComment,
+            })(<Input id="employeeComment" />)}
+          </Form.Item>
+        </Col>
+      </Row>
       <Row type="flex" justify="end" align="middle">
         {vacancy.isPublished && (
           <Popconfirm

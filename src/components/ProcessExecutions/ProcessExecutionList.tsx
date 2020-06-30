@@ -77,6 +77,14 @@ function ProcessList({ items }: Props) {
           },
         },
         {
+          key: 'employeeComment',
+          dataIndex: 'employeeComment',
+          title: 'Employee',
+          render: (_, process) => {
+            return <span>{process?.vacancy?.employeeComment}</span>
+          },
+        },
+        {
           key: 'actions',
           align: 'right',
           render: (_, process) => {

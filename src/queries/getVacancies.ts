@@ -26,6 +26,8 @@ export default gql`
         id
         isMe
       }
+      employeeComment
+      comment
     }
   }
 `

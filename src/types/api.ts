@@ -242,6 +242,8 @@ export interface Vacancy {
   rotateEmployees: Employee[]
   responsibleEmployees: Employee[]
   editable: boolean
+  employeeComment: string
+  comment: string
 }
 
 export interface Location {

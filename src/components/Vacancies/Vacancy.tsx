@@ -64,6 +64,7 @@ function Vacancy({
       requiredSkills,
       additionalSkills,
       project,
+      employeeComment,
     }: any) => {
       update({
         variables: {
@@ -76,6 +77,7 @@ function Vacancy({
             requiredSkills,
             additionalSkills,
             project,
+            employeeComment,
           },
         },
         update: callback,
