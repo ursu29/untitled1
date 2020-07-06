@@ -1,0 +1,47 @@
+.styled_tooltip .ant-tooltip-inner {
+  color: rgba(0, 0, 0, 0.65);
+  background-color: #ffffff;
+  min-width: 350px;
+  font-family: Segoe UI;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 22px;
+  padding: 20px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+}
+
+.styled_tooltip .ant-tooltip-arrow::before {
+  display: none;
+}
+
+.styled_tooltip .ant-tooltip-inner::before {
+  content: 'Comment';
+  font-family: Segoe UI;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 22px;
+  color: #000000;
+  display: block;
+  margin-bottom: 10px;
+}
+
+#comment_text_area {
+  resize: none;
+}
+
+.ant-modal-content .ant-modal-body {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.ant-modal-content .ant-modal-header {
+  border-width: 0;
+}
+
+.ant-modal-content .ant-modal-footer {
+  border-width: 0;
+  padding: 20px 24px;
+}

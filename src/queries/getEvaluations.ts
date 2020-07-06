@@ -17,6 +17,7 @@ export default gql`
         id
         name
       }
+      comment
       evaluation
       evaluationAttribute {
         id

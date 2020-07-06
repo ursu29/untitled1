@@ -128,12 +128,13 @@ function EvaluationAttributes({ evaluations, editable, comments, employee, ...pr
                 reviewers={reviewers}
                 employee={employee}
                 DeleteEmployeeReviewer={DeleteEmployeeReviewer}
-                onEvaluate={({ toWhom, evaluation, evaluationAttribute }: any) => {
+                onEvaluate={({ toWhom, evaluation, comment, evaluationAttribute }: any) => {
                   evaluate({
                     variables: {
                       input: {
                         toWhom,
                         evaluation,
+                        comment,
                         evaluationAttribute,
                       },
                     },

@@ -218,6 +218,7 @@ export interface Evaluation {
   fromWho: Employee
   toWhom: Employee
   updatedAt: string
+  comment: string
   evaluation: number
   evaluationAttribute: EvaluationAttribute
 }
