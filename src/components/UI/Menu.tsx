@@ -56,6 +56,7 @@ function PortalMenu(props: Props) {
       route: paths.GUILDS,
       icon: <Icon type="coffee" />,
       title: 'Guilds',
+      status: 'new',
     },
     {
       route: paths.SKILLS,
@@ -66,12 +67,12 @@ function PortalMenu(props: Props) {
       route: paths.STATISTICS,
       icon: <Icon type="line-chart" />,
       title: 'Statistics',
-      status: 'updated',
     },
     {
       route: paths.STREAM,
       icon: <Icon type="video-camera" />,
       title: 'Stream',
+      status: 'new',
     },
     {
       route: paths.BOOKMARKS,
@@ -83,6 +84,7 @@ function PortalMenu(props: Props) {
           route: paths.MATRICES,
           icon: <Icon type="number" />,
           title: 'Matrices',
+          status: 'updated',
         }
       : null,
     {
@@ -104,25 +106,24 @@ function PortalMenu(props: Props) {
       route: paths.WIKI,
       icon: <Icon type="question-circle" />,
       title: 'WIKI',
+      status: 'new',
     },
     {
       route: paths.OFFICE_PLANNER,
       icon: <Icon type="import" />,
       title: 'Office planner',
-      status: 'new',
     },
     {
       route: paths.VACANCIES,
       icon: <Icon type="idcard" />,
       title: 'Vacancies',
-      status: 'new',
     },
     data?.processesAccess.read
       ? {
           route: paths.HR,
           icon: <Icon type="user-add" />,
           title: 'HR Tool',
-          status: 'new',
+          status: 'updated',
         }
       : null,
     data?.processesAccess.read
@@ -130,7 +131,6 @@ function PortalMenu(props: Props) {
           route: paths.PROCESSES,
           icon: <Icon type="branches" />,
           title: 'Processes',
-          status: 'new',
         }
       : null,
   ]

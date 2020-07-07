@@ -108,7 +108,24 @@ function EmployeeTabs({ match, ...props }: Props) {
 
   if (matricesLookReviewersAccess?.read) {
     tabs.push({
-      title: 'Matrices',
+      title: (
+        <div style={{ display: 'inline-flex', alignItems: 'center' }}>
+          Matrices
+          <Tag
+            style={{
+              fontSize: 11,
+              marginLeft: 6,
+              padding: '0 4px',
+              textTransform: 'uppercase',
+              lineHeight: 1.3,
+              cursor: 'pointer',
+            }}
+            color="green"
+          >
+            Updated
+          </Tag>
+        </div>
+      ),
       key: 'matrices',
       icon: 'number',
       noPadding: false,
@@ -134,18 +151,9 @@ function EmployeeTabs({ match, ...props }: Props) {
 
   if (evaluationReviewersAccess?.read) {
     tabs.push({
-      title: 'Self Evaluation Form',
-      key: 'evaluation',
-      icon: 'star',
-      noPadding: false,
-      body: <EmployeeEvaluation employee={employee} editable={evaluationReviewersAccess?.write} />,
-    })
-  }
-  if (curriculumVitaeAccess?.read) {
-    tabs.push({
       title: (
         <div style={{ display: 'inline-flex', alignItems: 'center' }}>
-          CV
+          Self Evaluation Form
           <Tag
             style={{
               fontSize: 11,
@@ -155,12 +163,21 @@ function EmployeeTabs({ match, ...props }: Props) {
               lineHeight: 1.3,
               cursor: 'pointer',
             }}
-            color="volcano"
+            color="green"
           >
-            New
+            Updated
           </Tag>
         </div>
       ),
+      key: 'evaluation',
+      icon: 'star',
+      noPadding: false,
+      body: <EmployeeEvaluation employee={employee} editable={evaluationReviewersAccess?.write} />,
+    })
+  }
+  if (curriculumVitaeAccess?.read) {
+    tabs.push({
+      title: 'CV',
       icon: 'form',
       key: 'cv',
       noPadding: true,
