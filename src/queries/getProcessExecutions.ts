@@ -15,7 +15,7 @@ export default gql`
       vacancy {
         id
         position
-        employeeComment
+        # employeeComment
       }
       project {
         id
@@ -25,6 +25,8 @@ export default gql`
         id
         name
       }
+      employee
+      finishDate
     }
   }
 `
@@ -36,6 +38,8 @@ type ProcessExecutionPick = {
   project: Pick<Project, 'id' | 'name'>
   locations: Pick<Location, 'id' | 'name'>[]
   status: ProcessExecution['status']
+  employee: ProcessExecution['employee']
+  finishDate: ProcessExecution['finishDate']
 }
 
 export type QueryType = {
