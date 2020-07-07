@@ -15,7 +15,6 @@ import ProcessExecutionBranch from './ProcessExecutionBranch'
 import ProcessExecutionRotation from './ProcessExecutionRotation'
 import NotAllowed from '../UI/NotAllowed'
 import isForbidden from '../../utils/isForbidden'
-import AdditionalInfo from './AdditionalInfo'
 
 const mutation = gql`
   mutation completeProcessExecutionStep($input: CompleteProcessExecutionStepInput!) {
@@ -80,7 +79,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
     return <PageContent>Process is not found</PageContent>
   }
 
-  const branches = processExecution.process?.steps.filter(i => !i.parentSteps?.length)
+  const branches = processExecution.process?.steps.filter((i) => !i.parentSteps?.length)
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -110,15 +109,6 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
             </ActiveStepCard>
           </PageContent>
           <Divider />
-
-          <AdditionalInfo
-            processId={processExecution.id}
-            employee={processExecution.employee}
-            finishDate={processExecution.finishDate}
-            refetchQueries={[
-              { query: getProcessExecution, variables: { input: { id: match.params.id } } },
-            ]}
-          />
         </>
       )}
       <div style={{ overflow: 'auto', width: '100%', height: '100%' }}>
@@ -128,7 +118,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
               <div key={i.id}>
                 <ProcessExecutionBranch
                   executionSteps={processExecution.executionSteps}
-                  steps={processExecution.process.steps.filter(item => {
+                  steps={processExecution.process.steps.filter((item) => {
                     if (!item.parentSteps?.length) {
                       return item.id === i.id
                     }
@@ -139,7 +129,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                       ? processExecution.vacancy.isPublished
                       : true
                   }
-                  onComplete={step =>
+                  onComplete={(step) =>
                     complete({
                       variables: {
                         input: {

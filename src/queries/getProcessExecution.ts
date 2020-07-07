@@ -34,8 +34,6 @@ export default gql`
         description
         isDone
       }
-      employee
-      finishDate
     }
   }
   ${fragments.Employee.Details}
@@ -55,8 +53,6 @@ type ProcessExecutionPick = {
   executionSteps: (Pick<ProcessExecutionStep, 'id' | 'description' | 'isDone'> & {
     step: Pick<ProcessStep, 'id'>
   })[]
-  employee: string
-  finishDate: string
 }
 
 export type QueryType = {

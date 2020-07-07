@@ -284,8 +284,6 @@ export interface ProcessExecution {
   vacancy: Vacancy
   locations: Location[]
   project: Project
-  employee: string
-  finishDate: string
 }
 
 export interface ProcessExecutionStep {
