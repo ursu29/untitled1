@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import { QueryType } from '../../queries/getProcessExecutions'
 import { Table, Tag } from 'antd'
-import { Button, Popconfirm } from 'antd'
+import { Button, Popconfirm, Input, Icon } from 'antd'
 import PageContent from '../UI/PageContent'
 import AbortProcessExecution from './AbortProcessExecution'
 import { getProcessExecutionLink } from '../../paths'
 import { Link } from 'react-router-dom'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import Highlighter from 'react-highlight-words'
+
+dayjs.extend(relativeTime)
 
 const OffboardingIcon = () => (
   <svg width="34" height="32" viewBox="0 0 34 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -39,9 +44,75 @@ interface Props {
 }
 
 function ProcessList({ items }: Props) {
+  const [searchText, setSearchText] = useState('')
+  const [searchedColumn, setSearchedColumn] = useState('')
+  const searchInput = useRef(null)
+
   if (!items?.length) {
     return <PageContent>No processes found</PageContent>
   }
+
+  const handleSearch = (selectedKeys: any, confirm: any, dataIndex: any) => {
+    confirm()
+    setSearchText(selectedKeys[0])
+    setSearchedColumn(dataIndex)
+  }
+
+  const handleReset = (clearFilters: any) => {
+    clearFilters()
+    setSearchText('')
+  }
+
+  const getColumnSearchProps = (dataIndex: any) => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }: any) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ width: 188, marginBottom: 8, display: 'block' }}
+        />
+        <Button
+          type="primary"
+          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          icon="search"
+          size="small"
+          style={{ width: 90, marginRight: 8 }}
+        >
+          Search
+        </Button>
+        <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+          Reset
+        </Button>
+      </div>
+    ),
+    filterIcon: (filtered: any) => (
+      <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
+    ),
+    onFilter: (value: any, record: any) =>
+      record.process[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: (visible: any) => {
+      if (visible) {
+        setTimeout(() => {
+          //@ts-ignore
+          searchInput.current.select()
+        })
+      }
+    },
+    render: (text: any) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text.toString()}
+        />
+      ) : (
+        text
+      ),
+  })
 
   return (
     <Table<QueryType['processExecutions'][0]>
@@ -58,15 +129,38 @@ function ProcessList({ items }: Props) {
             return <div>{i.process.type}</div>
           },
         },
-        { key: 'title', dataIndex: 'process.title', title: 'Name' },
-        { key: 'project', dataIndex: 'project.name', title: 'Project' },
+        {
+          key: 'title',
+          dataIndex: 'process.title',
+          title: 'Name',
+          ...getColumnSearchProps('title'),
+        },
+        {
+          key: 'project',
+          dataIndex: 'project.name',
+          title: 'Project',
+          filters: items
+            .filter(e => e.project && e.project.name)
+            .map(e => ({ text: e.project.name, value: e.project.name })),
+          onFilter: (value, record) => record.project?.name === value,
+        },
         {
           key: 'location',
           dataIndex: 'locations',
           title: 'Location',
           render: (_, process) => {
-            return <span>{process?.locations?.map(i => i.name).join(' ,') ?? '-'}</span>
+            return <span>{process?.locations?.map(i => i.name).join(', ') ?? '-'}</span>
           },
+          filters: [
+            //@ts-ignore
+            ...new Set(
+              items
+                .filter(e => e.locations)
+                .flatMap(item => item.locations.map(location => location.name)),
+            ),
+          ].map(e => ({ text: e, value: e })),
+          onFilter: (value, record) =>
+            record.locations && record.locations.map(e => e.name).includes(value),
         },
         {
           key: 'position',
@@ -75,14 +169,42 @@ function ProcessList({ items }: Props) {
           render: (_, process) => {
             return <span>{process?.vacancy?.position}</span>
           },
+          filters: [
+            //@ts-ignore
+            ...new Set(
+              items.filter(e => e.vacancy && e.vacancy.position).map(item => item.vacancy.position),
+            ),
+          ].map(e => ({ text: e, value: e })),
+          onFilter: (value, record) => record.vacancy && record.vacancy.position === value,
         },
         {
-          key: 'employeeComment',
-          dataIndex: 'employeeComment',
+          key: 'employee',
+          dataIndex: 'employee',
           title: 'Employee',
           render: (_, process) => {
-            return <span>{process?.vacancy?.employeeComment}</span>
+            return <span>{process?.employee}</span>
           },
+        },
+        {
+          key: 'finishDate',
+          dataIndex: 'finishDate',
+          title: 'Finish date',
+          render: (_, process) => {
+            return (
+              process?.finishDate && (
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span>{dayjs(process.finishDate).format('DD.MM.YYYY')}</span>
+                  {process.finishDate && (
+                    <span style={{ color: 'lightgray', fontSize: '13px' }}>
+                      {dayjs().to(process.finishDate)}
+                    </span>
+                  )}
+                </div>
+              )
+            )
+          },
+          //@ts-ignore
+          sorter: (a, b) => new Date(a.finishDate) - new Date(b.finishDate),
         },
         {
           key: 'actions',
@@ -92,33 +214,37 @@ function ProcessList({ items }: Props) {
               <>
                 {process.status === 'cancelled' && <Tag color="volcano">Cancelled</Tag>}
                 {process.status === 'finished' && <Tag color="green">Completed</Tag>}
-                <Link to={getProcessExecutionLink(process.id)}>
-                  <Button
-                    onClick={() => {
-                      window.scrollTo(0, 0)
-                    }}
-                  >
-                    Open
-                  </Button>
-                </Link>{' '}
+                <div style={{ margin: '5px' }}>
+                  <Link to={getProcessExecutionLink(process.id)}>
+                    <Button
+                      onClick={() => {
+                        window.scrollTo(0, 0)
+                      }}
+                    >
+                      Open
+                    </Button>
+                  </Link>
+                </div>
                 {process.status === 'running' && (
-                  <AbortProcessExecution id={process.id}>
-                    {(abort: any) => {
-                      return (
-                        <Popconfirm
-                          placement="top"
-                          title={'Are you sure?'}
-                          onConfirm={abort}
-                          okText="Yes"
-                          cancelText="No"
-                        >
-                          <span>
-                            <Button>Abort</Button>
-                          </span>
-                        </Popconfirm>
-                      )
-                    }}
-                  </AbortProcessExecution>
+                  <div style={{ margin: '5px' }}>
+                    <AbortProcessExecution id={process.id}>
+                      {(abort: any) => {
+                        return (
+                          <Popconfirm
+                            placement="top"
+                            title={'Are you sure?'}
+                            onConfirm={abort}
+                            okText="Yes"
+                            cancelText="No"
+                          >
+                            <span>
+                              <Button>Abort</Button>
+                            </span>
+                          </Popconfirm>
+                        )
+                      }}
+                    </AbortProcessExecution>
+                  </div>
                 )}
               </>
             )
