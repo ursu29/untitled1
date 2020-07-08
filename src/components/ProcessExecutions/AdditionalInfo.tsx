@@ -57,6 +57,7 @@ export default function AdditionalInfo({
             format={['DD.MM.YYYY']}
             defaultValue={moment(moment(finishDate), ['DD.MM.YYYY'])}
             onChange={value => makeUpdate({ finishDate: value })}
+            allowClear={false}
           />
         </BlockWrapper>
       </MainWrapper>

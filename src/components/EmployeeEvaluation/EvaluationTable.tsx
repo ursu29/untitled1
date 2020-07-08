@@ -177,7 +177,7 @@ export default function EvaluationTable({
           value={rateValue}
         />
 
-        {!comment && !rateDisabled && (
+        {!rateDisabled && (
           <div
             style={{
               marginLeft: '90px',
@@ -191,22 +191,22 @@ export default function EvaluationTable({
             onMouseOut={() => setHoveredCommentCode('')}
             onClick={commentHandleClick}
           >
-            {shownCommentCode === cellCode && (
-              <CommentEmpty
-                fill={
-                  hoveredCommentCode === cellCode && shownCommentCode === cellCode
-                    ? 'gray'
-                    : 'lightgray'
-                }
-              />
-            )}
+            <CommentEmpty
+              fill={
+                hoveredCommentCode === cellCode && shownCommentCode === cellCode
+                  ? 'gray'
+                  : 'lightgray'
+              }
+            />
           </div>
         )}
 
         {comment && (
           <Tooltip title={comment} overlayClassName="styled_tooltip">
             <div
-              onClick={commentHandleClick}
+              onClick={() => {
+                if (!rateDisabled) commentHandleClick()
+              }}
               style={{
                 marginLeft: '90px',
                 marginTop: '7px',
@@ -270,21 +270,6 @@ export default function EvaluationTable({
               )}
               {item.title}
             </div>
-            {/*  {showMark && (
-              <Input.TextArea
-                placeholder="Comment"
-                rows={3}
-                defaultValue={comment?.body}
-                disabled={employee.isMe || !editable}
-                onChange={e => {
-                  onComment({
-                    evaluationAttribute: item.key,
-                    body: e.target.value,
-                  })
-                }}
-                style={{ marginTop: 8 }}
-              />
-            )} */}
           </div>
         )
       },
@@ -403,8 +388,8 @@ export default function EvaluationTable({
           setAddCommentModal(initialCommentModal)
         }}
         onCancel={() => setAddCommentModal(initialCommentModal)}
-        okText="POST"
-        cancelText="CANCEL"
+        okText="Post"
+        cancelText="Cancel"
         centered
         closable={false}
         destroyOnClose

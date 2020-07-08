@@ -63,7 +63,7 @@ function ProcessList({ items }: Props) {
     setSearchText('')
   }
 
-  const getColumnSearchProps = (dataIndex: any) => ({
+  const getColumnSearchProps = (dataIndex: any, nestedName?: string) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }: any) => (
       <div style={{ padding: 8 }}>
         <Input
@@ -91,8 +91,12 @@ function ProcessList({ items }: Props) {
     filterIcon: (filtered: any) => (
       <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
     ),
-    onFilter: (value: any, record: any) =>
-      record.process[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilter: (value: any, record: any) => {
+      const obj = nestedName ? record[nestedName] : record
+      if (obj && dataIndex in obj && obj[dataIndex]) {
+        return obj[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
+      }
+    },
     onFilterDropdownVisibleChange: (visible: any) => {
       if (visible) {
         setTimeout(() => {
@@ -107,7 +111,7 @@ function ProcessList({ items }: Props) {
           highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
           searchWords={[searchText]}
           autoEscape
-          textToHighlight={text.toString()}
+          textToHighlight={text ? text.toString() : ''}
         />
       ) : (
         text
@@ -133,15 +137,20 @@ function ProcessList({ items }: Props) {
           key: 'title',
           dataIndex: 'process.title',
           title: 'Name',
-          ...getColumnSearchProps('title'),
+          ...getColumnSearchProps('title', 'process'),
         },
         {
           key: 'project',
           dataIndex: 'project.name',
           title: 'Project',
-          filters: items
-            .filter(e => e.project && e.project.name)
-            .map(e => ({ text: e.project.name, value: e.project.name })),
+          filters: [
+            //@ts-ignore
+            ...new Set(
+              items
+                .filter(e => e.project && e.project.name)
+                .map(e => ({ text: e.project.name, value: e.project.name })),
+            ),
+          ],
           onFilter: (value, record) => record.project?.name === value,
         },
         {
@@ -164,18 +173,9 @@ function ProcessList({ items }: Props) {
         },
         {
           key: 'position',
-          dataIndex: 'position',
+          dataIndex: 'vacancy.position',
           title: 'Position',
-          render: (_, process) => {
-            return <span>{process?.vacancy?.position}</span>
-          },
-          filters: [
-            //@ts-ignore
-            ...new Set(
-              items.filter(e => e.vacancy && e.vacancy.position).map(item => item.vacancy.position),
-            ),
-          ].map(e => ({ text: e, value: e })),
-          onFilter: (value, record) => record.vacancy && record.vacancy.position === value,
+          ...getColumnSearchProps('position', 'vacancy'),
         },
         {
           key: 'employee',
@@ -194,11 +194,6 @@ function ProcessList({ items }: Props) {
               process?.finishDate && (
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <span>{dayjs(process.finishDate).format('DD.MM.YYYY')}</span>
-                  {process.finishDate && (
-                    <span style={{ color: 'lightgray', fontSize: '13px' }}>
-                      {dayjs().to(process.finishDate)}
-                    </span>
-                  )}
                 </div>
               )
             )
