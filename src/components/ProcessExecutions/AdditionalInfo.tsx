@@ -52,7 +52,7 @@ export default function AdditionalInfo({
           />
         </BlockWrapper>
         <BlockWrapper>
-          <span style={{ paddingBottom: '8px' }}>Finish date</span>
+          <span style={{ paddingBottom: '8px' }}>Date</span>
           <DatePicker
             format={['DD.MM.YYYY']}
             defaultValue={moment(moment(finishDate), ['DD.MM.YYYY'])}

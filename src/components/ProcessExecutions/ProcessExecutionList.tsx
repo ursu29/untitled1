@@ -188,7 +188,7 @@ function ProcessList({ items }: Props) {
         {
           key: 'finishDate',
           dataIndex: 'finishDate',
-          title: 'Finish date',
+          title: 'Date',
           render: (_, process) => {
             return (
               process?.finishDate && (
