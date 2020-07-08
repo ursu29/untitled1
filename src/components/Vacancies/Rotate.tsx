@@ -63,12 +63,13 @@ function Rotate({ vacancy }: { vacancy: QueryType['vacancies'][0] }) {
         Want to Rotate
       </Button>
       <Modal
-        title="Why you want to rotate?"
+        title="Want to rotate"
         visible={showModal}
         okButtonProps={{
           disabled: !comment,
           loading,
         }}
+        okText="Send"
         onOk={() => {
           rotate({
             variables: {
@@ -85,7 +86,13 @@ function Rotate({ vacancy }: { vacancy: QueryType['vacancies'][0] }) {
         }}
       >
         <div style={{ marginBottom: 16 }}>
-          <Text>Comment</Text>
+          <Text>
+            Thanks for response! Your request will be sent to HR Team and Management, they'll
+            contact you and describe further steps to rotation
+          </Text>
+          <Text style={{ fontWeight: 'bold', display: 'block', marginTop: 8 }}>
+            Please describe one or several reasons why you want to rotate
+          </Text>
         </div>
         <Input.TextArea
           rows={4}

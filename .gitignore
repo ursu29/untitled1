@@ -13,3 +13,4 @@ __MACOSX
 .env.local
 
 .vscode/settings.json
+yarn-error.log
