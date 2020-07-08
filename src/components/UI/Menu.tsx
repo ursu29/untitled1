@@ -104,7 +104,7 @@ function PortalMenu(props: Props) {
     },
     {
       route: paths.WIKI,
-      icon: <Icon type="question-circle" />,
+      icon: <Icon type="info-circle" />,
       title: 'WIKI',
       status: 'new',
     },
