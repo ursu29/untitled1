@@ -49,9 +49,9 @@ const EmployeeReviewers = (props: Props) => {
     },
   })
 
-  useEffect(() => {
-    loading && message.loading('Loading reviewers')
-  }, [loading])
+  // useEffect(() => {
+  //   called && loading && message.loading('Loading reviewers')
+  // }, [loading, called])
 
   // Update employee reviewers
   const [updateReviewers, { loading: updateReviewersLoading }] = useMutation(updateReviewersQuery, {
@@ -73,6 +73,8 @@ const EmployeeReviewers = (props: Props) => {
   useEffect(() => {
     updateReviewersLoading && message.loading('Updating reviewers...')
   }, [updateReviewersLoading])
+
+  if (loading) return <div>Loading reviewers...</div>
 
   return (
     <Reviewers
