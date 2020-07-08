@@ -145,12 +145,8 @@ function ProcessList({ items }: Props) {
           title: 'Project',
           filters: [
             //@ts-ignore
-            ...new Set(
-              items
-                .filter(e => e.project && e.project.name)
-                .map(e => ({ text: e.project.name, value: e.project.name })),
-            ),
-          ],
+            ...new Set(items.filter(e => e.project && e.project.name).map(e => e.project.name)),
+          ].map(e => ({ text: e, value: e })),
           onFilter: (value, record) => record.project?.name === value,
         },
         {
