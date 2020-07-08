@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import getVacancies, { QueryType } from '../../queries/getVacancies'
-import { Button, Modal, Input, Form } from 'antd'
-import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
-import { useEmployee } from '../../utils/withEmployee'
+import { Button, Input, Modal } from 'antd'
 import Text from 'antd/lib/typography/Text'
+import gql from 'graphql-tag'
+import React, { useState } from 'react'
 import message from '../../message'
+import getVacancies, { QueryType } from '../../queries/getVacancies'
+import { useEmployee } from '../../utils/withEmployee'
 
 const rotateRequest = gql`
   mutation rotateRequest($input: RotateRequestInput) {

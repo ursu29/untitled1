@@ -250,9 +250,9 @@ export default function EvaluationTable({
           }
         }
 
-        const comment = comments?.find(i => {
-          return i.evaluationAttribute?.id === item.id
-        })
+        // const comment = comments?.find(i => {
+        //   return i.evaluationAttribute?.id === item.id
+        // })
 
         return (
           <div style={{ paddingLeft: 16 }}>
