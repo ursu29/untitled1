@@ -2,7 +2,7 @@ import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { useMediaQuery } from 'react-responsive'
 import styled from 'styled-components'
-import { COLLAPSE_WIDTH } from '../../config'
+import { COLLAPSE_WIDTH, MENU_WIDTH } from '../../config'
 import ProfileSider from '../Profile/ProfileSider'
 import Menu from '../UI/Menu'
 import Sider from '../UI/Sider'
@@ -30,7 +30,7 @@ function PortalSider({ location }: RouteComponentProps) {
 
   return (
     <Sider>
-      <ScrollableWrap minWidth={isLarge ? 240 : 60}>
+      <ScrollableWrap minWidth={isLarge ? MENU_WIDTH : 60}>
         <ProfileSider />
         <Menu path={'/' + location.pathname.split('/')[1]} />
       </ScrollableWrap>

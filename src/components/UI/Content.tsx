@@ -1,7 +1,7 @@
 import { Layout, Card } from 'antd'
 import React, { PropsWithChildren } from 'react'
 import { useMediaQuery } from 'react-responsive'
-import { COLLAPSE_WIDTH, CONTENT_WIDTH } from '../../config'
+import { COLLAPSE_WIDTH, CONTENT_WIDTH, MENU_WIDTH } from '../../config'
 
 function Content({ children }: PropsWithChildren<any>) {
   const isWide = useMediaQuery({ minWidth: CONTENT_WIDTH })
@@ -12,7 +12,7 @@ function Content({ children }: PropsWithChildren<any>) {
         style={{
           height: '100%',
           boxSizing: 'border-box',
-          maxWidth: isWide ? '1200px' : `calc(100vw - ${isLarge ? '240px' : '60px'})`,
+          maxWidth: isWide ? '1220px' : `calc(100vw - ${isLarge ? `${MENU_WIDTH}px` : '60px'})`,
           overflow: 'auto',
         }}
       >

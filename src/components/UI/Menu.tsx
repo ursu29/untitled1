@@ -7,7 +7,7 @@ import Skeleton from '../UI/Skeleton'
 import gql from 'graphql-tag'
 import { Access } from '../../types'
 import { useMediaQuery } from 'react-responsive'
-import { COLLAPSE_WIDTH } from '../../config'
+import { COLLAPSE_WIDTH, MENU_WIDTH } from '../../config'
 import styled from 'styled-components'
 
 const Width = styled.div<{ isLarge: boolean }>`
@@ -137,8 +137,8 @@ function PortalMenu(props: Props) {
 
   if (loading) {
     return (
-      <div style={{ padding: 24 }}>
-        <Skeleton active loading={loading} />
+      <div style={{ padding: isLarge ? 24 : 8 }}>
+        <Skeleton active loading={true} />
       </div>
     )
   }
@@ -151,7 +151,7 @@ function PortalMenu(props: Props) {
           selectedKeys={[props.path]}
           mode="inline"
           theme="light"
-          style={{ border: 'none', width: isLarge ? 240 : 60 }}
+          style={{ border: 'none', width: isLarge ? MENU_WIDTH : 60 }}
         >
           {menuItems.map(item => {
             if (!item) return null

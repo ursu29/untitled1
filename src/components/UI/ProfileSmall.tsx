@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import paths from '../../paths'
 import { Employee } from '../../types'
 import { useMediaQuery } from 'react-responsive'
-import { COLLAPSE_WIDTH } from '../../config'
+import { COLLAPSE_WIDTH, MENU_WIDTH } from '../../config'
 
 const { Text } = Typography
 
@@ -26,7 +26,7 @@ export default function SiderProfile({ loading, profile }: Props) {
         style={{
           borderRight: 'none',
           maxWidth: 'fit-content',
-          minWidth: isLarge ? '240px' : '60px',
+          minWidth: isLarge ? `${MENU_WIDTH}px` : '60px',
         }}
         size={isLarge ? 'default' : 'small'}
         bodyStyle={(!isLarge && { padding: 8, paddingTop: 12 }) || undefined}
