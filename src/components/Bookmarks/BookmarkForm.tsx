@@ -1,5 +1,7 @@
-import { Button, Col, Form, Input, Row } from 'antd'
-import { FormComponentProps } from 'antd/lib/form/Form'
+import { Form } from '@ant-design/compatible'
+import '@ant-design/compatible/assets/index.css'
+import { Button, Col, Input, Row } from 'antd'
+import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
 import React from 'react'
 import { Bookmark, Employee, Access } from '../../types'
 

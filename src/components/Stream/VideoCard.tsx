@@ -1,5 +1,6 @@
 import React from 'react'
-import { Icon, Tooltip } from 'antd'
+import { Icon as LegacyIcon } from '@ant-design/compatible'
+import { Tooltip } from 'antd'
 import { Link } from 'react-router-dom'
 import { useMediaQuery } from 'react-responsive'
 import EmployeeAvatar from '../Employees/EmployeeAvatar'
@@ -71,7 +72,7 @@ export default function VideoCard({
                   >
                     <IconWrapper>
                       <span style={{ fontSize: '13px' }}>{(video as any)[e.field]}</span>
-                      <Icon type={e.icon} style={{ marginLeft: '5px' }} />
+                      <LegacyIcon type={e.icon} style={{ marginLeft: '5px' }} />
                     </IconWrapper>
                   </Tooltip>
                 ))}

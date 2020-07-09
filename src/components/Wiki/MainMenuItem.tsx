@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon } from 'antd'
+import { Icon as LegacyIcon } from '@ant-design/compatible'
 import styled from 'styled-components'
 import { useMediaQuery } from 'react-responsive'
 import { Link } from 'react-router-dom'
@@ -77,7 +77,7 @@ export default function MainMenuItem({
     >
       <ConditionalLink>
         <IconStyled>
-          <Icon type={icon} style={{ fontSize: '35px', color: '#1890FF' }} />
+          <LegacyIcon type={icon} style={{ fontSize: '35px', color: '#1890FF' }} />
         </IconStyled>
       </ConditionalLink>
 

@@ -1,5 +1,7 @@
-import { Checkbox, Col, Form, Input, Row, Typography } from 'antd'
-import { FormComponentProps } from 'antd/lib/form/Form'
+import { Form } from '@ant-design/compatible'
+import '@ant-design/compatible/assets/index.css'
+import { Checkbox, Col, Input, Row, Typography } from 'antd'
+import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
 import React from 'react'
 import { DevelopmentPlan } from '../../types'
 import DevelopmentGoals from './DevelopmentGoals'
@@ -31,7 +33,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
   return (
     <Form
       layout="vertical"
-      onChange={(e) => {
+      onChange={e => {
         e.preventDefault()
         handleSubmit()
       }}
@@ -83,7 +85,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
         })(
           <DevelopmentGoals
             showAchievedSwitch
-            onChange={(values) => {
+            onChange={values => {
               form.setFieldsValue({
                 previousGoals: values,
               })
@@ -239,7 +241,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
         })(
           <DevelopmentGoals
             showAchievedSwitch={false}
-            onChange={(values) => {
+            onChange={values => {
               form.setFieldsValue({
                 actualGoals: values,
               })

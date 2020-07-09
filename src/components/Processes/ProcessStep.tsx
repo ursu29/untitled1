@@ -1,5 +1,7 @@
 import { useMutation } from '@apollo/react-hooks'
-import { Button, Card, Icon, Popconfirm } from 'antd'
+import { Icon as LegacyIcon } from '@ant-design/compatible'
+import { DeleteOutlined } from '@ant-design/icons'
+import { Button, Card, Popconfirm } from 'antd'
 import gql from 'graphql-tag'
 import React, { useState, useEffect } from 'react'
 import getProcesses from '../../queries/getProcesses'
@@ -58,7 +60,7 @@ export default function ProcessStep({ step }: { step: Partial<ProcessStepType> }
       title={
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Button size="small" type="default" onClick={() => setCollapsed(!collapsed)}>
-            <Icon type={collapsed ? 'caret-down' : 'caret-up'} />
+            <LegacyIcon type={collapsed ? 'caret-down' : 'caret-up'} />
           </Button>
           <div style={{ paddingLeft: 8 }}>{step.title || 'Untitled'}</div>
         </div>
@@ -73,7 +75,7 @@ export default function ProcessStep({ step }: { step: Partial<ProcessStepType> }
         >
           <span>
             <Button size="large" type="link" style={{ color: 'black' }}>
-              <Icon type="delete" />
+              <DeleteOutlined />
             </Button>
           </span>
         </Popconfirm>
@@ -84,10 +86,10 @@ export default function ProcessStep({ step }: { step: Partial<ProcessStepType> }
         <ProcessStepForm
           step={{
             ...step,
-            responsibleUsers: step.responsibleUsers?.map((i) => i.id),
+            responsibleUsers: step.responsibleUsers?.map(i => i.id),
           }}
           loading={loading}
-          onUpdate={(data) =>
+          onUpdate={data =>
             update({
               variables: {
                 input: {

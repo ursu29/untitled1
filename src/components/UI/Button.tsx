@@ -1,4 +1,5 @@
 import React, { PropsWithChildren } from 'react'
+import { Icon as LegacyIcon } from '@ant-design/compatible'
 import { Button } from 'antd'
 import { ButtonProps } from 'antd/es/button'
 
@@ -24,7 +25,7 @@ export default function PortalButton({
 }: Props) {
   return (
     <Button
-      icon={icon}
+      icon={<LegacyIcon type={icon} />}
       type={type}
       size={size}
       shape={shape}

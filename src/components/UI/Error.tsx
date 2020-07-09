@@ -1,5 +1,6 @@
 import React from 'react'
-import { Result, Button, Icon, Typography } from 'antd'
+import { CloseCircleOutlined } from '@ant-design/icons'
+import { Result, Button, Typography } from 'antd'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 
 const { Paragraph } = Typography
@@ -30,7 +31,7 @@ function Error({ history, error }: RouteComponentProps & { error?: any }) {
         }
       >
         <Paragraph>
-          <Icon style={{ color: 'red' }} type="close-circle" /> {error.toString()}
+          <CloseCircleOutlined style={{ color: 'red' }} /> {error.toString()}
         </Paragraph>
       </Result>
     </div>

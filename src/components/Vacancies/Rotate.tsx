@@ -1,4 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
+import { RetweetOutlined } from '@ant-design/icons'
 import { Button, Input, Modal } from 'antd'
 import Text from 'antd/lib/typography/Text'
 import gql from 'graphql-tag'
@@ -51,7 +52,7 @@ function Rotate({ vacancy }: { vacancy: QueryType['vacancies'][0] }) {
 
   if (isRotating) {
     return (
-      <Button icon="retweet" loading={cancelLoading} onClick={() => cancelRotate()}>
+      <Button icon={<RetweetOutlined />} loading={cancelLoading} onClick={() => cancelRotate()}>
         Cancel rotation
       </Button>
     )
@@ -59,7 +60,7 @@ function Rotate({ vacancy }: { vacancy: QueryType['vacancies'][0] }) {
 
   return (
     <>
-      <Button icon="retweet" onClick={() => setShowModal(true)}>
+      <Button icon={<RetweetOutlined />} onClick={() => setShowModal(true)}>
         Want to Rotate
       </Button>
       <Modal

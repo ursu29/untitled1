@@ -1,3 +1,4 @@
+import { Icon as LegacyIcon } from '@ant-design/compatible'
 import { Button, Drawer } from 'antd'
 import { IconProps } from 'antd/lib/icon'
 import React, { useState } from 'react'
@@ -24,7 +25,7 @@ export default function SkillDrawer(props: Props) {
   return (
     <Controls>
       <Button
-        icon={props.icon}
+        icon={<LegacyIcon type={props.icon} />}
         size="small"
         title={props.togglerLabel}
         onClick={() => toggleVisibility(true)}
@@ -41,7 +42,7 @@ export default function SkillDrawer(props: Props) {
         <MatrixForm
           loading={props.loading}
           data={props.data}
-          onSubmit={(matrix) => {
+          onSubmit={matrix => {
             props.onSubmit(matrix, () => toggleVisibility(false))
           }}
         />

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import { ArrowLeftOutlined } from '@ant-design/icons'
 import { Typography, Row, Col, Button } from 'antd'
 
 import { Experience, Level, Skill } from '../../types'
@@ -63,15 +64,15 @@ type QueryType = {
  */
 const getHighestSkills = (skills: QueryType['skills'], count: number, levelId?: string) =>
   skills
-    .map((skill) => ({
+    .map(skill => ({
       name: skill.name,
       rate: levelId
-        ? skill.experiences.filter((el) => el.level.id === levelId).length
+        ? skill.experiences.filter(el => el.level.id === levelId).length
         : skill.experiences.length,
       link: getSkillLink(skill.id),
     }))
     .sort((a, b) => b.rate - a.rate)
-    .filter((skill) => skill.rate > 0)
+    .filter(skill => skill.rate > 0)
     .slice(0, count)
 
 /**
@@ -104,7 +105,7 @@ export default function StatisticsPage() {
     { id: 'none', index: -1, name: 'Skills', skills: getHighestSkills(skills, 10) },
   ]
 
-  levels.forEach((level) =>
+  levels.forEach(level =>
     skillsByLevels.push({
       id: level.id,
       index: level.index,
@@ -164,7 +165,7 @@ export default function StatisticsPage() {
       setSkillChosenTitle('All')
     } else {
       setSkillChosen(getHighestSkills(skills, 1000, levelId))
-      setSkillChosenTitle(levels.find((level) => level.id === levelId)?.name || '')
+      setSkillChosenTitle(levels.find(level => level.id === levelId)?.name || '')
     }
 
     setIsSkillChosen(true)
@@ -186,7 +187,7 @@ export default function StatisticsPage() {
       {isSkillChosen ? (
         <>
           <Button
-            icon="arrow-left"
+            icon={<ArrowLeftOutlined />}
             size="small"
             style={{ borderColor: 'transparent', paddingLeft: 0, marginBottom: 4 }}
             type="ghost"

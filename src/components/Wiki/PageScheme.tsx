@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useMutation } from '@apollo/react-hooks'
-import { Collapse, Input, Button, Icon, Popconfirm } from 'antd'
+import { CloseOutlined } from '@ant-design/icons'
+import { Collapse, Input, Button, Popconfirm } from 'antd'
 import { useMediaQuery } from 'react-responsive'
 import styled from 'styled-components'
 import { getPaths, createWikiPage, removeWikiPage } from '../../queries/wiki'
@@ -68,8 +69,7 @@ export default function PageScheme({
                   okText="Yes"
                   cancelText="No"
                 >
-                  <Icon
-                    type="close"
+                  <CloseOutlined
                     style={{ marginLeft: '10px', cursor: 'pointer', fontSize: '10px' }}
                   />
                 </Popconfirm>

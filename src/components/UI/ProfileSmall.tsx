@@ -1,3 +1,4 @@
+import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Card, Skeleton, Typography, Row, Badge } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
@@ -16,7 +17,13 @@ interface Props {
 export default function SiderProfile({ loading, profile }: Props) {
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   const avatar = (
-    <Avatar shape="square" size="large" icon="user" src={profile?.avatar} alt={profile?.name} />
+    <Avatar
+      shape="square"
+      size="large"
+      icon={<UserOutlined />}
+      src={profile?.avatar}
+      alt={profile?.name}
+    />
   )
   return (
     <Link to={paths.PROFILE}>

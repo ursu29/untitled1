@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
-import { Icon } from 'antd'
+import { LikeOutlined } from '@ant-design/icons'
 import gql from 'graphql-tag'
 import React from 'react'
 import styled from 'styled-components'
@@ -54,7 +54,7 @@ export default function LikeBookmark({ bookmark, refetchQueries = [] }: Props) {
   const count = bookmark.likes && bookmark.likes.length
   return (
     <StyledControl active={bookmark.likedByMe} onClick={handleClick}>
-      <Icon type="like" /> {Boolean(count) && count}
+      <LikeOutlined /> {Boolean(count) && count}
     </StyledControl>
   )
 }

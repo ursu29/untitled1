@@ -1,4 +1,5 @@
-import { Icon, Tabs } from 'antd'
+import { Icon as LegacyIcon } from '@ant-design/compatible'
+import { Tabs } from 'antd'
 import { IconProps } from 'antd/lib/icon'
 import React from 'react'
 import { useMediaQuery } from 'react-responsive'
@@ -62,12 +63,12 @@ function PortalTabs({ location, history, noPadding, controlled, tabs, tab }: Pro
         }
       }}
     >
-      {tabs.map((tab) => {
+      {tabs.map(tab => {
         return (
           <TabPane
             tab={
               <>
-                {tab.icon && <Icon type={tab.icon} />} {tab.title}
+                {tab.icon && <LegacyIcon type={tab.icon} />} {tab.title}
               </>
             }
             key={tab.key}
