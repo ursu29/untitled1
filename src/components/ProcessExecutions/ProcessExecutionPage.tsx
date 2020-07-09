@@ -110,17 +110,16 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
             </ActiveStepCard>
           </PageContent>
           <Divider />
-
-          <AdditionalInfo
-            processId={processExecution.id}
-            employee={processExecution.employee}
-            finishDate={processExecution.finishDate}
-            refetchQueries={[
-              { query: getProcessExecution, variables: { input: { id: match.params.id } } },
-            ]}
-          />
         </>
       )}
+      <AdditionalInfo
+        processId={processExecution.id}
+        employee={processExecution.employee}
+        finishDate={processExecution.finishDate}
+        refetchQueries={[
+          { query: getProcessExecution, variables: { input: { id: match.params.id } } },
+        ]}
+      />
       <div style={{ overflow: 'auto', width: '100%', height: '100%' }}>
         <PageContent noTop>
           {branches?.map((i, index) => {
