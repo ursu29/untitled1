@@ -1,5 +1,7 @@
-import { Button, Col, Form, Row } from 'antd'
-import { FormComponentProps } from 'antd/lib/form/Form'
+import { Form } from '@ant-design/compatible'
+import '@ant-design/compatible/assets/index.css'
+import { Button, Col, Row } from 'antd'
+import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
 import React, { useState } from 'react'
 import { ProcessExecution, ProcessType } from '../../types'
 import LocationSelect from '../Locations/LocationSelect'
@@ -49,7 +51,7 @@ const CreateProcessForm = ({ form, onSubmit, value, loading }: Props) => {
       {type && (
         <Form.Item label="Locations">
           {getFieldDecorator('locations', {
-            initialValue: value?.locations?.map((i) => i.id),
+            initialValue: value?.locations?.map(i => i.id),
             rules: [{ required: true }],
           })(<LocationSelect mode="multiple" wide />)}
         </Form.Item>

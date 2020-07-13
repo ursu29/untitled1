@@ -1,6 +1,7 @@
 import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
-import { Tooltip, Icon } from 'antd'
+import { LinkOutlined } from '@ant-design/icons'
+import { Tooltip } from 'antd'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import getLevels, { QueryType } from '../../queries/getLevels'
@@ -110,7 +111,7 @@ function MatrixExperience({
                 }}
               >
                 <Link onClick={() => history.push(getSkillLink(skill.id))}>
-                  <Icon type="link" />
+                  <LinkOutlined />
                 </Link>
                 <div style={{ display: 'flex', alignItems: 'flex-end' }}>
                   {circleButtonsPallette.map((button, i) => (

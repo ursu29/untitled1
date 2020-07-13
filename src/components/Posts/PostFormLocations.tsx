@@ -1,4 +1,6 @@
-import { Checkbox, Form, Tag } from 'antd'
+import { Form } from '@ant-design/compatible'
+import '@ant-design/compatible/assets/index.css'
+import { Checkbox, Tag } from 'antd'
 import React, { useState, useCallback, useEffect } from 'react'
 
 const { CheckableTag } = Tag

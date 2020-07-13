@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Typography } from 'antd'
+import { CheckOutlined, EditOutlined } from '@ant-design/icons'
 import Button from '../UI/Button'
 import Input from '../UI/Input'
 
@@ -33,7 +34,7 @@ export default function TitleEditable({ data, editable, handleSave, emptyValue }
       {editable && (
         <Button
           size="small"
-          icon={isEditing ? 'check' : 'edit'}
+          icon={isEditing ? <CheckOutlined /> : <EditOutlined />}
           type="link"
           onClick={() => {
             if (isEditing && titleInput !== data) {

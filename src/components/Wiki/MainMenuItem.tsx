@@ -1,11 +1,17 @@
 import React from 'react'
-import { Icon } from 'antd'
 import styled from 'styled-components'
 import { useMediaQuery } from 'react-responsive'
 import { Link } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import { wikiEditingAccess } from '../../queries/wiki'
 import PageScheme from './PageScheme'
+import {
+  FileTextOutlined,
+  QuestionCircleOutlined,
+  StarOutlined,
+  GlobalOutlined,
+  QuestionOutlined,
+} from '@ant-design/icons'
 
 const Title = styled.div`
   font-size: 24px;
@@ -64,6 +70,21 @@ export default function MainMenuItem({
       </a>
     )
 
+  const RootIcon = ({ type, style }: { type: string; style?: any }) => {
+    switch (type) {
+      case 'file-text':
+        return <FileTextOutlined style={style} />
+      case 'question-circle':
+        return <QuestionCircleOutlined style={style} />
+      case 'star':
+        return <StarOutlined style={style} />
+      case 'global':
+        return <GlobalOutlined style={style} />
+      default:
+        return <QuestionOutlined style={style} />
+    }
+  }
+
   // Get editing access
   const { data } = useQuery(wikiEditingAccess)
 
@@ -77,7 +98,7 @@ export default function MainMenuItem({
     >
       <ConditionalLink>
         <IconStyled>
-          <Icon type={icon} style={{ fontSize: '35px', color: '#1890FF' }} />
+          <RootIcon type={icon} style={{ fontSize: '35px', color: '#1890FF' }} />
         </IconStyled>
       </ConditionalLink>
 

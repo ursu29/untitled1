@@ -52,7 +52,7 @@ function TagSelect({ value, allowAddNew, multiple, onChange }: Props, ref: any) 
       loading={loading || mutateLoading}
       style={{ width: '100%' }}
       placeholder="Select tags"
-      mode={allowAddNew ? 'tags' : multiple ? 'multiple' : 'default'}
+      mode={allowAddNew ? 'tags' : multiple ? 'multiple' : null}
       items={data?.tags.map(tag => ({
         value: tag.name,
         key: tag.name,

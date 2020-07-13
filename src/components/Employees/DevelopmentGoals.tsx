@@ -1,6 +1,9 @@
 import React from 'react'
 import { DevelopmentGoal } from '../../types'
-import { Table, Button, Popconfirm, Form, Input, Switch } from 'antd'
+import { DeleteOutlined } from '@ant-design/icons'
+import { Form } from '@ant-design/compatible'
+import '@ant-design/compatible/assets/index.css'
+import { Table, Button, Popconfirm, Input, Switch } from 'antd'
 import styled from 'styled-components'
 
 interface Props {
@@ -65,9 +68,7 @@ class EditableCell extends React.Component<any> {
       <Form.Item style={{ margin: 0 }}>
         {form.getFieldDecorator(dataIndex, {
           initialValue: record[dataIndex],
-        })(
-          <Input ref={(node) => (this.input = node)} onPressEnter={this.save} onBlur={this.save} />,
-        )}
+        })(<Input ref={node => (this.input = node)} onPressEnter={this.save} onBlur={this.save} />)}
       </Form.Item>
     ) : (
       <EditableCellWrap
@@ -190,7 +191,7 @@ function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
             }
           }}
         >
-          <Button type="link" icon="delete" />
+          <Button type="link" icon={<DeleteOutlined />} />
         </Popconfirm>
       ),
     },
@@ -208,7 +209,7 @@ function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
         bordered
         /* 
         //@ts-ignore */
-        columns={columns.map((col) => {
+        columns={columns.map(col => {
           if (!col.editable) {
             return col
           }

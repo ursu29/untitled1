@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
-import { Button, Icon, Input, Switch, Table, Tabs, Typography } from 'antd'
+import { TeamOutlined } from '@ant-design/icons'
+import { Button, Input, Switch, Table, Tabs, Typography } from 'antd'
 import dayjs from 'dayjs'
 import gql from 'graphql-tag'
 import React, { useEffect, useState } from 'react'
@@ -243,7 +244,7 @@ function OfficePlannerPage() {
                 <>
                   <LimitInput editable={editable} value={employeeLimit} onChange={handleChange} />
                   <Typography.Text type="secondary">
-                    <Icon type="team" /> {officeDay?.employeeCount || 0} of {employeeMaxCount}
+                    <TeamOutlined /> {officeDay?.employeeCount || 10} of {employeeMaxCount}
                   </Typography.Text>
                 </>
               )}

@@ -15,7 +15,7 @@ type Props = {
   matrixSkillsOnly?: boolean
   allowAddNew?: boolean
   wide?: boolean
-  size?: 'default' | 'small'
+  size?: 'large' | 'middle' | 'small'
 }
 
 function SkillSelect({ onChange, value, wide, size, ...props }: Props, ref: any) {

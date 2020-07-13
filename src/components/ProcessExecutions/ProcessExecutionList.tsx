@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react'
 import { QueryType } from '../../queries/getProcessExecutions'
+import { SearchOutlined } from '@ant-design/icons'
 import { Table, Tag } from 'antd'
-import { Button, Popconfirm, Input, Icon } from 'antd'
+import { Button, Popconfirm, Input } from 'antd'
 import PageContent from '../UI/PageContent'
 import AbortProcessExecution from './AbortProcessExecution'
 import { getProcessExecutionLink } from '../../paths'
@@ -77,7 +78,7 @@ function ProcessList({ items }: Props) {
         <Button
           type="primary"
           onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          icon="search"
+          icon={<SearchOutlined />}
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
@@ -89,7 +90,7 @@ function ProcessList({ items }: Props) {
       </div>
     ),
     filterIcon: (filtered: any) => (
-      <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
+      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
     ),
     onFilter: (value: any, record: any) => {
       const obj = nestedName ? record[nestedName] : record
@@ -135,13 +136,13 @@ function ProcessList({ items }: Props) {
         },
         {
           key: 'title',
-          dataIndex: 'process.title',
+          dataIndex: ['process', 'title'],
           title: 'Name',
           ...getColumnSearchProps('title', 'process'),
         },
         {
           key: 'project',
-          dataIndex: 'project.name',
+          dataIndex: ['project', 'name'],
           title: 'Project',
           filters: [
             //@ts-ignore
@@ -164,12 +165,12 @@ function ProcessList({ items }: Props) {
                 .flatMap(item => item.locations.map(location => location.name)),
             ),
           ].map(e => ({ text: e, value: e })),
-          onFilter: (value, record) =>
+          onFilter: (value: any, record) =>
             record.locations && record.locations.map(e => e.name).includes(value),
         },
         {
           key: 'position',
-          dataIndex: 'vacancy.position',
+          dataIndex: ['vacancy', 'position'],
           title: 'Position',
           ...getColumnSearchProps('position', 'vacancy'),
         },

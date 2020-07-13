@@ -1,4 +1,6 @@
-import { Button, Checkbox, Form, Input, Radio } from 'antd'
+import { Form } from '@ant-design/compatible'
+import '@ant-design/compatible/assets/index.css'
+import { Button, Checkbox, Input, Radio } from 'antd'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import EmployeeSelect from '../Employees/EmployeeSelect'

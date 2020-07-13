@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
+import { DeleteOutlined } from '@ant-design/icons'
 import { Button, List, Popconfirm, Typography } from 'antd'
 import gql from 'graphql-tag'
 import React, { useEffect } from 'react'
@@ -52,7 +53,7 @@ function ProcessesPage() {
         </div>
         {!data?.processes?.length && <div>No processes found</div>}
         <List>
-          {data?.processes.map((i) => {
+          {data?.processes.map(i => {
             return (
               <List.Item key={i.id}>
                 <Link to={getProcessLink(i.id)}>{i.title}</Link>{' '}
@@ -62,7 +63,7 @@ function ProcessesPage() {
                     deleteProcess({ variables: { input: { id: i.id } } })
                   }}
                 >
-                  <Button type="link" icon="delete" />
+                  <Button type="link" icon={<DeleteOutlined />} />
                 </Popconfirm>
               </List.Item>
             )

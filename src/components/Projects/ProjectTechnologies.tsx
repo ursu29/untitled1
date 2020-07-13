@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import React, { useEffect, useState } from 'react'
+import { CheckOutlined, EditOutlined } from '@ant-design/icons'
 import message from '../../message'
 import query, { QueryType } from '../../queries/getProjectSkills'
 import { Project, Skill } from '../../types'
@@ -23,7 +24,7 @@ function SkillTags({ skills }: { skills?: SkillsPick }) {
   if (!skills?.length) return <div>No technologies yet</div>
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-      {skills?.map((skill) => (
+      {skills?.map(skill => (
         <SkillTag key={skill.id} skill={skill} />
       ))}
     </div>
@@ -75,7 +76,7 @@ export default function ProjectTechnologies(props: Props) {
           {editable && (
             <Button
               size="small"
-              icon={edit ? 'check' : 'edit'}
+              icon={edit ? <CheckOutlined /> : <EditOutlined />}
               type="link"
               onClick={() => {
                 if (edit) {

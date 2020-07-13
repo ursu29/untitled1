@@ -1,5 +1,6 @@
 import React from 'react'
 import { QueryType } from '../../queries/getVacancies'
+import { FormOutlined } from '@ant-design/icons'
 import { Table, Button, Divider } from 'antd'
 import Rotate from './Rotate'
 import { getVacancyLink } from '../../paths'
@@ -59,7 +60,7 @@ function ProcessList({ items = [], history }: Props & RouteComponentProps) {
                   rel="noopener noreferrer"
                   style={{ paddingRight: 8 }}
                 >
-                  <Button icon="form">Suggest a Friend</Button>
+                  <Button icon={<FormOutlined />}>Suggest a Friend</Button>
                 </a>
               </>
             )

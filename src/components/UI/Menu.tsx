@@ -1,5 +1,25 @@
 import React from 'react'
-import { Menu, Icon, Tag } from 'antd'
+
+import {
+  BookOutlined,
+  BranchesOutlined,
+  ClockCircleOutlined,
+  CoffeeOutlined,
+  CrownOutlined,
+  FileImageOutlined,
+  FireOutlined,
+  FolderOpenOutlined,
+  IdcardOutlined,
+  ImportOutlined,
+  InfoCircleOutlined,
+  LineChartOutlined,
+  NumberOutlined,
+  TeamOutlined,
+  UserAddOutlined,
+  VideoCameraOutlined,
+} from '@ant-design/icons'
+
+import { Menu, Tag } from 'antd'
 import { Link } from 'react-router-dom'
 import paths from '../../paths'
 import { useQuery } from '@apollo/react-hooks'
@@ -44,84 +64,84 @@ function PortalMenu(props: Props) {
   const menuItems = [
     {
       route: paths.EMPLOYEES,
-      icon: <Icon type="team" />,
+      icon: <TeamOutlined />,
       title: 'Employees',
     },
     {
       route: paths.PROJECTS,
-      icon: <Icon type="folder-open" />,
+      icon: <FolderOpenOutlined />,
       title: 'Projects',
     },
     {
       route: paths.GUILDS,
-      icon: <Icon type="coffee" />,
+      icon: <CoffeeOutlined />,
       title: 'Guilds',
       status: 'new',
     },
     {
       route: paths.SKILLS,
-      icon: <Icon type="crown" />,
+      icon: <CrownOutlined />,
       title: 'Skills',
     },
     {
       route: paths.STATISTICS,
-      icon: <Icon type="line-chart" />,
+      icon: <LineChartOutlined />,
       title: 'Statistics',
     },
     {
       route: paths.STREAM,
-      icon: <Icon type="video-camera" />,
+      icon: <VideoCameraOutlined />,
       title: 'Stream',
       status: 'new',
     },
     {
       route: paths.BOOKMARKS,
-      icon: <Icon type="book" />,
+      icon: <BookOutlined />,
       title: 'Bookmarks',
     },
     data?.matricesAccess.read
       ? {
           route: paths.MATRICES,
-          icon: <Icon type="number" />,
+          icon: <NumberOutlined />,
           title: 'Matrices',
           status: 'updated',
         }
       : null,
     {
       route: paths.SHARED_FILES,
-      icon: <Icon type="file-image" />,
+      icon: <FileImageOutlined />,
       title: 'Files',
     },
     {
       route: paths.POSTS,
-      icon: <Icon type="fire" />,
+      icon: <FireOutlined />,
       title: 'News',
     },
     {
       route: paths.TIMEMASTER,
-      icon: <Icon type="clock-circle" />,
+      icon: <ClockCircleOutlined />,
       title: 'Timemaster',
     },
     {
       route: paths.WIKI,
-      icon: <Icon type="info-circle" />,
+      icon: <InfoCircleOutlined />,
       title: 'WIKI',
       status: 'new',
     },
     {
       route: paths.OFFICE_PLANNER,
-      icon: <Icon type="import" />,
+      icon: <ImportOutlined />,
       title: 'Office planner',
     },
     {
       route: paths.VACANCIES,
-      icon: <Icon type="idcard" />,
+      icon: <IdcardOutlined />,
       title: 'Vacancies',
     },
     data?.processesAccess.read
       ? {
           route: paths.HR,
-          icon: <Icon type="user-add" />,
+          icon: <UserAddOutlined />,
           title: 'HR Tool',
           status: 'updated',
         }
@@ -129,7 +149,7 @@ function PortalMenu(props: Props) {
     data?.processesAccess.read
       ? {
           route: paths.PROCESSES,
-          icon: <Icon type="branches" />,
+          icon: <BranchesOutlined />,
           title: 'Processes',
         }
       : null,

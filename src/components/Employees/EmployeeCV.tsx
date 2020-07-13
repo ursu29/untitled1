@@ -4,8 +4,11 @@ import { useMediaQuery } from 'react-responsive'
 import gql from 'graphql-tag'
 import moment from 'moment'
 import { debounce } from 'throttle-debounce'
-import { Table, Button, Popconfirm, Form, Input, DatePicker, Checkbox, Select, Tooltip } from 'antd'
-import { FormComponentProps } from 'antd/lib/form/Form'
+import { DeleteOutlined } from '@ant-design/icons'
+import { Form } from '@ant-design/compatible'
+import '@ant-design/compatible/assets/index.css'
+import { Table, Button, Popconfirm, Input, DatePicker, Checkbox, Select, Tooltip } from 'antd'
+import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
 import styled from 'styled-components'
 
 import { CurriculumVitae, Employee } from '../../types'
@@ -175,7 +178,7 @@ function EmployeeCV({ employee, editable, form }: PropsGeneral) {
           <CurriculumVitaeTable
             data={vitaes}
             loading={mutateLoading}
-            onChange={(values) => {
+            onChange={values => {
               form.setFieldsValue({
                 cvForm: values,
               })
@@ -219,7 +222,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
   React.useEffect(() => {
     const projectsWithoutDateEndList: string[] = []
 
-    props.data?.forEach((e) => {
+    props.data?.forEach(e => {
       if (!e.dateEnd) projectsWithoutDateEndList.push(e.id)
     })
 
@@ -249,7 +252,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
 
   // Create new value-object clone for sending to onChange method
   const immutableValueChange = (id: string, fieldName: string, fieldValue: any) =>
-    value.map((vitae) =>
+    value.map(vitae =>
       vitae.id === id
         ? {
             ...vitae,
@@ -305,11 +308,11 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
               <div>
                 <DatePicker
                   defaultValue={
-                    record.dateStart ? moment(moment(record.dateStart), dateFormatList) : null
+                    record.dateStart ? moment(moment(record.dateStart), dateFormatList) : undefined
                   }
-                  disabledDate={(current) => disabledDate(current, record.dateEnd, true)}
+                  disabledDate={current => disabledDate(current, record.dateEnd, true)}
                   format={dateFormatList}
-                  onChange={(date) =>
+                  onChange={date =>
                     onChange && onChange(immutableValueChange(record.id, 'dateStart', date))
                   }
                   disabled={!editable}
@@ -335,11 +338,11 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
               <div>
                 <DatePicker
                   defaultValue={
-                    record.dateEnd ? moment(moment(record.dateEnd), dateFormatList) : null
+                    record.dateEnd ? moment(moment(record.dateEnd), dateFormatList) : undefined
                   }
-                  disabledDate={(current) => disabledDate(current, record.dateStart, false)}
+                  disabledDate={current => disabledDate(current, record.dateStart, false)}
                   format={dateFormatList}
-                  onChange={(date) =>
+                  onChange={date =>
                     onChange && onChange(immutableValueChange(record.id, 'dateEnd', date))
                   }
                   disabled={isNoTimeEndList.includes(record.key) || !editable}
@@ -361,9 +364,9 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
                 <Checkbox
                   checked={isNoTimeEndList.includes(record.key)}
                   disabled={!editable}
-                  onChange={(e) => {
+                  onChange={e => {
                     isNoTimeEndList.includes(record.key)
-                      ? setIsNoTimeEndList(isNoTimeEndList.filter((key) => key !== record.key))
+                      ? setIsNoTimeEndList(isNoTimeEndList.filter(key => key !== record.key))
                       : setIsNoTimeEndList([...isNoTimeEndList, record.key])
 
                     onChange &&
@@ -400,7 +403,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
               style={{ width: isDatePickersToColumn ? 80 : 150 }}
               value={
                 allProjectsList
-                  ? allProjectsList.filter((project) => project.id === record.project)[0]?.name
+                  ? allProjectsList.filter(project => project.id === record.project)[0]?.name
                   : ''
               }
               filterOption={(input: any, option: any) =>
@@ -412,7 +415,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
             >
               {allProjectsList
                 .sort((a, b) => (a.name > b.name ? 1 : -1))
-                .map((project) => (
+                .map(project => (
                   <Option key={project.id} value={project.id} style={{ overflow: 'visible' }}>
                     {project.name}
                   </Option>
@@ -421,7 +424,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
           ) : (
             <div>
               {allProjectsList
-                ? allProjectsList.filter((project) => project.id === record.project)[0]?.name
+                ? allProjectsList.filter(project => project.id === record.project)[0]?.name
                 : ''}
             </div>
           )
@@ -464,13 +467,13 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
           ) : (
             <Tooltip title={text} mouseEnterDelay={1}>
               <div
-                onClick={(e) => {
+                onClick={e => {
                   e.stopPropagation()
                   setShowFullResponsibilities([...showFullResponsibilities, record.id])
                   setTimeout(() => {
                     if (!isRespUnderModifyingRef.current.includes(record.id))
                       setShowFullResponsibilities(
-                        showFullResponsibilitiesRef.current.filter((id) => id !== record.id),
+                        showFullResponsibilitiesRef.current.filter(id => id !== record.id),
                       )
                   }, 5000)
                 }}
@@ -505,7 +508,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
               }
             }}
           >
-            <Button type="link" icon="delete" />
+            <Button type="link" icon={<DeleteOutlined />} />
           </Popconfirm>
         ) : (
           ''
@@ -525,7 +528,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
         pagination={false}
         rowClassName={() => 'tableRowTopAlign'}
         //@ts-ignore
-        columns={columns.map((col) => {
+        columns={columns.map(col => {
           if (!col.editable) {
             return col
           }
@@ -631,17 +634,13 @@ class EditableCell extends React.Component<any> {
         })(
           dataIndex === 'responsibilities' ? (
             <Input.TextArea
-              ref={(node) => (this.input = node)}
+              ref={node => (this.input = node)}
               onPressEnter={this.save}
               onBlur={this.save}
               autoSize
             />
           ) : (
-            <Input
-              ref={(node) => (this.input = node)}
-              onPressEnter={this.save}
-              onBlur={this.save}
-            />
+            <Input ref={node => (this.input = node)} onPressEnter={this.save} onBlur={this.save} />
           ),
         )}
       </Form.Item>

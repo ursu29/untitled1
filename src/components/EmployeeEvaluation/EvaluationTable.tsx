@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Rate, Icon, Input, Tooltip, Modal } from 'antd'
+import { ExclamationOutlined } from '@ant-design/icons'
+import { Table, Rate, Input, Tooltip, Modal } from 'antd'
 import {
   EvaluationAttribute,
   EvaluationComment,
@@ -258,8 +259,7 @@ export default function EvaluationTable({
           <div style={{ paddingLeft: 16 }}>
             <div key={item.key} style={{ display: 'flex', alignItems: 'center' }}>
               {showBaseColumns && (
-                <Icon
-                  type="exclamation"
+                <ExclamationOutlined
                   style={{
                     color: '#FAAD14',
                     fontSize: '150%',
@@ -354,7 +354,6 @@ export default function EvaluationTable({
     <div>
       <Table
         style={{ maxWidth: 1100 }}
-        expandIconAsCell={false}
         expandIconColumnIndex={-1}
         defaultExpandAllRows
         columns={columns}

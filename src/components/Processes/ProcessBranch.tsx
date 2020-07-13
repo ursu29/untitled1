@@ -1,4 +1,5 @@
-import { Button, Icon } from 'antd'
+import { PlusOutlined } from '@ant-design/icons'
+import { Button } from 'antd'
 import React from 'react'
 import { QueryType } from '../../queries/getProcesses'
 import { ColumnWrapper, RowWrapper, ProcessStepWrapper } from './ProcessPage.styles'
@@ -65,7 +66,7 @@ export default function Branch({
                 })
               }}
             >
-              <Icon type="plus" />
+              <PlusOutlined />
             </Button>
           )}
         </div>
@@ -102,7 +103,7 @@ export default function Branch({
               onCreate({ parentSteps: [firstStep.id] })
             }}
           >
-            <Icon type="plus" />
+            <PlusOutlined />
           </Button>
         )}
       </ColumnWrapper>

@@ -1,5 +1,4 @@
-import { Icon, Tabs } from 'antd'
-import { IconProps } from 'antd/lib/icon'
+import { Tabs } from 'antd'
 import React from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { matchPath, RouteComponentProps, withRouter } from 'react-router-dom'
@@ -11,7 +10,7 @@ const { TabPane } = Tabs
 interface Tab {
   title: any
   key: string
-  icon?: IconProps['type']
+  icon?: any
   body: any
   hidden?: boolean
   noPadding?: boolean
@@ -27,7 +26,6 @@ interface Props extends RouteComponentProps {
 function PortalTabs({ location, history, noPadding, controlled, tabs, tab }: Props) {
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   const padding = isLarge ? 60 : 15
-
   const addditionalProps = controlled
     ? {
         activeKey: tab || tabs[0].key,
@@ -62,13 +60,13 @@ function PortalTabs({ location, history, noPadding, controlled, tabs, tab }: Pro
         }
       }}
     >
-      {tabs.map((tab) => {
+      {tabs.map(tab => {
         return (
           <TabPane
             tab={
-              <>
-                {tab.icon && <Icon type={tab.icon} />} {tab.title}
-              </>
+              <div style={{ padding: '0 16px' }}>
+                {tab.icon && tab.icon} {tab.title}
+              </div>
             }
             key={tab.key}
           >

@@ -1,3 +1,4 @@
+import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Badge, Button, Card, Col, Row, Skeleton, Typography } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
@@ -76,7 +77,7 @@ export default function EmployeeView({ loading, employee, mobile }: Props) {
                   <Avatar
                     size={mobile ? 135 : 150}
                     shape="square"
-                    icon="user"
+                    icon={<UserOutlined />}
                     src={employee?.avatar}
                     alt={employee?.name}
                   />
