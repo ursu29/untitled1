@@ -61,9 +61,7 @@ export default function SiderProfile({ loading, profile }: Props) {
                 }
               />
             ) : (
-              <Row type="flex" justify="center">
-                {avatar}
-              </Row>
+              <Row justify="center">{avatar}</Row>
             ))}
         </Skeleton>
       </Card>

@@ -136,13 +136,13 @@ function ProcessList({ items }: Props) {
         },
         {
           key: 'title',
-          dataIndex: 'process.title',
+          dataIndex: ['process', 'title'],
           title: 'Name',
           ...getColumnSearchProps('title', 'process'),
         },
         {
           key: 'project',
-          dataIndex: 'project.name',
+          dataIndex: ['project', 'name'],
           title: 'Project',
           filters: [
             //@ts-ignore
@@ -165,12 +165,12 @@ function ProcessList({ items }: Props) {
                 .flatMap(item => item.locations.map(location => location.name)),
             ),
           ].map(e => ({ text: e, value: e })),
-          onFilter: (value, record) =>
+          onFilter: (value: any, record) =>
             record.locations && record.locations.map(e => e.name).includes(value),
         },
         {
           key: 'position',
-          dataIndex: 'vacancy.position',
+          dataIndex: ['vacancy', 'position'],
           title: 'Position',
           ...getColumnSearchProps('position', 'vacancy'),
         },

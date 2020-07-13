@@ -83,9 +83,7 @@ function Posts({ posts, history, location, loading, ...props }: Props) {
           onChange={() => setTranslated(!showTranslated)}
           style={{ marginLeft: 8 }}
           checked={showTranslated}
-        >
-          Translate
-        </Switch>
+        />
         {props.editable && (
           <div style={{ marginLeft: 8 }}>
             <CreatePost />

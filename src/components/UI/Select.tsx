@@ -11,13 +11,13 @@ export interface Props {
   allowClear?: boolean
   value?: any
   placeholder?: string
-  size?: 'default' | 'small'
+  size?: 'large' | 'middle' | 'small'
   style?: any
   items?: Item[]
   onSelect: (value: any) => void
   onBlur?: () => void
   autoFocus?: boolean
-  mode?: 'default' | 'multiple' | 'tags'
+  mode?: 'multiple' | 'tags' | null
 }
 
 function PortalSelect(
@@ -45,6 +45,11 @@ function PortalSelect(
     }
   })
 
+  const selectConditionalProps = {}
+
+  //@ts-ignore
+  if (mode) selectConditionalProps.mode = mode
+
   return (
     <Select
       value={value}
@@ -53,18 +58,18 @@ function PortalSelect(
       allowClear={allowClear}
       id="portal-select"
       autoFocus={autoFocus}
-      size={size}
+      size={size || 'middle'}
       loading={loading}
       placeholder={placeholder}
       style={{ width: 120, ...style }}
-      mode={mode || 'default'}
       showSearch
       labelInValue
-      onChange={(value: Item | Item[], option: any) => {
+      onChange={value => {
         onSelect(value)
       }}
+      {...selectConditionalProps}
     >
-      {items?.map((item) => {
+      {items?.map(item => {
         return (
           <Select.Option key={item.key} value={item.key} title={item.value}>
             {item.value}

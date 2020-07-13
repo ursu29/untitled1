@@ -354,7 +354,6 @@ export default function EvaluationTable({
     <div>
       <Table
         style={{ maxWidth: 1100 }}
-        expandIconAsCell={false}
         expandIconColumnIndex={-1}
         defaultExpandAllRows
         columns={columns}

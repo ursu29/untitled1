@@ -15,7 +15,7 @@ type EmployeeSkillMatrixProps = {
 }
 
 function getEmployeeSkillLevel(employee: Partial<Employee>, skill: Partial<Skill>): Level | null {
-  const exp = employee.experiences!.find((e) => e.skill.id === skill.id)
+  const exp = employee.experiences!.find(e => e.skill.id === skill.id)
   if (!exp) {
     return null
   }
@@ -30,7 +30,7 @@ function bySkillNameAZ(a: Partial<Skill>, b: Partial<Skill>) {
 
 const SkillIcon = styled.div<{ minor?: boolean }>`
   height: 32px;
-  ${(props) =>
+  ${props =>
     props.minor &&
     css`
       font-size: 15px;
@@ -84,7 +84,7 @@ const EmployeeSkillMatrix: React.FC<EmployeeSkillMatrixProps> = ({ project }) =>
       defaultSortOrder: 'ascend',
     },
   ].concat(
-    project.skills?.sort(bySkillNameAZ).map((skill) => {
+    project.skills?.sort(bySkillNameAZ).map(skill => {
       const col: any = {
         align: 'center',
         key: skill.id,
@@ -106,7 +106,11 @@ const EmployeeSkillMatrix: React.FC<EmployeeSkillMatrixProps> = ({ project }) =>
           const levelB = getEmployeeSkillLevel(b, skill) || { index: -Infinity }
           return levelB.index - levelA.index
         },
-        title: <Tooltip title={skill.name}>{skill.name}</Tooltip>,
+        title: (
+          <Tooltip title={skill.name}>
+            <span>{skill.name}</span>
+          </Tooltip>
+        ),
       }
 
       return col

@@ -113,14 +113,18 @@ export default function MatrixWithExperiences({
       <MatrixRow>
         {grades.map(grade => (
           <MatrixGrade key={grade.title} style={{ justifyContent: 'center' }}>
-            <Tooltip title={grade.description}>{grade.title}</Tooltip>
+            <Tooltip title={grade.description}>
+              <span>{grade.title}</span>
+            </Tooltip>
           </MatrixGrade>
         ))}
       </MatrixRow>
       {groups.map((group, groupIndex) => (
         <div key={group.id}>
           <MatrixGroup>
-            <Tooltip title={group.description}>{group.title}</Tooltip>
+            <Tooltip title={group.description}>
+              <span>{group.title}</span>
+            </Tooltip>
           </MatrixGroup>
 
           <MatrixRow key={group.title}>

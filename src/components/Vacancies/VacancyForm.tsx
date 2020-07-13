@@ -82,7 +82,7 @@ function VacancyForm({ vacancy, form, onClose, onSave, onPublish }: Props) {
           </Form.Item>
         </Col>
       </Row> */}
-      <Row type="flex" justify="end" align="middle">
+      <Row justify="end" align="middle">
         {vacancy.isPublished && (
           <Popconfirm
             title="Are you sure you want to close this vacancy?"

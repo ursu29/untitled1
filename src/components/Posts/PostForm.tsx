@@ -228,7 +228,7 @@ class PostForm extends React.Component<Props> {
             values={post.locations}
             onChange={this.setLocations}
           />
-          <Row type="flex" justify="space-between">
+          <Row justify="space-between">
             <Col></Col>
             <Col>
               <Button loading={this.props.loading} type="primary" htmlType="submit">

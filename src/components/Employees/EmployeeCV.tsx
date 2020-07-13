@@ -308,7 +308,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
               <div>
                 <DatePicker
                   defaultValue={
-                    record.dateStart ? moment(moment(record.dateStart), dateFormatList) : null
+                    record.dateStart ? moment(moment(record.dateStart), dateFormatList) : undefined
                   }
                   disabledDate={current => disabledDate(current, record.dateEnd, true)}
                   format={dateFormatList}
@@ -338,7 +338,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
               <div>
                 <DatePicker
                   defaultValue={
-                    record.dateEnd ? moment(moment(record.dateEnd), dateFormatList) : null
+                    record.dateEnd ? moment(moment(record.dateEnd), dateFormatList) : undefined
                   }
                   disabledDate={current => disabledDate(current, record.dateStart, false)}
                   format={dateFormatList}

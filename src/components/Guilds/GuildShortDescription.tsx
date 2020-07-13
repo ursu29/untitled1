@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Typography, Input } from 'antd'
+import { CheckOutlined, EditOutlined } from '@ant-design/icons'
 import Button from '../UI/Button'
 
 interface Props {
@@ -38,7 +39,7 @@ export default function GuildDescription({ description, handleSave }: Props) {
 
         <Button
           size="small"
-          icon={isEditing ? 'check' : 'edit'}
+          icon={isEditing ? <CheckOutlined /> : <EditOutlined />}
           type="link"
           onClick={() => {
             if (isEditing && descriptionInput !== description) {

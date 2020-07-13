@@ -1,10 +1,6 @@
 import dayjs from 'dayjs'
 
-export const METRICS = [
-  { field: 'views', icon: 'play-circle' },
-  { field: 'likes', icon: 'heart' },
-  { field: 'comments', icon: 'message' },
-]
+export const METRICS = ['views', 'likes', 'comments']
 
 export const videoDuration = (duration: string) => {
   const hours = ('0' + (/\d*(?=H)/gi.exec(duration)?.[0] || 0)).slice(-2)

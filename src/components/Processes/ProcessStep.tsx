@@ -1,6 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
-import { Icon as LegacyIcon } from '@ant-design/compatible'
-import { DeleteOutlined } from '@ant-design/icons'
+import { CaretDownOutlined, CaretUpOutlined, DeleteOutlined } from '@ant-design/icons'
 import { Button, Card, Popconfirm } from 'antd'
 import gql from 'graphql-tag'
 import React, { useState, useEffect } from 'react'
@@ -60,7 +59,7 @@ export default function ProcessStep({ step }: { step: Partial<ProcessStepType> }
       title={
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Button size="small" type="default" onClick={() => setCollapsed(!collapsed)}>
-            <LegacyIcon type={collapsed ? 'caret-down' : 'caret-up'} />
+            {collapsed ? <CaretDownOutlined /> : <CaretUpOutlined />}
           </Button>
           <div style={{ paddingLeft: 8 }}>{step.title || 'Untitled'}</div>
         </div>

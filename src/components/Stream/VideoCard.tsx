@@ -1,8 +1,8 @@
 import React from 'react'
-import { Icon as LegacyIcon } from '@ant-design/compatible'
 import { Tooltip } from 'antd'
 import { Link } from 'react-router-dom'
 import { useMediaQuery } from 'react-responsive'
+import Metric from './Metric'
 import EmployeeAvatar from '../Employees/EmployeeAvatar'
 import Technologies from '../UI/Technologies'
 import { Stream } from '../../types'
@@ -15,7 +15,6 @@ import {
   Duration,
   VideoName,
   VideoDescription,
-  IconWrapper,
   AuthorName,
 } from './styled'
 import { METRICS, videoDuration, uploadDate } from './utils'
@@ -64,17 +63,8 @@ export default function VideoCard({
               rel="noopener noreferrer"
             >
               <div style={{ display: 'flex', marginRight: '15px' }}>
-                {METRICS.map((e: { [key: string]: string }) => (
-                  <Tooltip
-                    key={e.field}
-                    title={(video as any)[e.field] + ' ' + e.field}
-                    placement="bottom"
-                  >
-                    <IconWrapper>
-                      <span style={{ fontSize: '13px' }}>{(video as any)[e.field]}</span>
-                      <LegacyIcon type={e.icon} style={{ marginLeft: '5px' }} />
-                    </IconWrapper>
-                  </Tooltip>
+                {METRICS.map((e: string) => (
+                  <Metric key={e} name={e} number={(video as any)[e]} />
                 ))}
               </div>
             </a>
