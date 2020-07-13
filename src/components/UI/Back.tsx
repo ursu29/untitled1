@@ -1,4 +1,5 @@
 import React from 'react'
+import { ArrowLeftOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { useLastLocation } from 'react-router-last-location'
@@ -12,7 +13,7 @@ function Back({ goto, history }: Props & RouteComponentProps) {
 
   return (
     <Button
-      icon="arrow-left"
+      icon={<ArrowLeftOutlined />}
       size="small"
       style={{ borderColor: 'transparent', paddingLeft: 0, marginBottom: 20 }}
       type="ghost"

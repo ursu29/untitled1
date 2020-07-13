@@ -14,7 +14,7 @@ type Props = {
   autoFocus?: boolean
   allowAddNew?: boolean
   wide?: boolean
-  size?: 'default' | 'small'
+  size?: 'large' | 'middle' | 'small'
   mode?: SelectProps['mode']
 }
 
@@ -42,7 +42,7 @@ function LocationSelect({ onChange, value, wide, size, mode, ...props }: Props, 
       }
       onBlur={props.onBlur}
       onSelect={(value: any) => {
-        if (!mode || mode === 'default') {
+        if (!mode || mode === null) {
           const location = data!.locations.find(i => i.name === value.key)
           if (location) {
             onChange && onChange(location.id)

@@ -1,4 +1,5 @@
-import { Card, Icon } from 'antd'
+import { CheckCircleTwoTone, ClockCircleTwoTone } from '@ant-design/icons'
+import { Card } from 'antd'
 import React, { PropsWithChildren, ReactNode } from 'react'
 import { Employee } from '../../types'
 import EmployeeAvatar from '../Employees/EmployeeAvatar'
@@ -10,10 +11,8 @@ interface Props extends PropsWithChildren<any> {
 }
 
 const statuses: Record<string, ReactNode> = {
-  active: <Icon type="clock-circle" theme="twoTone" style={{ marginRight: 8 }} />,
-  done: (
-    <Icon type="check-circle" theme="twoTone" style={{ marginRight: 8 }} twoToneColor="#52C41A" />
-  ),
+  active: <ClockCircleTwoTone style={{ marginRight: 8 }} />,
+  done: <CheckCircleTwoTone style={{ marginRight: 8 }} twoToneColor="#52C41A" />,
 }
 
 function ActiveStepCard({ title, description, status, employees, children }: Props) {

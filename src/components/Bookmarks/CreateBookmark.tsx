@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/react-hooks'
 import { PureQueryOptions } from 'apollo-client'
 import gql from 'graphql-tag'
 import React, { useEffect } from 'react'
+import { PlusOutlined } from '@ant-design/icons'
 import message from '../../message'
 import getBookmarks from '../../queries/getBookmarks'
 import BookmarkForm from './BookmarkForm'
@@ -42,7 +43,7 @@ export default function CreateBookmark({ refetchQueries = [] }: Props) {
   return (
     <>
       <Drawer
-        toggler={<Button icon="plus">Add bookmark</Button>}
+        toggler={<Button icon={<PlusOutlined />}>Add bookmark</Button>}
         drawerLabel="Create bookmark"
         content={
           <BookmarkForm

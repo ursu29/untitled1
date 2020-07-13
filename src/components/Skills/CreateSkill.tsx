@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import React, { useEffect, useState } from 'react'
+import { PlusOutlined } from '@ant-design/icons'
 import message from '../../message'
 import getSkills from '../../queries/getSkills'
 import Button from '../UI/Button'
@@ -38,7 +39,7 @@ export default function CreateSkill() {
 
   return (
     <Drawer
-      toggler={<Button icon="plus">Add skill</Button>}
+      toggler={<Button icon={<PlusOutlined />}>Add skill</Button>}
       drawerLabel="Create a new skill"
       content={
         <SkillForm

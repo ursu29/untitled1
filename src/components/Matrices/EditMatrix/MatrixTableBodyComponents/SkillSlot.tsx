@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon } from 'antd'
+import { MoreOutlined } from '@ant-design/icons'
 import { MatrixCell, DragMarker } from '../../styled'
 import { Matrix, MatrixSkill } from '../../../../types'
 
@@ -19,8 +19,7 @@ export default function SkillSlot({ dragProps, skill, matrix, DeleteMatrixSkill 
     <>
       <DragMarker {...dragProps}>
         {[0, 1].map((_, i) => (
-          <Icon
-            type="more"
+          <MoreOutlined
             key={i}
             style={{
               display: 'flex',

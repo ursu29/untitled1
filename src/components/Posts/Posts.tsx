@@ -1,4 +1,5 @@
 import React, { useState, useEffect, PropsWithChildren } from 'react'
+import { FilterOutlined } from '@ant-design/icons'
 import { Skeleton, Timeline, Input, Button, Switch } from 'antd'
 import queryString from 'query-string'
 import PostItem from './Post'
@@ -73,7 +74,7 @@ function Posts({ posts, history, location, loading, ...props }: Props) {
         <Input placeholder="Find post" value={filter} onChange={e => setFilter(e.target.value)} />
         <Button
           style={{ marginLeft: 8 }}
-          icon="filter"
+          icon={<FilterOutlined />}
           onClick={() => setShowTagFilter(!showTagFilter)}
         />
         <Switch
@@ -82,9 +83,7 @@ function Posts({ posts, history, location, loading, ...props }: Props) {
           onChange={() => setTranslated(!showTranslated)}
           style={{ marginLeft: 8 }}
           checked={showTranslated}
-        >
-          Translate
-        </Switch>
+        />
         {props.editable && (
           <div style={{ marginLeft: 8 }}>
             <CreatePost />

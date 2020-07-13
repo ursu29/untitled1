@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { CheckOutlined, EditOutlined } from '@ant-design/icons'
 import SkillTag from '../Skills/SkillTag'
 import SkillTreeSelect from '../Skills/SkillTreeSelect'
 import { Skill } from '../../types'
@@ -31,7 +32,7 @@ export default function Technologies({
   const EditButton = () => (
     <Button
       size="small"
-      icon={isUnderModifying ? 'check' : 'edit'}
+      icon={isUnderModifying ? <CheckOutlined /> : <EditOutlined />}
       style={{ marginRight: '8px' }}
       type="link"
       onClick={() => {

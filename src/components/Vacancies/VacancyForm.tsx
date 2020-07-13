@@ -1,7 +1,9 @@
 import React from 'react'
 import { Vacancy } from '../../types'
-import { Form, Input, Row, Col, Button, Divider, Popconfirm } from 'antd'
-import { FormComponentProps } from 'antd/lib/form/Form'
+import { Form } from '@ant-design/compatible'
+import '@ant-design/compatible/assets/index.css'
+import { Input, Row, Col, Button, Divider, Popconfirm } from 'antd'
+import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
 import ProjectSelect from '../Projects/ProjectSelect'
 import LocationSelect from '../Locations/LocationSelect'
 import MarkdownEditor from '../UI/MarkdownEditor'
@@ -80,7 +82,7 @@ function VacancyForm({ vacancy, form, onClose, onSave, onPublish }: Props) {
           </Form.Item>
         </Col>
       </Row> */}
-      <Row type="flex" justify="end" align="middle">
+      <Row justify="end" align="middle">
         {vacancy.isPublished && (
           <Popconfirm
             title="Are you sure you want to close this vacancy?"

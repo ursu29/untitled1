@@ -1,5 +1,8 @@
-import { Button, Checkbox, Col, Form, Icon, Input, Row, Upload } from 'antd'
-import { FormComponentProps } from 'antd/lib/form/Form'
+import { UploadOutlined } from '@ant-design/icons'
+import { Form } from '@ant-design/compatible'
+import '@ant-design/compatible/assets/index.css'
+import { Button, Checkbox, Col, Input, Row, Upload } from 'antd'
+import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
 import React from 'react'
 //@ts-ignore
 import Carousel, { Modal, ModalGateway } from 'react-images'
@@ -204,7 +207,7 @@ class PostForm extends React.Component<Props> {
             >
               {post.images?.length >= 10 ? null : (
                 <Button>
-                  <Icon type="upload" /> Upload Photos
+                  <UploadOutlined /> Upload Photos
                 </Button>
               )}
             </Upload>
@@ -225,7 +228,7 @@ class PostForm extends React.Component<Props> {
             values={post.locations}
             onChange={this.setLocations}
           />
-          <Row type="flex" justify="space-between">
+          <Row justify="space-between">
             <Col></Col>
             <Col>
               <Button loading={this.props.loading} type="primary" htmlType="submit">

@@ -33,11 +33,11 @@ function treeify(list: Item[]): Leaf[] {
 
   var treeList: Leaf[] = []
   var lookup: any = {}
-  list.forEach(function(obj: any) {
+  list.forEach(function (obj: any) {
     lookup[obj[idAttr]] = obj
     obj[childrenAttr] = []
   })
-  list.forEach(function(obj: any) {
+  list.forEach(function (obj: any) {
     if (obj[parentAttr] != null) {
       lookup[obj[parentAttr]][childrenAttr].push(obj)
     } else {
@@ -135,6 +135,7 @@ export default class SkillsTree extends React.Component<Props> {
             </span>
           )
         return (
+          //@ts-ignore
           <TreeNode title={title} key={item.key} dataRef={item}>
             {this.renderTreeNodes(item.children)}
           </TreeNode>

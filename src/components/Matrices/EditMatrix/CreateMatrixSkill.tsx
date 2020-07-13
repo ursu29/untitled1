@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { PlusOutlined } from '@ant-design/icons'
 import message from '../../../message'
 import getMatrix from '../../../queries/getMatrix'
 import { Matrix, MatrixGrade, MatrixGroup } from '../../../types'
@@ -58,7 +59,7 @@ const SkillSelector = ({ onSelect }: { onSelect: (skill: string) => any }) => {
       <Button
         size="small"
         shape="circle"
-        icon="plus"
+        icon={<PlusOutlined />}
         style={{ color: 'inherit' }}
         onClick={() => toggleAdding(true)}
       />

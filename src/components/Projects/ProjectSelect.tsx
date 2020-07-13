@@ -14,7 +14,7 @@ type Props = {
   autoFocus?: boolean
   allowAddNew?: boolean
   wide?: boolean
-  size?: 'default' | 'small'
+  size?: 'large' | 'middle' | 'small'
   mode?: SelectProps['mode']
 }
 
@@ -42,7 +42,7 @@ function ProjectSelect({ onChange, value, wide, size, mode, ...props }: Props, r
       }
       onBlur={props.onBlur}
       onSelect={(value: any) => {
-        if (!mode || mode === 'default') {
+        if (!mode) {
           const project = data!.projects.find(i => i.name === value.key)
           if (project) {
             onChange && onChange(project.id)

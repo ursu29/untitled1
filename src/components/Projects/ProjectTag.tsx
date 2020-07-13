@@ -1,5 +1,6 @@
 import React from 'react'
-import { Tag, Typography, Icon, Tooltip } from 'antd'
+import { CrownOutlined } from '@ant-design/icons'
+import { Tag, Typography, Tooltip } from 'antd'
 import { Project } from '../../types'
 import { Link } from 'react-router-dom'
 import { getProjectLink } from '../../paths'
@@ -51,7 +52,7 @@ export default function ProjectTag({ project, small = false, leading }: Props) {
             {leading && (
               <>
                 <Tooltip placement="top" title="Manager">
-                  <Icon type="crown" />
+                  <CrownOutlined />
                 </Tooltip>
                 &nbsp;
               </>

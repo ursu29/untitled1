@@ -1,4 +1,5 @@
 import React from 'react'
+import { TeamOutlined, BookOutlined } from '@ant-design/icons'
 import { Skill } from '../../types'
 import Tabs from '../UI/Tabs'
 import SkillBookmarks from './SkillBookmarks'
@@ -13,13 +14,13 @@ export default function SkillTabs(props: Props) {
   let tabs = [
     {
       title: 'Mentions',
-      icon: 'user',
+      icon: <TeamOutlined />,
       key: 'mentions',
       body: <SkillMentions skill={props.skill} />,
     },
     {
       title: 'Bookmarks',
-      icon: 'book',
+      icon: <BookOutlined />,
       key: 'bookmarks',
       body: <SkillBookmarks skill={props.skill} />,
     },

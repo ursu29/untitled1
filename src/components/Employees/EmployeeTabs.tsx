@@ -1,6 +1,14 @@
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import gql from 'graphql-tag'
+import {
+  FormOutlined,
+  RiseOutlined,
+  NumberOutlined,
+  BookOutlined,
+  CrownOutlined,
+  StarOutlined,
+} from '@ant-design/icons'
 import { useQuery } from '@apollo/react-hooks'
 import { Employee, Access } from '../../types'
 import Skeleton from '../UI/Skeleton'
@@ -93,13 +101,13 @@ function EmployeeTabs({ match, ...props }: Props) {
     {
       title: 'Skills',
       key: 'skills',
-      icon: 'crown',
+      icon: <CrownOutlined />,
       noPadding: false,
       body: <EmployeeSkills employee={employee} editable={employee?.access.write || false} />,
     },
     {
       title: 'Bookmarks',
-      icon: 'book',
+      icon: <BookOutlined />,
       key: 'bookmarks',
       noPadding: false,
       body: <EmployeeBookmarks employee={employee} />,
@@ -127,7 +135,7 @@ function EmployeeTabs({ match, ...props }: Props) {
         </div>
       ),
       key: 'matrices',
-      icon: 'number',
+      icon: <NumberOutlined />,
       noPadding: false,
       body: (
         <EmployeeMatrices employee={employee} reviewersListAccess={matricesLookReviewersAccess} />
@@ -138,7 +146,7 @@ function EmployeeTabs({ match, ...props }: Props) {
     tabs.push({
       title: 'Personal development',
       key: 'development-plan',
-      icon: 'rise',
+      icon: <RiseOutlined />,
       noPadding: false,
       body: (
         <EmployeeDevelopmentPlan
@@ -170,7 +178,7 @@ function EmployeeTabs({ match, ...props }: Props) {
         </div>
       ),
       key: 'evaluation',
-      icon: 'star',
+      icon: <StarOutlined />,
       noPadding: false,
       body: <EmployeeEvaluation employee={employee} editable={evaluationReviewersAccess?.write} />,
     })
@@ -178,7 +186,7 @@ function EmployeeTabs({ match, ...props }: Props) {
   if (curriculumVitaeAccess?.read) {
     tabs.push({
       title: 'CV',
-      icon: 'form',
+      icon: <FormOutlined />,
       key: 'cv',
       noPadding: true,
       body: (

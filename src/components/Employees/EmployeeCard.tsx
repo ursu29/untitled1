@@ -1,3 +1,4 @@
+import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Card, Skeleton } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
@@ -32,7 +33,7 @@ export default function EmployeeCard(props: Props) {
                   <Avatar
                     size={55}
                     shape="circle"
-                    icon="user"
+                    icon={<UserOutlined />}
                     src={employee.avatar}
                     alt={employee.name}
                   />

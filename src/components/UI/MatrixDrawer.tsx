@@ -1,5 +1,4 @@
 import { Button, Drawer } from 'antd'
-import { IconProps } from 'antd/lib/icon'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import MatrixForm from '../Matrices/MatrixForm'
@@ -15,7 +14,7 @@ interface Props {
   togglerLabel: string
   drawerLabel: string
   data?: any
-  icon?: IconProps['type']
+  icon?: React.ReactNode
   onSubmit: (data: any, onDone: () => void) => void
 }
 
@@ -41,7 +40,7 @@ export default function SkillDrawer(props: Props) {
         <MatrixForm
           loading={props.loading}
           data={props.data}
-          onSubmit={(matrix) => {
+          onSubmit={matrix => {
             props.onSubmit(matrix, () => toggleVisibility(false))
           }}
         />
