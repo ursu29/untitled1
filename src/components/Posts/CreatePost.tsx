@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import React, { useEffect } from 'react'
+import { EditOutlined } from '@ant-design/icons'
 import message from '../../message'
 import getPosts from '../../queries/getPosts'
 import Button from '../UI/Button'
@@ -32,7 +33,7 @@ export default function CreatePost() {
     <Drawer
       size="large"
       drawerLabel="Create a new post"
-      toggler={<Button icon="edit">New post</Button>}
+      toggler={<Button icon={<EditOutlined />}>New post</Button>}
       content={
         <PostForm
           loading={loading}

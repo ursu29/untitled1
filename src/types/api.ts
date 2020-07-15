@@ -360,3 +360,11 @@ export interface WikiPage {
   body: string
   path: string
 }
+
+export interface Feedback {
+  id: string
+  about: string
+  project: Project
+  text: string
+  createdAt: string
+}

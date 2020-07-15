@@ -16,9 +16,14 @@ type Props = {
   wide?: boolean
   size?: 'large' | 'middle' | 'small'
   mode?: SelectProps['mode']
+  placeholder?: string
+  allowClear?: boolean
 }
 
-function ProjectSelect({ onChange, value, wide, size, mode, ...props }: Props, ref: any) {
+function ProjectSelect(
+  { onChange, value, wide, size, mode, placeholder, allowClear, ...props }: Props,
+  ref: any,
+) {
   const { data, loading } = useQuery<QueryType>(getProjects)
 
   const project = Array.isArray(value)
@@ -42,6 +47,10 @@ function ProjectSelect({ onChange, value, wide, size, mode, ...props }: Props, r
       }
       onBlur={props.onBlur}
       onSelect={(value: any) => {
+        if (!value) {
+          onChange && onChange('')
+          return
+        }
         if (!mode) {
           const project = data!.projects.find(i => i.name === value.key)
           if (project) {
@@ -60,6 +69,8 @@ function ProjectSelect({ onChange, value, wide, size, mode, ...props }: Props, r
           value: i.name,
         }
       })}
+      placeholder={placeholder ? placeholder : ''}
+      allowClear={allowClear || false}
     />
   )
 }

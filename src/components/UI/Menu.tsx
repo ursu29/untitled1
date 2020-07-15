@@ -17,6 +17,7 @@ import {
   TeamOutlined,
   UserAddOutlined,
   VideoCameraOutlined,
+  NotificationOutlined,
 } from '@ant-design/icons'
 
 import { Menu, Tag } from 'antd'
@@ -153,6 +154,12 @@ function PortalMenu(props: Props) {
           title: 'Processes',
         }
       : null,
+    {
+      route: paths.FEEDBACK,
+      icon: <NotificationOutlined />,
+      title: 'Feedback',
+      style: { marginTop: '40px' },
+    },
   ]
 
   if (loading) {
@@ -176,7 +183,7 @@ function PortalMenu(props: Props) {
           {menuItems.map(item => {
             if (!item) return null
             return (
-              <Menu.Item key={item.route}>
+              <Menu.Item key={item.route} style={item?.style}>
                 <Link to={item.route} key={item.route}>
                   {item.icon}
                   <span>{item.title}</span>

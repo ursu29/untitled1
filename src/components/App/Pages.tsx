@@ -33,6 +33,7 @@ const Timemaster = lazy(() => import('../Timemaster/TimemasterPage'))
 const Wiki = lazy(() => import('../Wiki/WikiPage'))
 const WikiPage = lazy(() => import('../Wiki/Page'))
 const OfficePlanner = lazy(() => import('../OfficePlanner/OfficePlannerPage'))
+const Feedback = lazy(() => import('../Feedback/FeedbackPage'))
 
 export default function Pages() {
   return (
@@ -72,6 +73,7 @@ export default function Pages() {
           <Route path={paths.WIKI + '/:path'} component={WikiPage} />
           <Route path={paths.WIKI} component={Wiki} />
           <Route path={paths.OFFICE_PLANNER} component={OfficePlanner} />
+          <Route path={paths.FEEDBACK} component={Feedback} />
           <Route component={PageNotFound} />
         </Switch>
       </Suspense>
