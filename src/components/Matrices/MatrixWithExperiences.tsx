@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { debounce } from 'throttle-debounce'
 import { MatrixGrade, MatrixGroup, MatrixRow } from './styled'
 import { ExperienceDetails } from '../../fragments'
-import { Employee, Matrix } from '../../types'
+import { Employee, Matrix, ArchivedMatrixRaw } from '../../types'
 
 interface Props {
   matrix: Matrix
@@ -12,6 +12,8 @@ interface Props {
   }
   EmployeeSkillExperience: any
   isCurrentTab?: boolean
+  archivedExperiences?: ArchivedMatrixRaw['experiences']
+  isArchivedChosen?: boolean
 }
 
 export default function MatrixWithExperiences({
@@ -19,6 +21,8 @@ export default function MatrixWithExperiences({
   employee,
   EmployeeSkillExperience,
   isCurrentTab,
+  archivedExperiences,
+  isArchivedChosen,
 }: Props) {
   const { groups, grades, skills } = matrix.body
 
@@ -70,20 +74,26 @@ export default function MatrixWithExperiences({
     groups.forEach((group, groupIndex) => {
       grades.forEach(grade => {
         skills
-          .filter(skill => skill.groupId === group.id && skill.gradeId === grade.id)
+          .filter(skill => {
+            return (
+              skill.groupId.toString() === group.id.toString() &&
+              skill.gradeId.toString() === grade.id.toString()
+            )
+          })
           .forEach((__, skillIndex) => {
             const cardsInRow = document.querySelectorAll<HTMLElement>(
               `div[class*="matrix_exp-${matrix.id}-${groupIndex}-${skillIndex}"]`,
             )
 
             // If the card has small height - it's empty card (space) - if entire row consists of such - make it hidden
-            if (
+            // Lead to error
+            /*             if (
               Array.from(cardsInRow).filter(e => e.offsetHeight < 50).length ===
               Array.from(cardsInRow).length
             )
               cardsInRow.forEach(e => {
-                e.style.display = 'none'
-              })
+                 e.style.display = 'none'
+              }) */
 
             cardsInRow.forEach(e => {
               if (
@@ -106,7 +116,7 @@ export default function MatrixWithExperiences({
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [clientWidth, isCurrentTab])
+  }, [clientWidth, isCurrentTab, matrix])
 
   return (
     <div style={{ padding: '8px 0', marginBottom: '20px' }}>
@@ -130,13 +140,28 @@ export default function MatrixWithExperiences({
           <MatrixRow key={group.title}>
             {grades.map(grade => {
               const content = skills
-                .filter(skill => skill.groupId === group.id && skill.gradeId === grade.id)
+                .filter(
+                  skill =>
+                    skill.groupId.toString() === group.id.toString() &&
+                    skill.gradeId.toString() === grade.id.toString(),
+                )
                 .map(({ skill, type }, skillIndex) => {
-                  const experience = employee?.experiences.find(i => i.skill.id === skill.id)
+                  const experience = employee?.experiences.find(i => i.skill?.id === skill?.id)
+
+                  let archivedExperience = null
+                  if (isArchivedChosen) {
+                    archivedExperience =
+                      archivedExperiences?.find(
+                        i => i.skill.id.toString() === skill.id.toString(),
+                      ) || null
+                  }
+
                   return (
                     <EmployeeSkillExperience
-                      type={type}
+                      type={type || null}
                       experience={experience}
+                      archivedExperience={archivedExperience}
+                      isArchivedChosen={isArchivedChosen}
                       key={skill.id}
                       skill={skill}
                       editable={employee?.access.write || false}

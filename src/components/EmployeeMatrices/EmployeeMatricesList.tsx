@@ -5,7 +5,7 @@ import EmployeeMatrix from './EmployeeMatrix'
 
 interface Props {
   loading: boolean
-  employee?: Pick<Employee, 'id'>
+  employee?: Pick<Employee, 'id' | 'isMe'>
   matrices?: Exclude<Matrix, 'access'>[]
 }
 

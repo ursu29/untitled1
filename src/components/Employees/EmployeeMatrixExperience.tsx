@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Experience, Skill, Employee, Level } from '../../types'
+import React, { useEffect, useState } from 'react'
+import { Experience, Skill, Employee, Level, ArchivedMatrixRaw } from '../../types'
 import gql from 'graphql-tag'
 import MatrixExperience from '../Matrices/MatrixExperience'
 import { useMutation } from '@apollo/react-hooks'
@@ -33,6 +33,8 @@ interface Props {
   employee?: Pick<Employee, 'id'>
   divClassName?: string
   type?: string
+  archivedExperience?: ArchivedMatrixRaw['experiences'][0]
+  isArchivedChosen?: boolean
 }
 
 export default function EmployeeMatrixExperience({
@@ -42,31 +44,45 @@ export default function EmployeeMatrixExperience({
   editable,
   divClassName,
   type,
+  archivedExperience,
+  isArchivedChosen,
 }: Props) {
+  const [experienceUI, setExperienceUI] = useState(experience)
+
   const refetchQueries = [
     { query: getEmployeeExperiences, variables: { input: { id: employee?.id } } },
   ]
 
   const onCompleted = () => message.success('Matrix updated')
-  const onError = message.error
+
+  const onError = (err: any) => {
+    message.error(err)
+    setExperienceUI(experience)
+  }
 
   const [create, { loading: createLoading }] = useMutation(createExperience, {
     refetchQueries,
+    awaitRefetchQueries: true,
     onCompleted,
     onError,
   })
   const [update, { loading: updateLoading }] = useMutation(updateExperience, {
     refetchQueries,
+    awaitRefetchQueries: true,
     onCompleted,
     onError,
   })
   const [remove, { loading: deleteLoading }] = useMutation(deleteExperience, {
     refetchQueries,
+    awaitRefetchQueries: true,
     onCompleted,
     onError,
   })
 
   const onSelectLevel = (level: any) => {
+    //@ts-ignore
+    setExperienceUI({ ...experience, level })
+
     if (!experience) {
       create({
         variables: {
@@ -90,18 +106,14 @@ export default function EmployeeMatrixExperience({
   }
 
   const onDeselectLevel = () => {
+    setExperienceUI(undefined)
+
     if (experience) {
       remove({
         variables: { input: { id: experience.id } },
       })
     }
   }
-
-  useEffect(() => {
-    if (createLoading) message.loading('Adding')
-    if (updateLoading) message.loading('Updating')
-    if (deleteLoading) message.loading('Removing')
-  })
 
   if (!skill) return null
   if (!employee) return <div>Employee is not provided</div>
@@ -110,11 +122,14 @@ export default function EmployeeMatrixExperience({
     <MatrixExperience
       type={type}
       skill={skill}
-      experience={experience}
+      experience={experienceUI}
+      archivedExperience={archivedExperience}
+      isArchivedChosen={isArchivedChosen}
       onSelectLevel={onSelectLevel}
       onDeselectLevel={onDeselectLevel}
       divClassName={divClassName}
-      editable={editable}
+      editable={editable && !isArchivedChosen}
+      loading={createLoading || updateLoading || deleteLoading}
     />
   )
 }

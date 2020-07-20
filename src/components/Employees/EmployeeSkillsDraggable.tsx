@@ -44,12 +44,12 @@ interface LevelSectionProps {
 
 function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSectionProps) {
   const [skills, setSkills] = useState(
-    experiences.filter(i => i.level.id === level.id).map(i => i.skill),
+    experiences.filter(i => i.level?.id === level.id).map(i => i.skill),
   )
   const [edit, toggleEdit] = useState(false)
 
   useEffect(() => {
-    const newSkills = experiences.filter(i => i.level.id === level.id).map(i => i.skill)
+    const newSkills = experiences.filter(i => i.level?.id === level.id).map(i => i.skill)
     // update only if element was added or removed
     if (skills.toString() !== newSkills.toString()) {
       setSkills(newSkills)
@@ -57,7 +57,7 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
     // eslint-disable-next-line
   }, [experiences])
 
-  const filteredExperiences = experiences.filter(e => e.level.id === level.id)
+  const filteredExperiences = experiences.filter(e => e.level?.id === level.id)
 
   return (
     <Section

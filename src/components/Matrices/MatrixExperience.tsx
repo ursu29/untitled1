@@ -1,12 +1,12 @@
 import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { LinkOutlined } from '@ant-design/icons'
-import { Tooltip } from 'antd'
+import { Tooltip, Spin } from 'antd'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import getLevels, { QueryType } from '../../queries/getLevels'
 import { MatrixCell } from './styled'
-import { Skill, Level, Experience } from '../../types'
+import { Skill, Level, Experience, ArchivedMatrixRaw } from '../../types'
 import { CircleButton, circleButtonsPallette } from './CircleButton'
 import { getSkillLink } from '../../paths'
 
@@ -21,7 +21,7 @@ const Card = styled.div<{ backgroundColor: string }>`
   padding: 14px;
   margin: 0 0 16px 0;
   &:hover {
-    div {
+    .link_to_skill {
       filter: opacity(1);
       visibility: visible;
     }
@@ -43,11 +43,14 @@ interface Props {
     id: Experience['id']
     level: Pick<Level, 'id' | 'index' | 'name'>
   }
+  archivedExperience?: ArchivedMatrixRaw['experiences'][0]
+  isArchivedChosen?: boolean
   onSelectLevel: any
   onDeselectLevel: any
   divClassName?: string
   editable: boolean
   type?: string
+  loading?: boolean
 }
 
 const getName = (index: number) => {
@@ -63,12 +66,15 @@ const getName = (index: number) => {
 function MatrixExperience({
   skill,
   experience,
+  archivedExperience,
+  isArchivedChosen,
   onSelectLevel,
   onDeselectLevel,
   divClassName,
   editable,
   history,
   type,
+  loading,
 }: Props & RouteComponentProps) {
   const { data } = useQuery<QueryType>(getLevels)
 
@@ -92,6 +98,19 @@ function MatrixExperience({
     }
   }
 
+  if (archivedExperience && isArchivedChosen && data) {
+    const levelIndex = data.levels.find(level => level.id === archivedExperience.level)?.index
+
+    if (levelIndex && levelIndex === 1) {
+      backgroundColor = 'rgba(242, 201, 76, 0.3)'
+    }
+    if (levelIndex && levelIndex > 1) {
+      backgroundColor = 'rgba(21, 225, 127, 0.3)'
+    }
+  }
+
+  if (archivedExperience === null && isArchivedChosen) backgroundColor = 'rgba(0, 0, 0, 0.04)'
+
   return (
     <Tooltip title={skill.description} placement="left" mouseEnterDelay={0.5}>
       <Card
@@ -101,36 +120,42 @@ function MatrixExperience({
         {type !== 'space_boilerplate' ? (
           <>
             <MatrixCell>{skill.name}</MatrixCell>
-            {editable && (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-end',
-                  marginTop: '14px',
-                }}
-              >
-                <Link onClick={() => history.push(getSkillLink(skill.id))}>
-                  <LinkOutlined />
-                </Link>
-                <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-                  {circleButtonsPallette.map((button, i) => (
-                    <CircleButton
-                      key={i}
-                      backgroundColor={button.backgroundColor}
-                      borderColor={button.borderColor}
-                      isActive={experience?.level.index ? i === experience?.level.index : i === 0}
-                      isHovered
-                      onClick={() =>
-                        i === 0
-                          ? onDeselectLevel()
-                          : onSelectLevel(filteredLevels?.find(level => level.index === i))
-                      }
-                    />
-                  ))}
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'flex-end',
+                marginTop: '14px',
+              }}
+            >
+              <Link className="link_to_skill" onClick={() => history.push(getSkillLink(skill.id))}>
+                <LinkOutlined />
+              </Link>
+              {loading ? (
+                <div style={{ position: 'absolute', right: '30px', bottom: '10px' }}>
+                  <Spin />
                 </div>
-              </div>
-            )}
+              ) : (
+                <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+                  {editable &&
+                    circleButtonsPallette.map((button, i) => (
+                      <CircleButton
+                        key={i}
+                        backgroundColor={button.backgroundColor}
+                        borderColor={button.borderColor}
+                        isActive={experience?.level.index ? i === experience?.level.index : i === 0}
+                        isHovered
+                        onClick={() => {
+                          if (i === experience?.level.index) return
+                          i === 0
+                            ? onDeselectLevel()
+                            : onSelectLevel(filteredLevels?.find(level => level.index === i))
+                        }}
+                      />
+                    ))}
+                </div>
+              )}
+            </div>
           </>
         ) : (
           <div></div>

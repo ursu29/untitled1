@@ -110,13 +110,13 @@ export interface MatrixSkill {
 export interface MatrixGroup {
   id: string
   title: string
-  description: string
+  description?: string
 }
 
 export interface MatrixGrade {
   id: string
   title: string
-  description: string
+  description?: string
 }
 
 export interface Matrix {
@@ -366,5 +366,37 @@ export interface Feedback {
   about: string
   project: Project
   text: string
+  createdAt: string
+}
+
+export interface ArchivedMatrixData {
+  employeeAzureEmail: string
+  compressedData: string
+  matrixId: string
+}
+
+export interface ArchivedMatrixRaw {
+  experiences: {
+    level: string
+    skill: {
+      id: string
+      name: string
+    }
+  }[]
+  matrix: {
+    grades: { id: string; title: string }[]
+    groups: { id: string; title: string }[]
+    skills: {
+      id: string
+      type: string
+      skillId: string
+      gradeId: string
+      groupId: string
+    }[]
+  }
+}
+
+export interface ArchivedMatrixVersion {
+  id: string
   createdAt: string
 }

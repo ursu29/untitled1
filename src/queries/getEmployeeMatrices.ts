@@ -6,6 +6,7 @@ export default gql`
     employees(input: $input) {
       id
       name
+      isMe
       matrices {
         id
         title
@@ -46,6 +47,7 @@ export type QueryType = {
   employees: {
     id: Employee['id']
     name: Employee['name']
+    isMe: Employee['isMe']
     matrices: Matrix[]
   }[]
 }

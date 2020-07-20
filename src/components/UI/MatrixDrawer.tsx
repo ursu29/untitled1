@@ -1,6 +1,7 @@
 import { Button, Drawer } from 'antd'
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { EditOutlined } from '@ant-design/icons'
 import MatrixForm from '../Matrices/MatrixForm'
 
 const Controls = styled.div`
@@ -23,7 +24,7 @@ export default function SkillDrawer(props: Props) {
   return (
     <Controls>
       <Button
-        icon={props.icon}
+        icon={props.icon && <EditOutlined />}
         size="small"
         title={props.togglerLabel}
         onClick={() => toggleVisibility(true)}
