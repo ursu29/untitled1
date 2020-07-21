@@ -2,7 +2,7 @@ import { Form } from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
 import { Checkbox, Col, Input, Row, Typography } from 'antd'
 import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { DevelopmentPlan } from '../../types'
 import DevelopmentGoals from './DevelopmentGoals'
 
@@ -13,9 +13,16 @@ type PlanPick = Exclude<DevelopmentPlan, 'employee'>
 interface Props extends FormComponentProps {
   value?: PlanPick
   onChange: (value: PlanPick) => void
+  locked?: boolean
+  resetFields?: boolean
 }
 
-function DevelopmentPlanForm({ value, onChange, form }: Props) {
+function DevelopmentPlanForm({ value, onChange, form, locked, resetFields }: Props) {
+  useEffect(() => {
+    form.resetFields()
+    // eslint-disable-next-line
+  }, [resetFields])
+
   const { getFieldDecorator } = form
   const handleSubmit = () => {
     form.validateFieldsAndScroll((err, values) => {
@@ -50,14 +57,14 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
             <Form.Item label="Positive">
               {getFieldDecorator('lookBackPositive', {
                 initialValue: value?.lookBackPositive,
-              })(<Input.TextArea rows={4} onBlur={handleSubmit} />)}
+              })(<Input.TextArea rows={4} onBlur={handleSubmit} disabled={locked} />)}
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item label="Negative">
               {getFieldDecorator('lookBackNegative', {
                 initialValue: value?.lookBackNegative,
-              })(<Input.TextArea rows={4} onBlur={handleSubmit} />)}
+              })(<Input.TextArea rows={4} onBlur={handleSubmit} disabled={locked} />)}
             </Form.Item>
           </Col>
         </Row>
@@ -71,7 +78,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
         </Paragraph>
         {getFieldDecorator('lookForward', {
           initialValue: value?.lookForward,
-        })(<Input.TextArea rows={4} onBlur={handleSubmit} />)}
+        })(<Input.TextArea rows={4} onBlur={handleSubmit} disabled={locked} />)}
       </Form.Item>
       <Form.Item>
         <Title level={3}>Previous Goals</Title>
@@ -91,6 +98,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
               })
               handleSubmit()
             }}
+            disabled={locked || false}
           />,
         )}
       </Form.Item>
@@ -108,31 +116,31 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
               {getFieldDecorator('developmentRoles.solutionArchitect', {
                 valuePropName: 'checked',
                 initialValue: value?.developmentRoles?.solutionArchitect,
-              })(<Checkbox>Solution Architect (UI and/or Backend)</Checkbox>)}
+              })(<Checkbox disabled={locked}>Solution Architect (UI and/or Backend)</Checkbox>)}
             </div>
             <div>
               {getFieldDecorator('developmentRoles.webDeveloper', {
                 valuePropName: 'checked',
                 initialValue: value?.developmentRoles?.webDeveloper,
-              })(<Checkbox>Web/UI Developer</Checkbox>)}
+              })(<Checkbox disabled={locked}>Web/UI Developer</Checkbox>)}
             </div>
             <div>
               {getFieldDecorator('developmentRoles.javaDeveloper', {
                 valuePropName: 'checked',
                 initialValue: value?.developmentRoles?.javaDeveloper,
-              })(<Checkbox>Java Developer</Checkbox>)}
+              })(<Checkbox disabled={locked}>Java Developer</Checkbox>)}
             </div>
             <div>
               {getFieldDecorator('developmentRoles.dotnetDeveloper', {
                 valuePropName: 'checked',
                 initialValue: value?.developmentRoles?.dotnetDeveloper,
-              })(<Checkbox>.NET Developer (C#)</Checkbox>)}
+              })(<Checkbox disabled={locked}>.NET Developer (C#)</Checkbox>)}
             </div>
             <div>
               {getFieldDecorator('developmentRoles.uxExpert', {
                 valuePropName: 'checked',
                 initialValue: value?.developmentRoles?.uxExpert,
-              })(<Checkbox>UI/UX Expert</Checkbox>)}
+              })(<Checkbox disabled={locked}>UI/UX Expert</Checkbox>)}
             </div>
           </Col>
           <Col span={7}>
@@ -140,25 +148,25 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
               {getFieldDecorator('developmentRoles.devOps', {
                 valuePropName: 'checked',
                 initialValue: value?.developmentRoles?.devOps,
-              })(<Checkbox>DevOps</Checkbox>)}
+              })(<Checkbox disabled={locked}>DevOps</Checkbox>)}
             </div>
             <div>
               {getFieldDecorator('developmentRoles.infrastructureArchitect', {
                 valuePropName: 'checked',
                 initialValue: value?.developmentRoles?.infrastructureArchitect,
-              })(<Checkbox>Infrastructure Architect</Checkbox>)}
+              })(<Checkbox disabled={locked}>Infrastructure Architect</Checkbox>)}
             </div>
             <div>
               {getFieldDecorator('developmentRoles.manualQA', {
                 valuePropName: 'checked',
                 initialValue: value?.developmentRoles?.manualQA,
-              })(<Checkbox>Manual QA</Checkbox>)}
+              })(<Checkbox disabled={locked}>Manual QA</Checkbox>)}
             </div>
             <div>
               {getFieldDecorator('developmentRoles.automationQA', {
                 valuePropName: 'checked',
                 initialValue: value?.developmentRoles?.automationQA,
-              })(<Checkbox>Automation QA</Checkbox>)}
+              })(<Checkbox disabled={locked}>Automation QA</Checkbox>)}
             </div>
           </Col>
         </Row>
@@ -170,19 +178,19 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
             {getFieldDecorator('developmentRoles.scrumMaster', {
               valuePropName: 'checked',
               initialValue: value?.developmentRoles?.scrumMaster,
-            })(<Checkbox>Scrum Master</Checkbox>)}
+            })(<Checkbox disabled={locked}>Scrum Master</Checkbox>)}
           </div>
           <div>
             {getFieldDecorator('developmentRoles.teamLead', {
               valuePropName: 'checked',
               initialValue: value?.developmentRoles?.teamLead,
-            })(<Checkbox>Team Lead</Checkbox>)}
+            })(<Checkbox disabled={locked}>Team Lead</Checkbox>)}
           </div>
           <div>
             {getFieldDecorator('developmentRoles.agileCoach', {
               valuePropName: 'checked',
               initialValue: value?.developmentRoles?.agileCoach,
-            })(<Checkbox>Agile Coach</Checkbox>)}
+            })(<Checkbox disabled={locked}>Agile Coach</Checkbox>)}
           </div>
         </Row>
       </div>
@@ -193,25 +201,25 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
             {getFieldDecorator('developmentRoles.mathematician', {
               valuePropName: 'checked',
               initialValue: value?.developmentRoles?.mathematician,
-            })(<Checkbox>Mathematician / Quant</Checkbox>)}
+            })(<Checkbox disabled={locked}>Mathematician / Quant</Checkbox>)}
           </div>
           <div>
             {getFieldDecorator('developmentRoles.actuarialBusinessAnalyst', {
               valuePropName: 'checked',
               initialValue: value?.developmentRoles?.actuarialBusinessAnalyst,
-            })(<Checkbox>Actuarial Business Analyst</Checkbox>)}
+            })(<Checkbox disabled={locked}>Actuarial Business Analyst</Checkbox>)}
           </div>
           <div>
             {getFieldDecorator('developmentRoles.productOwner', {
               valuePropName: 'checked',
               initialValue: value?.developmentRoles?.productOwner,
-            })(<Checkbox>Product Owner</Checkbox>)}
+            })(<Checkbox disabled={locked}>Product Owner</Checkbox>)}
           </div>
           <div>
             {getFieldDecorator('developmentRoles.dataAnalyst', {
               valuePropName: 'checked',
               initialValue: value?.developmentRoles?.dataAnalyst,
-            })(<Checkbox>Data Analyst</Checkbox>)}
+            })(<Checkbox disabled={locked}>Data Analyst</Checkbox>)}
           </div>
         </Row>
       </div>
@@ -224,7 +232,14 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
         </Paragraph>
         {getFieldDecorator('longTermGoals', {
           initialValue: value?.longTermGoals,
-        })(<Input.TextArea rows={4} placeholder="Describe new goal" onBlur={handleSubmit} />)}
+        })(
+          <Input.TextArea
+            rows={4}
+            placeholder="Describe new goal"
+            onBlur={handleSubmit}
+            disabled={locked}
+          />,
+        )}
       </Form.Item>
       <Form.Item>
         <Title level={3}>Short Term goals (nearest 6 months, i.e. up to the next assessment)</Title>
@@ -247,6 +262,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
               })
               handleSubmit()
             }}
+            disabled={locked || false}
           />,
         )}
       </Form.Item>
@@ -262,30 +278,30 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
             {getFieldDecorator('guildContribution.noContribution', {
               valuePropName: 'checked',
               initialValue: value?.guildContribution?.noContribution,
-            })(<Checkbox>No contribution</Checkbox>)}
+            })(<Checkbox disabled={locked}>No contribution</Checkbox>)}
           </div>
           <div>
             {getFieldDecorator('guildContribution.education', {
               valuePropName: 'checked',
               initialValue: value?.guildContribution?.education,
-            })(<Checkbox>Education, presentations; topic(s)</Checkbox>)}
+            })(<Checkbox disabled={locked}>Education, presentations; topic(s)</Checkbox>)}
           </div>
           <div>
             {getFieldDecorator('guildContribution.internalProject', {
               valuePropName: 'checked',
               initialValue: value?.guildContribution?.internalProject,
-            })(<Checkbox>Contribution in an internal project</Checkbox>)}
+            })(<Checkbox disabled={locked}>Contribution in an internal project</Checkbox>)}
           </div>
           <div>
             {getFieldDecorator('guildContribution.startup', {
               valuePropName: 'checked',
               initialValue: value?.guildContribution?.startup,
-            })(<Checkbox>New startup idea</Checkbox>)}
+            })(<Checkbox disabled={locked}>New startup idea</Checkbox>)}
           </div>
           <div style={{ paddingTop: 8, maxWidth: 300 }}>
             {getFieldDecorator('guildContribution.custom', {
               initialValue: value?.guildContribution?.custom,
-            })(<Input placeholder="Custom type"></Input>)}
+            })(<Input placeholder="Custom type" disabled={locked}></Input>)}
           </div>
         </Row>
       </div>
@@ -304,6 +320,7 @@ function DevelopmentPlanForm({ value, onChange, form }: Props) {
             rows={4}
             placeholder="Describe time needed for guild projects"
             onBlur={handleSubmit}
+            disabled={locked}
           />,
         )}
       </Form.Item>

@@ -400,3 +400,13 @@ export interface ArchivedMatrixVersion {
   id: string
   createdAt: string
 }
+
+export interface ArchivedDPVersion {
+  id: string
+  createdAt: string
+}
+
+export interface ArchivedDPData {
+  employeeAzureEmail: string
+  compressedData: string
+}

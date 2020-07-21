@@ -25,11 +25,11 @@ export default function EmployeeMatrix({ employee, matrix, isCurrentTab }: Props
   })
 
   // Get archived matrix
-  const [getMatrixVersion, { data: archivedMatrixData }] = useLazyQuery<{
+  const [getMatrixVersion, { data: archivedMatrixData, loading: archiveLoading }] = useLazyQuery<{
     archivedMatrix: ArchivedMatrixData
   }>(getArchivedMatrix)
 
-  // Select matrix versions
+  // Select matrix version
   const onSelectVersion = (version: string) => {
     if (version === 'current') {
       setIsArchivedChosen(false)
@@ -84,7 +84,7 @@ export default function EmployeeMatrix({ employee, matrix, isCurrentTab }: Props
         employee={data?.employees[0]}
         EmployeeSkillExperience={EmployeeSkillExperience}
         isCurrentTab={isCurrentTab}
-        isArchivedChosen={showArchiveAllow}
+        isArchivedChosen={showArchiveAllow || archiveLoading}
         archivedExperiences={archivedExperiences}
       />
       <Controls>

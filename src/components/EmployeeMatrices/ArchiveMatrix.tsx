@@ -1,15 +1,12 @@
 import React from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import { Select, Button, Space, Popconfirm } from 'antd'
-import dayjs from 'dayjs'
+import VersionSnapshot from '../UI/VersionSnapshot'
 import {
   archivedMatrixVersions,
   archiveMatrix,
   ArchivedMatrixVersions,
 } from '../../queries/archiveMatrices'
 import message from '../../message'
-
-const { Option } = Select
 
 export default function ArchiveMatrix({
   employeeAzureId,
@@ -43,40 +40,15 @@ export default function ArchiveMatrix({
   })
 
   return (
-    <div style={{ marginBottom: '25px' }}>
-      <div style={{ color: 'black', marginBottom: '8px' }}>
-        <span>Version</span>
-      </div>
-      <Space size="middle">
-        <Select
-          defaultValue="current"
-          style={{ width: 120 }}
-          onChange={value => onSelectVersion(value)}
-        >
-          <Option value="current">current</Option>
-          {data?.archivedMatrixVersions.map(e => (
-            <Option key={e.id} value={e.id}>
-              {dayjs(e.createdAt).format('DD.MM.YYYY')}
-            </Option>
-          ))}
-        </Select>
-
-        {createSnapshotShown && (
-          <Popconfirm
-            placement="topLeft"
-            title="Current version will be saved in the archive"
-            onConfirm={() =>
-              archive({
-                variables,
-              })
-            }
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button>Create Snapshot</Button>
-          </Popconfirm>
-        )}
-      </Space>
-    </div>
+    <VersionSnapshot
+      onSelectVersion={(value: string) => onSelectVersion(value)}
+      onCreateSnapshot={() =>
+        archive({
+          variables,
+        })
+      }
+      versionsList={data?.archivedMatrixVersions.map(e => ({ id: e.id, createdAt: e.createdAt }))}
+      isButtonVisible={createSnapshotShown}
+    />
   )
 }

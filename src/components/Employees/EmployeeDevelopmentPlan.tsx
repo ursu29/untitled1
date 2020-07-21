@@ -1,15 +1,22 @@
-import { useMutation, useQuery } from '@apollo/react-hooks'
+import { useMutation, useQuery, useLazyQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import React, { useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { debounce } from 'throttle-debounce'
 import getDevelopmentPlans, { QueryType } from '../../queries/getDevelopmentPlans'
-import { Employee, Access } from '../../types'
+import {
+  archivedDPVersions,
+  ArchivedDPVersions,
+  archiveDP,
+  getArchivedDP,
+} from '../../queries/archiveDP'
+import { Employee, Access, ArchivedDPData } from '../../types'
 import message from '../../message'
 import DevelopmentPlanForm from './DevelopmentPlanForm'
 import ExportDevelopmentPlan from './ExportDevelopmentPlan'
 import EmployeeReviewers, { ReviewersNames } from './EmployeeReviewers'
 import Skeleton from '../UI/Skeleton'
 import Controls from '../UI/Controls'
+import VersionSnapshot from '../UI/VersionSnapshot'
 import { Typography } from 'antd'
 import dayjs from 'dayjs'
 
@@ -27,8 +34,52 @@ interface Props {
 }
 
 export default function EmployeeDevelopmentPlan(props: Props) {
+  const [isArchivedChosen, setIsArchivedChosen] = useState(false)
+  const [resetFields, toggleResetFields] = useState(false)
+
   const variables = { input: { employee: props.employee?.id } }
 
+  // Get DP versions
+  const { data: dataVersions } = useQuery<ArchivedDPVersions>(archivedDPVersions, {
+    variables: { input: { employeeAzureId: props.employee?.id } },
+  })
+
+  // Archive DP
+  const [archive] = useMutation(archiveDP, {
+    onCompleted: () => {
+      message.success('Snapshot has been created')
+      toggleResetFields(!resetFields)
+    },
+    refetchQueries: [
+      { query: archivedDPVersions, variables: { input: { employeeAzureId: props.employee?.id } } },
+      { query: getDevelopmentPlans, variables },
+    ],
+    awaitRefetchQueries: true,
+    onError: message.error,
+  })
+
+  // Get archived DP
+  const [getDPVersion, { data: archivedDPData }] = useLazyQuery<{
+    archivedDP: ArchivedDPData
+  }>(getArchivedDP)
+
+  // Select DP version
+  const onSelectVersion = (version: string) => {
+    if (version === 'current') {
+      setIsArchivedChosen(false)
+      return
+    }
+    setIsArchivedChosen(true)
+    toggleResetFields(!resetFields)
+    getDPVersion({ variables: { input: { id: version } } })
+  }
+
+  let archivedPlan
+  if (archivedDPData) {
+    archivedPlan = JSON.parse(archivedDPData.archivedDP.compressedData).plan
+  }
+
+  // Get DP
   const { data, loading } = useQuery<QueryType>(getDevelopmentPlans, {
     variables,
     skip: !props.employee,
@@ -75,11 +126,28 @@ export default function EmployeeDevelopmentPlan(props: Props) {
               <ExportDevelopmentPlan employee={props.employee!} plan={plan} />
             </Controls>
 
+            <VersionSnapshot
+              onSelectVersion={(value: string) => onSelectVersion(value)}
+              onCreateSnapshot={() =>
+                archive({
+                  variables: { input: { employeeAzureId: props.employee?.id } },
+                })
+              }
+              versionsList={dataVersions?.archivedDPVersions.map(e => ({
+                id: e.id,
+                createdAt: e.createdAt,
+              }))}
+              isButtonVisible={true}
+              buttonText="Add New"
+            />
+
             <DevelopmentPlanForm
-              value={plan}
+              value={isArchivedChosen && archivedPlan ? archivedPlan : plan}
               onChange={(value: any) =>
                 debounced({ variables: { input: { ...value, lastUpdatedAt: plan?.updatedAt } } })
               }
+              locked={isArchivedChosen}
+              resetFields={resetFields}
             />
           </>
         )}

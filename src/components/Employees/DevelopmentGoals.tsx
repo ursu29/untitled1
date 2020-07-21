@@ -10,6 +10,7 @@ interface Props {
   value?: Partial<DevelopmentGoal>[]
   onChange?: (items: Partial<DevelopmentGoal>[]) => void
   showAchievedSwitch: boolean
+  disabled?: boolean
 }
 
 const EditableContext = React.createContext(null)
@@ -111,7 +112,7 @@ const components = {
   },
 }
 
-function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
+function DevelopmentGoals({ onChange, disabled, ...props }: Props, ref: any) {
   const value = (props.value || []).map(({ __typename, ...i }: any) => i)
 
   const handleSave = ({ key, ...item }: any) => {
@@ -134,12 +135,12 @@ function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
       title: 'Goal',
       dataIndex: 'description',
       width: '30%',
-      editable: true,
+      editable: !disabled,
     },
     {
       title: 'Success Criteria',
       dataIndex: 'successCriteria',
-      editable: true,
+      editable: !disabled,
     },
   ]
 
@@ -151,6 +152,7 @@ function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
       dataIndex: 'isAchieved',
       render: (text: any, record: any) => (
         <Switch
+          disabled={disabled}
           checked={record.isAchieved}
           onChange={() => {
             if (onChange) {
@@ -177,13 +179,14 @@ function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
     {
       title: 'Comment',
       dataIndex: 'comment',
-      editable: true,
+      editable: !disabled,
     },
     {
       width: '50px',
       dataIndex: 'operation',
       render: (text: any, { key, ...record }: any) => (
         <Popconfirm
+          disabled={disabled}
           title="Sure to delete?"
           onConfirm={() => {
             if (onChange) {
@@ -191,7 +194,7 @@ function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
             }
           }}
         >
-          <Button type="link" icon={<DeleteOutlined />} />
+          <Button type="link" disabled={disabled} icon={<DeleteOutlined />} />
         </Popconfirm>
       ),
     },
@@ -232,6 +235,7 @@ function DevelopmentGoals({ onChange, ...props }: Props, ref: any) {
             onChange(value.concat({ description: '' }))
           }
         }}
+        disabled={disabled}
       >
         Add new goal
       </Button>
