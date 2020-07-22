@@ -28,6 +28,9 @@ export default gql`
       }
       employeeComment
       comment
+      employeeExperience
+      englishLevel
+      stack
     }
   }
 `
@@ -39,6 +42,9 @@ type VacancyPick = Pick<
   | 'position'
   | 'responsibilities'
   | 'requiredSkills'
+  | 'employeeExperience'
+  | 'englishLevel'
+  | 'stack'
   | 'additionalSkills'
   | 'isClosed'
 > & {

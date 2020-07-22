@@ -37,13 +37,20 @@ function ProcessList({ items = [], history }: Props & RouteComponentProps) {
           },
         },
         { key: 'client', dataIndex: 'customer', title: 'Client' },
-        { key: 'team', dataIndex: 'project.name', title: 'Team' },
+        {
+          key: 'team',
+          dataIndex: 'project.name',
+          title: 'Team',
+          render: (_, i) => {
+            return <span>{i.project.name}</span>
+          },
+        },
         {
           key: 'location',
           dataIndex: '.location.name',
           title: 'Location',
           render: (_, i) => {
-            return <span>{i.locations?.map(i => i.name).join(' ,') ?? '-'}</span>
+            return <span>{i.locations?.map(i => i.name).join(', ') ?? '-'}</span>
           },
         },
         {

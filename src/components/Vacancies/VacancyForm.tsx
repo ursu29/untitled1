@@ -1,87 +1,106 @@
 import React from 'react'
 import { Vacancy } from '../../types'
-import { Form } from '@ant-design/compatible'
+// import { Form } from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
-import { Input, Row, Col, Button, Divider, Popconfirm } from 'antd'
-import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
+import { Input, Row, Col, Button, Divider, Popconfirm, Form } from 'antd'
 import ProjectSelect from '../Projects/ProjectSelect'
 import LocationSelect from '../Locations/LocationSelect'
 import MarkdownEditor from '../UI/MarkdownEditor'
 
-interface Props extends FormComponentProps {
+interface Props {
   vacancy: Partial<Vacancy>
   onClose: (i: any) => void
   onSave: (i: any) => void
   onPublish: (i: Partial<Vacancy>) => void
 }
 
-function VacancyForm({ vacancy, form, onClose, onSave, onPublish }: Props) {
-  const { getFieldDecorator } = form
+export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Props) {
+  const [form] = Form.useForm()
   return (
-    <Form layout="vertical">
+    <Form layout="vertical" form={form}>
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="Position">
-            {getFieldDecorator('position', {
-              initialValue: vacancy?.position,
-              rules: [{ required: true, message: 'Please add position!' }],
-            })(<Input placeholder="Add position" />)}
+          <Form.Item
+            label="Position"
+            name="position"
+            initialValue={vacancy.position}
+            rules={[{ required: true, message: 'Position is required!' }]}
+          >
+            <Input placeholder="Add position" />
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item label="Reason">
-            {getFieldDecorator('reason', {
-              initialValue: vacancy?.reason,
-            })(<Input placeholder="Provide the reason" />)}
+          <Form.Item label="Reason" name="reason" initialValue={vacancy.reason}>
+            <Input placeholder="Provide the reason" />
           </Form.Item>
         </Col>
       </Row>
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="Project">
-            {getFieldDecorator('project', {
-              initialValue: vacancy?.project?.id,
-            })(<ProjectSelect wide />)}
+          <Form.Item label="Project" name="project" initialValue={vacancy.project?.id}>
+            <ProjectSelect wide />
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item label="Locations">
-            {getFieldDecorator('locations', {
-              initialValue: vacancy?.locations?.map(i => i.id),
-            })(<LocationSelect wide mode="multiple" />)}
+          <Form.Item
+            label="Locations"
+            name="locations"
+            initialValue={vacancy.locations?.map(i => i.id)}
+          >
+            <LocationSelect wide mode="multiple" />
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item label="Responsibilities">
-        {getFieldDecorator('responsibilities', {
-          initialValue: vacancy?.responsibilities,
-        })(<MarkdownEditor id="responsibilities" />)}
+      <Form.Item
+        label="Responsibilities"
+        name="responsibilities"
+        initialValue={vacancy.responsibilities}
+      >
+        <MarkdownEditor id="responsibilities" />
       </Form.Item>
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="Required skills">
-            {getFieldDecorator('requiredSkills', {
-              initialValue: vacancy?.requiredSkills,
-            })(<MarkdownEditor id="requiredSkills" />)}
+          <Form.Item
+            label="Required skills"
+            name="requiredSkills"
+            initialValue={vacancy.requiredSkills}
+          >
+            <MarkdownEditor id="requiredSkills" />
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item label="Additional skills">
-            {getFieldDecorator('additionalSkills', {
-              initialValue: vacancy?.additionalSkills,
-            })(<MarkdownEditor id="additionalSkills" />)}
+          <Form.Item
+            label="Additional skills"
+            name="additionalSkills"
+            initialValue={vacancy.additionalSkills}
+          >
+            <MarkdownEditor id="additionalSkills" />
           </Form.Item>
         </Col>
       </Row>
-      {/*       <Row gutter={16}>
+      <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="Hired employee">
-            {getFieldDecorator('employeeComment', {
-              initialValue: vacancy?.employeeComment,
-            })(<Input id="employeeComment" />)}
+          <Form.Item label="English level" name="englishLevel" initialValue={vacancy.englishLevel}>
+            <Input placeholder="Provide the level" />
           </Form.Item>
         </Col>
-      </Row> */}
+        <Col span={12}>
+          <Form.Item
+            label="Employee experience"
+            name="employeeExperience"
+            initialValue={vacancy.employeeExperience}
+          >
+            <Input placeholder="Provide the experience" />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+          <Form.Item label="Project stack" name="stack" initialValue={vacancy.stack}>
+            <Input.TextArea rows={3} placeholder="Provide the stack" />
+          </Form.Item>
+        </Col>
+      </Row>
       <Row justify="end" align="middle">
         {vacancy.isPublished && (
           <Popconfirm
@@ -95,10 +114,7 @@ function VacancyForm({ vacancy, form, onClose, onSave, onPublish }: Props) {
         )}
         <Button
           onClick={() => {
-            form.validateFields((error: any, values: any) => {
-              if (error) {
-                return
-              }
+            form.validateFields().then(values => {
               onSave({
                 ...vacancy,
                 ...values,
@@ -114,10 +130,7 @@ function VacancyForm({ vacancy, form, onClose, onSave, onPublish }: Props) {
             <Divider type="vertical" />
             <Button
               onClick={() => {
-                form.validateFields((error: any, values: any) => {
-                  if (error) {
-                    return
-                  }
+                form.validateFields().then(values => {
                   onPublish({
                     ...vacancy,
                     ...values,
@@ -134,5 +147,3 @@ function VacancyForm({ vacancy, form, onClose, onSave, onPublish }: Props) {
     </Form>
   )
 }
-
-export default Form.create<Props>({ name: 'vacancy_form' })(VacancyForm)

@@ -245,6 +245,9 @@ export interface Vacancy {
   editable: boolean
   employeeComment: string
   comment: string
+  employeeExperience: string
+  englishLevel: string
+  stack: string
 }
 
 export interface Location {
