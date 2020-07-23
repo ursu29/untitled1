@@ -308,11 +308,11 @@ export interface ProcessExecutionComment {
 }
 
 export interface EvaluationComment {
-  id: string
+  id?: string
   body: string
-  employee: Employee
-  evaluationAttribute: EvaluationAttribute
-  editable: boolean
+  employee?: Employee
+  evaluationAttribute?: EvaluationAttribute
+  editable?: boolean
 }
 
 export interface OfficeDay {
@@ -410,6 +410,16 @@ export interface ArchivedDPVersion {
 }
 
 export interface ArchivedDPData {
+  employeeAzureEmail: string
+  compressedData: string
+}
+
+export interface ArchivedSEFVersion {
+  id: string
+  createdAt: string
+}
+
+export interface ArchivedSEFData {
   employeeAzureEmail: string
   compressedData: string
 }

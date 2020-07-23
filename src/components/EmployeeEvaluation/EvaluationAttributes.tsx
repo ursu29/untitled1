@@ -41,9 +41,19 @@ interface Props {
     manager: Pick<Employee, 'id' | 'name' | 'isMe'>
   }
   editable: boolean
+  versionSnapshot?: any
+  isArchivedChosen?: boolean
 }
 
-function EvaluationAttributes({ evaluations, editable, comments, employee, ...props }: Props) {
+function EvaluationAttributes({
+  evaluations,
+  editable,
+  comments,
+  employee,
+  versionSnapshot,
+  isArchivedChosen,
+  ...props
+}: Props) {
   const { data, loading } = useQuery<QueryType>(getEvaluationAttributes)
 
   const [evaluate, { loading: evaluateLoading }] = useMutation(evaluateMutation, {
@@ -52,7 +62,7 @@ function EvaluationAttributes({ evaluations, editable, comments, employee, ...pr
         query: getEvaluations,
         variables: {
           evaluationsInput: { employee: employee?.id },
-          evaluationCommmentsInput: { employee: employee?.id },
+          evaluationCommentsInput: { employee: employee?.id },
         },
       },
     ],
@@ -66,7 +76,7 @@ function EvaluationAttributes({ evaluations, editable, comments, employee, ...pr
         query: getEvaluations,
         variables: {
           evaluationsInput: { employee: employee?.id },
-          evaluationCommmentsInput: { employee: employee?.id },
+          evaluationCommentsInput: { employee: employee?.id },
         },
       },
     ],
@@ -119,11 +129,13 @@ function EvaluationAttributes({ evaluations, editable, comments, employee, ...pr
                   )}
                 </Controls>
               )}
+              {versionSnapshot()}
               <EvaluationHelper />
               <EvaluationTable
                 evaluationAttributes={data?.evaluationAttributes}
                 evaluations={evaluations}
                 comments={comments}
+                isArchivedChosen={isArchivedChosen}
                 editable={editable}
                 reviewers={reviewers}
                 employee={employee}

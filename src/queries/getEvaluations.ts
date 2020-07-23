@@ -4,7 +4,7 @@ import { Evaluation, EvaluationComment } from '../types'
 export default gql`
   query getEvaluations(
     $evaluationsInput: EvaluationsInput!
-    $evaluationCommmentsInput: EvaluationCommentsInput!
+    $evaluationCommentsInput: EvaluationCommentsInput!
   ) {
     evaluations(input: $evaluationsInput) {
       id
@@ -23,7 +23,7 @@ export default gql`
         id
       }
     }
-    evaluationComments(input: $evaluationCommmentsInput) {
+    evaluationComments(input: $evaluationCommentsInput) {
       id
       body
       evaluationAttribute {

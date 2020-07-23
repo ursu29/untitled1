@@ -64,6 +64,7 @@ interface Props {
   onComment: (value: { body: string; evaluationAttribute?: string }) => void
   DeleteEmployeeReviewer: any
   editable: boolean
+  isArchivedChosen?: boolean
 }
 
 export default function EvaluationTable({
@@ -75,6 +76,7 @@ export default function EvaluationTable({
   comments,
   editable,
   DeleteEmployeeReviewer,
+  isArchivedChosen,
   reviewers = [],
 }: Props) {
   const [shownCommentCode, setShownCommentCode] = useState('')
@@ -130,12 +132,14 @@ export default function EvaluationTable({
 
   const TableCell = ({
     rateDisabled,
+    isArchivedChosen,
     itemId,
     cellCode,
     rateValue,
     comment,
   }: {
     rateDisabled: boolean
+    isArchivedChosen: boolean
     itemId: string
     cellCode: string
     rateValue: number
@@ -165,7 +169,7 @@ export default function EvaluationTable({
         }}
       >
         <Rate
-          disabled={rateDisabled}
+          disabled={rateDisabled || isArchivedChosen}
           onChange={value => {
             onEvaluate({
               toWhom: employee.id,
@@ -178,7 +182,7 @@ export default function EvaluationTable({
           value={rateValue}
         />
 
-        {!rateDisabled && (
+        {!rateDisabled && !isArchivedChosen && (
           <div
             style={{
               marginLeft: '90px',
@@ -206,6 +210,7 @@ export default function EvaluationTable({
           <Tooltip title={comment} overlayClassName="styled_tooltip">
             <div
               onClick={() => {
+                if (isArchivedChosen) return
                 if (!rateDisabled) commentHandleClick()
               }}
               style={{
@@ -288,6 +293,7 @@ export default function EvaluationTable({
         return (
           <TableCell
             rateDisabled={!employee.isMe}
+            isArchivedChosen={!!isArchivedChosen}
             itemId={item.id}
             cellCode={item.id + ' you'}
             rateValue={evaluation?.evaluation || 0}
@@ -313,6 +319,7 @@ export default function EvaluationTable({
           return (
             <TableCell
               rateDisabled={!employee.manager?.isMe}
+              isArchivedChosen={!!isArchivedChosen}
               itemId={item.id}
               cellCode={item.id + ' agile'}
               rateValue={evaluation?.evaluation || 0}
@@ -337,6 +344,7 @@ export default function EvaluationTable({
           return (
             <TableCell
               rateDisabled={!reviewer.fromWho.isMe}
+              isArchivedChosen={!!isArchivedChosen}
               itemId={item.id}
               cellCode={item.id + ' reviewer' + index}
               rateValue={evaluation?.evaluation || 0}
@@ -361,18 +369,35 @@ export default function EvaluationTable({
         dataSource={tree}
         pagination={false}
       />
-      <Input.TextArea
-        placeholder="Overall comment"
-        defaultValue={comment?.body}
-        rows={4}
-        disabled={employee.isMe || !editable}
-        onChange={e => {
-          onComment({
-            body: e.target.value,
-          })
-        }}
-        style={{ marginTop: 8 }}
-      />
+      {isArchivedChosen ? (
+        comment?.body && (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              maxWidth: '100%',
+              marginTop: '20px',
+            }}
+          >
+            <div style={{ fontWeight: 'bold' }}>Comment: </div>
+            {comment?.body}
+          </div>
+        )
+      ) : (
+        <Input.TextArea
+          placeholder="Overall comment"
+          defaultValue={comment?.body}
+          rows={4}
+          disabled={employee.isMe || !editable}
+          onChange={e => {
+            onComment({
+              body: e.target.value,
+            })
+          }}
+          style={{ marginTop: 8 }}
+        />
+      )}
+
       <Modal
         title="Comment"
         visible={addCommentModal.visible}

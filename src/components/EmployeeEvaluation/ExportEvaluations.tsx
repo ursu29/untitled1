@@ -44,8 +44,8 @@ export default function ExportEvaluations({
           comments,
         }),
       })
-        .then((res) => res.arrayBuffer())
-        .then((data) => {
+        .then(res => res.arrayBuffer())
+        .then(data => {
           const blob = new Blob([data], {
             type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
           })
