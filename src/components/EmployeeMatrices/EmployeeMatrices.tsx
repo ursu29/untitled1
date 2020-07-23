@@ -1,4 +1,5 @@
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery, useMutation } from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 import React from 'react'
 import getEmployeeMatrices, { QueryType } from '../../queries/getEmployeeMatrices'
 import { Employee, Access } from '../../types'
@@ -9,6 +10,7 @@ import EmployeeMatricesList from './EmployeeMatricesList'
 import EmployeeMatricesUpdateDate from './EmployeeMatricesUpdateDate'
 import ExportMatrices from './ExportMatrices'
 import Legend from './Legend'
+import message from '../../message'
 
 interface Props {
   employee?: Pick<Employee, 'id' | 'name' | 'email' | 'isMe'>
@@ -22,6 +24,19 @@ export default function EmployeeMatrices(props: Props) {
   })
 
   const employee = data?.employees?.[0]
+
+  //Comment matrix
+  const commentMutation = gql`
+    mutation commentMatrix($input: CommentMatrixInput) {
+      commentMatrix(input: $input) {
+        id
+      }
+    }
+  `
+  const [comment] = useMutation(commentMutation, {
+    onCompleted: () => message.success('Matrix is updated'),
+    onError: message.error,
+  })
 
   return (
     <>
@@ -37,7 +52,12 @@ export default function EmployeeMatrices(props: Props) {
         <ExportMatrices matrices={employee?.matrices} employee={employee} />
       </Controls>
       <Legend />
-      <EmployeeMatricesList loading={loading} matrices={employee?.matrices} employee={employee} />
+      <EmployeeMatricesList
+        loading={loading}
+        matrices={employee?.matrices}
+        employee={employee}
+        onComment={comment}
+      />
     </>
   )
 }

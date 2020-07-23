@@ -129,6 +129,8 @@ export interface Matrix {
     skills: MatrixSkill[]
   }
   access: Access
+  comment?: string
+  employeeMatrixId?: string
 }
 
 export interface Experience {
@@ -397,6 +399,7 @@ export interface ArchivedMatrixRaw {
       groupId: string
     }[]
   }
+  comment: string
 }
 
 export interface ArchivedMatrixVersion {

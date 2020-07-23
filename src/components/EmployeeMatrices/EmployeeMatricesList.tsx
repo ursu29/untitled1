@@ -7,9 +7,10 @@ interface Props {
   loading: boolean
   employee?: Pick<Employee, 'id' | 'isMe'>
   matrices?: Exclude<Matrix, 'access'>[]
+  onComment?: any
 }
 
-export default function EmployeeMatricesList({ matrices, loading, employee }: Props) {
+export default function EmployeeMatricesList({ matrices, loading, employee, onComment }: Props) {
   const defaultActiveKey = matrices?.[0]?.id
   const [tabKey, setTabKey] = useState(defaultActiveKey)
 
@@ -32,6 +33,7 @@ export default function EmployeeMatricesList({ matrices, loading, employee }: Pr
                 matrix={matrix}
                 employee={employee}
                 isCurrentTab={tabKey === matrix.id}
+                onComment={onComment}
               />
             </Tabs.TabPane>
           ))}

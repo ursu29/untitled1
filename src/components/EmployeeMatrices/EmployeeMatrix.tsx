@@ -1,5 +1,6 @@
 import { useQuery, useLazyQuery } from '@apollo/react-hooks'
 import React, { useState } from 'react'
+import { Input } from 'antd'
 import ArchiveMatrix from './ArchiveMatrix'
 import DetachMatrix from './DetachMatrix'
 import getEmployeeExperiences, { QueryType } from '../../queries/getEmployeeExperiences'
@@ -14,9 +15,10 @@ interface Props {
   matrix: Matrix
   employee: Pick<Employee, 'id' | 'isMe'>
   isCurrentTab?: boolean
+  onComment?: any
 }
 
-export default function EmployeeMatrix({ employee, matrix, isCurrentTab }: Props) {
+export default function EmployeeMatrix({ employee, matrix, isCurrentTab, onComment }: Props) {
   const [isArchivedChosen, setIsArchivedChosen] = useState(false)
 
   // Get employee experiences
@@ -40,12 +42,11 @@ export default function EmployeeMatrix({ employee, matrix, isCurrentTab }: Props
   }
 
   // Build the new matrix structure founded on archive matrix to replace original
-  let archivedMatrix, archivedExperiences
+  let archivedMatrix, archivedExperiences, archivedComment
   if (archivedMatrixData) {
     const archivedMatrixRaw: ArchivedMatrixRaw = JSON.parse(
       archivedMatrixData?.archivedMatrix.compressedData,
     )
-
     const notExistingSkill = (id: string) => ({
       id,
       isMatrixOnly: true,
@@ -66,6 +67,7 @@ export default function EmployeeMatrix({ employee, matrix, isCurrentTab }: Props
 
     archivedExperiences = archivedMatrixRaw.experiences
     archivedMatrix = { ...matrix, body }
+    archivedComment = archivedMatrixRaw.comment
   }
 
   // Required parameters to show archive matrix
@@ -76,6 +78,7 @@ export default function EmployeeMatrix({ employee, matrix, isCurrentTab }: Props
       <ArchiveMatrix
         employeeAzureId={data?.employees[0].id || ''}
         matrixId={matrix.id}
+        employeeMatrixId={matrix.employeeMatrixId || ''}
         onSelectVersion={onSelectVersion}
         createSnapshotShown={!isArchivedChosen && employee.isMe}
       />
@@ -90,6 +93,37 @@ export default function EmployeeMatrix({ employee, matrix, isCurrentTab }: Props
       <Controls>
         <DetachMatrix matrix={matrix} employee={employee} />
       </Controls>
+      <div>
+        {isArchivedChosen ? (
+          archivedComment && (
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                maxWidth: '100%',
+                marginTop: '20px',
+                marginBottom: '20px',
+              }}
+            >
+              <div style={{ fontWeight: 'bold' }}>Comment: </div>
+              {archivedComment}
+            </div>
+          )
+        ) : (
+          <Input.TextArea
+            placeholder="Overall comment"
+            defaultValue={matrix.comment}
+            rows={4}
+            disabled={employee.isMe}
+            onBlur={e => {
+              onComment({
+                variables: { input: { id: matrix.employeeMatrixId, comment: e.target.value } },
+              })
+            }}
+            style={{ marginTop: 20, marginBottom: 20 }}
+          />
+        )}
+      </div>
     </Skeleton>
   )
 }

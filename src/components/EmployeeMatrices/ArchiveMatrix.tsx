@@ -13,11 +13,13 @@ export default function ArchiveMatrix({
   matrixId,
   onSelectVersion,
   createSnapshotShown,
+  employeeMatrixId,
 }: {
   employeeAzureId: string
   matrixId: string
   onSelectVersion: Function
   createSnapshotShown: boolean
+  employeeMatrixId: string
 }) {
   const variables = {
     input: {
@@ -44,7 +46,7 @@ export default function ArchiveMatrix({
       onSelectVersion={(value: string) => onSelectVersion(value)}
       onCreateSnapshot={() =>
         archive({
-          variables,
+          variables: { input: { ...variables.input, employeeMatrixId } },
         })
       }
       versionsList={data?.archivedMatrixVersions.map(e => ({ id: e.id, createdAt: e.createdAt }))}
