@@ -244,7 +244,7 @@ function OfficePlannerPage() {
                 <>
                   <LimitInput editable={editable} value={employeeLimit} onChange={handleChange} />
                   <Typography.Text type="secondary">
-                    <TeamOutlined /> {officeDay?.employeeCount || 10} of {employeeMaxCount}
+                    <TeamOutlined /> {officeDay?.employeeCount || 0} of {employeeMaxCount}
                   </Typography.Text>
                 </>
               )}
