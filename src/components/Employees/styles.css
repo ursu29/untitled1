@@ -1,3 +1,8 @@
 .tableRowTopAlign {
   vertical-align: top;
 }
+
+.custom-disabled-input .ant-input-disabled {
+  cursor: auto !important;
+  color: rgba(0, 0, 0, 0.85) !important;
+}

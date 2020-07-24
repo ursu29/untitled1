@@ -18,6 +18,7 @@ export default function MatrixSelect({ onSelect, ...props }: Props) {
   return (
     <Select
       autoFocus={!loading && props.autoFocus}
+      open={!loading && props.autoFocus}
       loading={loading}
       onBlur={props.onBlur}
       onSelect={value => {

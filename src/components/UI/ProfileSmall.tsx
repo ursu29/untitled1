@@ -6,6 +6,7 @@ import paths from '../../paths'
 import { Employee } from '../../types'
 import { useMediaQuery } from 'react-responsive'
 import { COLLAPSE_WIDTH, MENU_WIDTH } from '../../config'
+import './styles.css'
 
 const { Text } = Typography
 
@@ -28,6 +29,7 @@ export default function SiderProfile({ loading, profile }: Props) {
   return (
     <Link to={paths.PROFILE}>
       <Card
+        className="profile-small"
         hoverable
         bordered={false}
         style={{

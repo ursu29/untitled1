@@ -5,6 +5,7 @@ import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
 import React, { useEffect } from 'react'
 import { DevelopmentPlan } from '../../types'
 import DevelopmentGoals from './DevelopmentGoals'
+import './styles.css'
 
 const { Title, Paragraph } = Typography
 
@@ -44,6 +45,7 @@ function DevelopmentPlanForm({ value, onChange, form, locked, resetFields }: Pro
         e.preventDefault()
         handleSubmit()
       }}
+      className="custom-disabled-input"
     >
       <div>
         <Title level={3}>Look Back</Title>
@@ -235,7 +237,7 @@ function DevelopmentPlanForm({ value, onChange, form, locked, resetFields }: Pro
         })(
           <Input.TextArea
             rows={4}
-            placeholder="Describe new goal"
+            placeholder={locked ? '' : 'Describe new goal'}
             onBlur={handleSubmit}
             disabled={locked}
           />,
@@ -301,7 +303,7 @@ function DevelopmentPlanForm({ value, onChange, form, locked, resetFields }: Pro
           <div style={{ paddingTop: 8, maxWidth: 300 }}>
             {getFieldDecorator('guildContribution.custom', {
               initialValue: value?.guildContribution?.custom,
-            })(<Input placeholder="Custom type" disabled={locked}></Input>)}
+            })(<Input placeholder={locked ? '' : 'Custom type'} disabled={locked}></Input>)}
           </div>
         </Row>
       </div>
@@ -318,7 +320,7 @@ function DevelopmentPlanForm({ value, onChange, form, locked, resetFields }: Pro
         })(
           <Input.TextArea
             rows={4}
-            placeholder="Describe time needed for guild projects"
+            placeholder={locked ? '' : 'Describe time needed for guild projects'}
             onBlur={handleSubmit}
             disabled={locked}
           />,

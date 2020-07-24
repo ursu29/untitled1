@@ -18,6 +18,7 @@ export interface Props {
   onBlur?: () => void
   autoFocus?: boolean
   mode?: 'multiple' | 'tags' | null
+  open?: boolean
 }
 
 function PortalSelect(
@@ -33,6 +34,7 @@ function PortalSelect(
     size,
     onSelect,
     value,
+    open,
   }: Props,
   ref: any,
 ) {
@@ -58,6 +60,7 @@ function PortalSelect(
       allowClear={allowClear}
       id="portal-select"
       autoFocus={autoFocus}
+      open={open}
       size={size || 'middle'}
       loading={loading}
       placeholder={placeholder}

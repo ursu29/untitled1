@@ -213,7 +213,7 @@ export default function EmployeesList({ employees, loading, fixed }: Props) {
       columns={columns}
       rowKey="id"
       size="middle"
-      scroll={fixed ? { y: 'calc(100vh - 102px)' } : undefined}
+      scroll={fixed ? { y: 'calc(100vh - 105px)' } : undefined}
       title={() => (
         <Input
           placeholder="Find employee"

@@ -37,7 +37,7 @@ const BookmarkForm = ({ form, onSubmit, bookmark, loading }: Props) => {
   return (
     <Form layout="vertical" onSubmit={handleSubmit}>
       <Row gutter={16}>
-        <Col>
+        <Col style={{ width: '100%' }}>
           <Form.Item label="Title">
             {getFieldDecorator('title', {
               initialValue: bookmark?.title,
@@ -52,7 +52,7 @@ const BookmarkForm = ({ form, onSubmit, bookmark, loading }: Props) => {
         </Col>
       </Row>
       <Row gutter={16}>
-        <Col>
+        <Col style={{ width: '100%' }}>
           <Form.Item label="Link">
             {getFieldDecorator('link', {
               initialValue: bookmark?.link,

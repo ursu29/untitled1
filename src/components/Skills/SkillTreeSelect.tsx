@@ -67,7 +67,7 @@ function SkillTreeSelect(
           parentKey: skill.parent?.id,
           disabled: disabledSkills.includes(skill.id),
         }))}
-      searchPlaceholder={props.searchPlaceholder}
+      searchPlaceholder={props.searchPlaceholder || 'Select skills'}
     />
   )
 }

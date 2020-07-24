@@ -52,10 +52,11 @@ function PortalTreeSelect(
       treeCheckStrictly
       labelInValue
       treeCheckable
+      dropdownMatchSelectWidth={false}
       dropdownStyle={{ maxHeight: 300, overflow: 'auto' }}
       multiple={multiple}
       treeData={tree}
-      searchPlaceholder={searchPlaceholder || ''}
+      placeholder={searchPlaceholder || ''}
     />
   )
 }
