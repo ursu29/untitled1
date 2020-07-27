@@ -77,7 +77,6 @@ function PortalMenu(props: Props) {
       route: paths.GUILDS,
       icon: <CoffeeOutlined />,
       title: 'Guilds',
-      status: 'new',
     },
     {
       route: paths.SKILLS,
@@ -93,7 +92,6 @@ function PortalMenu(props: Props) {
       route: paths.STREAM,
       icon: <VideoCameraOutlined />,
       title: 'Stream',
-      status: 'new',
     },
     {
       route: paths.BOOKMARKS,
@@ -105,7 +103,6 @@ function PortalMenu(props: Props) {
           route: paths.MATRICES,
           icon: <NumberOutlined />,
           title: 'Matrices',
-          status: 'updated',
         }
       : null,
     {
@@ -127,7 +124,6 @@ function PortalMenu(props: Props) {
       route: paths.WIKI,
       icon: <InfoCircleOutlined />,
       title: 'WIKI',
-      status: 'new',
     },
     {
       route: paths.OFFICE_PLANNER,
@@ -144,7 +140,6 @@ function PortalMenu(props: Props) {
           route: paths.HR,
           icon: <UserAddOutlined />,
           title: 'HR Tool',
-          status: 'updated',
         }
       : null,
     data?.processesAccess.read
@@ -159,6 +154,7 @@ function PortalMenu(props: Props) {
       icon: <NotificationOutlined />,
       title: 'Feedback',
       style: { marginTop: '40px' },
+      status: 'new',
     },
   ]
 

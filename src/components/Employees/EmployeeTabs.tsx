@@ -144,7 +144,24 @@ function EmployeeTabs({ match, ...props }: Props) {
   }
   if (developmentPlanLookReviewersAccess?.read) {
     tabs.push({
-      title: 'Personal development',
+      title: (
+        <div style={{ display: 'inline-flex', alignItems: 'center' }}>
+          Personal development
+          <Tag
+            style={{
+              fontSize: 11,
+              marginLeft: 6,
+              padding: '0 4px',
+              textTransform: 'uppercase',
+              lineHeight: 1.3,
+              cursor: 'pointer',
+            }}
+            color="green"
+          >
+            Updated
+          </Tag>
+        </div>
+      ),
       key: 'development-plan',
       icon: <RiseOutlined />,
       noPadding: false,
