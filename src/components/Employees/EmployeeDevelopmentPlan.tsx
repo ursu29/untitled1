@@ -138,7 +138,7 @@ export default function EmployeeDevelopmentPlan(props: Props) {
                 createdAt: e.createdAt,
               }))}
               isButtonVisible={true}
-              buttonText="Add New"
+              buttonText="Create New Version"
             />
 
             <DevelopmentPlanForm

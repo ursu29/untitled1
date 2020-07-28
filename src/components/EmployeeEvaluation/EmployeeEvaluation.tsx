@@ -110,7 +110,7 @@ function EmployeeEvaluation({ employee, editable }: Props) {
             createdAt: e.createdAt,
           }))}
           isButtonVisible={true}
-          buttonText="Add New"
+          buttonText="Create New Version"
         />
       )}
     />

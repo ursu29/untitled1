@@ -42,7 +42,7 @@ export default function VersionSnapshot({
             okText="Yes"
             cancelText="No"
           >
-            <Button>{buttonText || 'Create Snapshot'}</Button>
+            <Button>{buttonText || 'Create New Version'}</Button>
           </Popconfirm>
         )}
       </Space>
