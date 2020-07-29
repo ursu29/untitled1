@@ -38,7 +38,7 @@ function EmployeeEvaluation({ employee, editable }: Props) {
   // Archive SEF
   const [archive] = useMutation(archiveSEF, {
     onCompleted: () => {
-      message.success('Snapshot has been created')
+      message.success('New version has been created')
     },
     refetchQueries: [
       { query: archivedSEFVersions, variables: { input: { employeeAzureId: employee?.id } } },
