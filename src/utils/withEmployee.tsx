@@ -4,9 +4,9 @@ const EmployeeContext = React.createContext<any>(null)
 
 function EmployeeProvider(props: { value: any } & PropsWithChildren<any>) {
   const [employee, setEmployee] = useState(props.value)
-  const [devOnlyRole, setDevOnlyRole] = useState('user')
+  const [devOnlyUserRole, setDevOnlyUserRole] = useState('user')
 
-  const value = { employee, setEmployee, devOnlyRole, setDevOnlyRole }
+  const value = { employee, setEmployee, devOnlyUserRole, setDevOnlyUserRole }
 
   useEffect(() => {
     setEmployee(props.value)
@@ -19,8 +19,8 @@ function EmployeeProvider(props: { value: any } & PropsWithChildren<any>) {
 const EmployeeConsumer = EmployeeContext.Consumer
 
 function useEmployee() {
-  const { employee, setEmployee, devOnlyRole, setDevOnlyRole } = useContext(EmployeeContext)
-  return { employee, setEmployee, devOnlyRole, setDevOnlyRole }
+  const { employee, setEmployee, devOnlyUserRole, setDevOnlyUserRole } = useContext(EmployeeContext)
+  return { employee, setEmployee, devOnlyUserRole, setDevOnlyUserRole }
 }
 
 export { EmployeeContext, EmployeeProvider, EmployeeConsumer, useEmployee }
