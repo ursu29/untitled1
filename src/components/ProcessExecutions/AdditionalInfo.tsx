@@ -55,7 +55,7 @@ export default function AdditionalInfo({
           <span style={{ paddingBottom: '8px' }}>Date</span>
           <DatePicker
             format={['DD.MM.YYYY']}
-            defaultValue={moment(moment(finishDate), ['DD.MM.YYYY'])}
+            defaultValue={finishDate ? moment(moment(finishDate), ['DD.MM.YYYY']) : undefined}
             onChange={value => makeUpdate({ finishDate: value })}
             allowClear={false}
           />
