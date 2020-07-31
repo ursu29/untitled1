@@ -386,6 +386,7 @@ export default function EvaluationTable({
       ) : (
         <Input.TextArea
           placeholder="Overall comment"
+          autoSize={{ minRows: 4 }}
           defaultValue={comment?.body}
           rows={4}
           disabled={employee.isMe || !editable}

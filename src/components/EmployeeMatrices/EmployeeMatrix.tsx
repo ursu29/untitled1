@@ -112,6 +112,7 @@ export default function EmployeeMatrix({ employee, matrix, isCurrentTab, onComme
         ) : (
           <Input.TextArea
             placeholder="Overall comment"
+            autoSize={{ minRows: 4 }}
             defaultValue={matrix.comment}
             rows={4}
             disabled={employee.isMe}
