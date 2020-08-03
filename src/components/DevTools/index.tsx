@@ -7,55 +7,91 @@ const Wrapper = styled.div`
   position: fixed;
   right: 20px;
   top: 20px;
+  width: 165px;
+  user-select: none;
 `
 
-const Title = styled.div<{ visible: boolean }>`
+const Title = styled.div<{ active: boolean }>`
   font-size: 11px;
   font-weight: bold;
   color: red;
   cursor: pointer;
   width: fit-content;
-  filter: ${props => (props.visible ? '' : 'opacity(0.4) drop-shadow(2px 4px 6px black)')};
+  user-select: none;
+  filter: ${props => (props.active ? '' : 'opacity(0.4)')};
+  :hover {
+    filter: opacity(0.7);
+  }
 `
 
-const Content = styled.div<{ visible: boolean }>`
-  visibility: ${props => (props.visible ? 'visible' : 'hidden')};
+const ActiveForm = styled.div`
+  display: flex;
+  flex-direction: column;
   height: 100%;
   border: 1px solid red;
   border-radius: 2px;
   padding: 10px;
   background-color: cornsilk;
+  user-select: none;
+  background-color: #87ded81c;
+`
+
+const NoActiveForm = styled.div`
+  display: flex;
+  padding: 0 5px;
+  margin-top: -3px;
+`
+
+const TextLine = styled.div`
+  color: rgba(0, 128, 0, 0.82);
+  font-size: 18px;
+  font-weight: 100;
+  letter-spacing: -0.2px;
+  background-color: #87ded81c;
 `
 
 const { Option } = Select
 
 export default function DevTools({ children }: any) {
   const user = useEmployee()
-  const [visible, toggleVisible] = useState(false)
+  const [active, toggleActive] = useState(false)
 
   return (
     <>
       <Wrapper>
-        <Title visible={visible} onClick={() => toggleVisible(!visible)}>
+        <Title active={active} onClick={() => toggleActive(!active)}>
           DEV TOOLS
         </Title>
-        <Content visible={visible} style={{ display: 'flex', flexDirection: 'column' }}>
-          <span>Select your role</span>
-          <Select
-            defaultValue="user"
-            style={{ width: 120 }}
-            onChange={value => {
-              user.setDevOnlyUserRole(value)
-              localStorage.setItem('devOnlyUserRole', value)
-
-              window.location.reload()
-            }}
-          >
-            <Option value="user">user</Option>
-            <Option value="manager">manager</Option>
-            <Option value="superUser">super user</Option>
-          </Select>
-        </Content>
+        {!active ? (
+          <NoActiveForm>
+            <TextLine>{user.devOnlyUserRole.toUpperCase()}</TextLine>
+          </NoActiveForm>
+        ) : (
+          <ActiveForm>
+            <span>Assign new role</span>
+            <Select
+              defaultValue={user.devOnlyUserRole}
+              style={{
+                width: 140,
+                color: 'rgba(0, 128, 0, 0.82)',
+                fontSize: '18px',
+                fontWeight: 100,
+                letterSpacing: '-0.2px',
+              }}
+              bordered={false}
+              onChange={value => {
+                user.setDevOnlyUserRole(value)
+                localStorage.setItem('devOnlyUserRole', value)
+                window.location.reload()
+              }}
+            >
+              <Option value="off">OFF</Option>
+              <Option value="user">USER</Option>
+              <Option value="manager">MANAGER</Option>
+              <Option value="superUser">SUPERUSER</Option>
+            </Select>
+          </ActiveForm>
+        )}
       </Wrapper>
       {children}
     </>

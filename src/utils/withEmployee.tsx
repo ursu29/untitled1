@@ -4,7 +4,9 @@ const EmployeeContext = React.createContext<any>(null)
 
 function EmployeeProvider(props: { value: any } & PropsWithChildren<any>) {
   const [employee, setEmployee] = useState(props.value)
-  const [devOnlyUserRole, setDevOnlyUserRole] = useState('user')
+  const [devOnlyUserRole, setDevOnlyUserRole] = useState(
+    localStorage.getItem('devOnlyUserRole') || 'user',
+  )
 
   const value = { employee, setEmployee, devOnlyUserRole, setDevOnlyUserRole }
 
