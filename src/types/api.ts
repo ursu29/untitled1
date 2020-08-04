@@ -144,6 +144,7 @@ export interface Experience {
   employee: Employee
   level: Level
   updatedAt: string
+  comment: string
 }
 
 export interface Level {
@@ -392,6 +393,7 @@ export interface ArchivedMatrixRaw {
       id: string
       name: string
     }
+    comment: string
   }[]
   matrix: {
     grades: { id: string; title: string }[]

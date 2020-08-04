@@ -3,3 +3,17 @@
   -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
 }
+
+.styled_modal_comment .ant-modal-content .ant-modal-body {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.styled_modal_comment .ant-modal-content .ant-modal-header {
+  border-width: 0;
+}
+
+.styled_modal_comment .ant-modal-content .ant-modal-footer {
+  border-width: 0;
+  padding: 20px 24px;
+}
