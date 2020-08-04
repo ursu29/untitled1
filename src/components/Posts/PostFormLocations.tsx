@@ -1,7 +1,5 @@
-import { Form } from '@ant-design/compatible'
-import '@ant-design/compatible/assets/index.css'
-import { Checkbox, Tag } from 'antd'
-import React, { useState, useCallback, useEffect } from 'react'
+import { Form, Switch, Tag, Space } from 'antd'
+import React, { useCallback, useEffect, useState } from 'react'
 
 const { CheckableTag } = Tag
 
@@ -9,67 +7,78 @@ const LOCATIONS_EN = ['All', 'Saint Petersburg', 'Tomsk', 'Kaliningrad', 'Züric
 const LOCATIONS_RU = ['Saint Petersburg', 'Tomsk', 'Kaliningrad']
 
 interface Props {
-  isTranslated: boolean
-  values?: string[]
-  onChange: (values: string[] | undefined) => void
+  isTranslated?: boolean
+  value?: string[]
+  onChange?: (values: string[] | undefined) => void
 }
 
-export default function PostFormLocations({ isTranslated, values, onChange }: Props) {
-  const [show, toggleShow] = useState(Boolean(values?.length))
+export default function PostFormLocations({ isTranslated, value, onChange }: Props) {
+  const [show, toggleShow] = useState(Boolean(value?.length))
 
   const LOCATIONS = isTranslated ? LOCATIONS_EN : LOCATIONS_RU
 
   const handleChange = useCallback(
     (tag: string) => {
       if (tag === 'All') {
-        onChange([tag])
-      } else if (values?.includes(tag)) {
-        onChange((values || []).filter(i => i !== tag && i !== 'All'))
+        if (onChange) onChange([tag])
+      } else if (value?.includes(tag)) {
+        if (onChange) onChange((value || []).filter(i => i !== tag && i !== 'All'))
       } else {
-        onChange((values || []).filter(i => i !== 'All').concat(tag))
+        if (onChange) onChange((value || []).filter(i => i !== 'All').concat(tag))
       }
     },
-    [values, onChange],
+    [value, onChange],
   )
 
   useEffect(() => {
-    if (values?.length && !show) {
+    if (!isTranslated && value?.includes('All')) {
+      if (onChange) onChange((value || []).filter(i => i !== 'All'))
+    }
+    //eslint-disable-next-line
+  }, [isTranslated])
+
+  useEffect(() => {
+    if (value?.length && !show) {
       toggleShow(true)
     }
-  }, [values, show])
+  }, [value, show])
 
   return (
     <>
-      <Form.Item style={{ paddingBottom: 0 }}>
-        <Checkbox
-          checked={show}
-          onChange={() => {
-            toggleShow(!show)
-            if (show) {
-              onChange(undefined)
-            } else {
-              if (isTranslated) {
-                onChange(['All'])
+      <Form.Item label="Make a newsletter" style={{ paddingBottom: 0 }}>
+        <Space align="end">
+          <Switch
+            checked={show}
+            onChange={() => {
+              toggleShow(!show)
+              if (show) {
+                if (onChange) {
+                  onChange(undefined)
+                }
+              } else {
+                if (isTranslated) {
+                  if (onChange) {
+                    onChange(['All'])
+                  }
+                }
               }
-            }
-          }}
-        >
-          Make a newsletter
-        </Checkbox>
+            }}
+          />
+          {show && (
+            <div>
+              {LOCATIONS.map(tag => (
+                <CheckableTag
+                  key={tag}
+                  checked={value?.includes(tag) || false}
+                  onChange={() => handleChange(tag)}
+                >
+                  {tag}
+                </CheckableTag>
+              ))}
+            </div>
+          )}
+        </Space>
       </Form.Item>
-      {show && (
-        <Form.Item>
-          {LOCATIONS.map(tag => (
-            <CheckableTag
-              key={tag}
-              checked={values?.includes(tag) || false}
-              onChange={() => handleChange(tag)}
-            >
-              {tag}
-            </CheckableTag>
-          ))}
-        </Form.Item>
-      )}
     </>
   )
 }

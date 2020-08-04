@@ -2,8 +2,8 @@ import gql from 'graphql-tag'
 import { Post, Employee, Tag } from '../types'
 
 export default gql`
-  query getPosts($first: Int, $after: ID, $filter: PostsFilter) {
-    posts(first: $first, after: $after, filter: $filter) {
+  query getPost($id: ID!) {
+    post(id: $id) {
       id
       title
       body
@@ -12,7 +12,6 @@ export default gql`
       locations
       annotation
       isPublic
-      publishDate
       titleImage {
         id
         url
@@ -68,5 +67,5 @@ type PostPick = Pick<
 }
 
 export type QueryType = {
-  posts: PostPick[]
+  post: PostPick
 }

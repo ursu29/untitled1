@@ -1,4 +1,17 @@
+//@ts-nocheck
 import * as Showdown from 'showdown'
+
+const injectGalleryExtension = () => {
+  const foundGalleries = {
+    type: 'lang',
+    regex: /gallery\[[^*]*?\]/g,
+    replace: text =>
+      `<div class='injected-image-gallery'>${/(?<=gallery\[)[^*]*(?=\])/g.exec(text)[0]}</div>`,
+  }
+  return [foundGalleries]
+}
+
+Showdown.extension('injectGalleryExtension', injectGalleryExtension)
 
 const converter = new Showdown.Converter({
   tables: true,
@@ -6,6 +19,7 @@ const converter = new Showdown.Converter({
   strikethrough: true,
   tasklists: true,
   simpleLineBreaks: true,
+  extensions: ['injectGalleryExtension', injectGalleryExtension],
 })
 
 export default function (body: string) {

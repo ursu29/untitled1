@@ -95,7 +95,7 @@ export default withRouter(
               tick={{ fontSize: '18px', fontFamily: 'Segoe UI, Arial' }}
             />
             <Bar dataKey={dataKey} fill={color} radius={2}>
-              <LabelList dataKey={(skill) => `${skill.name}_${skill.link}`} content={customLabel} />
+              <LabelList dataKey={skill => `${skill.name}_${skill.link}`} content={customLabel} />
             </Bar>
           </BarChart>
         </ResponsiveContainer>
