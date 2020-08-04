@@ -43,7 +43,7 @@ export default function VideoCard({
         <div
           style={{
             position: 'absolute',
-            marginTop: '42px',
+            marginBottom: '-86px',
             width: '118px',
             display: 'flex',
             justifyContent: 'flex-end',
