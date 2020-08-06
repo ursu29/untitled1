@@ -204,8 +204,16 @@ function ProcessList({ items }: Props) {
           render: (_, process) => {
             return (
               <>
-                {process.status === 'cancelled' && <Tag color="volcano">Cancelled</Tag>}
-                {process.status === 'finished' && <Tag color="green">Completed</Tag>}
+                {process.status === 'cancelled' && (
+                  <Tag style={{ margin: '0 3px 3px 0' }} color="volcano">
+                    Cancelled
+                  </Tag>
+                )}
+                {process.status === 'finished' && (
+                  <Tag style={{ margin: '0 3px 3px 0' }} color="green">
+                    Completed
+                  </Tag>
+                )}
                 <div style={{ margin: '5px' }}>
                   <Link to={getProcessExecutionLink(process.id)}>
                     <Button

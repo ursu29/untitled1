@@ -1,5 +1,6 @@
 .styled_tooltip .ant-tooltip-inner {
   color: rgba(0, 0, 0, 0.65);
+  background-color: #ffffff;
   min-width: 350px;
   font-family: Segoe UI;
   font-style: normal;
@@ -25,8 +26,4 @@
   color: #000000;
   display: block;
   margin-bottom: 10px;
-}
-
-#comment_text_area {
-  resize: none;
 }

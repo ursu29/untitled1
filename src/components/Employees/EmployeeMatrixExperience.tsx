@@ -27,6 +27,7 @@ interface Props {
   experience?: {
     id: Experience['id']
     level: Pick<Level, 'id' | 'index' | 'name'>
+    comment: Experience['comment']
   }
   skill?: Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'>
   editable: boolean
@@ -79,9 +80,9 @@ export default function EmployeeMatrixExperience({
     onError,
   })
 
-  const onSelectLevel = (level: any) => {
+  const onUpdateExperience = (level: any, comment: string) => {
     //@ts-ignore
-    setExperienceUI({ ...experience, level })
+    setExperienceUI({ ...experience, level, comment })
 
     if (!experience) {
       create({
@@ -90,6 +91,7 @@ export default function EmployeeMatrixExperience({
             employee: employee?.id,
             skill: skill?.id,
             level: level.id,
+            comment,
           },
         },
       })
@@ -99,6 +101,7 @@ export default function EmployeeMatrixExperience({
           input: {
             id: experience.id,
             level: level.id,
+            comment,
           },
         },
       })
@@ -125,7 +128,7 @@ export default function EmployeeMatrixExperience({
       experience={experienceUI}
       archivedExperience={archivedExperience}
       isArchivedChosen={isArchivedChosen}
-      onSelectLevel={onSelectLevel}
+      onUpdateExperience={onUpdateExperience}
       onDeselectLevel={onDeselectLevel}
       divClassName={divClassName}
       editable={editable && !isArchivedChosen}

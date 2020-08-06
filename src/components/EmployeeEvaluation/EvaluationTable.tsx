@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { ExclamationOutlined } from '@ant-design/icons'
-import { Table, Rate, Input, Tooltip, Modal } from 'antd'
+import { Table, Rate, Input, Tooltip } from 'antd'
 import {
   EvaluationAttribute,
   EvaluationComment,
@@ -9,6 +9,7 @@ import {
   Employee,
 } from '../../types'
 import { CommentEmpty, CommentFill } from './Icons'
+import CommentModal from '../UI/CommentModal'
 
 import './style.css'
 
@@ -434,6 +435,7 @@ export default function EvaluationTable({
       ) : (
         <Input.TextArea
           placeholder="Overall comment"
+          autoSize={{ minRows: 4 }}
           defaultValue={comment?.body}
           rows={4}
           disabled={employee.isMe || !editable}
@@ -446,7 +448,7 @@ export default function EvaluationTable({
         />
       )}
 
-      <Modal
+      <CommentModal
         title={addCommentModal.title}
         visible={addCommentModal.visible}
         onOk={() => {
@@ -460,20 +462,8 @@ export default function EvaluationTable({
           setAddCommentModal(initialCommentModal)
         }}
         onCancel={() => setAddCommentModal(initialCommentModal)}
-        okText="Post"
-        cancelText="Cancel"
-        centered
-        closable={false}
-        destroyOnClose
-        style={{ maxWidth: '400px' }}
-      >
-        <Input.TextArea
-          id="comment_text_area"
-          autoSize={{ minRows: 4, maxRows: 4 }}
-          rows={4}
-          defaultValue={addCommentModal.comment}
-        />
-      </Modal>
+        defaultComment={addCommentModal.comment}
+      />
     </div>
   )
 }

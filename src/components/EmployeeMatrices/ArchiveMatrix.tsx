@@ -35,7 +35,7 @@ export default function ArchiveMatrix({
 
   // Archive matrix
   const [archive] = useMutation(archiveMatrix, {
-    onCompleted: () => message.success('Snapshot has been created'),
+    onCompleted: () => message.success('New version has been created'),
     refetchQueries: [{ query: archivedMatrixVersions, variables }],
     awaitRefetchQueries: true,
     onError: message.error,

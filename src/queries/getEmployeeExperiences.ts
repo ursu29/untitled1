@@ -9,6 +9,7 @@ export default gql`
       name
       experiences {
         ...ExperienceDetails
+        comment
       }
       access {
         read

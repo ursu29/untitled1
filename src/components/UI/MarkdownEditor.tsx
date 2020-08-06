@@ -3,7 +3,7 @@ import SimpleMDE from 'simplemde'
 import 'simplemde/dist/simplemde.min.css'
 import styled from 'styled-components'
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ short?: boolean }>`
   max-width: 100%;
   img {
     max-width: 100%;
@@ -12,11 +12,16 @@ const Wrapper = styled.div`
   & .editor-toolbar.fullscreen {
     z-index: 20;
   }
+  .CodeMirror,
+  .CodeMirror-scroll {
+    min-height: ${props => (props.short ? '150px' : '300px')};
+  }
 `
 
 interface Props {
   id: string
   value?: any
+  short?: boolean
   onChange?: (value: any) => void
 }
 
@@ -61,7 +66,7 @@ export default class MarkdownEditor extends Component<Props> {
 
   render() {
     return (
-      <Wrapper>
+      <Wrapper short={this.props.short}>
         <textarea id={this.props.id}></textarea>
       </Wrapper>
     )

@@ -70,6 +70,9 @@ function PortalSelect(
       onChange={value => {
         onSelect(value)
       }}
+      filterOption={(input, option) =>
+        option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      }
       {...selectConditionalProps}
     >
       {items?.map(item => {

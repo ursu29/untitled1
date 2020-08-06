@@ -16,11 +16,12 @@ const mutation = gql`
   }
 `
 
-export default function CreatePost() {
+export default function CreatePost({ filter }: any) {
   const [createPost, { loading }] = useMutation(mutation, {
-    refetchQueries: [{ query: getPosts }],
+    refetchQueries: [{ query: getPosts, variables: { first: 4, filter } }],
     onError: message.error,
     onCompleted: () => message.success('New post created'),
+    awaitRefetchQueries: true,
   })
 
   useEffect(() => {

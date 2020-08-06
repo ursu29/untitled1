@@ -8,7 +8,7 @@ import Skeleton from './Skeleton'
 const Container = styled.div<{ offset: number; small: number; noBottom: boolean; noTop: boolean }>`
   padding: ${props => `${props.offset}px`};
   padding-bottom: ${props => (props.noBottom ? `${props.small}px` : `${props.offset}px`)};
-  padding-top: ${props => (props.noTop ? `${props.small}px` : `${props.offset}px`)};
+  padding-top: ${props => (props.noTop ? `${props.small}px` : `${(2 * props.offset) / 3}px`)};
 `
 
 interface Props {

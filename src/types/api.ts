@@ -47,12 +47,17 @@ export interface Post {
   body: string
   isTranslated: boolean
   createdAt: string
-  updatedAt: string
   locations: string[]
   createdBy: Employee
   updatedBy: Employee
   images: File[]
   tags: Tag[]
+  isPublic: boolean
+  annotation: string
+  publishDate?: string
+  titleImage?: File
+  backgroundImage?: File
+  foregroundImage?: File
 }
 
 export interface Project {
@@ -139,6 +144,7 @@ export interface Experience {
   employee: Employee
   level: Level
   updatedAt: string
+  comment: string
 }
 
 export interface Level {
@@ -387,6 +393,7 @@ export interface ArchivedMatrixRaw {
       id: string
       name: string
     }
+    comment: string
   }[]
   matrix: {
     grades: { id: string; title: string }[]

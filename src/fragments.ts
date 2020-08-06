@@ -112,7 +112,7 @@ export type EmployeeDetails = Pick<
   'id' | 'name' | 'location' | 'country' | 'position' | 'phoneNumber' | 'email' | 'isMe'
 >
 
-export type ExperienceDetails = Pick<Experience, 'id' | 'updatedAt'> & {
+export type ExperienceDetails = Pick<Experience, 'id' | 'updatedAt' | 'comment'> & {
   level: Pick<Level, 'id' | 'index' | 'name'>
   skill: Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'>
 }

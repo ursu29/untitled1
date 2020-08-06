@@ -47,7 +47,7 @@ export default function EmployeeDevelopmentPlan(props: Props) {
   // Archive DP
   const [archive] = useMutation(archiveDP, {
     onCompleted: () => {
-      message.success('Snapshot has been created')
+      message.success('New version has been created')
       toggleResetFields(!resetFields)
     },
     refetchQueries: [

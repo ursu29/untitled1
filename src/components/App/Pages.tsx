@@ -1,39 +1,39 @@
-import React, { lazy, Suspense, useState, useEffect } from 'react'
-import { Route, Switch, Redirect } from 'react-router-dom'
 import { BackTop } from 'antd'
+import React, { Suspense } from 'react'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import paths from '../../paths'
+import Bookmarks from '../Bookmarks/BookmarksPage'
+import Employee from '../Employees/EmployeePage'
+import Employees from '../Employees/EmployeesPage'
+import Feedback from '../Feedback/FeedbackPage'
+import Files from '../Files/FilesPage'
+import Guild from '../Guilds/GuildPage'
+import Guilds from '../Guilds/GuildsPage'
+import Matrices from '../Matrices/MatricesPage'
+import Matrix from '../Matrices/MatrixPage'
+import OfficePlanner from '../OfficePlanner/OfficePlannerPage'
+import Post from '../Posts/PostPage'
+import News from '../Posts/PostsPage'
+import Processes from '../Processes/ProcessesPage'
+import Process from '../Processes/ProcessPage'
+import HRProcess from '../ProcessExecutions/ProcessExecutionPage'
+import HR from '../ProcessExecutions/ProcessExecutionsPage'
+import Profile from '../Profile/ProfilePage'
+import Project from '../Projects/ProjectPage'
+import Projects from '../Projects/ProjectsPage'
+import Skill from '../Skills/SkillPage'
+import Skills from '../Skills/SkillsPage'
+import Statistics from '../Statistics/StatisticsPage'
+import Stream from '../Stream/StreamPage'
+import Timemaster from '../Timemaster/TimemasterPage'
 import Content from '../UI/Content'
 import PageContent from '../UI/PageContent'
+import Vacancies from '../Vacancies/VacanciesPage'
+import Vacancy from '../Vacancies/VacancyPage'
+import WikiPage from '../Wiki/Page'
+import Wiki from '../Wiki/WikiPage'
 
 const PageNotFound = () => <PageContent>Page is not found</PageContent>
-const Profile = lazy(() => import('../Profile/ProfilePage'))
-const News = lazy(() => import('../Posts/PostsPage'))
-const Post = lazy(() => import('../Posts/PostPage'))
-const Skills = lazy(() => import('../Skills/SkillsPage'))
-const Skill = lazy(() => import('../Skills/SkillPage'))
-const Files = lazy(() => import('../Files/FilesPage'))
-const Statistics = lazy(() => import('../Statistics/StatisticsPage'))
-const Stream = lazy(() => import('../Stream/StreamPage'))
-const Bookmarks = lazy(() => import('../Bookmarks/BookmarksPage'))
-const Employees = lazy(() => import('../Employees/EmployeesPage'))
-const Employee = lazy(() => import('../Employees/EmployeePage'))
-const Matrices = lazy(() => import('../Matrices/MatricesPage'))
-const Matrix = lazy(() => import('../Matrices/MatrixPage'))
-const Projects = lazy(() => import('../Projects/ProjectsPage'))
-const Project = lazy(() => import('../Projects/ProjectPage'))
-const Guilds = lazy(() => import('../Guilds/GuildsPage'))
-const Guild = lazy(() => import('../Guilds/GuildPage'))
-const Process = lazy(() => import('../Processes/ProcessPage'))
-const Processes = lazy(() => import('../Processes/ProcessesPage'))
-const Vacancies = lazy(() => import('../Vacancies/VacanciesPage'))
-const Vacancy = lazy(() => import('../Vacancies/VacancyPage'))
-const HR = lazy(() => import('../ProcessExecutions/ProcessExecutionsPage'))
-const HRProcess = lazy(() => import('../ProcessExecutions/ProcessExecutionPage'))
-const Timemaster = lazy(() => import('../Timemaster/TimemasterPage'))
-const Wiki = lazy(() => import('../Wiki/WikiPage'))
-const WikiPage = lazy(() => import('../Wiki/Page'))
-const OfficePlanner = lazy(() => import('../OfficePlanner/OfficePlannerPage'))
-const Feedback = lazy(() => import('../Feedback/FeedbackPage'))
 
 export default function Pages() {
   return (
