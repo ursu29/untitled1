@@ -31,7 +31,7 @@ function PostPreview({ handlePublish, post, handleReturn, visible }: Props) {
       onCancel={handleReturn}
     >
       <Wrapper>
-        <Post post={post} />
+        <Post isPreview post={post} />
       </Wrapper>
     </Modal>
   )

@@ -42,10 +42,11 @@ interface Props extends RouteComponentProps {
   post: PostPick
   edit?: any
   isLast?: boolean
+  isPreview?: boolean
   loadMore?: (post: PostPick) => void
 }
 
-function PostItem({ post, edit, history, loadMore }: Props) {
+function PostItem({ post, edit, history, isPreview, loadMore }: Props) {
   const [visited, setVisited] = useState(false)
 
   useEffect(() => {
@@ -53,13 +54,15 @@ function PostItem({ post, edit, history, loadMore }: Props) {
       .getElementById(`post-${post.id}`)
       ?.getElementsByClassName('injected-image-gallery')
     if (galleries) {
-      Array.from(galleries).forEach(gallery => {
-        const imgLinksList = gallery.innerHTML.split(',').map(link => link.trim())
-        console.log(imgLinksList)
+      Array.from(galleries).forEach((gallery, index) => {
+        const imgLinksList = gallery.innerHTML
+          .split(',')
+          .filter(i => i)
+          .map(link => link.trim())
         ReactDOM.render(
-          <OwlCarousel className="owl-theme" items={1} loop margin={10}>
+          <OwlCarousel className="owl-theme" key={index} items={1} loop margin={10}>
             {imgLinksList.map(i => (
-              <img src={i} alt={i} />
+              <img src={i} alt={i} key={i} />
             ))}
           </OwlCarousel>,
           gallery,
@@ -108,6 +111,7 @@ function PostItem({ post, edit, history, loadMore }: Props) {
                   color="blue"
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
+                    if (isPreview) return
                     history.push({
                       pathname: PATHS.POSTS,
                       search: '?tag=' + tag.name,

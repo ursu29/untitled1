@@ -4,9 +4,9 @@ import * as Showdown from 'showdown'
 const injectGalleryExtension = () => {
   const foundGalleries = {
     type: 'lang',
-    regex: /gallery\[[^*]*?\]/g,
+    regex: /gallery\([^*]*?\)/g,
     replace: text =>
-      `<div class='injected-image-gallery'>${/(?<=gallery\[)[^*]*(?=\])/g.exec(text)[0]}</div>`,
+      `<div class='injected-image-gallery'>${/(?<=gallery\()[^*]*(?=\))/g.exec(text)?.[0]}</div>`,
   }
   return [foundGalleries]
 }

@@ -57,7 +57,8 @@ export default function PostForm({ values: post, loading, onSubmit }: Props) {
         foregroundImage:
           values.foregroundImage?.[0]?.id || values.foregroundImage?.[0]?.response?.[0]?.id,
         images: values.images?.map((i: any) => i?.id || i.response?.[0]?.id),
-        tags: values.tags?.map((i: any) => i.key),
+        tags: values.tags?.map((i: any) => i.id),
+        locations: values.locations?.filter((i: any) => i).map((i: any) => i.id),
       },
       () => {
         localStorage.removeItem('postValues')

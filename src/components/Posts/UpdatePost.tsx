@@ -43,6 +43,7 @@ export default function UpdatePost({ post }: Props) {
               key: tag.name,
               label: tag.name,
               id: tag.id,
+              name: tag.name,
             })),
             publishDate: post.publishDate ? dayjs(post.publishDate, 'YYYY-MM-DDTHH:mm:ssZ') : null,
             titleImage: post.titleImage

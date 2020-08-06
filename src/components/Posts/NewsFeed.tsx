@@ -49,7 +49,7 @@ function NewsFeed({ editable, employee }: Props) {
         }}
       />
       <Row gutter={24}>
-        <Col xs={{ span: 24, order: 2 }} md={{ span: 16, order: 1 }}>
+        <Col xs={{ span: 24, order: 2 }} md={{ span: 17, order: 1 }}>
           <Posts
             loading={loading}
             editable={editable}
@@ -80,7 +80,7 @@ function NewsFeed({ editable, employee }: Props) {
             }}
           />
         </Col>
-        <Col xs={{ span: 24, order: 1 }} md={{ span: 8, order: 2 }}>
+        <Col xs={{ span: 24, order: 1 }} md={{ span: 7, order: 2 }}>
           <PostsFilter
             filter={filter}
             setFilter={(newFilter: any) => {

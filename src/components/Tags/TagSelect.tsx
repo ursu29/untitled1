@@ -79,9 +79,11 @@ function TagSelect({ value, allowAddNew, multiple, onChange }: Props, ref: any) 
         onChange &&
           onChange(
             values.map((value: { key: string; value: string }) => {
+              const tag = data?.tags.find(i => i.name === value.key)
               return {
                 ...value,
-                id: data?.tags.find(i => i.name === value.key)?.id,
+                id: tag?.id,
+                name: tag?.name,
               }
             }),
           )
