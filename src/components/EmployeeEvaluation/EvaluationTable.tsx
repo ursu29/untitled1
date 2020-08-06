@@ -218,7 +218,7 @@ export default function EvaluationTable({
             )}
 
             {comment && (
-              <Tooltip title={comment} overlayClassName="styled_tooltip">
+              <Tooltip title={comment} overlayClassName="styled_tooltip" color="white">
                 <div
                   onClick={() => {
                     if (isArchivedChosen) return

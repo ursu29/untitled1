@@ -19,9 +19,10 @@ function ActiveStepCard({ title, description, status, employees, children }: Pro
   const extra = (
     <div>
       {employees?.map(i => {
-        return (
-          <EmployeeAvatar key={i.id} email={i.email} size="small" showTooltip loadImmediately />
-        )
+        if (i)
+          return (
+            <EmployeeAvatar key={i.id} email={i.email} size="small" showTooltip loadImmediately />
+          )
       })}
     </div>
   )

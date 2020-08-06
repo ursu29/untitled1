@@ -13,6 +13,7 @@ const query = gql`
   {
     profile {
       id
+      email
     }
     isAuthenticated
   }
