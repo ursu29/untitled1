@@ -208,7 +208,7 @@ export default function PostForm({ values: post, loading, onSubmit }: Props) {
             noStyle
             shouldUpdate={(prevValues, curValues) =>
               prevValues.isPublic !== curValues.isPublic ||
-              prevValues.titleImage !== curValues.titleImage
+              prevValues.backgroundImage !== curValues.backgroundImage
             }
           >
             {() => {
@@ -226,7 +226,7 @@ export default function PostForm({ values: post, loading, onSubmit }: Props) {
                     listType="picture"
                     name="files"
                     onPreview={handlePreview}
-                    onRemove={() => form.setFieldsValue({ titleImage: null })}
+                    onRemove={() => form.setFieldsValue({ backgroundImage: null })}
                   >
                     {!form.getFieldValue('backgroundImage')?.length && (
                       <Button>
@@ -244,7 +244,7 @@ export default function PostForm({ values: post, loading, onSubmit }: Props) {
             noStyle
             shouldUpdate={(prevValues, curValues) =>
               prevValues.isPublic !== curValues.isPublic ||
-              prevValues.titleImage !== curValues.titleImage
+              prevValues.foregroundImage !== curValues.foregroundImage
             }
           >
             {() => {
@@ -262,7 +262,7 @@ export default function PostForm({ values: post, loading, onSubmit }: Props) {
                     listType="picture"
                     name="files"
                     onPreview={handlePreview}
-                    onRemove={() => form.setFieldsValue({ titleImage: null })}
+                    onRemove={() => form.setFieldsValue({ foregroundImage: null })}
                   >
                     {!form.getFieldValue('foregroundImage')?.length && (
                       <Button>
