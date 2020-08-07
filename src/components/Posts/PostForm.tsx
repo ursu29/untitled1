@@ -1,6 +1,6 @@
 import { UploadOutlined } from '@ant-design/icons'
 import { Button, Col, DatePicker, Form, Input, Row, Switch, Upload } from 'antd'
-import dayjs from 'dayjs'
+import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { GATEWAY } from '../../config'
 import { Post } from '../../types'
@@ -38,7 +38,7 @@ export default function PostForm({ values: post, loading, onSubmit }: Props) {
         form.setFieldsValue({
           ...values,
           publishDate: values.publishDate
-            ? dayjs(values.publishDate, 'YYYY-MM-DDTHH:mm:ssZ')
+            ? moment(values.publishDate, 'YYYY-MM-DDTHH:mm:ssZ')
             : null,
         })
       }

@@ -8,7 +8,7 @@ import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import PostForm from './PostForm'
 import { EditOutlined } from '@ant-design/icons'
-import dayjs from 'dayjs'
+import moment from 'moment'
 
 const mutation = gql`
   mutation updatePost($input: UpdatePostInput) {
@@ -45,7 +45,7 @@ export default function UpdatePost({ post }: Props) {
               id: tag.id,
               name: tag.name,
             })),
-            publishDate: post.publishDate ? dayjs(post.publishDate, 'YYYY-MM-DDTHH:mm:ssZ') : null,
+            publishDate: post.publishDate ? moment(post.publishDate, 'YYYY-MM-DDTHH:mm:ssZ') : null,
             titleImage: post.titleImage
               ? [
                   {
