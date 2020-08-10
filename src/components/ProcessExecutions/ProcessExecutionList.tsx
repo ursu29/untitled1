@@ -59,15 +59,22 @@ function ProcessList({ items }: Props) {
   // Add to processes list new field with active step responsible users
   const processesWithResponsibleUsers = items.map(process => {
     let activeStepResponsibleUsers
+
     try {
-      const lastDoneStepId = process.executionSteps.filter(step => step.isDone).slice(-1)[0].step.id
+      const lastDoneStepId =
+        process.executionSteps.filter(step => step.isDone).slice(-1)[0]?.step.id || null
       const processSteps = process.process.steps
-      for (let i = 0; i < processSteps.length; i++) {
-        // strict less! cause we don't need the last one
-        if (processSteps[i].id === lastDoneStepId) {
-          activeStepResponsibleUsers = processSteps[i + 1].responsibleUsers
-          break
+
+      if (lastDoneStepId) {
+        for (let i = 0; i < processSteps.length; i++) {
+          // strict less! cause we don't need the last one
+          if (processSteps[i].id === lastDoneStepId) {
+            activeStepResponsibleUsers = processSteps[i + 1].responsibleUsers
+            break
+          }
         }
+      } else {
+        activeStepResponsibleUsers = processSteps[0].responsibleUsers
       }
     } catch {}
     return { ...process, activeStepResponsibleUsers }
@@ -233,13 +240,14 @@ function ProcessList({ items }: Props) {
                 )
                 .map(responsible => (
                   <div
+                    key={responsible.email}
                     style={{
                       margin: '2px',
                       padding: '2px',
                       borderRadius: '50%',
                       boxShadow:
                         user.employee.email.toLowerCase() === responsible.email.toLowerCase()
-                          ? 'rgb(255 82 0 / 51%) 0px 0px 2px 3px'
+                          ? 'rgb(255 77 79 / 90%) 0px 0px 2px 3px'
                           : '',
                     }}
                   >

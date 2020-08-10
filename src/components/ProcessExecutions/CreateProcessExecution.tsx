@@ -6,6 +6,8 @@ import message from '../../message'
 import getProcessExecutions from '../../queries/getProcessExecutions'
 import Drawer from '../UI/Drawer'
 import CreateProcessForm from './CreateProcessForm'
+import { useEmployee } from '../../utils/withEmployee'
+import getActiveProcessExecutions from '../../queries/getEmployeeActiveProcessExecutions'
 
 const mutation = gql`
   mutation createProcessExecution($input: CreateProcessExecutionInput) {
@@ -16,8 +18,17 @@ const mutation = gql`
 `
 
 function CreateProcessExecution() {
+  const { employee } = useEmployee()
+
   const [create, args] = useMutation(mutation, {
-    refetchQueries: [{ query: getProcessExecutions }],
+    refetchQueries: [
+      { query: getProcessExecutions },
+      {
+        query: getActiveProcessExecutions,
+        variables: { email: employee.email },
+      },
+    ],
+    awaitRefetchQueries: true,
     onCompleted: () => {
       message.success('New process is added')
     },

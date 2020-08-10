@@ -21,6 +21,7 @@ const query = gql`
 
 export default function Root() {
   const { data, loading, error } = useQuery(query)
+
   if (loading) return null
 
   if (data?.isAuthenticated) {
