@@ -25,6 +25,7 @@ const authLink = setContext((_, { headers }) => {
       ...headers,
       authorization: token ? `Bearer ${token}` : '',
       [timezoneOffsetKey]: timezoneOffset,
+      dev_only_user_role: localStorage.getItem('devOnlyUserRole'),
     },
   }
 })

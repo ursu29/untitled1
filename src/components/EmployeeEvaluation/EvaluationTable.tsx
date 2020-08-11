@@ -42,6 +42,10 @@ const parent: { title: string; key: string; children?: any }[] = [
     title: 'Initiative and resourcefulness',
     key: 'initiative',
   },
+  {
+    title: 'Free estimate',
+    key: 'free_estimate',
+  },
 ]
 
 interface Props {
@@ -88,6 +92,7 @@ export default function EvaluationTable({
     evaluation: 0,
     evaluationAttribute: '',
     comment: '',
+    title: '',
   }
   const [addCommentModal, setAddCommentModal] = useState(initialCommentModal)
 
@@ -138,6 +143,7 @@ export default function EvaluationTable({
     cellCode,
     rateValue,
     comment,
+    textOnly,
   }: {
     rateDisabled: boolean
     isArchivedChosen: boolean
@@ -145,13 +151,15 @@ export default function EvaluationTable({
     cellCode: string
     rateValue: number
     comment: string | undefined
+    textOnly: boolean
   }) => {
-    const commentHandleClick = () => {
+    const commentHandleClick = (title: string) => {
       setAddCommentModal({
         visible: true,
         evaluation: rateValue,
         evaluationAttribute: itemId,
         comment: comment || '',
+        title,
       })
       setHoveredCommentCode('')
       setShownCommentCode('')
@@ -169,61 +177,97 @@ export default function EvaluationTable({
           justifyContent: 'flex-start',
         }}
       >
-        <Rate
-          disabled={rateDisabled || isArchivedChosen}
-          onChange={value => {
-            onEvaluate({
-              toWhom: employee.id,
-              evaluation: value,
-              comment: comment || '',
-              evaluationAttribute: itemId,
-            })
-          }}
-          count={3}
-          value={rateValue}
-        />
-
-        {!rateDisabled && !isArchivedChosen && (
-          <div
-            style={{
-              marginLeft: '90px',
-              marginTop: '7px',
-              cursor: 'pointer',
-              position: 'absolute',
-            }}
-            onMouseOver={() => {
-              setHoveredCommentCode(cellCode)
-            }}
-            onMouseOut={() => setHoveredCommentCode('')}
-            onClick={commentHandleClick}
-          >
-            <CommentEmpty
-              fill={
-                hoveredCommentCode === cellCode && shownCommentCode === cellCode
-                  ? 'gray'
-                  : 'lightgray'
-              }
+        {!textOnly ? (
+          <>
+            <Rate
+              disabled={rateDisabled || isArchivedChosen}
+              onChange={value => {
+                onEvaluate({
+                  toWhom: employee.id,
+                  evaluation: value,
+                  comment: comment || '',
+                  evaluationAttribute: itemId,
+                })
+              }}
+              count={3}
+              value={rateValue}
             />
-          </div>
-        )}
 
-        {comment && (
-          <Tooltip title={comment} overlayClassName="styled_tooltip" color="white">
+            {!rateDisabled && !isArchivedChosen && (
+              <div
+                style={{
+                  marginLeft: '90px',
+                  marginTop: '7px',
+                  cursor: 'pointer',
+                  position: 'absolute',
+                }}
+                onMouseOver={() => {
+                  setHoveredCommentCode(cellCode)
+                }}
+                onMouseOut={() => setHoveredCommentCode('')}
+                onClick={() => commentHandleClick('Comment')}
+              >
+                <CommentEmpty
+                  fill={
+                    hoveredCommentCode === cellCode && shownCommentCode === cellCode
+                      ? 'gray'
+                      : 'lightgray'
+                  }
+                />
+              </div>
+            )}
+
+            {comment && (
+              <Tooltip title={comment} overlayClassName="styled_tooltip" color="white">
+                <div
+                  onClick={() => {
+                    if (isArchivedChosen) return
+                    if (!rateDisabled) commentHandleClick('Comment')
+                  }}
+                  style={{
+                    marginLeft: '90px',
+                    marginTop: '7px',
+                    cursor: 'pointer',
+                    position: 'absolute',
+                  }}
+                >
+                  <CommentFill />
+                </div>
+              </Tooltip>
+            )}
+          </>
+        ) : comment ? (
+          <div
+            onClick={() => {
+              if (isArchivedChosen) return
+              if (!rateDisabled) commentHandleClick('Your feedback')
+            }}
+            style={{
+              maxWidth: '150px',
+              maxHeight: '300px',
+              overflowY: 'auto',
+              whiteSpace: 'pre-line',
+              cursor: 'pointer',
+            }}
+          >
+            {comment}
+          </div>
+        ) : (
+          !rateDisabled && (
             <div
               onClick={() => {
                 if (isArchivedChosen) return
-                if (!rateDisabled) commentHandleClick()
+                if (!rateDisabled) commentHandleClick('Your feedback')
               }}
               style={{
-                marginLeft: '90px',
-                marginTop: '7px',
+                color: 'lightgray',
                 cursor: 'pointer',
-                position: 'absolute',
+                fontStyle: 'italic',
               }}
             >
-              <CommentFill />
+              (feedback)
             </div>
-          </Tooltip>
+          )
         )}
       </div>
     )
@@ -291,6 +335,7 @@ export default function EvaluationTable({
         const evaluation = evaluations?.find(i => {
           return i.evaluationAttribute.id === item.id && i.fromWho.id === employee.id
         })
+
         return (
           <TableCell
             rateDisabled={!employee.isMe}
@@ -299,6 +344,7 @@ export default function EvaluationTable({
             cellCode={item.id + ' you'}
             rateValue={evaluation?.evaluation || 0}
             comment={evaluation?.comment}
+            textOnly={['free_estimate'].includes(item.group) || false}
           />
         )
       },
@@ -325,6 +371,7 @@ export default function EvaluationTable({
               cellCode={item.id + ' agile'}
               rateValue={evaluation?.evaluation || 0}
               comment={evaluation?.comment}
+              textOnly={['free_estimate'].includes(item.group) || false}
             />
           )
         },
@@ -350,6 +397,7 @@ export default function EvaluationTable({
               cellCode={item.id + ' reviewer' + index}
               rateValue={evaluation?.evaluation || 0}
               comment={evaluation?.comment}
+              textOnly={['free_estimate'].includes(item.group) || false}
             />
           )
         },
@@ -401,7 +449,7 @@ export default function EvaluationTable({
       )}
 
       <CommentModal
-        title="Comment"
+        title={addCommentModal.title}
         visible={addCommentModal.visible}
         onOk={() => {
           onEvaluate({

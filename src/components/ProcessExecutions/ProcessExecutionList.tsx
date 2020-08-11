@@ -10,6 +10,8 @@ import { Link } from 'react-router-dom'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import Highlighter from 'react-highlight-words'
+import EmployeeAvatar from '../Employees/EmployeeAvatar'
+import { useEmployee } from '../../utils/withEmployee'
 
 dayjs.extend(relativeTime)
 
@@ -48,10 +50,35 @@ function ProcessList({ items }: Props) {
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
   const searchInput = useRef(null)
+  const user = useEmployee()
 
   if (!items?.length) {
     return <PageContent>No processes found</PageContent>
   }
+
+  // Add to processes list new field with active step responsible users
+  const processesWithResponsibleUsers = items.map(process => {
+    let activeStepResponsibleUsers
+
+    try {
+      const lastDoneStepId =
+        process.executionSteps.filter(step => step.isDone).slice(-1)[0]?.step.id || null
+      const processSteps = process.process.steps
+
+      if (lastDoneStepId) {
+        for (let i = 0; i < processSteps.length; i++) {
+          // strict less! cause we don't need the last one
+          if (processSteps[i].id === lastDoneStepId) {
+            activeStepResponsibleUsers = processSteps[i + 1].responsibleUsers
+            break
+          }
+        }
+      } else {
+        activeStepResponsibleUsers = processSteps[0].responsibleUsers
+      }
+    } catch {}
+    return { ...process, activeStepResponsibleUsers }
+  })
 
   const handleSearch = (selectedKeys: any, confirm: any, dataIndex: any) => {
     confirm()
@@ -120,7 +147,11 @@ function ProcessList({ items }: Props) {
   })
 
   return (
-    <Table<QueryType['processExecutions'][0]>
+    <Table<
+      QueryType['processExecutions'][0] & {
+        activeStepResponsibleUsers: { email: string; name: string }[] | null | undefined
+      }
+    >
       rowKey="id"
       columns={[
         {
@@ -199,6 +230,49 @@ function ProcessList({ items }: Props) {
           sorter: (a, b) => new Date(a.finishDate) - new Date(b.finishDate),
         },
         {
+          key: 'responsible',
+          title: 'Responsible',
+          render: (_, process) => (
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+              {process.activeStepResponsibleUsers
+                ?.sort((a, b) =>
+                  a.email.toLowerCase() === user.employee.email.toLowerCase() ? -1 : 1,
+                )
+                .map(responsible => (
+                  <div
+                    key={responsible.email}
+                    style={{
+                      margin: '2px',
+                      padding: '2px',
+                      borderRadius: '50%',
+                      boxShadow:
+                        user.employee.email.toLowerCase() === responsible.email.toLowerCase()
+                          ? 'rgb(255 77 79 / 90%) 0px 0px 2px 3px'
+                          : '',
+                    }}
+                  >
+                    <EmployeeAvatar email={responsible.email} size="small" showTooltip />
+                  </div>
+                ))}
+            </div>
+          ),
+          filters: [
+            //@ts-ignore
+            ...new Set(
+              processesWithResponsibleUsers
+                .filter(e => e.activeStepResponsibleUsers)
+                .flatMap(item => {
+                  if (item.activeStepResponsibleUsers)
+                    return item.activeStepResponsibleUsers.map(e => e.name)
+                }),
+            ),
+          ].map(e => ({ text: e, value: e })),
+          onFilter: (value: any, record) =>
+            record.activeStepResponsibleUsers
+              ? record.activeStepResponsibleUsers.map(e => e.name).includes(value)
+              : false,
+        },
+        {
           key: 'actions',
           align: 'right',
           render: (_, process) => {
@@ -251,7 +325,14 @@ function ProcessList({ items }: Props) {
           },
         },
       ]}
-      dataSource={items}
+      dataSource={processesWithResponsibleUsers.sort((a, b) => {
+        const includesUserEmail = (e: any) =>
+          e.activeStepResponsibleUsers
+            ?.map((e: any) => e.email.toLowerCase())
+            ?.includes(user.employee.email.toLowerCase())
+        if (includesUserEmail(a) && !includesUserEmail(b)) return -1
+        else return 1
+      })}
       pagination={false}
     />
   )

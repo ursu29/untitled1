@@ -12,7 +12,7 @@ function ActiveProcesses({ processExecutions }: Props) {
     {
       title: 'All',
       key: 'all',
-      body: <ProcessList items={processExecutions.filter((i) => i.status === 'running')} />,
+      body: <ProcessList items={processExecutions.filter(i => i.status === 'running')} />,
     },
     {
       title: 'Onboarding',
@@ -20,7 +20,7 @@ function ActiveProcesses({ processExecutions }: Props) {
       body: (
         <ProcessList
           items={processExecutions.filter(
-            (i) => i.status === 'running' && i.process.type === 'onboarding',
+            i => i.status === 'running' && i.process.type === 'onboarding',
           )}
         />
       ),
@@ -31,7 +31,7 @@ function ActiveProcesses({ processExecutions }: Props) {
       body: (
         <ProcessList
           items={processExecutions.filter(
-            (i) => i.status === 'running' && i.process.type === 'offboarding',
+            i => i.status === 'running' && i.process.type === 'offboarding',
           )}
         />
       ),
@@ -42,7 +42,7 @@ function ActiveProcesses({ processExecutions }: Props) {
       body: (
         <ProcessList
           items={processExecutions.filter(
-            (i) => i.status === 'running' && i.process.type === 'rotation',
+            i => i.status === 'running' && i.process.type === 'rotation',
           )}
         />
       ),
@@ -50,7 +50,7 @@ function ActiveProcesses({ processExecutions }: Props) {
     {
       title: 'Archived',
       key: 'archived',
-      body: <ProcessList items={processExecutions.filter((i) => i.status !== 'running')} />,
+      body: <ProcessList items={processExecutions.filter(i => i.status !== 'running')} />,
     },
   ]
 

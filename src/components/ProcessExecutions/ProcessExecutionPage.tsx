@@ -16,6 +16,8 @@ import ProcessExecutionRotation from './ProcessExecutionRotation'
 import NotAllowed from '../UI/NotAllowed'
 import isForbidden from '../../utils/isForbidden'
 import AdditionalInfo from './AdditionalInfo'
+import { useEmployee } from '../../utils/withEmployee'
+import getActiveProcessExecutions from '../../queries/getEmployeeActiveProcessExecutions'
 
 const mutation = gql`
   mutation completeProcessExecutionStep($input: CompleteProcessExecutionStepInput!) {
@@ -34,11 +36,18 @@ const commentMutation = gql`
 `
 
 function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
+  const { employee } = useEmployee()
   const variables = { input: { id: match.params.id } }
   const { data, loading, error } = useQuery<QueryType>(getProcessExecution, { variables })
 
   const [complete, completeArgs] = useMutation(mutation, {
-    refetchQueries: [{ query: getProcessExecution, variables }],
+    refetchQueries: [
+      { query: getProcessExecution, variables },
+      {
+        query: getActiveProcessExecutions,
+        variables: { email: employee.email },
+      },
+    ],
     awaitRefetchQueries: true,
     onError: message.error,
     onCompleted: () => message.success('Step is done'),

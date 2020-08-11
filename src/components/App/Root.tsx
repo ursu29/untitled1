@@ -6,12 +6,14 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import NotAuthorized from '../UI/NotAuthorized'
 import NotAnswering from '../UI/NotAnswering'
+import DevTools from '../DevTools'
 import { EmployeeProvider } from '../../utils/withEmployee'
 
 const query = gql`
   {
     profile {
       id
+      email
     }
     isAuthenticated
   }
@@ -19,16 +21,16 @@ const query = gql`
 
 export default function Root() {
   const { data, loading, error } = useQuery(query)
+
   if (loading) return null
 
   if (data?.isAuthenticated) {
     return (
       <Layout>
-        <EmployeeProvider>
-          <EmployeeProvider value={data?.profile}>
-            <Sider />
-            <Pages />
-          </EmployeeProvider>
+        <EmployeeProvider value={data?.profile}>
+          <Sider />
+          <Pages />
+          {process.env.NODE_ENV === 'development' && <DevTools />}
         </EmployeeProvider>
       </Layout>
     )
