@@ -5,8 +5,14 @@ const injectGalleryExtension = () => {
   const foundGalleries = {
     type: 'lang',
     regex: /gallery\([^*]*?\)/g,
-    replace: text =>
-      `<div class='injected-image-gallery'>${/(?<=gallery\()[^*]*(?=\))/g.exec(text)?.[0]}</div>`,
+    replace: text => {
+      const formattedString = text.slice(8, text.length - 1)
+      /*       return `<div class='injected-image-gallery'>${
+        /(?<=gallery\()[^*]*(?=\))/g.exec(text)?.[0]
+      }</div>`
+      */
+      return `<div class='injected-image-gallery'>${formattedString}</div>`
+    },
   }
   return [foundGalleries]
 }
