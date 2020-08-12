@@ -85,9 +85,11 @@ function DevelopmentPlanForm({ value, onChange, form, locked, resetFields }: Pro
       <Form.Item>
         <Title level={3}>Previous Goals</Title>
         <Paragraph style={{ maxWidth: 550 }}>
-          Capture interest in the project and how the future is perceived from a project point of
-          view. I.e. would the employee like to stay in the project, is happy with current position
-          in the project, would like to change project, etc.
+          Please copy here a list of goals from previous period. List includes goals from regular
+          Performance development and from the Guild contribution. Report have you achieved success
+          criteria for this goal. Put mark if goal was reached or not. 0=Didn’t reach (explain why
+          in comments) 1=Goal was reached (in case there are some exceeded expectations achievements
+          please put them in comments) N/A=Goal was postponed/dropped by legitimate reasons
         </Paragraph>
         {getFieldDecorator('previousGoals', {
           initialValue: value?.previousGoals,
@@ -193,6 +195,12 @@ function DevelopmentPlanForm({ value, onChange, form, locked, resetFields }: Pro
               valuePropName: 'checked',
               initialValue: value?.developmentRoles?.agileCoach,
             })(<Checkbox disabled={locked}>Agile Coach</Checkbox>)}
+          </div>
+          <div>
+            {getFieldDecorator('developmentRoles.agileManager', {
+              valuePropName: 'checked',
+              initialValue: value?.developmentRoles?.agileCoach,
+            })(<Checkbox disabled={locked}>Agile Manager</Checkbox>)}
           </div>
         </Row>
       </div>
@@ -310,10 +318,11 @@ function DevelopmentPlanForm({ value, onChange, form, locked, resetFields }: Pro
       <Form.Item>
         <Title level={3}>Amount of time</Title>
         <Paragraph style={{ maxWidth: 550 }}>
-          Define here a rough plan for a half of a year or for a full year. Agree it with your team
-          lead. The team lead will help you to find good time slots from a project perspective and
-          will also help to communicate it to our clients and colleagues. i.e. I will need 1 day per
-          week to do guild work. Or I will need entire week to work on the project \ prepare exams.
+          Define here a rough plan how you will use guild for a half of a year or for a full year.
+          i.e. I will need 1 day per week to do guild work. Or I will need entire week to work on
+          the project \ prepare exams. Discuss the plan and agree on it with your Agile Manager.
+          Scrum Master and Agile Manager will help you to find good time slots from a project
+          perspective and will also help to communicate it to our clients and colleagues.
         </Paragraph>
         {getFieldDecorator('amountOfTime', {
           initialValue: value?.amountOfTime,
