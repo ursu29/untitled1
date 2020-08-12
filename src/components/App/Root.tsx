@@ -22,6 +22,15 @@ const query = gql`
 export default function Root() {
   const { data, loading, error } = useQuery(query)
 
+  // Check access to ClientDevTools
+  const { data: dataClientDevTools } = useQuery(
+    gql`
+      {
+        clientDevToolsAccess
+      }
+    `,
+  )
+
   if (loading) return null
 
   if (data?.isAuthenticated) {
@@ -30,7 +39,7 @@ export default function Root() {
         <EmployeeProvider value={data?.profile}>
           <Sider />
           <Pages />
-          {process.env.NODE_ENV === 'development' && <DevTools />}
+          {dataClientDevTools.clientDevToolsAccess && <DevTools />}
         </EmployeeProvider>
       </Layout>
     )
