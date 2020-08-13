@@ -202,7 +202,8 @@ function PortalMenu(props: Props) {
                 <Badge
                   count={item.badgeCount}
                   dot={isLarge ? false : !!item.badgeCount}
-                  offset={isLarge ? [15, 0] : [5, 8]}
+                  offset={isLarge ? [90, 7] : [5, 8]}
+                  style={{ backgroundColor: '#108ee9' }}
                 >
                   <Link to={item.route} key={item.route}>
                     {item.icon}
