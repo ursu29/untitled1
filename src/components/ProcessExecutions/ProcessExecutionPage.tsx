@@ -91,6 +91,43 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
 
   const branches = processExecution.process?.steps.filter(i => !i.parentSteps?.length)
 
+  // Add new field to each step in processExecution.process.steps - isStrictActive - activity depends on previous independent steps
+  const newSteps = processExecution.process?.steps.map(step => {
+    if (!step.parentSteps.length) return { ...step, isStrictActive: true }
+
+    const parentStepId = step.parentSteps[0].id
+
+    //@ts-ignore
+    const isParentStepDone = (stepCurrent: any, isFirstIteration: boolean = false) => {
+      const executionStep = processExecution.executionSteps.find(
+        step => step.step.id === stepCurrent?.id,
+      )
+
+      if (isFirstIteration && stepCurrent?.type !== 'independent' && !executionStep?.isDone)
+        return false
+      // If step already done
+      if (stepCurrent?.type !== 'independent' && executionStep?.isDone) return true
+      // If the first step is independent
+      if (stepCurrent?.type === 'independent' && !stepCurrent.parentSteps.length) return true
+      if (stepCurrent?.type !== 'independent' && !executionStep?.isDone) return false
+      // If step has not parent step
+      if (!stepCurrent.parentSteps.length) return false
+      // Recursion on parent
+      return isParentStepDone(
+        processExecution.process?.steps.find(step => step.id === stepCurrent.parentSteps[0].id),
+      )
+    }
+
+    return {
+      ...step,
+      isStrictActive: isParentStepDone(
+        processExecution.process?.steps.find(step => step.id === parentStepId),
+        true,
+      ),
+    }
+  })
+  console.log(newSteps, processExecution)
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       {processExecution.process.type === 'onboarding' && (
@@ -136,7 +173,13 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
               <div key={i.id}>
                 <ProcessExecutionBranch
                   executionSteps={processExecution.executionSteps}
-                  steps={processExecution.process.steps.filter(item => {
+                  /*                   steps={processExecution.process.steps.filter(item => {
+                    if (!item.parentSteps?.length) {
+                      return item.id === i.id
+                    }
+                    return true
+                  })} */
+                  steps={newSteps.filter(item => {
                     if (!item.parentSteps?.length) {
                       return item.id === i.id
                     }

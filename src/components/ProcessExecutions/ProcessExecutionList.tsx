@@ -247,7 +247,7 @@ function ProcessList({ items }: Props) {
                       borderRadius: '50%',
                       boxShadow:
                         user.employee.email.toLowerCase() === responsible.email.toLowerCase()
-                          ? 'rgb(255 77 79 / 90%) 0px 0px 2px 3px'
+                          ? '#108ee9 0px 0px 2px 3px'
                           : '',
                     }}
                   >

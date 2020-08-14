@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/react-hooks'
 import { CaretDownOutlined, CaretUpOutlined, DeleteOutlined } from '@ant-design/icons'
-import { Button, Card, Popconfirm } from 'antd'
+import { Button, Card, Popconfirm, Collapse } from 'antd'
 import gql from 'graphql-tag'
 import React, { useState, useEffect } from 'react'
 import getProcesses from '../../queries/getProcesses'
@@ -54,6 +54,47 @@ export default function ProcessStep({ step }: { step: Partial<ProcessStepType> }
   }, [loading, removeLoading])
 
   return (
+    <Collapse defaultActiveKey={['0']}>
+      <Collapse.Panel
+        header={step.title || 'Untitled'}
+        key="1"
+        extra={
+          <div onClick={e => e.stopPropagation()}>
+            <Popconfirm
+              placement="top"
+              title={'Are you sure you want to remove this step?'}
+              onConfirm={() => remove()}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button size="middle" type="link" style={{ color: 'gray', height: 0, padding: 0 }}>
+                <DeleteOutlined />
+              </Button>
+            </Popconfirm>
+          </div>
+        }
+      >
+        <ProcessStepForm
+          step={{
+            ...step,
+            responsibleUsers: step.responsibleUsers?.map(i => i.id),
+          }}
+          loading={loading}
+          onUpdate={data =>
+            update({
+              variables: {
+                input: {
+                  ...data,
+                  id: step.id,
+                },
+              },
+            })
+          }
+        />
+      </Collapse.Panel>
+    </Collapse>
+    /* 
+
     <Card
       size="small"
       title={
@@ -73,13 +114,15 @@ export default function ProcessStep({ step }: { step: Partial<ProcessStepType> }
           cancelText="No"
         >
           <span>
-            <Button size="large" type="link" style={{ color: 'black' }}>
+            <Button size="middle" type="link" style={{ color: 'gray' }}>
               <DeleteOutlined />
             </Button>
           </span>
         </Popconfirm>
       }
-      bodyStyle={collapsed ? { padding: 0 } : undefined}
+      // bodyStyle={collapsed ? { padding: 0 } : undefined}
+      headStyle={collapsed ? undefined : { backgroundColor: 'rgb(119 190 255)' }}
+      bodyStyle={collapsed ? { padding: 0 } : { border: '1px solid rgb(119 190 255)' }}
     >
       {!collapsed && (
         <ProcessStepForm
@@ -100,6 +143,6 @@ export default function ProcessStep({ step }: { step: Partial<ProcessStepType> }
           }
         />
       )}
-    </Card>
+    </Card> */
   )
 }
