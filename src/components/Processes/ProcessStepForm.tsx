@@ -1,6 +1,6 @@
 import { Form } from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
-import { Button, Checkbox, Input, Radio, Select } from 'antd'
+import { Button, Checkbox, Input, Select } from 'antd'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import EmployeeSelect from '../Employees/EmployeeSelect'
@@ -22,7 +22,10 @@ function ProcessStepForm({
 
   return (
     <Form labelCol={{ span: 24, offset: 0 }}>
-      <Form.Item style={{ marginBottom: 0 }} label={<p style={{ marginBottom: '-10px' }}>Title</p>}>
+      <Form.Item
+        style={{ marginBottom: 0 }}
+        label={<p style={{ marginBottom: '-10px', color: 'darkgrey' }}>Title</p>}
+      >
         <Controller
           as={<Input />}
           name="title"
@@ -33,7 +36,7 @@ function ProcessStepForm({
       </Form.Item>
       <Form.Item
         style={{ marginBottom: 0 }}
-        label={<p style={{ marginBottom: '-7px' }}>Description</p>}
+        label={<p style={{ marginBottom: '-7px', color: 'darkgrey' }}>Description</p>}
       >
         <Controller
           as={<Input.TextArea rows={4} />}
@@ -45,7 +48,7 @@ function ProcessStepForm({
       </Form.Item>
       <Form.Item
         style={{ marginBottom: 0 }}
-        label={<p style={{ marginBottom: '-10px' }}>Responsible</p>}
+        label={<p style={{ marginBottom: '-10px', color: 'darkgrey' }}>Responsible</p>}
       >
         <Controller
           as={<EmployeeSelect wide mode="multiple" />}
@@ -57,7 +60,7 @@ function ProcessStepForm({
       </Form.Item>
       <Form.Item
         style={{ marginBottom: -4 }}
-        label={<p style={{ marginBottom: '-10px' }}>Step completion</p>}
+        label={<p style={{ marginBottom: '-10px', color: 'darkgrey' }}>Step completion</p>}
       >
         <Controller
           as={

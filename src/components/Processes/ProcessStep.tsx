@@ -1,8 +1,8 @@
 import { useMutation } from '@apollo/react-hooks'
-import { CaretDownOutlined, CaretUpOutlined, DeleteOutlined } from '@ant-design/icons'
-import { Button, Card, Popconfirm, Collapse } from 'antd'
+import { DeleteOutlined } from '@ant-design/icons'
+import { Button, Popconfirm, Collapse, Tag, Tooltip } from 'antd'
 import gql from 'graphql-tag'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import getProcesses from '../../queries/getProcesses'
 import { ProcessStep as ProcessStepType } from '../../types'
 import ProcessStepForm from './ProcessStepForm'
@@ -25,13 +25,11 @@ const deleteProcessStep = gql`
 `
 
 export default function ProcessStep({ step }: { step: Partial<ProcessStepType> }) {
-  const [collapsed, setCollapsed] = useState(true)
   const [update, { loading }] = useMutation(updateProcessStep, {
     refetchQueries: [{ query: getProcesses, variables: { input: { id: step?.process?.id } } }],
     awaitRefetchQueries: true,
     onCompleted: () => {
       message.success('Step is updated')
-      setCollapsed(true)
     },
     onError: message.error,
   })
@@ -59,18 +57,54 @@ export default function ProcessStep({ step }: { step: Partial<ProcessStepType> }
         header={step.title || 'Untitled'}
         key="1"
         extra={
-          <div onClick={e => e.stopPropagation()}>
-            <Popconfirm
-              placement="top"
-              title={'Are you sure you want to remove this step?'}
-              onConfirm={() => remove()}
-              okText="Yes"
-              cancelText="No"
-            >
-              <Button size="middle" type="link" style={{ color: 'gray', height: 0, padding: 0 }}>
-                <DeleteOutlined />
-              </Button>
-            </Popconfirm>
+          <div style={{ display: 'flex' }}>
+            {step.type === 'notify' && (
+              <div>
+                <Tooltip placement="bottom" title="Automatic">
+                  <Tag
+                    color="blue"
+                    style={{
+                      maxWidth: '20px',
+                      minWidth: '20px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    A
+                  </Tag>
+                </Tooltip>
+              </div>
+            )}
+            {step.type === 'independent' && (
+              <div>
+                <Tooltip placement="bottom" title="Independent">
+                  <Tag
+                    color="magenta"
+                    style={{
+                      maxWidth: '20px',
+                      minWidth: '20px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    I
+                  </Tag>
+                </Tooltip>
+              </div>
+            )}
+            <div onClick={e => e.stopPropagation()}>
+              <Popconfirm
+                placement="top"
+                title={'Are you sure you want to remove this step?'}
+                onConfirm={() => remove()}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button size="middle" type="link" style={{ color: 'gray', height: 0, padding: 0 }}>
+                  <DeleteOutlined />
+                </Button>
+              </Popconfirm>
+            </div>
           </div>
         }
       >
@@ -93,56 +127,5 @@ export default function ProcessStep({ step }: { step: Partial<ProcessStepType> }
         />
       </Collapse.Panel>
     </Collapse>
-    /* 
-
-    <Card
-      size="small"
-      title={
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Button size="small" type="default" onClick={() => setCollapsed(!collapsed)}>
-            {collapsed ? <CaretDownOutlined /> : <CaretUpOutlined />}
-          </Button>
-          <div style={{ paddingLeft: 8 }}>{step.title || 'Untitled'}</div>
-        </div>
-      }
-      extra={
-        <Popconfirm
-          placement="top"
-          title={'Are you sure you want to remove this step?'}
-          onConfirm={() => remove()}
-          okText="Yes"
-          cancelText="No"
-        >
-          <span>
-            <Button size="middle" type="link" style={{ color: 'gray' }}>
-              <DeleteOutlined />
-            </Button>
-          </span>
-        </Popconfirm>
-      }
-      // bodyStyle={collapsed ? { padding: 0 } : undefined}
-      headStyle={collapsed ? undefined : { backgroundColor: 'rgb(119 190 255)' }}
-      bodyStyle={collapsed ? { padding: 0 } : { border: '1px solid rgb(119 190 255)' }}
-    >
-      {!collapsed && (
-        <ProcessStepForm
-          step={{
-            ...step,
-            responsibleUsers: step.responsibleUsers?.map(i => i.id),
-          }}
-          loading={loading}
-          onUpdate={data =>
-            update({
-              variables: {
-                input: {
-                  ...data,
-                  id: step.id,
-                },
-              },
-            })
-          }
-        />
-      )}
-    </Card> */
   )
 }

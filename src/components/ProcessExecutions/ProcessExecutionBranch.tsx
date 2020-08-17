@@ -89,8 +89,8 @@ export default function Branch({
               )}
               {step.type === 'independent' && (
                 <div>
-                  <Tooltip placement="bottom" title="If active, the next step will be active too">
-                    <Tag color="cyan">Independent</Tag>
+                  <Tooltip placement="bottom" title="Can be completed at any time">
+                    <Tag color="magenta">Independent</Tag>
                   </Tooltip>
                 </div>
               )}
@@ -113,6 +113,7 @@ export default function Branch({
                     type="primary"
                     disabled={!step.responsibleUsers?.find(i => i.isMe)}
                     onClick={() => onComplete(step)}
+                    size="small"
                   >
                     Complete
                   </Button>
