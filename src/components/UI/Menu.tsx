@@ -18,6 +18,9 @@ import {
   UserAddOutlined,
   VideoCameraOutlined,
   NotificationOutlined,
+  ToolOutlined,
+  DatabaseOutlined,
+  AppstoreOutlined,
 } from '@ant-design/icons'
 
 import { Menu, Tag, Badge } from 'antd'
@@ -63,7 +66,6 @@ interface Props {
 
 function PortalMenu(props: Props) {
   const { employee } = useEmployee()
-
   const { data: dataEmployee } = useQuery<ActiveProcessExecutionsQueryType>(
     getActiveProcessExecutions,
     {
@@ -79,6 +81,7 @@ function PortalMenu(props: Props) {
   const { data, loading } = useQuery<QueryType>(query)
 
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
+  const { SubMenu } = Menu
 
   const menuItems = [
     {
@@ -110,23 +113,27 @@ function PortalMenu(props: Props) {
       route: paths.STREAM,
       icon: <VideoCameraOutlined />,
       title: 'Stream',
+      subMenu: 'knowledge',
     },
     {
       route: paths.BOOKMARKS,
       icon: <BookOutlined />,
       title: 'Bookmarks',
+      subMenu: 'knowledge',
     },
     data?.matricesAccess.read
       ? {
           route: paths.MATRICES,
           icon: <NumberOutlined />,
           title: 'Matrices',
+          subMenu: 'technical',
         }
       : null,
     {
       route: paths.SHARED_FILES,
       icon: <FileImageOutlined />,
       title: 'Files',
+      subMenu: 'knowledge',
     },
     {
       route: paths.POSTS,
@@ -137,16 +144,19 @@ function PortalMenu(props: Props) {
       route: paths.TIMEMASTER,
       icon: <ClockCircleOutlined />,
       title: 'Timemaster',
+      subMenu: 'tools',
     },
     {
       route: paths.WIKI,
       icon: <InfoCircleOutlined />,
       title: 'WIKI',
+      subMenu: 'knowledge',
     },
     {
       route: paths.OFFICE_PLANNER,
       icon: <ImportOutlined />,
       title: 'Office planner',
+      subMenu: 'tools',
     },
     {
       route: paths.VACANCIES,
@@ -158,6 +168,7 @@ function PortalMenu(props: Props) {
           route: paths.HR,
           icon: <UserAddOutlined />,
           title: 'HR Tool',
+          subMenu: 'tools',
           badgeCount: activeProcessExecutionsCount,
         }
       : null,
@@ -166,6 +177,7 @@ function PortalMenu(props: Props) {
           route: paths.PROCESSES,
           icon: <BranchesOutlined />,
           title: 'Processes',
+          subMenu: 'technical',
         }
       : null,
     {
@@ -174,6 +186,7 @@ function PortalMenu(props: Props) {
       title: 'Feedback',
       style: { marginTop: '40px' },
       status: 'new',
+      subMenu: 'feedback',
     },
   ]
 
@@ -185,53 +198,110 @@ function PortalMenu(props: Props) {
     )
   }
 
+  const getMenuItems = (subMenu?: string) =>
+    menuItems
+      .filter(item => (subMenu ? item?.subMenu === subMenu : !item?.subMenu))
+      .map(item => {
+        if (!item) return null
+        return (
+          <Menu.Item key={item.route} style={item?.style}>
+            <Badge
+              count={item.badgeCount}
+              // dot={isLarge ? false : !!item.badgeCount}
+              // offset={isLarge ? [70, 7] : [5, 8]}
+              offset={isLarge ? [70, 7] : [50, 7]}
+              style={{ backgroundColor: '#108ee9' }}
+            >
+              <Link to={item.route} key={item.route}>
+                {item.icon}
+                <span>{item.title}</span>
+                {item.status && isLarge && (
+                  <Tag
+                    style={{
+                      fontSize: 11,
+                      marginLeft: 8,
+                      padding: '0 4px',
+                      textTransform: 'uppercase',
+                      lineHeight: 1.5,
+                      cursor: 'pointer',
+                    }}
+                    color={(() => {
+                      if (item.status === 'updated') return 'green'
+                      if (item.status === 'new') return 'volcano'
+                    })()}
+                  >
+                    {item.status === 'new' && 'New'}
+                    {item.status === 'updated' && 'Updated'}
+                  </Tag>
+                )}
+              </Link>
+            </Badge>
+          </Menu.Item>
+        )
+      })
+
   return (
     <Skeleton withOffset active loading={loading}>
       <Width isLarge={isLarge}>
         <Menu
           defaultSelectedKeys={[props.path]}
           selectedKeys={[props.path]}
+          defaultOpenKeys={['tools']}
           mode="inline"
           theme="light"
           style={{ border: 'none', width: isLarge ? MENU_WIDTH : 60 }}
         >
-          {menuItems.map(item => {
-            if (!item) return null
-            return (
-              <Menu.Item key={item.route} style={item?.style}>
+          {getMenuItems()}
+
+          <SubMenu
+            key="tools"
+            title={
+              <span>
                 <Badge
-                  count={item.badgeCount}
-                  dot={isLarge ? false : !!item.badgeCount}
-                  offset={isLarge ? [90, 7] : [5, 8]}
+                  dot={
+                    !!menuItems
+                      .filter(item => item?.subMenu === 'tools')
+                      .filter((e: any) => e?.badgeCount > 0).length
+                  }
+                  offset={isLarge ? [80, 7] : [5, 8]}
                   style={{ backgroundColor: '#108ee9' }}
                 >
-                  <Link to={item.route} key={item.route}>
-                    {item.icon}
-                    <span>{item.title}</span>
-                    {item.status && isLarge && (
-                      <Tag
-                        style={{
-                          fontSize: 11,
-                          marginLeft: 8,
-                          padding: '0 4px',
-                          textTransform: 'uppercase',
-                          lineHeight: 1.5,
-                          cursor: 'pointer',
-                        }}
-                        color={(() => {
-                          if (item.status === 'updated') return 'green'
-                          if (item.status === 'new') return 'volcano'
-                        })()}
-                      >
-                        {item.status === 'new' && 'New'}
-                        {item.status === 'updated' && 'Updated'}
-                      </Tag>
-                    )}
-                  </Link>
+                  <AppstoreOutlined />
+                  <span>Tools</span>
                 </Badge>
-              </Menu.Item>
-            )
-          })}
+              </span>
+            }
+          >
+            {getMenuItems('tools')}
+          </SubMenu>
+
+          <SubMenu
+            key="knowledge"
+            title={
+              <span>
+                <DatabaseOutlined />
+                <span>Knowledge</span>
+              </span>
+            }
+          >
+            {getMenuItems('knowledge')}
+          </SubMenu>
+
+          {getMenuItems('technical').length && (
+            <SubMenu
+              key="technical"
+              title={
+                <span>
+                  <ToolOutlined />
+                  <span>Technical</span>
+                </span>
+              }
+            >
+              {getMenuItems('technical')}
+            </SubMenu>
+          )}
+
+          {getMenuItems('feedback')}
         </Menu>
       </Width>
     </Skeleton>
