@@ -278,7 +278,7 @@ export interface Process {
 
 export interface ProcessStep {
   id: string
-  type: 'approve' | 'notify'
+  type: 'approve' | 'notify' | 'independent'
   responsibleUsers: Employee[]
   parentSteps: ProcessStep[] | null
   process: Process

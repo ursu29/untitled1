@@ -8,7 +8,7 @@ import { Form } from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
 import { Button, Input, Tag, Tooltip } from 'antd'
 
-type Step = QueryType['processes'][0]['steps'][0]
+type Step = QueryType['processes'][0]['steps'][0] & { isStrictActive: boolean }
 
 interface Props {
   steps?: Step[]
@@ -43,13 +43,14 @@ export default function Branch({
   const executionStepParent = parent && executionSteps?.find(i => i.step?.id === parent.id)
 
   let status: 'pending' | 'active' | 'done' = 'pending'
+
   if (executionStep?.isDone) {
     status = 'done'
   } else {
     if (!parent) {
       status = 'active'
     } else {
-      if (executionStepParent?.isDone) {
+      if (executionStepParent?.isDone || step.isStrictActive || step.type === 'independent') {
         status = 'active'
       } else {
         status = 'pending'
@@ -57,7 +58,7 @@ export default function Branch({
     }
   }
 
-  if (!active) {
+  if ((!active || (!step.isStrictActive && step.type !== 'independent')) && status !== 'done') {
     status = 'pending'
   }
 
@@ -81,8 +82,15 @@ export default function Branch({
             >
               {step.type === 'notify' && (
                 <div>
-                  <Tooltip placement="bottom" title="Step will be completed in background">
+                  <Tooltip placement="bottom" title="The step will be completed in the background">
                     <Tag color="blue">Automatic</Tag>
+                  </Tooltip>
+                </div>
+              )}
+              {step.type === 'independent' && (
+                <div>
+                  <Tooltip placement="bottom" title="Can be completed at any time">
+                    <Tag color="magenta">Independent</Tag>
                   </Tooltip>
                 </div>
               )}
@@ -99,12 +107,13 @@ export default function Branch({
                   />
                 </Form.Item>
               )}
-              {status === 'active' && step.type === 'approve' && (
+              {status === 'active' && (step.type === 'approve' || step.type === 'independent') && (
                 <Controls>
                   <Button
                     type="primary"
                     disabled={!step.responsibleUsers?.find(i => i.isMe)}
                     onClick={() => onComplete(step)}
+                    size="small"
                   >
                     Complete
                   </Button>

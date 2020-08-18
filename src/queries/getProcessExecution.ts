@@ -30,6 +30,7 @@ export default gql`
         id
         step {
           id
+          type
         }
         description
         isDone
@@ -53,7 +54,7 @@ type ProcessExecutionPick = {
     responsibleEmployees: EmployeeDetails[]
   }
   executionSteps: (Pick<ProcessExecutionStep, 'id' | 'description' | 'isDone'> & {
-    step: Pick<ProcessStep, 'id'>
+    step: Pick<ProcessStep, 'id' | 'type'>
   })[]
   employee: string
   finishDate: string

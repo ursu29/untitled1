@@ -18,6 +18,7 @@ import isForbidden from '../../utils/isForbidden'
 import AdditionalInfo from './AdditionalInfo'
 import { useEmployee } from '../../utils/withEmployee'
 import getActiveProcessExecutions from '../../queries/getEmployeeActiveProcessExecutions'
+import { ProcessStepDetails } from '../../fragments'
 
 const mutation = gql`
   mutation completeProcessExecutionStep($input: CompleteProcessExecutionStepInput!) {
@@ -91,6 +92,48 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
 
   const branches = processExecution.process?.steps.filter(i => !i.parentSteps?.length)
 
+  /**
+   * Look throw all steps and injecting the new field into each one -
+   * - isStrictActive - activity depends on previous independent steps
+   */
+  const stepsWithStrictActive = processExecution.process?.steps.map(step => {
+    // For the very first step and then for others
+    if (!step.parentSteps.length) return { ...step, isStrictActive: true }
+    return {
+      ...step,
+      isStrictActive: isParentStepDone(
+        processExecution.process?.steps.find(execStep => execStep.id === step.parentSteps[0].id),
+        true,
+      ),
+    }
+
+    function isParentStepDone(
+      stepCurrent: ProcessStepDetails | undefined,
+      isFirstIteration: boolean = false,
+    ): boolean {
+      const executionStep = processExecution?.executionSteps.find(
+        step => step.step.id === stepCurrent?.id,
+      )
+
+      // If parent step in first iteration is not independent and not complete - current must be non active
+      if (isFirstIteration && stepCurrent?.type !== 'independent' && !executionStep?.isDone)
+        return false
+      // If parent step is not independent and already done - current must be active
+      if (stepCurrent?.type !== 'independent' && executionStep?.isDone) return true
+      // If parent step is independent and is the very first - current must be active
+      if (stepCurrent?.type === 'independent' && !stepCurrent.parentSteps?.length) return true
+      // If parent step is not independent and not done - current must be active - current must be non active
+      if (stepCurrent?.type !== 'independent' && !executionStep?.isDone) return false
+      // If parent step is not independent and is the very first and not complete -  current must be non active
+      if (!stepCurrent?.parentSteps?.length) return false
+
+      // Recursion on parent
+      return isParentStepDone(
+        processExecution?.process?.steps.find(step => step.id === stepCurrent.parentSteps[0].id),
+      )
+    }
+  })
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       {processExecution.process.type === 'onboarding' && (
@@ -136,7 +179,13 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
               <div key={i.id}>
                 <ProcessExecutionBranch
                   executionSteps={processExecution.executionSteps}
-                  steps={processExecution.process.steps.filter(item => {
+                  /*                   steps={processExecution.process.steps.filter(item => {
+                    if (!item.parentSteps?.length) {
+                      return item.id === i.id
+                    }
+                    return true
+                  })} */
+                  steps={stepsWithStrictActive.filter(item => {
                     if (!item.parentSteps?.length) {
                       return item.id === i.id
                     }
