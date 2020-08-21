@@ -73,10 +73,10 @@ function PortalMenu(props: Props) {
     },
   )
   let activeProcessExecutionsCount = 0
-  if (dataEmployee)
-    activeProcessExecutionsCount = dataEmployee.employeeByEmail.activeProcessExecutions.map(
-      e => e.id,
-    ).length
+  if (dataEmployee) {
+    activeProcessExecutionsCount =
+      dataEmployee.employeeByEmail.activeProcessExecutions?.map(e => e.id).length || 0
+  }
 
   const { data, loading } = useQuery<QueryType>(query)
 
