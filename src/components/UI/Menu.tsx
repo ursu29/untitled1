@@ -153,6 +153,12 @@ function PortalMenu(props: Props) {
       subMenu: 'knowledge',
     },
     {
+      route: paths.WORKSPACE_PLANNER,
+      icon: <ImportOutlined />,
+      title: 'Workspace planner',
+      subMenu: 'tools',
+    },
+    {
       route: paths.OFFICE_PLANNER,
       icon: <ImportOutlined />,
       title: 'Office planner',

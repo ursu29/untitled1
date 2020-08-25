@@ -433,3 +433,24 @@ export interface ArchivedSEFData {
   employeeAzureEmail: string
   compressedData: string
 }
+
+export interface WorkplaceType {
+  id: string
+  coordX: number
+  coordY: number
+  bookings: WorkplaceBookingType[]
+}
+
+export interface WorkspaceType {
+  id: string
+  location: Location
+  drawing?: string
+  workplaces: WorkplaceType[]
+}
+
+export interface WorkplaceBookingType {
+  id: string
+  employeeEmail: string
+  startDate: string
+  finishDate: string
+}

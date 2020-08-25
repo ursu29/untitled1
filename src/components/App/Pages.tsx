@@ -12,6 +12,7 @@ import Guilds from '../Guilds/GuildsPage'
 import Matrices from '../Matrices/MatricesPage'
 import Matrix from '../Matrices/MatrixPage'
 import OfficePlanner from '../OfficePlanner/OfficePlannerPage'
+import WorkspacePlanner from '../WorkspacePlanner'
 import Post from '../Posts/PostPage'
 import News from '../Posts/PostsPage'
 import Processes from '../Processes/ProcessesPage'
@@ -73,6 +74,7 @@ export default function Pages() {
           <Route path={paths.WIKI + '/:path'} component={WikiPage} />
           <Route path={paths.WIKI} component={Wiki} />
           <Route path={paths.OFFICE_PLANNER} component={OfficePlanner} />
+          <Route path={paths.WORKSPACE_PLANNER} component={WorkspacePlanner} />
           <Route path={paths.FEEDBACK} component={Feedback} />
           <Route component={PageNotFound} />
         </Switch>
