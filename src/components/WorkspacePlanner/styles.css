@@ -1,0 +1,59 @@
+.default-place {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #007d01c7;
+  background-color: #84b78252;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.1s all;
+}
+
+.design-place {
+  border-color: #007d75c7;
+  background-color: #43dfff82;
+}
+.design-place:active {
+  cursor: grabbing;
+}
+
+.booked-place {
+  border-color: #900000ad;
+  background-color: #ff7e7e69;
+}
+
+.free-place {
+  border-color: #007d01c7;
+  background-color: #49ff4378;
+}
+
+.free-selected-place {
+  border-color: #007d01c7;
+  background-color: #08f900;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.booked-selected-place {
+  border-color: #900000ad;
+  background-color: #ff6666;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+/* Info panel scroll bar */
+
+.info-panel::-webkit-scrollbar-track {
+  border-radius: 6px;
+}
+
+.info-panel::-webkit-scrollbar {
+  width: 10px;
+}
+
+.info-panel::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  background-color: #ffbd7069;
+}
+
+.ant-tabs-content-holder {
+  display: flex;
+}

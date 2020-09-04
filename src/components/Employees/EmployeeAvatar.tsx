@@ -60,8 +60,7 @@ export default ({
           style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
-            maxWidth: 'fit-content',
+            width: 'max-content',
           }}
         >
           {showTooltip ? (

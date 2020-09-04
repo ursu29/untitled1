@@ -441,11 +441,18 @@ export interface WorkplaceType {
   bookings: WorkplaceBookingType[]
 }
 
+export interface WorkspacePoolType {
+  id: string
+  location: Location
+  workspaces: WorkspaceType[]
+}
+
 export interface WorkspaceType {
   id: string
   location: Location
   drawing?: string
   workplaces: WorkplaceType[]
+  name?: string
 }
 
 export interface WorkplaceBookingType {
