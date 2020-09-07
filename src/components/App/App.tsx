@@ -28,7 +28,7 @@ const App: React.FC = () => {
               ...headers,
               authorization: token ? `Bearer ${token}` : '',
               [timezoneOffsetKey]: timezoneOffset,
-              'dev-only-user-role': localStorage.getItem('devOnlyUserRole'),
+              'dev-only-user-role': localStorage.getItem('devOnlyUserRole') || 'off',
             },
           }
         })

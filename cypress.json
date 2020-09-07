@@ -1,5 +1,27 @@
 {
-  "viewportWidth": 1200,
-  "viewportHeight": 660,
-  "baseUrl": "http://localhost:3000"
+  "viewportWidth": 1280,
+  "viewportHeight": 768,
+  "baseUrl": "https://portal.dev.sidenis.com",
+  "watchForFileChanges": false,
+  "requestTimeout": 15000,
+  "chromeWebSecurity": false,
+  "reporter": "junit",
+  "reporterOptions": {
+    "toConsole": true
+  },
+  "env": {
+    "grant_type": "password",
+    "employee_username": "#{employee_username}#",
+    "manager_username": "#{manager_username}#",
+    "client_id": "#{client_id}#",
+    "scope": "#{scope}#",
+    "client_secret": "#{client_secret}#",
+    "employee_password": "#{employee_password}#",
+    "manager_password": "#{manager_password}#"
+  },
+  "reporter": "junit",
+  "reporterOptions": {
+    "mochaFile": "results/test-[hash].xml",
+    "toConsole": true
+  }
 }

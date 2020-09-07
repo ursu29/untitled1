@@ -24,8 +24,9 @@ msalInstance.handleRedirectCallback((error: any, response: any) => {
 })
 
 function Oauth({ children }: any) {
-  const [token, setToken] = useState(localStorage.getItem('new_token'))
+  const [token, setToken] = useState(localStorage.getItem('access_token'))
   useEffect(() => {
+    if (token) return
     async function authorize() {
       var tokenRequest = {
         scopes: [
@@ -56,6 +57,7 @@ function Oauth({ children }: any) {
       }
     }
     authorize()
+    // eslint-disable-next-line
   }, [])
 
   if (!token) return <div>Authorizing...</div>

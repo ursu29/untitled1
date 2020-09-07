@@ -32,7 +32,15 @@ const { Text, Title, Paragraph } = Typography
 
 type PostPick = Pick<
   Post,
-  'id' | 'title' | 'body' | 'isTranslated' | 'createdAt' | 'locations' | 'images'
+  | 'id'
+  | 'title'
+  | 'body'
+  | 'isTranslated'
+  | 'createdAt'
+  | 'locations'
+  | 'images'
+  | 'annotation'
+  | 'titleImage'
 > & {
   createdBy: Pick<Employee, 'id' | 'name' | 'email'>
   tags?: Pick<TagType, 'id' | 'name' | 'description'>[]
@@ -60,7 +68,14 @@ function PostItem({ post, edit, history, isPreview, loadMore }: Props) {
           .filter(i => i)
           .map(link => link.trim())
         ReactDOM.render(
-          <OwlCarousel className="owl-theme" key={index} items={1} loop margin={10}>
+          <OwlCarousel
+            className="owl-theme"
+            key={index}
+            items={1}
+            loop
+            margin={10}
+            style={{ paddingBottom: 15 }}
+          >
             {imgLinksList.map(i => (
               <img src={i} alt={i} key={i} />
             ))}
@@ -72,6 +87,12 @@ function PostItem({ post, edit, history, isPreview, loadMore }: Props) {
 
     // eslint-disable-next-line
   }, [JSON.stringify(post), post.id])
+
+  const titleImage = post.titleImage
+    ? Array.isArray(post.titleImage)
+      ? post.titleImage[0]
+      : post.titleImage
+    : null
 
   return (
     <VisibilitySensor
@@ -95,6 +116,16 @@ function PostItem({ post, edit, history, isPreview, loadMore }: Props) {
           <Title level={3} style={{ marginTop: 8 }}>
             {post.title}
           </Title>
+          {post.annotation && (
+            <div
+              dangerouslySetInnerHTML={{
+                __html: markdownToHtml(post.annotation),
+              }}
+            />
+          )}
+          {titleImage && (
+            <img src={titleImage.url} alt={titleImage.fileName} style={{ paddingBottom: 15 }} />
+          )}
           <div
             dangerouslySetInnerHTML={{
               __html: markdownToHtml(post.body),
