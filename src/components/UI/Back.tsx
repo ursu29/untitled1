@@ -13,12 +13,13 @@ function Back({ goto, history }: Props & RouteComponentProps) {
 
   return (
     <Button
+      id="back-button"
       icon={<ArrowLeftOutlined />}
       size="small"
       style={{ borderColor: 'transparent', paddingLeft: 0, marginBottom: 20 }}
       type="ghost"
-      onClick={() => history.goBack()}
       disabled={!lastLocation}
+      onClick={() => history.goBack()}
       // onClick={() => history.push(goto)}
     >
       Back

@@ -283,7 +283,7 @@ function DevelopmentPlanForm({ value, onChange, form, locked, resetFields }: Pro
           amount of time is agreed with our clients. The work should be scheduled in blocks of 1-2
           weeks wherever possible to be able to concentrate on a result.
         </Paragraph>
-        <Row>
+        <Row style={{ display: 'flex', alignItems: 'baseline' }}>
           <div>
             {getFieldDecorator('guildContribution.noContribution', {
               valuePropName: 'checked',

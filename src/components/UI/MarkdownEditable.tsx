@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Typography, Popconfirm } from 'antd'
 import Button from '../UI/Button'
 import MarkdownEditor from '../UI/MarkdownEditor'
@@ -16,6 +16,14 @@ export default function MarkdownEditable({ data, editable, handleSave }: Props) 
   const [descriptionMarkdown, setDescriptionMarkdown] = useState(data)
 
   const isTouched = descriptionMarkdown !== data
+
+  // Add event listener on back button push
+  useEffect(() => {
+    const pushBackButton = (e: any) => toggleIsEditing(!isEditing)
+    document.getElementById('back-button')?.addEventListener('click', pushBackButton, false)
+    return () => window.removeEventListener('click', pushBackButton)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return isEditing ? (
     <div

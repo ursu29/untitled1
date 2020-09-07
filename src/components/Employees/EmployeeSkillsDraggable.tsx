@@ -119,7 +119,7 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
         <SkillTreeSelect
           isIncludeMatrixSkills={false}
           value={skills}
-          disabledSkills={experiences.filter(i => i.level.id !== level.id).map(i => i.skill.id)}
+          disabledSkills={experiences.filter(i => i.level?.id !== level?.id).map(i => i.skill?.id)}
           onChange={(items: any) => {
             setSkills(items)
           }}

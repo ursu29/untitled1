@@ -31,7 +31,7 @@ const ProjectForm = ({ form, onSubmit, item, loading }: Props) => {
   return (
     <Form layout="vertical" onSubmit={handleSubmit}>
       <Row gutter={16}>
-        <Col>
+        <Col style={{ width: '100%' }}>
           <Form.Item label="Name">
             {getFieldDecorator('name', {
               initialValue: item?.name,
@@ -46,7 +46,7 @@ const ProjectForm = ({ form, onSubmit, item, loading }: Props) => {
         </Col>
       </Row>
       <Row gutter={16}>
-        <Col>
+        <Col style={{ width: '100%' }}>
           <Form.Item label="Description">
             {getFieldDecorator('description', {
               initialValue: item?.description,
