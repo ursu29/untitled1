@@ -10,7 +10,7 @@ function UpdateProject({ project }: { project: Partial<Project> }) {
   return (
     <Drawer
       toggler={<Button size="small" icon="edit" type="link"></Button>}
-      drawerLabel={'Edit skill ' + project?.name}
+      drawerLabel={'Edit project ' + project?.name}
       content={
         <ProjectForm
           loading={loading}
