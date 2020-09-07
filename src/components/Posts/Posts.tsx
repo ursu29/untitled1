@@ -8,7 +8,15 @@ import UpdatePost from './UpdatePost'
 
 type PostPick = Pick<
   Post,
-  'id' | 'title' | 'body' | 'isTranslated' | 'createdAt' | 'locations' | 'images'
+  | 'id'
+  | 'title'
+  | 'body'
+  | 'isTranslated'
+  | 'createdAt'
+  | 'locations'
+  | 'images'
+  | 'annotation'
+  | 'titleImage'
 > & {
   createdBy: Pick<Employee, 'id' | 'name' | 'email'>
   tags?: Pick<Tag, 'id' | 'name' | 'description'>[]

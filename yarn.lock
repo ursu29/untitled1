@@ -3899,6 +3899,13 @@ cyclist@^1.0.1:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
 
+cypress-react-selector@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/cypress-react-selector/-/cypress-react-selector-2.0.3.tgz#531f577144b65d77b9257d46cd2233f00546f09e"
+  integrity sha512-McIPt1rfB8bh6sEod6+HgyeGg5gLv+T9B06VceuxvO/2rBxMkB9liTSV6R0RZKN96z6xOtLDv47/E7cczKezww==
+  dependencies:
+    resq "1.8.0"
+
 cypress@4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/cypress/-/cypress-4.1.0.tgz#295f115d2e8a08fff2760ab49d94d876f5877aee"
@@ -7844,6 +7851,13 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
+msal@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/msal/-/msal-1.3.2.tgz#b8cf90d809c9dbaf961f37df661774513820b39c"
+  integrity sha512-vhcpM/ELL+UI7i4HzCegcbSfPMLqf3kp8mAT840bK1ZaDcb7Z1mOJik1jg202V0yfnh/bBPxZhQP6xFgD9g5eA==
+  dependencies:
+    tslib "^1.9.3"
+
 multicast-dns-service-types@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/multicast-dns-service-types/-/multicast-dns-service-types-1.1.0.tgz#899f11d9686e5e05cb91b35d5f0e63b773cfc901"
@@ -10738,6 +10752,13 @@ resolve@^1.10.0, resolve@^1.11.0, resolve@^1.12.0, resolve@^1.3.2, resolve@^1.5.
   integrity sha512-uviWSi5N67j3t3UKFxej1loCH0VZn5XuqdNxoLShPcYPw6cUZn74K1VRj+9myynRX03bxIBEkwlkob/ujLsJVw==
   dependencies:
     path-parse "^1.0.6"
+
+resq@1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/resq/-/resq-1.8.0.tgz#06c738e122bd024395cd729fb1e07248a1d2c340"
+  integrity sha512-VObcnfPcE6/EKfHqsi5qoJ0+BF9qfl5181CytP1su3HgzilqF03DrQ+Y7kZQrd+5myfmantl9W3/5uUcpwvKeg==
+  dependencies:
+    fast-deep-equal "^2.0.1"
 
 restore-cursor@^1.0.1:
   version "1.0.1"

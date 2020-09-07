@@ -301,6 +301,8 @@ export default function EvaluationTable({
           }
         }
 
+        if (['free_estimate'].includes(item.group)) showMark = false
+
         // const comment = comments?.find(i => {
         //   return i.evaluationAttribute?.id === item.id
         // })
