@@ -135,12 +135,14 @@ export default function WorkspaceSelector({
         </Select>
         {isDesignMode && (
           <>
-            <Button
-              onClick={() => setModalProps({ ...modalProps, mode: 'edit', visible: true })}
-              style={{ marginLeft: '10px' }}
-            >
-              Edit
-            </Button>
+            {workspace && (
+              <Button
+                onClick={() => setModalProps({ ...modalProps, mode: 'edit', visible: true })}
+                style={{ marginLeft: '10px' }}
+              >
+                Edit
+              </Button>
+            )}
 
             <Button
               onClick={() => setModalProps({ ...modalProps, mode: 'create', visible: true })}

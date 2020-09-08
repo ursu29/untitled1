@@ -91,7 +91,7 @@ export default function WorkspacePlanner() {
       bookingsInput: { startDate: dateRange.startDate, finishDate: dateRange.finishDate },
     },
     onCompleted: dataWorkspace => {
-      setWorkplaces(dataWorkspace.workspace.workplaces)
+      setWorkplaces(dataWorkspace.workspace?.workplaces)
     },
     fetchPolicy: 'network-only',
     onError: message.error,
