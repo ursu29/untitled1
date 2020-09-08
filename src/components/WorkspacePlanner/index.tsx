@@ -242,8 +242,8 @@ export default function WorkspacePlanner() {
           workplace: workplaceId,
           employee: employee.employee.strapiId,
           employeeEmail: employee.employee.email,
-          startDate: dayjs(dateRange.startDate, 'DD.MM.YYYY').toDate(),
-          finishDate: dayjs(dateRange.finishDate, 'DD.MM.YYYY').toDate(),
+          startDate: dayjs(dateRange.startDate + '-0000', 'DD.MM.YYYYZZ').toDate(),
+          finishDate: dayjs(dateRange.finishDate + '-0000', 'DD.MM.YYYYZZ').toDate(),
         },
       },
     })
