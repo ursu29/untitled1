@@ -5,9 +5,10 @@ import moment from 'moment'
 interface Props {
   dateRange: { startDate: string; finishDate: string }
   setDateRange: any
+  disabled: boolean
 }
 
-export default function BookTools({ dateRange, setDateRange }: Props) {
+export default function BookTools({ dateRange, setDateRange, disabled }: Props) {
   const [isPeriodChosen, setIsPeriod] = useState(false)
 
   return (
@@ -15,6 +16,7 @@ export default function BookTools({ dateRange, setDateRange }: Props) {
       <Space>
         {isPeriodChosen ? (
           <DatePicker.RangePicker
+            disabled={disabled}
             defaultValue={
               dateRange.startDate && dateRange.finishDate
                 ? [
@@ -30,6 +32,7 @@ export default function BookTools({ dateRange, setDateRange }: Props) {
           />
         ) : (
           <DatePicker
+            disabled={disabled}
             defaultValue={
               dateRange.startDate ? moment(dateRange.startDate, 'DD.MM.YYYY') : undefined
             }
@@ -40,6 +43,7 @@ export default function BookTools({ dateRange, setDateRange }: Props) {
           />
         )}
         <Checkbox
+          disabled={disabled}
           onChange={e => {
             setIsPeriod(e.target.checked)
             if (!e.target.checked)

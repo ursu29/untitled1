@@ -15,6 +15,7 @@ interface Props {
   pool: WorkspacePoolType | undefined
   selectedWorkspace: string
   workspace: WorkspaceType | undefined
+  disabled: boolean
   onSelect: any
   onCreate: any
   onDelete: any
@@ -27,6 +28,7 @@ export default function WorkspaceSelector({
   pool,
   selectedWorkspace,
   workspace,
+  disabled,
   onSelect,
   onCreate,
   onDelete,
@@ -122,6 +124,7 @@ export default function WorkspaceSelector({
     <>
       <Wrapper>
         <Select
+          disabled={disabled}
           style={{ width: 150 }}
           onChange={(id: string) => onSelect(id)}
           placeholder="Select workspace"

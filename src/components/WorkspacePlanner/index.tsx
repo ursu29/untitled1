@@ -94,7 +94,10 @@ export default function WorkspacePlanner() {
       setWorkplaces(dataWorkspace.workspace?.workplaces)
     },
     fetchPolicy: 'network-only',
-    onError: message.error,
+    onError: error => {
+      if (!workspacePool?.workspaces.length) return
+      message.error(error)
+    },
   })
 
   const workspace = dataWorkspace?.workspace
@@ -128,7 +131,6 @@ export default function WorkspacePlanner() {
   const [createWorkspace, { loading: loadingCreateWorkspace }] = useMutation(WORKSPACE.create, {
     onCompleted: workspace => {
       const { id } = workspace.createWorkspace
-      console.log(id)
       setSelectedWorkspace(id)
       getWorkspace({ variables: { input: { id } } })
       message.success('Workspace has been created')
@@ -146,7 +148,6 @@ export default function WorkspacePlanner() {
   const [updateWorkspace, { loading: loadingUpdateWorkspace }] = useMutation(WORKSPACE.update, {
     onCompleted: workspace => {
       const { id } = workspace.updateWorkspace
-      console.log(id)
       setSelectedWorkspace(id)
       getWorkspace({ variables: { input: { id } } })
       message.success('Workspace has been updated')
@@ -367,6 +368,7 @@ export default function WorkspacePlanner() {
                   pool={workspacePool}
                   selectedWorkspace={selectedWorkspace}
                   workspace={workspace}
+                  disabled={!workspacePool?.workspaces.length}
                   onSelect={(id: string) => {
                     setSelectedWorkspace(id)
                     getWorkspace({ variables: { input: { id } } })
@@ -385,7 +387,13 @@ export default function WorkspacePlanner() {
                   refetchGetWorkspace={refetchGetWorkspace}
                 />
 
-                {!isDesignMode && <BookTools dateRange={dateRange} setDateRange={setDateRange} />}
+                {!isDesignMode && (
+                  <BookTools
+                    dateRange={dateRange}
+                    setDateRange={setDateRange}
+                    disabled={!workspacePool?.workspaces.length}
+                  />
+                )}
               </div>
 
               {isDesignModeAccess && (
