@@ -49,7 +49,10 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
   const [edit, toggleEdit] = useState(false)
 
   useEffect(() => {
-    const newSkills = experiences.filter(i => i.level?.id === level.id).map(i => i.skill)
+    const newSkills = experiences
+      .filter(i => i.level?.id === level.id)
+      .map(i => i.skill)
+      .concat(skills.filter(e => !experiences.map(e => e.skill.id).includes(e.id)))
     // update only if element was added or removed
     if (skills.toString() !== newSkills.toString()) {
       setSkills(newSkills)
