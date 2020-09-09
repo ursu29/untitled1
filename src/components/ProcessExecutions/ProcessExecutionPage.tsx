@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
-import { Divider, Typography, Tag } from 'antd'
+import { Divider, Typography, Tag, Button, PageHeader, Popconfirm } from 'antd'
 import gql from 'graphql-tag'
 import React, { useEffect } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
@@ -19,6 +19,8 @@ import AdditionalInfo from './AdditionalInfo'
 import { useEmployee } from '../../utils/withEmployee'
 import getActiveProcessExecutions from '../../queries/getEmployeeActiveProcessExecutions'
 import { ProcessStepDetails } from '../../fragments'
+import AbortProcessExecution from './AbortProcessExecution'
+import ProcessExecutionStatusTag from './ProcessExecutionStatusTag'
 
 const mutation = gql`
   mutation completeProcessExecutionStep($input: CompleteProcessExecutionStepInput!) {
@@ -136,14 +138,42 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <PageContent noBottom>
+        <PageHeader
+          title={processExecution.process.title}
+          subTitle={processExecution.process.type}
+          onBack={() => window.history.back()}
+          tags={<ProcessExecutionStatusTag processExecution={processExecution} />}
+          style={{ padding: 0 }}
+          extra={[
+            <AbortProcessExecution id={processExecution?.id}>
+              {(abort: any) => {
+                return (
+                  <Popconfirm
+                    placement="top"
+                    title={'Are you sure?'}
+                    onConfirm={abort}
+                    okText="Yes"
+                    cancelText="No"
+                  >
+                    <span>
+                      <Button>Abort</Button>
+                    </span>
+                  </Popconfirm>
+                )
+              }}
+            </AbortProcessExecution>,
+          ]}
+        ></PageHeader>
+      </PageContent>
       {processExecution.process.type === 'onboarding' && (
         <>
-          <PageContent noBottom>
-            <Typography.Title style={{ display: 'flex', alignItems: 'center' }}>
+          <PageContent noBottom noTop>
+            {/* <Typography.Title style={{ display: 'flex', alignItems: 'center' }}>
               <span style={{ marginRight: 8 }}>{processExecution.process.title}</span>
               {processExecution.status === 'cancelled' && <Tag color="volcano">Cancelled</Tag>}
               {processExecution.status === 'finished' && <Tag color="green">Completed</Tag>}
-            </Typography.Title>
+            </Typography.Title> */}
 
             <ProcessExecutionRotation processExecution={processExecution} />
             <ActiveStepCard

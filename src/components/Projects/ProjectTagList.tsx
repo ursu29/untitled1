@@ -25,15 +25,17 @@ export default function ProjectTagList({ loading, small, projects, leadingProjec
       >
         {projects &&
           (projects?.length ? (
-            projects.map((project) => {
-              const leading = leadingProjects?.find((i) => i.id === project.id)
+            projects.map(project => {
+              const leading = leadingProjects?.find(i => i.id === project.id)
               return (
-                <ProjectTag
-                  small={small}
-                  key={project.id}
-                  project={project}
-                  leading={Boolean(leading)}
-                />
+                <div style={{ marginBottom: 8, display: 'inline-block' }}>
+                  <ProjectTag
+                    small={small}
+                    key={project.id}
+                    project={project}
+                    leading={Boolean(leading)}
+                  />
+                </div>
               )
             })
           ) : (
