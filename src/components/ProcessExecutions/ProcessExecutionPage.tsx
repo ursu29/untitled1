@@ -102,7 +102,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
     return {
       ...step,
       isStrictActive: isParentStepDone(
-        processExecution.process?.steps.find(execStep => execStep.id === step.parentSteps[0].id),
+        processExecution.process?.steps.find(execStep => execStep?.id === step.parentSteps[0]?.id),
         true,
       ),
     }
@@ -112,7 +112,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
       isFirstIteration: boolean = false,
     ): boolean {
       const executionStep = processExecution?.executionSteps.find(
-        step => step.step.id === stepCurrent?.id,
+        step => step.step?.id === stepCurrent?.id,
       )
 
       // If parent step in first iteration is not independent and not complete - current must be non active
@@ -129,7 +129,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
 
       // Recursion on parent
       return isParentStepDone(
-        processExecution?.process?.steps.find(step => step.id === stepCurrent.parentSteps[0].id),
+        processExecution?.process?.steps.find(step => step?.id === stepCurrent.parentSteps[0]?.id),
       )
     }
   })

@@ -32,15 +32,15 @@ export default function Branch({
   if (!steps?.length) return null
 
   const step = startItem
-    ? steps.find(i => i.id === startItem.id)
+    ? steps.find(i => i?.id === startItem?.id)
     : steps.find(i => !i.parentSteps.length)
   if (!step) return null
 
-  const nextSteps = steps.filter(i => i.parentSteps?.find(i => i.id === step.id))
+  const nextSteps = steps.filter(i => i.parentSteps?.find(i => i?.id === step?.id))
   const hasNextSteps = Boolean(nextSteps.length)
 
-  const executionStep = executionSteps?.find(i => i.step?.id === step.id)
-  const executionStepParent = parent && executionSteps?.find(i => i.step?.id === parent.id)
+  const executionStep = executionSteps?.find(i => i.step?.id === step?.id)
+  const executionStepParent = parent && executionSteps?.find(i => i.step?.id === parent?.id)
 
   let status: 'pending' | 'active' | 'done' = 'pending'
 
