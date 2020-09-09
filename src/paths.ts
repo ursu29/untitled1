@@ -20,6 +20,7 @@ const PATHS = {
   TIMEMASTER: '/timemaster',
   WIKI: '/wiki',
   OFFICE_PLANNER: '/office-planner',
+  WORKSPACE_PLANNER: '/workspace-planner',
   FEEDBACK: '/feedback',
 }
 

@@ -22,6 +22,7 @@ interface Props {
   size: AvatarProps['size']
   shape?: AvatarProps['shape']
   showTooltip?: boolean
+  showName?: boolean
   loadImmediately?: boolean
 }
 
@@ -34,6 +35,7 @@ export default ({
   size,
   shape = 'circle',
   showTooltip = false,
+  showName = false,
   loadImmediately = true,
 }: Props) => {
   const [show, toggleShow] = useState(loadImmediately)
@@ -53,7 +55,24 @@ export default ({
 
   return (
     <VisibilitySensor onChange={toggleShow}>
-      {showTooltip ? (
+      {showName ? (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            width: 'max-content',
+          }}
+        >
+          {showTooltip ? (
+            <Tooltip key={employee?.id} placement="top" title={employee?.name}>
+              {avatar}
+            </Tooltip>
+          ) : (
+            avatar
+          )}
+          <div style={{ padding: '10px' }}>{employee?.name}</div>
+        </div>
+      ) : showTooltip ? (
         <Tooltip key={employee?.id} placement="top" title={employee?.name}>
           {avatar}
         </Tooltip>
