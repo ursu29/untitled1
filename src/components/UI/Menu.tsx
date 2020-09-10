@@ -39,7 +39,8 @@ import getActiveProcessExecutions, {
 } from '../../queries/getEmployeeActiveProcessExecutions'
 
 const Width = styled.div<{ isLarge: boolean }>`
-  .ant-menu-inline-collapsed > .ant-menu-item {
+  .ant-menu-inline-collapsed > .ant-menu-item,
+  .ant-menu-inline-collapsed .ant-menu-submenu-title {
     padding: 0 ${props => (props.isLarge ? '32px !important' : '22px !important')};
   }
 `
@@ -211,14 +212,12 @@ function PortalMenu(props: Props) {
         if (!item) return null
         return (
           <Menu.Item key={item.route} style={item?.style}>
-            <Badge
-              count={item.badgeCount}
-              // dot={isLarge ? false : !!item.badgeCount}
-              // offset={isLarge ? [70, 7] : [5, 8]}
-              offset={isLarge ? [70, 7] : [50, 7]}
-              style={{ backgroundColor: '#108ee9' }}
-            >
-              <Link to={item.route} key={item.route}>
+            <Link to={item.route} key={item.route}>
+              <Badge
+                count={item.badgeCount}
+                offset={isLarge ? [70, 7] : [50, 7]}
+                style={{ backgroundColor: '#108ee9' }}
+              >
                 {item.icon}
                 <span>{item.title}</span>
                 {item.status && isLarge && (
@@ -240,8 +239,8 @@ function PortalMenu(props: Props) {
                     {item.status === 'updated' && 'Updated'}
                   </Tag>
                 )}
-              </Link>
-            </Badge>
+              </Badge>
+            </Link>
           </Menu.Item>
         )
       })
