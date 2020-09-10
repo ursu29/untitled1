@@ -39,7 +39,10 @@ const commentMutation = gql`
 function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
   const { employee } = useEmployee()
   const variables = { input: { id: match.params.id } }
-  const { data, loading, error } = useQuery<QueryType>(getProcessExecution, { variables })
+  const { data, loading, error } = useQuery<QueryType>(getProcessExecution, {
+    variables,
+    pollInterval: 10000,
+  })
 
   const [complete, completeArgs] = useMutation(mutation, {
     refetchQueries: [
@@ -179,12 +182,6 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
               <div key={i.id}>
                 <ProcessExecutionBranch
                   executionSteps={processExecution.executionSteps}
-                  /*                   steps={processExecution.process.steps.filter(item => {
-                    if (!item.parentSteps?.length) {
-                      return item.id === i.id
-                    }
-                    return true
-                  })} */
                   steps={stepsWithStrictActive.filter(item => {
                     if (!item.parentSteps?.length) {
                       return item.id === i.id
