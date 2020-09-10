@@ -19,7 +19,7 @@ export default function MarkdownEditable({ data, editable, handleSave }: Props) 
 
   // Add event listener on back button push
   useEffect(() => {
-    const pushBackButton = (e: any) => toggleIsEditing(!isEditing)
+    const pushBackButton = (e: any) => toggleIsEditing(false)
     document.getElementById('back-button')?.addEventListener('click', pushBackButton, false)
     return () => window.removeEventListener('click', pushBackButton)
     // eslint-disable-next-line react-hooks/exhaustive-deps
