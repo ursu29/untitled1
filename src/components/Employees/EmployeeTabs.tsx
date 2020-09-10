@@ -80,6 +80,22 @@ type QueryType = {
   evaluationReviewersAccess: Access
 }
 
+const UpdatedTag = () => (
+  <Tag
+    style={{
+      fontSize: 11,
+      marginLeft: 6,
+      padding: '0 4px',
+      textTransform: 'uppercase',
+      lineHeight: 1.3,
+      cursor: 'pointer',
+    }}
+    color="green"
+  >
+    Updated
+  </Tag>
+)
+
 function EmployeeTabs({ match, ...props }: Props) {
   const { data, loading, error } = useQuery<QueryType>(query, {
     variables: {
@@ -116,24 +132,7 @@ function EmployeeTabs({ match, ...props }: Props) {
 
   if (matricesLookReviewersAccess?.read) {
     tabs.push({
-      title: (
-        <div style={{ display: 'inline-flex', alignItems: 'center' }}>
-          Matrices
-          <Tag
-            style={{
-              fontSize: 11,
-              marginLeft: 6,
-              padding: '0 4px',
-              textTransform: 'uppercase',
-              lineHeight: 1.3,
-              cursor: 'pointer',
-            }}
-            color="green"
-          >
-            Updated
-          </Tag>
-        </div>
-      ),
+      title: <div style={{ display: 'inline-flex', alignItems: 'center' }}>Matrices</div>,
       key: 'matrices',
       icon: <NumberOutlined />,
       noPadding: false,
@@ -145,22 +144,7 @@ function EmployeeTabs({ match, ...props }: Props) {
   if (developmentPlanLookReviewersAccess?.read) {
     tabs.push({
       title: (
-        <div style={{ display: 'inline-flex', alignItems: 'center' }}>
-          Personal development
-          <Tag
-            style={{
-              fontSize: 11,
-              marginLeft: 6,
-              padding: '0 4px',
-              textTransform: 'uppercase',
-              lineHeight: 1.3,
-              cursor: 'pointer',
-            }}
-            color="green"
-          >
-            Updated
-          </Tag>
-        </div>
+        <div style={{ display: 'inline-flex', alignItems: 'center' }}>Personal development</div>
       ),
       key: 'development-plan',
       icon: <RiseOutlined />,
@@ -179,19 +163,7 @@ function EmployeeTabs({ match, ...props }: Props) {
       title: (
         <div style={{ display: 'inline-flex', alignItems: 'center' }}>
           Self Evaluation Form
-          <Tag
-            style={{
-              fontSize: 11,
-              marginLeft: 6,
-              padding: '0 4px',
-              textTransform: 'uppercase',
-              lineHeight: 1.3,
-              cursor: 'pointer',
-            }}
-            color="green"
-          >
-            Updated
-          </Tag>
+          <UpdatedTag />
         </div>
       ),
       key: 'evaluation',
