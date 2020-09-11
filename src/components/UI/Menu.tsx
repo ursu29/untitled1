@@ -158,6 +158,7 @@ function PortalMenu(props: Props) {
       icon: <ImportOutlined />,
       title: 'Workspace planner',
       subMenu: 'tools',
+      status: 'new',
     },
     {
       route: paths.OFFICE_PLANNER,
@@ -192,7 +193,6 @@ function PortalMenu(props: Props) {
       icon: <NotificationOutlined />,
       title: 'Feedback',
       style: { marginTop: '40px' },
-      status: 'new',
       subMenu: 'feedback',
     },
   ]
@@ -221,7 +221,8 @@ function PortalMenu(props: Props) {
                 {item.icon}
                 <span>{item.title}</span>
                 {item.status && isLarge && (
-                  <Tag
+                  <Badge color="rgb(255 180 0 / 1)" offset={[10, 8]} />
+                  /*                   <Tag
                     style={{
                       fontSize: 11,
                       marginLeft: 8,
@@ -235,9 +236,9 @@ function PortalMenu(props: Props) {
                       if (item.status === 'new') return 'volcano'
                     })()}
                   >
-                    {item.status === 'new' && 'New'}
+                    {item.status === 'new' && 'NEW'}
                     {item.status === 'updated' && 'Updated'}
-                  </Tag>
+                  </Tag> */
                 )}
               </Badge>
             </Link>
