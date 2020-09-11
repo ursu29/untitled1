@@ -1,17 +1,16 @@
-import React, { useState, useRef } from 'react'
-import { QueryType } from '../../queries/getProcessExecutions'
-import { SearchOutlined, EnvironmentOutlined } from '@ant-design/icons'
-import { Table, Tag } from 'antd'
-import { Button, Popconfirm, Input } from 'antd'
-import PageContent from '../UI/PageContent'
-import { getProcessExecutionLink } from '../../paths'
-import { Link } from 'react-router-dom'
+import { EnvironmentOutlined, SearchOutlined } from '@ant-design/icons'
+import { Button, Input, Table } from 'antd'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import React, { useRef, useState } from 'react'
 import Highlighter from 'react-highlight-words'
-import EmployeeAvatar from '../Employees/EmployeeAvatar'
+import { Link } from 'react-router-dom'
+import { getProcessExecutionLink } from '../../paths'
+import { QueryType } from '../../queries/getProcessExecutions'
 import { useEmployee } from '../../utils/withEmployee'
+import EmployeeAvatar from '../Employees/EmployeeAvatar'
 import ProjectTag from '../Projects/ProjectTag'
+import PageContent from '../UI/PageContent'
 import ProcessExecutionStatusTag from './ProcessExecutionStatusTag'
 
 dayjs.extend(relativeTime)
@@ -198,6 +197,7 @@ function ProcessList({ items }: Props) {
           key: 'location',
           dataIndex: 'locations',
           title: 'Location',
+          width: 160,
           render: (_, process) => {
             const locations = process?.locations?.map(i => i.name).join(', ') ?? '-'
             return (
@@ -298,7 +298,8 @@ function ProcessList({ items }: Props) {
               : false,
         },
         {
-          key: 'actions',
+          key: 'status',
+          title: () => <div style={{ paddingRight: 12 }}>Status</div>,
           align: 'right',
           render: (_, process) => {
             return <ProcessExecutionStatusTag processExecution={process} />

@@ -5,8 +5,23 @@ import { ProcessExecution } from '../../types'
 function ProcessExecutionStatusTag({
   processExecution,
 }: {
-  processExecution: Pick<ProcessExecution, 'id' | 'status'>
+  processExecution: Pick<ProcessExecution, 'id' | 'status'> & {
+    process: any
+    vacancy: any
+  }
 }) {
+  if (
+    processExecution.status === 'running' &&
+    processExecution.process?.type === 'onboarding' &&
+    !processExecution.vacancy?.isPublished
+  ) {
+    return (
+      <Tag style={{ margin: '0 3px 3px 0' }} color="orange">
+        Pending
+      </Tag>
+    )
+  }
+
   if (processExecution.status === 'cancelled') {
     return (
       <Tag style={{ margin: '0 3px 3px 0' }} color="volcano">

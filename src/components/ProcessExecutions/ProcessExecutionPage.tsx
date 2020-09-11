@@ -151,6 +151,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
           extra={[
             <AbortProcessExecution id={processExecution?.id}>
               {(abort: any) => {
+                if (processExecution.status !== 'running') return null
                 return (
                   <Popconfirm
                     placement="top"
