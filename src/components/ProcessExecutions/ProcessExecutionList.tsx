@@ -1,10 +1,9 @@
 import React, { useState, useRef } from 'react'
 import { QueryType } from '../../queries/getProcessExecutions'
-import { SearchOutlined } from '@ant-design/icons'
+import { SearchOutlined, EnvironmentOutlined } from '@ant-design/icons'
 import { Table, Tag } from 'antd'
 import { Button, Popconfirm, Input } from 'antd'
 import PageContent from '../UI/PageContent'
-import AbortProcessExecution from './AbortProcessExecution'
 import { getProcessExecutionLink } from '../../paths'
 import { Link } from 'react-router-dom'
 import dayjs from 'dayjs'
@@ -12,6 +11,8 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import Highlighter from 'react-highlight-words'
 import EmployeeAvatar from '../Employees/EmployeeAvatar'
 import { useEmployee } from '../../utils/withEmployee'
+import ProjectTag from '../Projects/ProjectTag'
+import ProcessExecutionStatusTag from './ProcessExecutionStatusTag'
 
 dayjs.extend(relativeTime)
 
@@ -170,23 +171,42 @@ function ProcessList({ items }: Props) {
           dataIndex: ['process', 'title'],
           title: 'Name',
           ...getColumnSearchProps('title', 'process'),
+          render: (_, i) => {
+            return (
+              <Link to={getProcessExecutionLink(i.id)} title={i.process.title}>
+                {i.process.title}
+              </Link>
+            )
+          },
+          ellipsis: true,
         },
         {
           key: 'project',
           dataIndex: ['project', 'name'],
           title: 'Project',
+          width: 220,
           filters: [
             //@ts-ignore
             ...new Set(items.filter(e => e.project && e.project.name).map(e => e.project.name)),
           ].map(e => ({ text: e, value: e })),
           onFilter: (value, record) => record.project?.name === value,
+          render: (_, i) => {
+            return <ProjectTag small project={i.project} />
+          },
         },
         {
           key: 'location',
           dataIndex: 'locations',
           title: 'Location',
           render: (_, process) => {
-            return <span>{process?.locations?.map(i => i.name).join(', ') ?? '-'}</span>
+            const locations = process?.locations?.map(i => i.name).join(', ') ?? '-'
+            return (
+              <span title={locations}>
+                <EnvironmentOutlined />
+                &nbsp;
+                {locations}
+              </span>
+            )
           },
           filters: [
             //@ts-ignore
@@ -198,12 +218,14 @@ function ProcessList({ items }: Props) {
           ].map(e => ({ text: e, value: e })),
           onFilter: (value: any, record) =>
             record.locations && record.locations.map(e => e.name).includes(value),
+          ellipsis: true,
         },
         {
           key: 'position',
           dataIndex: ['vacancy', 'position'],
           title: 'Position',
           ...getColumnSearchProps('position', 'vacancy'),
+          ellipsis: true,
         },
         {
           key: 'employee',
@@ -212,22 +234,25 @@ function ProcessList({ items }: Props) {
           render: (_, process) => {
             return <span>{process?.employee}</span>
           },
+          ellipsis: true,
         },
         {
           key: 'finishDate',
           dataIndex: 'finishDate',
           title: 'Date',
           render: (_, process) => {
+            const date = dayjs(process.finishDate).format('DD.MM.YYYY')
             return (
               process?.finishDate && (
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span>{dayjs(process.finishDate).format('DD.MM.YYYY')}</span>
+                <div style={{ display: 'flex', flexDirection: 'column' }} title={date}>
+                  <span>{date}</span>
                 </div>
               )
             )
           },
           //@ts-ignore
           sorter: (a, b) => new Date(a.finishDate) - new Date(b.finishDate),
+          ellipsis: true,
         },
         {
           key: 'responsible',
@@ -276,52 +301,7 @@ function ProcessList({ items }: Props) {
           key: 'actions',
           align: 'right',
           render: (_, process) => {
-            return (
-              <>
-                {process.status === 'cancelled' && (
-                  <Tag style={{ margin: '0 3px 3px 0' }} color="volcano">
-                    Cancelled
-                  </Tag>
-                )}
-                {process.status === 'finished' && (
-                  <Tag style={{ margin: '0 3px 3px 0' }} color="green">
-                    Completed
-                  </Tag>
-                )}
-                <div style={{ margin: '5px' }}>
-                  <Link to={getProcessExecutionLink(process.id)}>
-                    <Button
-                      onClick={() => {
-                        window.scrollTo(0, 0)
-                      }}
-                    >
-                      Open
-                    </Button>
-                  </Link>
-                </div>
-                {process.status === 'running' && (
-                  <div style={{ margin: '5px' }}>
-                    <AbortProcessExecution id={process.id}>
-                      {(abort: any) => {
-                        return (
-                          <Popconfirm
-                            placement="top"
-                            title={'Are you sure?'}
-                            onConfirm={abort}
-                            okText="Yes"
-                            cancelText="No"
-                          >
-                            <span>
-                              <Button>Abort</Button>
-                            </span>
-                          </Popconfirm>
-                        )
-                      }}
-                    </AbortProcessExecution>
-                  </div>
-                )}
-              </>
-            )
+            return <ProcessExecutionStatusTag processExecution={process} />
           },
         },
       ]}
@@ -333,7 +313,7 @@ function ProcessList({ items }: Props) {
         if (includesUserEmail(a) && !includesUserEmail(b)) return -1
         else return 1
       })}
-      pagination={false}
+      size="small"
     />
   )
 }

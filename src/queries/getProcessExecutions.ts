@@ -43,6 +43,7 @@ export default gql`
       project {
         id
         name
+        code
       }
       locations {
         id
@@ -60,7 +61,7 @@ type ProcessExecutionPick = {
     steps: ProcessStepDetails[]
   }
   vacancy: Pick<Vacancy, 'id' | 'position' | 'employeeComment'>
-  project: Pick<Project, 'id' | 'name'>
+  project: Pick<Project, 'id' | 'name' | 'code'>
   locations: Pick<Location, 'id' | 'name'>[]
   status: ProcessExecution['status']
   employee: ProcessExecution['employee']

@@ -6,6 +6,7 @@ import getProcessExecutions from '../../queries/getProcessExecutions'
 import getVacancies from '../../queries/getVacancies'
 import { useEmployee } from '../../utils/withEmployee'
 import getActiveProcessExecutions from '../../queries/getEmployeeActiveProcessExecutions'
+import getProcessExecution from '../../queries/getProcessExecution'
 
 const mutation = gql`
   mutation abortProcessExecution($input: AbortProcessExecutionInput!) {
@@ -27,6 +28,10 @@ function AbortProcessExecution({ id, children }: { id: string } & PropsWithChild
       },
       { query: getProcessExecutions },
       { query: getVacancies },
+      {
+        query: getProcessExecution,
+        variables: { input: { id } },
+      },
     ],
     awaitRefetchQueries: true,
     onCompleted: () => {

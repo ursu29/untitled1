@@ -23,13 +23,16 @@ const COLORS: any = {
 }
 
 export default function ProjectTag({ project, small = false, leading }: Props) {
+  const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH }) && !small
+  if (!project) return null
+
   const codeStarts = project.code.split('-')[0]?.toLowerCase()
   const color = codeStarts ? COLORS[codeStarts] : COLORS.is
-  const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH }) && !small
   return (
-    <span style={{ marginBottom: 8, display: 'inline-block' }}>
+    <span style={{ display: 'inline-block' }}>
       <Link to={getProjectLink(project.code)}>
         <Tag
+          title={project.name}
           key={project.id}
           color={color}
           style={{
@@ -44,7 +47,7 @@ export default function ProjectTag({ project, small = false, leading }: Props) {
         >
           <div
             style={{
-              maxWidth: isLarge ? 'unset' : 230,
+              maxWidth: isLarge ? 'unset' : 180,
               overflow: isLarge ? 'unset' : 'hidden',
               textOverflow: isLarge ? 'unset' : 'ellipsis',
             }}

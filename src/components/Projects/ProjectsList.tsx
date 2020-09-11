@@ -14,7 +14,7 @@ interface ProjectGroupProps {
 }
 
 const ProjectGroup = ({ title, projects, code }: ProjectGroupProps) => {
-  const projectsFiltered = projects?.filter((project) =>
+  const projectsFiltered = projects?.filter(project =>
     project.code.toLowerCase().startsWith(code.toLowerCase()),
   )
 
