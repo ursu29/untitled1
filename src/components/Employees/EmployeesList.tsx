@@ -96,6 +96,10 @@ export default function EmployeesList({ employees, loading, fixed }: Props) {
         value: ['.net'],
       },
       {
+        text: 'R Developers',
+        value: ['r-developer'],
+      },
+      {
         text: 'Design',
         value: ['ux', 'designer'],
       },
