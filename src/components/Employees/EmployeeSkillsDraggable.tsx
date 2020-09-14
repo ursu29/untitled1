@@ -50,7 +50,7 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
 
   useEffect(() => {
     const newSkills = experiences
-      .filter(i => i.level?.id === level?.id)
+      .filter(i => i.level?.id === level?.id && skills.map(skill => skill.id).includes(i.skill.id))
       .map(i => i.skill)
       .concat(skills.filter(e => !experiences.map(e => e.skill?.id).includes(e?.id)))
     // update only if element was added or removed
