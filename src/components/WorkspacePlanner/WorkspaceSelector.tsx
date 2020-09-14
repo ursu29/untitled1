@@ -70,7 +70,8 @@ export default function WorkspaceSelector({
   const uploadProps = {
     fileList,
     beforeUpload: (file: any) => {
-      const acceptableTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/svg']
+      console.log(file.type)
+      const acceptableTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/svg', 'image/svg+xml']
       if (!acceptableTypes.includes(file.type)) {
         message.error(`Only next formats allowed: png/jpg/jpeg/svg`)
         return false
