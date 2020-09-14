@@ -38,6 +38,7 @@ export default gql`
       vacancy {
         id
         position
+        isPublished
         # employeeComment
       }
       project {
