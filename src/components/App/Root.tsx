@@ -40,7 +40,7 @@ export default function Root() {
         <EmployeeProvider value={data?.profile}>
           <Sider />
           <Pages />
-          {dataClientDevTools.clientDevToolsAccess && <DevTools />}
+          {dataClientDevTools?.clientDevToolsAccess && <DevTools />}
         </EmployeeProvider>
       </Layout>
     )
