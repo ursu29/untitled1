@@ -16,6 +16,14 @@ const query = gql`
       name
       code
       description
+      agileManagers {
+        id
+        email
+      }
+      scrumMasters {
+        id
+        email
+      }
     }
   }
 `

@@ -27,6 +27,18 @@ function CreateSchemaExtention({ project }: any) {
             name: 'scrumMasters',
             type: 'String',
           },
+          {
+            name: 'title',
+            type: 'String',
+          },
+          {
+            name: 'description',
+            type: 'String',
+          },
+          {
+            name: 'descriptionTranslated',
+            type: 'String',
+          },
         ],
       }),
     })
@@ -39,7 +51,7 @@ function CreateSchemaExtention({ project }: any) {
   useEffect(() => {
     if (project) {
       fetch(
-        `https://graph.microsoft.com/beta/groups/${project.id}?$select=ext6ea2m2wd_projectDetails`,
+        `https://graph.microsoft.com/beta/groups/${project.id}?$select=extqnw977jy_projectDetails`,
         {
           headers: {
             Authorization: 'Bearer ' + token,
@@ -60,7 +72,7 @@ function CreateSchemaExtention({ project }: any) {
   return (
     <div>
       <Button type="primary" onClick={handleClick}>
-        Create Schema Extention
+        Update Schema Extention
       </Button>
     </div>
   )

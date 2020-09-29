@@ -71,7 +71,7 @@ const ProjectForm = ({ form, onSubmit, item, loading }: Props) => {
         <Col style={{ width: '100%' }}>
           <Form.Item label="Agile Managers">
             {getFieldDecorator('agileManagers', {
-              initialValue: item?.agileManagers,
+              initialValue: item?.agileManagers?.map(i => i.email),
             })(<EmployeeSelect wide mode="multiple" keyName="email" />)}
           </Form.Item>
         </Col>
@@ -80,7 +80,7 @@ const ProjectForm = ({ form, onSubmit, item, loading }: Props) => {
         <Col style={{ width: '100%' }}>
           <Form.Item label="Scrum Masters">
             {getFieldDecorator('scrumMasters', {
-              initialValue: item?.scrumMasters,
+              initialValue: item?.scrumMasters?.map(i => i.email),
             })(<EmployeeSelect wide mode="multiple" keyName="email" />)}
           </Form.Item>
         </Col>
