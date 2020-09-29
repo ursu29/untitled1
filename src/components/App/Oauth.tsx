@@ -37,6 +37,8 @@ function Oauth({ children }: any) {
           'Directory.Read.All',
           'Contacts.Read',
           'AccessReview.Read.All',
+          // 'Application.ReadWrite.All',
+          // 'Directory.AccessAsUser.All',
         ],
       }
       try {

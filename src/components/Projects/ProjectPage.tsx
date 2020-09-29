@@ -10,6 +10,7 @@ import Controls from '../UI/Controls'
 import Back from '../UI/Back'
 import paths from '../../paths'
 import PageContent from '../UI/PageContent'
+import CreateSchemaExtention from './CreateSchemaExtention'
 
 interface Props extends RouteComponentProps<{ code: string; tab: string }> {}
 
@@ -38,7 +39,9 @@ function ProjectPage({ match }: Props) {
   return (
     <Skeleton loading={loading || !data}>
       <PageContent>
-        <Controls back={<Back goto={paths.PROJECTS} />} />
+        <Controls back={<Back goto={paths.PROJECTS} />}>
+          <CreateSchemaExtention project={project} />
+        </Controls>
         <ProjectDetails project={project} />
       </PageContent>
       <ProjectTabs project={project} tab={tab} />

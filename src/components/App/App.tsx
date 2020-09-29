@@ -9,6 +9,7 @@ import { LastLocationProvider } from 'react-router-last-location'
 import { GATEWAY } from '../../config'
 import Oauth from './Oauth'
 import Root from './Root'
+import { TokenProvider } from '../../utils/withToken'
 
 const timezoneOffset = new Date().getTimezoneOffset()
 const timezoneOffsetKey = 'x-timezone-offset'
@@ -48,7 +49,9 @@ const App: React.FC = () => {
           <Router basename={process.env.REACT_APP_PUBLIC_URL}>
             <ApolloProvider client={client}>
               <LastLocationProvider>
-                <Root />
+                <TokenProvider token={token}>
+                  <Root />
+                </TokenProvider>
               </LastLocationProvider>
             </ApolloProvider>
           </Router>

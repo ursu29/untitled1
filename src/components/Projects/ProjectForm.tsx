@@ -3,6 +3,7 @@ import { Form } from '@ant-design/compatible'
 import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
 import React from 'react'
 import { Project } from '../../types'
+import EmployeeSelect from '../Employees/EmployeeSelect'
 
 type ProjectPick = Partial<Project>
 
@@ -63,6 +64,24 @@ const ProjectForm = ({ form, onSubmit, item, loading }: Props) => {
                 placeholder="please enter skill description"
               />,
             )}
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row gutter={16}>
+        <Col style={{ width: '100%' }}>
+          <Form.Item label="Agile Managers">
+            {getFieldDecorator('agileManagers', {
+              initialValue: item?.agileManagers,
+            })(<EmployeeSelect wide mode="multiple" keyName="email" />)}
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row gutter={16}>
+        <Col style={{ width: '100%' }}>
+          <Form.Item label="Scrum Masters">
+            {getFieldDecorator('scrumMasters', {
+              initialValue: item?.scrumMasters,
+            })(<EmployeeSelect wide mode="multiple" keyName="email" />)}
           </Form.Item>
         </Col>
       </Row>

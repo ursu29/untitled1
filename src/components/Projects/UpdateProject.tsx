@@ -1,41 +1,62 @@
+import { EditOutlined } from '@ant-design/icons'
+import { useMutation } from '@apollo/react-hooks'
 import React, { useState } from 'react'
+import message from '../../message'
+import updateProject from '../../queries/updateProject'
 import { Project } from '../../types'
+import { useToken } from '../../utils/withToken'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import ProjectForm from './ProjectForm'
 
 function UpdateProject({ project }: { project: Partial<Project> }) {
   const [loading, setLoading] = useState(false)
+  const { token } = useToken()
+  const [update, { loading: updateLoading }] = useMutation(updateProject, {
+    onCompleted: () => message.success('Project is updated'),
+    awaitRefetchQueries: true,
+    onError: message.error,
+  })
 
   return (
     <Drawer
-      toggler={<Button size="small" icon="edit" type="link"></Button>}
+      toggler={<Button size="small" icon={<EditOutlined />} type="link"></Button>}
       drawerLabel={'Edit project ' + project?.name}
       content={
         <ProjectForm
           loading={loading}
           item={project}
           onSubmit={async (item: any, onDone: any) => {
-            const token = localStorage.getItem('new_token')
-            console.log('TOKEN', token)
-            setLoading(true)
+            // setLoading(true)
             // const permissions = await fetch(`oauth2PermissionGrants`)
-
-            fetch(`https://graph.microsoft.com/v1.0/groups/${project.id}`, {
-              method: 'PATCH',
-              body: JSON.stringify({
-                description: item.name + ' //' + item.description,
-              }),
-              headers: {
-                Authorization: 'Bearer ' + token,
-                'Content-type': 'application/json; charset=UTF-8',
+            update({
+              variables: {
+                input: {
+                  id: item.id,
+                  agileManagers: item.agileManagers,
+                  scrumMasters: item.scrumMasters,
+                },
               },
+              update: onDone,
             })
-              .then(onDone)
-              .catch(e => {
-                console.log(e)
-              })
-              .finally(() => setLoading(false))
+            // fetch(`https://graph.microsoft.com/v1.0/groups/${project.id}`, {
+            //   method: 'PATCH',
+            //   body: JSON.stringify({
+            //     ext6ea2m2wd_projectDetails: {
+            //       agileManagers: 'test2',
+            //       scrumMasters: 'test2',
+            //     },
+            //   }),
+            //   headers: {
+            //     Authorization: 'Bearer ' + token,
+            //     'Content-type': 'application/json; charset=UTF-8',
+            //   },
+            // })
+            //   .then(onDone)
+            //   .catch(e => {
+            //     console.log(e)
+            //   })
+            //   .finally(() => setLoading(false))
           }}
         />
       }
