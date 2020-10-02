@@ -31,7 +31,7 @@ const ProjectForm = ({ form, onSubmit, item, loading }: Props) => {
 
   return (
     <Form layout="vertical" onSubmit={handleSubmit}>
-      <Row gutter={16}>
+      {/* <Row gutter={16}>
         <Col style={{ width: '100%' }}>
           <Form.Item label="Name">
             {getFieldDecorator('name', {
@@ -45,8 +45,8 @@ const ProjectForm = ({ form, onSubmit, item, loading }: Props) => {
             })(<Input onPressEnter={handleSubmit} placeholder="Please enter skill name" />)}
           </Form.Item>
         </Col>
-      </Row>
-      <Row gutter={16}>
+      </Row> */}
+      {/* <Row gutter={16}>
         <Col style={{ width: '100%' }}>
           <Form.Item label="Description">
             {getFieldDecorator('description', {
@@ -66,16 +66,7 @@ const ProjectForm = ({ form, onSubmit, item, loading }: Props) => {
             )}
           </Form.Item>
         </Col>
-      </Row>
-      <Row gutter={16}>
-        <Col style={{ width: '100%' }}>
-          <Form.Item label="Agile Managers">
-            {getFieldDecorator('agileManagers', {
-              initialValue: item?.agileManagers?.map(i => i.email),
-            })(<EmployeeSelect wide mode="multiple" keyName="email" />)}
-          </Form.Item>
-        </Col>
-      </Row>
+      </Row> */}
       <Row gutter={16}>
         <Col style={{ width: '100%' }}>
           <Form.Item label="Scrum Masters">

@@ -68,7 +68,6 @@ export interface Project {
   leaders: Employee[]
   employees: Employee[]
   access: Access
-  agileManagers: Employee[] | null
   scrumMasters: Employee[] | null
 }
 

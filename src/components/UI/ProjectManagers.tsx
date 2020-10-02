@@ -14,29 +14,54 @@ interface Props {
 
 export default function ProjectManagers({ project, title }: Props) {
   const { data, loading } = useQuery<QueryType>(query, {
-    variables: { input: project },
+    variables: { id: project.id },
     onError: message.error,
   })
   if (!loading && !data) return null
-  const leaders = data?.projects[0]?.leaders || []
+  const scrumMasters = data?.project.scrumMasters ?? []
+  const agileManagers =
+    data?.project.employees
+      .map(i => i.agileManager)
+      .filter(i => i)
+      .filter((value, index, self) => {
+        return self.indexOf(value) === index
+      }) || []
+
   return (
-    <Section
-      title={
-        !title
-          ? leaders.length > 1
-            ? 'Managers'
-            : 'Manager'
-          : leaders.length > 1
-          ? title + 's'
-          : title
-      }
-    >
-      <Skeleton active avatar line loading={loading}>
-        {leaders?.map(employee => (
+    <Skeleton active avatar line loading={loading}>
+      <Section
+        title={
+          !title
+            ? scrumMasters.length > 1
+              ? 'Scrum masters'
+              : 'Scrum master'
+            : scrumMasters.length > 1
+            ? title + 's'
+            : title
+        }
+      >
+        {scrumMasters.map(employee => (
           <EmployeeCard key={employee.id} email={employee.email} employee={employee} />
         ))}
-        {!leaders.length && <div>Project has no manager</div>}
-      </Skeleton>
-    </Section>
+        {!scrumMasters.length && <div>Project has no scrum masters</div>}
+      </Section>
+      <Section
+        title={
+          !title
+            ? agileManagers.length > 1
+              ? 'Agile managers'
+              : 'Agile manager'
+            : agileManagers.length > 1
+            ? title + 's'
+            : title
+        }
+      >
+        {agileManagers.map(employee => {
+          if (!employee) return null
+          return <EmployeeCard key={employee.id} email={employee.email} employee={employee} />
+        })}
+        {!agileManagers.length && <div>Project has no agile managers</div>}
+      </Section>
+    </Skeleton>
   )
 }

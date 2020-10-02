@@ -15,28 +15,12 @@ function CreateSchemaExtention({ project }: any) {
       },
       method: 'POST',
       body: JSON.stringify({
-        id: 'projectDetails',
-        description: 'Additional parameters for Project',
-        targetTypes: ['Group'],
+        id: 'details',
+        description: 'Additional parameters for Employee',
+        targetTypes: ['User'],
         properties: [
           {
-            name: 'agileManagers',
-            type: 'String',
-          },
-          {
-            name: 'scrumMasters',
-            type: 'String',
-          },
-          {
-            name: 'title',
-            type: 'String',
-          },
-          {
-            name: 'description',
-            type: 'String',
-          },
-          {
-            name: 'descriptionTranslated',
+            name: 'agileManager',
             type: 'String',
           },
         ],
@@ -48,26 +32,26 @@ function CreateSchemaExtention({ project }: any) {
       })
   }
 
-  useEffect(() => {
-    if (project) {
-      fetch(
-        `https://graph.microsoft.com/beta/groups/${project.id}?$select=extqnw977jy_projectDetails`,
-        {
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        },
-      )
-        .then(res => res.json())
-        .then(data => {
-          console.log('token result', data)
-        })
-    }
+  // useEffect(() => {
+  //   if (project) {
+  //     fetch(
+  //       `https://graph.microsoft.com/beta/groups/${project.id}?$select=extqnw977jy_projectDetails`,
+  //       {
+  //         headers: {
+  //           Authorization: 'Bearer ' + token,
+  //         },
+  //       },
+  //     )
+  //       .then(res => res.json())
+  //       .then(data => {
+  //         console.log('token result', data)
+  //       })
+  //   }
 
-    return () => {
-      //
-    }
-  }, [token, project])
+  //   return () => {
+  //     //
+  //   }
+  // }, [token, project])
 
   return (
     <div>

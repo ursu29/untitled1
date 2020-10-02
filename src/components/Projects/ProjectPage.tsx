@@ -15,7 +15,7 @@ import CreateSchemaExtention from './CreateSchemaExtention'
 interface Props extends RouteComponentProps<{ code: string; tab: string }> {}
 
 const query = gql`
-  query getPRojects($input: ProjectsInput) {
+  query getProjects($input: ProjectsInput) {
     projects(input: $input) {
       id
     }

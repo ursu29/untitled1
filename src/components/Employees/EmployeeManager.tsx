@@ -1,58 +1,21 @@
-import React from 'react'
-import { Employee } from '../../types'
 import { useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
-import EmployeeCard from './EmployeeCard'
+import React from 'react'
+import query, { QueryType } from '../../queries/getEmployeeManager'
+import { Employee } from '../../types'
 import Section from '../UI/Section'
 import Skeleton from '../UI/Skeleton'
-
-const query = gql`
-  query GetEmployeeManager($input: EmployeesInput) {
-    employees(input: $input) {
-      id
-      manager {
-        id
-        name
-        position
-        country
-        location
-        phoneNumber
-        email
-        avatar
-        bonuses
-        status
-        isMe
-      }
-    }
-  }
-`
-
-type EmployeePick = Pick<
-  Employee,
-  | 'id'
-  | 'name'
-  | 'position'
-  | 'avatar'
-  | 'bonuses'
-  | 'country'
-  | 'email'
-  | 'isMe'
-  | 'location'
-  | 'status'
-  | 'phoneNumber'
->
+import EmployeeCard from './EmployeeCard'
 
 interface Props {
   employee?: {
     id: Employee['id']
+    email: Employee['email']
   }
 }
 
 export default function EmployeeManager(props: Props) {
-  const { data, loading, error } = useQuery<{
-    employees: { id: Employee['id']; manager: EmployeePick }[]
-  }>(query, {
-    variables: { input: { id: props.employee?.id } },
+  const { data, loading, error } = useQuery<QueryType>(query, {
+    variables: { email: props.employee?.email },
     skip: !props.employee,
   })
 
@@ -60,13 +23,13 @@ export default function EmployeeManager(props: Props) {
 
   if (error) return <div>Error :(</div>
 
-  const employee = data?.employees?.[0]
+  const employee = data?.employeeByEmail
 
   return (
     <Skeleton active avatar line loading={loading}>
-      {employee?.manager && (
-        <Section title="Manager">
-          <EmployeeCard email={employee.manager.email} employee={employee.manager} />
+      {employee?.agileManager && (
+        <Section title="Agile manager">
+          <EmployeeCard email={employee.agileManager.email} employee={employee.agileManager} />
         </Section>
       )}
     </Skeleton>

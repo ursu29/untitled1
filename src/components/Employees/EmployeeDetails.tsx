@@ -6,51 +6,42 @@ import { COLLAPSE_WIDTH } from '../../config'
 import { Employee } from '../../types'
 import EmployeeView from './Employee'
 
+import fragments, { EmployeeDetails } from '../../fragments'
+
 interface Props {
-  employee: Pick<Employee, 'id'>
+  employee: Pick<Employee, 'id' | 'email'>
 }
 
-const query = gql`
-  query getEmployee($input: EmployeesInput) {
-    employees(input: $input) {
-      id
-      name
-      position
-      country
-      location
-      phoneNumber
-      email
+export const getEmployeeDetails = gql`
+  query getEmployee($email: String!) {
+    employeeByEmail(email: $email) {
+      ...EmployeeDetails
       avatar
+      agileManager {
+        ...EmployeeDetails
+      }
       bonuses
       status
-      isMe
     }
   }
+  ${fragments.Employee.Details}
 `
 
-type EmployeePick = Pick<
-  Employee,
-  | 'id'
-  | 'name'
-  | 'position'
-  | 'avatar'
-  | 'bonuses'
-  | 'country'
-  | 'email'
-  | 'isMe'
-  | 'location'
-  | 'status'
-  | 'phoneNumber'
->
+type EmployeePick = EmployeeDetails & {
+  status: Employee['status']
+  bonuses: Employee['bonuses']
+  agileManager: EmployeeDetails
+  avatar: Employee['avatar']
+}
 
-export default function EmployeeDetails(props: Props) {
-  const { data, loading, error } = useQuery<{ employees: EmployeePick[] }>(query, {
-    variables: { input: { id: props.employee.id } },
+export default function (props: Props) {
+  const { data, loading, error } = useQuery<{ employeeByEmail: EmployeePick }>(getEmployeeDetails, {
+    variables: { email: props.employee.email },
   })
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   if (error) return <div>Error :(</div>
 
-  const employee = data?.employees?.[0]
+  const employee = data?.employeeByEmail
 
   return <EmployeeView mobile={!isLarge} loading={loading} employee={employee} />
 }
