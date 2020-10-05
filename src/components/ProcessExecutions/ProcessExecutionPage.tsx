@@ -241,6 +241,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                       },
                     })
                   }}
+                  isProcessRunning={processExecution.status === 'running'}
                 />
                 {index < branches.length - 1 && <Divider />}
               </div>

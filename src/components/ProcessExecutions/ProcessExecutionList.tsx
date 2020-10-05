@@ -44,9 +44,10 @@ const RotationIcon = () => (
 
 interface Props {
   items?: QueryType['processExecutions']
+  tabName?: string
 }
 
-function ProcessList({ items }: Props) {
+function ProcessList({ items, tabName }: Props) {
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
   const searchInput = useRef(null)
@@ -146,6 +147,164 @@ function ProcessList({ items }: Props) {
       ),
   })
 
+  const columns = [
+    {
+      key: 'type',
+      title: 'Type',
+      width: 70,
+      render: (_: any, i: any) => {
+        if (i.process.type === 'offboarding') return <OffboardingIcon />
+        if (i.process.type === 'onboarding') return <OnboardingIcon />
+        if (i.process.type === 'rotation') return <RotationIcon />
+        return <div>{i.process.type}</div>
+      },
+    },
+    {
+      key: 'title',
+      dataIndex: ['process', 'title'],
+      title: 'Name',
+      ...getColumnSearchProps('title', 'process'),
+      render: (_: any, i: any) => {
+        return (
+          <Link to={getProcessExecutionLink(i.id)} title={i.process.title}>
+            {i.process.title}
+          </Link>
+        )
+      },
+      ellipsis: true,
+    },
+    {
+      key: 'project',
+      dataIndex: ['project', 'name'],
+      title: 'Project',
+      width: 220,
+      filters: [
+        //@ts-ignore
+        ...new Set(items.filter(e => e.project && e.project.name).map(e => e.project.name)),
+      ].map(e => ({ text: e, value: e })),
+      onFilter: (value: any, record: any) => record.project?.name === value,
+      render: (_: any, i: any) => {
+        return <ProjectTag small project={i.project} />
+      },
+    },
+    {
+      key: 'location',
+      dataIndex: 'locations',
+      title: 'Location',
+      width: 160,
+      render: (_: any, process: any) => {
+        const locations = process?.locations?.map((i: any) => i.name).join(', ') ?? '-'
+        return (
+          <span title={locations}>
+            <EnvironmentOutlined />
+            &nbsp;
+            {locations}
+          </span>
+        )
+      },
+      filters: [
+        //@ts-ignore
+        ...new Set(
+          items
+            .filter(e => e.locations)
+            .flatMap(item => item.locations.map(location => location.name)),
+        ),
+      ].map(e => ({ text: e, value: e })),
+      onFilter: (value: any, record: any) =>
+        record.locations && record.locations.map((e: any) => e.name).includes(value),
+      ellipsis: true,
+    },
+    {
+      key: 'position',
+      dataIndex: ['vacancy', 'position'],
+      title: 'Position',
+      ...getColumnSearchProps('position', 'vacancy'),
+      ellipsis: true,
+    },
+    {
+      key: 'employee',
+      dataIndex: 'employee',
+      title: 'Employee',
+      render: (_: any, process: any) => {
+        return <span>{process?.employee}</span>
+      },
+      ellipsis: true,
+    },
+    {
+      key: 'finishDate',
+      dataIndex: 'finishDate',
+      title: 'Date',
+      render: (_: any, process: any) => {
+        const date = dayjs(process.finishDate).format('DD.MM.YYYY')
+        return (
+          process?.finishDate && (
+            <div style={{ display: 'flex', flexDirection: 'column' }} title={date}>
+              <span>{date}</span>
+            </div>
+          )
+        )
+      },
+      //@ts-ignore
+      sorter: (a, b) => new Date(a.finishDate) - new Date(b.finishDate),
+      ellipsis: true,
+    },
+    {
+      key: 'status',
+      title: () => <div style={{ paddingRight: 12 }}>Status</div>,
+      align: 'right',
+      render: (_: any, process: any) => {
+        return <ProcessExecutionStatusTag processExecution={process} />
+      },
+    },
+  ]
+
+  if (tabName !== 'archived') {
+    //@ts-ignore
+    columns.splice(7, 0, {
+      key: 'responsible',
+      title: 'Responsible',
+      render: (_, process) => (
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+          {process.activeStepResponsibleUsers
+            ?.sort((a: any, b: any) =>
+              a.email.toLowerCase() === user.employee.email.toLowerCase() ? -1 : 1,
+            )
+            .map((responsible: any) => (
+              <div
+                key={responsible.email}
+                style={{
+                  margin: '2px',
+                  padding: '2px',
+                  borderRadius: '50%',
+                  boxShadow:
+                    user.employee.email.toLowerCase() === responsible.email.toLowerCase()
+                      ? '#108ee9 0px 0px 2px 3px'
+                      : '',
+                }}
+              >
+                <EmployeeAvatar email={responsible.email} size="small" showTooltip />
+              </div>
+            ))}
+        </div>
+      ),
+      filters: [
+        //@ts-ignore
+        ...new Set(
+          processesWithResponsibleUsers
+            .filter(e => e.activeStepResponsibleUsers)
+            .flatMap(item => {
+              if (item.activeStepResponsibleUsers)
+                return item.activeStepResponsibleUsers.map(e => e.name)
+            }),
+        ),
+      ].map(e => ({ text: e, value: e })),
+      onFilter: (value: any, record) =>
+        record.activeStepResponsibleUsers
+          ? record.activeStepResponsibleUsers.map((e: any) => e.name).includes(value)
+          : false,
+    })
+  }
+
   return (
     <Table<
       QueryType['processExecutions'][0] & {
@@ -153,160 +312,11 @@ function ProcessList({ items }: Props) {
       }
     >
       rowKey="id"
-      columns={[
-        {
-          key: 'type',
-          title: 'Type',
-          width: 70,
-          render: (_, i) => {
-            if (i.process.type === 'offboarding') return <OffboardingIcon />
-            if (i.process.type === 'onboarding') return <OnboardingIcon />
-            if (i.process.type === 'rotation') return <RotationIcon />
-            return <div>{i.process.type}</div>
-          },
-        },
-        {
-          key: 'title',
-          dataIndex: ['process', 'title'],
-          title: 'Name',
-          ...getColumnSearchProps('title', 'process'),
-          render: (_, i) => {
-            return (
-              <Link to={getProcessExecutionLink(i.id)} title={i.process.title}>
-                {i.process.title}
-              </Link>
-            )
-          },
-          ellipsis: true,
-        },
-        {
-          key: 'project',
-          dataIndex: ['project', 'name'],
-          title: 'Project',
-          width: 220,
-          filters: [
-            //@ts-ignore
-            ...new Set(items.filter(e => e.project && e.project.name).map(e => e.project.name)),
-          ].map(e => ({ text: e, value: e })),
-          onFilter: (value, record) => record.project?.name === value,
-          render: (_, i) => {
-            return <ProjectTag small project={i.project} />
-          },
-        },
-        {
-          key: 'location',
-          dataIndex: 'locations',
-          title: 'Location',
-          width: 160,
-          render: (_, process) => {
-            const locations = process?.locations?.map(i => i.name).join(', ') ?? '-'
-            return (
-              <span title={locations}>
-                <EnvironmentOutlined />
-                &nbsp;
-                {locations}
-              </span>
-            )
-          },
-          filters: [
-            //@ts-ignore
-            ...new Set(
-              items
-                .filter(e => e.locations)
-                .flatMap(item => item.locations.map(location => location.name)),
-            ),
-          ].map(e => ({ text: e, value: e })),
-          onFilter: (value: any, record) =>
-            record.locations && record.locations.map(e => e.name).includes(value),
-          ellipsis: true,
-        },
-        {
-          key: 'position',
-          dataIndex: ['vacancy', 'position'],
-          title: 'Position',
-          ...getColumnSearchProps('position', 'vacancy'),
-          ellipsis: true,
-        },
-        {
-          key: 'employee',
-          dataIndex: 'employee',
-          title: 'Employee',
-          render: (_, process) => {
-            return <span>{process?.employee}</span>
-          },
-          ellipsis: true,
-        },
-        {
-          key: 'finishDate',
-          dataIndex: 'finishDate',
-          title: 'Date',
-          render: (_, process) => {
-            const date = dayjs(process.finishDate).format('DD.MM.YYYY')
-            return (
-              process?.finishDate && (
-                <div style={{ display: 'flex', flexDirection: 'column' }} title={date}>
-                  <span>{date}</span>
-                </div>
-              )
-            )
-          },
-          //@ts-ignore
-          sorter: (a, b) => new Date(a.finishDate) - new Date(b.finishDate),
-          ellipsis: true,
-        },
-        {
-          key: 'responsible',
-          title: 'Responsible',
-          render: (_, process) => (
-            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-              {process.activeStepResponsibleUsers
-                ?.sort((a, b) =>
-                  a.email.toLowerCase() === user.employee.email.toLowerCase() ? -1 : 1,
-                )
-                .map(responsible => (
-                  <div
-                    key={responsible.email}
-                    style={{
-                      margin: '2px',
-                      padding: '2px',
-                      borderRadius: '50%',
-                      boxShadow:
-                        user.employee.email.toLowerCase() === responsible.email.toLowerCase()
-                          ? '#108ee9 0px 0px 2px 3px'
-                          : '',
-                    }}
-                  >
-                    <EmployeeAvatar email={responsible.email} size="small" showTooltip />
-                  </div>
-                ))}
-            </div>
-          ),
-          filters: [
-            //@ts-ignore
-            ...new Set(
-              processesWithResponsibleUsers
-                .filter(e => e.activeStepResponsibleUsers)
-                .flatMap(item => {
-                  if (item.activeStepResponsibleUsers)
-                    return item.activeStepResponsibleUsers.map(e => e.name)
-                }),
-            ),
-          ].map(e => ({ text: e, value: e })),
-          onFilter: (value: any, record) =>
-            record.activeStepResponsibleUsers
-              ? record.activeStepResponsibleUsers.map(e => e.name).includes(value)
-              : false,
-        },
-        {
-          key: 'status',
-          title: () => <div style={{ paddingRight: 12 }}>Status</div>,
-          align: 'right',
-          render: (_, process) => {
-            return <ProcessExecutionStatusTag processExecution={process} />
-          },
-        },
-      ]}
-      dataSource={processesWithResponsibleUsers.sort((a, b) => {
+      //@ts-ignore
+      columns={columns}
+      dataSource={processesWithResponsibleUsers.sort((a: any, b: any) => {
+        if (tabName === 'archived') return 1
+
         const includesUserEmail = (e: any) =>
           e.activeStepResponsibleUsers
             ?.map((e: any) => e.email.toLowerCase())
