@@ -1,8 +1,6 @@
 import * as Msal from 'msal'
 import React, { useEffect, useState } from 'react'
 
-console.log('client_id', process.env.REACT_APP_AZURE_CLIENT)
-
 const msalConfig: Msal.Configuration = {
   auth: {
     authority: 'https://login.microsoftonline.com/5acc8b65-db91-44ea-8d28-20f9e45b432e',

@@ -1,11 +1,11 @@
-import React from 'react'
-
 import {
+  AppstoreOutlined,
   BookOutlined,
   BranchesOutlined,
   ClockCircleOutlined,
   CoffeeOutlined,
   CrownOutlined,
+  DatabaseOutlined,
   FileImageOutlined,
   FireOutlined,
   FolderOpenOutlined,
@@ -13,30 +13,28 @@ import {
   ImportOutlined,
   InfoCircleOutlined,
   LineChartOutlined,
+  NotificationOutlined,
   NumberOutlined,
   TeamOutlined,
+  ToolOutlined,
   UserAddOutlined,
   VideoCameraOutlined,
-  NotificationOutlined,
-  ToolOutlined,
-  DatabaseOutlined,
-  AppstoreOutlined,
 } from '@ant-design/icons'
-
-import { Menu, Tag, Badge } from 'antd'
-import { Link } from 'react-router-dom'
-import paths from '../../paths'
 import { useQuery } from '@apollo/react-hooks'
-import Skeleton from '../UI/Skeleton'
+import { Badge, Menu } from 'antd'
 import gql from 'graphql-tag'
-import { Access } from '../../types'
+import React from 'react'
 import { useMediaQuery } from 'react-responsive'
-import { COLLAPSE_WIDTH, MENU_WIDTH } from '../../config'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { useEmployee } from '../../utils/withEmployee'
+import { COLLAPSE_WIDTH, MENU_WIDTH } from '../../config'
+import paths from '../../paths'
 import getActiveProcessExecutions, {
   ActiveProcessExecutionsQueryType,
 } from '../../queries/getEmployeeActiveProcessExecutions'
+import { Access } from '../../types'
+import { useEmployee } from '../../utils/withEmployee'
+import Skeleton from '../UI/Skeleton'
 
 const Width = styled.div<{ isLarge: boolean }>`
   .ant-menu-inline-collapsed > .ant-menu-item,

@@ -1,11 +1,10 @@
-import React from 'react'
-import { Project } from '../../types'
-import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import ProjectView from './Project'
-import ProjectManagers from '../UI/ProjectManagers'
-import ProjectTechnologies from './ProjectTechnologies'
+import React from 'react'
 import query, { QueryType } from '../../queries/getProject'
+import { Project } from '../../types'
+import ProjectManagers from '../UI/ProjectManagers'
+import ProjectView from './Project'
+import ProjectTechnologies from './ProjectTechnologies'
 
 interface Props {
   project: Pick<Project, 'id'>

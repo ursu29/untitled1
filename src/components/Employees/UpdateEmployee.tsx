@@ -1,21 +1,22 @@
 import { EditOutlined } from '@ant-design/icons'
 import { useMutation } from '@apollo/react-hooks'
-import React, { useState } from 'react'
+import React from 'react'
+import { EmployeeDetails } from '../../fragments'
 import message from '../../message'
 import updateEmployee from '../../queries/updateEmployee'
-import { Project } from '../../types'
-import { useToken } from '../../utils/withToken'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
-import ProjectForm from './EmployeeForm'
-import { EmployeeDetails } from '../../fragments'
 import { getEmployeeDetails } from './EmployeeDetails'
+import ProjectForm from './EmployeeForm'
+import { useToken } from '../../utils/withToken'
 
 type EmployeePick = EmployeeDetails & {
   agileManager: EmployeeDetails
 }
 
 function UpdateProject({ employee }: { employee: EmployeePick }) {
+  const { scope } = useToken()
+
   const [update, { loading }] = useMutation(updateEmployee, {
     onCompleted: () => message.success('Employee is updated'),
     refetchQueries: [
@@ -31,6 +32,8 @@ function UpdateProject({ employee }: { employee: EmployeePick }) {
       message.error(e)
     },
   })
+
+  if (!scope.includes('user.readwrite.all')) return null
 
   return (
     <Drawer

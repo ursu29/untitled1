@@ -1,6 +1,6 @@
-import { Button, Col, Input, Row } from 'antd'
 import { Form } from '@ant-design/compatible'
 import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
+import { Button, Col, Row } from 'antd'
 import React from 'react'
 import { Project } from '../../types'
 import EmployeeSelect from '../Employees/EmployeeSelect'

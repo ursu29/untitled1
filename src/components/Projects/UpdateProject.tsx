@@ -8,14 +8,19 @@ import { Project } from '../../types'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import ProjectForm from './ProjectForm'
+import { useToken } from '../../utils/withToken'
 
 function UpdateProject({ project }: { project: Partial<Project> }) {
+  const { scope } = useToken()
+
   const [update, { loading }] = useMutation(updateProject, {
     onCompleted: () => message.success('Project is updated'),
     refetchQueries: [{ query: getProject, variables: { id: project.id } }],
     awaitRefetchQueries: true,
     onError: message.error,
   })
+
+  if (!scope.includes('group.readwrite.all')) return null
 
   return (
     <Drawer

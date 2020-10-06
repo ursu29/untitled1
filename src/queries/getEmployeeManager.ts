@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
-import { Project, Employee } from '../types'
 import fragments, { EmployeeDetails } from '../fragments'
+import { Employee } from '../types'
 
 export default gql`
   query getEmployeeManager($email: String!) {

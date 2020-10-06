@@ -3,65 +3,57 @@ import { Project } from '../../types'
 import { useQuery } from '@apollo/react-hooks'
 import query, { QueryType } from '../../queries/getProjectManagers'
 import Skeleton from '../UI/Skeleton'
-import EmployeeCard from '../Employees/EmployeeCard'
-import Section from '../UI/Section'
 import message from '../../message'
+import EmployeeGroup from '../Employees/EmployeeGroup.new'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { getEmployeeLink } from '../../paths'
+import { EmployeeDetails } from '../../fragments'
+import { Employee } from '../../types'
 
 interface Props {
   project: Pick<Project, 'id'>
   title?: string
 }
 
-export default function ProjectManagers({ project, title }: Props) {
+type EmployeePick = EmployeeDetails & { avatar: Employee['avatar'] }
+
+function ProjectManagers({ project, title, history }: Props & RouteComponentProps) {
   const { data, loading } = useQuery<QueryType>(query, {
     variables: { id: project.id },
     onError: message.error,
   })
   if (!loading && !data) return null
   const scrumMasters = data?.project.scrumMasters ?? []
-  const agileManagers =
-    data?.project.employees
-      .map(i => i.agileManager)
-      .filter(i => i)
-      .filter((value, index, self) => {
-        return self.indexOf(value) === index
-      }) || []
+  let agileManagers: EmployeePick[] = []
+
+  data?.project.employees.forEach(employee => {
+    if (employee.agileManager) {
+      agileManagers.push(employee.agileManager)
+    }
+  })
+
+  agileManagers = agileManagers.filter((value, index, self) => {
+    return self.indexOf(value) === index
+  })
 
   return (
-    <Skeleton active avatar line loading={loading}>
-      <Section
-        title={
-          !title
-            ? scrumMasters.length > 1
-              ? 'Scrum masters'
-              : 'Scrum master'
-            : scrumMasters.length > 1
-            ? title + 's'
-            : title
-        }
-      >
-        {scrumMasters.map(employee => (
-          <EmployeeCard key={employee.id} email={employee.email} employee={employee} />
-        ))}
-        {!scrumMasters.length && <div>Project has no scrum masters</div>}
-      </Section>
-      <Section
-        title={
-          !title
-            ? agileManagers.length > 1
-              ? 'Agile managers'
-              : 'Agile manager'
-            : agileManagers.length > 1
-            ? title + 's'
-            : title
-        }
-      >
-        {agileManagers.map(employee => {
-          if (!employee) return null
-          return <EmployeeCard key={employee.id} email={employee.email} employee={employee} />
-        })}
-        {!agileManagers.length && <div>Project has no agile managers</div>}
-      </Section>
+    <Skeleton active avatar loading={loading}>
+      <EmployeeGroup
+        title={scrumMasters.length > 1 ? 'Scrum masters' : 'Scrum master'}
+        employees={scrumMasters}
+        onClick={employee => {
+          history.push(getEmployeeLink(employee.email))
+        }}
+      />
+      <EmployeeGroup
+        title={agileManagers.length > 1 ? 'Agile managers' : 'Agile manager'}
+        employees={agileManagers}
+        onClick={employee => {
+          history.push(getEmployeeLink(employee.email))
+        }}
+      />
     </Skeleton>
   )
 }
+
+export default withRouter(ProjectManagers)

@@ -1,10 +1,11 @@
 import { useQuery } from '@apollo/react-hooks'
 import React from 'react'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { getEmployeeLink } from '../../paths'
 import query, { QueryType } from '../../queries/getEmployeeManager'
 import { Employee } from '../../types'
-import Section from '../UI/Section'
 import Skeleton from '../UI/Skeleton'
-import EmployeeCard from './EmployeeCard'
+import EmployeeGroup from './EmployeeGroup.new'
 
 interface Props {
   employee?: {
@@ -13,7 +14,7 @@ interface Props {
   }
 }
 
-export default function EmployeeManager(props: Props) {
+function EmployeeManager(props: Props & RouteComponentProps) {
   const { data, loading, error } = useQuery<QueryType>(query, {
     variables: { email: props.employee?.email },
     skip: !props.employee,
@@ -28,10 +29,16 @@ export default function EmployeeManager(props: Props) {
   return (
     <Skeleton active avatar line loading={loading}>
       {employee?.agileManager && (
-        <Section title="Agile manager">
-          <EmployeeCard email={employee.agileManager.email} employee={employee.agileManager} />
-        </Section>
+        <EmployeeGroup
+          title="Agile manager"
+          employees={[employee.agileManager]}
+          onClick={employee => {
+            props.history.push(getEmployeeLink(employee.email))
+          }}
+        />
       )}
     </Skeleton>
   )
 }
+
+export default withRouter(EmployeeManager)
