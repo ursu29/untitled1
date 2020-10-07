@@ -5,6 +5,7 @@
   "watchForFileChanges": false,
   "requestTimeout": 15000,
   "chromeWebSecurity": false,
+  "defaultCommandTimeout": 8000,
   "reporter": "junit",
   "reporterOptions": {
     "toConsole": true
