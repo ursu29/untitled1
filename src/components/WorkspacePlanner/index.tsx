@@ -133,6 +133,7 @@ export default function WorkspacePlanner() {
       setWorkplaces(dataWorkspace.workspace?.workplaces)
     },
     fetchPolicy: 'network-only',
+    pollInterval: 15000,
     onError: error => {
       if (!workspacePool?.workspaces.length) return
       message.error(error)

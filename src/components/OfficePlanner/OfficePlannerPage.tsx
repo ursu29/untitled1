@@ -137,6 +137,7 @@ function OfficePlannerPage() {
         count: DAYS_IN_A_ROW,
       },
     },
+    fetchPolicy: 'network-only',
   })
 
   const refetchQueries = [
@@ -149,6 +150,7 @@ function OfficePlannerPage() {
           count: DAYS_IN_A_ROW,
         },
       },
+      fetchPolicy: 'network-only',
     },
   ]
 
