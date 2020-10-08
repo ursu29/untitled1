@@ -17,7 +17,7 @@ describe('Employees', () => {
 
   it('Filter the employees table by name', () => {
     employees.searchField().type('Test E')
-    employees.row().its('length').should('be', 2)
+    employees.row().its('length').should('eq', 2)
     employees.row().first().find('td').eq(1).should('have.text', 'Test Employee')
   })
 
