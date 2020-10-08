@@ -57,7 +57,7 @@ function ProcessList({ items, tabName }: Props) {
     return <PageContent>No processes found</PageContent>
   }
 
-  // Add to processes list new field with active step responsible users
+  /* // Add to processes list new field with active step responsible users
   const processesWithResponsibleUsers = items.map(process => {
     let activeStepResponsibleUsers
 
@@ -79,7 +79,7 @@ function ProcessList({ items, tabName }: Props) {
       }
     } catch {}
     return { ...process, activeStepResponsibleUsers }
-  })
+  }) */
 
   const handleSearch = (selectedKeys: any, confirm: any, dataIndex: any) => {
     confirm()
@@ -265,7 +265,7 @@ function ProcessList({ items, tabName }: Props) {
       title: 'Responsible',
       render: (_, process) => (
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-          {process.activeStepResponsibleUsers
+          {process.activeStepEmployees
             ?.sort((a: any, b: any) =>
               a.email.toLowerCase() === user.employee.email.toLowerCase() ? -1 : 1,
             )
@@ -290,35 +290,30 @@ function ProcessList({ items, tabName }: Props) {
       filters: [
         //@ts-ignore
         ...new Set(
-          processesWithResponsibleUsers
-            .filter(e => e.activeStepResponsibleUsers)
+          items
+            .filter(e => e.activeStepEmployees)
             .flatMap(item => {
-              if (item.activeStepResponsibleUsers)
-                return item.activeStepResponsibleUsers.map(e => e.name)
+              if (item.activeStepEmployees) return item.activeStepEmployees.map(e => e.name)
             }),
         ),
       ].map(e => ({ text: e, value: e })),
       onFilter: (value: any, record) =>
-        record.activeStepResponsibleUsers
-          ? record.activeStepResponsibleUsers.map((e: any) => e.name).includes(value)
+        record.activeStepEmployees
+          ? record.activeStepEmployees.map((e: any) => e.name).includes(value)
           : false,
     })
   }
 
   return (
-    <Table<
-      QueryType['processExecutions'][0] & {
-        activeStepResponsibleUsers: { email: string; name: string }[] | null | undefined
-      }
-    >
+    <Table<QueryType['processExecutions'][0]>
       rowKey="id"
       //@ts-ignore
       columns={columns}
-      dataSource={processesWithResponsibleUsers.sort((a: any, b: any) => {
+      dataSource={items.sort((a: any, b: any) => {
         if (tabName === 'archived') return 1
 
         const includesUserEmail = (e: any) =>
-          e.activeStepResponsibleUsers
+          e.activeStepEmployees
             ?.map((e: any) => e.email.toLowerCase())
             ?.includes(user.employee.email.toLowerCase())
         if (includesUserEmail(a) && !includesUserEmail(b)) return -1
