@@ -10,6 +10,7 @@ import { debounce } from 'throttle-debounce'
 import BookingList from './BookingList'
 import DesignModeSider from './Sider/DesignModeSider'
 import Sider from './Sider/Sider'
+import './styles.css'
 
 const WorkspaceWrapper = styled.div<{ isDesignMode: boolean }>`
   position: relative;
@@ -114,6 +115,7 @@ export default function Workspace({
           minScale: 0.5,
           maxScale: 4,
           limitToBounds: false,
+          centerContent: false,
         }}
         pan={{
           //@ts-ignore
