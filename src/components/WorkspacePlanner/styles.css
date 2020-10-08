@@ -1,4 +1,7 @@
 .default-place {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 30px;
   height: 30px;
   border: 2px solid #007d01c7;
@@ -8,17 +11,39 @@
   transition: 0.1s all;
 }
 
+.default-place > .place-number {
+  font-size: 15px;
+  color: #007d01c7;
+  font-weight: 700;
+}
+
+.place-number:active {
+  cursor: grabbing;
+}
+
 .design-place {
   border-color: #007d75c7;
   background-color: #43dfff82;
 }
-.design-place:active {
-  cursor: grabbing;
+.design-place:active,
+.design-selected-place:active,
+.react-draggable-dragging {
+  cursor: grabbing !important;
+}
+
+.design-place > .place-number,
+.design-selected-place > .place-number {
+  color: #007d75c7 !important;
 }
 
 .booked-place {
   border-color: #900000ad;
   background-color: #ff7e7e69;
+}
+
+.booked-place > .place-number,
+.booked-selected-place > .place-number {
+  color: #900000ad !important;
 }
 
 .free-place {
@@ -35,6 +60,12 @@
 .booked-selected-place {
   border-color: #900000ad;
   background-color: #ff6666;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.design-selected-place {
+  border-color: #007d75c7;
+  background-color: #00fcff;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 

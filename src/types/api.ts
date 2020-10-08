@@ -438,6 +438,7 @@ export interface WorkplaceType {
   id: string
   coordX: number
   coordY: number
+  number: number
   bookings: WorkplaceBookingType[]
 }
 
