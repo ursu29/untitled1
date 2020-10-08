@@ -8,7 +8,8 @@ import { COLLAPSE_WIDTH } from '../../config'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import { debounce } from 'throttle-debounce'
 import BookingList from './BookingList'
-import { LeftOutlined } from '@ant-design/icons'
+import DesignModeSider from './Sider/DesignModeSider'
+import Sider from './Sider/Sider'
 
 const WorkspaceWrapper = styled.div<{ isDesignMode: boolean }>`
   position: relative;
@@ -22,41 +23,6 @@ const WorkspaceWrapper = styled.div<{ isDesignMode: boolean }>`
   &:active {
     cursor: grabbing;
   }
-`
-
-const TableWrapper = styled.div`
-  display: flex;
-  max-height: 101%;
-  position: absolute;
-  top: 0;
-  right: 0;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-`
-
-const ExpandIconWrapper = styled.div<{ isOpen: boolean }>`
-  position: absolute;
-  left: -29px;
-  height: fit-content;
-  font-size: 17px;
-  color: white;
-  padding: 5px 5px 5px 7px;
-  margin: 10px 0;
-  background-color: #1890ff;
-  border-radius: 20px 0 0 20px;
-  cursor: pointer;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-`
-
-const BookingListWrapper = styled.div<{ isOpen: boolean }>`
-  width: ${props => (props.isOpen ? '380px' : 0)};
-  transition: 0.5s all;
-  overflow-y: auto;
-  overflow-x: hidden;
-  max-height: 700px;
-  border: solid #1890ff;
-  border-width: ${props => (props.isOpen ? '0 0 1px 1px' : '0')};
-  transition: all 0.4s ease 0s;
-  cursor: pointer;
 `
 
 interface Props {
@@ -81,6 +47,7 @@ interface Props {
   onBookCancel: any
   setIsInfoForBooked: any
   setIsBookingListOpen: any
+  updateWorkplace: any
 }
 
 export default function Workspace({
@@ -105,7 +72,9 @@ export default function Workspace({
   onBookCancel,
   setIsInfoForBooked,
   setIsBookingListOpen,
+  updateWorkplace,
 }: Props) {
+  const [chosenWorkplace, setChosenWorkplace] = useState({})
   const [spaceScale, setSpaceScale] = useState(1)
   const [coords, setCoords] = useState({ coordX: 0, coordY: 0 })
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
@@ -116,6 +85,11 @@ export default function Workspace({
       setCoords({ coordX, coordY })
     },
   )
+
+  const onDesignModeClick = (workplaceId: string) => {
+    onSelect(workplaceId)
+    setChosenWorkplace(workplaces.find(e => e.id === workplaceId) || {})
+  }
 
   return (
     <WorkspaceWrapper isDesignMode={isDesignMode}>
@@ -188,6 +162,7 @@ export default function Workspace({
               onStop={onStop}
               onBook={onBook}
               onBookCancel={onBookCancel}
+              onDesignModeClick={onDesignModeClick}
             />
           ))}
 
@@ -220,29 +195,23 @@ export default function Workspace({
       </TransformWrapper>
 
       {!isDesignMode && !!bookings?.length && (
-        <TableWrapper>
-          <ExpandIconWrapper
-            isOpen={isBookingListOpen}
-            onClick={() => setIsBookingListOpen(!isBookingListOpen)}
-          >
-            <div
-              style={{
-                transform: `rotateY(${isBookingListOpen ? '180deg' : 0})`,
-                transition: '1s all',
-              }}
-            >
-              <LeftOutlined />
-            </div>
-          </ExpandIconWrapper>
-          <BookingListWrapper isOpen={isBookingListOpen}>
-            <BookingList
-              bookings={bookings}
-              onBookCancel={onBookCancel}
-              onSelect={(id: string) => onSelect(id)}
-              setIsInfoForBooked={setIsInfoForBooked}
-            />
-          </BookingListWrapper>
-        </TableWrapper>
+        <Sider isOpen={isBookingListOpen} onOpen={() => setIsBookingListOpen(!isBookingListOpen)}>
+          <BookingList
+            bookings={bookings}
+            onBookCancel={onBookCancel}
+            onSelect={(id: string) => onSelect(id)}
+            setIsInfoForBooked={setIsInfoForBooked}
+          />
+        </Sider>
+      )}
+
+      {isDesignMode && (
+        <DesignModeSider
+          workplace={chosenWorkplace}
+          onSave={updateWorkplace}
+          isOpen={isBookingListOpen}
+          onOpen={() => setIsBookingListOpen(!isBookingListOpen)}
+        />
       )}
     </WorkspaceWrapper>
   )

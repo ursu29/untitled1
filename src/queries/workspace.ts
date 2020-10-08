@@ -22,6 +22,7 @@ export const workspaceQuery = gql`
         id
         coordX
         coordY
+        number
         bookings(input: $bookingsInput) {
           id
           employeeEmail
@@ -82,6 +83,7 @@ export const WORKPLACE = {
         id
         coordX
         coordY
+        number
       }
     }
   `,
