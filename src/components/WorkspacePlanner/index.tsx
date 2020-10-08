@@ -93,7 +93,7 @@ export default function WorkspacePlanner() {
     },
   )
   const locations = dataLocations?.locations
-
+  console.log(locations)
   /**
    *  CHECK ACCESS TO DESIGN MODE
    */
@@ -107,7 +107,7 @@ export default function WorkspacePlanner() {
    */
 
   const workspacePoolQueryVariables = {
-    input: { locationId: '5e5693ed05ca9232ef1cdbf7' }, //currentLocation } }, TODO:
+    input: { locationId: currentLocation },
     bookingsInput: { startDate: dateRange.startDate, finishDate: dateRange.finishDate },
   }
 
@@ -493,7 +493,6 @@ export default function WorkspacePlanner() {
           <Tabs.TabPane
             key={location.id}
             tab={location.name}
-            disabled={location.id !== '5e5693ed05ca9232ef1cdbf7'} //TODO: add any possible location
             style={{ display: 'flex', flexDirection: 'column' }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px' }}>
