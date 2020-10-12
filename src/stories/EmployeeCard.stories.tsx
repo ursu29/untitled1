@@ -35,15 +35,3 @@ export const Default = Template.bind({})
 Default.args = {
   employee,
 }
-
-export const Large = Template.bind({})
-Large.args = {
-  size: 'large',
-  employee,
-}
-
-export const Small = Template.bind({})
-Small.args = {
-  size: 'small',
-  employee,
-}

@@ -129,7 +129,7 @@ export default function EmployeeView({ loading, employee, mobile }: Props) {
             </div>
           </Col>
           <Col md={24} lg={10}>
-            <EmployeeManager employee={employee} />
+            <EmployeeManager employeeEmail={employee.email} />
             <EmployeeProjects employee={employee} />
           </Col>
         </Row>

@@ -10,11 +10,15 @@ type EmployeePick = EmployeeDetails & {
 export interface Props {
   title: string
   employees: EmployeePick[]
-  onClick: (employee: EmployeePick) => void
 }
 
-function EmployeeGroup({ title, employees, onClick }: Props) {
+function EmployeeGroup({ title, employees }: Props) {
   const [showMore, setShowMore] = useState(false)
+
+  if (!employees.length) {
+    return null
+  }
+
   return (
     <div>
       <div
@@ -47,7 +51,7 @@ function EmployeeGroup({ title, employees, onClick }: Props) {
       </div>
       <div>
         {employees.slice(0, showMore ? employees.length : 2).map(i => (
-          <EmployeeCard employee={i} onClick={onClick} />
+          <EmployeeCard employee={i} />
         ))}
       </div>
     </div>
