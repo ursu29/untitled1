@@ -36,7 +36,7 @@ interface Props {
 }
 
 export default function ProjectTechnologies(props: Props) {
-  const variables = { input: { id: props.project.id } }
+  const variables = { id: props.project.id }
 
   const [selectedSkills, setSelectedSkills] = useState<Pick<Skill, 'id' | 'name'>[] | undefined>([])
   const [edit, toggleEdit] = useState(false)

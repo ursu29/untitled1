@@ -1,14 +1,14 @@
+import { EditOutlined } from '@ant-design/icons'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import moment from 'moment'
 import React from 'react'
 import message from '../../message'
 import getPost from '../../queries/getPost'
-import { Post } from '../../types'
+import { Post, Tag } from '../../types'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import PostForm from './PostForm'
-import { EditOutlined } from '@ant-design/icons'
-import moment from 'moment'
 
 const mutation = gql`
   mutation updatePost($input: UpdatePostInput) {
@@ -19,7 +19,23 @@ const mutation = gql`
 `
 
 interface Props {
-  post: Partial<Post>
+  post: Pick<
+    Post,
+    | 'id'
+    | 'title'
+    | 'body'
+    | 'isTranslated'
+    | 'createdAt'
+    | 'locations'
+    | 'publishDate'
+    | 'backgroundImage'
+    | 'foregroundImage'
+    | 'images'
+    | 'annotation'
+    | 'titleImage'
+  > & {
+    tags?: Pick<Tag, 'id' | 'name' | 'description'>[]
+  }
 }
 
 export default function UpdatePost({ post }: Props) {
@@ -39,7 +55,7 @@ export default function UpdatePost({ post }: Props) {
           loading={loading}
           values={{
             ...post,
-            tags: post.tags?.map(tag => ({
+            tags: post.tags?.map((tag: any) => ({
               key: tag.name,
               label: tag.name,
               id: tag.id,
@@ -73,7 +89,7 @@ export default function UpdatePost({ post }: Props) {
                   },
                 ]
               : null,
-            images: post.images?.map(image => ({
+            images: post.images?.map((image: any) => ({
               ...image,
               uid: image.id,
               name: image.fileName,

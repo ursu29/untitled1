@@ -6,17 +6,20 @@ import { Employee, Post, Tag } from '../../types'
 import PostItem from './Post'
 import UpdatePost from './UpdatePost'
 
-type PostPick = Pick<
+export type PostPick = Pick<
   Post,
   | 'id'
   | 'title'
   | 'body'
   | 'isTranslated'
   | 'createdAt'
+  | 'publishDate'
   | 'locations'
   | 'images'
   | 'annotation'
   | 'titleImage'
+  | 'backgroundImage'
+  | 'foregroundImage'
 > & {
   createdBy: Pick<Employee, 'id' | 'name' | 'email'>
   tags?: Pick<Tag, 'id' | 'name' | 'description'>[]
