@@ -158,6 +158,7 @@ function ProcessList({ items, tabName }: Props) {
         if (i.process.type === 'rotation') return <RotationIcon />
         return <div>{i.process.type}</div>
       },
+      sorter: (a: any, b: any) => a.process?.type.localeCompare(b.process?.type),
     },
     {
       key: 'title',
@@ -172,6 +173,7 @@ function ProcessList({ items, tabName }: Props) {
         )
       },
       ellipsis: true,
+      sorter: (a: any, b: any) => a.process?.title.localeCompare(b.process?.title),
     },
     {
       key: 'project',
@@ -186,6 +188,7 @@ function ProcessList({ items, tabName }: Props) {
       render: (_: any, i: any) => {
         return <ProjectTag small project={i.project} />
       },
+      sorter: (a: any, b: any) => (a.project?.name || '').localeCompare(b.project?.name || ''),
     },
     {
       key: 'location',
@@ -213,6 +216,17 @@ function ProcessList({ items, tabName }: Props) {
       onFilter: (value: any, record: any) =>
         record.locations && record.locations.map((e: any) => e.name).includes(value),
       ellipsis: true,
+      sorter: (a: any, b: any) =>
+        a.locations
+          ?.map((e: any) => e.name)
+          .sort()
+          .join('')
+          .localeCompare(
+            b.locations
+              ?.map((e: any) => e.name)
+              .sort()
+              .join(''),
+          ),
     },
     {
       key: 'position',
@@ -220,6 +234,8 @@ function ProcessList({ items, tabName }: Props) {
       title: 'Position',
       ...getColumnSearchProps('position', 'vacancy'),
       ellipsis: true,
+      sorter: (a: any, b: any) =>
+        (a.vacancy?.position || '').localeCompare(b.vacancy?.position || ''),
     },
     {
       key: 'employee',
@@ -229,6 +245,7 @@ function ProcessList({ items, tabName }: Props) {
         return <span>{process?.employee}</span>
       },
       ellipsis: true,
+      sorter: (a: any, b: any) => (a?.employee || '').localeCompare(b?.employee || ''),
     },
     {
       key: 'finishDate',
@@ -245,7 +262,7 @@ function ProcessList({ items, tabName }: Props) {
         )
       },
       //@ts-ignore
-      sorter: (a, b) => new Date(a.finishDate) - new Date(b.finishDate),
+      sorter: (a: any, b: any) => new Date(a.finishDate) - new Date(b.finishDate),
       ellipsis: true,
     },
     {
@@ -254,6 +271,20 @@ function ProcessList({ items, tabName }: Props) {
       align: 'right',
       render: (_: any, process: any) => {
         return <ProcessExecutionStatusTag processExecution={process} />
+      },
+      sorter: (a: any, b: any) => {
+        const getStatus = (processExecution: any) => {
+          let status = processExecution?.status
+          if (
+            processExecution.status === 'running' &&
+            processExecution.process?.type === 'onboarding' &&
+            !processExecution.vacancy?.isPublished
+          )
+            status = 'pending'
+          return status
+        }
+
+        return getStatus(a).localeCompare(getStatus(b))
       },
     },
   ]
@@ -297,10 +328,21 @@ function ProcessList({ items, tabName }: Props) {
             }),
         ),
       ].map(e => ({ text: e, value: e })),
-      onFilter: (value: any, record) =>
+      onFilter: (value: any, record: any) =>
         record.activeStepEmployees
           ? record.activeStepEmployees.map((e: any) => e.name).includes(value)
           : false,
+      sorter: (a: any, b: any) =>
+        a.activeStepEmployees
+          ?.map((e: any) => e.name)
+          .sort()
+          .join('')
+          .localeCompare(
+            b.activeStepEmployees
+              ?.map((e: any) => e.name)
+              .sort()
+              .join(''),
+          ),
     })
   }
 
