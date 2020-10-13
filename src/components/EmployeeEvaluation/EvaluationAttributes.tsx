@@ -38,7 +38,7 @@ interface Props {
   comments?: Exclude<EvaluationComment, 'employee'>[]
   loading: boolean
   employee: Pick<Employee, 'id' | 'name' | 'isMe'> & {
-    manager: Pick<Employee, 'id' | 'name' | 'isMe'>
+    agileManager: Pick<Employee, 'id' | 'name' | 'isMe'>
   }
   editable: boolean
   versionSnapshot?: any
