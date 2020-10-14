@@ -50,7 +50,12 @@ function ActiveProcesses({ processExecutions }: Props) {
     {
       title: 'Archived',
       key: 'archived',
-      body: <ProcessList items={processExecutions.filter(i => i.status !== 'running')} />,
+      body: (
+        <ProcessList
+          items={processExecutions.filter(i => i.status !== 'running')}
+          tabName="archived"
+        />
+      ),
     },
   ]
 

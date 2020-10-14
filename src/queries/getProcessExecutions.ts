@@ -7,6 +7,7 @@ import {
   ProcessExecution,
   ProcessExecutionStep,
   ProcessStep,
+  Employee,
 } from '../types'
 import { ProcessStepDetails } from '../fragments'
 
@@ -19,21 +20,21 @@ export default gql`
         title
         customer
         type
-        steps {
-          id
-          responsibleUsers {
-            email
-            name
-          }
-        }
+        # steps {
+        #   id
+        #   responsibleUsers {
+        #     email
+        #     name
+        #   }
+        # }
       }
-      executionSteps {
-        id
-        step {
-          id
-        }
-        isDone
-      }
+      # executionSteps {
+      #   id
+      #   step {
+      #     id
+      #   }
+      #   isDone
+      # }
       status
       vacancy {
         id
@@ -52,6 +53,11 @@ export default gql`
       }
       employee
       finishDate
+      activeStepEmployees {
+        id
+        name
+        email
+      }
     }
   }
 `
@@ -70,6 +76,7 @@ type ProcessExecutionPick = {
   executionSteps: (Pick<ProcessExecutionStep, 'id' | 'isDone'> & {
     step: Pick<ProcessStep, 'id'>
   })[]
+  activeStepEmployees?: Employee[]
 }
 
 export type QueryType = {

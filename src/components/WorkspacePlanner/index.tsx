@@ -80,6 +80,7 @@ export default function WorkspacePlanner() {
   const isPastDateChosen = !dayjs().isSameOrBefore(dayjs(dateRange.startDate, 'DD.MM.YYYY'), 'day')
 
   useEffect(() => {
+    if (isDesignMode) return
     setSelectedWorkplace('')
   }, [dateRange, workplaces, currentLocation, isDesignMode, selectedWorkspace])
 
@@ -561,6 +562,7 @@ export default function WorkspacePlanner() {
                 isInfoForBooked={isInfoForBooked}
                 setIsInfoForBooked={setIsInfoForBooked}
                 setIsBookingListOpen={setIsBookingListOpen}
+                updateWorkplace={updateWorkplace}
               />
             )}
           </Tabs.TabPane>

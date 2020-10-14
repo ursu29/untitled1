@@ -117,7 +117,7 @@ export default function EmployeesList({ employees, loading, fixed }: Props) {
       },
       {
         text: 'DevOps & Admins',
-        value: ['devops', 'admin', 'security', 'system'],
+        value: ['devops', 'admin', 'security', 'system administrator'],
       },
       {
         text: 'Data Analysts',
