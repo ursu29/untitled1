@@ -1,8 +1,6 @@
 import * as Msal from 'msal'
 import React, { useEffect, useState } from 'react'
 
-console.log('client_id', process.env.REACT_APP_AZURE_CLIENT)
-
 const msalConfig: Msal.Configuration = {
   auth: {
     authority: 'https://login.microsoftonline.com/5acc8b65-db91-44ea-8d28-20f9e45b432e',
@@ -23,8 +21,11 @@ msalInstance.handleRedirectCallback((error: any, response: any) => {
   console.log('redirect', error, response)
 })
 
+const MINUTE = 1000 * 60
+
 function Oauth({ children }: any) {
   const [token, setToken] = useState(localStorage.getItem('access_token'))
+  let timeout: ReturnType<typeof setTimeout>
   useEffect(() => {
     if (token) return
     async function authorize() {
@@ -44,7 +45,13 @@ function Oauth({ children }: any) {
           msalInstance.loginRedirect(tokenRequest)
         }
         const response = await msalInstance.acquireTokenSilent(tokenRequest)
+        const expiresIn = new Date(response.expiresOn).getTime()
+        const now = new Date().getTime()
         setToken(response.accessToken)
+        timeout = setTimeout(() => {
+          setToken(null)
+          authorize()
+        }, expiresIn - now - MINUTE)
         return response.accessToken
       } catch (e) {
         console.log('silent token acquisition fails.')
@@ -57,6 +64,9 @@ function Oauth({ children }: any) {
       }
     }
     authorize()
+    return () => {
+      clearTimeout(timeout)
+    }
     // eslint-disable-next-line
   }, [])
 

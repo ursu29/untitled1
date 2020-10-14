@@ -127,6 +127,7 @@ function OfficePlannerPage() {
     profile: Pick<Employee, 'id' | 'location'>
   }>(query, {
     variables: { input: { locations: [currentLocation] } },
+    fetchPolicy: 'network-only',
   })
 
   const daysQuery = useQuery<{ officeDays: OfficeDayPick[] }>(getOfficeDays, {
@@ -136,6 +137,7 @@ function OfficePlannerPage() {
         count: DAYS_IN_A_ROW,
       },
     },
+    fetchPolicy: 'network-only',
   })
 
   const refetchQueries = [
@@ -148,6 +150,7 @@ function OfficePlannerPage() {
           count: DAYS_IN_A_ROW,
         },
       },
+      fetchPolicy: 'network-only',
     },
   ]
 

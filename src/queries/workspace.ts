@@ -113,6 +113,8 @@ export const BOOKING = {
     mutation deleteWorkplaceBooking($input: DeleteWorkplaceBookingInput) {
       deleteWorkplaceBooking(input: $input) {
         id
+        startDate
+        finishDate
       }
     }
   `,
