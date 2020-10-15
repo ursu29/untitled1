@@ -20,7 +20,7 @@ function UpdateProject({ project }: { project: Partial<Project> }) {
     onError: message.error,
   })
 
-  if (!scope.includes('group.readwrite.all')) return null
+  if (!scope.includes('application.readwrite.all')) return null
 
   return (
     <Drawer

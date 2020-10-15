@@ -33,7 +33,9 @@ function UpdateProject({ employee }: { employee: EmployeePick }) {
     },
   })
 
-  if (!scope.includes('user.readwrite.all')) return null
+  console.log(scope)
+
+  if (!scope.includes('application.readwrite.all')) return null
 
   return (
     <Drawer

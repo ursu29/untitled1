@@ -51,7 +51,7 @@ function EmployeeGroup({ title, employees }: Props) {
       </div>
       <div>
         {employees.slice(0, showMore ? employees.length : 2).map(i => (
-          <EmployeeCard employee={i} />
+          <EmployeeCard employee={i} key={i.id} />
         ))}
       </div>
     </div>
