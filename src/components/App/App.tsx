@@ -3,13 +3,14 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloClient } from 'apollo-client'
 import { setContext } from 'apollo-link-context'
 import { HttpLink } from 'apollo-link-http'
-import React from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { LastLocationProvider } from 'react-router-last-location'
 import { GATEWAY } from '../../config'
 import Oauth from './Oauth'
 import Root from './Root'
 import { TokenProvider } from '../../utils/withToken'
+import { onError } from 'apollo-link-error'
 
 const timezoneOffset = new Date().getTimezoneOffset()
 const timezoneOffsetKey = 'x-timezone-offset'
@@ -19,6 +20,7 @@ const httpLink = new HttpLink({
 })
 
 const App: React.FC = () => {
+  const [tokenExpired, setTokenExpired] = useState(false)
   return (
     <Oauth>
       {(token: string) => {
@@ -34,15 +36,24 @@ const App: React.FC = () => {
           }
         })
 
-        const client = new ApolloClient({
-          link: authLink.concat(httpLink),
-          cache: new InMemoryCache(),
+        const errorLink = onError(({ graphQLErrors, networkError }) => {
+          if (graphQLErrors)
+            graphQLErrors.forEach(({ message, locations, path }) => {
+              if (message.includes('401: Unauthorized')) {
+                // this error comes from Azure. this is client only handler
+                console.info('probably token was expired')
+                setTokenExpired(true)
+              }
+              console.log(
+                `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+              )
+            })
+          if (networkError) console.log(`[Network error]: ${networkError}`)
         })
 
-        client.writeData({
-          data: {
-            unauthenticated: false,
-          },
+        const client = new ApolloClient({
+          link: errorLink.concat(authLink).concat(httpLink),
+          cache: new InMemoryCache(),
         })
 
         return (
@@ -50,7 +61,7 @@ const App: React.FC = () => {
             <ApolloProvider client={client}>
               <LastLocationProvider>
                 <TokenProvider token={token}>
-                  <Root />
+                  <Root tokenExpired={tokenExpired} />
                 </TokenProvider>
               </LastLocationProvider>
             </ApolloProvider>
