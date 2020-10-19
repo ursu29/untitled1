@@ -362,6 +362,7 @@ function ProcessList({ items, tabName }: Props) {
         else return 1
       })}
       size="small"
+      pagination={{ showSizeChanger: true }}
     />
   )
 }
