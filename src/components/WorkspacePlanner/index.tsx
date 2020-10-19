@@ -72,7 +72,10 @@ export default function WorkspacePlanner() {
   const [currentLocation, setCurrentLocation] = useState<string>()
   const [workplaces, setWorkplaces] = useState<WorkplaceType[]>([])
   const [isDesignMode, toggleDesignMode] = useState(false)
-  const [dateRange, setDateRange] = useState({ startDate: '', finishDate: '' })
+  const [dateRange, setDateRange] = useState({
+    startDate: dayjs().format('DD.MM.YYYY'),
+    finishDate: dayjs().format('DD.MM.YYYY'),
+  })
   const [selectedWorkspace, setSelectedWorkspace] = useState('')
   const [selectedWorkplace, setSelectedWorkplace] = useState('')
   const [isInfoForBooked, setIsInfoForBooked] = useState(false)

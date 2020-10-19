@@ -21,6 +21,10 @@ import {
   ToolOutlined,
   DatabaseOutlined,
   AppstoreOutlined,
+  TableOutlined,
+  ContainerOutlined,
+  GlobalOutlined,
+  ReadOutlined,
 } from '@ant-design/icons'
 
 import { Menu, Tag, Badge } from 'antd'
@@ -89,6 +93,7 @@ function PortalMenu(props: Props) {
       route: paths.EMPLOYEES,
       icon: <TeamOutlined />,
       title: 'Employees',
+      status: '',
     },
     {
       route: paths.PROJECTS,
@@ -98,9 +103,9 @@ function PortalMenu(props: Props) {
     {
       route: paths.GUILDS,
       icon: <CoffeeOutlined />,
-      title: 'Guilds',
+      title: 'Guild',
     },
-    {
+    /*     {
       route: paths.SKILLS,
       icon: <CrownOutlined />,
       title: 'Skills',
@@ -109,7 +114,7 @@ function PortalMenu(props: Props) {
       route: paths.STATISTICS,
       icon: <LineChartOutlined />,
       title: 'Statistics',
-    },
+    }, */
     {
       route: paths.STREAM,
       icon: <VideoCameraOutlined />,
@@ -122,18 +127,16 @@ function PortalMenu(props: Props) {
       title: 'Bookmarks',
       subMenu: 'knowledge',
     },
-    data?.matricesAccess.read
-      ? {
-          route: paths.MATRICES,
-          icon: <NumberOutlined />,
-          title: 'Matrices',
-          subMenu: 'technical',
-        }
-      : null,
     {
       route: paths.SHARED_FILES,
-      icon: <FileImageOutlined />,
+      icon: <ContainerOutlined />,
       title: 'Files',
+      subMenu: 'knowledge',
+    },
+    {
+      route: paths.WIKI,
+      icon: <GlobalOutlined />,
+      title: 'WIKI',
       subMenu: 'knowledge',
     },
     {
@@ -147,30 +150,20 @@ function PortalMenu(props: Props) {
       title: 'Timemaster',
       subMenu: 'tools',
     },
-    {
-      route: paths.WIKI,
-      icon: <InfoCircleOutlined />,
-      title: 'WIKI',
-      subMenu: 'knowledge',
-    },
+
     {
       route: paths.WORKSPACE_PLANNER,
       icon: <ImportOutlined />,
-      title: 'Workspace planner',
+      title: 'Workspace',
       subMenu: 'tools',
-      status: 'new',
+      // status: 'new',
     },
-    {
+    /*     {
       route: paths.OFFICE_PLANNER,
       icon: <ImportOutlined />,
       title: 'Office planner',
       subMenu: 'tools',
-    },
-    {
-      route: paths.VACANCIES,
-      icon: <IdcardOutlined />,
-      title: 'Vacancies',
-    },
+    }, */
     data?.processesAccess.read
       ? {
           route: paths.HR,
@@ -180,14 +173,27 @@ function PortalMenu(props: Props) {
           badgeCount: activeProcessExecutionsCount,
         }
       : null,
-    data?.processesAccess.read
+    data?.matricesAccess.read
+      ? {
+          route: paths.MATRICES,
+          icon: <TableOutlined />,
+          title: 'Matrices',
+          subMenu: 'tools',
+        }
+      : null,
+    /*  data?.processesAccess.read
       ? {
           route: paths.PROCESSES,
           icon: <BranchesOutlined />,
           title: 'Processes',
           subMenu: 'technical',
         }
-      : null,
+      : null, */
+    {
+      route: paths.VACANCIES,
+      icon: <IdcardOutlined />,
+      title: 'Vacancies',
+    },
     {
       route: paths.FEEDBACK,
       icon: <NotificationOutlined />,
@@ -272,7 +278,7 @@ function PortalMenu(props: Props) {
                   offset={isLarge ? [80, 7] : [5, 8]}
                   style={{ backgroundColor: '#108ee9' }}
                 >
-                  <AppstoreOutlined />
+                  <ToolOutlined />
                   <span>Tools</span>
                 </Badge>
               </span>
@@ -285,7 +291,7 @@ function PortalMenu(props: Props) {
             key="knowledge"
             title={
               <span>
-                <DatabaseOutlined />
+                <ReadOutlined />
                 <span>Knowledge</span>
               </span>
             }
