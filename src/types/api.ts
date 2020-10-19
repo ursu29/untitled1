@@ -210,6 +210,7 @@ export interface DevelopmentPlan {
   lookBackNegative: string
   lookBackPositive: string
   lookForward: string
+  lastDiscussed: string
 }
 
 export interface EvaluationAttribute {
