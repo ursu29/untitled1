@@ -38,7 +38,7 @@ export default function FeedbacksList() {
 
   useEffect(() => {
     setHasMore(true)
-  }, [search, about, project])
+  }, [search, about, project, data?.feedbacks])
 
   if (!data?.feedbacks) return null
 

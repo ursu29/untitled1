@@ -16,6 +16,8 @@ export default function AddFeedback() {
       message.success('Your feedback has been sent')
       form.resetFields()
     },
+    refetchQueries: ['getFeedbacks'],
+    awaitRefetchQueries: true,
     onError: message.error,
   })
 
