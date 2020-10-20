@@ -23,8 +23,10 @@ export default function AddFeedback() {
 
   const [about, setAbout] = useState('')
 
-  const onFinish = (values: any) => {
-    addNewFeedback({ variables: { input: values } })
+  const onFinish = ({ isManagersOnly, ...values }: any) => {
+    addNewFeedback({
+      variables: { input: { ...values, isPublic: !isManagersOnly } },
+    })
   }
 
   const onAboutChange = (value: any) => setAbout(value)
