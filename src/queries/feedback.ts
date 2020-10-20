@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import { Feedback } from '../types'
 
 export const getFeedbacks = gql`
-  query getFeedbacks($input: FeedbacksInput) {
+  query getFeedbacks($input: FeedbacksInput!) {
     feedbacks(input: $input) {
       id
       about
@@ -18,7 +18,7 @@ export const getFeedbacks = gql`
 `
 
 export const addFeedback = gql`
-  mutation addFeedback($input: FeedbackInput) {
+  mutation addFeedback($input: FeedbackInput!) {
     addFeedback(input: $input) {
       id
     }
