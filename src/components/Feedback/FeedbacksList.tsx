@@ -75,7 +75,7 @@ export default function FeedbacksList() {
           initialLoad={false}
           pageStart={0}
           loadMore={() => {
-            if (loading) return
+            if (loading || !hasMore) return
 
             fetchMore({
               variables: {
