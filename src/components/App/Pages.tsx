@@ -3,6 +3,7 @@ import React, { Suspense } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import paths from '../../paths'
 import Bookmarks from '../Bookmarks/BookmarksPage'
+import Onboarding from '../Onboarding'
 import Employee from '../Employees/EmployeePage'
 import Employees from '../Employees/EmployeesPage'
 import Feedback from '../Feedback/FeedbackPage'
@@ -45,6 +46,7 @@ export default function Pages() {
           <Redirect exact from="/" to="/profile" />
           <Route path={paths.PROFILE + '/:tab'} component={Profile} />
           <Route path={paths.PROFILE} component={Profile} />
+          <Route path={paths.ONBOARDING} component={Onboarding} />
           <Route path={paths.EMPLOYEES + '/:email/:tab'} component={Employee} />
           <Route path={paths.EMPLOYEES + '/:email'} component={Employee} />
           <Route path={paths.EMPLOYEES} component={Employees} />
