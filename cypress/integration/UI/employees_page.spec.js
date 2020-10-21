@@ -10,17 +10,14 @@ describe('Employees', () => {
     cy.visit('/client/employees');
   })
 
-  afterEach(() => {
-    cy.getElement('find_employee').clear();
-  })
-
   it('Table of employees has some data', () => {
     cy.get('[data-row-key]').its('length').should('be.greaterThan', 2)
   })
 
   it('Filter the employees table by name', () => {
-    cy.getElement('find_employee').type(text)
-    cy.getElement('employee_table').contains('td', selectProfileName)
+    cy.getElement('find_employee').type(text);
+    cy.getElement('employee_table').contains('td', selectProfileName);
+    cy.getElement('find_employee').clear();
   })
 
   it('Filter the employees table by position', () => {
