@@ -1,5 +1,5 @@
-import React from 'react'
-import { Avatar, Comment, Space, Typography } from 'antd'
+import React, { useState } from 'react'
+import { Avatar, Button, Comment, Space, Typography } from 'antd'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import ProjectTag from '../Projects/ProjectTag'
@@ -41,6 +41,15 @@ const CommentMessage = ({ comment }: { comment: FeedbackComment }) => (
   />
 )
 
+const ToggledFeedbackReplyForm = ({ feedbackId }: { feedbackId: string }) => {
+  const [showForm, setShowForm] = useState(false)
+  return showForm ? (
+    <FeedbackReplyForm feedbackId={feedbackId} onClose={() => setShowForm(false)} />
+  ) : (
+    <Button onClick={() => setShowForm(true)}>Reply</Button>
+  )
+}
+
 export const FeedbackMessage = ({
   feedback,
   showComment,
@@ -69,7 +78,7 @@ export const FeedbackMessage = ({
       </Paragraph>
       {showComment &&
         comments.map(comment => <CommentMessage key={comment.id} comment={comment} />)}
-      {canReply && <FeedbackReplyForm feedbackId={feedback.id} />}
+      {canReply && <ToggledFeedbackReplyForm feedbackId={feedback.id} />}
     </>
   )
 }

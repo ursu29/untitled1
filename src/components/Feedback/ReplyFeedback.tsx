@@ -4,13 +4,19 @@ import { useMutation } from '@apollo/react-hooks'
 import { replyFeedback } from '../../queries/feedback'
 import message from '../../message'
 
-export const FeedbackReplyForm = ({ feedbackId }: { feedbackId: string }) => {
+export const FeedbackReplyForm = ({
+  feedbackId,
+  onClose,
+}: {
+  feedbackId: string
+  onClose: () => void
+}) => {
   const [form] = Form.useForm()
 
   const [replyOnFeedback, { loading }] = useMutation(replyFeedback, {
     onCompleted: () => {
       message.success('Your reply has been sent')
-      form.resetFields()
+      onClose()
     },
     // TODO: update apollo cache
     // refetchQueries: ['getFeedbacks'],
@@ -25,7 +31,7 @@ export const FeedbackReplyForm = ({ feedbackId }: { feedbackId: string }) => {
   }
 
   return (
-    <Form labelCol={{ span: 4 }} name="addFeedbackForm" form={form} onFinish={onFinish}>
+    <Form labelCol={{ span: 4 }} form={form} onFinish={onFinish}>
       <Form.Item
         name="text"
         rules={[
@@ -39,6 +45,7 @@ export const FeedbackReplyForm = ({ feedbackId }: { feedbackId: string }) => {
         style={{ marginBottom: 8 }}
       >
         <Input.TextArea
+          autoFocus
           autoSize={{ minRows: 1, maxRows: 20 }}
           placeholder="What do you want to say?"
         />
@@ -46,6 +53,9 @@ export const FeedbackReplyForm = ({ feedbackId }: { feedbackId: string }) => {
       <Form.Item style={{ marginBottom: 0 }}>
         <Button type="primary" htmlType="submit" loading={loading}>
           Reply
+        </Button>
+        <Button onClick={onClose} disabled={loading} style={{ margin: '0 8px' }}>
+          Cancel
         </Button>
       </Form.Item>
     </Form>
