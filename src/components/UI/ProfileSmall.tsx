@@ -19,6 +19,7 @@ export default function SiderProfile({ loading, profile }: Props) {
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   const avatar = (
     <Avatar
+      data-cy="profile_img"
       shape="square"
       size="large"
       icon={<UserOutlined />}
@@ -29,6 +30,7 @@ export default function SiderProfile({ loading, profile }: Props) {
   return (
     <Link to={paths.PROFILE}>
       <Card
+        data-cy="profile"
         className="profile-small"
         hoverable
         bordered={false}
@@ -47,9 +49,12 @@ export default function SiderProfile({ loading, profile }: Props) {
                 avatar={avatar}
                 description={
                   <>
-                    <Text strong>{profile.name}</Text>
+                    <Text strong data-cy="profile_name">
+                      {profile.name}
+                    </Text>
                     <br />
                     <Badge
+                      data-cy="profile_status"
                       color={
                         profile.status === 'Available'
                           ? 'green'
@@ -63,7 +68,9 @@ export default function SiderProfile({ loading, profile }: Props) {
                 }
               />
             ) : (
-              <Row justify="center">{avatar}</Row>
+              <Row justify="center" data-cy="profile_avatar">
+                {avatar}
+              </Row>
             ))}
         </Skeleton>
       </Card>
