@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
 import { useQuery } from '@apollo/react-hooks'
-import { Timeline, Typography, Space, Input, Spin, Select } from 'antd'
+import { Input, Select, Space, Spin, Timeline } from 'antd'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import ProjectTag from '../Projects/ProjectTag'
 import ProjectSelect from '../Projects/ProjectSelect'
-import { getFeedbacks, FeedbackQueryType } from '../../queries/feedback'
+import { FeedbackQueryType, getFeedbacks } from '../../queries/feedback'
+import { FeedbackMessage } from './FeedbackMessage'
 
 dayjs.extend(relativeTime)
 
-const { Paragraph } = Typography
 const { Option } = Select
 
 export default function FeedbacksList() {
@@ -97,23 +96,9 @@ export default function FeedbacksList() {
           hasMore={hasMore}
           useWindow={true}
         >
-          {data?.feedbacks.map(feedback => (
+          {data?.feedbacks.map((feedback, i) => (
             <Timeline.Item key={feedback.id}>
-              <Space size="middle" align="start" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>
-                {dayjs().to(dayjs(feedback.createdAt))}
-                <div style={{ fontWeight: 'bold' }}>{feedback.about}</div>
-                {feedback.project && (
-                  <ProjectTag
-                    small={true}
-                    key={feedback.project.id}
-                    project={feedback.project}
-                    leading={false}
-                  />
-                )}
-              </Space>
-              <Paragraph style={{ marginTop: '13px', maxWidth: '600px', whiteSpace: 'pre-wrap' }}>
-                {feedback.text}
-              </Paragraph>
+              <FeedbackMessage feedback={feedback} showComment={i % 2 !== 0} canReply={true} />
             </Timeline.Item>
           ))}
           {loading && <Spin style={{ marginLeft: '-4px' }} />}

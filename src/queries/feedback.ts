@@ -25,6 +25,14 @@ export const addFeedback = gql`
   }
 `
 
+export const replyFeedback = gql`
+  mutation replyFeedback($input: FeedbackReplyInput!) {
+    replyFeedback(input: $input) {
+      id
+    }
+  }
+`
+
 export type FeedbackQueryType = {
   feedbacks: Feedback[]
 }
