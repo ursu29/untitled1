@@ -65,7 +65,7 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
   return (
     <Section
       title={
-        <div>
+        <div data-cy={level.name}>
           {level.name}{' '}
           {editable && (
             <Button
@@ -91,7 +91,7 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
         <Droppable droppableId={level.id} direction="horizontal" isDropDisabled={!editable}>
           {(provided: any, snapshot: any) => (
             <div ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
-              {!filteredExperiences.length && <div>No skills yet</div>}
+              {!filteredExperiences.length && <div data-cy="no_skills">No skills yet</div>}
               {filteredExperiences
                 .sort((one, two) => (one.skill.name > two.skill.name ? 1 : -1))
                 .map((item, index) => (

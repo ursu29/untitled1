@@ -1,3 +1,4 @@
+
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -28,6 +29,12 @@ Cypress.Commands.add('getElement', name => cy.get(`[data-cy="${name}"]`));
 
 Cypress.Commands.add('clickElement', (text) => cy.get('span').contains(text).click());
 
+Cypress.Commands.add('checkLength', (name, length) => cy.getElement(name).its('length').should('eq', length));
+
+Cypress.Commands.add('checkTextInArrayEl', (el, array) => cy.getElement(el).each((val, idx) => {
+  expect(val.text()).contains(array[idx]);
+}))
+
 Cypress.Commands.add('selectFilterValue', (id, thText, name) => {
   cy.getElement(id).contains('th', thText).click('topRight');
   cy.clickElement(name);
@@ -41,6 +48,7 @@ Cypress.Commands.add('checkRowsToContainText', (text) => {
    });
 })
 
+Cypress.Commands.add('haveText', (name, text) => cy.getElement(name).should('have.text', text))
 //better to move tokens to cypress.env.json sooner or later
 
 //for real environment's backend MSAL authentication

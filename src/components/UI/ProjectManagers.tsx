@@ -35,7 +35,7 @@ export default function ProjectManagers({ project, title }: Props) {
         {leaders?.map(employee => (
           <EmployeeCard key={employee.id} email={employee.email} employee={employee} />
         ))}
-        {!leaders.length && <div>Project has no manager</div>}
+        {!leaders.length && <div data-cy="no_manager">Project has no manager</div>}
       </Skeleton>
     </Section>
   )

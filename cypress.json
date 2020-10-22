@@ -1,6 +1,8 @@
 {
   "viewportWidth": 1280,
   "viewportHeight": 768,
+  "experimentalFetchPolyfill": true,
+  "experimentalNetworkStubbing": true,
   "baseUrl": "https://portal.dev.sidenis.com",
   "watchForFileChanges": false,
   "requestTimeout": 15000,

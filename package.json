@@ -78,7 +78,7 @@
     "@types/simplemde": "^1.11.7",
     "@types/styled-components": "4.4.1",
     "@types/throttle-debounce": "^2.1.0",
-    "cypress": "4.1.0",
+    "cypress": "5.4.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.1.4",
     "prettier": "^2.0.4",
