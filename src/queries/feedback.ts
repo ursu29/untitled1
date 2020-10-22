@@ -13,6 +13,11 @@ export const getFeedbacks = gql`
       }
       text
       createdAt
+      comments {
+        id
+        text
+        createdAt
+      }
     }
   }
 `

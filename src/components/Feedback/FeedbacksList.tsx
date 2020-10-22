@@ -96,9 +96,9 @@ export default function FeedbacksList() {
           hasMore={hasMore}
           useWindow={true}
         >
-          {data?.feedbacks.map((feedback, i) => (
+          {data?.feedbacks.map(feedback => (
             <Timeline.Item key={feedback.id}>
-              <FeedbackMessage feedback={feedback} showComment={i % 2 !== 0} canReply={true} />
+              <FeedbackMessage feedback={feedback} canReply={true} />
             </Timeline.Item>
           ))}
           {loading && <Spin style={{ marginLeft: '-4px' }} />}

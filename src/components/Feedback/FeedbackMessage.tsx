@@ -3,34 +3,13 @@ import { Avatar, Button, Comment, Space, Typography } from 'antd'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import ProjectTag from '../Projects/ProjectTag'
-import { Feedback } from '../../types'
+import { Feedback, FeedbackComment } from '../../types'
 import { UserOutlined } from '@ant-design/icons'
 import { FeedbackReplyForm } from './ReplyFeedback'
 
 dayjs.extend(relativeTime)
 
 const { Paragraph } = Typography
-
-type FeedbackComment = {
-  id: string
-  createdAt: string
-  text: string
-}
-
-const comments: FeedbackComment[] = [
-  {
-    id: 'test1',
-    createdAt: '2020/10/1',
-    text:
-      'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...',
-  },
-  {
-    id: 'test2',
-    createdAt: '2020/11/1',
-    text:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-  },
-]
 
 const CommentMessage = ({ comment }: { comment: FeedbackComment }) => (
   <Comment
@@ -52,11 +31,9 @@ const ToggledFeedbackReplyForm = ({ feedbackId }: { feedbackId: string }) => {
 
 export const FeedbackMessage = ({
   feedback,
-  showComment,
   canReply,
 }: {
   feedback: Feedback
-  showComment?: boolean
   canReply?: boolean
 }) => {
   return (
@@ -76,8 +53,9 @@ export const FeedbackMessage = ({
       <Paragraph style={{ marginTop: '13px', maxWidth: '600px', whiteSpace: 'pre-wrap' }}>
         {feedback.text}
       </Paragraph>
-      {showComment &&
-        comments.map(comment => <CommentMessage key={comment.id} comment={comment} />)}
+      {feedback.comments.map(comment => (
+        <CommentMessage key={comment.id} comment={comment} />
+      ))}
       {canReply && <ToggledFeedbackReplyForm feedbackId={feedback.id} />}
     </>
   )
