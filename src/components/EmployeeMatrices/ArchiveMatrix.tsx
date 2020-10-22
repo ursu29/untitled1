@@ -18,7 +18,7 @@ export default function ArchiveMatrix({
   employeeAzureId: string
   matrixId: string
   onSelectVersion: Function
-  createSnapshotShown: boolean
+  createSnapshotShown?: boolean
   employeeMatrixId: string
 }) {
   const variables = {
@@ -50,7 +50,8 @@ export default function ArchiveMatrix({
         })
       }
       versionsList={data?.archivedMatrixVersions.map(e => ({ id: e.id, createdAt: e.createdAt }))}
-      isButtonVisible={createSnapshotShown}
+      // isButtonVisible={createSnapshotShown}
+      isButtonVisible={true}
     />
   )
 }
