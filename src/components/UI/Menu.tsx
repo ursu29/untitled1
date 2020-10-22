@@ -181,14 +181,14 @@ function PortalMenu(props: Props) {
           subMenu: 'tools',
         }
       : null,
-    /*  data?.processesAccess.read
+    data?.processesAccess.read
       ? {
           route: paths.PROCESSES,
           icon: <BranchesOutlined />,
           title: 'Processes',
           subMenu: 'technical',
         }
-      : null, */
+      : null,
     {
       route: paths.VACANCIES,
       icon: <IdcardOutlined />,
