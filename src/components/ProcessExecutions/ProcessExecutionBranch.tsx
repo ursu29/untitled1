@@ -18,6 +18,7 @@ interface Props {
   parent?: Step
   onComplete: (step: Step) => void
   onComment?: (id: string, comment: string) => void
+  isProcessRunning?: boolean
 }
 
 export default function Branch({
@@ -28,6 +29,7 @@ export default function Branch({
   active,
   onComplete,
   onComment,
+  isProcessRunning,
 }: Props) {
   if (!steps?.length) return null
 
@@ -111,7 +113,7 @@ export default function Branch({
                 <Controls>
                   <Button
                     type="primary"
-                    disabled={!step.responsibleUsers?.find(i => i.isMe)}
+                    disabled={!step.responsibleUsers?.find(i => i.isMe) || !isProcessRunning}
                     onClick={() => onComplete(step)}
                     size="small"
                   >

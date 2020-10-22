@@ -24,6 +24,23 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
+Cypress.Commands.add('getElement', name => cy.get(`[data-cy="${name}"]`));
+
+Cypress.Commands.add('clickElement', (text) => cy.get('span').contains(text).click());
+
+Cypress.Commands.add('selectFilterValue', (id, thText, name) => {
+  cy.getElement(id).contains('th', thText).click('topRight');
+  cy.clickElement(name);
+  cy.contains('OK').click({force: true});
+})
+
+Cypress.Commands.add('checkRowsToContainText', (text) => {
+   cy.get('[data-row-key]').each(val => {
+     const data = val.text()
+     expect(data).match(text);
+   });
+})
+
 //better to move tokens to cypress.env.json sooner or later
 
 //for real environment's backend MSAL authentication

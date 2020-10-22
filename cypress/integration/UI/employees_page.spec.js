@@ -1,44 +1,45 @@
-import Employees from '../../page_objects/employees'
-import Profile from '../../page_objects/profile'
-
-// todo add data-cy to production code. see https://docs.cypress.io/guides/references/best-practices.html#Selecting-Elements
 describe('Employees', () => {
-  const employees = new Employees()
-  const profile = new Profile()
+  const text = 'Test E';
+  const selectProfileName = 'Test Employee';
+  const profileName = /Java Developer|Java developer|java developer/;
+  const profileLevel = /Senior/;
+  const city = /Kaliningrad/;
 
-  beforeEach(() => {
-    cy.setToken('employee')
-    employees.visit()
+  before(() => {
+    cy.setToken('employee');
+    cy.visit('/client/employees');
   })
 
   it('Table of employees has some data', () => {
-    employees.row().its('length').should('be.greaterThan', 2)
+    cy.get('[data-row-key]').its('length').should('be.greaterThan', 2)
   })
 
   it('Filter the employees table by name', () => {
-    employees.searchField().type('Test E')
-    employees.row().its('length').should('be', 2)
-    employees.row().first().find('td').eq(1).should('have.text', 'Test Employee')
+    cy.getElement('find_employee').type(text);
+    cy.getElement('employee_table').contains('td', selectProfileName);
+    cy.getElement('find_employee').clear();
   })
 
   it('Filter the employees table by position', () => {
-    employees.selectPosition('Java Developers')
-    employees.checkDisplayedRowsContainText(/Java Developer|Java developer|java developer/)
+    cy.selectFilterValue('employee_table', 'Position', profileName);
+    cy.checkRowsToContainText(profileName);
   })
 
   it('Filter the employees table by level', () => {
-    employees.selectLevel('Senior')
-    employees.checkDisplayedRowsContainText(/Senior/)
+    cy.selectFilterValue('employee_table', 'Level', profileLevel);
+    cy.checkRowsToContainText(profileLevel);
   })
 
   it('Filter the employees table by location', () => {
-    employees.selectLocation('Kaliningrad')
-    employees.checkDisplayedRowsContainText(/Kaliningrad/)
+    cy.selectFilterValue('employee_table', 'Location', city);
+    cy.checkRowsToContainText(city);
   })
 
   it('Open a user profile from the table', () => {
-    employees.currentUserAvatar().click()
-    profile.url().should('include', '/client/profile')
-    profile.name().should('contain', 'Test Employee')
+    cy.getElement('profile').click();
+    cy.url().should('include', '/client/profile');
+    cy.getElement('profile_name').should('have.text', selectProfileName)
+    cy.clickElement('Employees');
   })
+
 })

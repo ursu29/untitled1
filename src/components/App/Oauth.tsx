@@ -21,8 +21,11 @@ msalInstance.handleRedirectCallback((error: any, response: any) => {
   console.log('redirect', error, response)
 })
 
+const MINUTE = 1000 * 60
+
 function Oauth({ children }: any) {
   const [token, setToken] = useState(localStorage.getItem('access_token'))
+  let timeout: ReturnType<typeof setTimeout>
   useEffect(() => {
     if (token) return
     async function authorize() {
@@ -44,7 +47,13 @@ function Oauth({ children }: any) {
           msalInstance.loginRedirect(tokenRequest)
         }
         const response = await msalInstance.acquireTokenSilent(tokenRequest)
+        const expiresIn = new Date(response.expiresOn).getTime()
+        const now = new Date().getTime()
         setToken(response.accessToken)
+        timeout = setTimeout(() => {
+          setToken(null)
+          authorize()
+        }, expiresIn - now - MINUTE)
         return response.accessToken
       } catch (e) {
         console.log('silent token acquisition fails.')
@@ -57,6 +66,9 @@ function Oauth({ children }: any) {
       }
     }
     authorize()
+    return () => {
+      clearTimeout(timeout)
+    }
     // eslint-disable-next-line
   }, [])
 

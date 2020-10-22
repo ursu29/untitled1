@@ -211,6 +211,7 @@ export interface DevelopmentPlan {
   lookBackNegative: string
   lookBackPositive: string
   lookForward: string
+  lastDiscussed: string
 }
 
 export interface EvaluationAttribute {
@@ -439,6 +440,7 @@ export interface WorkplaceType {
   id: string
   coordX: number
   coordY: number
+  number: number
   bookings: WorkplaceBookingType[]
 }
 

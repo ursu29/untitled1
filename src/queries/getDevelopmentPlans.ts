@@ -51,6 +51,7 @@ export default gql`
       lookBackNegative
       lookBackPositive
       lookForward
+      lastDiscussed
     }
   }
 `

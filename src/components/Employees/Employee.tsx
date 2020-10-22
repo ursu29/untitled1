@@ -36,9 +36,11 @@ export default function EmployeeView({ loading, employee, mobile }: Props) {
 
   const employeeDetails = employee && (
     <>
-      <Text>{employee.email}</Text>
-      <Text>{employee.phoneNumber}</Text>
-      {employee.isMe && employee.bonuses ? <Text>Bonus: {employee.bonuses} ₽</Text> : null}
+      <Text data-cy="email">{employee.email}</Text>
+      <Text data-cy="phone">{employee.phoneNumber}</Text>
+      {employee.isMe && employee.bonuses ? (
+        <Text data-cy="bonuses">Bonus: {employee.bonuses} ₽</Text>
+      ) : null}
     </>
   )
 
@@ -51,12 +53,16 @@ export default function EmployeeView({ loading, employee, mobile }: Props) {
               <Card.Meta
                 title={
                   <div style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap' }}>
-                    <Title level={4} style={{ paddingRight: 8, whiteSpace: 'normal' }}>
+                    <Title
+                      level={4}
+                      style={{ paddingRight: 8, whiteSpace: 'normal' }}
+                      data-cy="employee_name"
+                    >
                       {employee.name}
                       <UpdateEmployee employee={employee} />
                     </Title>
                     {employee.isMe && !mobile && (
-                      <Link to={PATHS.TIMEMASTER}>
+                      <Link to={PATHS.TIMEMASTER} data-cy="timemaster">
                         <Button>Timemaster</Button>
                       </Link>
                     )}
@@ -64,13 +70,14 @@ export default function EmployeeView({ loading, employee, mobile }: Props) {
                 }
                 description={
                   <Description>
-                    <Text>{employee.position}</Text>
-                    <Text>{employee.location}</Text>
+                    <Text data-cy="position">{employee.position}</Text>
+                    <Text data-cy="location">{employee.location}</Text>
                     {!mobile && employeeDetails}
                   </Description>
                 }
                 avatar={
                   <Avatar
+                    data-cy="avatar"
                     size={mobile ? 135 : 150}
                     shape="square"
                     icon={<UserOutlined />}
@@ -89,6 +96,7 @@ export default function EmployeeView({ loading, employee, mobile }: Props) {
                 style={{ paddingRight: 8 }}
               >
                 <Button
+                  data-cy="mail_button"
                   shape="circle-outline"
                   style={{
                     display: 'inline-flex',
@@ -106,6 +114,7 @@ export default function EmployeeView({ loading, employee, mobile }: Props) {
                 style={{ paddingRight: 8 }}
               >
                 <Button
+                  data-cy="teams_button"
                   shape="circle-outline"
                   style={{
                     display: 'inline-flex',
@@ -117,6 +126,7 @@ export default function EmployeeView({ loading, employee, mobile }: Props) {
                 </Button>
               </a>{' '}
               <Badge
+                data-cy="status"
                 color={
                   employee.status === 'Available'
                     ? 'green'
