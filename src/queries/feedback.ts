@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { Feedback } from '../types'
+import { Feedback, FeedbackComment } from '../types'
 
 export const getFeedbacks = gql`
   query getFeedbacks($input: FeedbacksInput!) {
@@ -34,10 +34,16 @@ export const replyFeedback = gql`
   mutation replyFeedback($input: FeedbackReplyInput!) {
     replyFeedback(input: $input) {
       id
+      text
+      createdAt
     }
   }
 `
 
 export type FeedbackQueryType = {
   feedbacks: Feedback[]
+}
+
+export type ReplyFeedbackQueryType = {
+  replyFeedback: FeedbackComment
 }

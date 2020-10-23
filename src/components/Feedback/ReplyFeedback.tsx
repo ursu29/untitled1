@@ -1,8 +1,20 @@
 import React from 'react'
 import { Button, Form, Input } from 'antd'
+import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
-import { replyFeedback } from '../../queries/feedback'
+import { replyFeedback, ReplyFeedbackQueryType } from '../../queries/feedback'
 import message from '../../message'
+import { Feedback } from '../../types'
+
+type FeedbackWithCommentsFragmentType = Pick<Feedback, 'comments'>
+
+const feedbackWithCommentsFragment = gql`
+  fragment FeedbackWithComments on Feedback {
+    comments {
+      id
+    }
+  }
+`
 
 export const FeedbackReplyForm = ({
   feedbackId,
@@ -13,13 +25,25 @@ export const FeedbackReplyForm = ({
 }) => {
   const [form] = Form.useForm()
 
-  const [replyOnFeedback, { loading }] = useMutation(replyFeedback, {
+  const [replyOnFeedback, { loading }] = useMutation<ReplyFeedbackQueryType>(replyFeedback, {
     onCompleted: () => {
       message.success('Your reply has been sent')
       onClose()
     },
-    // TODO: update apollo cache
-    // refetchQueries: ['getFeedbacks'],
+    update: (cache, { data }) => {
+      const cacheId = `Feedback:${feedbackId}`
+      const currentFeedback = cache.readFragment<FeedbackWithCommentsFragmentType>({
+        id: cacheId,
+        fragment: feedbackWithCommentsFragment,
+      })
+      if (data && currentFeedback) {
+        const comments = currentFeedback.comments.concat(data.replyFeedback)
+        cache.writeData({
+          id: cacheId,
+          data: { comments },
+        })
+      }
+    },
     awaitRefetchQueries: true,
     onError: message.error,
   })
