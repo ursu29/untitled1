@@ -23,9 +23,9 @@ export default function AddFeedback() {
 
   const [about, setAbout] = useState('')
 
-  const onFinish = ({ isManagersOnly, ...values }: any) => {
+  const onFinish = (values: any) => {
     addNewFeedback({
-      variables: { input: { ...values, isPublic: !isManagersOnly } },
+      variables: { input: values },
     })
   }
 
@@ -43,7 +43,7 @@ export default function AddFeedback() {
           labelCol={{ span: 4 }}
           name="addFeedbackForm"
           form={form}
-          initialValues={{ remember: true, isManagersOnly: false }}
+          initialValues={{ isPrivate: false }}
           onFinish={onFinish}
           style={{ padding: '10px 20px 0 20px' }}
         >
@@ -94,7 +94,7 @@ export default function AddFeedback() {
               style={{ width: '100%' }}
             />
           </Form.Item>
-          <Form.Item name="isManagersOnly" valuePropName="checked" wrapperCol={{ offset: 4 }}>
+          <Form.Item name="isPrivate" valuePropName="checked" wrapperCol={{ offset: 4 }}>
             <Checkbox>Show only for managers</Checkbox>
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 4 }}>
