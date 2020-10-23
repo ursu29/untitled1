@@ -16,7 +16,7 @@ const CommentMessage = ({ comment }: { comment: FeedbackComment }) => (
     author="Manager"
     avatar={<Avatar shape="circle" icon={<UserOutlined />} alt="Manager" />}
     datetime={<span>{dayjs().to(dayjs(comment.createdAt))}</span>}
-    content={comment.text}
+    content={<Paragraph style={{ margin: 0, whiteSpace: 'pre-line' }}>{comment.text}</Paragraph>}
   />
 )
 
@@ -50,7 +50,7 @@ export const FeedbackMessage = ({
           />
         )}
       </Space>
-      <Paragraph style={{ marginTop: '13px', maxWidth: '600px', whiteSpace: 'pre-wrap' }}>
+      <Paragraph style={{ marginTop: '13px', maxWidth: '600px', whiteSpace: 'pre-line' }}>
         {feedback.text}
       </Paragraph>
       {feedback.comments.map(comment => (
