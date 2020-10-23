@@ -26,7 +26,7 @@ export default function CreateMatrixGrade(props: Props) {
   const [matrix, setMatrix] = useState<MatrixGrade | undefined>(undefined)
   const [mutate, { loading }] = useMutation<MutationType>(mutation, {
     refetchQueries: [{ query: getMatrices }],
-    onError: () => message.error,
+    onError: message.error,
     onCompleted: () => message.success('Matrix created successfully'),
   })
   return (
