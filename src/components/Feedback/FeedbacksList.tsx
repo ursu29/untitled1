@@ -34,12 +34,13 @@ export default function FeedbacksList() {
     variables,
     notifyOnNetworkStatusChange: true,
   })
+  const feedbacks = data?.feedbacks
 
   useEffect(() => {
     setHasMore(true)
-  }, [search, about, project, data?.feedbacks])
+  }, [search, about, project, feedbacks])
 
-  if (!data?.feedbacks) return null
+  if (!feedbacks) return null
 
   return (
     <>
@@ -83,7 +84,7 @@ export default function FeedbacksList() {
                   about,
                   project,
                   limit,
-                  offset: data?.feedbacks.length,
+                  offset: feedbacks.length,
                 },
               },
               updateQuery: (prev, { fetchMoreResult }) => {
@@ -96,7 +97,7 @@ export default function FeedbacksList() {
           hasMore={hasMore}
           useWindow={true}
         >
-          {data?.feedbacks.map(feedback => (
+          {feedbacks.map(feedback => (
             <Timeline.Item key={feedback.id}>
               <FeedbackMessage feedback={feedback} canReply={true} />
             </Timeline.Item>
