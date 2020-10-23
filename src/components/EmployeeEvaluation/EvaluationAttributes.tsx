@@ -154,6 +154,7 @@ function EvaluationAttributes({
                         Last discussed:{' '}
                         <DatePicker
                           size="small"
+                          allowClear={false}
                           format={['DD.MM.YYYY']}
                           value={
                             customFields?.evaluationCustomFields?.lastDiscussed

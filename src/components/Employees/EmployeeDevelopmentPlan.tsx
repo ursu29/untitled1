@@ -115,6 +115,7 @@ export default function EmployeeDevelopmentPlan(props: Props) {
                     Last discussed:{' '}
                     <DatePicker
                       size="small"
+                      allowClear={false}
                       format={['DD.MM.YYYY']}
                       value={
                         plan?.lastDiscussed
