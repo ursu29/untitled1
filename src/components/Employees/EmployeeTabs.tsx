@@ -36,7 +36,7 @@ const query = gql`
       id
       name
       email
-      manager {
+      agileManager {
         id
         name
         isMe
@@ -72,7 +72,7 @@ const query = gql`
 
 type QueryType = {
   employees: (Pick<Employee, 'id' | 'name' | 'email' | 'access' | 'isMe'> & {
-    manager: Pick<Employee, 'id' | 'name' | 'email' | 'isMe'>
+    agileManager: Pick<Employee, 'id' | 'name' | 'email' | 'isMe'>
   })[]
   curriculumVitaeAccess: Access
   matricesLookReviewersAccess: Access

@@ -26,6 +26,14 @@ const fragments = {
       }
     `,
   },
+  Project: gql`
+    fragment ProjectDetails on Project {
+      id
+      name
+      code
+      description
+    }
+  `,
   Experience: {
     Details: gql`
       fragment ExperienceDetails on Experience {
@@ -111,6 +119,8 @@ export type EmployeeDetails = Pick<
   Employee,
   'id' | 'name' | 'location' | 'country' | 'position' | 'phoneNumber' | 'email' | 'isMe'
 >
+
+export type ProjectDetails = Pick<Project, 'id' | 'name' | 'code' | 'description'>
 
 export type ExperienceDetails = Pick<Experience, 'id' | 'updatedAt' | 'comment'> & {
   level: Pick<Level, 'id' | 'index' | 'name'>

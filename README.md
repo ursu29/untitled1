@@ -2,7 +2,7 @@
 
 Sidenis Portal Client - application built on top of React and Apollo
 
-Language: Typescript 3.7
+Language: Typescript
 
 UI Kit: Ant Design
 
