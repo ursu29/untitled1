@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
 import { useQuery } from '@apollo/react-hooks'
-import { Timeline, Typography, Space, Input, Spin, Select } from 'antd'
+import { Input, Select, Space, Spin, Timeline } from 'antd'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import ProjectTag from '../Projects/ProjectTag'
 import ProjectSelect from '../Projects/ProjectSelect'
-import { getFeedbacks, FeedbackQueryType } from '../../queries/feedback'
+import {
+  feedbackAccess,
+  FeedbackAccessQueryType,
+  FeedbackQueryType,
+  getFeedbacks,
+} from '../../queries/feedback'
+import { FeedbackMessage } from './FeedbackMessage'
 
 dayjs.extend(relativeTime)
 
-const { Paragraph } = Typography
 const { Option } = Select
 
 export default function FeedbacksList() {
@@ -35,12 +39,15 @@ export default function FeedbacksList() {
     variables,
     notifyOnNetworkStatusChange: true,
   })
+  const { data: accessData } = useQuery<FeedbackAccessQueryType>(feedbackAccess)
+  const feedbacks = data?.feedbacks
+  const canReply = accessData?.feedbacksAccess.write
 
   useEffect(() => {
     setHasMore(true)
-  }, [search, about, project, data?.feedbacks])
+  }, [search, about, project, feedbacks])
 
-  if (!data?.feedbacks) return null
+  if (!feedbacks) return null
 
   return (
     <>
@@ -84,7 +91,7 @@ export default function FeedbacksList() {
                   about,
                   project,
                   limit,
-                  offset: data?.feedbacks.length,
+                  offset: feedbacks.length,
                 },
               },
               updateQuery: (prev, { fetchMoreResult }) => {
@@ -97,23 +104,9 @@ export default function FeedbacksList() {
           hasMore={hasMore}
           useWindow={true}
         >
-          {data?.feedbacks.map(feedback => (
+          {feedbacks.map(feedback => (
             <Timeline.Item key={feedback.id}>
-              <Space size="middle" align="start" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>
-                {dayjs().to(dayjs(feedback.createdAt))}
-                <div style={{ fontWeight: 'bold' }}>{feedback.about}</div>
-                {feedback.project && (
-                  <ProjectTag
-                    small={true}
-                    key={feedback.project.id}
-                    project={feedback.project}
-                    leading={false}
-                  />
-                )}
-              </Space>
-              <Paragraph style={{ marginTop: '13px', maxWidth: '600px', whiteSpace: 'pre-wrap' }}>
-                {feedback.text}
-              </Paragraph>
+              <FeedbackMessage feedback={feedback} canReply={canReply} />
             </Timeline.Item>
           ))}
           {loading && <Spin style={{ marginLeft: '-4px' }} />}

@@ -28,7 +28,7 @@ export default function ProjectTagList({ loading, small, projects, leadingProjec
             projects.map(project => {
               const leading = leadingProjects?.find(i => i.id === project.id)
               return (
-                <div style={{ marginBottom: 8, display: 'inline-block' }}>
+                <div key={project.id} style={{ marginBottom: 8, display: 'inline-block' }}>
                   <ProjectTag
                     small={small}
                     key={project.id}

@@ -11,7 +11,7 @@ export default function AddFeedback() {
   const [form] = Form.useForm()
   const header = React.createElement('div', { style: { fontSize: '16px' } }, 'Add new')
 
-  const [addNewFeedback] = useMutation(addFeedback, {
+  const [addNewFeedback, { loading }] = useMutation(addFeedback, {
     onCompleted: () => {
       message.success('Your feedback has been sent')
       form.resetFields()
@@ -98,7 +98,7 @@ export default function AddFeedback() {
             <Checkbox>Show only for managers</Checkbox>
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 4 }}>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={loading}>
               Post
             </Button>
             <div style={{ position: 'absolute', color: '#b3b1b1', marginTop: '5px' }}>
