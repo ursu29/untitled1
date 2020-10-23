@@ -15,6 +15,13 @@ import {
   ToolOutlined,
   UserAddOutlined,
   VideoCameraOutlined,
+  NotificationOutlined,
+  ToolOutlined,
+  TableOutlined,
+  ContainerOutlined,
+  GlobalOutlined,
+  ReadOutlined,
+  LikeOutlined,
 } from '@ant-design/icons'
 import { useQuery } from '@apollo/react-hooks'
 import { Badge, Menu } from 'antd'
@@ -28,6 +35,7 @@ import paths from '../../paths'
 import getActiveProcessExecutions, {
   ActiveProcessExecutionsQueryType,
 } from '../../queries/getEmployeeActiveProcessExecutions'
+import { onboardingAccess } from '../../queries/onboardingTickets'
 import { Access } from '../../types'
 import { useEmployee } from '../../utils/withEmployee'
 import Skeleton from '../UI/Skeleton'
@@ -75,10 +83,20 @@ function PortalMenu(props: Props) {
 
   const { data, loading } = useQuery<QueryType>(query)
 
+  const { data: onboardingAccessData } = useQuery<{ onboardingAccess: Access }>(onboardingAccess)
+
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   const { SubMenu } = Menu
 
   const menuItems = [
+    onboardingAccessData?.onboardingAccess?.read
+      ? {
+          route: paths.ONBOARDING,
+          icon: <LikeOutlined />,
+          title: 'Onboarding',
+          status: '',
+        }
+      : null,
     {
       route: paths.EMPLOYEES,
       icon: <TeamOutlined />,

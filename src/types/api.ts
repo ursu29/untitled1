@@ -464,3 +464,10 @@ export interface WorkplaceBookingType {
   startDate: string
   finishDate: string
 }
+
+export interface OnboardingTicket {
+  id: string
+  title: string
+  description: string
+  responsible: Employee[]
+}
