@@ -15,12 +15,6 @@ import {
   ToolOutlined,
   UserAddOutlined,
   VideoCameraOutlined,
-  NotificationOutlined,
-  ToolOutlined,
-  TableOutlined,
-  ContainerOutlined,
-  GlobalOutlined,
-  ReadOutlined,
   LikeOutlined,
 } from '@ant-design/icons'
 import { useQuery } from '@apollo/react-hooks'
