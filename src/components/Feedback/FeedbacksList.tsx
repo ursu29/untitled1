@@ -5,7 +5,12 @@ import { Input, Select, Space, Spin, Timeline } from 'antd'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import ProjectSelect from '../Projects/ProjectSelect'
-import { FeedbackQueryType, getFeedbacks } from '../../queries/feedback'
+import {
+  feedbackAccess,
+  FeedbackAccessQueryType,
+  FeedbackQueryType,
+  getFeedbacks,
+} from '../../queries/feedback'
 import { FeedbackMessage } from './FeedbackMessage'
 
 dayjs.extend(relativeTime)
@@ -34,7 +39,9 @@ export default function FeedbacksList() {
     variables,
     notifyOnNetworkStatusChange: true,
   })
+  const { data: accessData } = useQuery<FeedbackAccessQueryType>(feedbackAccess)
   const feedbacks = data?.feedbacks
+  const canReply = accessData?.feedbacksAccess.write
 
   useEffect(() => {
     setHasMore(true)
@@ -99,7 +106,7 @@ export default function FeedbacksList() {
         >
           {feedbacks.map(feedback => (
             <Timeline.Item key={feedback.id}>
-              <FeedbackMessage feedback={feedback} canReply={true} />
+              <FeedbackMessage feedback={feedback} canReply={canReply} />
             </Timeline.Item>
           ))}
           {loading && <Spin style={{ marginLeft: '-4px' }} />}

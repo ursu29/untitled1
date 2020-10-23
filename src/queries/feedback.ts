@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { Feedback, FeedbackComment } from '../types'
+import { Access, Feedback, FeedbackComment } from '../types'
 
 export const getFeedbacks = gql`
   query getFeedbacks($input: FeedbacksInput!) {
@@ -40,10 +40,22 @@ export const replyFeedback = gql`
   }
 `
 
+export const feedbackAccess = gql`
+  query feedbackAccess {
+    feedbacksAccess {
+      write
+    }
+  }
+`
+
 export type FeedbackQueryType = {
   feedbacks: Feedback[]
 }
 
 export type ReplyFeedbackQueryType = {
   replyFeedback: FeedbackComment
+}
+
+export type FeedbackAccessQueryType = {
+  feedbacksAccess: Pick<Access, 'write'>
 }
