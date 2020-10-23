@@ -11,8 +11,9 @@ interface Props {
 
 export default function ProjectEmployees({ project }: Props) {
   const { data, loading } = useQuery<QueryType>(getProjectEmployees, {
-    variables: { input: { id: project.id } },
+    variables: { id: project.id },
     onError: message.error,
   })
-  return <EmployeesList loading={loading} employees={data?.projects?.[0].employees} />
+
+  return <EmployeesList loading={loading} employees={data?.project?.employees} />
 }

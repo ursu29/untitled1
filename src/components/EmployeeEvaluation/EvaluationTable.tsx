@@ -53,7 +53,7 @@ interface Props {
   evaluations?: Evaluation[]
   comments?: Exclude<EvaluationComment, 'employee'>[]
   employee: Pick<Employee, 'id' | 'name' | 'isMe'> & {
-    manager: Pick<Employee, 'id' | 'name' | 'isMe'>
+    agileManager: Pick<Employee, 'id' | 'name' | 'isMe'>
   }
   reviewers?: {
     id: EvaluationReviewer['id']
@@ -352,22 +352,24 @@ export default function EvaluationTable({
       },
     })
 
-    if (employee.manager) {
+    if (employee.agileManager) {
       columns.push({
         title: (
           <div>
-            Agile Manager<div>{employee.manager?.name}</div>
+            Agile Manager<div>{employee.agileManager?.name}</div>
           </div>
         ),
         width: 120,
         render: (text: any, item: any) => {
           if (item.children) return null
           const evaluation = evaluations?.find(i => {
-            return i.evaluationAttribute.id === item.id && i.fromWho.id === employee.manager?.id
+            return (
+              i.evaluationAttribute.id === item.id && i.fromWho.id === employee.agileManager?.id
+            )
           })
           return (
             <TableCell
-              rateDisabled={!employee.manager?.isMe}
+              rateDisabled={!employee.agileManager?.isMe}
               isArchivedChosen={!!isArchivedChosen}
               itemId={item.id}
               cellCode={item.id + ' agile'}

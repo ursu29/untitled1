@@ -14,7 +14,7 @@ import message from '../../message'
 
 interface Props {
   employee?: Pick<Employee, 'id' | 'name' | 'isMe'> & {
-    manager: Pick<Employee, 'id' | 'name' | 'isMe'>
+    agileManager: Pick<Employee, 'id' | 'name' | 'isMe'>
   }
   editable: boolean
 }

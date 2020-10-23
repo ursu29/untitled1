@@ -12,11 +12,11 @@ interface Props {
 
 export default (props: Props) => {
   const { data, loading } = useQuery<QueryType>(query, {
-    variables: { input: { id: props.project.id } },
+    variables: { id: props.project.id },
     onError: message.error,
   })
 
-  const project = data?.projects[0]
+  const project = data?.project
 
   return (
     <Skeleton active loading={loading}>

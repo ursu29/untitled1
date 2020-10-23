@@ -1,46 +1,39 @@
-import React from 'react'
-
 import {
   BookOutlined,
-  BranchesOutlined,
   ClockCircleOutlined,
   CoffeeOutlined,
-  CrownOutlined,
-  FileImageOutlined,
+  ContainerOutlined,
   FireOutlined,
   FolderOpenOutlined,
+  GlobalOutlined,
   IdcardOutlined,
+  BranchesOutlined,
   ImportOutlined,
-  InfoCircleOutlined,
-  LineChartOutlined,
-  NumberOutlined,
+  NotificationOutlined,
+  ReadOutlined,
+  TableOutlined,
   TeamOutlined,
+  ToolOutlined,
   UserAddOutlined,
   VideoCameraOutlined,
-  NotificationOutlined,
-  ToolOutlined,
-  DatabaseOutlined,
-  AppstoreOutlined,
-  TableOutlined,
-  ContainerOutlined,
-  GlobalOutlined,
-  ReadOutlined,
+  LikeOutlined,
 } from '@ant-design/icons'
-
-import { Menu, Tag, Badge } from 'antd'
-import { Link } from 'react-router-dom'
-import paths from '../../paths'
 import { useQuery } from '@apollo/react-hooks'
-import Skeleton from '../UI/Skeleton'
+import { Badge, Menu } from 'antd'
 import gql from 'graphql-tag'
-import { Access } from '../../types'
+import React from 'react'
 import { useMediaQuery } from 'react-responsive'
-import { COLLAPSE_WIDTH, MENU_WIDTH } from '../../config'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { useEmployee } from '../../utils/withEmployee'
+import { COLLAPSE_WIDTH, MENU_WIDTH } from '../../config'
+import paths from '../../paths'
 import getActiveProcessExecutions, {
   ActiveProcessExecutionsQueryType,
 } from '../../queries/getEmployeeActiveProcessExecutions'
+import { onboardingAccess } from '../../queries/onboardingTickets'
+import { Access } from '../../types'
+import { useEmployee } from '../../utils/withEmployee'
+import Skeleton from '../UI/Skeleton'
 
 const Width = styled.div<{ isLarge: boolean }>`
   .ant-menu-inline-collapsed > .ant-menu-item,
@@ -85,10 +78,20 @@ function PortalMenu(props: Props) {
 
   const { data, loading } = useQuery<QueryType>(query)
 
+  const { data: onboardingAccessData } = useQuery<{ onboardingAccess: Access }>(onboardingAccess)
+
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   const { SubMenu } = Menu
 
   const menuItems = [
+    onboardingAccessData?.onboardingAccess?.read
+      ? {
+          route: paths.ONBOARDING,
+          icon: <LikeOutlined />,
+          title: 'Onboarding',
+          status: '',
+        }
+      : null,
     {
       route: paths.EMPLOYEES,
       icon: <TeamOutlined />,
