@@ -51,16 +51,16 @@ export default function FeedbacksList() {
 
   return (
     <>
-      <Space style={{ display: 'flex', marginBottom: '40px', maxWidth: '570px' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', maxWidth: '570px', marginBottom: '32px' }}>
         <Input.Search
           placeholder="Search"
           onSearch={value => setSearch(value)}
-          style={{ width: '300px' }}
+          style={{ width: '300px', margin: '0 8px 8px 0' }}
         />
         <Select
           placeholder="About"
           allowClear
-          style={{ maxWidth: '120px' }}
+          style={{ maxWidth: '120px', margin: '0 8px 8px 0' }}
           onChange={(value: any) => setAbout(value)}
         >
           <Option value="Sidenis">Sidenis</Option>
@@ -68,7 +68,7 @@ export default function FeedbacksList() {
           <Option value="Events">Events</Option>
           <Option value="Portal">Portal</Option>
         </Select>
-        <div style={{ width: '172px' }}>
+        <div style={{ width: '172px', margin: '0 0px 8px 0' }}>
           <ProjectSelect
             onChange={(project: any) => setProject(project)}
             wide
@@ -76,7 +76,7 @@ export default function FeedbacksList() {
             allowClear
           />
         </div>
-      </Space>
+      </div>
       <Timeline>
         <InfiniteScroll
           initialLoad={false}
