@@ -9,14 +9,16 @@ import markdownToHtml from '../../utils/markdownToHtml'
 import EmployeeLink from '../Employees/EmployeeLink'
 import dayjs from 'dayjs'
 import ReactDOM from 'react-dom'
-import $ from 'jquery'
-import 'owl.carousel/dist/assets/owl.carousel.css'
-import 'owl.carousel/dist/assets/owl.theme.default.css'
+import Image from '../Image'
+import SwiperCore, { Pagination } from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/react'
 
-// @ts-ignore
-window.jQuery = window.$ = $
+// Import Swiper styles
+import 'swiper/swiper.scss'
+import 'swiper/components/pagination/pagination.scss'
 
-const OwlCarousel = require('react-owl-carousel')
+// Install modules
+SwiperCore.use([Pagination])
 
 const Wrapper = styled.div`
   ul,
@@ -58,6 +60,20 @@ function PostItem({ post, edit, history, isPreview, loadMore }: Props) {
   const [visited, setVisited] = useState(false)
 
   useEffect(() => {
+    const images = document.getElementById(`post-${post.id}`)?.getElementsByTagName('img')
+
+    if (images) {
+      Array.from(images).forEach(image => {
+        if (image.className.includes('owl-image')) return
+        var temp = document.createElement('div')
+        ReactDOM.render(<Image src={image.src} />, temp)
+        var container = image.parentElement
+        if (container) {
+          container.replaceChild(temp, image)
+        }
+      })
+    }
+
     const galleries = document
       .getElementById(`post-${post.id}`)
       ?.getElementsByClassName('injected-image-gallery')
@@ -68,18 +84,13 @@ function PostItem({ post, edit, history, isPreview, loadMore }: Props) {
           .filter(i => i)
           .map(link => link.trim())
         ReactDOM.render(
-          <OwlCarousel
-            className="owl-theme"
-            key={index}
-            items={1}
-            loop
-            margin={10}
-            style={{ paddingBottom: 15 }}
-          >
+          <Swiper spaceBetween={50} slidesPerView={1} pagination={{ type: 'bullets' }}>
             {imgLinksList.map(i => (
-              <img src={i} alt={i} key={i} />
+              <SwiperSlide key={i}>
+                <Image src={i} alt={i} />
+              </SwiperSlide>
             ))}
-          </OwlCarousel>,
+          </Swiper>,
           gallery,
         )
       })
@@ -124,7 +135,7 @@ function PostItem({ post, edit, history, isPreview, loadMore }: Props) {
             />
           )}
           {titleImage && (
-            <img src={titleImage.url} alt={titleImage.fileName} style={{ paddingBottom: 15 }} />
+            <Image src={titleImage.url} alt={titleImage.fileName} style={{ paddingBottom: 15 }} />
           )}
           <div
             dangerouslySetInnerHTML={{

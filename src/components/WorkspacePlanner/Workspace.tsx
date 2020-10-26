@@ -9,6 +9,7 @@ import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import { debounce } from 'throttle-debounce'
 import BookingList from './BookingList'
 import { LeftOutlined } from '@ant-design/icons'
+import Image from '../Image'
 
 const WorkspaceWrapper = styled.div<{ isDesignMode: boolean }>`
   position: relative;
@@ -201,7 +202,7 @@ export default function Workspace({
             }}
           >
             {workspace.drawing ? (
-              <img
+              <Image
                 alt="drawing"
                 src={workspace.drawing}
                 style={{
