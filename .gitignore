@@ -14,6 +14,7 @@ __MACOSX
 
 .vscode/settings.json
 yarn-error.log
+yarn.lock
 
 cypress/videos/
 cypress/screenshots/
