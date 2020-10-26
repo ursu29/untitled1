@@ -29,12 +29,7 @@ export default function ProjectTagList({ loading, small, projects, leadingProjec
               const leading = leadingProjects?.find(i => i.id === project.id)
               return (
                 <div key={project.id} style={{ marginBottom: 8, display: 'inline-block' }}>
-                  <ProjectTag
-                    small={small}
-                    key={project.id}
-                    project={project}
-                    leading={Boolean(leading)}
-                  />
+                  <ProjectTag small={small} project={project} leading={Boolean(leading)} />
                 </div>
               )
             })

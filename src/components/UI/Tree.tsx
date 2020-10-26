@@ -141,7 +141,7 @@ export default class SkillsTree extends React.Component<Props> {
           </TreeNode>
         )
       }
-      return <TreeNode key={item.key} {...item} />
+      return <TreeNode {...item} />
     })
   }
 

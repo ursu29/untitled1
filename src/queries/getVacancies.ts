@@ -35,7 +35,7 @@ export default gql`
   }
 `
 
-type VacancyPick = Pick<
+export type VacancyPick = Pick<
   Vacancy,
   | 'id'
   | 'reason'
@@ -46,6 +46,7 @@ type VacancyPick = Pick<
   | 'englishLevel'
   | 'stack'
   | 'additionalSkills'
+  | 'isPublished'
   | 'isClosed'
 > & {
   project: Pick<Project, 'id' | 'name'>

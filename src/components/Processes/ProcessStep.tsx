@@ -1,12 +1,12 @@
-import { useMutation } from '@apollo/react-hooks'
 import { DeleteOutlined } from '@ant-design/icons'
-import { Button, Popconfirm, Collapse, Tag, Tooltip } from 'antd'
+import { useMutation } from '@apollo/react-hooks'
+import { Button, Collapse, Popconfirm, Tag, Tooltip } from 'antd'
 import gql from 'graphql-tag'
 import React, { useEffect } from 'react'
-import getProcesses from '../../queries/getProcesses'
-import { ProcessStep as ProcessStepType } from '../../types'
-import ProcessStepForm from './ProcessStepForm'
+import { ProcessStepDetails } from '../../fragments'
 import message from '../../message'
+import getProcesses from '../../queries/getProcesses'
+import ProcessStepForm from './ProcessStepForm'
 
 const updateProcessStep = gql`
   mutation updateProcessStep($input: UpdateProcessStepInput) {
@@ -24,7 +24,7 @@ const deleteProcessStep = gql`
   }
 `
 
-export default function ProcessStep({ step }: { step: Partial<ProcessStepType> }) {
+export default function ProcessStep({ step }: { step: ProcessStepDetails }) {
   const [update, { loading }] = useMutation(updateProcessStep, {
     refetchQueries: [{ query: getProcesses, variables: { input: { id: step?.process?.id } } }],
     awaitRefetchQueries: true,

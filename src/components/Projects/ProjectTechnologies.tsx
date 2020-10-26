@@ -19,7 +19,7 @@ const mutation = gql`
   }
 `
 
-type SkillsPick = QueryType['projects'][0]['skills']
+type SkillsPick = QueryType['project']['skills']
 function SkillTags({ skills }: { skills?: SkillsPick }) {
   if (!skills?.length) return <div>No technologies yet</div>
   return (
@@ -36,7 +36,7 @@ interface Props {
 }
 
 export default function ProjectTechnologies(props: Props) {
-  const variables = { input: { id: props.project.id } }
+  const variables = { id: props.project.id }
 
   const [selectedSkills, setSelectedSkills] = useState<Pick<Skill, 'id' | 'name'>[] | undefined>([])
   const [edit, toggleEdit] = useState(false)
@@ -55,14 +55,14 @@ export default function ProjectTechnologies(props: Props) {
   }, [mutateLoading])
 
   useEffect(() => {
-    const skills = data?.projects?.[0].skills
+    const skills = data?.project?.skills
     if (skills?.toString() !== selectedSkills?.toString()) {
       setSelectedSkills(skills)
     }
     // eslint-disable-next-line
   }, [data])
 
-  const project = data?.projects?.[0]
+  const project = data?.project
   const editable = project?.access.write
   const skills = project?.skills
 

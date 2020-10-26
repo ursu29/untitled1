@@ -24,13 +24,15 @@ export default function EmployeeCard(props: Props) {
     <div style={{ marginBottom: 8 }}>
       <Skeleton loading={loading} active avatar paragraph={false}>
         {employee && (
-          <Link to={getEmployeeLink(employee.email)}>
+          <Link to={getEmployeeLink(employee.email)} data-cy="employee_email">
             <Card hoverable bordered={true} bodyStyle={{ padding: 10, paddingRight: 16 }}>
               <Card.Meta
+                data-cy="employee_card"
                 title={employee.name}
                 description={employee.position}
                 avatar={
                   <Avatar
+                    data-cy="employee_avatar"
                     size={55}
                     shape="circle"
                     icon={<UserOutlined />}

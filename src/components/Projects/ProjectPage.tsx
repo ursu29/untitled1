@@ -1,47 +1,54 @@
-import React from 'react'
-import { withRouter, RouteComponentProps } from 'react-router-dom'
-import gql from 'graphql-tag'
+import { CrownOutlined, TeamOutlined } from '@ant-design/icons'
 import { useQuery } from '@apollo/react-hooks'
-import { Project } from '../../types'
-import Skeleton from '../UI/Skeleton'
-import ProjectDetails from './ProjectDetails'
-import ProjectTabs from './ProjectTabs'
-import Controls from '../UI/Controls'
-import Back from '../UI/Back'
+import React from 'react'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 import paths from '../../paths'
+import query, { QueryType } from '../../queries/getProjectByCode'
+import Back from '../UI/Back'
+import Controls from '../UI/Controls'
 import PageContent from '../UI/PageContent'
+import Skeleton from '../UI/Skeleton'
+import Tabs from '../UI/Tabs'
+import Project from './Project'
+import ProjectEmployees from './ProjectEmployees'
+import ProjectSkills from './ProjectSkills'
+import ProjectTechnologies from './ProjectTechnologies'
 
 interface Props extends RouteComponentProps<{ code: string; tab: string }> {}
 
-const query = gql`
-  query getPRojects($input: ProjectsInput) {
-    projects(input: $input) {
-      id
-    }
-  }
-`
-
 function ProjectPage({ match }: Props) {
   const { code, tab } = match.params
-  const { data, loading, error } = useQuery<{ projects: Pick<Project, 'id'>[] }>(query, {
-    variables: { input: { code } },
-  })
+  const { data, loading, error } = useQuery<QueryType>(query, { variables: { code } })
 
   if (error) return <div>Error :(</div>
-
   if (!data) return null
 
-  const project = data?.projects?.[0]
-
+  const project = data?.projectByCode
   if (!project) return <div>Project is not found</div>
+
+  let tabs = [
+    {
+      title: 'Employees',
+      icon: <TeamOutlined />,
+      key: 'employees',
+      body: <ProjectEmployees project={project} />,
+    },
+    {
+      title: 'Skills',
+      icon: <CrownOutlined />,
+      key: 'skills',
+      body: <ProjectSkills project={project} />,
+    },
+  ]
 
   return (
     <Skeleton loading={loading || !data}>
       <PageContent>
         <Controls back={<Back goto={paths.PROJECTS} />} />
-        <ProjectDetails project={project} />
+        <Project loading={loading} project={project} />
+        <ProjectTechnologies project={project} />
       </PageContent>
-      <ProjectTabs project={project} tab={tab} />
+      <Tabs tabs={tabs} tab={tab} />
     </Skeleton>
   )
 }

@@ -28,12 +28,15 @@ const EmployeeReviewers = (props: Props) => {
     updateMatricesReviewers,
   } = reviewersQuery
 
-  const [getReviewersQuery, updateReviewersQuery] =
-    reviewersName === 'developmentPlanReviewers'
-      ? [getDevelopmentPlanReviewers, updateDevelopmentPlanReviewers]
-      : reviewersName === 'matricesReviewers'
-      ? [getMatricesReviewers, updateMatricesReviewers]
-      : [null]
+  let getReviewersQuery,
+    updateReviewersQuery = null
+  if (reviewersName === 'developmentPlanReviewers') {
+    getReviewersQuery = getDevelopmentPlanReviewers
+    updateReviewersQuery = updateDevelopmentPlanReviewers
+  } else {
+    getReviewersQuery = getMatricesReviewers
+    updateReviewersQuery = updateMatricesReviewers
+  }
 
   // Get employee reviewers
   const { data, loading, error } = useQuery<

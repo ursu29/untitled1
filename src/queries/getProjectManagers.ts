@@ -3,22 +3,31 @@ import { Project, Employee } from '../types'
 import fragments, { EmployeeDetails } from '../fragments'
 
 export default gql`
-  query getProjectManagers($input: ProjectsInput) {
-    projects(input: $input) {
+  query getProjectManagers($id: ID!) {
+    project(id: $id) {
       id
-      leaders {
+      scrumMasters {
         ...EmployeeDetails
         avatar
+      }
+      employees {
+        id
+        agileManager {
+          ...EmployeeDetails
+          avatar
+        }
       }
     }
   }
   ${fragments.Employee.Details}
 `
+type EmployeePick = EmployeeDetails & { avatar: Employee['avatar'] }
 
 type ProjectPick = Pick<Project, 'id'> & {
-  leaders: (EmployeeDetails & { avatar: Employee['avatar'] })[]
+  employees: (Pick<Employee, 'id'> & { agileManager: EmployeePick | null })[]
+  scrumMasters: EmployeePick[] | null
 }
 
 export type QueryType = {
-  projects: ProjectPick[]
+  project: ProjectPick
 }

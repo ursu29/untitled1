@@ -1,41 +1,45 @@
-import React, { useState } from 'react'
+import { EditOutlined } from '@ant-design/icons'
+import { useMutation } from '@apollo/react-hooks'
+import React from 'react'
+import message from '../../message'
+import getProject from '../../queries/getProject'
+import updateProject from '../../queries/updateProject'
 import { Project } from '../../types'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import ProjectForm from './ProjectForm'
+import { useToken } from '../../utils/withToken'
 
 function UpdateProject({ project }: { project: Partial<Project> }) {
-  const [loading, setLoading] = useState(false)
+  const { scope } = useToken()
+
+  const [update, { loading }] = useMutation(updateProject, {
+    onCompleted: () => message.success('Project is updated'),
+    refetchQueries: [{ query: getProject, variables: { id: project.id } }],
+    awaitRefetchQueries: true,
+    onError: message.error,
+  })
+
+  if (!scope.includes('application.readwrite.all')) return null
 
   return (
     <Drawer
-      toggler={<Button size="small" icon="edit" type="link"></Button>}
+      toggler={<Button size="small" icon={<EditOutlined />} type="link"></Button>}
       drawerLabel={'Edit project ' + project?.name}
       content={
         <ProjectForm
           loading={loading}
           item={project}
-          onSubmit={async (item: any, onDone: any) => {
-            const token = localStorage.getItem('new_token')
-            console.log('TOKEN', token)
-            setLoading(true)
-            // const permissions = await fetch(`oauth2PermissionGrants`)
-
-            fetch(`https://graph.microsoft.com/v1.0/groups/${project.id}`, {
-              method: 'PATCH',
-              body: JSON.stringify({
-                description: item.name + ' //' + item.description,
-              }),
-              headers: {
-                Authorization: 'Bearer ' + token,
-                'Content-type': 'application/json; charset=UTF-8',
+          onSubmit={async (project: any, onDone: any) => {
+            update({
+              variables: {
+                input: {
+                  id: project.id,
+                  scrumMasters: project.scrumMasters,
+                },
               },
+              update: onDone,
             })
-              .then(onDone)
-              .catch(e => {
-                console.log(e)
-              })
-              .finally(() => setLoading(false))
           }}
         />
       }
