@@ -33,7 +33,7 @@ export default function FilesPage() {
   })
 
   return (
-    <PageContent>
+    <PageContent style={{ padding: 0 }}>
       <SharedFileList loading={loading} files={data?.sharedFiles || []} />
     </PageContent>
   )
