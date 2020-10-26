@@ -35,7 +35,7 @@ export default function AddFeedback() {
     <Collapse
       defaultActiveKey={['1']}
       onChange={() => {}}
-      style={{ maxWidth: '570px', marginBottom: '50px' }}
+      style={{ marginBottom: '50px' }}
       expandIconPosition="right"
     >
       <Panel header={header} key="1">

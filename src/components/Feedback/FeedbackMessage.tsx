@@ -50,9 +50,7 @@ export const FeedbackMessage = ({
           />
         )}
       </Space>
-      <Paragraph style={{ marginTop: '13px', maxWidth: '600px', whiteSpace: 'pre-line' }}>
-        {feedback.text}
-      </Paragraph>
+      <Paragraph style={{ marginTop: '13px', whiteSpace: 'pre-line' }}>{feedback.text}</Paragraph>
       {feedback.comments.map(comment => (
         <CommentMessage key={comment.id} comment={comment} />
       ))}
