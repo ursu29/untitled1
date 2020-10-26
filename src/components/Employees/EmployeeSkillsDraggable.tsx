@@ -13,6 +13,12 @@ type ExperiencePick = {
   level: Pick<Level, 'id'>
 }
 
+export const firstWord = (text: string) => text.split(' ')[0]
+export const getDataAttr = (data: any) =>
+  Array.isArray(data) ? firstWord(data[0]) : firstWord(data)
+export const getFistWord = (data: any) =>
+  typeof data === 'object' ? getDataAttr(data.props.children) : firstWord(data)
+
 const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
   userSelect: 'none',
   paddingLeft: isDragging ? '8px' : 0,
@@ -65,7 +71,7 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
   return (
     <Section
       title={
-        <div data-cy={level.name}>
+        <div data-cy={`Title ${level.name}`}>
           {level.name}{' '}
           {editable && (
             <Button
@@ -90,8 +96,14 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
       {!edit && (
         <Droppable droppableId={level.id} direction="horizontal" isDropDisabled={!editable}>
           {(provided: any, snapshot: any) => (
-            <div ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
-              {!filteredExperiences.length && <div data-cy="no_skills">No skills yet</div>}
+            <div
+              ref={provided.innerRef}
+              style={getListStyle(snapshot.isDraggingOver)}
+              data-cy={getFistWord(level.name)}
+            >
+              {!filteredExperiences.length && (
+                <div data-cy={`no${getFistWord(level.name)}`}>No skills yet</div>
+              )}
               {filteredExperiences
                 .sort((one, two) => (one.skill.name > two.skill.name ? 1 : -1))
                 .map((item, index) => (
@@ -103,6 +115,7 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
                   >
                     {(provided: any, snapshot: any) => (
                       <div
+                        data-cy="skills_name"
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
