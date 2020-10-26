@@ -68,6 +68,7 @@ export interface Project {
   leaders: Employee[]
   employees: Employee[]
   access: Access
+  scrumMasters: Employee[] | null
 }
 
 export interface File {
@@ -462,4 +463,11 @@ export interface WorkplaceBookingType {
   employeeEmail: string
   startDate: string
   finishDate: string
+}
+
+export interface OnboardingTicket {
+  id: string
+  title: string
+  description: string
+  responsible: Employee[]
 }

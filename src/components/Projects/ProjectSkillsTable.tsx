@@ -11,7 +11,7 @@ import { Employee, Level, Skill } from '../../types'
 import EmployeeLink from '../Employees/EmployeeLink'
 
 type EmployeeSkillMatrixProps = {
-  project: QueryType['projects'][0]
+  project: QueryType['project']
 }
 
 function getEmployeeSkillLevel(employee: Partial<Employee>, skill: Partial<Skill>): Level | null {

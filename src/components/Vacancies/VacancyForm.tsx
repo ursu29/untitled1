@@ -1,17 +1,17 @@
-import React from 'react'
-import { Vacancy } from '../../types'
 // import { Form } from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
-import { Input, Row, Col, Button, Divider, Popconfirm, Form } from 'antd'
-import ProjectSelect from '../Projects/ProjectSelect'
+import { Button, Col, Divider, Form, Input, Popconfirm, Row } from 'antd'
+import React from 'react'
+import { VacancyPick } from '../../queries/getVacancies'
 import LocationSelect from '../Locations/LocationSelect'
+import ProjectSelect from '../Projects/ProjectSelect'
 import MarkdownEditor from '../UI/MarkdownEditor'
 
 interface Props {
-  vacancy: Partial<Vacancy>
+  vacancy: VacancyPick
   onClose: (i: any) => void
   onSave: (i: any) => void
-  onPublish: (i: Partial<Vacancy>) => void
+  onPublish: (i: VacancyPick) => void
 }
 
 export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Props) {

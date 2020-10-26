@@ -9,26 +9,21 @@ import EmployeeManager from './EmployeeManager'
 import EmployeeProjects from './EmployeeProjects'
 import { Link } from 'react-router-dom'
 import PATHS from '../../paths'
+import UpdateEmployee from './UpdateEmployee'
+
+import { EmployeeDetails } from '../../fragments'
 
 const { Text, Title } = Typography
 
 interface Props {
   loading: boolean
   mobile: boolean
-  employee?: Pick<
-    Employee,
-    | 'id'
-    | 'name'
-    | 'position'
-    | 'avatar'
-    | 'bonuses'
-    | 'country'
-    | 'email'
-    | 'isMe'
-    | 'location'
-    | 'status'
-    | 'phoneNumber'
-  >
+  employee?: EmployeeDetails & {
+    status: Employee['status']
+    agileManager: EmployeeDetails
+    bonuses: Employee['bonuses']
+    avatar: Employee['avatar']
+  }
 }
 
 const Description = styled.div`
@@ -64,6 +59,7 @@ export default function EmployeeView({ loading, employee, mobile }: Props) {
                       data-cy="employee_name"
                     >
                       {employee.name}
+                      <UpdateEmployee employee={employee} />
                     </Title>
                     {employee.isMe && !mobile && (
                       <Link to={PATHS.TIMEMASTER} data-cy="timemaster">
@@ -143,7 +139,7 @@ export default function EmployeeView({ loading, employee, mobile }: Props) {
             </div>
           </Col>
           <Col md={24} lg={10}>
-            <EmployeeManager employee={employee} />
+            <EmployeeManager employeeEmail={employee.email} />
             <EmployeeProjects employee={employee} />
           </Col>
         </Row>

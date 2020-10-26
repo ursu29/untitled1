@@ -2,6 +2,7 @@ import { Employee, Project, Skill, Matrix, Post, Process, Vacancy, ProcessExecut
 
 const PATHS = {
   PROFILE: '/profile',
+  ONBOARDING: '/onboarding',
   EMPLOYEES: '/employees',
   GUILDS: '/guilds',
   PROJECTS: '/projects',
