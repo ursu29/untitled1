@@ -21,7 +21,7 @@ const Helper = styled.div`
 function EvaluationHelper() {
   const [show, setShow] = useState(false)
   return (
-    <>
+    <div data-cy="helper">
       <Button
         type="link"
         onClick={() => setShow(!show)}
@@ -54,7 +54,7 @@ function EvaluationHelper() {
           </Card>
         </Helper>
       )}
-    </>
+    </div>
   )
 }
 

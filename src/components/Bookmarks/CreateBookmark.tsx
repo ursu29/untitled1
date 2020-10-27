@@ -41,7 +41,7 @@ export default function CreateBookmark({ refetchQueries = [] }: Props) {
   })
 
   return (
-    <>
+    <div data-cy="bookmark">
       <Drawer
         toggler={<Button icon={<PlusOutlined />}>Add bookmark</Button>}
         drawerLabel="Create bookmark"
@@ -57,6 +57,6 @@ export default function CreateBookmark({ refetchQueries = [] }: Props) {
           />
         }
       />
-    </>
+    </div>
   )
 }

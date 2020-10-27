@@ -13,7 +13,7 @@ describe('Smokes employee', () => {
     employeeProfile.avatar().should('be.visible')
     employeeProfile.name().should('contain', 'Test Employee')
     employeeProfile.jobTitle().should('contain', 'Test')
-    employeeProfile.city().should('contain', 'Unknown')
+    employeeProfile.city().should('contain', 'Saint-Petersburg')
   })
 
   it('Profile include info and link to manager page', () => {
@@ -40,9 +40,9 @@ describe('Smokes manager', () => {
   const managerProfile = new Profile()
   const employeeProfile = new Profile()
 
-  beforeEach(() => {
-    cy.setToken('manager')
-    managerProfile.visit()
+ beforeEach(() => {
+   cy.setToken('manager')
+   managerProfile.visit()
   })
 
   it('Opens profile by default', () => {
@@ -50,7 +50,7 @@ describe('Smokes manager', () => {
     managerProfile.avatar().should('be.visible')
     managerProfile.name().should('contain', 'Test Manager')
     managerProfile.jobTitle().should('contain', 'Test')
-    managerProfile.city().should('contain', 'Unknown')
+    managerProfile.city().should('contain', 'Saint-Petersburg')
   })
 
   it('Manager can see own private tabs', () => {
