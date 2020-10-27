@@ -1,6 +1,6 @@
 import React from 'react'
 import { CircleButton, circleButtonsPallette } from '../Matrices/CircleButton'
-import { getFistWord } from '../Employees/EmployeeSkillsDraggable'
+import { getFirstWord } from '../../utils/cypress'
 
 export default function Legend() {
   return (
@@ -9,7 +9,7 @@ export default function Legend() {
         <div
           key={i}
           style={{ display: 'flex', alignItems: 'center', marginRight: '19px' }}
-          data-cy={getFistWord(button.title)}
+          data-cy={getFirstWord(button.title)}
         >
           <CircleButton
             backgroundColor={button.backgroundColor}

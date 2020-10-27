@@ -6,18 +6,13 @@ import Section from '../UI/Section'
 import Button from '../UI/Button'
 import SkillTag from '../Skills/SkillTag'
 import SkillTreeSelect from '../Skills/SkillTreeSelect'
+import { getFirstWord } from '../../utils/cypress'
 
 type ExperiencePick = {
   id: Experience['id']
   skill: Pick<Skill, 'id' | 'name' | 'description'>
   level: Pick<Level, 'id'>
 }
-
-export const firstWord = (text: string) => text.split(' ')[0]
-export const getDataAttr = (data: any) =>
-  Array.isArray(data) ? firstWord(data[0]) : firstWord(data)
-export const getFistWord = (data: any) =>
-  typeof data === 'object' ? getDataAttr(data.props.children) : firstWord(data)
 
 const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
   userSelect: 'none',
@@ -99,10 +94,10 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
             <div
               ref={provided.innerRef}
               style={getListStyle(snapshot.isDraggingOver)}
-              data-cy={getFistWord(level.name)}
+              data-cy={getFirstWord(level.name)}
             >
               {!filteredExperiences.length && (
-                <div data-cy={`no${getFistWord(level.name)}`}>No skills yet</div>
+                <div data-cy={`no${getFirstWord(level.name)}`}>No skills yet</div>
               )}
               {filteredExperiences
                 .sort((one, two) => (one.skill.name > two.skill.name ? 1 : -1))
