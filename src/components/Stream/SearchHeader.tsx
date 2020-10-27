@@ -65,7 +65,7 @@ export default function SearchHeader({
 
       <div style={{ maxWidth: isSingleColumn ? '180px' : '40%', minWidth: 120 }}>
         <div style={{ marginBottom: '5px', whiteSpace: 'nowrap' }}>With skills</div>
-        <div style={{ minWidth: 120 }}>
+        <div style={{ minWidth: 120 }} data-cy="select-skill">
           <SkillTreeSelect
             value={selectedTechnologies}
             onChange={value => onSkillsFilter(value)}
