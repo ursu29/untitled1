@@ -47,7 +47,7 @@ const query = gql`
       read
     }
     processesAccess {
-      read
+      write
     }
     processExecutionsAccess {
       read
@@ -60,7 +60,7 @@ const query = gql`
 
 type QueryType = {
   matricesAccess: Pick<Access, 'read'>
-  processesAccess: Pick<Access, 'read'>
+  processesAccess: Pick<Access, 'write'>
   processExecutionsAccess: Pick<Access, 'read'>
   onboardingAccess: Pick<Access, 'read'>
 }
@@ -189,7 +189,7 @@ function PortalMenu(props: Props) {
           subMenu: 'tools',
         }
       : null,
-    data?.processesAccess.read
+    data?.processesAccess.write
       ? {
           route: paths.PROCESSES,
           icon: <BranchesOutlined />,
