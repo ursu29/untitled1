@@ -44,7 +44,6 @@ export const FeedbackReplyForm = ({
         })
       }
     },
-    awaitRefetchQueries: true,
     onError: message.error,
   })
 
