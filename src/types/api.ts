@@ -24,6 +24,8 @@ export interface Employee {
   experiences: Experience[]
   matrices: Matrix[]
   worksFromOffice: string[]
+  lastManagerMeeting: string
+  projects: Project[]
 }
 
 export interface CurriculumVitae {
