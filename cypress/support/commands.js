@@ -61,11 +61,21 @@ Cypress.Commands.add('selectFilterValue', (id, thText, name) => {
   cy.contains('OK').click({force: true});
 })
 
-Cypress.Commands.add('checkRowsToContainText', (text) => {
-   cy.get('[data-row-key]').each(val => {
+Cypress.Commands.add('matchText' , (el , text) => {
+   cy.get(el).each(val => {
      const data = val.text()
      expect(data).match(text);
    });
+})
+
+
+Cypress.Commands.add('toEqualText' , (el , text, isAttr = false, idx= 0) => {
+  const element = isAttr ? cy.getElement(el).eq(idx) : cy.get(el);
+
+  element.each(val => {
+    const data = val.text()
+    expect(data).to.equal(text)
+  });
 })
 
 Cypress.Commands.add('haveText', (name, text) => cy.getElement(name).should('have.text', text))

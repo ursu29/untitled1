@@ -22,17 +22,17 @@ describe('Employees', () => {
 
   it('Filter the employees table by position', () => {
     cy.selectFilterValue('employee_table', 'Position', profileName);
-    cy.checkRowsToContainText(profileName);
+    cy.matchText('[data-row-key]' ,profileName);
   })
 
   it('Filter the employees table by level', () => {
     cy.selectFilterValue('employee_table', 'Level', profileLevel);
-    cy.checkRowsToContainText(profileLevel);
+    cy.matchText('[data-row-key]', profileLevel);
   })
 
   it('Filter the employees table by location', () => {
     cy.selectFilterValue('employee_table', 'Location', city);
-    cy.checkRowsToContainText(city);
+    cy.matchText('[data-row-key]', city);
   })
 
   it('Open a user profile from the table', () => {

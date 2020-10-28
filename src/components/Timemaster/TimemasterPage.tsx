@@ -24,6 +24,7 @@ function TimemasterPage() {
   return (
     <div style={{ height: '100vh', width: '100%' }}>
       <iframe
+        data-cy="tm_iframe"
         id="tm_iframe"
         width="100%"
         height="100%"

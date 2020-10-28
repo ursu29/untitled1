@@ -35,3 +35,15 @@ export const getEmployeeExperiences = (id) => ({
   variables:{input:{id:id}},
   query: "query getEmployeeExperiences($input: EmployeesInput) {employees(input: $input) { id name experiences { ...ExperienceDetails comment } access {read write}}}fragment ExperienceDetails on Experience {id level {id index name} skill {id name description isMatrixOnly }updatedAt}"
 })
+
+export const getAllSkills = () => ({
+  operationName: "getSkills",
+  variables:{},
+  query: "query getSkills($input: SkillsInput) {skills(input: $input) {id name description parent { id }isMatrixOnly}}"
+})
+
+export const getAllMatrices = () => ({
+  operationName: null,
+  variables:{},
+  query: "{matrices {id title description}  matricesAccess {read}}"
+})

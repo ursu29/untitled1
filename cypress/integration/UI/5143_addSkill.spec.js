@@ -1,95 +1,105 @@
-import { getClient, getManager, getProjects, getEmployeeExperiences } from '../../support/getData'
-import { addSkill, inputSkill } from '../../support/complexLocators'
+import { getAllSkills } from '../../support/getData'
+import { getSelectItem } from '../../support/complexLocators'
+import { inputSkill } from '../../support/complexLocators'
+import { addSkill } from '../../support/complexLocators'
 
 export const filterSkillsName = (name, arr) => arr.filter(el => el.level.name === name && !el.skill.isMatrixOnly)
   .map(val => val.skill.name).sort();
 
+export const skillEl = {
+  item: '.ant-select-selection-item',
+  remove: '.ant-select-selection-item-remove',
+  skill: '.ant-select-tree-title',
+  iconChecked: '.anticon-check',
+  iconEdit: '.anticon-edit',
+  successMes: '.ant-message-success',
+  skillName: 'skills_name',
+}
+
 describe('Adding Skills in the Users Profile', () => {
+  const skillName = 'Agile';
+  const childSkill = 'SAFe';
   let allData = {
-    client: null,
-    manager: null,
-    projects: null,
-    levels: null,
+    skills: null,
+    childSkills: null,
+    uiSkill: [],
   }
 
   before(() => {
     cy.setToken('employee');
     cy.visit('/');
-    cy.post(getClient()).then(res => {
+    cy.post(getAllSkills()).then(res => {
       const {data} = res.body;
-      allData = {...allData, client: data};
+      allData = {...allData, skills: data};
     })
+    cy.editSkills(0);
+    cy.deleteAllSkills(skillEl.item, skillEl.remove);
   });
 
-  it.only('Check Employee data', () => {
-    const {profile} = allData.client;
-    addSkill(0).click();
+  afterEach('check', () => {
+    cy.deleteAllSkills(skillEl.item, skillEl.remove)
+  })
+
+  it('Check edit button and list items', () => {
+    const {skills} = allData.skills;
+
+    getSelectItem(0).click();
+    getSelectItem(0).parent().then(val => {
+      const selectedId = skills.filter(skill => skill.name === val.text())[0];
+      const childSkill = skills.filter(skill => selectedId.id === skill.parent?.id)
+        .map(val => val.name);
+      allData = {...allData, childSkills: childSkill};
+    })
+    cy.get(skillEl.skill).each((val, idx) => {
+      if(allData.childSkills.length >= idx) {
+        allData.uiSkill.push(val.text());
+      }
+    }).
+    then(el =>
+      expect(Cypress._.isEqual(allData.childSkills, allData.uiSkill.slice(1))).to.be.true)
+  });
+
+  it(`Click on a skill ${skillName}`, () => {
+    cy.get(skillEl.skill).contains(skillName).click();
+    cy.toEqualText(skillEl.item, skillName)
+  })
+
+  it(`Check on a child skill: ${childSkill} and collapsing`, () => {
+    cy.get(skillEl.skill).contains(childSkill).click();
+    cy.toEqualText(skillEl.item, childSkill)
+
+    getSelectItem(0).click();
+    cy.toEqualText(skillEl.item, childSkill)
+
     inputSkill(0).click();
-  });
+    cy.toEqualText(skillEl.item, childSkill)
+  })
 
-  it('Information about employee manager', () => {
-    const {manager} = allData.manager.employees[0];
+  it(`Skill inside ${skillName} shouldn't change`, () => {
+    inputSkill(0).click();
+    cy.get(skillEl.skill).contains(skillName).click();
+    getSelectItem(0).click();
+    cy.get(skillEl.skill).contains(childSkill).click();
+    cy.get(skillEl.skill).contains(skillName).click();
+    cy.toEqualText(skillEl.item, childSkill)
+  })
 
-    cy.getElement('employee_card').contains(manager.name);
-    cy.getElement('employee_card').contains(manager.position);
-    cy.getElement('employee_avatar').should('be.visible')
-  });
+  it('Click on the Done', () => {
+    cy.get(skillEl.skill).contains(skillName).click();
+    addSkill(0).click();
+    cy.get(skillEl.iconEdit).eq(0).should('have.class', 'anticon-edit')
+    cy.get(skillEl.successMes).should('have.text', 'Skills updated')
+    cy.toEqualText(skillName, skillName, true);
+    cy.editSkills(0);
+  })
 
-  it('Check the Projects field', () => {
-    const {projects} = allData.projects.employees[0];
-
-    if(projects.length) {
-      const projectNames = projects.map(obj => obj.name);
-      cy.checkLength('project_tab', projects.length);
-      cy.checkTextInArrayEl('project_tab', projectNames)
-
-      return;
-    }
-    cy.getElement('project').should('not.exist')
-  });
-
-  it('Check the Teams and Outlook buttons', () => {
-    cy.getElement('mail_button').should('be.visible');
-    cy.getElement('teams_button').should('be.visible');
-  });
-
-  it('Check the Skills tab', () => {
-    const {experiences} = allData.levels.employees[0];
-
-    cy.getElement(tabs.skill).contains(tabs.skill);
-    cy.getElement('Title Confident in').contains('Confident in');
-    cy.checkSkills('noConfident', 'Confident', 'Confident in', experiences);
-    cy.checkSkills('noExperienced', 'Experienced', 'Experienced', experiences);
-    cy.checkSkills('noCurrently', 'Currently', 'Currently studies', experiences);
-    cy.checkSkills('noWants', 'Wants', 'Wants to know', experiences);
-  });
-
-  it('Check all tabs', () => {
-    Object.values(tabs).forEach(val => cy.getElement(val).contains(val))
-  });
-
-  it('Check the Bookmarks tab', () => {
-    cy.getElement(tabs.bookMark).click();
-    cy.getElement('bookmark').contains('Add bookmark')
-  });
-
-  it('Check the Matrices tab', () => {
-    cy.getElement(tabs.matrices).click();
-    cy.getElement('legend-buttons').should('be.visible');
-  });
-
-  it('Check the Personal development tab', () => {
-    cy.getElement(tabs.personal).click();
-    cy.getElement('evaluation-form').should('be.visible');
-  });
-
-  it('Check the Self Evaluation Form tab', () => {
-    cy.getElement(tabs.form).click();
-    cy.getElement('helper').should('be.visible');
-  });
-
-  it('Check the CV tab', () => {
-    cy.getElement(tabs.cv).click();
-    cy.getElement('cv-form').should('be.visible');
-  });
+  it('Click to another tab', () => {
+    getSelectItem(0).click();
+    cy.get(skillEl.skill).contains(childSkill).click();
+    cy.get(skillEl.skill).contains(skillName).click();
+    cy.getElement('Bookmarks').click();
+    cy.getElement('Skills').click();
+    cy.get(skillEl.iconChecked).should('have.class', 'anticon-check');
+    cy.get(skillEl.item).its('length').should('eq', 2);
+  })
 });
