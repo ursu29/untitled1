@@ -53,7 +53,7 @@ describe('Checking default information', () => {
     cy.checkIfElementPresent('bonuses', profile.bonuses)
   });
 
-  it('Information about employee manager', () => {
+  it.skip('Information about employee manager', () => {
     const {manager} = allData.manager.employees[0];
 
     cy.getElement('employee_card').contains(manager.name);
