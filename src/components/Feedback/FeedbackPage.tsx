@@ -6,7 +6,7 @@ import FeedbacksList from './FeedbacksList'
 
 export default function FeedbackPage() {
   return (
-    <PageContent>
+    <PageContent style={{ maxWidth: '600px' }}>
       <Typography.Title style={{ marginBottom: '40px' }}>Feedback</Typography.Title>
       <AddFeedback />
       <FeedbacksList />
