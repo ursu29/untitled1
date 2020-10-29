@@ -1,10 +1,11 @@
-import { Badge, Button, Typography } from 'antd'
+import { Button, Typography, Tag } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
 import { ReactComponent as OutlookIcon } from '../../svg/outlook.svg'
 import { ReactComponent as TeamsIcon } from '../../svg/teams.svg'
 import { OnboardingTicket } from '../../types'
 import EmployeeAvatar from '../Employees/EmployeeAvatar'
+import { CheckCircleOutlined } from '@ant-design/icons'
 
 const TicketCard = styled.div`
   display: flex;
@@ -54,9 +55,11 @@ export default function Ticket({
           </div>
           {!isAccessWrite ? (
             isCompleted ? (
-              <Badge color="green" text="Completed" />
+              <Tag icon={<CheckCircleOutlined />} color="success">
+                COMPLETED
+              </Tag>
             ) : (
-              <Badge color="orange" text="In Progress" />
+              <Tag color="gold">IN PROGRESS</Tag>
             )
           ) : null}
         </div>
