@@ -132,16 +132,6 @@ function EmployeeTabs({ match, ...props }: Props) {
     },
   ]
 
-  if (employee?.isMe) {
-    tabs.unshift({
-      title: 'My employees',
-      key: 'employees',
-      icon: <SolutionOutlined />,
-      noPadding: true,
-      body: <EmployeeSubordinates employee={employee} />,
-    })
-  }
-
   if (matricesLookReviewersAccess?.read) {
     tabs.push({
       title: <div style={{ display: 'inline-flex', alignItems: 'center' }}>Matrices</div>,
@@ -184,6 +174,17 @@ function EmployeeTabs({ match, ...props }: Props) {
       body: <EmployeeEvaluation employee={employee} editable={evaluationReviewersAccess?.write} />,
     })
   }
+
+  if (employee?.isMe) {
+    tabs.push({
+      title: 'My employees',
+      key: 'employees',
+      icon: <SolutionOutlined />,
+      noPadding: true,
+      body: <EmployeeSubordinates employee={employee} />,
+    })
+  }
+
   if (curriculumVitaeAccess?.read) {
     tabs.push({
       title: 'CV',
