@@ -167,7 +167,7 @@ function ProcessList({ items, tabName }: Props) {
       ...getColumnSearchProps('title', 'process'),
       render: (_: any, i: any) => {
         return (
-          <Link to={getProcessExecutionLink(i.id)} title={i.process.title}>
+          <Link to={getProcessExecutionLink(i.id)} title={i.process.title} target="_blank">
             {i.process.title}
           </Link>
         )
