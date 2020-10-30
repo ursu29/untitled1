@@ -1,5 +1,6 @@
 import { EditOutlined } from '@ant-design/icons'
-import { useMutation } from '@apollo/react-hooks'
+import gql from 'graphql-tag'
+import { useMutation, useQuery } from '@apollo/react-hooks'
 import React from 'react'
 import { EmployeeDetails } from '../../fragments'
 import message from '../../message'
@@ -8,14 +9,23 @@ import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import { getEmployeeDetails } from './EmployeeDetails'
 import ProjectForm from './EmployeeForm'
-import { useToken } from '../../utils/withToken'
 
 type EmployeePick = EmployeeDetails & {
   agileManager: EmployeeDetails
 }
 
 function UpdateProject({ employee }: { employee: EmployeePick }) {
-  const { scope } = useToken()
+  const { data } = useQuery(
+    gql`
+      query getEmployee($email: String!) {
+        employeeByEmail(email: $email) {
+          id
+          accessEditGlobal
+        }
+      }
+    `,
+    { variables: { email: employee.email } },
+  )
 
   const [update, { loading }] = useMutation(updateEmployee, {
     onCompleted: () => message.success('Employee is updated'),
@@ -33,7 +43,7 @@ function UpdateProject({ employee }: { employee: EmployeePick }) {
     },
   })
 
-  if (!scope.includes('application.readwrite.all')) return null
+  if (!data?.employeeByEmail?.accessEditGlobal) return null
 
   return (
     <Drawer

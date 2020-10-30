@@ -1,5 +1,6 @@
 import { EditOutlined } from '@ant-design/icons'
-import { useMutation } from '@apollo/react-hooks'
+import gql from 'graphql-tag'
+import { useMutation, useQuery } from '@apollo/react-hooks'
 import React from 'react'
 import message from '../../message'
 import getProject from '../../queries/getProject'
@@ -8,10 +9,19 @@ import { Project } from '../../types'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import ProjectForm from './ProjectForm'
-import { useToken } from '../../utils/withToken'
 
 function UpdateProject({ project }: { project: Partial<Project> }) {
-  const { scope } = useToken()
+  const { data } = useQuery(
+    gql`
+      query getProject($id: ID!) {
+        project(id: $id) {
+          id
+          accessEditGlobal
+        }
+      }
+    `,
+    { variables: { id: project.id } },
+  )
 
   const [update, { loading }] = useMutation(updateProject, {
     onCompleted: () => message.success('Project is updated'),
@@ -20,7 +30,7 @@ function UpdateProject({ project }: { project: Partial<Project> }) {
     onError: message.error,
   })
 
-  if (!scope.includes('application.readwrite.all')) return null
+  if (!data?.project?.accessEditGlobal) return null
 
   return (
     <Drawer
