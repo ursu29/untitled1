@@ -26,7 +26,9 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 import { getSkill } from './complexLocators'
-import { filterSkillsName } from '../integration/UI/5003_defaut_info.spec'
+
+export const filterSkillsName = (name, arr) => arr.filter(el => el.level.name === name && !el.skill.isMatrixOnly)
+  .map(val => val.skill.name).sort();
 
 Cypress.Commands.add('getElement', name => cy.get(`[data-cy="${name}"]`));
 

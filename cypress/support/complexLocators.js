@@ -15,14 +15,17 @@ Cypress.Commands.add('checkIfElementPresent', (visibleEl, text) => {
   })
 });
 
+Cypress.on('uncaught:exception', () => {
+  return false
+})
+
+
 Cypress.Commands.add('elementIsPresent', el => cy.document().then(doc => !!doc.querySelectorAll([el]).length));
 
 Cypress.Commands.add('deleteAllSkills', (el, removeEl) => {
   cy.elementIsPresent(el).then(bool => {
     if(bool) {
-      cy.get(el).then(el => cy.get(removeEl).click({ multiple: true }))
-
-      return ;
+      cy.get(el).then(() => cy.get(removeEl).click({ multiple: true }))
     }
   })
 })

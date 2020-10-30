@@ -3,9 +3,6 @@ import { getSelectItem } from '../../support/complexLocators'
 import { inputSkill } from '../../support/complexLocators'
 import { addSkill } from '../../support/complexLocators'
 
-export const filterSkillsName = (name, arr) => arr.filter(el => el.level.name === name && !el.skill.isMatrixOnly)
-  .map(val => val.skill.name).sort();
-
 export const skillEl = {
   item: '.ant-select-selection-item',
   remove: '.ant-select-selection-item-remove',
@@ -54,8 +51,7 @@ describe('Adding Skills in the Users Profile', () => {
       if(allData.childSkills.length >= idx) {
         allData.uiSkill.push(val.text());
       }
-    }).
-    then(el =>
+    }).then(() =>
       expect(Cypress._.isEqual(allData.childSkills, allData.uiSkill.slice(1))).to.be.true)
   });
 
@@ -87,9 +83,9 @@ describe('Adding Skills in the Users Profile', () => {
   it('Click on the Done', () => {
     cy.get(skillEl.skill).contains(skillName).click();
     addSkill(0).click();
-    cy.get(skillEl.iconEdit).eq(0).should('have.class', 'anticon-edit')
-    cy.get(skillEl.successMes).should('have.text', 'Skills updated')
-    cy.toEqualText(skillName, skillName, true);
+    cy.get(skillEl.iconEdit).eq(0).should('have.class', 'anticon-edit');
+    cy.get(skillEl.successMes).should('have.text', 'Skills updated');
+    cy.getElement(skillEl.skillName).eq(0).should('have.text', skillName);
     cy.editSkills(0);
   })
 
