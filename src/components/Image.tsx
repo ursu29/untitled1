@@ -14,7 +14,7 @@ function PortalImage({ src, ...props }: any) {
     if (called) return
     if (!src.includes('sidenis')) {
       if (ref.current) {
-        ref.current.src = props.src
+        ref.current.src = src
       }
       setLoading(false)
       return
@@ -40,7 +40,10 @@ function PortalImage({ src, ...props }: any) {
       }
       const base64 = btoa(raw)
       setLoading(false)
-      const newSrc = 'data:image;base64,' + base64
+      let newSrc = 'data:image;base64,' + base64
+      if (src.endsWith('.svg')) {
+        newSrc = 'data:image/svg+xml;base64,' + base64
+      }
       if (ref.current) {
         ref.current.src = newSrc
       }
