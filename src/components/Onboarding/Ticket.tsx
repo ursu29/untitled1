@@ -107,7 +107,7 @@ export default function Ticket({
               style={{ paddingRight: 8 }}
             >
               <Button
-                shape="circle-outline"
+                shape="circle"
                 disabled={!email}
                 style={{
                   display: 'inline-flex',
@@ -125,7 +125,7 @@ export default function Ticket({
               style={{ paddingRight: 8 }}
             >
               <Button
-                shape="circle-outline"
+                shape="circle"
                 disabled={!email}
                 style={{
                   display: 'inline-flex',

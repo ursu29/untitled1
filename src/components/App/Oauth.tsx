@@ -25,9 +25,10 @@ const MINUTE = 1000 * 60
 
 function Oauth({ children }: any) {
   const [token, setToken] = useState(localStorage.getItem('access_token'))
-  let timeout: ReturnType<typeof setTimeout>
+
   useEffect(() => {
     if (token) return
+    let timeout: ReturnType<typeof setTimeout>
     async function authorize() {
       var tokenRequest = {
         scopes: [
