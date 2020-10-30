@@ -1,9 +1,30 @@
-import { useQuery } from '@apollo/react-hooks'
-import { Typography } from 'antd'
+import { useMutation, useQuery } from '@apollo/react-hooks'
+import gql from 'graphql-tag'
+import { Typography, DatePicker, Space } from 'antd'
 import dayjs from 'dayjs'
 import React from 'react'
 import getEmployeeExperiences, { QueryType } from '../../queries/getEmployeeExperiences'
 import { Employee } from '../../types'
+import moment from 'moment'
+import message from '../../message'
+
+const matricesCustomFields = gql`
+  query matricesCustomFields($input: MatricesCustomFieldsInput) {
+    matricesCustomFields(input: $input) {
+      id
+      employeeMail
+      lastDiscussed
+    }
+  }
+`
+
+const customFieldsMutation = gql`
+  mutation matricesCustomFieldsMutation($input: UpdateMatricesCustomFieldsInput!) {
+    updateMatricesCustomFields(input: $input) {
+      id
+    }
+  }
+`
 
 interface Props {
   employee?: Pick<Employee, 'id'>
@@ -13,6 +34,29 @@ export default function EmployeeMatrix({ employee }: Props) {
   const { data } = useQuery<QueryType>(getEmployeeExperiences, {
     variables: { input: { id: employee?.id } },
     skip: !employee,
+  })
+
+  const { data: customFields } = useQuery(matricesCustomFields, {
+    variables: {
+      input: {
+        employee: employee?.id,
+      },
+    },
+  })
+
+  const [addCustomField] = useMutation(customFieldsMutation, {
+    refetchQueries: [
+      {
+        query: matricesCustomFields,
+        variables: {
+          input: {
+            employee: employee?.id,
+          },
+        },
+      },
+    ],
+    onCompleted: () => message.success('Evaluation is updated'),
+    onError: message.error,
   })
 
   if (!employee) return null
@@ -30,8 +74,29 @@ export default function EmployeeMatrix({ employee }: Props) {
   if (!updatedAt) return null
 
   return (
-    <Typography.Text disabled>
-      Last updated: {dayjs(updatedAt).format('DD MMM YYYY HH:mm')}
-    </Typography.Text>
+    <Space size="middle">
+      <Typography.Text>
+        Last discussed:{' '}
+        <DatePicker
+          size="small"
+          allowClear={false}
+          format={['DD.MM.YYYY']}
+          value={
+            customFields?.matricesCustomFields?.lastDiscussed
+              ? moment(moment(customFields?.matricesCustomFields?.lastDiscussed), 'DD.MM.YYYY')
+              : null
+          }
+          onChange={date =>
+            addCustomField({ variables: { input: { employee: employee.id, lastDiscussed: date } } })
+          }
+        />
+      </Typography.Text>
+
+      {updatedAt ? (
+        <Typography.Text disabled>
+          Last updated: {dayjs(updatedAt).format('DD MMM YYYY HH:mm')}
+        </Typography.Text>
+      ) : null}
+    </Space>
   )
 }

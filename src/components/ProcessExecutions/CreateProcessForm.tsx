@@ -37,6 +37,7 @@ const CreateProcessForm = ({ form, onSubmit, value, loading }: Props) => {
       <Form.Item label="Process type">
         {getFieldDecorator('process', {
           initialValue: value?.process?.id,
+          rules: [{ required: true }],
         })(
           <ProcessSelect
             onChange={(value, options) => {

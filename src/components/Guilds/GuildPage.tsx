@@ -10,7 +10,7 @@ import { MainContent, LeftBlock, RightBlock } from './styled'
 import Controls from '../UI/Controls'
 import Back from '../UI/Back'
 import PageContent from '../UI/PageContent'
-import ProjectManagers from '../UI/ProjectManagers'
+import ProjectManagers from '../Projects/ProjectManagers'
 import { getGuild, GuildQueryType, updateGuild } from '../../queries/guilds'
 import message from '../../message'
 

@@ -8,10 +8,23 @@ import message from '../../message'
 import { getProcessLink } from '../../paths'
 import getProceses, { QueryType } from '../../queries/getProcesses'
 import isForbidden from '../../utils/isForbidden'
+import { Access } from '../../types'
 import NotAllowed from '../UI/NotAllowed'
 import PageContent from '../UI/PageContent'
 import Skeleton from '../UI/Skeleton'
 import CreateProcess from './CreateProcess'
+
+const accessQuery = gql`
+  query processPageAccess {
+    processesAccess {
+      write
+    }
+  }
+`
+
+type AccessQueryType = {
+  processesAccess: Pick<Access, 'write'>
+}
 
 const mutation = gql`
   mutation deleteProcess($input: DeleteProcessInput) {
@@ -22,13 +35,14 @@ const mutation = gql`
 `
 
 function ProcessesPage() {
-  const { data, loading, error } = useQuery<QueryType>(getProceses)
+  const { data, loading: dataLoading, error } = useQuery<QueryType>(getProceses)
   const [deleteProcess, deleteProcessArgs] = useMutation(mutation, {
     refetchQueries: [{ query: getProceses }],
     awaitRefetchQueries: true,
     onCompleted: () => message.success('Process is removed'),
     onError: message.error,
   })
+  const { data: access, loading: accessLoading } = useQuery<AccessQueryType>(accessQuery)
 
   useEffect(() => {
     if (deleteProcessArgs.loading) {
@@ -36,13 +50,15 @@ function ProcessesPage() {
     }
   }, [deleteProcessArgs.loading])
 
-  if (isForbidden(error)) {
+  if (isForbidden(error) || (access && !access.processesAccess.write)) {
     return (
       <PageContent>
         <NotAllowed />
       </PageContent>
     )
   }
+
+  const loading = dataLoading || accessLoading
 
   return (
     <PageContent>

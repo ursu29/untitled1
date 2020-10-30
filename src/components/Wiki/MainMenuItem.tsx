@@ -12,6 +12,7 @@ import {
   GlobalOutlined,
   QuestionOutlined,
 } from '@ant-design/icons'
+import Gamepad from '../../svg/gamepad.svg'
 
 const Title = styled.div`
   font-size: 24px;
@@ -80,6 +81,8 @@ export default function MainMenuItem({
         return <StarOutlined style={style} />
       case 'global':
         return <GlobalOutlined style={style} />
+      case 'gamepad':
+        return <img src={Gamepad} alt="gamepad" />
       default:
         return <QuestionOutlined style={style} />
     }

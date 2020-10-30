@@ -72,7 +72,10 @@ export default function WorkspacePlanner() {
   const [currentLocation, setCurrentLocation] = useState<string>()
   const [workplaces, setWorkplaces] = useState<WorkplaceType[]>([])
   const [isDesignMode, toggleDesignMode] = useState(false)
-  const [dateRange, setDateRange] = useState({ startDate: '', finishDate: '' })
+  const [dateRange, setDateRange] = useState({
+    startDate: dayjs().format('DD.MM.YYYY'),
+    finishDate: dayjs().format('DD.MM.YYYY'),
+  })
   const [selectedWorkspace, setSelectedWorkspace] = useState('')
   const [selectedWorkplace, setSelectedWorkplace] = useState('')
   const [isInfoForBooked, setIsInfoForBooked] = useState(false)
@@ -80,6 +83,7 @@ export default function WorkspacePlanner() {
   const isPastDateChosen = !dayjs().isSameOrBefore(dayjs(dateRange.startDate, 'DD.MM.YYYY'), 'day')
 
   useEffect(() => {
+    if (isDesignMode) return
     setSelectedWorkplace('')
   }, [dateRange, workplaces, currentLocation, isDesignMode, selectedWorkspace])
 
@@ -107,7 +111,7 @@ export default function WorkspacePlanner() {
    */
 
   const workspacePoolQueryVariables = {
-    input: { locationId: '5e5693ed05ca9232ef1cdbf7' }, //currentLocation } }, TODO:
+    input: { locationId: currentLocation || '' },
     bookingsInput: { startDate: dateRange.startDate, finishDate: dateRange.finishDate },
   }
 
@@ -273,8 +277,7 @@ export default function WorkspacePlanner() {
         },
       },
     })
-    console.log(officeDaysData)
-  }, [dateRange])
+  }, [dateRange, getQueryOfficeDays])
   //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ REMOVE with workspace planner
 
   const [createWorkplaceBooking, { loading: loadingCreateWorkplaceBooking }] = useMutation(
@@ -493,7 +496,6 @@ export default function WorkspacePlanner() {
           <Tabs.TabPane
             key={location.id}
             tab={location.name}
-            disabled={location.id !== '5e5693ed05ca9232ef1cdbf7'} //TODO: add any possible location
             style={{ display: 'flex', flexDirection: 'column' }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px' }}>
@@ -561,6 +563,7 @@ export default function WorkspacePlanner() {
                 isInfoForBooked={isInfoForBooked}
                 setIsInfoForBooked={setIsInfoForBooked}
                 setIsBookingListOpen={setIsBookingListOpen}
+                updateWorkplace={updateWorkplace}
               />
             )}
           </Tabs.TabPane>

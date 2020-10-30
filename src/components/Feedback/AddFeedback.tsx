@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Collapse, Form, Select, Input, Button } from 'antd'
+import { Collapse, Form, Select, Input, Button, Checkbox } from 'antd'
 import { useMutation } from '@apollo/react-hooks'
 import ProjectSelect from '../Projects/ProjectSelect'
 import { addFeedback } from '../../queries/feedback'
@@ -11,18 +11,22 @@ export default function AddFeedback() {
   const [form] = Form.useForm()
   const header = React.createElement('div', { style: { fontSize: '16px' } }, 'Add new')
 
-  const [addNewFeedback] = useMutation(addFeedback, {
+  const [addNewFeedback, { loading }] = useMutation(addFeedback, {
     onCompleted: () => {
       message.success('Your feedback has been sent')
       form.resetFields()
     },
+    refetchQueries: ['getFeedbacks'],
+    awaitRefetchQueries: true,
     onError: message.error,
   })
 
   const [about, setAbout] = useState('')
 
   const onFinish = (values: any) => {
-    addNewFeedback({ variables: { input: values } })
+    addNewFeedback({
+      variables: { input: values },
+    })
   }
 
   const onAboutChange = (value: any) => setAbout(value)
@@ -31,7 +35,7 @@ export default function AddFeedback() {
     <Collapse
       defaultActiveKey={['1']}
       onChange={() => {}}
-      style={{ maxWidth: '570px', marginBottom: '50px' }}
+      style={{ marginBottom: '50px' }}
       expandIconPosition="right"
     >
       <Panel header={header} key="1">
@@ -39,7 +43,7 @@ export default function AddFeedback() {
           labelCol={{ span: 4 }}
           name="addFeedbackForm"
           form={form}
-          initialValues={{ remember: true }}
+          initialValues={{ isPrivate: false }}
           onFinish={onFinish}
           style={{ padding: '10px 20px 0 20px' }}
         >
@@ -90,8 +94,11 @@ export default function AddFeedback() {
               style={{ width: '100%' }}
             />
           </Form.Item>
+          <Form.Item name="isPrivate" valuePropName="checked" wrapperCol={{ offset: 4 }}>
+            <Checkbox>Show only for managers</Checkbox>
+          </Form.Item>
           <Form.Item wrapperCol={{ offset: 4 }}>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={loading}>
               Post
             </Button>
             <div style={{ position: 'absolute', color: '#b3b1b1', marginTop: '5px' }}>

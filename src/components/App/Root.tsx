@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Layout from '../UI/Layout'
 import Pages from './Pages'
 import Sider from './Sider'
@@ -8,6 +8,7 @@ import NotAuthorized from '../UI/NotAuthorized'
 import NotAnswering from '../UI/NotAnswering'
 import DevTools from '../DevTools'
 import { EmployeeProvider } from '../../utils/withEmployee'
+import { Modal } from 'antd'
 
 const query = gql`
   {
@@ -20,7 +21,7 @@ const query = gql`
   }
 `
 
-export default function Root() {
+export default function Root({ tokenExpired }: { tokenExpired: boolean }) {
   const { data, loading, error } = useQuery(query)
 
   // Check access to ClientDevTools
@@ -31,6 +32,16 @@ export default function Root() {
       }
     `,
   )
+
+  useEffect(() => {
+    if (tokenExpired) {
+      Modal.warning({
+        title: 'Token expired',
+        okText: 'Reload page',
+        onOk: () => window.location.reload(),
+      })
+    }
+  }, [tokenExpired])
 
   if (loading) return null
 

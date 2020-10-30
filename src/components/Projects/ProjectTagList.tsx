@@ -15,7 +15,7 @@ interface Props {
 export default function ProjectTagList({ loading, small, projects, leadingProjects }: Props) {
   // if (!loading && !projects) return null
   return (
-    <div style={{ marginBottom: 16 }}>
+    <div style={{ marginBottom: 16 }} data-cy="project">
       <Skeleton
         loading={loading}
         active
@@ -28,18 +28,17 @@ export default function ProjectTagList({ loading, small, projects, leadingProjec
             projects.map(project => {
               const leading = leadingProjects?.find(i => i.id === project.id)
               return (
-                <div style={{ marginBottom: 8, display: 'inline-block' }}>
-                  <ProjectTag
-                    small={small}
-                    key={project.id}
-                    project={project}
-                    leading={Boolean(leading)}
-                  />
+                <div
+                  key={project.id}
+                  style={{ marginBottom: 8, display: 'inline-block' }}
+                  data-cy="project_tab"
+                >
+                  <ProjectTag small={small} project={project} leading={Boolean(leading)} />
                 </div>
               )
             })
           ) : (
-            <div>No projects</div>
+            <div data-cy="no_project">No projects</div>
           ))}
       </Skeleton>
     </div>

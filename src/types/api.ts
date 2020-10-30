@@ -24,6 +24,8 @@ export interface Employee {
   experiences: Experience[]
   matrices: Matrix[]
   worksFromOffice: string[]
+  lastManagerMeeting: string
+  projects: Project[]
 }
 
 export interface CurriculumVitae {
@@ -68,6 +70,7 @@ export interface Project {
   leaders: Employee[]
   employees: Employee[]
   access: Access
+  scrumMasters: Employee[] | null
 }
 
 export interface File {
@@ -210,6 +213,7 @@ export interface DevelopmentPlan {
   lookBackNegative: string
   lookBackPositive: string
   lookForward: string
+  lastDiscussed: string
 }
 
 export interface EvaluationAttribute {
@@ -378,6 +382,13 @@ export interface Feedback {
   project: Project
   text: string
   createdAt: string
+  comments: FeedbackComment[]
+}
+
+export interface FeedbackComment {
+  id: string
+  text: string
+  createdAt: string
 }
 
 export interface ArchivedMatrixData {
@@ -438,6 +449,7 @@ export interface WorkplaceType {
   id: string
   coordX: number
   coordY: number
+  number: number
   bookings: WorkplaceBookingType[]
 }
 
@@ -460,4 +472,11 @@ export interface WorkplaceBookingType {
   employeeEmail: string
   startDate: string
   finishDate: string
+}
+
+export interface OnboardingTicket {
+  id: string
+  title: string
+  description: string
+  responsible: Employee[]
 }

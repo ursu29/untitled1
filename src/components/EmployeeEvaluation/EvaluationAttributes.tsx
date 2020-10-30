@@ -16,7 +16,18 @@ import EmployeeEvaluationReviewers from './EmployeeEvaluationReviewers'
 import EvaluationTable from './EvaluationTable'
 import ExportEvaluations from './ExportEvaluations'
 import dayjs from 'dayjs'
-import { Typography } from 'antd'
+import { Typography, DatePicker, Space } from 'antd'
+import moment from 'moment'
+
+const evaluationCustomFields = gql`
+  query evaluationCustomFields($input: EvaluationCustomFieldsInput) {
+    evaluationCustomFields(input: $input) {
+      id
+      employeeMail
+      lastDiscussed
+    }
+  }
+`
 
 const evaluateMutation = gql`
   mutation evaluate($input: EvaluateInput!) {
@@ -32,13 +43,20 @@ const commentMutation = gql`
     }
   }
 `
+const customFieldsMutation = gql`
+  mutation customFieldsMutation($input: UpdateCustomFieldsInput!) {
+    updateCustomFields(input: $input) {
+      id
+    }
+  }
+`
 
 interface Props {
   evaluations?: Evaluation[]
   comments?: Exclude<EvaluationComment, 'employee'>[]
   loading: boolean
   employee: Pick<Employee, 'id' | 'name' | 'isMe'> & {
-    manager: Pick<Employee, 'id' | 'name' | 'isMe'>
+    agileManager: Pick<Employee, 'id' | 'name' | 'isMe'>
   }
   editable: boolean
   versionSnapshot?: any
@@ -55,6 +73,13 @@ function EvaluationAttributes({
   ...props
 }: Props) {
   const { data, loading } = useQuery<QueryType>(getEvaluationAttributes)
+  const { data: customFields } = useQuery(evaluationCustomFields, {
+    variables: {
+      input: {
+        employee: employee.id,
+      },
+    },
+  })
 
   const [evaluate, { loading: evaluateLoading }] = useMutation(evaluateMutation, {
     refetchQueries: [
@@ -84,6 +109,21 @@ function EvaluationAttributes({
     onError: message.error,
   })
 
+  const [addCustomField] = useMutation(customFieldsMutation, {
+    refetchQueries: [
+      {
+        query: evaluationCustomFields,
+        variables: {
+          input: {
+            employee: employee.id,
+          },
+        },
+      },
+    ],
+    onCompleted: () => message.success('Evaluation is updated'),
+    onError: message.error,
+  })
+
   const commentDebounce = debounce(800, comment)
 
   useEffect(() => {
@@ -109,11 +149,37 @@ function EvaluationAttributes({
               {(editable || employee.isMe) && (
                 <Controls
                   back={
-                    updatedAt ? (
-                      <Typography.Text disabled>
-                        Last updated: {dayjs(updatedAt).format('DD MMM YYYY HH:mm')}
+                    <Space size="middle">
+                      <Typography.Text>
+                        Last discussed:{' '}
+                        <DatePicker
+                          size="small"
+                          allowClear={false}
+                          format={['DD.MM.YYYY']}
+                          value={
+                            customFields?.evaluationCustomFields?.lastDiscussed
+                              ? moment(
+                                  moment(customFields?.evaluationCustomFields?.lastDiscussed),
+                                  'DD.MM.YYYY',
+                                )
+                              : null
+                          }
+                          onChange={date =>
+                            addCustomField({
+                              variables: {
+                                input: { employee: employee.id, lastDiscussed: date },
+                              },
+                            })
+                          }
+                        />
                       </Typography.Text>
-                    ) : null
+
+                      {updatedAt ? (
+                        <Typography.Text disabled>
+                          Last updated: {dayjs(updatedAt).format('DD MMM YYYY HH:mm')}
+                        </Typography.Text>
+                      ) : null}
+                    </Space>
                   }
                 >
                   {editable && <AddEvaluationReviewer employee={employee} />}

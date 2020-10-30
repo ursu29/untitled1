@@ -55,6 +55,7 @@ export default function StreamPage() {
 
   return (
     <PageContent
+      style={{ padding: 0 }}
       notFound={!data?.streams}
       notFoundMessage="Sorry, no videos found"
       loading={loading && !data?.streams}

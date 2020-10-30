@@ -46,13 +46,14 @@ function PortalImage({ src, ...props }: any) {
       }
     }
     request.send()
+    //eslint-disable-next-line
   }, [token])
 
   if (loading || !token) {
     return <Skeleton.Image />
   }
 
-  return <img ref={ref} {...props} />
+  return <img ref={ref} {...props} alt={props.alt || props.src} />
 }
 
 export default PortalImage

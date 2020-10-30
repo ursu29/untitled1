@@ -1,19 +1,15 @@
 import gql from 'graphql-tag'
-import { Project } from '../types'
+import fragments, { ProjectDetails } from '../fragments'
 
 export default gql`
   {
     projects {
-      id
-      name
-      code
-      description
+      ...ProjectDetails
     }
   }
+  ${fragments.Project}
 `
 
-type ProjectPick = Pick<Project, 'id' | 'name' | 'code' | 'description'>
-
 export type QueryType = {
-  projects: ProjectPick[]
+  projects: ProjectDetails[]
 }

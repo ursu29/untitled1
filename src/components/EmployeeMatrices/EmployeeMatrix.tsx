@@ -80,7 +80,7 @@ export default function EmployeeMatrix({ employee, matrix, isCurrentTab, onComme
         matrixId={matrix.id}
         employeeMatrixId={matrix.employeeMatrixId || ''}
         onSelectVersion={onSelectVersion}
-        createSnapshotShown={!isArchivedChosen && employee.isMe}
+        // createSnapshotShown={!isArchivedChosen && employee.isMe}
       />
       <MatrixWithExperiences
         matrix={showArchiveAllow && !!archivedMatrix ? archivedMatrix : matrix}

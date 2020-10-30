@@ -1,42 +1,36 @@
-import React from 'react'
-
 import {
-  BookOutlined,
-  BranchesOutlined,
   ClockCircleOutlined,
   CoffeeOutlined,
-  CrownOutlined,
-  FileImageOutlined,
   FireOutlined,
   FolderOpenOutlined,
+  GlobalOutlined,
   IdcardOutlined,
+  BranchesOutlined,
   ImportOutlined,
-  InfoCircleOutlined,
-  LineChartOutlined,
-  NumberOutlined,
-  TeamOutlined,
-  UserAddOutlined,
-  VideoCameraOutlined,
   NotificationOutlined,
+  ReadOutlined,
+  TableOutlined,
+  TeamOutlined,
   ToolOutlined,
-  DatabaseOutlined,
-  AppstoreOutlined,
+  UserAddOutlined,
+  CrownOutlined,
+  LikeOutlined,
 } from '@ant-design/icons'
-
-import { Menu, Tag, Badge } from 'antd'
-import { Link } from 'react-router-dom'
-import paths from '../../paths'
 import { useQuery } from '@apollo/react-hooks'
-import Skeleton from '../UI/Skeleton'
+import { Badge, Menu } from 'antd'
 import gql from 'graphql-tag'
-import { Access } from '../../types'
+import React from 'react'
 import { useMediaQuery } from 'react-responsive'
-import { COLLAPSE_WIDTH, MENU_WIDTH } from '../../config'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { useEmployee } from '../../utils/withEmployee'
+import { COLLAPSE_WIDTH, MENU_WIDTH } from '../../config'
+import paths from '../../paths'
 import getActiveProcessExecutions, {
   ActiveProcessExecutionsQueryType,
 } from '../../queries/getEmployeeActiveProcessExecutions'
+import { Access } from '../../types'
+import { useEmployee } from '../../utils/withEmployee'
+import Skeleton from '../UI/Skeleton'
 
 const Width = styled.div<{ isLarge: boolean }>`
   .ant-menu-inline-collapsed > .ant-menu-item,
@@ -51,6 +45,12 @@ const query = gql`
       read
     }
     processesAccess {
+      write
+    }
+    processExecutionsAccess {
+      read
+    }
+    onboardingAccess {
       read
     }
   }
@@ -58,7 +58,9 @@ const query = gql`
 
 type QueryType = {
   matricesAccess: Pick<Access, 'read'>
-  processesAccess: Pick<Access, 'read'>
+  processesAccess: Pick<Access, 'write'>
+  processExecutionsAccess: Pick<Access, 'read'>
+  onboardingAccess: Pick<Access, 'read'>
 }
 
 interface Props {
@@ -85,10 +87,19 @@ function PortalMenu(props: Props) {
   const { SubMenu } = Menu
 
   const menuItems = [
+    data?.onboardingAccess?.read
+      ? {
+          route: paths.ONBOARDING,
+          icon: <LikeOutlined />,
+          title: 'Onboarding',
+          status: '',
+        }
+      : null,
     {
       route: paths.EMPLOYEES,
       icon: <TeamOutlined />,
       title: 'Employees',
+      status: '',
     },
     {
       route: paths.PROJECTS,
@@ -98,7 +109,7 @@ function PortalMenu(props: Props) {
     {
       route: paths.GUILDS,
       icon: <CoffeeOutlined />,
-      title: 'Guilds',
+      title: 'Guild',
     },
     {
       route: paths.SKILLS,
@@ -106,40 +117,24 @@ function PortalMenu(props: Props) {
       title: 'Skills',
     },
     {
-      route: paths.STATISTICS,
-      icon: <LineChartOutlined />,
-      title: 'Statistics',
-    },
-    {
-      route: paths.STREAM,
-      icon: <VideoCameraOutlined />,
-      title: 'Stream',
-      subMenu: 'knowledge',
-    },
-    {
-      route: paths.BOOKMARKS,
-      icon: <BookOutlined />,
-      title: 'Bookmarks',
-      subMenu: 'knowledge',
-    },
-    data?.matricesAccess.read
-      ? {
-          route: paths.MATRICES,
-          icon: <NumberOutlined />,
-          title: 'Matrices',
-          subMenu: 'technical',
-        }
-      : null,
-    {
-      route: paths.SHARED_FILES,
-      icon: <FileImageOutlined />,
-      title: 'Files',
-      subMenu: 'knowledge',
-    },
-    {
       route: paths.POSTS,
       icon: <FireOutlined />,
       title: 'News',
+    },
+    {
+      route: paths.VACANCIES,
+      icon: <IdcardOutlined />,
+      title: 'Vacancies',
+    },
+    {
+      route: paths.KNOWLEDGE,
+      icon: <ReadOutlined />,
+      title: 'Knowledge',
+    },
+    {
+      route: paths.WIKI,
+      icon: <GlobalOutlined />,
+      title: 'WIKI',
     },
     {
       route: paths.TIMEMASTER,
@@ -148,17 +143,10 @@ function PortalMenu(props: Props) {
       subMenu: 'tools',
     },
     {
-      route: paths.WIKI,
-      icon: <InfoCircleOutlined />,
-      title: 'WIKI',
-      subMenu: 'knowledge',
-    },
-    {
       route: paths.WORKSPACE_PLANNER,
       icon: <ImportOutlined />,
-      title: 'Workspace planner',
+      title: 'Workspace',
       subMenu: 'tools',
-      status: 'new',
     },
     {
       route: paths.OFFICE_PLANNER,
@@ -166,12 +154,7 @@ function PortalMenu(props: Props) {
       title: 'Office planner',
       subMenu: 'tools',
     },
-    {
-      route: paths.VACANCIES,
-      icon: <IdcardOutlined />,
-      title: 'Vacancies',
-    },
-    data?.processesAccess.read
+    data?.processExecutionsAccess.read
       ? {
           route: paths.HR,
           icon: <UserAddOutlined />,
@@ -180,12 +163,20 @@ function PortalMenu(props: Props) {
           badgeCount: activeProcessExecutionsCount,
         }
       : null,
-    data?.processesAccess.read
+    data?.processesAccess.write
       ? {
           route: paths.PROCESSES,
           icon: <BranchesOutlined />,
           title: 'Processes',
-          subMenu: 'technical',
+          subMenu: 'tools',
+        }
+      : null,
+    data?.matricesAccess.read
+      ? {
+          route: paths.MATRICES,
+          icon: <TableOutlined />,
+          title: 'Matrices',
+          subMenu: 'tools',
         }
       : null,
     {
@@ -205,8 +196,17 @@ function PortalMenu(props: Props) {
     )
   }
 
-  const getMenuItems = (subMenu?: string) =>
+  const getMenuItems = ({
+    subMenu,
+    start,
+    amount,
+  }: {
+    subMenu?: string
+    start?: number
+    amount?: number
+  }) =>
     menuItems
+      .slice(start, (start ? start : 0) + (amount ? amount : menuItems.length))
       .filter(item => (subMenu ? item?.subMenu === subMenu : !item?.subMenu))
       .map(item => {
         if (!item) return null
@@ -252,12 +252,12 @@ function PortalMenu(props: Props) {
         <Menu
           defaultSelectedKeys={[props.path]}
           selectedKeys={[props.path]}
-          defaultOpenKeys={['tools']}
+          // defaultOpenKeys={['tools']}
           mode="inline"
           theme="light"
           style={{ border: 'none', width: isLarge ? MENU_WIDTH : 60 }}
         >
-          {getMenuItems()}
+          {getMenuItems({ start: 0, amount: 3 })}
 
           <SubMenu
             key="tools"
@@ -272,42 +272,18 @@ function PortalMenu(props: Props) {
                   offset={isLarge ? [80, 7] : [5, 8]}
                   style={{ backgroundColor: '#108ee9' }}
                 >
-                  <AppstoreOutlined />
+                  <ToolOutlined />
                   <span>Tools</span>
                 </Badge>
               </span>
             }
           >
-            {getMenuItems('tools')}
+            {getMenuItems({ subMenu: 'tools' })}
           </SubMenu>
 
-          <SubMenu
-            key="knowledge"
-            title={
-              <span>
-                <DatabaseOutlined />
-                <span>Knowledge</span>
-              </span>
-            }
-          >
-            {getMenuItems('knowledge')}
-          </SubMenu>
+          {getMenuItems({ start: 3 })}
 
-          {getMenuItems('technical').length && (
-            <SubMenu
-              key="technical"
-              title={
-                <span>
-                  <ToolOutlined />
-                  <span>Technical</span>
-                </span>
-              }
-            >
-              {getMenuItems('technical')}
-            </SubMenu>
-          )}
-
-          {getMenuItems('feedback')}
+          {getMenuItems({ subMenu: 'feedback' })}
         </Menu>
       </Width>
     </Skeleton>

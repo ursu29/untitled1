@@ -21,10 +21,9 @@ function useToken({ scopes }: TokenArgs) {
     setToken(newToken)
   }
 
-  let timeout: ReturnType<typeof setTimeout>
-
   useEffect(() => {
     if (token) return
+    let timeout: ReturnType<typeof setTimeout>
     async function authorize() {
       var tokenRequest = { scopes }
       try {

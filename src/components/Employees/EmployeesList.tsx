@@ -117,7 +117,7 @@ export default function EmployeesList({ employees, loading, fixed }: Props) {
       },
       {
         text: 'DevOps & Admins',
-        value: ['devops', 'admin', 'security', 'system'],
+        value: ['devops', 'admin', 'security', 'system administrator'],
       },
       {
         text: 'Data Analysts',
@@ -206,6 +206,7 @@ export default function EmployeesList({ employees, loading, fixed }: Props) {
 
   return (
     <Table
+      data-cy="employee_table"
       loading={loading}
       tableLayout="fixed"
       dataSource={employees?.filter(employee => {
@@ -220,6 +221,7 @@ export default function EmployeesList({ employees, loading, fixed }: Props) {
       scroll={fixed ? { y: 'calc(100vh - 105px)' } : undefined}
       title={() => (
         <Input
+          data-cy="find_employee"
           placeholder="Find employee"
           value={filter}
           onChange={(e: any) => setFilter(e.target.value)}

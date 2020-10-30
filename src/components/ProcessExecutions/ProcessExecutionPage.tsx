@@ -1,25 +1,25 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
-import { Divider, Typography, Tag, Button, PageHeader, Popconfirm } from 'antd'
+import { Button, Divider, PageHeader, Popconfirm } from 'antd'
 import gql from 'graphql-tag'
 import React, { useEffect } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { debounce } from 'throttle-debounce'
+import { ProcessStepDetails } from '../../fragments'
 import message from '../../message'
+import getActiveProcessExecutions from '../../queries/getEmployeeActiveProcessExecutions'
 import getProcessExecution, { QueryType } from '../../queries/getProcessExecution'
 import getProcessExecutions from '../../queries/getProcessExecutions'
+import isForbidden from '../../utils/isForbidden'
+import { useEmployee } from '../../utils/withEmployee'
+import NotAllowed from '../UI/NotAllowed'
 import PageContent from '../UI/PageContent'
 import Skeleton from '../UI/Skeleton'
 import Vacancy from '../Vacancies/Vacancy'
+import AbortProcessExecution from './AbortProcessExecution'
+import AdditionalInfo from './AdditionalInfo'
 import ActiveStepCard from './ExecutionStepCard'
 import ProcessExecutionBranch from './ProcessExecutionBranch'
 import ProcessExecutionRotation from './ProcessExecutionRotation'
-import NotAllowed from '../UI/NotAllowed'
-import isForbidden from '../../utils/isForbidden'
-import AdditionalInfo from './AdditionalInfo'
-import { useEmployee } from '../../utils/withEmployee'
-import getActiveProcessExecutions from '../../queries/getEmployeeActiveProcessExecutions'
-import { ProcessStepDetails } from '../../fragments'
-import AbortProcessExecution from './AbortProcessExecution'
 import ProcessExecutionStatusTag from './ProcessExecutionStatusTag'
 
 const mutation = gql`
@@ -241,6 +241,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                       },
                     })
                   }}
+                  isProcessRunning={processExecution.status === 'running'}
                 />
                 {index < branches.length - 1 && <Divider />}
               </div>

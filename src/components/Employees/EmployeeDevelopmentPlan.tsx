@@ -17,8 +17,9 @@ import EmployeeReviewers, { ReviewersNames } from './EmployeeReviewers'
 import Skeleton from '../UI/Skeleton'
 import Controls from '../UI/Controls'
 import VersionSnapshot from '../UI/VersionSnapshot'
-import { Typography } from 'antd'
+import { Typography, DatePicker, Space } from 'antd'
 import dayjs from 'dayjs'
+import moment from 'moment'
 
 const mutation = gql`
   mutation updateDevelopmentPlan($input: UpdateDevelopmentPlanInput) {
@@ -109,11 +110,30 @@ export default function EmployeeDevelopmentPlan(props: Props) {
           <>
             <Controls
               back={
-                plan?.updatedAt ? (
-                  <Typography.Text disabled>
-                    Last updated: {dayjs(plan.updatedAt).format('DD MMM YYYY HH:mm')}
+                <Space size="middle">
+                  <Typography.Text>
+                    Last discussed:{' '}
+                    <DatePicker
+                      size="small"
+                      allowClear={false}
+                      format={['DD.MM.YYYY']}
+                      value={
+                        plan?.lastDiscussed
+                          ? moment(moment(plan?.lastDiscussed), 'DD.MM.YYYY')
+                          : null
+                      }
+                      onChange={date =>
+                        update({ variables: { input: { id: plan?.id, lastDiscussed: date } } })
+                      }
+                    />
                   </Typography.Text>
-                ) : null
+
+                  {plan?.updatedAt ? (
+                    <Typography.Text disabled>
+                      Last updated: {dayjs(plan.updatedAt).format('DD MMM YYYY HH:mm')}
+                    </Typography.Text>
+                  ) : null}
+                </Space>
               }
             >
               {props.reviewersListAccess.read && (

@@ -36,7 +36,7 @@ interface Props {
 export default function UpdateBookmark({ bookmark, refetchQueries = [] }: Props) {
   const [updateBookmark, { loading }] = useMutation<MutationType>(mutation, {
     refetchQueries: [{ query: getBookmarks }, ...refetchQueries],
-    onError: () => message.error,
+    onError: message.error,
     onCompleted: () => message.success('Bookmark is updated'),
   })
 

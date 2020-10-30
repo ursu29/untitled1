@@ -3,8 +3,8 @@ import { Project, Employee, Skill } from '../types'
 import fragments, { ExperienceDetails } from '../fragments'
 
 export default gql`
-  query getProjectEmployeesExperiences($input: ProjectsInput) {
-    projects(input: $input) {
+  query getProjectEmployeesExperiences($id: ID!) {
+    project(id: $id) {
       id
       skills {
         id
@@ -32,5 +32,5 @@ type ProjectPick = Pick<Project, 'id'> & {
 }
 
 export type QueryType = {
-  projects: ProjectPick[]
+  project: ProjectPick
 }
