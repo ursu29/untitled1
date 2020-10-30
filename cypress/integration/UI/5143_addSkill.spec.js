@@ -49,7 +49,7 @@ describe('Adding Skills in the Users Profile', () => {
     })
     cy.get(skillEl.skill).each((val, idx) => {
       if(allData.childSkills.length >= idx) {
-        allData.uiSkill.push(val.text());
+        allData.uiSkill.push(val.text())
       }
     }).then(() =>
       expect(Cypress._.isEqual(allData.childSkills, allData.uiSkill.slice(1))).to.be.true)
