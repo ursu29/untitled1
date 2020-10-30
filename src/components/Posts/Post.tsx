@@ -60,20 +60,6 @@ function PostItem({ post, edit, history, isPreview, loadMore }: Props) {
   const [visited, setVisited] = useState(false)
 
   useEffect(() => {
-    const images = document.getElementById(`post-${post.id}`)?.getElementsByTagName('img')
-
-    if (images) {
-      Array.from(images).forEach(image => {
-        if (image.className.includes('owl-image')) return
-        var temp = document.createElement('div')
-        ReactDOM.render(<Image src={image.src} />, temp)
-        var container = image.parentElement
-        if (container) {
-          container.replaceChild(temp, image)
-        }
-      })
-    }
-
     const galleries = document
       .getElementById(`post-${post.id}`)
       ?.getElementsByClassName('injected-image-gallery')
@@ -87,12 +73,26 @@ function PostItem({ post, edit, history, isPreview, loadMore }: Props) {
           <Swiper spaceBetween={50} slidesPerView={1} pagination={{ type: 'bullets' }}>
             {imgLinksList.map(i => (
               <SwiperSlide key={i}>
-                <Image src={i} alt={i} />
+                <Image className="gallery-image" src={i} alt={i} />
               </SwiperSlide>
             ))}
           </Swiper>,
           gallery,
         )
+      })
+    }
+
+    const images = document.getElementById(`post-${post.id}`)?.getElementsByTagName('img')
+
+    if (images) {
+      Array.from(images).forEach(image => {
+        if (image.className.includes('gallery-image')) return
+        var temp = document.createElement('div')
+        ReactDOM.render(<Image src={image.src} />, temp)
+        var container = image.parentElement
+        if (container) {
+          container.replaceChild(temp, image)
+        }
       })
     }
 
