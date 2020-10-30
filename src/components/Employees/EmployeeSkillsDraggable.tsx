@@ -6,6 +6,7 @@ import Section from '../UI/Section'
 import Button from '../UI/Button'
 import SkillTag from '../Skills/SkillTag'
 import SkillTreeSelect from '../Skills/SkillTreeSelect'
+import { getFirstWord } from '../../utils/cypress'
 
 type ExperiencePick = {
   id: Experience['id']
@@ -65,7 +66,7 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
   return (
     <Section
       title={
-        <div>
+        <div data-cy={`Title ${level.name}`}>
           {level.name}{' '}
           {editable && (
             <Button
@@ -90,8 +91,14 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
       {!edit && (
         <Droppable droppableId={level.id} direction="horizontal" isDropDisabled={!editable}>
           {(provided: any, snapshot: any) => (
-            <div ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
-              {!filteredExperiences.length && <div>No skills yet</div>}
+            <div
+              ref={provided.innerRef}
+              style={getListStyle(snapshot.isDraggingOver)}
+              data-cy={getFirstWord(level.name)}
+            >
+              {!filteredExperiences.length && (
+                <div data-cy={`no${getFirstWord(level.name)}`}>No skills yet</div>
+              )}
               {filteredExperiences
                 .sort((one, two) => (one.skill.name > two.skill.name ? 1 : -1))
                 .map((item, index) => (
@@ -103,6 +110,7 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
                   >
                     {(provided: any, snapshot: any) => (
                       <div
+                        data-cy="skills_name"
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}

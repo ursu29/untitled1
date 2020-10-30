@@ -380,6 +380,13 @@ export interface Feedback {
   project: Project
   text: string
   createdAt: string
+  comments: FeedbackComment[]
+}
+
+export interface FeedbackComment {
+  id: string
+  text: string
+  createdAt: string
 }
 
 export interface ArchivedMatrixData {

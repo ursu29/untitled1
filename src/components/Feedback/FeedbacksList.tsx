@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
 import { useQuery } from '@apollo/react-hooks'
-import { Timeline, Typography, Space, Input, Spin, Select } from 'antd'
+import { Input, Select, Spin, Timeline } from 'antd'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import ProjectTag from '../Projects/ProjectTag'
 import ProjectSelect from '../Projects/ProjectSelect'
-import { getFeedbacks, FeedbackQueryType } from '../../queries/feedback'
+import {
+  feedbackAccess,
+  FeedbackAccessQueryType,
+  FeedbackQueryType,
+  getFeedbacks,
+} from '../../queries/feedback'
+import { FeedbackMessage } from './FeedbackMessage'
 
 dayjs.extend(relativeTime)
 
-const { Paragraph } = Typography
 const { Option } = Select
 
 export default function FeedbacksList() {
@@ -35,25 +39,28 @@ export default function FeedbacksList() {
     variables,
     notifyOnNetworkStatusChange: true,
   })
+  const { data: accessData } = useQuery<FeedbackAccessQueryType>(feedbackAccess)
+  const feedbacks = data?.feedbacks
+  const canReply = accessData?.feedbacksAccess.write
 
   useEffect(() => {
     setHasMore(true)
-  }, [search, about, project])
+  }, [search, about, project, feedbacks])
 
-  if (!data?.feedbacks) return null
+  if (!feedbacks) return null
 
   return (
     <>
-      <Space style={{ display: 'flex', marginBottom: '40px', maxWidth: '570px' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', maxWidth: '570px', marginBottom: '32px' }}>
         <Input.Search
           placeholder="Search"
           onSearch={value => setSearch(value)}
-          style={{ width: '300px' }}
+          style={{ width: '300px', margin: '0 8px 8px 0' }}
         />
         <Select
           placeholder="About"
           allowClear
-          style={{ maxWidth: '120px' }}
+          style={{ maxWidth: '120px', margin: '0 8px 8px 0' }}
           onChange={(value: any) => setAbout(value)}
         >
           <Option value="Sidenis">Sidenis</Option>
@@ -61,7 +68,7 @@ export default function FeedbacksList() {
           <Option value="Events">Events</Option>
           <Option value="Portal">Portal</Option>
         </Select>
-        <div style={{ width: '172px' }}>
+        <div style={{ width: '172px', margin: '0 0px 8px 0' }}>
           <ProjectSelect
             onChange={(project: any) => setProject(project)}
             wide
@@ -69,13 +76,13 @@ export default function FeedbacksList() {
             allowClear
           />
         </div>
-      </Space>
+      </div>
       <Timeline>
         <InfiniteScroll
           initialLoad={false}
           pageStart={0}
           loadMore={() => {
-            if (loading) return
+            if (loading || !hasMore) return
 
             fetchMore({
               variables: {
@@ -84,7 +91,7 @@ export default function FeedbacksList() {
                   about,
                   project,
                   limit,
-                  offset: data?.feedbacks.length,
+                  offset: feedbacks.length,
                 },
               },
               updateQuery: (prev, { fetchMoreResult }) => {
@@ -97,23 +104,9 @@ export default function FeedbacksList() {
           hasMore={hasMore}
           useWindow={true}
         >
-          {data?.feedbacks.map(feedback => (
+          {feedbacks.map(feedback => (
             <Timeline.Item key={feedback.id}>
-              <Space size="middle" align="start" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>
-                {dayjs().to(dayjs(feedback.createdAt))}
-                <div style={{ fontWeight: 'bold' }}>{feedback.about}</div>
-                {feedback.project && (
-                  <ProjectTag
-                    small={true}
-                    key={feedback.project.id}
-                    project={feedback.project}
-                    leading={false}
-                  />
-                )}
-              </Space>
-              <Paragraph style={{ marginTop: '13px', maxWidth: '600px', whiteSpace: 'pre-wrap' }}>
-                {feedback.text}
-              </Paragraph>
+              <FeedbackMessage feedback={feedback} canReply={canReply} />
             </Timeline.Item>
           ))}
           {loading && <Spin style={{ marginLeft: '-4px' }} />}

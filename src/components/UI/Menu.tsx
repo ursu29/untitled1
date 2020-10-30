@@ -1,12 +1,11 @@
 import {
-  BookOutlined,
   ClockCircleOutlined,
   CoffeeOutlined,
-  ContainerOutlined,
   FireOutlined,
   FolderOpenOutlined,
   GlobalOutlined,
   IdcardOutlined,
+  BranchesOutlined,
   ImportOutlined,
   NotificationOutlined,
   ReadOutlined,
@@ -14,9 +13,8 @@ import {
   TeamOutlined,
   ToolOutlined,
   UserAddOutlined,
-  VideoCameraOutlined,
+  CrownOutlined,
   LikeOutlined,
-  BranchesOutlined,
 } from '@ant-design/icons'
 import { useQuery } from '@apollo/react-hooks'
 import { Badge, Menu } from 'antd'
@@ -113,39 +111,10 @@ function PortalMenu(props: Props) {
       icon: <CoffeeOutlined />,
       title: 'Guild',
     },
-    /*     {
+    {
       route: paths.SKILLS,
       icon: <CrownOutlined />,
       title: 'Skills',
-    },
-    {
-      route: paths.STATISTICS,
-      icon: <LineChartOutlined />,
-      title: 'Statistics',
-    }, */
-    {
-      route: paths.STREAM,
-      icon: <VideoCameraOutlined />,
-      title: 'Stream',
-      subMenu: 'knowledge',
-    },
-    {
-      route: paths.BOOKMARKS,
-      icon: <BookOutlined />,
-      title: 'Bookmarks',
-      subMenu: 'knowledge',
-    },
-    {
-      route: paths.SHARED_FILES,
-      icon: <ContainerOutlined />,
-      title: 'Files',
-      subMenu: 'knowledge',
-    },
-    {
-      route: paths.WIKI,
-      icon: <GlobalOutlined />,
-      title: 'WIKI',
-      subMenu: 'knowledge',
     },
     {
       route: paths.POSTS,
@@ -153,25 +122,38 @@ function PortalMenu(props: Props) {
       title: 'News',
     },
     {
+      route: paths.VACANCIES,
+      icon: <IdcardOutlined />,
+      title: 'Vacancies',
+    },
+    {
+      route: paths.KNOWLEDGE,
+      icon: <ReadOutlined />,
+      title: 'Knowledge',
+    },
+    {
+      route: paths.WIKI,
+      icon: <GlobalOutlined />,
+      title: 'WIKI',
+    },
+    {
       route: paths.TIMEMASTER,
       icon: <ClockCircleOutlined />,
       title: 'Timemaster',
       subMenu: 'tools',
     },
-
     {
       route: paths.WORKSPACE_PLANNER,
       icon: <ImportOutlined />,
       title: 'Workspace',
       subMenu: 'tools',
-      // status: 'new',
     },
-    /*     {
+    {
       route: paths.OFFICE_PLANNER,
       icon: <ImportOutlined />,
       title: 'Office planner',
       subMenu: 'tools',
-    }, */
+    },
     data?.processExecutionsAccess.read
       ? {
           route: paths.HR,
@@ -179,6 +161,14 @@ function PortalMenu(props: Props) {
           title: 'HR Tool',
           subMenu: 'tools',
           badgeCount: activeProcessExecutionsCount,
+        }
+      : null,
+    data?.processesAccess.write
+      ? {
+          route: paths.PROCESSES,
+          icon: <BranchesOutlined />,
+          title: 'Processes',
+          subMenu: 'tools',
         }
       : null,
     data?.matricesAccess.read
@@ -189,19 +179,6 @@ function PortalMenu(props: Props) {
           subMenu: 'tools',
         }
       : null,
-    data?.processesAccess.write
-      ? {
-          route: paths.PROCESSES,
-          icon: <BranchesOutlined />,
-          title: 'Processes',
-          subMenu: 'technical',
-        }
-      : null,
-    {
-      route: paths.VACANCIES,
-      icon: <IdcardOutlined />,
-      title: 'Vacancies',
-    },
     {
       route: paths.FEEDBACK,
       icon: <NotificationOutlined />,
@@ -219,8 +196,17 @@ function PortalMenu(props: Props) {
     )
   }
 
-  const getMenuItems = (subMenu?: string) =>
+  const getMenuItems = ({
+    subMenu,
+    start,
+    amount,
+  }: {
+    subMenu?: string
+    start?: number
+    amount?: number
+  }) =>
     menuItems
+      .slice(start, (start ? start : 0) + (amount ? amount : menuItems.length))
       .filter(item => (subMenu ? item?.subMenu === subMenu : !item?.subMenu))
       .map(item => {
         if (!item) return null
@@ -266,12 +252,12 @@ function PortalMenu(props: Props) {
         <Menu
           defaultSelectedKeys={[props.path]}
           selectedKeys={[props.path]}
-          defaultOpenKeys={['tools']}
+          // defaultOpenKeys={['tools']}
           mode="inline"
           theme="light"
           style={{ border: 'none', width: isLarge ? MENU_WIDTH : 60 }}
         >
-          {getMenuItems()}
+          {getMenuItems({ start: 0, amount: 3 })}
 
           <SubMenu
             key="tools"
@@ -292,36 +278,12 @@ function PortalMenu(props: Props) {
               </span>
             }
           >
-            {getMenuItems('tools')}
+            {getMenuItems({ subMenu: 'tools' })}
           </SubMenu>
 
-          <SubMenu
-            key="knowledge"
-            title={
-              <span>
-                <ReadOutlined />
-                <span>Knowledge</span>
-              </span>
-            }
-          >
-            {getMenuItems('knowledge')}
-          </SubMenu>
+          {getMenuItems({ start: 3 })}
 
-          {getMenuItems('technical').length && (
-            <SubMenu
-              key="technical"
-              title={
-                <span>
-                  <ToolOutlined />
-                  <span>Technical</span>
-                </span>
-              }
-            >
-              {getMenuItems('technical')}
-            </SubMenu>
-          )}
-
-          {getMenuItems('feedback')}
+          {getMenuItems({ subMenu: 'feedback' })}
         </Menu>
       </Width>
     </Skeleton>

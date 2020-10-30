@@ -137,6 +137,7 @@ export default function Branch({
                   executionSteps={executionSteps}
                   onComplete={onComplete}
                   onComment={onComment}
+                  isProcessRunning={isProcessRunning}
                 />
               ))}
             </RowWrapper>

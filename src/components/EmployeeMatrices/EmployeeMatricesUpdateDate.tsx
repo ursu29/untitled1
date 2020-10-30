@@ -79,6 +79,7 @@ export default function EmployeeMatrix({ employee }: Props) {
         Last discussed:{' '}
         <DatePicker
           size="small"
+          allowClear={false}
           format={['DD.MM.YYYY']}
           value={
             customFields?.matricesCustomFields?.lastDiscussed
