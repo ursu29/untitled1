@@ -28,7 +28,6 @@ import paths from '../../paths'
 import getActiveProcessExecutions, {
   ActiveProcessExecutionsQueryType,
 } from '../../queries/getEmployeeActiveProcessExecutions'
-import { onboardingAccess } from '../../queries/onboardingTickets'
 import { Access } from '../../types'
 import { useEmployee } from '../../utils/withEmployee'
 import Skeleton from '../UI/Skeleton'
@@ -46,6 +45,12 @@ const query = gql`
       read
     }
     processesAccess {
+      write
+    }
+    processExecutionsAccess {
+      read
+    }
+    onboardingAccess {
       read
     }
   }
@@ -53,7 +58,9 @@ const query = gql`
 
 type QueryType = {
   matricesAccess: Pick<Access, 'read'>
-  processesAccess: Pick<Access, 'read'>
+  processesAccess: Pick<Access, 'write'>
+  processExecutionsAccess: Pick<Access, 'read'>
+  onboardingAccess: Pick<Access, 'read'>
 }
 
 interface Props {
@@ -76,13 +83,11 @@ function PortalMenu(props: Props) {
 
   const { data, loading } = useQuery<QueryType>(query)
 
-  const { data: onboardingAccessData } = useQuery<{ onboardingAccess: Access }>(onboardingAccess)
-
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   const { SubMenu } = Menu
 
   const menuItems = [
-    onboardingAccessData?.onboardingAccess?.read
+    data?.onboardingAccess?.read
       ? {
           route: paths.ONBOARDING,
           icon: <LikeOutlined />,
@@ -149,7 +154,7 @@ function PortalMenu(props: Props) {
       title: 'Office planner',
       subMenu: 'tools',
     },
-    data?.processesAccess.read
+    data?.processExecutionsAccess.read
       ? {
           route: paths.HR,
           icon: <UserAddOutlined />,
@@ -158,7 +163,7 @@ function PortalMenu(props: Props) {
           badgeCount: activeProcessExecutionsCount,
         }
       : null,
-    data?.processesAccess.read
+    data?.processesAccess.write
       ? {
           route: paths.PROCESSES,
           icon: <BranchesOutlined />,
