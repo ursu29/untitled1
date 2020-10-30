@@ -40,9 +40,9 @@ describe('Smokes manager', () => {
   const managerProfile = new Profile()
   const employeeProfile = new Profile()
 
- beforeEach(() => {
-   cy.setToken('manager')
-   managerProfile.visit()
+  beforeEach(() => {
+    cy.setToken('manager')
+    managerProfile.visit()
   })
 
   it('Opens profile by default', () => {

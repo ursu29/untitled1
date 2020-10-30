@@ -2,6 +2,7 @@ import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import gql from 'graphql-tag'
 import {
+  SolutionOutlined,
   FormOutlined,
   RiseOutlined,
   NumberOutlined,
@@ -20,6 +21,7 @@ import EmployeeSkills from './EmployeeSkills'
 import EmployeeDevelopmentPlan from './EmployeeDevelopmentPlan'
 import EmployeeEvaluation from '../EmployeeEvaluation/EmployeeEvaluation'
 import { Tag } from 'antd'
+import EmployeeSubordinates from './EmployeeSubordinates'
 
 interface Props extends RouteComponentProps {
   employee: Pick<Employee, 'id' | 'email'>
@@ -172,6 +174,17 @@ function EmployeeTabs({ match, ...props }: Props) {
       body: <EmployeeEvaluation employee={employee} editable={evaluationReviewersAccess?.write} />,
     })
   }
+
+  if (employee?.isMe) {
+    tabs.push({
+      title: 'My employees',
+      key: 'employees',
+      icon: <SolutionOutlined />,
+      noPadding: true,
+      body: <EmployeeSubordinates employee={employee} />,
+    })
+  }
+
   if (curriculumVitaeAccess?.read) {
     tabs.push({
       title: 'CV',

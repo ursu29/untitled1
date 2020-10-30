@@ -24,6 +24,7 @@ import Project from '../Projects/ProjectPage'
 import Projects from '../Projects/ProjectsPage'
 import Skill from '../Skills/SkillPage'
 import Skills from '../Skills/SkillsPage'
+import Statistics from '../Statistics/StatisticsPage'
 import Timemaster from '../Timemaster/TimemasterPage'
 import Content from '../UI/Content'
 import PageContent from '../UI/PageContent'
@@ -55,6 +56,7 @@ export default function Pages() {
           <Route path={paths.SKILLS + '/:id:/:tab'} component={Skill} />
           <Route path={paths.SKILLS + '/:id'} component={Skill} />
           <Route path={paths.SKILLS} component={Skills} />
+          <Route path={paths.STATISTICS} component={Statistics} />
           <Route path={paths.MATRICES + '/:id'} component={Matrix} />
           <Route path={paths.MATRICES} component={Matrices} />
           <Route path={paths.POSTS + '/:id'} component={Post} />

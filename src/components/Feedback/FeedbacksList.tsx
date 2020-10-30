@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
 import { useQuery } from '@apollo/react-hooks'
-import { Input, Select, Space, Spin, Timeline } from 'antd'
+import { Input, Select, Spin, Timeline } from 'antd'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import ProjectSelect from '../Projects/ProjectSelect'
