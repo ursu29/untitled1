@@ -7,6 +7,7 @@ const PATHS = {
   GUILDS: '/guilds',
   PROJECTS: '/projects',
   SKILLS: '/skills',
+  STATISTICS: '/stats',
   POSTS: '/feed',
   MATRICES: '/matrices',
   SETTINGS: '/settings',
