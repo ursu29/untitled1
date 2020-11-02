@@ -14,30 +14,32 @@ export default function EmployeeMatricesList({ matrices, loading, employee, onCo
   const defaultActiveKey = matrices?.[0]?.id
   const [tabKey, setTabKey] = useState(defaultActiveKey)
 
-  if (!loading && !matrices) return <div>No matrices yet</div>
+  if (!loading && !matrices) return <div data-cy="no-matrices">No matrices yet</div>
 
   return (
     <Skeleton active loading={loading}>
-      {!matrices && <div>No matrices yet</div>}
+      {!matrices && <div data-cy="no-matrices">No matrices yet</div>}
       {employee && (
-        <Tabs
-          defaultActiveKey={defaultActiveKey}
-          animated={false}
-          type="card"
-          tabPosition="top"
-          onTabClick={(key: string) => setTabKey(key)}
-        >
-          {matrices?.map(matrix => (
-            <Tabs.TabPane tab={matrix.title} key={matrix.id}>
-              <EmployeeMatrix
-                matrix={matrix}
-                employee={employee}
-                isCurrentTab={tabKey === matrix.id}
-                onComment={onComment}
-              />
-            </Tabs.TabPane>
-          ))}
-        </Tabs>
+        <div data-cy="matrix-tabs">
+          <Tabs
+            defaultActiveKey={defaultActiveKey}
+            animated={false}
+            type="card"
+            tabPosition="top"
+            onTabClick={(key: string) => setTabKey(key)}
+          >
+            {matrices?.map(matrix => (
+              <Tabs.TabPane tab={matrix.title} key={matrix.id}>
+                <EmployeeMatrix
+                  matrix={matrix}
+                  employee={employee}
+                  isCurrentTab={tabKey === matrix.id}
+                  onComment={onComment}
+                />
+              </Tabs.TabPane>
+            ))}
+          </Tabs>
+        </div>
       )}
     </Skeleton>
   )
