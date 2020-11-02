@@ -119,11 +119,15 @@ export default function EmployeeDevelopmentPlan(props: Props) {
                       format={['DD.MM.YYYY']}
                       value={
                         plan?.lastDiscussed
-                          ? moment(moment(plan?.lastDiscussed), 'DD.MM.YYYY')
+                          ? moment(moment(plan?.lastDiscussed).local(), 'DD.MM.YYYY')
                           : null
                       }
                       onChange={date =>
-                        update({ variables: { input: { id: plan?.id, lastDiscussed: date } } })
+                        update({
+                          variables: {
+                            input: { id: plan?.id, lastDiscussed: moment(date).local().format() },
+                          },
+                        })
                       }
                     />
                   </Typography.Text>

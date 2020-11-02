@@ -159,7 +159,9 @@ function EvaluationAttributes({
                           value={
                             customFields?.evaluationCustomFields?.lastDiscussed
                               ? moment(
-                                  moment(customFields?.evaluationCustomFields?.lastDiscussed),
+                                  moment(
+                                    customFields?.evaluationCustomFields?.lastDiscussed,
+                                  ).local(),
                                   'DD.MM.YYYY',
                                 )
                               : null
@@ -167,7 +169,10 @@ function EvaluationAttributes({
                           onChange={date =>
                             addCustomField({
                               variables: {
-                                input: { employee: employee.id, lastDiscussed: date },
+                                input: {
+                                  employee: employee.id,
+                                  lastDiscussed: moment(date).local().format(),
+                                },
                               },
                             })
                           }
