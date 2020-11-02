@@ -210,7 +210,7 @@ function ProcessList({ items, tabName }: Props) {
         ...new Set(
           items
             .filter(e => e.locations)
-            .flatMap(item => item.locations.map(location => location.name)),
+            .flatMap(item => item.locations.map(location => location?.name)),
         ),
       ].map(e => ({ text: e, value: e })),
       onFilter: (value: any, record: any) =>
@@ -298,7 +298,7 @@ function ProcessList({ items, tabName }: Props) {
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
           {process.activeStepEmployees
             ?.sort((a: any, b: any) =>
-              a.email.toLowerCase() === user.employee.email.toLowerCase() ? -1 : 1,
+              a?.email?.toLowerCase() === user?.employee?.email?.toLowerCase() ? -1 : 1,
             )
             .map((responsible: any) => (
               <div
@@ -308,7 +308,7 @@ function ProcessList({ items, tabName }: Props) {
                   padding: '2px',
                   borderRadius: '50%',
                   boxShadow:
-                    user.employee.email.toLowerCase() === responsible.email.toLowerCase()
+                    user?.employee?.email?.toLowerCase() === responsible?.email?.toLowerCase()
                       ? '#108ee9 0px 0px 2px 3px'
                       : '',
                 }}
@@ -322,25 +322,25 @@ function ProcessList({ items, tabName }: Props) {
         //@ts-ignore
         ...new Set(
           items
-            .filter(e => e.activeStepEmployees)
+            .filter(e => e?.activeStepEmployees)
             .flatMap(item => {
-              if (item.activeStepEmployees) return item.activeStepEmployees.map(e => e.name)
+              if (item.activeStepEmployees) return item.activeStepEmployees.map(e => e?.name)
               return []
             }),
         ),
       ].map(e => ({ text: e, value: e })),
       onFilter: (value: any, record: any) =>
         record.activeStepEmployees
-          ? record.activeStepEmployees.map((e: any) => e.name).includes(value)
+          ? record.activeStepEmployees.map((e: any) => e?.name).includes(value)
           : false,
       sorter: (a: any, b: any) =>
         a.activeStepEmployees
-          ?.map((e: any) => e.name)
+          ?.map((e: any) => e?.name)
           .sort()
           .join('')
           .localeCompare(
             b.activeStepEmployees
-              ?.map((e: any) => e.name)
+              ?.map((e: any) => e?.name)
               .sort()
               .join(''),
           ),
@@ -357,8 +357,8 @@ function ProcessList({ items, tabName }: Props) {
 
         const includesUserEmail = (e: any) =>
           e.activeStepEmployees
-            ?.map((e: any) => e.email.toLowerCase())
-            ?.includes(user.employee.email.toLowerCase())
+            ?.map((e: any) => e?.email?.toLowerCase())
+            ?.includes(user?.employee?.email?.toLowerCase())
         if (includesUserEmail(a) && !includesUserEmail(b)) return -1
         else return 1
       })}
