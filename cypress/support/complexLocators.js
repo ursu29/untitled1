@@ -3,6 +3,24 @@ export const getSkill = name => `[data-cy=${name}] > [data-cy=skills_name] > .an
 export const inputSkill = id => cy.get('.ant-select-selector').eq(id);
 export const addSkill = id => cy.get('.ant-btn-link').eq(id);
 export const getSelectItem = id => cy.get('.ant-select-tree-switcher').eq(id);
+export const menu = {
+  items: [
+    { name: 'Employees', url: '/employees', text: null },
+    { name: 'Projects', url: '/projects', text: 'Projects'},
+    { name: 'Guild', url: '/guilds',  text: 'Guilds'},
+    { name: 'Skills', url: '/skills', text: 'Skills'},
+    { name: 'News', url: '/feed', text: 'News'},
+    { name: 'Vacancies', url: '/vacancies', text: 'Open vacancies'},
+    { name: 'Knowledge', url: '/knowledge', text: 'Knowledge'},
+    { name: 'WIKI', url: '/wiki', text: 'Wiki'},
+    { name: 'Feedback', url: '/feedback', text: 'Feedback'},
+  ],
+  subMenu: [
+    { name: 'Timemaster', url: '/timemaster' , text: null},
+    { name: 'Workspace', url: '/workspace-planner', text: null},
+    { name: 'Office planner', url: '/office-planner', text: null},
+  ]
+}
 
 Cypress.Commands.add('checkIfElementPresent', (visibleEl, text) => {
   cy.document().then((doc) => {
@@ -20,9 +38,7 @@ Cypress.Commands.add('elementIsPresent', el => cy.document().then(doc => !!doc.q
 Cypress.Commands.add('deleteAllSkills', (el, removeEl) => {
   cy.elementIsPresent(el).then(bool => {
     if(bool) {
-      cy.get(el).then(el => cy.get(removeEl).click({ multiple: true }))
-
-      return ;
+      cy.get(el).then(() => cy.get(removeEl).click({ multiple: true }))
     }
   })
 })
