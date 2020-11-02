@@ -20,7 +20,7 @@ import EmployeeCV from './EmployeeCV'
 import EmployeeSkills from './EmployeeSkills'
 import EmployeeDevelopmentPlan from './EmployeeDevelopmentPlan'
 import EmployeeEvaluation from '../EmployeeEvaluation/EmployeeEvaluation'
-import { Tag } from 'antd'
+// import { Tag } from 'antd'
 import EmployeeSubordinates from './EmployeeSubordinates'
 
 interface Props extends RouteComponentProps {
@@ -82,7 +82,7 @@ type QueryType = {
   evaluationReviewersAccess: Access
 }
 
-const UpdatedTag = () => (
+/* const UpdatedTag = () => (
   <Tag
     style={{
       fontSize: 11,
@@ -96,7 +96,7 @@ const UpdatedTag = () => (
   >
     Updated
   </Tag>
-)
+) */
 
 function EmployeeTabs({ match, ...props }: Props) {
   const { data, loading, error } = useQuery<QueryType>(query, {
@@ -165,7 +165,7 @@ function EmployeeTabs({ match, ...props }: Props) {
       title: (
         <div style={{ display: 'inline-flex', alignItems: 'center' }}>
           Self Evaluation Form
-          <UpdatedTag />
+          {/* <UpdatedTag /> */}
         </div>
       ),
       key: 'evaluation',
