@@ -1,11 +1,5 @@
 import { getClient, getManager, getProjects, getEmployeeExperiences } from '../../support/getData'
 
-export const filterSkillsName = (name, arr) =>
-  arr
-    .filter(el => el.level.name === name && !el.skill.isMatrixOnly)
-    .map(val => val.skill.name)
-    .sort()
-
 describe('Checking default information', () => {
   const userId = '1bf931df-2015-4516-ac33-0d2caddc7df2'
   const tabs = {
