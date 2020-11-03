@@ -33,7 +33,7 @@ describe('Adding Matrix', () => {
     const { matrices } = allData.matrices
     const name = matrices.map(val => val.title)
 
-    cy.getElement(matrix.matrixBtn).click()
+    cy.getId(matrix.matrixBtn).click()
     cy.checkTextInArrayEl(matrix.item, name, false)
   })
 

@@ -36,11 +36,9 @@ export default function AttachMatrix({ employee }: Props) {
   if (!employee) return null
   if (!show)
     return (
-      <div data-cy="matrix-btn">
-        <Button loading={loading} onClick={() => toggle(true)}>
-          Attach Matrix
-        </Button>
-      </div>
+      <Button loading={loading} onClick={() => toggle(true)} id="matrix-btn">
+        Attach Matrix
+      </Button>
     )
   return (
     <MatrixSelect
