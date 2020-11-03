@@ -27,10 +27,6 @@
 import { getSkill } from './complexLocators'
 import { filterSkillsName } from './complexLocators'
 
-export let newToken = {
-  id: null,
-}
-
 Cypress.Commands.add('getElement', name => cy.get(`[data-cy="${name}"]`))
 
 Cypress.Commands.add('clickElement', text => cy.get('span').contains(text).click())
