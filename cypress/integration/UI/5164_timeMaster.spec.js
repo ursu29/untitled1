@@ -4,7 +4,7 @@ export const notificationEl = {
   errIframe: 'tm_iframe',
 }
 
-describe('Adding Skills in the Users Profile', () => {
+describe('TimeMaster', () => {
   const message = "If timemaster is not available, probably you're not authorized"
 
   before(() => {

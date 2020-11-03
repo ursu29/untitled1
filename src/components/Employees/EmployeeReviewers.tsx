@@ -77,7 +77,7 @@ const EmployeeReviewers = (props: Props) => {
     updateReviewersLoading && message.loading('Updating reviewers...')
   }, [updateReviewersLoading])
 
-  if (loading) return <div>Loading reviewers...</div>
+  if (loading) return <div data-cy="loading">Loading reviewers...</div>
 
   return (
     <Reviewers

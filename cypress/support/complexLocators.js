@@ -2,6 +2,8 @@ export const getSkill = name => `[data-cy=${name}] > [data-cy=skills_name] > .an
 export const inputSkill = id => cy.get('.ant-select-selector').eq(id)
 export const addSkill = id => cy.get('.ant-btn-link').eq(id)
 export const getSelectItem = id => cy.get('.ant-select-tree-switcher').eq(id)
+export const getListOfMatrix = () => cy.get('[data-cy=matrix-tabs] > .ant-tabs > .ant-tabs-nav > .ant-tabs-nav-wrap > .ant-tabs-nav-list > .ant-tabs-tab');
+
 export const menu = {
   items: [
     { name: 'Onboarding', url: '/onboarding', text: 'Onboarding', show: false },
@@ -56,6 +58,12 @@ Cypress.Commands.add('checkIfElementPresent', (visibleEl, text) => {
   })
 })
 
+Cypress.on('uncaught:exception', () => {
+  return false
+})
+
+
+Cypress.Commands.add('elementIsPresent', el => cy.document().then(doc => !!doc.querySelectorAll([el]).length));
 Cypress.Commands.add('addRole', (name = 'SUPERUSER') => {
   cy.get(devMenu.menu).click()
   cy.get(devMenu.items).click()

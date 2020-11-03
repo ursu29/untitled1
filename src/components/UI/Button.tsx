@@ -10,6 +10,7 @@ interface Props extends PropsWithChildren<any> {
   onClick?: () => void
   style?: any
   disabled?: boolean
+  id?: string
 }
 
 export default function PortalButton({
@@ -21,6 +22,7 @@ export default function PortalButton({
   style,
   shape,
   disabled,
+  id,
 }: Props) {
   return (
     <Button
@@ -31,6 +33,7 @@ export default function PortalButton({
       onClick={onClick}
       style={style}
       disabled={disabled}
+      id={id}
     >
       {children}
     </Button>
