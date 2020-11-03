@@ -45,10 +45,8 @@ export default React.memo(({ employee, matrix }: Props) => {
   if (data) return <span>Detached</span>
 
   return (
-    <div data-cy="delete-matrix">
-      <Button loading={loading} onClick={handleClick}>
-        Detach matrix
-      </Button>
-    </div>
+    <Button loading={loading} onClick={handleClick} id="delete-matrix">
+      Detach matrix
+    </Button>
   )
 })

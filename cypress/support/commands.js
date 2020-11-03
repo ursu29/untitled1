@@ -29,6 +29,8 @@ import { filterSkillsName } from './complexLocators'
 
 Cypress.Commands.add('getElement', name => cy.get(`[data-cy="${name}"]`))
 
+Cypress.Commands.add('getId', name => cy.get(`[id="${name}"]`))
+
 Cypress.Commands.add('clickElement', text => cy.get('span').contains(text).click())
 
 Cypress.Commands.add('checkLength', (name, length) =>
