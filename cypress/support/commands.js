@@ -26,7 +26,7 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 import { getSkill } from './complexLocators'
-import { filterSkillsName } from '../integration/UI/5003_defaut_info.spec'
+import { filterSkillsName } from './complexLocators'
 
 Cypress.Commands.add('getElement', name => cy.get(`[data-cy="${name}"]`));
 
@@ -51,7 +51,7 @@ Cypress.Commands.add('checkSkills', (visibleEl, attrNameShort, attrName, array, 
 
       return ;
     }
-    cy.checkTextInArrayEl(getSkill(attrNameShort),filterSkillsName(attrName, array), false)
+    cy.checkTextInArrayEl(getSkill(attrNameShort), filterSkillsName(attrName, array), false)
   })
 })
 

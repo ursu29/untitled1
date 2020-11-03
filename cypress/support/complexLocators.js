@@ -21,6 +21,11 @@ export const menu = {
     { name: 'Office planner', url: '/office-planner', text: null},
   ]
 }
+export const filterSkillsName = (name, arr) =>
+  arr
+    .filter(el => el.level.name === name && !el.skill.isMatrixOnly)
+    .map(val => val.skill.name)
+    .sort()
 
 Cypress.Commands.add('checkIfElementPresent', (visibleEl, text) => {
   cy.document().then((doc) => {
