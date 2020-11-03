@@ -182,7 +182,7 @@ function ProcessList({ items, tabName }: Props) {
       width: 220,
       filters: [
         //@ts-ignore
-        ...new Set(items.filter(e => e.project && e.project.name).map(e => e.project.name)),
+        ...new Set(items.filter(e => e?.project && e?.project?.name).map(e => e?.project?.name)),
       ].map(e => ({ text: e, value: e })),
       onFilter: (value: any, record: any) => record.project?.name === value,
       render: (_: any, i: any) => {
@@ -209,21 +209,21 @@ function ProcessList({ items, tabName }: Props) {
         //@ts-ignore
         ...new Set(
           items
-            .filter(e => e.locations)
+            .filter(e => e?.locations)
             .flatMap(item => item.locations.map(location => location?.name)),
         ),
       ].map(e => ({ text: e, value: e })),
       onFilter: (value: any, record: any) =>
-        record.locations && record.locations.map((e: any) => e.name).includes(value),
+        record.locations && record.locations.map((e: any) => e?.name).includes(value),
       ellipsis: true,
       sorter: (a: any, b: any) =>
         a.locations
-          ?.map((e: any) => e.name)
+          ?.map((e: any) => e?.name)
           .sort()
           .join('')
           .localeCompare(
             b.locations
-              ?.map((e: any) => e.name)
+              ?.map((e: any) => e?.name)
               .sort()
               .join(''),
           ),
@@ -302,7 +302,7 @@ function ProcessList({ items, tabName }: Props) {
             )
             .map((responsible: any) => (
               <div
-                key={responsible.email}
+                key={responsible?.email}
                 style={{
                   margin: '2px',
                   padding: '2px',
@@ -313,7 +313,7 @@ function ProcessList({ items, tabName }: Props) {
                       : '',
                 }}
               >
-                <EmployeeAvatar email={responsible.email} size="small" showTooltip />
+                <EmployeeAvatar email={responsible?.email} size="small" showTooltip />
               </div>
             ))}
         </div>
@@ -356,7 +356,7 @@ function ProcessList({ items, tabName }: Props) {
         if (tabName === 'archived') return 1
 
         const includesUserEmail = (e: any) =>
-          e.activeStepEmployees
+          e?.activeStepEmployees
             ?.map((e: any) => e?.email?.toLowerCase())
             ?.includes(user?.employee?.email?.toLowerCase())
         if (includesUserEmail(a) && !includesUserEmail(b)) return -1
