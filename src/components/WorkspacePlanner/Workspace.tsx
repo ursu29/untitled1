@@ -8,6 +8,7 @@ import { COLLAPSE_WIDTH } from '../../config'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import { debounce } from 'throttle-debounce'
 import BookingList from './BookingList'
+import Image from '../Image'
 import DesignModeSider from './Sider/DesignModeSider'
 import Sider from './Sider/Sider'
 import './styles.css'
@@ -178,7 +179,7 @@ export default function Workspace({
             }}
           >
             {workspace.drawing ? (
-              <img
+              <Image
                 alt="drawing"
                 src={workspace.drawing}
                 style={{

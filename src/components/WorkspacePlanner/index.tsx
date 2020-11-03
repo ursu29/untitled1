@@ -277,8 +277,7 @@ export default function WorkspacePlanner() {
         },
       },
     })
-    console.log(officeDaysData)
-  }, [dateRange])
+  }, [dateRange, getQueryOfficeDays])
   //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ REMOVE with workspace planner
 
   const [createWorkplaceBooking, { loading: loadingCreateWorkplaceBooking }] = useMutation(

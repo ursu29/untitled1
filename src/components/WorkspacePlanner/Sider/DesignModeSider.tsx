@@ -41,7 +41,7 @@ export default function DesignModeSider({ workplace, onSave, isOpen, onOpen }: P
     form.setFieldsValue({
       number: workplace.number,
     })
-  }, [workplace])
+  }, [workplace, form])
 
   return (
     <Sider isOpen={isOpen} onOpen={onOpen}>

@@ -325,6 +325,7 @@ function ProcessList({ items, tabName }: Props) {
             .filter(e => e.activeStepEmployees)
             .flatMap(item => {
               if (item.activeStepEmployees) return item.activeStepEmployees.map(e => e.name)
+              return []
             }),
         ),
       ].map(e => ({ text: e, value: e })),

@@ -83,11 +83,18 @@ export default function EmployeeMatrix({ employee }: Props) {
           format={['DD.MM.YYYY']}
           value={
             customFields?.matricesCustomFields?.lastDiscussed
-              ? moment(moment(customFields?.matricesCustomFields?.lastDiscussed), 'DD.MM.YYYY')
+              ? moment(
+                  moment(customFields?.matricesCustomFields?.lastDiscussed).local(),
+                  'DD.MM.YYYY',
+                )
               : null
           }
           onChange={date =>
-            addCustomField({ variables: { input: { employee: employee.id, lastDiscussed: date } } })
+            addCustomField({
+              variables: {
+                input: { employee: employee.id, lastDiscussed: moment(date).local().format() },
+              },
+            })
           }
         />
       </Typography.Text>

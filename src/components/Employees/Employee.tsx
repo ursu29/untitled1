@@ -97,7 +97,7 @@ export default function EmployeeView({ loading, employee, mobile }: Props) {
               >
                 <Button
                   data-cy="mail_button"
-                  shape="circle-outline"
+                  shape="circle"
                   style={{
                     display: 'inline-flex',
                     justifyContent: 'center',
@@ -115,7 +115,7 @@ export default function EmployeeView({ loading, employee, mobile }: Props) {
               >
                 <Button
                   data-cy="teams_button"
-                  shape="circle-outline"
+                  shape="circle"
                   style={{
                     display: 'inline-flex',
                     justifyContent: 'center',
