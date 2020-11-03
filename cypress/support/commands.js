@@ -1,4 +1,3 @@
-
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -28,63 +27,73 @@
 import { getSkill } from './complexLocators'
 import { filterSkillsName } from './complexLocators'
 
-Cypress.Commands.add('getElement', name => cy.get(`[data-cy="${name}"]`));
+export let newToken = {
+  id: null,
+}
 
-Cypress.Commands.add('clickElement', (text) => cy.get('span').contains(text).click());
+Cypress.Commands.add('getElement', name => cy.get(`[data-cy="${name}"]`))
 
-Cypress.Commands.add('checkLength', (name, length) => cy.getElement(name).its('length').should('eq', length));
+Cypress.Commands.add('clickElement', text => cy.get('span').contains(text).click())
 
-Cypress.Commands.add('checkTextInArrayEl', (el, array, isDataAttr=true) => {
-  const find = isDataAttr ?  cy.getElement(el) : cy.get(el);
+Cypress.Commands.add('checkLength', (name, length) =>
+  cy.getElement(name).its('length').should('eq', length),
+)
+
+Cypress.Commands.add('checkTextInArrayEl', (el, array, isDataAttr = true) => {
+  const find = isDataAttr ? cy.getElement(el) : cy.get(el)
 
   find.each((val, idx) => {
-    expect(val.text()).contains(array[idx]);
+    expect(val.text()).contains(array[idx])
   })
 })
 
-Cypress.Commands.add('isVisible', name => cy.getElement(name).should('be.visible'));
+Cypress.Commands.add('isVisible', name => cy.getElement(name).should('be.visible'))
 
-Cypress.Commands.add('checkSkills', (visibleEl, attrNameShort, attrName, array, text='No skills yet') => {
-  cy.document().then((doc) => {
-    if(doc.querySelectorAll(`[data-cy=${visibleEl}]`).length){
-      cy.getElement(visibleEl).should('have.text', text)
+Cypress.Commands.add(
+  'checkSkills',
+  (visibleEl, attrNameShort, attrName, array, text = 'No skills yet') => {
+    cy.document().then(doc => {
+      if (doc.querySelectorAll(`[data-cy=${visibleEl}]`).length) {
+        cy.getElement(visibleEl).should('have.text', text)
 
-      return ;
-    }
-    cy.checkTextInArrayEl(getSkill(attrNameShort), filterSkillsName(attrName, array), false)
-  })
-})
+        return
+      }
+      cy.checkTextInArrayEl(getSkill(attrNameShort), filterSkillsName(attrName, array), false)
+    })
+  },
+)
 
 Cypress.Commands.add('selectFilterValue', (id, thText, name) => {
-  cy.getElement(id).contains('th', thText).click('topRight');
-  cy.clickElement(name);
-  cy.contains('OK').click({force: true});
+  cy.getElement(id).contains('th', thText).click('topRight')
+  cy.clickElement(name)
+  cy.contains('OK').click({ force: true })
 })
 
-Cypress.Commands.add('matchText' , (el , text) => {
-   cy.get(el).each(val => {
-     const data = val.text()
-     expect(data).match(text);
-   });
+Cypress.Commands.add('matchText', (el, text) => {
+  cy.get(el).each(val => {
+    const data = val.text()
+    expect(data).match(text)
+  })
 })
 
-
-Cypress.Commands.add('toEqualText' , (el , text, isAttr = false, idx= 0) => {
-  const element = isAttr ? cy.getElement(el).eq(idx) : cy.get(el);
+Cypress.Commands.add('toEqualText', (el, text, isAttr = false, idx = 0) => {
+  const element = isAttr ? cy.getElement(el).eq(idx) : cy.get(el)
 
   element.each(val => {
     const data = val.text()
     expect(data).to.equal(text)
-  });
+  })
 })
 
 Cypress.Commands.add('haveText', (name, text) => cy.getElement(name).should('have.text', text))
-Cypress.Commands.add('haveClass', (name, className) => cy.getElement(name).should('have.class', className))
+Cypress.Commands.add('haveClass', (name, className) =>
+  cy.getElement(name).should('have.class', className),
+)
 //better to move tokens to cypress.env.json sooner or later
 
 //for real environment's backend MSAL authentication
 Cypress.Commands.add('setToken', employeeType => {
-console.log("Do we get variables values? As example, grant_type: " + Cypress.env('grant_type'))
+  console.log('Do we get variables values? As example, grant_type: ' + Cypress.env('grant_type'))
   switch (employeeType) {
     case 'employee':
       cy.request({

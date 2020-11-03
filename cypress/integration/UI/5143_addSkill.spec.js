@@ -57,7 +57,7 @@ describe('Adding Skills in the Users Profile', () => {
         }
       })
       .then(
-        el => expect(Cypress._.isEqual(allData.childSkills, allData.uiSkill.slice(1))).to.be.true,
+        () => expect(Cypress._.isEqual(allData.childSkills, allData.uiSkill.slice(1))).to.be.true,
       )
   })
 
