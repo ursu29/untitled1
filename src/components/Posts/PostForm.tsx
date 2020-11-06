@@ -124,7 +124,7 @@ export default function PostForm({ values: post, loading, onSubmit }: Props) {
             const isPublic = form.getFieldValue('isPublic')
             if (!isPublic) return null
             return (
-              <Col span={8}>
+              <Col span={8} data-cy="publish-date">
                 <Form.Item name="publishDate" label="Publish date">
                   <DatePicker showTime />
                 </Form.Item>
