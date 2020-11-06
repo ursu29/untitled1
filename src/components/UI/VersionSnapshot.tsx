@@ -1,5 +1,5 @@
 import React from 'react'
-import { Select, Button, Space, Popconfirm } from 'antd'
+import { Select, Button, Space, Popconfirm, Tooltip } from 'antd'
 import dayjs from 'dayjs'
 
 const { Option } = Select
@@ -10,6 +10,7 @@ interface Props {
   versionsList?: { id: string; createdAt: string }[]
   isButtonVisible: boolean
   buttonText?: string
+  tooltip?: string
 }
 
 export default function VersionSnapshot({
@@ -18,6 +19,7 @@ export default function VersionSnapshot({
   versionsList,
   isButtonVisible,
   buttonText,
+  tooltip,
 }: Props) {
   return (
     <div style={{ marginBottom: '25px' }}>
@@ -35,15 +37,17 @@ export default function VersionSnapshot({
         </Select>
 
         {isButtonVisible && (
-          <Popconfirm
-            placement="topLeft"
-            title="Current version will be saved in the archive"
-            onConfirm={onCreateSnapshot}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button>{buttonText || 'Create New Version'}</Button>
-          </Popconfirm>
+          <Tooltip placement="topLeft" title={tooltip}>
+            <Popconfirm
+              placement="topLeft"
+              title="Current version will be saved in the archive. Do you want to continue?"
+              onConfirm={onCreateSnapshot}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button>{buttonText || 'Create New Version'}</Button>
+            </Popconfirm>
+          </Tooltip>
         )}
       </Space>
     </div>

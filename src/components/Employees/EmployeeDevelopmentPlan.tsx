@@ -163,6 +163,7 @@ export default function EmployeeDevelopmentPlan(props: Props) {
               }))}
               isButtonVisible={true}
               buttonText="Create New Version"
+              tooltip="Your current plan will be archived and you will receive a new blank one"
             />
 
             <DevelopmentPlanForm
