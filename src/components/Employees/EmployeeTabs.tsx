@@ -162,12 +162,13 @@ function EmployeeTabs({ match, ...props }: Props) {
 
   if (evaluationReviewersAccess?.read) {
     tabs.push({
-      title: (
+      title: 'Self Evaluation Form',
+      /* (
         <div style={{ display: 'inline-flex', alignItems: 'center' }}>
           Self Evaluation Form
           {/* <UpdatedTag /> */}
         </div>
-      ),
+      ), */
       key: 'evaluation',
       icon: <StarOutlined />,
       noPadding: false,
