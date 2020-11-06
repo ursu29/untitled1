@@ -166,7 +166,7 @@ function EmployeeTabs({ match, ...props }: Props) {
       /* (
         <div style={{ display: 'inline-flex', alignItems: 'center' }}>
           Self Evaluation Form
-          {/* <UpdatedTag /> */}
+           <UpdatedTag /> 
         </div>
       ), */
       key: 'evaluation',
