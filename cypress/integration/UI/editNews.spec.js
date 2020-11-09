@@ -1,6 +1,6 @@
-import { menuEl, postEl } from '../../support/locators'
+import { menuEl, postEl, devMenu, modalEl } from '../../support/locators'
 import { getFirstPosts, getTags, setHeaders } from '../../support/getData'
-import { postTitle } from '../../support/complexLocators'
+import { postTitle, submitPost } from '../../support/complexLocators'
 
 describe('Edit News', () => {
   const data = new Date().toLocaleTimeString()
@@ -34,36 +34,19 @@ describe('Edit News', () => {
       }
     })
 
-    cy.getId('postAnnotation').should('not.be.visible')
-    cy.get('.ant-form-item-label').each(val => {
+    cy.getId(postEl.annotation).should('not.be.visible')
+    cy.get(devMenu.itemLabel).each(val => {
       expect(arr).not.includes(val.text())
-    })
-  })
-
-  it('Check tags', () => {
-    const firstPost = allData.posts[0]
-
-    cy.get('#title').clear().type(data)
-    cy.get(postEl.button).scrollIntoView()
-
-    cy.elementIsPresent(postEl.editTag).then(val => {
-      if (val) {
-        cy.checkTextInArrayEl(
-          '.ant-select-selection-item',
-          firstPost.tags.map(val => val.name),
-          false,
-        )
-      }
     })
   })
 
   it('Save post changes', () => {
     cy.get(postEl.button).click()
-    cy.get('.ant-modal').should('be.visible')
+    cy.get(modalEl.window).should('be.visible')
     cy.route2('/graphql', req => {
       req.headers = setHeaders()
     })
-    cy.get('.ant-modal-footer > .ant-btn-primary').click()
+    cy.get(submitPost).click()
     postTitle(0).should('contain.text', data)
   })
 

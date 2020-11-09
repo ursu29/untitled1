@@ -1,5 +1,6 @@
 import { devMenu, menuEl } from './locators'
 
+export const submitPost = '.ant-modal-footer > .ant-btn-primary'
 export const getSkill = name => `[data-cy=${name}] > [data-cy=skills_name] > .ant-tag`
 export const inputSkill = id => cy.get('.ant-select-selector').eq(id)
 export const postData = id => cy.get('.sc-gPEVay > span.ant-typography').eq(id)

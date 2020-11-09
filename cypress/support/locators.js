@@ -25,6 +25,7 @@ export const devMenu = {
   menu: '.ant-select-selection-search',
   items: '.ant-select-selection-item',
   item: '.ant-select-item',
+  itemLabel: '.ant-form-item-label',
 }
 
 export const menuEl = {
@@ -46,6 +47,9 @@ export const postEl = {
   editTag: '.ant-select-selection-item-content',
   button: '.ant-btn-primary',
   delete: '.anticon-close',
+  annotation: 'postAnnotation',
+  title: '#title',
+  writePost: '.CodeMirror-sizer',
 }
 
 export const matrix = {
@@ -58,4 +62,8 @@ export const matrix = {
   matrixTabs: '.ant-tabs-tab',
   success: '.ant-message-success',
   alert: '.ant-message-notice-content',
+}
+
+export const modalEl = {
+  window: '.ant-modal',
 }

@@ -1,6 +1,6 @@
 import { setHeaders, getFirstPosts, getTags } from '../../support/getData'
-import { inputTag, postTitle } from '../../support/complexLocators'
-import { matrix, postEl } from '../../support/locators'
+import { inputTag, postTitle, submitPost } from '../../support/complexLocators'
+import { matrix, postEl, modalEl } from '../../support/locators'
 
 describe('Edit News', () => {
   const data = new Date().toLocaleTimeString()
@@ -26,15 +26,15 @@ describe('Edit News', () => {
   it('Create new post', () => {
     cy.get(postEl.posts).should('be.visible')
     cy.get(postEl.editPost).eq(0).click()
-    cy.get('#title').clear().type(data)
+    cy.get(postEl.title).clear().type(data)
   })
 
   it('Check tags', () => {
     const allTags = allData.tags.map(el => el.name)
     const firstTag = allTags[0]
 
-    cy.get('#title').clear().type(data)
-    cy.get('.CodeMirror-sizer').type(data)
+    cy.get(postEl.title).clear().type(data)
+    cy.get(postEl.writePost).type(data)
     cy.get(postEl.button).scrollIntoView()
 
     cy.get(inputTag).click()
@@ -46,12 +46,12 @@ describe('Edit News', () => {
 
   it('Save post', () => {
     cy.get(postEl.button).click()
-    cy.get('.ant-modal').should('be.visible')
+    cy.get(modalEl.window).should('be.visible')
     cy.route2('/graphql', req => {
       req.headers = setHeaders()
     })
-    cy.get('.ant-modal-footer > .ant-btn-primary').click()
-    cy.get('.ant-message-notice-content').should('not.be.visible')
+    cy.get(submitPost).click()
+    cy.get(matrix.alert).should('not.be.visible')
   })
 
   it('Check first news items', () => {
