@@ -1,12 +1,9 @@
 import { Input, List, Skeleton, Tag } from 'antd'
 import React, { useState } from 'react'
-import { Employee, File } from '../../types'
+import { UpdateFile } from './UpdateFile'
+import { FilesPick } from '../../queries/getSharedFiles'
 
 const { CheckableTag } = Tag
-
-type FilesPick = Pick<File, 'id' | 'url' | 'fileName' | 'createdAt' | 'size' | 'type'> & {
-  createdBy: Pick<Employee, 'id' | 'name' | 'email'> | null
-}
 
 interface Props {
   loading: boolean
@@ -17,16 +14,20 @@ const getFolderPath = (webUrl: string) => {
   return webUrl.slice(webUrl.indexOf('.com/') + '.com/'.length)
 }
 
+const BulletDivider = () => (
+  <span style={{ color: '#4a4a4a', paddingLeft: 4, paddingRight: 4 }}>&nbsp;•&nbsp;</span>
+)
+
 export default function ({ files, loading }: Props) {
   const [filter, setFilter] = useState('')
-  const [type, setType] = useState<File['type'] | null>(null)
+  const [type, setType] = useState<FilesPick['type'] | null>(null)
   if (!loading && !files) return null
-  const filteredByTypeFiles = (files || []).filter((item) => {
+  const filteredByTypeFiles = (files || []).filter(item => {
     if (type === null) return true
     return item.type === type
   })
 
-  const filteredFiles: FilesPick[] = (filteredByTypeFiles || []).filter((file) => {
+  const filteredFiles: FilesPick[] = (filteredByTypeFiles || []).filter(file => {
     return file.fileName?.toLowerCase().includes(filter.trim().toLowerCase())
   })
 
@@ -59,14 +60,18 @@ export default function ({ files, loading }: Props) {
           },
         }}
         dataSource={filteredFiles}
-        renderItem={(file) => (
+        renderItem={file => (
           <List.Item key={file.id}>
             <List.Item.Meta
               style={{ wordBreak: 'break-all' }}
               title={
-                <a href={file.url} target="_blank" rel="noopener noreferrer">
-                  {file.fileName}
-                </a>
+                <>
+                  <a href={file.url} target="_blank" rel="noopener noreferrer">
+                    {file.fileName}
+                  </a>
+                  <BulletDivider />
+                  <UpdateFile file={file} />
+                </>
               }
               description={
                 <>
@@ -84,7 +89,7 @@ export default function ({ files, loading }: Props) {
             />
           </List.Item>
         )}
-      ></List>
+      />
     </Skeleton>
   )
 }

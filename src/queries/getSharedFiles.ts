@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import { File, Employee } from '../types'
 
 export default gql`
-  {
+  query sharedFiles {
     sharedFiles {
       id
       url
@@ -15,11 +15,22 @@ export default gql`
       }
       size
       type
+      skills {
+        id
+        name
+      }
+      tags {
+        id
+        name
+      }
     }
   }
 `
 
-type FilesPick = Pick<File, 'id' | 'url' | 'fileName' | 'createdAt' | 'size' | 'type'> & {
+export type FilesPick = Pick<
+  File,
+  'id' | 'url' | 'fileName' | 'createdAt' | 'size' | 'type' | 'skills' | 'tags'
+> & {
   createdBy: Pick<Employee, 'id' | 'name' | 'email'> | null
 }
 

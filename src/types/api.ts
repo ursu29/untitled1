@@ -83,6 +83,8 @@ export interface File {
   updatedAt: string
   size: number
   type: 'presentation' | 'video' | 'image'
+  skills: Skill[]
+  tags: Tag[]
 }
 
 export interface Bookmark {
