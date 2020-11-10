@@ -15,13 +15,16 @@ export default gql`
       }
       size
       type
-      skills {
+      details {
         id
-        name
-      }
-      tags {
-        id
-        name
+        skills {
+          id
+          name
+        }
+        tags {
+          id
+          name
+        }
       }
     }
   }
@@ -29,7 +32,7 @@ export default gql`
 
 export type FilesPick = Pick<
   File,
-  'id' | 'url' | 'fileName' | 'createdAt' | 'size' | 'type' | 'skills' | 'tags'
+  'id' | 'url' | 'fileName' | 'createdAt' | 'size' | 'type' | 'details'
 > & {
   createdBy: Pick<Employee, 'id' | 'name' | 'email'> | null
 }

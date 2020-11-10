@@ -1,53 +1,46 @@
-import { Button, Col, Row, Form } from 'antd'
+import { Button, Col, Form, Row } from 'antd'
 import React from 'react'
-import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
 import { FilesPick } from '../../queries/getSharedFiles'
-import updateSharedFile, { UpdateSharedFileMutation } from '../../queries/updateSharedFile'
+import {
+  updateFileDetails,
+  fileDetailsFragment,
+  UpdateFileDetailsMutation,
+  UpdateFileDetailsMutationInput,
+} from '../../queries/updateFileDetails'
 import message from '../../message'
+import { FileDetails } from '../../types'
 import SkillTreeSelect from '../Skills/SkillTreeSelect'
 import TagSelect from '../Tags/TagSelect'
-
-type SharedFileFragment = Pick<FilesPick, 'tags' | 'skills'> & { id: string }
-
-const sharedFileFragment = gql`
-  fragment SharedFileFragment on AzureFile {
-    skills {
-      id
-      name
-    }
-    tags {
-      id
-      name
-    }
-  }
-`
 
 export interface Props {
   file: FilesPick
 }
 
 const FileForm = ({ file }: Props) => {
-  const [updateFile, { loading }] = useMutation<UpdateSharedFileMutation>(updateSharedFile, {
+  const [updateFile, { loading }] = useMutation<
+    UpdateFileDetailsMutation,
+    UpdateFileDetailsMutationInput
+  >(updateFileDetails, {
     onError: message.error,
     onCompleted: () => message.success('File is updated'),
     update: (cache, { data }) => {
-      const cacheId = `AzureFile:${file.id}`
-      const currentFile = cache.readFragment<SharedFileFragment>({
+      const cacheId = `FileDetails:${file.id}`
+      const currentFile = cache.readFragment<FileDetails>({
         id: cacheId,
-        fragment: sharedFileFragment,
+        fragment: fileDetailsFragment,
       })
       if (data && currentFile) {
         cache.writeData({
           id: cacheId,
-          data: data.updateSharedFile,
+          data: data.updateFileDetails,
         })
       }
     },
   })
   const [form] = Form.useForm()
 
-  const onFinish = ({ tags, skills }: Pick<FilesPick, 'tags' | 'skills'>) => {
+  const onFinish = ({ tags, skills }: Pick<FileDetails, 'tags' | 'skills'>) => {
     const input = {
       azureId: file.id,
       tags: tags.map(i => i.id),
@@ -62,9 +55,9 @@ const FileForm = ({ file }: Props) => {
       form={form}
       onFinish={onFinish}
       initialValues={{
-        skills: file?.skills || [],
+        skills: file.details?.skills || [],
         tags:
-          file?.tags?.map(tag => ({
+          file.details?.tags?.map(tag => ({
             key: tag.name,
             label: tag.name,
             id: tag.id,

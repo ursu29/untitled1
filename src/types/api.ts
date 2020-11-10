@@ -83,6 +83,11 @@ export interface File {
   updatedAt: string
   size: number
   type: 'presentation' | 'video' | 'image'
+  details: FileDetails
+}
+
+export interface FileDetails {
+  id: string
   skills: Skill[]
   tags: Tag[]
 }

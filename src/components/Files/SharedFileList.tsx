@@ -77,8 +77,6 @@ export default function ({ files, loading }: Props) {
           isLeaf,
         }))
 
-    console.log(leafs)
-
     return treeFromList(dirs).concat(treeFromList(leafs, true))
   }
 
