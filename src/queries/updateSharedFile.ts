@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import { File } from '../types'
 
 export default gql`
-  mutation updateFile($input: UpdateSharedFilesInput!) {
+  mutation updateSharedFile($input: UpdateSharedFileInput!) {
     updateSharedFile(input: $input) {
       skills {
         id

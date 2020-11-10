@@ -38,7 +38,6 @@ const FileForm = ({ file }: Props) => {
         fragment: sharedFileFragment,
       })
       if (data && currentFile) {
-        console.log(data.updateSharedFile, file)
         cache.writeData({
           id: cacheId,
           data: data.updateSharedFile,
