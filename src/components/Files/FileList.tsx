@@ -55,7 +55,7 @@ export const FileList = ({ files, detailed }: Props) => (
                 </div>
                 <div>Size: {(file.size / 1000).toFixed(0)} KB</div>
                 <div>
-                  {file.details?.skills?.map(skill => (
+                  {file.details?.skills.map(skill => (
                     <SkillLink key={skill.id} skill={skill} />
                   ))}
                 </div>
@@ -74,7 +74,7 @@ export const FileList = ({ files, detailed }: Props) => (
                   MB
                 </div>
                 <div>
-                  {file.details?.skills?.map(skill => (
+                  {file.details?.skills.map(skill => (
                     <SkillLink key={skill.id} skill={skill} />
                   ))}
                 </div>

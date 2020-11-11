@@ -30,7 +30,7 @@ const FileForm = ({ file, onSubmit, loading }: Props) => {
       initialValues={{
         skills: file.details?.skills || [],
         tags:
-          file.details?.tags?.map(tag => ({
+          file.details?.tags.map(tag => ({
             key: tag.name,
             label: tag.name,
             id: tag.id,

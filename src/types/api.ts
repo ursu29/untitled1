@@ -83,7 +83,7 @@ export interface File {
   updatedAt: string
   size: number
   type: 'presentation' | 'video' | 'image'
-  details: FileDetails
+  details: FileDetails | null
 }
 
 export interface FileDetails {
