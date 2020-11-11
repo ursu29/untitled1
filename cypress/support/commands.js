@@ -89,6 +89,27 @@ Cypress.Commands.add('haveClass', (name, className) =>
 )
 //better to move tokens to cypress.env.json sooner or later
 
+// for get images auth
+Cypress.Commands.add('setImgToken', () => {
+  cy.request({
+    url: 'https://login.microsoftonline.com/5acc8b65-db91-44ea-8d28-20f9e45b432e/oauth2/v2.0/token',
+    method: 'POST',
+    form: true,
+    body: {
+      grant_type: Cypress.env('grant_type'),
+      username: Cypress.env('employee_username'),
+      client_id: Cypress.env('client_id'),
+      scope: Cypress.env('img_scope'),
+      password: Cypress.env('employee_password'),
+      client_secret: Cypress.env('client_secret'),
+    },
+  })
+    .its('body.access_token')
+    .then(token => {
+      localStorage.setItem('img_token', token)
+    })
+})
+
 //for real environment's backend MSAL authentication
 Cypress.Commands.add('setToken', employeeType => {
   console.log('Do we get variables values? As example, grant_type: ' + Cypress.env('grant_type'))

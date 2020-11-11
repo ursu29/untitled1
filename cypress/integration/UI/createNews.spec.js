@@ -2,7 +2,7 @@ import { setHeaders, getFirstPosts, getTags } from '../../support/getData'
 import { inputTag, postTitle, submitPost } from '../../support/complexLocators'
 import { matrix, postEl, modalEl } from '../../support/locators'
 
-describe('Edit News', () => {
+describe('Create news', () => {
   const data = new Date().toLocaleTimeString()
   let allData = {
     posts: null,
@@ -21,6 +21,10 @@ describe('Edit News', () => {
     })
     cy.visit('/client/feed')
     cy.addRole()
+  })
+
+  beforeEach(() => {
+    cy.setImgToken()
   })
 
   it('Create new post', () => {

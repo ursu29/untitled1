@@ -24,6 +24,10 @@ describe('Edit News', () => {
     cy.get(menuEl.item).contains('News').click()
   })
 
+  beforeEach(() => {
+    cy.setImgToken()
+  })
+
   it('Edit first post', () => {
     cy.get(postEl.posts).should('be.visible')
     const arr = ['Title image', 'Background image', 'Foreground image']

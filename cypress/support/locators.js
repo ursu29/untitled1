@@ -21,6 +21,13 @@ export const menu = {
   ],
 }
 
+export const locations = [
+  { title: 'Saint-Petersburg' },
+  { title: 'Tomsk' },
+  { title: 'Kaliningrad' },
+  { title: 'Zürich' },
+]
+
 export const devMenu = {
   menu: '.ant-select-selection-search',
   items: '.ant-select-selection-item',
@@ -43,6 +50,7 @@ export const postEl = {
   editPost: '.anticon-edit',
   tag: '.ant-tag-blue',
   loader: '.anticon-loading',
+  buttonSwitch: '.ant-switch',
   toggle: '.ant-switch-checked',
   editTag: '.ant-select-selection-item-content',
   button: '.ant-btn-primary',
@@ -62,6 +70,23 @@ export const matrix = {
   matrixTabs: '.ant-tabs-tab',
   success: '.ant-message-success',
   alert: '.ant-message-notice-content',
+}
+
+export const workspace = {
+  disabled: {
+    selectDisabled: '.ant-select-disabled',
+    pickerDisabled: '.ant-picker-disabled',
+    checkBoxDisabled: '.ant-checkbox-wrapper-disabled',
+  },
+  spinner: '.anticon-spin',
+  img: '[alt="drawing"]',
+  tab: '.ant-tabs-tab-btn',
+}
+
+export const notificationEl = {
+  title: '.ant-notification-notice-message',
+  button: '.ant-btn',
+  errIframe: 'tm_iframe',
 }
 
 export const modalEl = {

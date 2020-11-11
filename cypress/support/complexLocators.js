@@ -38,8 +38,8 @@ Cypress.Commands.add('elementIsPresent', el =>
   cy.document().then(doc => !!doc.querySelectorAll([el]).length),
 )
 Cypress.Commands.add('addRole', (name = 'SUPERUSER') => {
-  cy.get(devMenu.items).click()
-  cy.get(devMenu.item).contains(name).click()
+  cy.get(devMenu.items).click({ multiple: true })
+  cy.get(devMenu.item).contains(name).click({ force: true })
   cy.get(menuEl.allMenu).should('be.visible')
 })
 
@@ -59,4 +59,9 @@ Cypress.Commands.add('editSkills', idx => {
   addSkill(idx).click()
   inputSkill(idx).click()
   cy.get('.anticon-check').should('have.class', 'anticon-check')
+})
+
+Cypress.Commands.add('spinnerDisappear', el => {
+  cy.get(el).should('be.visible')
+  cy.get(el).should('not.be.visible')
 })
