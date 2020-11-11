@@ -89,7 +89,6 @@ export interface File {
 export interface FileDetails {
   id: string
   skills: Skill[]
-  tags: Tag[]
 }
 
 export interface Bookmark {

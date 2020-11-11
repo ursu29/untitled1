@@ -21,10 +21,6 @@ export default gql`
           id
           name
         }
-        tags {
-          id
-          name
-        }
       }
     }
   }

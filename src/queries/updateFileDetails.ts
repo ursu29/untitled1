@@ -8,10 +8,6 @@ export const fileDetailsFragment = gql`
       id
       name
     }
-    tags {
-      id
-      name
-    }
   }
 `
 
@@ -32,6 +28,5 @@ export type UpdateFileDetailsMutationInput = {
   input: {
     azureId: string
     skills: string[]
-    tags: string[]
   }
 }

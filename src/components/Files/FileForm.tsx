@@ -4,7 +4,6 @@ import { FilesPick } from '../../queries/getSharedFiles'
 import { UpdateFileDetailsMutationInput } from '../../queries/updateFileDetails'
 import { FileDetails } from '../../types'
 import SkillTreeSelect from '../Skills/SkillTreeSelect'
-import TagSelect from '../Tags/TagSelect'
 
 export interface Props {
   file: FilesPick
@@ -15,10 +14,9 @@ export interface Props {
 const FileForm = ({ file, onSubmit, loading }: Props) => {
   const [form] = Form.useForm()
 
-  const onFinish = ({ tags, skills }: Pick<FileDetails, 'tags' | 'skills'>) => {
+  const onFinish = ({ skills }: Pick<FileDetails, 'skills'>) => {
     onSubmit({
       azureId: file.id,
-      tags: tags.map(i => i.id),
       skills: skills.map(i => i.id),
     })
   }
@@ -30,20 +28,10 @@ const FileForm = ({ file, onSubmit, loading }: Props) => {
       onFinish={onFinish}
       initialValues={{
         skills: file.details?.skills || [],
-        tags:
-          file.details?.tags.map(tag => ({
-            key: tag.name,
-            label: tag.name,
-            id: tag.id,
-            name: tag.name,
-          })) || [],
       }}
     >
       <Form.Item label="Skills" name="skills">
         <SkillTreeSelect />
-      </Form.Item>
-      <Form.Item label="Tags" name="tags">
-        <TagSelect allowAddNew multiple />
       </Form.Item>
       <Row>
         <Col>
