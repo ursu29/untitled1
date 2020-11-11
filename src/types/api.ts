@@ -290,6 +290,7 @@ export interface ProcessStep {
   description: string
   sendToTeamlead: boolean
   hasComment: boolean
+  send24hoursNotification: boolean
 }
 
 export interface ProcessExecution {
