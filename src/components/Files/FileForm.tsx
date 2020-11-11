@@ -1,13 +1,14 @@
 import { Button, Col, Form, Row } from 'antd'
 import React from 'react'
 import { FilesPick } from '../../queries/getSharedFiles'
+import { UpdateFileDetailsMutationInput } from '../../queries/updateFileDetails'
 import { FileDetails } from '../../types'
 import SkillTreeSelect from '../Skills/SkillTreeSelect'
 import TagSelect from '../Tags/TagSelect'
 
 export interface Props {
   file: FilesPick
-  onSubmit: (values: any, reset?: () => void) => void
+  onSubmit: (values: UpdateFileDetailsMutationInput['input'], reset?: () => void) => void
   loading: boolean
 }
 
