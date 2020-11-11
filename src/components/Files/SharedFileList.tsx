@@ -1,6 +1,6 @@
 import { Input, List, Skeleton, Tag, Tree } from 'antd'
 import React, { useState } from 'react'
-import { UpdateFile } from './UpdateFile'
+import { UpdateFileDetails } from './UpdateFileDetails'
 import { FilesPick } from '../../queries/getSharedFiles'
 
 const { CheckableTag } = Tag
@@ -170,7 +170,7 @@ export default function ({ files, loading }: Props) {
                           {file.fileName}
                         </a>
                         <BulletDivider />
-                        <UpdateFile file={file} />
+                        <UpdateFileDetails file={file} />
                       </>
                     }
                     description={

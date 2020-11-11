@@ -1,52 +1,25 @@
 import { Button, Col, Form, Row } from 'antd'
 import React from 'react'
-import { useMutation } from '@apollo/react-hooks'
 import { FilesPick } from '../../queries/getSharedFiles'
-import {
-  updateFileDetails,
-  fileDetailsFragment,
-  UpdateFileDetailsMutation,
-  UpdateFileDetailsMutationInput,
-} from '../../queries/updateFileDetails'
-import message from '../../message'
 import { FileDetails } from '../../types'
 import SkillTreeSelect from '../Skills/SkillTreeSelect'
 import TagSelect from '../Tags/TagSelect'
 
 export interface Props {
   file: FilesPick
+  onSubmit: (values: any, reset?: () => void) => void
+  loading: boolean
 }
 
-const FileForm = ({ file }: Props) => {
-  const [updateFile, { loading }] = useMutation<
-    UpdateFileDetailsMutation,
-    UpdateFileDetailsMutationInput
-  >(updateFileDetails, {
-    onError: message.error,
-    onCompleted: () => message.success('File is updated'),
-    update: (cache, { data }) => {
-      const cacheId = `FileDetails:${file.id}`
-      const currentFile = cache.readFragment<FileDetails>({
-        id: cacheId,
-        fragment: fileDetailsFragment,
-      })
-      if (data && currentFile) {
-        cache.writeData({
-          id: cacheId,
-          data: data.updateFileDetails,
-        })
-      }
-    },
-  })
+const FileForm = ({ file, onSubmit, loading }: Props) => {
   const [form] = Form.useForm()
 
   const onFinish = ({ tags, skills }: Pick<FileDetails, 'tags' | 'skills'>) => {
-    const input = {
+    onSubmit({
       azureId: file.id,
       tags: tags.map(i => i.id),
       skills: skills.map(i => i.id),
-    }
-    updateFile({ variables: { input } })
+    })
   }
 
   return (
