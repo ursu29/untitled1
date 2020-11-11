@@ -212,9 +212,13 @@ export default function ({ files, loading }: Props) {
               <List.Item.Meta
                 style={{ wordBreak: 'break-all' }}
                 title={
-                  <a href={file.url} target="_blank" rel="noopener noreferrer">
-                    {file.fileName}
-                  </a>
+                  <>
+                    <a href={file.url} target="_blank" rel="noopener noreferrer">
+                      {file.fileName}
+                    </a>
+                    <BulletDivider />
+                    <UpdateFileDetails file={file} />
+                  </>
                 }
                 description={
                   <>
