@@ -1,7 +1,8 @@
 import { List } from 'antd'
 import React from 'react'
-import { UpdateFileDetails } from './UpdateFileDetails'
 import { FilesPick } from '../../queries/getSharedFiles'
+import { SkillLink } from '../Skills/SkillLink'
+import { UpdateFileDetails } from './UpdateFileDetails'
 
 const getFolderPath = (webUrl: string) => {
   return webUrl.slice(webUrl.indexOf('.com/') + '.com/'.length)
@@ -53,6 +54,11 @@ export const FileList = ({ files, detailed }: Props) => (
                   {file.createdAt}.
                 </div>
                 <div>Size: {(file.size / 1000).toFixed(0)} KB</div>
+                <div>
+                  {file.details?.skills?.map(skill => (
+                    <SkillLink key={skill.id} skill={skill} />
+                  ))}
+                </div>
               </>
             ) : (
               <>
@@ -60,13 +66,17 @@ export const FileList = ({ files, detailed }: Props) => (
                   <span>{file.createdBy && <span>by {file.createdBy.name} </span>}</span>
                   {file.createdAt}
                 </div>
-
                 <div>
                   {
                     //@ts-ignore
                     (file.size / 1e5).toFixed(0) / 10
                   }{' '}
                   MB
+                </div>
+                <div>
+                  {file.details?.skills?.map(skill => (
+                    <SkillLink key={skill.id} skill={skill} />
+                  ))}
                 </div>
               </>
             )
