@@ -1,4 +1,4 @@
-import { menu, menuEl } from '../../support/complexLocators'
+import { menu, menuEl } from '../../support/locators'
 
 describe('Check Menu', () => {
   before(() => {

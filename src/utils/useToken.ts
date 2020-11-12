@@ -8,13 +8,14 @@ const MINUTE = 1000 * 6
 
 type TokenArgs = {
   scopes: string[]
+  localStorageName: string
 }
 
 const tokens: Record<string, Token> = {}
 
-function useToken({ scopes }: TokenArgs) {
+function useToken({ scopes, localStorageName }: TokenArgs) {
   const id = 'token_' + scopes.toString()
-  const [token, setToken] = useState<Token>(tokens[id])
+  const [token, setToken] = useState<Token>(localStorage.getItem(localStorageName) || tokens[id])
 
   const updateToken = (newToken: Token) => {
     tokens[id] = newToken
@@ -61,13 +62,13 @@ function useToken({ scopes }: TokenArgs) {
     }
     // eslint-disable-next-line
   }, [])
-
   return { token }
 }
 
 export function useFileStorageToken() {
   return useToken({
     scopes: ['https://storage.azure.com/user_impersonation'],
+    localStorageName: 'img_token',
   })
 }
 
@@ -82,5 +83,6 @@ export function useAccessToken() {
       'Contacts.Read',
       'AccessReview.Read.All',
     ],
+    localStorageName: 'access_token',
   })
 }

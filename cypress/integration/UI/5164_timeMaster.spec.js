@@ -1,8 +1,4 @@
-export const notificationEl = {
-  title: '.ant-notification-notice-message',
-  logButton: '.ant-btn',
-  errIframe: 'tm_iframe',
-}
+import { notificationEl } from '../../support/locators'
 
 describe('TimeMaster', () => {
   const message = "If timemaster is not available, probably you're not authorized"
@@ -17,8 +13,8 @@ describe('TimeMaster', () => {
 
     cy.get(notificationEl.title).should('be.visible')
     cy.get(notificationEl.title).should('have.text', message)
-    cy.get(notificationEl.logButton).should('be.visible')
-    cy.get(notificationEl.logButton).should('have.text', 'Login')
+    cy.get(notificationEl.button).should('be.visible')
+    cy.get(notificationEl.button).should('have.text', 'Login')
     cy.getElement(notificationEl.errIframe).should('be.visible')
   })
 })

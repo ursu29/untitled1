@@ -1,17 +1,6 @@
 import { getAllMatrices } from '../../support/getData'
 import { getListOfMatrix } from '../../support/complexLocators'
-
-export const matrix = {
-  matrices: 'Matrices',
-  knowledge: 'legend-buttons',
-  matrixBtn: 'matrix-btn',
-  item: '.ant-select-item-option-content',
-  delete: 'delete-matrix',
-  matrixName: 'QA Matrix',
-  matrixTabs: '.ant-tabs-tab',
-  success: '.ant-message-success',
-  alert: '.ant-message-notice-content',
-}
+import { matrix } from '../../support/locators'
 
 describe('Adding Matrix', () => {
   let allData = {
