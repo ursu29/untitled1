@@ -1,12 +1,11 @@
-import { menuEl, postEl, devMenu, modalEl } from '../../support/locators'
-import { getFirstPosts, getTags, setHeaders } from '../../support/getData'
-import { postTitle, submitPost } from '../../support/complexLocators'
+import { menuEl, postEl, devMenu, modalEl, matrix } from '../../support/locators'
+import { getFirstPosts } from '../../support/getData'
+import { submitPost } from '../../support/complexLocators'
 
 describe('Edit News', () => {
-  const data = new Date().toLocaleTimeString()
+  const text = new Date().toLocaleTimeString()
   let allData = {
     posts: null,
-    tags: null,
   }
 
   before(() => {
@@ -16,27 +15,19 @@ describe('Edit News', () => {
       const { posts } = res.body.data
       allData = { ...allData, posts }
     })
-    cy.post(getTags()).then(res => {
-      const { tags } = res.body.data
-      allData = { ...allData, tags }
-    })
     cy.addRole()
     cy.get(menuEl.item).contains('News').click()
   })
 
   beforeEach(() => {
-    cy.setImgToken()
+    cy.setImgToken('manager')
   })
 
   it('Edit first post', () => {
     cy.get(postEl.posts).should('be.visible')
     const arr = ['Title image', 'Background image', 'Foreground image']
     cy.get(postEl.editPost).eq(1).click()
-    cy.elementIsPresent(postEl.toggle).then(val => {
-      if (val) {
-        cy.getId('isPublic').click()
-      }
-    })
+    cy.get(postEl.title).clear().type(text)
 
     cy.getId(postEl.annotation).should('not.be.visible')
     cy.get(devMenu.itemLabel).each(val => {
@@ -44,14 +35,32 @@ describe('Edit News', () => {
     })
   })
 
-  it('Save post changes', () => {
+  it('Save post', () => {
+    if (!localStorage.getItem('img_token')) {
+      cy.setImgToken('manager')
+    }
     cy.get(postEl.button).click()
     cy.get(modalEl.window).should('be.visible')
+
     cy.route2('/graphql', req => {
-      req.headers = setHeaders()
+      if (req.body.includes('updatePost')) {
+        // set superUser role
+        req.headers['dev-only-user-role'] = 'superUser'
+      }
+      // create alias if call getPost
+      if (req.body.includes('getPost')) {
+        req.alias = 'getPost'
+      }
     })
     cy.get(submitPost).click()
-    postTitle(0).should('contain.text', data)
+    cy.get(matrix.alert).should('not.be.visible')
+    // call alias when get response
+    cy.wait('@getPost').then(req => {
+      const { data } = JSON.parse(req.response.body)
+      const firstPost = data.post
+
+      expect(firstPost.title).to.equal(text)
+    })
   })
 
   it('Load new posts', () => {

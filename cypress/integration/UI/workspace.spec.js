@@ -7,7 +7,7 @@ describe('Workspace', () => {
   })
 
   beforeEach(() => {
-    cy.setImgToken()
+    cy.setImgToken('employee')
   })
 
   it('check all location', () => {
