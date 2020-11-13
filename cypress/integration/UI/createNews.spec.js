@@ -13,11 +13,10 @@ describe('Create news', () => {
     cy.visit('/')
   })
 
-  beforeEach(() => {
-    cy.setImgToken('manager')
-  })
-
   it('Visit post page', () => {
+    if (!localStorage.getItem('img_token')) {
+      cy.setImgToken('manager')
+    }
     cy.post(getTags()).then(res => {
       const { tags } = res.body.data
       allData = { ...allData, tags }
