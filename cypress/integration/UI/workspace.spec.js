@@ -41,6 +41,9 @@ describe('Workspace', () => {
   })
 
   it('check design mode', () => {
+    if (!localStorage.getItem('img_token')) {
+      cy.setImgToken('manager')
+    }
     cy.get(postEl.buttonSwitch).should('not.exist')
   })
 })
