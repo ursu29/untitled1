@@ -6,6 +6,10 @@ describe('Workspace', () => {
     cy.visit('/client/workspace-planner')
   })
 
+  beforeEach(() => {
+    cy.setImgToken('manager')
+  })
+
   it('check all location', () => {
     if (!localStorage.getItem('img_token')) {
       cy.setImgToken('manager')

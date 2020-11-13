@@ -19,6 +19,10 @@ describe('Edit News', () => {
     cy.get(menuEl.item).contains('News').click()
   })
 
+  beforeEach(() => {
+    cy.setImgToken('manager')
+  })
+
   it('Edit first post', () => {
     if (!localStorage.getItem('img_token')) {
       cy.setImgToken('manager')
