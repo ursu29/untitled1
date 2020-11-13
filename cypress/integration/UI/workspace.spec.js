@@ -7,16 +7,17 @@ describe('Workspace', () => {
   })
 
   beforeEach(() => {
-    cy.setImgToken('employee')
+    cy.setImgToken('manager')
   })
 
   it('check all location', () => {
+    if (!localStorage.getItem('img_token')) {
+      cy.setImgToken('manager')
+    }
     locations.forEach(el => {
       cy.get(workspace.tab).contains(el.title).click()
       if (el.title !== 'Saint-Petersburg') {
-        cy.spinnerDisappear(workspace.spinner)
         Object.values(workspace.disabled).forEach(el => cy.get(el).should('exist'))
-        cy.get(workspace.img).should('not.exist')
       }
       if (el.title === 'Saint-Petersburg') {
         Object.values(workspace.disabled).forEach(el => cy.get(el).should('not.exist'))
@@ -28,11 +29,12 @@ describe('Workspace', () => {
   })
 
   it('change Saint-Petersburg workspace', () => {
+    if (!localStorage.getItem('img_token')) {
+      cy.setImgToken('manager')
+    }
     cy.get(workspace.tab).contains(locations[0].title).click()
-    cy.spinnerDisappear(workspace.spinner)
     cy.get(devMenu.items).eq(0).click()
     cy.get(matrix.item).eq(1).click()
-    cy.spinnerDisappear(workspace.spinner)
     cy.get(workspace.img)
       .should('be.visible')
       .and(img => expect(img[0].naturalWidth).to.be.greaterThan(0))

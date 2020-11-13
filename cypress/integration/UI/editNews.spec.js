@@ -24,6 +24,7 @@ describe('Edit News', () => {
   })
 
   it('Edit first post', () => {
+    cy.setImgToken('manager')
     cy.get(postEl.posts).should('be.visible')
     const arr = ['Title image', 'Background image', 'Foreground image']
     cy.get(postEl.editPost).eq(1).click()
