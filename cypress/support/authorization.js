@@ -14,6 +14,9 @@ Cypress.Commands.add('setImgToken', employeeType => {
     req = cy.request({
       url: loginUrl,
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
       form: true,
       body: setBody('employee_username', 'employee_password', 'img_scope'),
     })
