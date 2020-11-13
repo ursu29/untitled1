@@ -11,6 +11,7 @@ describe('Create news', () => {
   before(() => {
     cy.setToken('manager')
     cy.visit('/')
+    cy.setImgToken('manager')
   })
 
   beforeEach(() => {
