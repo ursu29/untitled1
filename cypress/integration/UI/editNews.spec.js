@@ -17,6 +17,7 @@ describe('Edit News', () => {
     })
     cy.addRole()
     cy.get(menuEl.item).contains('News').click()
+    cy.setImgToken('manager')
   })
 
   it('Edit first post', () => {
