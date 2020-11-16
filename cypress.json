@@ -22,6 +22,6 @@
     "client_secret": "#{client_secret}#",
     "employee_password": "#{employee_password}#",
     "manager_password": "#{manager_password}#",
-    "img_scope": "#img_scope#"
+    "img_scope": "#{img_scope}#"
   }
 }
