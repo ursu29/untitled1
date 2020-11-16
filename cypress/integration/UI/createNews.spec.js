@@ -19,9 +19,6 @@ describe('Create news', () => {
   })
 
   it('Visit post page', () => {
-    console.log('TEST', process.env.REACT_APP_AZURE_CLIENT)
-    cy.log('TEST', process.env.REACT_APP_AZURE_CLIENT)
-
     if (!localStorage.getItem('img_token')) {
       cy.setImgToken('manager')
     }

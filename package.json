@@ -12,7 +12,6 @@
     "apollo-link-context": "^1.0.19",
     "apollo-link-error": "^1.1.12",
     "apollo-link-http": "^1.5.17",
-    "cypress-failed-log": "^2.7.0",
     "dayjs": "^1.8.34",
     "file-saver": "^2.0.2",
     "graphql": "^15.3.0",
