@@ -1,9 +1,9 @@
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import styled from 'styled-components'
-import { getSkillLink } from '../../paths'
 import { Access, Bookmark, Employee, Skill } from '../../types'
 import EmployeeLink from '../Employees/EmployeeLink'
+import { SkillLink } from '../Skills/SkillLink'
 
 const StyledBookmark = styled.div`
   color: #8d96ac;
@@ -16,18 +16,6 @@ const StyledBookmark = styled.div`
 const StyledTitle = styled.a`
   color: #4a4a4a;
   cursor: pointer;
-  &:hover {
-    color: #1890ff;
-  }
-`
-
-const StyledTag = styled.span`
-  color: #8d96ac;
-  cursor: pointer;
-  padding-right: 4px;
-  &:last-child {
-    padding-right: 0;
-  }
   &:hover {
     color: #1890ff;
   }
@@ -59,16 +47,8 @@ export default withRouter(
           <>
             <BulletDivider />
             <span>
-              {bookmark.skills.map((item) => (
-                <StyledTag
-                  key={item.id}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    history.push(getSkillLink(item.id))
-                  }}
-                >
-                  #{item.name}
-                </StyledTag>
+              {bookmark.skills.map(skill => (
+                <SkillLink key={skill.id} skill={skill} />
               ))}
             </span>
           </>

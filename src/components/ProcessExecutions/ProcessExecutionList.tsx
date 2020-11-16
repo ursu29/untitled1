@@ -1,5 +1,5 @@
 import { EnvironmentOutlined, SearchOutlined } from '@ant-design/icons'
-import { Button, Input, Table } from 'antd'
+import { Button, Input, Table, Badge } from 'antd'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import React, { useRef, useState } from 'react'
@@ -294,30 +294,53 @@ function ProcessList({ items, tabName }: Props) {
     columns.splice(7, 0, {
       key: 'responsible',
       title: 'Responsible',
-      render: (_, process) => (
-        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-          {process.activeStepEmployees
-            ?.sort((a: any, b: any) =>
+      render: (_, process) => {
+        const responsibleList = [
+          //@ts-ignore
+          ...new Set(
+            process.activeStepEmployees?.sort((a: any, b: any) =>
               a.email.toLowerCase() === user.employee.email.toLowerCase() ? -1 : 1,
-            )
-            .map((responsible: any) => (
-              <div
-                key={responsible.email}
-                style={{
-                  margin: '2px',
-                  padding: '2px',
-                  borderRadius: '50%',
-                  boxShadow:
-                    user.employee.email.toLowerCase() === responsible.email.toLowerCase()
-                      ? '#108ee9 0px 0px 2px 3px'
-                      : '',
-                }}
-              >
-                <EmployeeAvatar email={responsible.email} size="small" showTooltip />
-              </div>
-            ))}
-        </div>
-      ),
+            ),
+          ),
+        ]
+        return (
+          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+            {responsibleList.map((responsible: any) => {
+              const count = process.activeStepEmployees.filter(
+                (e: any) => e.email.toLowerCase() === responsible.email.toLowerCase(),
+              ).length
+
+              return (
+                <>
+                  <div
+                    key={responsible.email}
+                    style={{
+                      margin: '3px',
+                      borderRadius: '50%',
+                      boxShadow:
+                        user.employee.email.toLowerCase() === responsible.email.toLowerCase()
+                          ? '#108ee9 0px 0px 0px 3px'
+                          : '',
+                    }}
+                  >
+                    <EmployeeAvatar email={responsible.email} size="small" showTooltip />
+                  </div>
+                  <Badge
+                    count={count > 1 ? count : 0}
+                    size="small"
+                    offset={[-10, 15]}
+                    style={{
+                      backgroundColor: '#108ee9',
+                      marginRight: '-10px',
+                      position: 'absolute',
+                    }}
+                  />
+                </>
+              )
+            })}
+          </div>
+        )
+      },
       filters: [
         //@ts-ignore
         ...new Set(

@@ -101,6 +101,7 @@ const fragments = {
         }
         sendToTeamlead
         hasComment
+        send24hoursNotification
         parentSteps {
           id
         }
@@ -138,7 +139,13 @@ export type VacancyDetails = Exclude<Vacancy, 'locations' | 'project'> & {
 
 export type ProcessStepDetails = Pick<
   ProcessStep,
-  'id' | 'title' | 'description' | 'type' | 'sendToTeamlead' | 'hasComment'
+  | 'id'
+  | 'title'
+  | 'description'
+  | 'type'
+  | 'sendToTeamlead'
+  | 'hasComment'
+  | 'send24hoursNotification'
 > & {
   responsibleUsers: Pick<Employee, 'id' | 'name' | 'email' | 'isMe'>[] | null
   parentSteps: Pick<ProcessStep, 'id'>[]

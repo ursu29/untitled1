@@ -236,6 +236,17 @@ export default function EvaluationTable({
               </Tooltip>
             )}
           </>
+        ) : cellCode.split(' ')[1] === 'you' ? (
+          <div
+            style={{
+              color: 'lightgray',
+              width: '100%',
+              textAlign: 'center',
+              userSelect: 'none',
+            }}
+          >
+            -
+          </div>
         ) : comment ? (
           <div
             onClick={() => {

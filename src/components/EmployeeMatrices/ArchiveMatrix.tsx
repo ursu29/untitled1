@@ -52,6 +52,7 @@ export default function ArchiveMatrix({
       versionsList={data?.archivedMatrixVersions.map(e => ({ id: e.id, createdAt: e.createdAt }))}
       // isButtonVisible={createSnapshotShown}
       isButtonVisible={true}
+      tooltip="Your current matrix view will be archived but it will not change on your page"
     />
   )
 }

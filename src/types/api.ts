@@ -83,6 +83,12 @@ export interface File {
   updatedAt: string
   size: number
   type: 'presentation' | 'video' | 'image'
+  details: FileDetails | null
+}
+
+export interface FileDetails {
+  id: string
+  skills: Skill[]
 }
 
 export interface Bookmark {
@@ -290,6 +296,7 @@ export interface ProcessStep {
   description: string
   sendToTeamlead: boolean
   hasComment: boolean
+  send24hoursNotification: boolean
 }
 
 export interface ProcessExecution {

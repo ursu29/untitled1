@@ -11,6 +11,8 @@ import Oauth from './Oauth'
 import Root from './Root'
 import { TokenProvider } from '../../utils/withToken'
 import { onError } from 'apollo-link-error'
+import { YMInitializer } from 'react-yandex-metrika'
+import Metrics from './Metrics'
 
 const timezoneOffset = new Date().getTimezoneOffset()
 const timezoneOffsetKey = 'x-timezone-offset'
@@ -62,9 +64,14 @@ const App: React.FC = () => {
               <LastLocationProvider>
                 <TokenProvider token={token}>
                   <Root tokenExpired={tokenExpired} />
+                  <Metrics />
                 </TokenProvider>
               </LastLocationProvider>
             </ApolloProvider>
+            <YMInitializer
+              accounts={[Number(process.env.REACT_APP_YANDEX_METRIKA)]}
+              options={{ webvisor: true }}
+            />
           </Router>
         )
       }}
