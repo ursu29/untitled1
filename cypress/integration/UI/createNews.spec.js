@@ -14,10 +14,6 @@ describe('Create news', () => {
     cy.setImgToken('manager')
   })
 
-  beforeEach(() => {
-    cy.setImgToken('manager')
-  })
-
   it('Visit post page', () => {
     if (!localStorage.getItem('img_token')) {
       cy.setImgToken('manager')
