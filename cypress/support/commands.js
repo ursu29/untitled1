@@ -91,3 +91,9 @@ Cypress.Commands.add('haveClass', (name, className) =>
 Cypress.Commands.add('openProfile', nameAndSurname => {
   cy.visit('/client/employees/' + nameAndSurname + '@sidenis.com/')
 })
+
+Cypress.Commands.add('checkImgToken', name => {
+  if (!localStorage.getItem('img_token')) {
+    cy.setImgToken(name)
+  }
+})

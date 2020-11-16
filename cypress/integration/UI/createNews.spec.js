@@ -15,9 +15,7 @@ describe('Create news', () => {
   })
 
   it('Visit post page', () => {
-    if (!localStorage.getItem('img_token')) {
-      cy.setImgToken('manager')
-    }
+    cy.checkImgToken('manager')
     cy.post(getTags()).then(res => {
       const { tags } = res.body.data
       allData = { ...allData, tags }
@@ -27,18 +25,14 @@ describe('Create news', () => {
   })
 
   it('Create new post', () => {
-    if (!localStorage.getItem('img_token')) {
-      cy.setImgToken('manager')
-    }
+    cy.checkImgToken('manager')
     cy.get(postEl.posts).should('be.visible')
     cy.get(postEl.editPost).eq(0).click()
     cy.get(postEl.title).type(text)
   })
 
   it('Check tags', () => {
-    if (!localStorage.getItem('img_token')) {
-      cy.setImgToken('manager')
-    }
+    cy.checkImgToken('manager')
     const allTags = allData.tags.map(el => el.name)
     const firstTag = allTags[0]
 
@@ -53,9 +47,7 @@ describe('Create news', () => {
   })
 
   it('Save post', () => {
-    if (!localStorage.getItem('img_token')) {
-      cy.setImgToken('manager')
-    }
+    cy.checkImgToken('manager')
     cy.get(postEl.button).click()
     cy.get(modalEl.window).should('be.visible')
 

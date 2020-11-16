@@ -4,16 +4,11 @@ describe('Workspace', () => {
   before(() => {
     cy.setToken('manager')
     cy.visit('/client/workspace-planner')
-  })
-
-  beforeEach(() => {
-    cy.setImgToken('manager')
+    cy.checkImgToken('manager')
   })
 
   it('check all location', () => {
-    if (!localStorage.getItem('img_token')) {
-      cy.setImgToken('manager')
-    }
+    cy.checkImgToken('manager')
     locations.forEach(el => {
       cy.get(workspace.tab).contains(el.title).click()
       if (el.title !== 'Saint-Petersburg') {
@@ -29,9 +24,7 @@ describe('Workspace', () => {
   })
 
   it('change Saint-Petersburg workspace', () => {
-    if (!localStorage.getItem('img_token')) {
-      cy.setImgToken('manager')
-    }
+    cy.checkImgToken('manager')
     cy.get(workspace.tab).contains(locations[0].title).click()
     cy.get(devMenu.items).eq(0).click()
     cy.get(matrix.item).eq(1).click()
@@ -41,9 +34,7 @@ describe('Workspace', () => {
   })
 
   it('check design mode', () => {
-    if (!localStorage.getItem('img_token')) {
-      cy.setImgToken('manager')
-    }
+    cy.checkImgToken('manager')
     cy.get(postEl.buttonSwitch).should('not.exist')
   })
 })

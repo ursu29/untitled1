@@ -21,9 +21,7 @@ describe('Edit News', () => {
   })
 
   it('Edit first post', () => {
-    if (!localStorage.getItem('img_token')) {
-      cy.setImgToken('manager')
-    }
+    cy.checkImgToken('manager')
     cy.get(postEl.posts).should('be.visible')
     const arr = ['Title image', 'Background image', 'Foreground image']
     cy.get(postEl.editPost).eq(1).click()
@@ -36,9 +34,7 @@ describe('Edit News', () => {
   })
 
   it('Save post', () => {
-    if (!localStorage.getItem('img_token')) {
-      cy.setImgToken('manager')
-    }
+    cy.checkImgToken('manager')
     cy.get(postEl.button).click()
     cy.get(modalEl.window).should('be.visible')
 
@@ -64,9 +60,7 @@ describe('Edit News', () => {
   })
 
   it('Load new posts', () => {
-    if (!localStorage.getItem('img_token')) {
-      cy.setImgToken('manager')
-    }
+    cy.checkImgToken('manager')
     cy.scrollTo('bottom')
     cy.get(postEl.loader).should('not.be.visible')
     cy.get(postEl.post).its('length').should('be.greaterThan', allData.posts.length)
