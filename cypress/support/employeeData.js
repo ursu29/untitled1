@@ -41,6 +41,7 @@ export const skill = {
 }
 
 export const level = {
+  description: 'description',
   id: 'some id',
   index: 0,
   name: 'Wants to know',
