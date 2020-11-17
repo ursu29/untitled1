@@ -28,6 +28,7 @@ describe('Check Profile geEmployeeAllData', () => {
   })
 
   it('getEmployee response', () => {
+    //filter requests
     cy.getResponse(['getEmployee', 'phoneNumber', 'isMe'], 'elias')
     cy.visit('/client/profile')
 
