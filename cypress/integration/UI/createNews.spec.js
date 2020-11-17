@@ -11,13 +11,11 @@ describe('Create news', () => {
   before(() => {
     cy.setToken('manager')
     cy.visit('/')
-  })
-
-  beforeEach(() => {
     cy.setImgToken('manager')
   })
 
   it('Visit post page', () => {
+    cy.checkImgToken('manager')
     cy.post(getTags()).then(res => {
       const { tags } = res.body.data
       allData = { ...allData, tags }
@@ -27,12 +25,14 @@ describe('Create news', () => {
   })
 
   it('Create new post', () => {
+    cy.checkImgToken('manager')
     cy.get(postEl.posts).should('be.visible')
     cy.get(postEl.editPost).eq(0).click()
     cy.get(postEl.title).type(text)
   })
 
   it('Check tags', () => {
+    cy.checkImgToken('manager')
     const allTags = allData.tags.map(el => el.name)
     const firstTag = allTags[0]
 
@@ -41,16 +41,13 @@ describe('Create news', () => {
 
     cy.get(inputTag).click()
     cy.checkTextInArrayEl(matrix.item, allTags, false)
-    allData.selectTag = cy.get(matrix.item).eq(0)
-    allData.selectTag.click()
+    cy.get(matrix.item).eq(0).click()
     cy.get(postEl.delete).should('be.visible')
     cy.toEqualText(postEl.editTag, firstTag)
   })
 
   it('Save post', () => {
-    if (!localStorage.getItem('img_token')) {
-      cy.setImgToken('manager')
-    }
+    cy.checkImgToken('manager')
     cy.get(postEl.button).click()
     cy.get(modalEl.window).should('be.visible')
 
@@ -65,7 +62,6 @@ describe('Create news', () => {
       }
     })
     cy.get(submitPost).click()
-    cy.get(matrix.alert).should('not.be.visible')
     // call alias when get response
     cy.wait('@getPost').then(req => {
       const { data } = JSON.parse(req.response.body)
