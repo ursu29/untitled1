@@ -40,7 +40,7 @@ export default function VersionSnapshot({
           <Tooltip placement="topLeft" title={tooltip}>
             <Popconfirm
               placement="topLeft"
-              title="Current version will be saved in the archive. Do you want to continue?"
+              title="Current version will be saved in the archive. This can be done once this document is discussed and confirmed by your Agile Manager? Do you want to continue?"
               onConfirm={onCreateSnapshot}
               okText="Yes"
               cancelText="No"
