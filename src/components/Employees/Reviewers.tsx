@@ -45,13 +45,15 @@ export default function Reviewers(props: Props) {
           onMouseEnter={() => setIsSpanShown(true)}
           onMouseLeave={() => setIsSpanShown(false)}
         >
-          {reviewers?.map(reviewer => (
-            <div key={reviewer.id} style={{ marginLeft: '3px' }}>
-              <Tooltip key={reviewer.id} placement="top" title={reviewer.name}>
-                <Avatar src={reviewer.avatar} shape="circle" size="small" />
-              </Tooltip>
-            </div>
-          ))}
+          {reviewers
+            ?.filter(e => !!e)
+            ?.map(reviewer => (
+              <div key={reviewer.id} style={{ marginLeft: '3px' }}>
+                <Tooltip key={reviewer.id} placement="top" title={reviewer.name}>
+                  <Avatar src={reviewer.avatar} shape="circle" size="small" />
+                </Tooltip>
+              </div>
+            ))}
         </div>
       )}
 
