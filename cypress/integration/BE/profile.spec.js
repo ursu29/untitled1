@@ -55,7 +55,7 @@ describe('Check getEmployeeExperiences', () => {
     cy.visit('/client/profile')
   })
 
-  it.only('getEmployeeExperiences response', () => {
+  it('getEmployeeExperiences response', () => {
     cy.getResponse(['getEmployeeExperiences'], 'elias')
     cy.visit('/client/profile')
 
