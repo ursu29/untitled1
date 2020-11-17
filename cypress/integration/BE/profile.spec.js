@@ -5,6 +5,7 @@ import {
   getAllEmployeeData,
   getEmployeeData,
   email,
+  matricesAccess,
   employeeData,
   level,
 } from '../../support/employeeData'
@@ -74,6 +75,19 @@ describe(`Check employee Levels`, () => {
       expect(response.data.levels).to.be.a('array')
       Object.keys(firstLevel).filter(el => expect(Object.keys(level)).includes(el))
     })
+  })
+})
+
+describe(`Check employee matricesAccess`, () => {
+  before(() => {
+    cy.setToken('employee')
+  })
+
+  it('matricesAccess response', () => {
+    cy.getResponse(['matricesAccess'], 'alias')
+    cy.visit('/client/profile')
+
+    cy.compareTwoJson('alias', matricesAccess)
   })
 })
 

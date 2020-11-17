@@ -1,6 +1,9 @@
 export const email = el =>
   el === 'manager' ? 'test.manager@sidenis.com' : 'test.employee@sidenis.com'
 
+const defaultReadAccess = { read: false, __typename: 'Access' }
+const defaultWriteAccess = { write: false, __typename: 'Access' }
+
 export const employeeData = {
   employee: null,
 }
@@ -31,6 +34,15 @@ export const getProject = (id, __typename) => ({
 })
 
 export const employeeAccess = { read: true, write: true, __typename: 'Access' }
+
+export const matricesAccess = {
+  data: {
+    matricesAccess: defaultReadAccess,
+    onboardingAccess: defaultReadAccess,
+    processExecutionsAccess: defaultReadAccess,
+    processesAccess: defaultWriteAccess,
+  },
+}
 
 export const skill = {
   description: 'some text',
