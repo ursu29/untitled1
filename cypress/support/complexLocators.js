@@ -65,3 +65,39 @@ Cypress.Commands.add('spinnerDisappear', el => {
   cy.get(el).should('be.visible')
   cy.get(el).should('not.be.visible')
 })
+
+Cypress.Commands.add('getResponse', (arg, eliasName) => {
+  cy.route2('/graphql', req => {
+    if (arg.every(el => req.body.includes(el))) {
+      req.alias = eliasName
+    }
+  })
+})
+
+Cypress.Commands.add('compereTwoJson', (alias, expectJson) => {
+  cy.wait(`@${alias}`).then(val => {
+    if (val.response) {
+      const res = JSON.parse(val.response.body)
+
+      expect(res).to.deep.equal(expectJson)
+
+      return
+    }
+    console.log('ERROR:', val)
+  })
+})
+
+Cypress.Commands.add('waitGraphql', (arg, operationName) => {
+  cy.route2({
+    method: 'POST',
+    url: '/graphql',
+    onResponse: ({ request }) => {
+      debugger
+      if (arg.every(el => request.body.includes(el))) {
+        cy.emit(operationName)
+      }
+    },
+  })
+
+  cy.waitFor(operationName)
+})
