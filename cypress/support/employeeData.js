@@ -1,17 +1,8 @@
+export const email = el =>
+  el === 'manager' ? 'test.manager@sidenis.com' : 'test.employee@sidenis.com'
+
 export const employeeData = {
-  agileManager: null,
-  avatar: null,
-  bonuses: 0,
-  country: 'Russia',
-  email: 'test.employee@sidenis.com',
-  id: '1bf931df-2015-4516-ac33-0d2caddc7df2',
-  isMe: true,
-  location: 'Saint-Petersburg',
-  name: 'Test Employee',
-  phoneNumber: '+7(905)209-83-92',
-  position: 'Automation QA',
-  status: 'Unavailable',
-  __typename: 'Employee',
+  employee: null,
 }
 
 export const getEmployeeData = (id, __typename) => ({
@@ -27,7 +18,7 @@ export const getEmployeeData = (id, __typename) => ({
 export const getAllEmployeeData = __typename => ({
   data: {
     employeeByEmail: {
-      ...employeeData,
+      ...employeeData.employee,
       __typename,
     },
   },

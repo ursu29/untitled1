@@ -3,60 +3,68 @@ import {
   experience,
   getProject,
   getAllEmployeeData,
-  employeeData,
   getEmployeeData,
+  email,
+  employeeData,
 } from '../../support/employeeData'
+import { getEmployee } from '../../support/getData'
 
-describe('Check profile getEmployee', () => {
+describe(`Check employee getEmployee`, () => {
   before(() => {
     cy.setToken('employee')
-    cy.visit('/client/profile')
+    cy.post(getEmployee(email('employee'))).then(res => {
+      const { data } = res.body
+
+      employeeData.employee = { ...data.employeeByEmail }
+    })
   })
 
   it('getEmployee response', () => {
+    const { id, __typename } = employeeData.employee
     cy.getResponse(['getEmployee', 'activeProcessExecutions'], 'elias')
     cy.visit('/client/profile')
 
-    cy.compereTwoJson('elias', getEmployeeData(employeeData.id, employeeData.__typename))
+    cy.compareTwoJson('elias', getEmployeeData(id, __typename))
   })
 })
-
-describe('Check Profile geEmployeeAllData', () => {
+describe(`Check employee geEmployeeAllData`, () => {
   before(() => {
     cy.setToken('employee')
-    cy.visit('/client/profile')
   })
 
   it('getEmployee response', () => {
+    const { __typename } = employeeData.employee
     //filter requests
     cy.getResponse(['getEmployee', 'phoneNumber', 'isMe'], 'elias')
     cy.visit('/client/profile')
 
-    cy.compereTwoJson('elias', getAllEmployeeData(employeeData.__typename))
+    cy.compareTwoJson('elias', getAllEmployeeData(__typename))
   })
 })
 
-describe('Check GetEmployeeProjects', () => {
+describe(`Check employee GetEmployeeProjects`, () => {
   before(() => {
     cy.setToken('employee')
-    cy.visit('/client/profile')
   })
 
   it('GetEmployeeProjects response', () => {
+    const { id, __typename } = employeeData.employee
+
     cy.getResponse(['GetEmployeeProjects'], 'elias')
     cy.visit('/client/profile')
 
-    cy.compereTwoJson('elias', getProject(employeeData.id, employeeData.__typename))
+    cy.compareTwoJson('elias', getProject(id, __typename))
   })
 })
 
-describe('Check getEmployeeExperiences', () => {
+describe(`Check employee getEmployeeExperiences`, () => {
   before(() => {
     cy.setToken('employee')
-    cy.visit('/client/profile')
   })
 
   it('getEmployeeExperiences response', () => {
+    const { id, name } = employeeData.employee
+
     cy.getResponse(['getEmployeeExperiences'], 'elias')
     cy.visit('/client/profile')
 
@@ -65,8 +73,8 @@ describe('Check getEmployeeExperiences', () => {
       const employee = response.data.employees[0]
 
       expect(response.data.employees).to.be.a('array')
-      expect(employee.id).to.equal(employeeData.id)
-      expect(employee.name).to.equal(employeeData.name)
+      expect(employee.id).to.equal(id)
+      expect(employee.name).to.equal(name)
 
       expect(employee.access).to.deep.equal(employeeAccess)
       Object.keys(employee.experiences[0]).filter(el =>

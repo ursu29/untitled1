@@ -66,15 +66,15 @@ Cypress.Commands.add('spinnerDisappear', el => {
   cy.get(el).should('not.be.visible')
 })
 
-Cypress.Commands.add('getResponse', (arg, eliasName) => {
+Cypress.Commands.add('getResponse', (arg, aliasName) => {
   cy.route2('/graphql', req => {
     if (arg.every(el => req.body.includes(el))) {
-      req.alias = eliasName
+      req.alias = aliasName
     }
   })
 })
 
-Cypress.Commands.add('compereTwoJson', (alias, expectJson) => {
+Cypress.Commands.add('compareTwoJson', (alias, expectJson) => {
   cy.wait(`@${alias}`).then(val => {
     if (val.response) {
       const res = JSON.parse(val.response.body)
@@ -87,12 +87,22 @@ Cypress.Commands.add('compereTwoJson', (alias, expectJson) => {
   })
 })
 
+Cypress.Commands.add('checkRequest', req => {
+  if (req.headers) {
+    //const request = JSON.parse(req.body)
+    //const getRequest = request.query.replace('↵', '')
+    //arg.forEach(el => getRequest.should('have.text', el))
+
+    return
+  }
+  console.error('headers null:', req)
+})
+
 Cypress.Commands.add('waitGraphql', (arg, operationName) => {
   cy.route2({
     method: 'POST',
     url: '/graphql',
     onResponse: ({ request }) => {
-      debugger
       if (arg.every(el => request.body.includes(el))) {
         cy.emit(operationName)
       }

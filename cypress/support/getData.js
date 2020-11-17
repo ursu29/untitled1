@@ -40,6 +40,13 @@ export const getEmployeeExperiences = id => ({
     'query getEmployeeExperiences($input: EmployeesInput) {employees(input: $input) { id name experiences { ...ExperienceDetails comment } access {read write}}}fragment ExperienceDetails on Experience {id level {id index name} skill {id name description isMatrixOnly }updatedAt}',
 })
 
+export const getEmployee = email => ({
+  operationName: 'getEmployee',
+  variables: { email: email },
+  query:
+    'query getEmployee($email: String!) {employeeByEmail(email: $email) { ...EmployeeDetails  avatar agileManager {...EmployeeDetails __typename} bonuses status  __typename}} fragment EmployeeDetails on Employee {id name location country position phoneNumber email isMe __typename}',
+})
+
 export const getAllSkills = () => ({
   operationName: 'getSkills',
   variables: {},
