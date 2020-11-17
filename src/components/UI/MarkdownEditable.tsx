@@ -3,6 +3,10 @@ import { Typography, Popconfirm } from 'antd'
 import Button from '../UI/Button'
 import MarkdownEditor from '../UI/MarkdownEditor'
 import markdownToHtml from '../../utils/markdownToHtml'
+import useMarkdownInjection from '../../utils/useMarkdownInjection'
+import useMarkdownLinkClick from '../../utils/useMarkdownLinkClick'
+
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 
 interface Props {
   data: string
@@ -11,9 +15,13 @@ interface Props {
   onEdit?: Function
 }
 
-export default function MarkdownEditable({ data, editable, handleSave }: Props) {
+function MarkdownEditable({ data, editable, handleSave, history }: Props & RouteComponentProps) {
   const [isEditing, toggleIsEditing] = useState(false)
   const [descriptionMarkdown, setDescriptionMarkdown] = useState(data)
+  const [delay, setDelay] = useState(0)
+
+  useMarkdownInjection(isEditing, delay)
+  useMarkdownLinkClick(history, 'markdown_editable')
 
   const isTouched = descriptionMarkdown !== data
 
@@ -66,6 +74,7 @@ export default function MarkdownEditable({ data, editable, handleSave }: Props) 
           disabled={!isTouched}
           onClick={() => {
             handleSave(descriptionMarkdown.trim())
+            setDelay(600)
             toggleIsEditing(!isEditing)
           }}
           style={{ marginLeft: '10px' }}
@@ -75,7 +84,7 @@ export default function MarkdownEditable({ data, editable, handleSave }: Props) 
       </div>
     </div>
   ) : (
-    <div style={{ display: 'flex' }}>
+    <div id="markdown_editable" style={{ display: 'flex' }}>
       <Typography.Paragraph style={{ marginBottom: '30px', maxWidth: '96%' }}>
         {data ? (
           <div
@@ -94,9 +103,14 @@ export default function MarkdownEditable({ data, editable, handleSave }: Props) 
           icon="edit"
           type="link"
           style={{ marginLeft: '10px' }}
-          onClick={() => toggleIsEditing(!isEditing)}
+          onClick={() => {
+            setDelay(300)
+            toggleIsEditing(!isEditing)
+          }}
         />
       )}
     </div>
   )
 }
+
+export default withRouter(MarkdownEditable)

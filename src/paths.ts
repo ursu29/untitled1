@@ -5,6 +5,7 @@ const PATHS = {
   ONBOARDING: '/onboarding',
   EMPLOYEES: '/employees',
   GUILDS: '/guilds',
+  GUILDS_INFO: '/guilds-info',
   PROJECTS: '/projects',
   SKILLS: '/skills',
   STATISTICS: '/stats',

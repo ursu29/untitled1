@@ -16,6 +16,7 @@ const query = gql`
       id
       strapiId
       email
+      strapiGroupsMembership
     }
     isAuthenticated
   }

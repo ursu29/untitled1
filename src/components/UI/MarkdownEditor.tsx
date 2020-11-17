@@ -16,6 +16,10 @@ const Wrapper = styled.div<{ short?: boolean }>`
   .CodeMirror-scroll {
     min-height: ${props => (props.short ? '150px' : '300px')};
   }
+  .CodeMirror-sizer {
+    min-height: ${props => (props.short ? '150px !important' : '300px !important')};
+    max-height: 70vh;
+  }
 `
 
 interface Props {

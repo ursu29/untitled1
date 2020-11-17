@@ -1,25 +1,22 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import {
-  getWikiPage,
-  WikiPageQueryType,
-  updateWikiPage,
-  wikiEditingAccess,
-} from '../../queries/wiki'
-import { useLocation, RouteComponentProps, withRouter } from 'react-router-dom'
+import { getWikiPage, WikiPageQueryType, updateWikiPage } from '../../queries/wiki'
+import { useLocation } from 'react-router-dom'
 import Controls from '../UI/Controls'
 import PageContent from '../UI/PageContent'
 import Back from '../UI/Back'
 import TitleEditable from '../UI/TitleEditable'
 import MarkdownEditable from '../UI/MarkdownEditable'
 import message from '../../message'
+import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 
-export default withRouter(({ history }: RouteComponentProps) => {
+export default function Page() {
   const location = useLocation()
   const variables = { input: { path: location.pathname } }
 
-  // Get editing access
-  const { data: dataEditing } = useQuery(wikiEditingAccess)
+  const writeAccess = useStrapiGroupCheck(
+    location.pathname.startsWith('/guilds-info') ? 'TECH_PORTAL' : 'HR_RU',
+  )
 
   // Get page
   const { data, loading, error } = useQuery<WikiPageQueryType>(getWikiPage, {
@@ -38,42 +35,19 @@ export default withRouter(({ history }: RouteComponentProps) => {
     update({ variables: { input: { id: data?.wikiPage?.id, ...value } } })
   }
 
-  useEffect(() => {
-    const openLink = (e: any) => {
-      if (e.target && 'href' in e.target && e.target.tabIndex !== -1) {
-        e.preventDefault()
-
-        //@ts-ignore
-        const link = e.target.href
-
-        if (link.startsWith(window.location.origin)) {
-          history.push('/' + link.split('/client/').slice(1).join(''))
-        } else {
-          window.open(link)
-        }
-      }
-    }
-
-    document.getElementById('markdown_editable')?.addEventListener('click', openLink)
-    return () =>
-      document.getElementById('markdown_editable')?.removeEventListener('click', openLink)
-  })
-
   return (
     <PageContent error={error} loading={loading} notFound={!data?.wikiPage}>
       <Controls back={<Back />} />
       <TitleEditable
         data={data?.wikiPage?.title || ''}
-        editable={dataEditing?.wikiEditingAccess.write}
+        editable={writeAccess}
         handleSave={(data: string) => handleSave({ title: data })}
       />
-      <div id="markdown_editable" style={{ maxWidth: '600px' }}>
-        <MarkdownEditable
-          data={data?.wikiPage?.body || ''}
-          editable={dataEditing?.wikiEditingAccess.write}
-          handleSave={(data: string) => handleSave({ body: data })}
-        />
-      </div>
+      <MarkdownEditable
+        data={data?.wikiPage?.body || ''}
+        editable={writeAccess}
+        handleSave={(data: string) => handleSave({ body: data })}
+      />
     </PageContent>
   )
-})
+}
