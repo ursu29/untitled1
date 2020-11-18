@@ -92,6 +92,10 @@ Cypress.Commands.add('openProfile', nameAndSurname => {
   cy.visit('/client/employees/' + nameAndSurname + '@sidenis.com/')
 })
 
+Cypress.Commands.add('compareObjectsKeys', (firstObj, secondObj) => {
+  Object.keys(firstObj).filter(el => expect(Object.keys(secondObj)).includes(el))
+})
+
 Cypress.Commands.add('checkImgToken', name => {
   if (!localStorage.getItem('img_token')) {
     cy.setImgToken(name)

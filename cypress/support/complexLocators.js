@@ -19,6 +19,14 @@ export const filterSkillsName = (name, arr) =>
     .map(val => val.skill.name)
     .sort()
 
+export const hasKeyAndValue = (obj, key, value) => {
+  expect(obj.hasOwnProperty(key)).equal(true)
+  expect(obj[key]).equal(value[key])
+}
+
+export const checkKeyValueExist = (obj, values) =>
+  Object.keys(values).forEach(el => hasKeyAndValue(values, el, obj))
+
 Cypress.Commands.add('checkIfElementPresent', (visibleEl, text) => {
   cy.document().then(doc => {
     if (doc.querySelectorAll(`[data-cy=${visibleEl}]`).length) {
@@ -85,17 +93,6 @@ Cypress.Commands.add('compareTwoJson', (alias, expectJson) => {
     }
     console.log('ERROR:', val)
   })
-})
-
-Cypress.Commands.add('checkRequest', req => {
-  if (req.headers) {
-    //const request = JSON.parse(req.body)
-    //const getRequest = request.query.replace('↵', '')
-    //arg.forEach(el => getRequest.should('have.text', el))
-
-    return
-  }
-  console.error('headers null:', req)
 })
 
 Cypress.Commands.add('waitGraphql', (arg, operationName) => {

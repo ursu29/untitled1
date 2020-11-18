@@ -1,6 +1,4 @@
 import {
-  employeeAccess,
-  experience,
   getProject,
   getAllEmployeeData,
   getEmployeeData,
@@ -8,7 +6,7 @@ import {
   matricesAccess,
   employeeData,
   level,
-} from '../../support/employeeData'
+} from '../../support/client/employeeData'
 import { getEmployee } from '../../support/getData'
 
 describe(`Check employee getEmployee`, () => {
@@ -26,7 +24,7 @@ describe(`Check employee getEmployee`, () => {
     cy.getResponse(['getEmployee', 'activeProcessExecutions'], 'alias')
     cy.visit('/client/profile')
 
-    cy.compareTwoJson('alias', getEmployeeData(id, __typename))
+    cy.compareTwoJson('alias', getEmployeeData(id, __typename), [id, __typename])
   })
 })
 describe(`Check employee geEmployeeAllData`, () => {
@@ -88,32 +86,5 @@ describe(`Check employee matricesAccess`, () => {
     cy.visit('/client/profile')
 
     cy.compareTwoJson('alias', matricesAccess)
-  })
-})
-
-describe(`Check employee getEmployeeExperiences`, () => {
-  before(() => {
-    cy.setToken('employee')
-  })
-
-  it('getEmployeeExperiences response', () => {
-    const { id, name } = employeeData.employee
-
-    cy.getResponse(['getEmployeeExperiences'], 'alias')
-    cy.visit('/client/profile')
-
-    cy.wait('@alias').then(req => {
-      const response = JSON.parse(req.response.body)
-      const employee = response.data.employees[0]
-
-      expect(response.data.employees).to.be.a('array')
-      expect(employee.id).to.equal(id)
-      expect(employee.name).to.equal(name)
-
-      expect(employee.access).to.deep.equal(employeeAccess)
-      Object.keys(employee.experiences[0]).filter(el =>
-        expect(Object.keys(experience)).includes(el),
-      )
-    })
   })
 })
