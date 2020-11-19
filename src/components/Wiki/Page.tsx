@@ -15,7 +15,7 @@ export default function Page() {
   const variables = { input: { path: location.pathname } }
 
   const writeAccess = useStrapiGroupCheck(
-    location.pathname.startsWith('/guilds-info') ? 'TECH_PORTAL' : 'HR_RU',
+    location.pathname.startsWith('/guilds-info') ? 'TECH_PORTAL' : 'WIKI_EDITORS',
   )
 
   // Get page
