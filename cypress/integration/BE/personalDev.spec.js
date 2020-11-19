@@ -1,4 +1,9 @@
-import { developmentRolesData, guildContributionData, plan, planData} from '../../support/client/devPlan'
+import {
+  developmentRolesData,
+  guildContributionData,
+  plan,
+  planData,
+} from '../../support/client/devPlan'
 
 describe(`Check employee Personal development`, () => {
   let response
@@ -48,8 +53,6 @@ describe(`Check getDevelopmentPlans`, () => {
     Object.entries(developmentRoles).forEach(el => {
       if (!el[0].includes('__typename')) {
         expect(el[1]).to.be.a('boolean')
-
-        return
       }
     })
     expect(developmentRoles.__typename).equal(developmentRolesData.__typename)
@@ -62,8 +65,6 @@ describe(`Check getDevelopmentPlans`, () => {
     Object.entries(guildContribution).forEach(el => {
       if (!['__typename', 'custom'].some(val => el[0].includes(val))) {
         expect(el[1]).to.be.a('boolean')
-
-        return
       }
     })
     expect(guildContribution.__typename).equal(guildContributionData.__typename)

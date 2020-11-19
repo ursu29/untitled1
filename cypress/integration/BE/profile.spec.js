@@ -1,22 +1,15 @@
 import {
   getProject,
-  getAllEmployeeData,
   getEmployeeData,
-  email,
   matricesAccess,
   employeeData,
   level,
 } from '../../support/client/employeeData'
-import { getEmployee } from '../../support/getData'
+import { checkKeyValueExist } from '../../support/complexLocators'
 
 describe(`Check employee getEmployee`, () => {
   before(() => {
     cy.setToken('employee')
-    cy.post(getEmployee(email('employee'))).then(res => {
-      const { data } = res.body
-
-      employeeData.employee = { ...data.employeeByEmail }
-    })
   })
 
   it('getEmployee response', () => {
@@ -28,17 +21,17 @@ describe(`Check employee getEmployee`, () => {
   })
 })
 describe(`Check employee geEmployeeAllData`, () => {
+  let response
+
   before(() => {
     cy.setToken('employee')
+    cy.getResponse(['getEmployee', 'phoneNumber', 'isMe'], 'alias')
+    cy.visit('/client/profile')
+    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
   })
 
   it('getEmployee response', () => {
-    const { __typename } = employeeData.employee
-    //filter requests
-    cy.getResponse(['getEmployee', 'phoneNumber', 'isMe'], 'alias')
-    cy.visit('/client/profile')
-
-    cy.compareTwoJson('alias', getAllEmployeeData(__typename))
+    checkKeyValueExist(response.employeeByEmail, employeeData.employee)
   })
 })
 

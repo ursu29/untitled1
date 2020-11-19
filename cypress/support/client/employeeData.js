@@ -5,7 +5,20 @@ const defaultReadAccess = { read: false, __typename: 'Access' }
 const defaultWriteAccess = { write: false, __typename: 'Access' }
 
 export const employeeData = {
-  employee: null,
+  employee: {
+    agileManager: null,
+    bonuses: 0,
+    country: 'Russia',
+    email: 'test.employee@sidenis.com',
+    id: '1bf931df-2015-4516-ac33-0d2caddc7df2',
+    isMe: true,
+    location: 'Saint-Petersburg',
+    name: 'Test Employee',
+    phoneNumber: '+7(905)209-83-92',
+    position: 'Automation QA',
+    status: 'Unavailable',
+    __typename: 'Employee',
+  },
 }
 
 export const getEmployeeData = (id, __typename) => ({
