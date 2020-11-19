@@ -27,7 +27,6 @@ export default function EmployeeCard(props: Props) {
           <Link to={getEmployeeLink(employee.email)} data-cy="employee_email">
             <Card hoverable bordered={true} bodyStyle={{ padding: 10, paddingRight: 16 }}>
               <Card.Meta
-                data-cy="employee_card"
                 title={employee.name}
                 description={employee.position}
                 avatar={

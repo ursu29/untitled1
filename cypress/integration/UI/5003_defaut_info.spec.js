@@ -49,12 +49,12 @@ describe('Checking default information', () => {
     cy.checkIfElementPresent('bonuses', profile.bonuses)
   })
 
-  it.skip('Information about employee manager', () => {
+  it('Information about employee manager', () => {
     const { manager } = allData.manager.employees[0]
 
     cy.getElement('employee_card').contains(manager.name)
     cy.getElement('employee_card').contains(manager.position)
-    cy.getElement('employee_avatar').should('be.visible')
+    cy.getElement('avatar').should('be.visible')
   })
 
   it('Check the Projects field', () => {

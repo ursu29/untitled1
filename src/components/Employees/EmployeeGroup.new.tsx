@@ -20,7 +20,7 @@ function EmployeeGroup({ title, employees }: Props) {
   }
 
   return (
-    <div>
+    <div data-cy="employee_card">
       <div
         style={{
           display: 'flex',
