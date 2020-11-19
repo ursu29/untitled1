@@ -20,9 +20,11 @@ const VerticalLine = styled.div`
 export default function PageScheme({
   paths,
   sectionPath,
+  rootPath,
 }: {
   paths: string[]
   sectionPath: string
+  rootPath?: string
 }) {
   const isSingleColumn = useMediaQuery({ maxWidth: 650 })
   const { Panel } = Collapse
@@ -32,7 +34,9 @@ export default function PageScheme({
   const [update] = useMutation(createWikiPage, {
     onCompleted: () => message.success('Page has been created'),
     awaitRefetchQueries: true,
-    refetchQueries: [{ query: getPaths }],
+    refetchQueries: rootPath
+      ? [{ query: getPaths, variables: { rootPath } }]
+      : [{ query: getPaths }],
     onError: message.error,
   })
 
@@ -40,7 +44,9 @@ export default function PageScheme({
   const [remove] = useMutation(removeWikiPage, {
     onCompleted: () => message.success('Page has been removed'),
     awaitRefetchQueries: true,
-    refetchQueries: [{ query: getPaths }],
+    refetchQueries: rootPath
+      ? [{ query: getPaths, variables: { rootPath } }]
+      : [{ query: getPaths }],
     onError: message.error,
   })
 

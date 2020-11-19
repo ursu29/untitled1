@@ -1,10 +1,16 @@
 import React from 'react'
 import { useMediaQuery } from 'react-responsive'
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery, useMutation } from '@apollo/react-hooks'
 import { Typography, Row, Col } from 'antd'
 import GuildCard from './GuildCard'
 import PageContent from '../UI/PageContent'
 import { getGuilds, GuildsQueryType } from '../../queries/guilds'
+import { getWikiPage, WikiPageQueryType, updateWikiPage } from '../../queries/wiki'
+import MarkdownEditable from '../UI/MarkdownEditable'
+import message from '../../message'
+import PageScheme from '../Wiki/PageScheme'
+import { getPaths } from '../../queries/wiki'
+import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 
 export default function GuildsPage() {
   const isGridToSingleColumn = useMediaQuery({ maxWidth: 820 })
@@ -25,6 +31,24 @@ export default function GuildsPage() {
       guildsGrid[guildsGrid.length - 1].col2 = guild
     }
   })
+
+  const variables = { input: { path: '/guilds-info' } }
+
+  // Get page
+  const { data: guildsInfo } = useQuery<WikiPageQueryType>(getWikiPage, {
+    variables,
+  })
+
+  // Update page
+  const [update] = useMutation(updateWikiPage, {
+    onCompleted: () => message.success('Page has been updated'),
+    awaitRefetchQueries: true,
+    refetchQueries: [{ query: getWikiPage, variables }],
+    onError: message.error,
+  })
+  const handleSave = (value: any) => {
+    update({ variables: { input: { id: guildsInfo?.wikiPage?.id, ...value } } })
+  }
 
   // Show single or two-column grid depends on the screen width
   const GuildsDisplay = () => (
@@ -52,6 +76,13 @@ export default function GuildsPage() {
     </>
   )
 
+  // Get guilds-info wiki paths
+  const { data: guildsInfoPaths } = useQuery(getPaths, { variables: { rootPath: '/guilds-info' } })
+
+  const guildsInfoSection = '/guilds-info'
+
+  const writeAccess = useStrapiGroupCheck('TECH_PORTAL')
+
   return (
     <PageContent
       error={error}
@@ -60,6 +91,31 @@ export default function GuildsPage() {
       notFoundMessage="Sorry, guilds were not found"
     >
       <Typography.Title style={{ marginBottom: '40px' }}>Guilds</Typography.Title>
+      {writeAccess && (
+        <div style={{ maxWidth: '700px', marginBottom: '30px' }}>
+          <p style={{ marginBottom: '5px', fontStyle: 'italic' }}>
+            You have access to change the structure of guild pages
+          </p>
+          <PageScheme
+            paths={
+              guildsInfoPaths?.wikiPagesPaths.filter((path: string) =>
+                path.startsWith(guildsInfoSection),
+              ) || []
+            }
+            sectionPath={guildsInfoSection}
+            rootPath="/guilds-info"
+          />
+        </div>
+      )}
+
+      <div style={{ maxWidth: '600px' }}>
+        <MarkdownEditable
+          data={guildsInfo?.wikiPage?.body || ''}
+          editable={writeAccess}
+          handleSave={(data: string) => handleSave({ body: data })}
+        />
+      </div>
+
       <GuildsDisplay />
     </PageContent>
   )

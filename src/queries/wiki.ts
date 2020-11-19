@@ -1,14 +1,6 @@
 import gql from 'graphql-tag'
 import { WikiPage, WikiRootSection } from '../types'
 
-export const wikiEditingAccess = gql`
-  query wikiEditingAccess {
-    wikiEditingAccess {
-      write
-    }
-  }
-`
-
 export const getWikiRootSections = gql`
   query getWikiRootSections {
     wikiRootSections {
@@ -33,8 +25,8 @@ export const getWikiPage = gql`
 `
 
 export const getPaths = gql`
-  query getPaths {
-    wikiPagesPaths
+  query getPaths($rootPath: String) {
+    wikiPagesPaths(rootPath: $rootPath)
   }
 `
 

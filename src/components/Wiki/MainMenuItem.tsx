@@ -2,8 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { useMediaQuery } from 'react-responsive'
 import { Link } from 'react-router-dom'
-import { useQuery } from '@apollo/react-hooks'
-import { wikiEditingAccess } from '../../queries/wiki'
 import PageScheme from './PageScheme'
 import {
   FileTextOutlined,
@@ -13,6 +11,7 @@ import {
   QuestionOutlined,
 } from '@ant-design/icons'
 import Gamepad from '../../svg/gamepad.svg'
+import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 
 const Title = styled.div`
   font-size: 24px;
@@ -88,8 +87,7 @@ export default function MainMenuItem({
     }
   }
 
-  // Get editing access
-  const { data } = useQuery(wikiEditingAccess)
+  const writeAccess = useStrapiGroupCheck('HR_RU')
 
   return (
     <div
@@ -120,7 +118,7 @@ export default function MainMenuItem({
           {description}
         </div>
 
-        {data?.wikiEditingAccess.write && !isLinkExternal && (
+        {writeAccess && !isLinkExternal && (
           <div style={{ marginBottom: '-20px' }}>
             <PageScheme paths={paths} sectionPath={section.path} />
           </div>

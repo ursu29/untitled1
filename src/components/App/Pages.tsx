@@ -70,6 +70,7 @@ export default function Pages() {
           <Route path={paths.HR} component={HR} />
           <Route path={paths.TIMEMASTER} component={Timemaster} />
           <Route path={paths.WIKI + '/:path'} component={WikiPage} />
+          <Route path={paths.GUILDS_INFO} component={WikiPage} />
           <Route path={paths.WIKI} component={Wiki} />
           <Route path={paths.OFFICE_PLANNER} component={OfficePlanner} />
           <Route path={paths.WORKSPACE_PLANNER} component={WorkspacePlanner} />

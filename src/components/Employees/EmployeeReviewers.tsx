@@ -81,7 +81,7 @@ const EmployeeReviewers = (props: Props) => {
 
   return (
     <Reviewers
-      reviewers={data?.employeeByEmail[reviewersName] || null}
+      reviewers={data?.employeeByEmail[reviewersName]?.filter(e => !!e) || null}
       isAvatarsShown={read && !error && !!data}
       isAddButtonShown={write && !error && !props.employee?.isMe}
       selectIsLoading={loading}

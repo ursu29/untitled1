@@ -182,7 +182,7 @@ function ProcessList({ items, tabName }: Props) {
       width: 220,
       filters: [
         //@ts-ignore
-        ...new Set(items.filter(e => e.project && e.project.name).map(e => e.project.name)),
+        ...new Set(items.filter(e => e?.project && e?.project?.name).map(e => e?.project?.name)),
       ].map(e => ({ text: e, value: e })),
       onFilter: (value: any, record: any) => record.project?.name === value,
       render: (_: any, i: any) => {
@@ -209,21 +209,21 @@ function ProcessList({ items, tabName }: Props) {
         //@ts-ignore
         ...new Set(
           items
-            .filter(e => e.locations)
-            .flatMap(item => item.locations.map(location => location.name)),
+            .filter(e => e?.locations)
+            .flatMap(item => item.locations.map(location => location?.name)),
         ),
       ].map(e => ({ text: e, value: e })),
       onFilter: (value: any, record: any) =>
-        record.locations && record.locations.map((e: any) => e.name).includes(value),
+        record.locations && record.locations.map((e: any) => e?.name).includes(value),
       ellipsis: true,
       sorter: (a: any, b: any) =>
         a.locations
-          ?.map((e: any) => e.name)
+          ?.map((e: any) => e?.name)
           .sort()
           .join('')
           .localeCompare(
             b.locations
-              ?.map((e: any) => e.name)
+              ?.map((e: any) => e?.name)
               .sort()
               .join(''),
           ),
@@ -345,25 +345,25 @@ function ProcessList({ items, tabName }: Props) {
         //@ts-ignore
         ...new Set(
           items
-            .filter(e => e.activeStepEmployees)
+            .filter(e => e?.activeStepEmployees)
             .flatMap(item => {
-              if (item.activeStepEmployees) return item.activeStepEmployees.map(e => e.name)
+              if (item.activeStepEmployees) return item.activeStepEmployees.map(e => e?.name)
               return []
             }),
         ),
       ].map(e => ({ text: e, value: e })),
       onFilter: (value: any, record: any) =>
         record.activeStepEmployees
-          ? record.activeStepEmployees.map((e: any) => e.name).includes(value)
+          ? record.activeStepEmployees.map((e: any) => e?.name).includes(value)
           : false,
       sorter: (a: any, b: any) =>
         a.activeStepEmployees
-          ?.map((e: any) => e.name)
+          ?.map((e: any) => e?.name)
           .sort()
           .join('')
           .localeCompare(
             b.activeStepEmployees
-              ?.map((e: any) => e.name)
+              ?.map((e: any) => e?.name)
               .sort()
               .join(''),
           ),
@@ -379,9 +379,9 @@ function ProcessList({ items, tabName }: Props) {
         if (tabName === 'archived') return 1
 
         const includesUserEmail = (e: any) =>
-          e.activeStepEmployees
-            ?.map((e: any) => e.email.toLowerCase())
-            ?.includes(user.employee.email.toLowerCase())
+          e?.activeStepEmployees
+            ?.map((e: any) => e?.email?.toLowerCase())
+            ?.includes(user?.employee?.email?.toLowerCase())
         if (includesUserEmail(a) && !includesUserEmail(b)) return -1
         else return 1
       })}
