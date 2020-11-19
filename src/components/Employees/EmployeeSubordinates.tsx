@@ -3,13 +3,15 @@ import { Table, DatePicker } from 'antd'
 import { Link } from 'react-router-dom'
 import { getEmployeeLink } from '../../paths'
 import { Employee, Project } from '../../types'
-import { query, QueryType } from '../../queries/getMySubordinates'
+import { query, QueryType } from '../../queries/getSubordinates'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import updateEmployee from '../../queries/updateEmployee'
 import EmployeeAvatar from '../Employees/EmployeeAvatar'
 import ProjectTagList from '../Projects/ProjectTagList'
 import moment from 'moment'
 import message from '../../message'
+import TableSearch from '../UI/TableSearch'
+import { useEmployee } from '../../utils/withEmployee'
 
 type ProjectPick = Pick<Project, 'id' | 'name' | 'code'>
 
@@ -18,6 +20,7 @@ interface Props {
 }
 
 export default function EmployeeSubordinates({ employee }: Props) {
+  const user = useEmployee()
   const { loading, data } = useQuery<QueryType>(query, {
     variables: { email: employee?.email },
   })
@@ -39,11 +42,9 @@ export default function EmployeeSubordinates({ employee }: Props) {
       },
     })
 
-  const subordinateUsers = data?.profile?.subordinateUsers
+  const subordinateUsers = data?.employeeByEmail?.subordinateUsers
     ?.filter(e => !!e)
     .sort((a, b) => (moment(a.lastManagerMeeting).isBefore(moment(b.lastManagerMeeting)) ? -1 : 1))
-
-  console.log(subordinateUsers)
 
   const dateFormat = (value: any) =>
     value.format('DD.MM.YYYY') +
@@ -55,6 +56,7 @@ export default function EmployeeSubordinates({ employee }: Props) {
       title: 'Employee',
       key: 'employee',
       width: '150px',
+      ...TableSearch('name'),
       render: (_: any, record: Partial<Employee>) => {
         return (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -73,12 +75,15 @@ export default function EmployeeSubordinates({ employee }: Props) {
           </div>
         )
       },
+      sorter: (a: any, b: any) => a?.name.localeCompare(b?.name),
     },
     {
       title: 'Position',
       key: 'position',
       width: '200px',
-      render: (_: any, record: Partial<Employee>) => record.position,
+      dataIndex: ['position'],
+      ...TableSearch('position'),
+      sorter: (a: any, b: any) => a?.position.localeCompare(b?.position),
     },
     {
       title: 'Project',
@@ -102,6 +107,17 @@ export default function EmployeeSubordinates({ employee }: Props) {
       ) => (
         <ProjectTagList small projects={record.projects} leadingProjects={record.leadingProjects} />
       ),
+      sorter: (a: any, b: any) =>
+        a.projects
+          .map((e: any) => e.name)
+          .sort((a: any, b: any) => a.localCompare(b))
+          .join('')
+          .localeCompare(
+            b.projects
+              .map((e: any) => e.name)
+              .sort((a: any, b: any) => a.localCompare(b))
+              .join(''),
+          ),
     },
     {
       title: 'Last meeting',
@@ -110,6 +126,7 @@ export default function EmployeeSubordinates({ employee }: Props) {
       render: (_: any, record: Partial<Employee>) => (
         <DatePicker
           format={dateFormat}
+          disabled={user.employee?.email?.toLowerCase() !== employee?.email?.toLowerCase()}
           defaultValue={
             record.lastManagerMeeting
               ? moment(moment(record.lastManagerMeeting), ['DD.MM.YYYY'])
@@ -122,16 +139,20 @@ export default function EmployeeSubordinates({ employee }: Props) {
           allowClear={false}
         />
       ),
+      //@ts-ignore
+      sorter: (a: any, b: any) => new Date(a.lastManagerMeeting) - new Date(b.lastManagerMeeting),
     },
   ]
 
   return (
     <Table
+      rowKey="id"
       columns={columns}
       //@ts-ignore
       dataSource={subordinateUsers}
       pagination={false}
       loading={loading}
+      size="small"
     />
   )
 }
