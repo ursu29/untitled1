@@ -87,7 +87,7 @@ export default function MainMenuItem({
     }
   }
 
-  const writeAccess = useStrapiGroupCheck('HR_RU')
+  const writeAccess = useStrapiGroupCheck('WIKI_EDITORS')
 
   return (
     <div

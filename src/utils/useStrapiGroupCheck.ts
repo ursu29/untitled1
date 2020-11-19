@@ -4,6 +4,7 @@ enum StrapiGroups {
   REVIEWERS,
   FEEDBACK,
   HR_RU,
+  WIKI_EDITORS,
   HR_EDITORS,
   NEWS_EDITORS,
   TECH_PORTAL,
