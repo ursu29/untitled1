@@ -2,8 +2,8 @@ import gql from 'graphql-tag'
 import { Employee } from '../types'
 
 export const query = gql`
-  query getMySubordinates {
-    profile {
+  query getSubordinates($email: String!) {
+    employeeByEmail(email: $email) {
       id
       subordinateUsers {
         id
@@ -28,7 +28,7 @@ export const query = gql`
 `
 
 export type QueryType = {
-  profile: {
+  employeeByEmail: {
     id: string
     subordinateUsers: Partial<Employee>[]
   }

@@ -1,9 +1,8 @@
-import { EnvironmentOutlined, SearchOutlined } from '@ant-design/icons'
-import { Button, Input, Table, Badge } from 'antd'
+import { EnvironmentOutlined } from '@ant-design/icons'
+import { Table, Badge } from 'antd'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import React, { useRef, useState } from 'react'
-import Highlighter from 'react-highlight-words'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { getProcessExecutionLink } from '../../paths'
 import { QueryType } from '../../queries/getProcessExecutions'
@@ -12,6 +11,7 @@ import EmployeeAvatar from '../Employees/EmployeeAvatar'
 import ProjectTag from '../Projects/ProjectTag'
 import PageContent from '../UI/PageContent'
 import ProcessExecutionStatusTag from './ProcessExecutionStatusTag'
+import TableSearch from '../UI/TableSearch'
 
 dayjs.extend(relativeTime)
 
@@ -48,104 +48,11 @@ interface Props {
 }
 
 function ProcessList({ items, tabName }: Props) {
-  const [searchText, setSearchText] = useState('')
-  const [searchedColumn, setSearchedColumn] = useState('')
-  const searchInput = useRef(null)
   const user = useEmployee()
 
   if (!items?.length) {
     return <PageContent>No processes found</PageContent>
   }
-
-  /* // Add to processes list new field with active step responsible users
-  const processesWithResponsibleUsers = items.map(process => {
-    let activeStepResponsibleUsers
-
-    try {
-      const lastDoneStepId =
-        process.executionSteps.filter(step => step.isDone).slice(-1)[0]?.step.id || null
-      const processSteps = process.process.steps
-
-      if (lastDoneStepId) {
-        for (let i = 0; i < processSteps.length; i++) {
-          // strict less! cause we don't need the last one
-          if (processSteps[i].id === lastDoneStepId) {
-            activeStepResponsibleUsers = processSteps[i + 1].responsibleUsers
-            break
-          }
-        }
-      } else {
-        activeStepResponsibleUsers = processSteps[0].responsibleUsers
-      }
-    } catch {}
-    return { ...process, activeStepResponsibleUsers }
-  }) */
-
-  const handleSearch = (selectedKeys: any, confirm: any, dataIndex: any) => {
-    confirm()
-    setSearchText(selectedKeys[0])
-    setSearchedColumn(dataIndex)
-  }
-
-  const handleReset = (clearFilters: any) => {
-    clearFilters()
-    setSearchText('')
-  }
-
-  const getColumnSearchProps = (dataIndex: any, nestedName?: string) => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }: any) => (
-      <div style={{ padding: 8 }}>
-        <Input
-          ref={searchInput}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ width: 188, marginBottom: 8, display: 'block' }}
-        />
-        <Button
-          type="primary"
-          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          icon={<SearchOutlined />}
-          size="small"
-          style={{ width: 90, marginRight: 8 }}
-        >
-          Search
-        </Button>
-        <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
-          Reset
-        </Button>
-      </div>
-    ),
-    filterIcon: (filtered: any) => (
-      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
-    ),
-    onFilter: (value: any, record: any) => {
-      const obj = nestedName ? record[nestedName] : record
-      if (obj && dataIndex in obj && obj[dataIndex]) {
-        return obj[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
-      }
-    },
-    onFilterDropdownVisibleChange: (visible: any) => {
-      if (visible) {
-        setTimeout(() => {
-          //@ts-ignore
-          searchInput.current.select()
-        })
-      }
-    },
-    render: (text: any) =>
-      searchedColumn === dataIndex ? (
-        <Highlighter
-          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text ? text.toString() : ''}
-        />
-      ) : (
-        text
-      ),
-  })
 
   const columns = [
     {
@@ -164,7 +71,7 @@ function ProcessList({ items, tabName }: Props) {
       key: 'title',
       dataIndex: ['process', 'title'],
       title: 'Name',
-      ...getColumnSearchProps('title', 'process'),
+      ...TableSearch('title', 'process'),
       render: (_: any, i: any) => {
         return (
           <Link to={getProcessExecutionLink(i.id)} title={i.process.title} target="_blank">
@@ -232,7 +139,7 @@ function ProcessList({ items, tabName }: Props) {
       key: 'position',
       dataIndex: ['vacancy', 'position'],
       title: 'Position',
-      ...getColumnSearchProps('position', 'vacancy'),
+      ...TableSearch('position', 'vacancy'),
       ellipsis: true,
       sorter: (a: any, b: any) =>
         (a.vacancy?.position || '').localeCompare(b.vacancy?.position || ''),
@@ -311,9 +218,8 @@ function ProcessList({ items, tabName }: Props) {
               ).length
 
               return (
-                <>
+                <React.Fragment key={responsible.email}>
                   <div
-                    key={responsible.email}
                     style={{
                       margin: '3px',
                       borderRadius: '50%',
@@ -335,7 +241,7 @@ function ProcessList({ items, tabName }: Props) {
                       position: 'absolute',
                     }}
                   />
-                </>
+                </React.Fragment>
               )
             })}
           </div>
@@ -370,21 +276,23 @@ function ProcessList({ items, tabName }: Props) {
     })
   }
 
+  const sortedItems = items.sort((a: any, b: any) => {
+    if (tabName === 'archived') return 1
+
+    const includesUserEmail = (e: any) =>
+      e?.activeStepEmployees
+        ?.map((e: any) => e?.email?.toLowerCase())
+        ?.includes(user?.employee?.email?.toLowerCase())
+    if (includesUserEmail(a) && !includesUserEmail(b)) return -1
+    else return 1
+  })
+
   return (
     <Table<QueryType['processExecutions'][0]>
       rowKey="id"
       //@ts-ignore
       columns={columns}
-      dataSource={items.sort((a: any, b: any) => {
-        if (tabName === 'archived') return 1
-
-        const includesUserEmail = (e: any) =>
-          e?.activeStepEmployees
-            ?.map((e: any) => e?.email?.toLowerCase())
-            ?.includes(user?.employee?.email?.toLowerCase())
-        if (includesUserEmail(a) && !includesUserEmail(b)) return -1
-        else return 1
-      })}
+      dataSource={sortedItems}
       size="small"
       pagination={{ showSizeChanger: true }}
     />
