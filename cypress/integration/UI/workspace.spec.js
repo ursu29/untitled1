@@ -1,4 +1,4 @@
-import { locations, workspace, devMenu, postEl, matrix } from '../../support/locators'
+import { locations, workspace, devMenu, matrix } from '../../support/locators'
 
 describe('Workspace', () => {
   before(() => {
@@ -35,6 +35,8 @@ describe('Workspace', () => {
 
   it('check design mode', () => {
     cy.checkImgToken('manager')
-    cy.get(postEl.buttonSwitch).should('not.exist')
+    cy.get('[role=switch]').first().click({ multiple: true })
+    cy.get('span').contains('Add New').should('be.visible')
+    cy.get('span').contains('Edit').should('be.visible')
   })
 })
