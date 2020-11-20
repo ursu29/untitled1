@@ -1,15 +1,8 @@
 import { getClient, getManager, getProjects, getEmployeeExperiences } from '../../support/getData'
+import { tabs } from '../../support/locators'
 
 describe('Checking default information', () => {
   const userId = '1bf931df-2015-4516-ac33-0d2caddc7df2'
-  const tabs = {
-    skill: 'Skills',
-    bookMark: 'Bookmarks',
-    matrices: 'Matrices',
-    personal: 'Personal',
-    form: 'Self',
-    cv: 'CV',
-  }
   let allData = {
     client: null,
     manager: null,

@@ -21,6 +21,15 @@ export const menu = {
   ],
 }
 
+export const tabs = {
+  skill: 'Skills',
+  bookMark: 'Bookmarks',
+  matrices: 'Matrices',
+  personal: 'Personal',
+  form: 'Self',
+  cv: 'CV',
+}
+
 export const locations = [
   { title: 'Saint-Petersburg' },
   { title: 'Tomsk' },
