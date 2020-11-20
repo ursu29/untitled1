@@ -1,13 +1,9 @@
 import { employeeData } from './employeeData'
 
 const {
-  country,
   email,
   id,
-  isMe,
-  location,
   name,
-  phoneNumber,
   position,
   __typename,
 } = employeeData.employee
@@ -36,16 +32,13 @@ export const profileData = id => ({
 })
 
 export const subUser = {
-  country,
+  avatar: null,
   email,
   id,
-  isMe,
   lastManagerMeeting: null,
   leadingProjects: [],
   projects: [],
-  location,
   name,
-  phoneNumber,
   position,
   __typename,
 }
