@@ -3,7 +3,7 @@ import React from 'react'
 import { EmployeeDetails } from '../../fragments'
 import message from '../../message'
 import query, { QueryType } from '../../queries/getProjectManagers'
-import { Employee, Project } from '../../types'
+import { Project } from '../../types'
 import EmployeeGroup from '../Employees/EmployeeGroup.new'
 import Skeleton from '../UI/Skeleton'
 
@@ -12,7 +12,7 @@ interface Props {
   title?: string
 }
 
-type EmployeePick = EmployeeDetails & { avatar: Employee['avatar'] }
+type EmployeePick = EmployeeDetails
 
 function ProjectManagers({ project }: Props) {
   const { data, loading } = useQuery<QueryType>(query, {
@@ -32,6 +32,8 @@ function ProjectManagers({ project }: Props) {
   agileManagers = agileManagers.filter((value, index, self) => {
     return self.indexOf(value) === index
   })
+
+  console.log(scrumMasters)
 
   return (
     <Skeleton active avatar loading={loading}>

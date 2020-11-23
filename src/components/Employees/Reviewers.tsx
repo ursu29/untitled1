@@ -1,11 +1,12 @@
 import React, { useState, PropsWithChildren } from 'react'
 import EmployeeSelect from './EmployeeSelect'
 import { Employee } from '../../types'
-import { Avatar, Tooltip } from 'antd'
+import { Tooltip } from 'antd'
 import Button from '../UI/Button'
+import Avatar from '../Avatar'
 
 interface Props extends PropsWithChildren<any> {
-  reviewers: Pick<Employee, 'id' | 'name' | 'email' | 'avatar'>[] | null
+  reviewers: Pick<Employee, 'id' | 'name' | 'email'>[] | null
   isAvatarsShown: boolean
   isAddButtonShown: boolean
   selectIsLoading: boolean
@@ -50,7 +51,7 @@ export default function Reviewers(props: Props) {
             ?.map(reviewer => (
               <div key={reviewer.id} style={{ marginLeft: '3px' }}>
                 <Tooltip key={reviewer.id} placement="top" title={reviewer.name}>
-                  <Avatar src={reviewer.avatar} shape="circle" size="small" />
+                  <Avatar employee={reviewer} shape="circle" size="small" />
                 </Tooltip>
               </div>
             ))}

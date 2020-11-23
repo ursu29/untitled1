@@ -9,14 +9,14 @@ const query = gql`
     profile {
       id
       name
+      email
       position
-      avatar
       status
     }
   }
 `
 
-type ProfilePick = Pick<Employee, 'name' | 'position' | 'avatar' | 'status'>
+type ProfilePick = Pick<Employee, 'name' | 'position' | 'email' | 'status'>
 
 export default function ProfileSider() {
   const { data, loading, error } = useQuery<{ profile: ProfilePick }>(query)

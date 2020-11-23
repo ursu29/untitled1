@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import { getProcessExecutionLink } from '../../paths'
 import { QueryType } from '../../queries/getProcessExecutions'
 import { useEmployee } from '../../utils/withEmployee'
-import EmployeeAvatar from '../Employees/EmployeeAvatar'
+import Avatar from '../Avatar'
 import ProjectTag from '../Projects/ProjectTag'
 import PageContent from '../UI/PageContent'
 import ProcessExecutionStatusTag from './ProcessExecutionStatusTag'
@@ -229,7 +229,7 @@ function ProcessList({ items, tabName }: Props) {
                           : '',
                     }}
                   >
-                    <EmployeeAvatar email={responsible.email} size="small" showTooltip />
+                    <Avatar employee={responsible} size="small" showTooltip />
                   </div>
                   <Badge
                     count={count > 1 ? count : 0}

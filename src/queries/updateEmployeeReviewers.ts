@@ -6,7 +6,6 @@ export const updateDevelopmentPlanReviewers = gql`
       id
       name
       email
-      avatar
     }
   }
 `
@@ -17,7 +16,6 @@ export const updateMatricesReviewers = gql`
       id
       name
       email
-      avatar
     }
   }
 `

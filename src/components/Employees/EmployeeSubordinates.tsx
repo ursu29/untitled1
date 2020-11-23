@@ -3,13 +3,13 @@ import { Table, DatePicker } from 'antd'
 import { Link } from 'react-router-dom'
 import { getEmployeeLink } from '../../paths'
 import { Employee, Project } from '../../types'
-import { query, QueryType } from '../../queries/getSubordinates'
+import { query, QueryType, Subordinate } from '../../queries/getSubordinates'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import updateEmployee from '../../queries/updateEmployee'
-import EmployeeAvatar from '../Employees/EmployeeAvatar'
 import ProjectTagList from '../Projects/ProjectTagList'
 import moment from 'moment'
 import message from '../../message'
+import BookingEmployee from '../WorkspacePlanner/BookingEmployee'
 import TableSearch from '../UI/TableSearch'
 import { useEmployee } from '../../utils/withEmployee'
 
@@ -57,7 +57,7 @@ export default function EmployeeSubordinates({ employee }: Props) {
       key: 'employee',
       width: '150px',
       ...TableSearch('name'),
-      render: (_: any, record: Partial<Employee>) => {
+      render: (_: any, record: Subordinate) => {
         return (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <Link
@@ -70,7 +70,10 @@ export default function EmployeeSubordinates({ employee }: Props) {
                 maxWidth: 'fit-content',
               }}
             >
-              <EmployeeAvatar email={record?.email || ''} size="default" showName={true} />
+              {/* it is not the best solution to use this component there. 
+              as it was not the best to use Avatar component with name inside it (previous version)
+              suggestion: customize EmployeeCard to fit one line (small version) */}
+              <BookingEmployee employeeEmail={record.email} />
             </Link>
           </div>
         )
@@ -101,10 +104,7 @@ export default function EmployeeSubordinates({ employee }: Props) {
         .map(e => ({ text: e, value: e })),
       onFilter: (value: any, record: any) =>
         record.projects.map((e: any) => e.name).includes(value),
-      render: (
-        _: any,
-        record: Partial<Employee> & { projects: ProjectPick[]; leadingProjects: ProjectPick[] },
-      ) => (
+      render: (_: any, record: Subordinate) => (
         <ProjectTagList small projects={record.projects} leadingProjects={record.leadingProjects} />
       ),
       sorter: (a: any, b: any) =>
@@ -123,7 +123,7 @@ export default function EmployeeSubordinates({ employee }: Props) {
       title: 'Last meeting',
       key: 'lastMeeting',
       width: '165px',
-      render: (_: any, record: Partial<Employee>) => (
+      render: (_: any, record: Subordinate) => (
         <DatePicker
           format={dateFormat}
           disabled={user.employee?.email?.toLowerCase() !== employee?.email?.toLowerCase()}

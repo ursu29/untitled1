@@ -1,15 +1,12 @@
 import React from 'react'
-import { Card, Avatar } from 'antd'
+import { Card } from 'antd'
 import { EmployeeDetails } from '../../fragments'
 import { getEmployeeLink } from '../../paths'
 import { Link } from 'react-router-dom'
-
-type EmployeePick = EmployeeDetails & {
-  avatar: string
-}
+import Avatar from '../Avatar'
 
 export interface Props {
-  employee: EmployeePick
+  employee: EmployeeDetails
 }
 
 function EmployeeCard({ employee }: Props) {
@@ -22,7 +19,7 @@ function EmployeeCard({ employee }: Props) {
         hoverable
       >
         <Card.Meta
-          avatar={<Avatar size={50} src={employee.avatar} alt={employee.name} />}
+          avatar={<Avatar size={50} employee={employee} />}
           title={employee.name}
           description={employee.position}
         />

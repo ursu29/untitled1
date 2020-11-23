@@ -20,7 +20,6 @@ export interface Employee {
   subordinateUsers: Employee
   subordinateUsersCount: number
   bonuses: number | null
-  avatar: string
   status: string
   access: Access
   experiences: Experience[]

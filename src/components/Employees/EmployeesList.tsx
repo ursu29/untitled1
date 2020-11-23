@@ -5,7 +5,7 @@ import { COLLAPSE_WIDTH } from '../../config'
 import { useMediaQuery } from 'react-responsive'
 import { getEmployeeLink } from '../../paths'
 import { Employee } from '../../types'
-import EmployeeAvatar from './EmployeeAvatar'
+import Avatar from '../Avatar'
 
 type EmployeePick = Pick<
   Employee,
@@ -27,9 +27,7 @@ export default function EmployeesList({ employees, loading, fixed }: Props) {
       key: 'avatar',
       className: 'avatar-cell',
       width: 70,
-      render: (employee: Employee) => (
-        <EmployeeAvatar email={employee.email} size={60} loadImmediately={false} />
-      ),
+      render: (employee: Employee) => <Avatar employee={employee} size={60} />,
     },
     {
       title: 'Name',

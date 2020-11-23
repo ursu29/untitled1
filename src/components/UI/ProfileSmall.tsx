@@ -1,32 +1,22 @@
-import { UserOutlined } from '@ant-design/icons'
-import { Avatar, Card, Skeleton, Typography, Row, Badge } from 'antd'
+import { Badge, Card, Row, Skeleton, Typography } from 'antd'
 import React from 'react'
+import { useMediaQuery } from 'react-responsive'
 import { Link } from 'react-router-dom'
+import { COLLAPSE_WIDTH, MENU_WIDTH } from '../../config'
 import paths from '../../paths'
 import { Employee } from '../../types'
-import { useMediaQuery } from 'react-responsive'
-import { COLLAPSE_WIDTH, MENU_WIDTH } from '../../config'
+import Avatar from '../Avatar'
 import './styles.css'
 
 const { Text } = Typography
 
 interface Props {
   loading: boolean
-  profile?: Pick<Employee, 'name' | 'position' | 'avatar' | 'status'>
+  profile?: Pick<Employee, 'name' | 'email' | 'position' | 'status'>
 }
 
 export default function SiderProfile({ loading, profile }: Props) {
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
-  const avatar = (
-    <Avatar
-      data-cy="profile_img"
-      shape="square"
-      size="large"
-      icon={<UserOutlined />}
-      src={profile?.avatar}
-      alt={profile?.name}
-    />
-  )
   return (
     <Link to={paths.PROFILE}>
       <Card
@@ -46,7 +36,7 @@ export default function SiderProfile({ loading, profile }: Props) {
           {profile &&
             (isLarge ? (
               <Card.Meta
-                avatar={avatar}
+                avatar={<Avatar shape="square" size="large" employee={profile} />}
                 description={
                   <>
                     <Text strong data-cy="profile_name">
@@ -69,7 +59,7 @@ export default function SiderProfile({ loading, profile }: Props) {
               />
             ) : (
               <Row justify="center" data-cy="profile_avatar">
-                {avatar}
+                {<Avatar shape="square" size="large" employee={profile} />}
               </Row>
             ))}
         </Skeleton>

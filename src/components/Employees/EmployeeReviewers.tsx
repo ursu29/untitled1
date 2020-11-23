@@ -42,8 +42,8 @@ const EmployeeReviewers = (props: Props) => {
   const { data, loading, error } = useQuery<
     QueryTypeEmployees & {
       employeeByEmail: {
-        developmentPlanReviewers: Pick<Employee, 'id' | 'name' | 'email' | 'avatar'>[] | null
-        matricesReviewers: Pick<Employee, 'id' | 'name' | 'email' | 'avatar'>[] | null
+        developmentPlanReviewers: Pick<Employee, 'id' | 'name' | 'email'>[] | null
+        matricesReviewers: Pick<Employee, 'id' | 'name' | 'email'>[] | null
       }
     }
   >(getReviewersQuery, {

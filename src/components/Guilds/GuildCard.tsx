@@ -1,10 +1,11 @@
 import React from 'react'
-import { Avatar, Tooltip, Typography } from 'antd'
+import { Tooltip, Typography } from 'antd'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { Guild } from '../../types'
 import { getEmployeeLink, getGuildLink } from '../../paths'
 import Technologies from '../UI/Technologies'
 import { CardWrapper, CardHeader, GuildTitle } from './styled'
+import Avatar from '../Avatar'
 
 interface Props {
   guild: Guild
@@ -30,7 +31,7 @@ function GuildCard({ guild, style, history }: Props & RouteComponentProps) {
                 onClick={() => history.push(getEmployeeLink(lead.email))}
                 style={{ cursor: 'pointer', marginLeft: '8px' }}
               >
-                <Avatar src={lead.avatar} shape="circle" size="large" />
+                <Avatar employee={lead} shape="circle" size="large" />
               </div>
             </Tooltip>
           ))}

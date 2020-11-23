@@ -8,7 +8,6 @@ const getDevelopmentPlanReviewers = gql`
         id
         name
         email
-        avatar
       }
     }
   }
@@ -22,7 +21,6 @@ const getMatricesReviewers = gql`
         id
         name
         email
-        avatar
       }
     }
   }
@@ -34,7 +32,6 @@ const updateDevelopmentPlanReviewers = gql`
       id
       name
       email
-      avatar
     }
   }
 `
@@ -45,7 +42,6 @@ const updateMatricesReviewers = gql`
       id
       name
       email
-      avatar
     }
   }
 `

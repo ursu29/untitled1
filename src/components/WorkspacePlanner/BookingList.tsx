@@ -5,7 +5,7 @@ import React from 'react'
 import { getEmployeeLink } from '../../paths' */
 import { WorkplaceBookingType } from '../../types'
 import { useEmployee } from '../../utils/withEmployee'
-import EmployeeAvatar from '../Employees/EmployeeAvatar'
+import BookingEmployee from './BookingEmployee'
 
 interface Props {
   bookings: (WorkplaceBookingType & { workplaceId: string })[] | undefined
@@ -36,19 +36,7 @@ export default function BookingList({
       render: (_: any, record: WorkplaceBookingType & { workplaceId: string }) => {
         return (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {/*             <Link
-              to={getEmployeeLink(record.employeeEmail)}
-              style={{
-                display: 'flex',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                maxWidth: 'fit-content',
-              }}
-            >
-              <EmployeeAvatar email={record.employeeEmail} size="default" showName={true} />
-            </Link> */}
-            <EmployeeAvatar email={record.employeeEmail} size="default" showName={true} />
+            <BookingEmployee employeeEmail={record.employeeEmail} />
             {record.employeeEmail.toLowerCase() === employee.employee.email.toLowerCase() &&
               dayjs().isSameOrBefore(dayjs(record.finishDate), 'day') && (
                 <div

@@ -8,7 +8,13 @@ interface Props extends PropsWithChildren<any> {}
 export default function Section({ title, children }: Props) {
   return (
     <div style={{ marginBottom: 8 }}>
-      <Title level={3} style={{ fontWeight: 'normal' }}>
+      <Title
+        level={4}
+        style={{
+          fontWeight: 400,
+          fontSize: 18,
+        }}
+      >
         {title}
       </Title>
       <div>{children}</div>

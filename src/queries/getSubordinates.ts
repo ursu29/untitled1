@@ -1,35 +1,36 @@
 import gql from 'graphql-tag'
 import { Employee } from '../types'
+import fragments, { EmployeeDetails, ProjectDetails } from '../fragments'
 
 export const query = gql`
   query getSubordinates($email: String!) {
     employeeByEmail(email: $email) {
       id
       subordinateUsers {
-        id
-        avatar
-        name
-        email
-        position
+        ...EmployeeDetails
         lastManagerMeeting
         leadingProjects {
-          id
-          name
-          code
+          ...ProjectDetails
         }
         projects {
-          id
-          name
-          code
+          ...ProjectDetails
         }
       }
     }
   }
+  ${fragments.Employee.Details}
+  ${fragments.Project}
 `
+
+export type Subordinate = EmployeeDetails &
+  Pick<Employee, 'lastManagerMeeting'> & {
+    leadingProjects: ProjectDetails[]
+    projects: ProjectDetails[]
+  }
 
 export type QueryType = {
   employeeByEmail: {
     id: string
-    subordinateUsers: Partial<Employee>[]
+    subordinateUsers: Subordinate[]
   }
 }
