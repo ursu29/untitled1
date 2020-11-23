@@ -19,6 +19,14 @@ export const filterSkillsName = (name, arr) =>
     .map(val => val.skill.name)
     .sort()
 
+export const hasKeyAndValue = (obj, key, value) => {
+  expect(obj.hasOwnProperty(key)).equal(true)
+  expect(obj[key]).equal(value[key])
+}
+
+export const checkKeyValueExist = (obj, values) =>
+  Object.keys(values).forEach(el => hasKeyAndValue(values, el, obj))
+
 Cypress.Commands.add('checkIfElementPresent', (visibleEl, text) => {
   cy.document().then(doc => {
     if (doc.querySelectorAll(`[data-cy=${visibleEl}]`).length) {
@@ -64,4 +72,39 @@ Cypress.Commands.add('editSkills', idx => {
 Cypress.Commands.add('spinnerDisappear', el => {
   cy.get(el).should('be.visible')
   cy.get(el).should('not.be.visible')
+})
+
+Cypress.Commands.add('getResponse', (arg, aliasName) => {
+  cy.route2('/graphql', req => {
+    if (arg.every(el => req.body.includes(el))) {
+      req.alias = aliasName
+    }
+  })
+})
+
+Cypress.Commands.add('compareTwoJson', (alias, expectJson) => {
+  cy.wait(`@${alias}`).then(val => {
+    if (val.response) {
+      const res = JSON.parse(val.response.body)
+
+      expect(res).to.deep.equal(expectJson)
+
+      return
+    }
+    console.log('ERROR:', val)
+  })
+})
+
+Cypress.Commands.add('waitGraphql', (arg, operationName) => {
+  cy.route2({
+    method: 'POST',
+    url: '/graphql',
+    onResponse: ({ request }) => {
+      if (arg.every(el => request.body.includes(el))) {
+        cy.emit(operationName)
+      }
+    },
+  })
+
+  cy.waitFor(operationName)
 })
