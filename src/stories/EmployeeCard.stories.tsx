@@ -20,7 +20,6 @@ const employee = {
   phoneNumber: '+70009099900',
   name: 'Ken Miles',
   position: 'Frontend developer',
-  avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
   location: 'Los Angeles',
   country: 'USA',
 }

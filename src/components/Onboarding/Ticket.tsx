@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { ReactComponent as OutlookIcon } from '../../svg/outlook.svg'
 import { ReactComponent as TeamsIcon } from '../../svg/teams.svg'
 import { OnboardingTicket } from '../../types'
-import EmployeeAvatar from '../Employees/EmployeeAvatar'
+import Avatar from '../Avatar'
 import { CheckCircleOutlined } from '@ant-design/icons'
 
 const TicketCard = styled.div`
@@ -75,7 +75,7 @@ export default function Ticket({
         <div style={{ margin: '20px 0 20px 0' }}>
           {email ? (
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <EmployeeAvatar email={email} size={28} loadImmediately={false} />
+              <Avatar employee={{ email, name }} size={28} />
               <div
                 style={{
                   display: 'flex',

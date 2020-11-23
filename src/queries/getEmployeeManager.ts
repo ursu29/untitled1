@@ -8,14 +8,13 @@ export default gql`
       id
       agileManager {
         ...EmployeeDetails
-        avatar
       }
     }
   }
   ${fragments.Employee.Details}
 `
 
-export type EmployeePick = EmployeeDetails & { avatar: Employee['avatar'] }
+export type EmployeePick = EmployeeDetails
 
 export type QueryType = {
   employeeByEmail: {

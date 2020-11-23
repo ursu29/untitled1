@@ -3,13 +3,9 @@ import { EmployeeDetails } from '../../fragments'
 import { Typography } from 'antd'
 import EmployeeCard from './EmployeeCard.new'
 
-type EmployeePick = EmployeeDetails & {
-  avatar: string
-}
-
 export interface Props {
   title: string
-  employees: EmployeePick[]
+  employees: EmployeeDetails[]
 }
 
 function EmployeeGroup({ title, employees }: Props) {

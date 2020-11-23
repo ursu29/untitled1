@@ -20,7 +20,7 @@ import EmployeeCV from './EmployeeCV'
 import EmployeeSkills from './EmployeeSkills'
 import EmployeeDevelopmentPlan from './EmployeeDevelopmentPlan'
 import EmployeeEvaluation from '../EmployeeEvaluation/EmployeeEvaluation'
-// import { Tag } from 'antd'
+import { Badge } from 'antd'
 import EmployeeSubordinates from './EmployeeSubordinates'
 
 interface Props extends RouteComponentProps {
@@ -38,6 +38,7 @@ const query = gql`
       id
       name
       email
+      subordinateUsersCount
       agileManager {
         id
         name
@@ -73,7 +74,10 @@ const query = gql`
 `
 
 type QueryType = {
-  employees: (Pick<Employee, 'id' | 'name' | 'email' | 'access' | 'isMe'> & {
+  employees: (Pick<
+    Employee,
+    'id' | 'name' | 'email' | 'access' | 'isMe' | 'subordinateUsersCount'
+  > & {
     agileManager: Pick<Employee, 'id' | 'name' | 'email' | 'isMe'>
   })[]
   curriculumVitaeAccess: Access
@@ -176,9 +180,24 @@ function EmployeeTabs({ match, ...props }: Props) {
     })
   }
 
-  if (employee?.isMe) {
+  if (employee?.subordinateUsersCount) {
     tabs.push({
-      title: 'My employees',
+      title: (
+        <Badge
+          count={employee.subordinateUsersCount}
+          offset={[10, -6]}
+          overflowCount={999}
+          showZero
+          style={{
+            position: 'absolute',
+            backgroundColor: '#fff',
+            color: '#999',
+            boxShadow: '0 0 0 1px #d9d9d9 inset',
+          }}
+        >
+          My employees
+        </Badge>
+      ),
       key: 'employees',
       icon: <SolutionOutlined />,
       noPadding: true,

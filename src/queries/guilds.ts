@@ -30,7 +30,6 @@ export const getGuilds = gql`
       shortDescription
       leaders {
         id
-        avatar
         email
         name
       }

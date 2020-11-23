@@ -2,7 +2,7 @@ import { CheckCircleTwoTone, ClockCircleTwoTone } from '@ant-design/icons'
 import { Card } from 'antd'
 import React, { PropsWithChildren, ReactNode } from 'react'
 import { Employee } from '../../types'
-import EmployeeAvatar from '../Employees/EmployeeAvatar'
+import Avatar from '../Avatar'
 
 interface Props extends PropsWithChildren<any> {
   title: string
@@ -19,10 +19,7 @@ function ActiveStepCard({ title, description, status, employees, children }: Pro
   const extra = (
     <div>
       {employees?.map(i => {
-        if (i)
-          return (
-            <EmployeeAvatar key={i.id} email={i.email} size="small" showTooltip loadImmediately />
-          )
+        if (i) return <Avatar key={i.id} employee={i} size="small" showTooltip />
       })}
     </div>
   )

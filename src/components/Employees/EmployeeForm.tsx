@@ -8,7 +8,7 @@ import EmployeeSelect from '../Employees/EmployeeSelect'
 
 type EmployeePick = {
   id: Employee['id']
-  agileManager: EmployeeDetails
+  agileManager: EmployeeDetails | null
 }
 
 export interface Props extends FormComponentProps {

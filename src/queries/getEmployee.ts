@@ -5,14 +5,11 @@ export default gql`
   query getEmployee($email: String!) {
     employeeByEmail(email: $email) {
       ...EmployeeDetails
-      avatar
     }
   }
   ${fragments.Employee.Details}
 `
 
 export type QueryType = {
-  employeeByEmail: EmployeeDetails & {
-    avatar: string
-  }
+  employeeByEmail: EmployeeDetails
 }

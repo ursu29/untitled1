@@ -17,8 +17,9 @@ export interface Employee {
   phoneNumber: string
   email: string
   isMe: boolean
+  subordinateUsers: Employee
+  subordinateUsersCount: number
   bonuses: number | null
-  avatar: string
   status: string
   access: Access
   experiences: Experience[]

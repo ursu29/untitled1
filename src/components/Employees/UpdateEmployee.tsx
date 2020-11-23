@@ -7,11 +7,11 @@ import message from '../../message'
 import updateEmployee from '../../queries/updateEmployee'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
-import { getEmployeeDetails } from './EmployeeDetails'
+import { getEmployeeDetails } from './EmployeePage'
 import ProjectForm from './EmployeeForm'
 
 type EmployeePick = EmployeeDetails & {
-  agileManager: EmployeeDetails
+  agileManager: EmployeeDetails | null
 }
 
 function UpdateProject({ employee }: { employee: EmployeePick }) {

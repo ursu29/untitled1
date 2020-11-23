@@ -3,7 +3,7 @@ import { Tooltip } from 'antd'
 import { Link } from 'react-router-dom'
 import { useMediaQuery } from 'react-responsive'
 import Metric from './Metric'
-import EmployeeAvatar from '../Employees/EmployeeAvatar'
+import Avatar from '../Avatar'
 import Technologies from '../UI/Technologies'
 import { Stream } from '../../types'
 import { getEmployeeLink } from '../../paths'
@@ -101,11 +101,13 @@ export default function VideoCard({
           >
             {isAvaShown && (
               <div>
-                <EmployeeAvatar
+                <Avatar
                   key={video.videoId}
-                  email={video.creatorMail}
+                  employee={{
+                    email: video.creatorMail,
+                    name: video.creatorName,
+                  }}
                   size="small"
-                  loadImmediately
                 />
               </div>
             )}

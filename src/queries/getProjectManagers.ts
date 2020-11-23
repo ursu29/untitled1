@@ -8,24 +8,22 @@ export default gql`
       id
       scrumMasters {
         ...EmployeeDetails
-        avatar
       }
       employees {
         id
         agileManager {
           ...EmployeeDetails
-          avatar
         }
       }
     }
   }
   ${fragments.Employee.Details}
 `
-type EmployeePick = EmployeeDetails & { avatar: Employee['avatar'] }
+type EmployeePick = Pick<Employee, 'id'> & { agileManager: EmployeeDetails | null }
 
 type ProjectPick = Pick<Project, 'id'> & {
-  employees: (Pick<Employee, 'id'> & { agileManager: EmployeePick | null })[]
-  scrumMasters: EmployeePick[] | null
+  employees: EmployeePick[]
+  scrumMasters: EmployeeDetails[] | null
 }
 
 export type QueryType = {

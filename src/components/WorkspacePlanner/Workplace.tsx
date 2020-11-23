@@ -4,11 +4,12 @@ import { Popconfirm, Button, Space, message } from 'antd'
 import styled from 'styled-components'
 import { PlusOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import { WorkplaceType, WorkplaceBookingType } from '../../types'
-import EmployeeAvatar from '../Employees/EmployeeAvatar'
+import Avatar from '../Avatar'
 import { useEmployee } from '../../utils/withEmployee'
 import dayjs from 'dayjs'
 import './styles.css'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
+import BookingEmployee from './BookingEmployee'
 dayjs.extend(isSameOrBefore)
 
 const Info = styled.div<{ visible: boolean; scale: number }>`
@@ -224,7 +225,7 @@ export default function Workplace({
               borderTop: i !== 0 ? '1px solid #ffbd7069' : '',
             }}
           >
-            <EmployeeAvatar email={booking.employeeEmail} size="default" showName={true} />
+            <BookingEmployee employeeEmail={booking.employeeEmail} />
             <div style={{ marginLeft: '40px', whiteSpace: 'pre-line' }}>
               {booking.startDate === booking.finishDate ? (
                 InfoDateField('for', booking.startDate)

@@ -1,15 +1,15 @@
-import { UserOutlined } from '@ant-design/icons'
-import { Avatar, Card, Skeleton } from 'antd'
+import { useQuery } from '@apollo/react-hooks'
+import { Card, Skeleton } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { getEmployeeLink } from '../../paths'
-import { Employee } from '../../types'
-import { useQuery } from '@apollo/react-hooks'
 import getEmployee, { QueryType } from '../../queries/getEmployee'
+import { Employee } from '../../types'
+import Avatar from '../Avatar'
 
 interface Props {
   email: string
-  employee?: Pick<Employee, 'id' | 'name' | 'email' | 'position' | 'avatar'>
+  employee?: Pick<Employee, 'id' | 'name' | 'email' | 'position'>
 }
 
 export default function EmployeeCard(props: Props) {
@@ -30,16 +30,7 @@ export default function EmployeeCard(props: Props) {
                 data-cy="employee_card"
                 title={employee.name}
                 description={employee.position}
-                avatar={
-                  <Avatar
-                    data-cy="employee_avatar"
-                    size={55}
-                    shape="circle"
-                    icon={<UserOutlined />}
-                    src={employee.avatar}
-                    alt={employee.name}
-                  />
-                }
+                avatar={<Avatar size={55} shape="circle" employee={employee} />}
               />
             </Card>
           </Link>
