@@ -96,6 +96,11 @@ Cypress.Commands.add('compareObjectsKeys', (firstObj, secondObj) => {
   Object.keys(firstObj).filter(el => expect(Object.keys(secondObj)).includes(el))
 })
 
+Cypress.Commands.add('waitElDisappear', el => {
+  cy.get(el).should('exist')
+  cy.get(el).should('not.exist')
+})
+
 Cypress.Commands.add('checkImgToken', name => {
   if (!localStorage.getItem('img_token')) {
     cy.setImgToken(name)

@@ -35,6 +35,15 @@ export const devMenu = {
   itemLabel: '.ant-form-item-label',
 }
 
+export const table = {
+  secondTypography: '.ant-typography-secondary',
+  activeTab: '.office-planner-active',
+}
+
+export const spinner = {
+  active: '.ant-spin',
+}
+
 export const menuEl = {
   allMenu: '.ant-menu',
   item: '.ant-menu-item',

@@ -82,6 +82,14 @@ Cypress.Commands.add('getResponse', (arg, aliasName) => {
   })
 })
 
+Cypress.Commands.add('mockResponse', (arg, mockData) => {
+  cy.route2('/graphql', req => {
+    if (arg.every(el => req.body.includes(el))) {
+      req.reply(mockData)
+    }
+  })
+})
+
 Cypress.Commands.add('compareTwoJson', (alias, expectJson) => {
   cy.wait(`@${alias}`).then(val => {
     if (val.response) {
