@@ -32,8 +32,8 @@ export default function ({ files, loading }: Props) {
 
   // Parse files paths to define folders
   filteredFiles.forEach(file => {
-    const path = file.url.match(/(?<=shared%20documents\/).*/i)?.[0]
-    if (path) flatPathsList.push(path)
+    const path = file.url.match(/(?<=shared%20documents\/Guilds\/).*/i)?.[0]
+    if (path) flatPathsList.push(`Guilds/${path}`)
   })
 
   // Recursive function for building nested object with full folder structure
