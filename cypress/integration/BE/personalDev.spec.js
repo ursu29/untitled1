@@ -5,33 +5,12 @@ import {
   planData,
 } from '../../support/client/devPlan'
 
-describe(`Check employee Personal development`, () => {
-  let response
-
-  before(() => {
-    cy.setToken('employee')
-    cy.getResponse(['archivedDPVersions'], 'alias')
-    cy.visit('/client/profile/development-plan')
-    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
-  })
-
-  it('Check archivedDPVersions', () => {
-    const { archivedDPVersions } = response
-
-    expect(archivedDPVersions).to.be.a('array')
-    archivedDPVersions.forEach(el => {
-      cy.compareObjectsKeys(el, planData)
-      expect(el.__typename).equal(planData.__typename)
-    })
-  })
-})
-
 describe(`Check getDevelopmentPlans`, () => {
   let response
 
   before(() => {
     cy.setToken('employee')
-    cy.getResponse(['getDevelopmentPlans'], 'alias')
+    cy.getResponse(['getDevelopmentPlans', 'developmentRoles'], 'alias')
     cy.visit('/client/profile/development-plan')
     cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
   })
@@ -68,5 +47,26 @@ describe(`Check getDevelopmentPlans`, () => {
       }
     })
     expect(guildContribution.__typename).equal(guildContributionData.__typename)
+  })
+})
+
+describe(`Check employee Personal development`, () => {
+  let response
+
+  before(() => {
+    cy.setToken('employee')
+    cy.getResponse(['archivedDPVersions'], 'alias')
+    cy.visit('/client/profile/development-plan')
+    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
+  })
+
+  it('Check archivedDPVersions', () => {
+    const { archivedDPVersions } = response
+
+    expect(archivedDPVersions).to.be.a('array')
+    archivedDPVersions.forEach(el => {
+      cy.compareObjectsKeys(el, planData)
+      expect(el.__typename).equal(planData.__typename)
+    })
   })
 })
