@@ -30,8 +30,15 @@ describe(`Check employee geEmployeeAllData`, () => {
     cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
   })
 
-  it('getEmployee response', () => {
-    checkKeyValueExist(response.employeeByEmail, employeeData.employee)
+  it('agileManager response', () => {
+    const managerData = response.employeeByEmail.agileManager
+    const { agileManager } = employeeData.employee
+
+    checkKeyValueExist(agileManager, managerData)
+  })
+
+  it('employeeByEmail response', () => {
+    cy.compareObjectsKeys(response.employeeByEmail, { ...employeeData.employee, avatar: null })
   })
 })
 

@@ -1,15 +1,8 @@
 import { getClient, getManager, getProjects, getEmployeeExperiences } from '../../support/getData'
+import { tabs } from '../../support/locators'
 
 describe('Checking default information', () => {
   const userId = '1bf931df-2015-4516-ac33-0d2caddc7df2'
-  const tabs = {
-    skill: 'Skills',
-    bookMark: 'Bookmarks',
-    matrices: 'Matrices',
-    personal: 'Personal',
-    form: 'Self',
-    cv: 'CV',
-  }
   let allData = {
     client: null,
     manager: null,
@@ -49,12 +42,12 @@ describe('Checking default information', () => {
     cy.checkIfElementPresent('bonuses', profile.bonuses)
   })
 
-  it.skip('Information about employee manager', () => {
+  it('Information about employee manager', () => {
     const { manager } = allData.manager.employees[0]
 
     cy.getElement('employee_card').contains(manager.name)
     cy.getElement('employee_card').contains(manager.position)
-    cy.getElement('employee_avatar').should('be.visible')
+    cy.getElement('avatar').should('be.visible')
   })
 
   it('Check the Projects field', () => {
