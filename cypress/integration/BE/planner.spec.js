@@ -35,7 +35,7 @@ describe('Check getOfficeDays response', () => {
     cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
   })
 
-  it.only('getOfficeDays response', () => {
+  it('getOfficeDays response', () => {
     const { officeDays } = response
     const firstDay = officeDays[0]
     const { __typename, date } = day(getFirstDay)

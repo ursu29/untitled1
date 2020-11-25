@@ -7,6 +7,7 @@ import {
   pastDay,
   employeeLimit,
   employeeMaxCount,
+  filterEmployeesCount,
 } from '../../support/officePlanner/officeDays'
 
 const LOCATIONS = ['Saint Petersburg', 'Tomsk', 'Kaliningrad', 'Zürich']
@@ -99,6 +100,34 @@ describe('Office planner', () => {
         return
       }
       cy.get(postEl.buttonSwitch).eq(0).should('not.have.class', 'ant-switch-disabled')
+    })
+  })
+
+  context('Change employee day', () => {
+    let allDays
+    before(() => {
+      cy.setToken('employee')
+      cy.getResponse(['getOfficeDays'], 'alias')
+
+      cy.visit('/client/office-planner')
+      cy.wait('@alias').then(el => {
+        const { data } = JSON.parse(el.response.body)
+
+        allDays = data.officeDays
+      })
+    })
+
+    it('Compare employeeCount', () => {
+      cy.get('.office-planner-active > .ant-switch').click({ multiple: true, force: true })
+      cy.getResponse(['apply'], 'alias')
+      cy.wait('@alias').then(el => {
+        const { data } = JSON.parse(el.response.body)
+        const getCount = data => data[0].count
+
+        expect(getCount(filterEmployeesCount(allDays, todaysDate))).not.be.equal(
+          getCount(filterEmployeesCount(data.officeDays, todaysDate)),
+        )
+      })
     })
   })
 })
