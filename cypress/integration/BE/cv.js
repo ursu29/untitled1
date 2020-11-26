@@ -12,6 +12,13 @@ describe('Check CV', () => {
     cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('getEmployeeCV response', () => {
     const { id, __typename } = employeeData.employee
     const { employeeByEmail } = response
