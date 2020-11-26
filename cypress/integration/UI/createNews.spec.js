@@ -10,12 +10,21 @@ describe('Create news', () => {
 
   before(() => {
     cy.setToken('manager')
-    cy.visit('/')
     cy.setImgToken('manager')
+    cy.visit('/')
+  })
+
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
   })
 
   it('Visit post page', () => {
-    cy.checkImgToken('manager')
+    // sometimes instead manager login employee
+    cy.setToken('manager')
+
     cy.post(getTags()).then(res => {
       const { tags } = res.body.data
       allData = { ...allData, tags }
@@ -25,14 +34,12 @@ describe('Create news', () => {
   })
 
   it('Create new post', () => {
-    cy.checkImgToken('manager')
     cy.get(postEl.posts).should('be.visible')
     cy.get(postEl.editPost).eq(0).click()
     cy.get(postEl.title).type(text)
   })
 
   it('Check tags', () => {
-    cy.checkImgToken('manager')
     const allTags = allData.tags.map(el => el.name)
     const firstTag = allTags[0]
 
@@ -47,7 +54,6 @@ describe('Create news', () => {
   })
 
   it('Save post', () => {
-    cy.checkImgToken('manager')
     cy.get(postEl.button).click()
     cy.get(modalEl.window).should('be.visible')
 

@@ -20,6 +20,13 @@ describe('Edit News', () => {
     cy.setImgToken('manager')
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('Edit first post', () => {
     cy.checkImgToken('manager')
     cy.get(postEl.posts).should('be.visible')

@@ -5,6 +5,10 @@ const {
   id,
   name,
   position,
+  location,
+  country,
+  phoneNumber,
+  isMe,
   __typename,
 } = employeeData.employee
 
@@ -40,5 +44,9 @@ export const subUser = {
   projects: [],
   name,
   position,
+  location,
+  country,
+  phoneNumber,
+  isMe,
   __typename,
 }

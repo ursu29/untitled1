@@ -7,6 +7,13 @@ describe('Workspace', () => {
     cy.checkImgToken('manager')
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('check all location', () => {
     cy.checkImgToken('manager')
     locations.forEach(el => {

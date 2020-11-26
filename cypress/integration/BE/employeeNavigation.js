@@ -27,6 +27,13 @@ describe(`Check employee matrices`, () => {
     cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('Check matrixEmployees keys', () => {
     const { id, name, __typename } = employeeData.employee
     const { employees } = response
@@ -116,6 +123,13 @@ describe(`Check employee getBookmarks`, () => {
 
       employeeData.employee = { ...data.employeeByEmail }
     })
+  })
+
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
   })
 
   it('getBookmarks response', () => {

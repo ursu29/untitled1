@@ -31,11 +31,8 @@ describe('Check manager getEmployee', () => {
 
   before(() => {
     cy.setToken('manager')
-    cy.getResponse(['getEmployee', 'avatar'], 'alias')
-    cy.visit('/client/profile/evaluation')
-    cy.wait(`@alias`)
-    cy.getResponse(['getEmployee', 'avatar'], 'alias')
-    cy.getElement('My').click()
+    cy.getResponse(['getEmployeeName'], 'alias')
+    cy.visit('/client/profile/employees')
     cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
   })
 
@@ -43,6 +40,6 @@ describe('Check manager getEmployee', () => {
     const { id, __typename, name } = employeeData.employee
     const { employeeByEmail } = response
 
-    checkKeyValueExist(employeeByEmail, { __typename, id, name, avatar: null })
+    checkKeyValueExist(employeeByEmail, { __typename, id, name })
   })
 })

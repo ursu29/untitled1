@@ -31,6 +31,13 @@ describe('Checking default information', () => {
     })
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('Check Employee data', () => {
     const { profile } = allData.client
 
