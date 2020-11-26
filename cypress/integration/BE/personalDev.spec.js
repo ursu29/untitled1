@@ -12,7 +12,7 @@ describe(`Check getDevelopmentPlans`, () => {
     cy.setToken('employee')
     cy.getResponse(['getDevelopmentPlans', 'developmentRoles'], 'alias')
     cy.visit('/client/profile/development-plan')
-    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
+    cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
   it('Check plan keys', () => {
@@ -57,7 +57,7 @@ describe(`Check employee Personal development`, () => {
     cy.setToken('employee')
     cy.getResponse(['archivedDPVersions'], 'alias')
     cy.visit('/client/profile/development-plan')
-    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
+    cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
   it('Check archivedDPVersions', () => {

@@ -57,20 +57,20 @@ describe('Create news', () => {
     cy.get(postEl.button).click()
     cy.get(modalEl.window).should('be.visible')
 
-    cy.route2('/graphql', req => {
-      if (req.body.includes('createPost')) {
+    cy.intercept('/graphql', req => {
+      if (req.body.operationName.includes('createPost')) {
         // set superUser role
         req.headers['dev-only-user-role'] = 'superUser'
       }
       // create alias if call getPosts
-      if (req.body.includes('getPosts')) {
+      if (req.body.operationName.includes('getPosts')) {
         req.alias = 'getPost'
       }
     })
     cy.get(submitPost).click()
     // call alias when get response
     cy.wait('@getPost').then(req => {
-      const { data } = JSON.parse(req.response.body)
+      const { data } = req.response.body
       const firstPost = data.posts[0]
 
       expect(firstPost.title).to.equal(text)

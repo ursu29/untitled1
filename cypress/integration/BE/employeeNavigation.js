@@ -24,7 +24,7 @@ describe(`Check employee matrices`, () => {
     })
     cy.getResponse(['getEmployeeMatrices'], 'alias')
     cy.visit('/client/profile/matrices')
-    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
+    cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
   beforeEach(() => {
@@ -139,7 +139,7 @@ describe(`Check employee getBookmarks`, () => {
     cy.visit('/client/profile/bookmarks')
 
     cy.wait(`@alias`).then(val => {
-      const { bookmarks } = JSON.parse(val.response.body).data
+      const { bookmarks } = val.response.body.data
 
       expect(bookmarks).to.be.a('array')
       cy.compareObjectsKeys(bookmarks[0], bookmark)

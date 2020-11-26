@@ -35,7 +35,7 @@ describe('Adding Matrix', () => {
           cy.getId(matrix.delete).eq(0).click()
           cy.scrollTo('top')
           cy.get(matrix.success).should('be.visible')
-          cy.get(matrix.success).should('not.be.visible')
+          cy.get(matrix.success).should('not.exist')
         })
 
         return
@@ -48,7 +48,7 @@ describe('Adding Matrix', () => {
     cy.get(matrix.item).eq(0).click({ multiple: true })
     cy.get(matrix.alert).should('be.visible')
     cy.get(matrix.alert)
-      .should('not.be.visible')
+      .should('not.exist')
       .then(() => {
         getListOfMatrix().then(el => expect(el.text()).include(matrix.matrixName))
       })

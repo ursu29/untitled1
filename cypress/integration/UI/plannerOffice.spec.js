@@ -87,7 +87,7 @@ describe('Office planner', () => {
 
       cy.visit('/client/office-planner')
       cy.wait('@alias').then(el => {
-        const { data } = JSON.parse(el.response.body)
+        const { data } = el.response.body
 
         allDates = data.officeDays.map(empl => empl.date)
       })
@@ -111,7 +111,7 @@ describe('Office planner', () => {
 
       cy.visit('/client/office-planner')
       cy.wait('@alias').then(el => {
-        const { data } = JSON.parse(el.response.body)
+        const { data } = el.response.body
 
         allDays = data.officeDays
       })
@@ -121,7 +121,7 @@ describe('Office planner', () => {
       cy.get('.office-planner-active > .ant-switch').click({ multiple: true, force: true })
       cy.getResponse(['apply'], 'alias')
       cy.wait('@alias').then(el => {
-        const { data } = JSON.parse(el.response.body)
+        const { data } = el.response.body
         const getCount = data => data[0].count
 
         expect(getCount(filterEmployeesCount(allDays, todaysDate))).not.be.equal(

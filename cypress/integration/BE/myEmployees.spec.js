@@ -12,7 +12,7 @@ describe('Check manager employees', () => {
     cy.post(getEmployee(email('employee'))).then(res => (managerId = res.body.id))
     cy.getResponse(['getSubordinates'], 'alias')
     cy.visit('/client/profile/employees')
-    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
+    cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
   it('getSubordinates response', () => {
@@ -33,7 +33,7 @@ describe('Check manager getEmployee', () => {
     cy.setToken('manager')
     cy.getResponse(['getEmployeeName'], 'alias')
     cy.visit('/client/profile/employees')
-    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
+    cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
   it('getEmployeeName response', () => {

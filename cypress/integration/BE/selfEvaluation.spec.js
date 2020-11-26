@@ -15,7 +15,7 @@ describe(`Check employee Self Evaluation Form`, () => {
     cy.setToken('employee')
     cy.getResponse(['getEvaluations'], 'alias')
     cy.visit('/client/profile/evaluation')
-    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
+    cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
   it('getEvaluations response', () => {
@@ -59,7 +59,7 @@ describe('Check archivedSEFVersions', () => {
     cy.setToken('employee')
     cy.getResponse(['archivedSEFVersions'], 'alias')
     cy.visit('/client/profile/evaluation')
-    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
+    cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
   it('getEvaluations response', () => {
@@ -79,7 +79,7 @@ describe('Check Attributes', () => {
     cy.setToken('employee')
     cy.getResponse(['evaluationAttributes', 'id', 'title'], 'alias')
     cy.visit('/client/profile/evaluation')
-    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
+    cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
   it('Attributes response', () => {

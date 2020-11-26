@@ -9,7 +9,7 @@ describe('Check CV', () => {
     cy.setToken('employee')
     cy.getResponse(['getEmployeeCV'], 'alias')
     cy.visit('/client/profile/cv')
-    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
+    cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
   beforeEach(() => {
@@ -52,7 +52,7 @@ describe('Check CV project', () => {
     cy.setToken('employee')
     cy.getResponse(['projects', 'description'], 'alias')
     cy.visit('/client/profile/cv')
-    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
+    cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
   it('project response', () => {

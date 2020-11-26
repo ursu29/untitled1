@@ -27,7 +27,7 @@ describe(`Check employee geEmployeeAllData`, () => {
     cy.setToken('employee')
     cy.getResponse(['getEmployee', 'phoneNumber', 'isMe'], 'alias')
     cy.visit('/client/profile')
-    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
+    cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
   it('getEmployeeEmail response', () => {
@@ -63,7 +63,7 @@ describe(`Check employee Levels`, () => {
     cy.visit('/client/profile')
 
     cy.wait('@alias').then(req => {
-      const response = JSON.parse(req.response.body)
+      const response = req.response.body
       const firstLevel = response.data.levels[0]
 
       expect(response.data.levels).to.be.a('array')

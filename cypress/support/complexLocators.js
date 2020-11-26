@@ -71,20 +71,24 @@ Cypress.Commands.add('editSkills', idx => {
 
 Cypress.Commands.add('spinnerDisappear', el => {
   cy.get(el).should('be.visible')
-  cy.get(el).should('not.be.visible')
+  cy.get(el).should('not.exist')
 })
 
 Cypress.Commands.add('getResponse', (arg, aliasName) => {
-  cy.route2('/graphql', req => {
-    if (arg.every(el => req.body.includes(el))) {
+  cy.intercept('/graphql', req => {
+    const data = `${req.body.operationName} ${req.body.query}`
+
+    if (arg.every(el => data.includes(el))) {
       req.alias = aliasName
     }
   })
 })
 
 Cypress.Commands.add('mockResponse', (arg, mockData) => {
-  cy.route2('/graphql', req => {
-    if (arg.every(el => req.body.includes(el))) {
+  cy.intercept('/graphql', req => {
+    const data = `${req.body.operationName} ${req.body.query}`
+
+    if (arg.every(el => data.includes(el))) {
       req.reply(mockData)
     }
   })
@@ -93,7 +97,7 @@ Cypress.Commands.add('mockResponse', (arg, mockData) => {
 Cypress.Commands.add('compareTwoJson', (alias, expectJson) => {
   cy.wait(`@${alias}`).then(val => {
     if (val.response) {
-      const res = JSON.parse(val.response.body)
+      const res = val.response.body
 
       expect(res).to.deep.equal(expectJson)
 
@@ -101,18 +105,4 @@ Cypress.Commands.add('compareTwoJson', (alias, expectJson) => {
     }
     console.log('ERROR:', val)
   })
-})
-
-Cypress.Commands.add('waitGraphql', (arg, operationName) => {
-  cy.route2({
-    method: 'POST',
-    url: '/graphql',
-    onResponse: ({ request }) => {
-      if (arg.every(el => request.body.includes(el))) {
-        cy.emit(operationName)
-      }
-    },
-  })
-
-  cy.waitFor(operationName)
 })

@@ -7,9 +7,8 @@ describe('Check Employees response', () => {
   before(() => {
     cy.setToken('employee')
     cy.getResponse(['getEmployees'], 'alias')
-    cy.getResponse(['getOfficeDays'], 'aliasDays')
     cy.visit('/client/office-planner')
-    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
+    cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
   it('Check Employees response', () => {
@@ -32,7 +31,7 @@ describe('Check getOfficeDays response', () => {
     cy.setToken('employee')
     cy.getResponse(['getOfficeDays'], 'alias')
     cy.visit('/client/office-planner')
-    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
+    cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
   it('getOfficeDays response', () => {
