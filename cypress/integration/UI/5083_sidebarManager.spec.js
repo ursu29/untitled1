@@ -7,6 +7,13 @@ describe('Check Manager menu', () => {
     cy.get(menuEl.allMenu).should('be.visible')
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('Check all menu names is present', () => {
     cy.addRole()
     cy.get(menuEl.allMenu).should('be.visible')

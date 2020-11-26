@@ -8,6 +8,14 @@ describe('Smokes employee', () => {
     cy.setToken('employee')
     employeeProfile.visit()
   })
+
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('Opens own profile by default', () => {
     employeeProfile.url().should('include', '/client/profile')
     employeeProfile.avatar().should('be.visible')
@@ -43,6 +51,13 @@ describe('Smokes manager', () => {
   beforeEach(() => {
     cy.setToken('manager')
     managerProfile.visit()
+  })
+
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
   })
 
   it('Opens profile by default', () => {

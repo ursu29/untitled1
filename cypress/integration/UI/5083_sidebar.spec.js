@@ -7,6 +7,13 @@ describe('Check Menu', () => {
     cy.get(menuEl.allMenu).should('be.visible')
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('Check all menu names is present', () => {
     cy.checkTextInArrayEl(
       menuEl.item,

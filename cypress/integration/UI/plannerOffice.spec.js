@@ -26,6 +26,13 @@ describe('Office planner', () => {
       cy.visit('/client/office-planner')
     })
 
+    beforeEach(() => {
+      cy.restoreLocalStorage()
+    })
+    afterEach(() => {
+      cy.saveLocalStorage()
+    })
+
     it('Right number of employees', () => {
       cy.waitElDisappear(spinner.active)
       cy.get(table.activeTab)
@@ -67,6 +74,13 @@ describe('Office planner', () => {
       cy.visit('/client/office-planner')
     })
 
+    beforeEach(() => {
+      cy.restoreLocalStorage()
+    })
+    afterEach(() => {
+      cy.saveLocalStorage()
+    })
+
     it('Check one employee', () => {
       cy.waitElDisappear(spinner.active)
       cy.get(table.activeTab)
@@ -93,6 +107,13 @@ describe('Office planner', () => {
       })
     })
 
+    beforeEach(() => {
+      cy.restoreLocalStorage()
+    })
+    afterEach(() => {
+      cy.saveLocalStorage()
+    })
+
     it('Check button state', () => {
       if (allDates.includes(pastDay)) {
         cy.get(postEl.buttonSwitch).eq(0).should('have.class', 'ant-switch-disabled')
@@ -115,6 +136,13 @@ describe('Office planner', () => {
 
         allDays = data.officeDays
       })
+    })
+
+    beforeEach(() => {
+      cy.restoreLocalStorage()
+    })
+    afterEach(() => {
+      cy.saveLocalStorage()
     })
 
     it('Compare employeeCount', () => {

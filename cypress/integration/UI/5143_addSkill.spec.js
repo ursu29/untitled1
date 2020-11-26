@@ -33,7 +33,11 @@ describe('Adding Skills in the Users Profile', () => {
     cy.deleteAllSkills(skillEl.item, skillEl.remove)
   })
 
-  afterEach('check', () => {
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
     cy.deleteAllSkills(skillEl.item, skillEl.remove)
   })
 

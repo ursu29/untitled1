@@ -16,6 +16,13 @@ describe('Adding Matrix', () => {
     })
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('Check the Matrices tab', () => {
     cy.getElement(matrix.matrices).click()
     cy.getElement(matrix.knowledge).should('be.visible')
