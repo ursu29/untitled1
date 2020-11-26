@@ -9,6 +9,7 @@ export const query = gql`
       subordinateUsers {
         ...EmployeeDetails
         lastManagerMeeting
+        one2oneRequest
         leadingProjects {
           ...ProjectDetails
         }
@@ -23,7 +24,7 @@ export const query = gql`
 `
 
 export type Subordinate = EmployeeDetails &
-  Pick<Employee, 'lastManagerMeeting'> & {
+  Pick<Employee, 'lastManagerMeeting' | 'one2oneRequest'> & {
     leadingProjects: ProjectDetails[]
     projects: ProjectDetails[]
   }

@@ -8,7 +8,8 @@ interface Props {
 
 function EmployeeManager({ employee }: Props) {
   if (!employee) return null
-  return <EmployeeGroup title="Agile manager" employees={[employee]} />
+
+  return <EmployeeGroup title="Agile manager" employees={[employee]} one2one />
 }
 
 export default EmployeeManager

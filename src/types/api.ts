@@ -18,7 +18,10 @@ export interface Employee {
   email: string
   isMe: boolean
   subordinateUsers: Employee
-  subordinateUsersCount: number
+  subordinateUsersCount: {
+    users: number
+    one2oneRequests: number
+  }
   bonuses: number | null
   status: string
   access: Access
@@ -26,6 +29,7 @@ export interface Employee {
   matrices: Matrix[]
   worksFromOffice: string[]
   lastManagerMeeting: string
+  one2oneRequest: boolean
   projects: Project[]
 }
 
