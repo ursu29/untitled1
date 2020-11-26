@@ -15,6 +15,13 @@ describe('Check manager employees', () => {
     cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('getSubordinates response', () => {
     const { __typename, id, name, position, email } = employeeData.employee
     const { employeeByEmail } = response
@@ -34,6 +41,13 @@ describe('Check manager getEmployee', () => {
     cy.getResponse(['getEmployeeName'], 'alias')
     cy.visit('/client/profile/employees')
     cy.wait(`@alias`).then(val => (response = val.response.body.data))
+  })
+
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
   })
 
   it('getEmployeeName response', () => {

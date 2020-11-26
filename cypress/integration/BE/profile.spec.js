@@ -12,6 +12,13 @@ describe(`Check employee getEmployee`, () => {
     cy.setToken('employee')
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('getEmployee response', () => {
     const { id, __typename } = employeeData.employee
     cy.getResponse(['getEmployee', 'activeProcessExecutions'], 'alias')
@@ -30,6 +37,13 @@ describe(`Check employee geEmployeeAllData`, () => {
     cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('getEmployeeEmail response', () => {
     const { agileManager } = employeeData.employee
 
@@ -41,6 +55,13 @@ describe(`Check employee geEmployeeAllData`, () => {
 describe(`Check employee GetEmployeeProjects`, () => {
   before(() => {
     cy.setToken('employee')
+  })
+
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
   })
 
   it('GetEmployeeProjects response', () => {
@@ -56,6 +77,13 @@ describe(`Check employee GetEmployeeProjects`, () => {
 describe(`Check employee Levels`, () => {
   before(() => {
     cy.setToken('employee')
+  })
+
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
   })
 
   it('GetEmployeeProjects response', () => {
@@ -75,6 +103,13 @@ describe(`Check employee Levels`, () => {
 describe(`Check employee matricesAccess`, () => {
   before(() => {
     cy.setToken('employee')
+  })
+
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
   })
 
   it('matricesAccess response', () => {

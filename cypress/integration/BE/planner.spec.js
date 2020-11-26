@@ -11,6 +11,13 @@ describe('Check Employees response', () => {
     cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('Check Employees response', () => {
     const { employees, officeAccess, profile } = response
     const { id, location, __typename } = employeeData.employee
@@ -32,6 +39,13 @@ describe('Check getOfficeDays response', () => {
     cy.getResponse(['getOfficeDays'], 'alias')
     cy.visit('/client/office-planner')
     cy.wait(`@alias`).then(val => (response = val.response.body.data))
+  })
+
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
   })
 
   it('getOfficeDays response', () => {

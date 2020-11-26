@@ -18,6 +18,13 @@ describe(`Check employee Self Evaluation Form`, () => {
     cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('getEvaluations response', () => {
     const { evaluationComments, evaluations } = response
     const firstEvaluation = evaluations[0]

@@ -15,6 +15,13 @@ describe(`Check getDevelopmentPlans`, () => {
     cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('Check plan keys', () => {
     const { developmentPlans } = response
 
