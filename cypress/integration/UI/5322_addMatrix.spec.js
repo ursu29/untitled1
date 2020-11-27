@@ -1,6 +1,6 @@
 import { getAllMatrices } from '../../support/getData'
 import { getListOfMatrix } from '../../support/complexLocators'
-import { matrix } from '../../support/locators'
+import { workspace, tabs, matrix } from '../../support/locators'
 
 describe('Adding Matrix', () => {
   let allData = {
@@ -24,7 +24,7 @@ describe('Adding Matrix', () => {
   })
 
   it('Check the Matrices tab', () => {
-    cy.getElement(matrix.matrices).click()
+    cy.get(workspace.tab).contains(tabs.matrices).click()
     cy.getElement(matrix.knowledge).should('be.visible')
     const { matrices } = allData.matrices
     const name = matrices.map(val => val.title)

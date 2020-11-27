@@ -41,7 +41,7 @@ export const officeDays = (employeeLimit, employeeCount, date) => ({
 })
 
 export const filterEmployeesCount = (data, compareDate) =>
-  data.filter(el => el.data === compareDate)
+  data.filter(el => el.date === compareDate)
 
 export const employeeMaxCount = (allEmployees, count) =>
   Math.ceil((allEmployees * employeeLimit(count)) / 100)

@@ -41,9 +41,10 @@ describe('Workspace', () => {
   })
 
   it('check design mode', () => {
+    cy.addRole()
     cy.checkImgToken('manager')
     cy.get('[role=switch]').first().click({ multiple: true })
-    cy.get('span').contains('Add New').should('be.visible')
-    cy.get('span').contains('Edit').should('be.visible')
+    cy.get('.sc-iRbamj').contains('Add New').should('be.visible')
+    cy.get('.sc-iRbamj').first().contains('Edit').should('be.visible')
   })
 })

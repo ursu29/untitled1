@@ -64,8 +64,8 @@ export const matricesAccess = {
   data: {
     matricesAccess: defaultReadAccess(false),
     onboardingAccess: defaultReadAccess(false),
-    processExecutionsAccess: defaultReadAccess(true),
-    processesAccess: defaultWriteAccess(true),
+    processExecutionsAccess: defaultReadAccess(false),
+    processesAccess: defaultWriteAccess(false),
   },
 }
 

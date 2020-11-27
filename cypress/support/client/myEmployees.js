@@ -40,6 +40,7 @@ export const subUser = {
   email,
   id,
   lastManagerMeeting: null,
+  one2oneRequest: {},
   leadingProjects: [],
   projects: [],
   name,

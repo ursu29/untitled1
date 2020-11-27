@@ -150,7 +150,7 @@ describe('Office planner', () => {
       cy.getResponse(['apply'], 'alias')
       cy.wait('@alias').then(el => {
         const { data } = el.response.body
-        const getCount = data => data[0].count
+        const getCount = data => data[0].employeeCount
 
         expect(getCount(filterEmployeesCount(allDays, todaysDate))).not.be.equal(
           getCount(filterEmployeesCount(data.officeDays, todaysDate)),

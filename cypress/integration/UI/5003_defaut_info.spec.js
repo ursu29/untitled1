@@ -52,8 +52,8 @@ describe('Checking default information', () => {
   it('Information about employee manager', () => {
     const { manager } = allData.manager.employees[0]
 
-    cy.getElement('employee_card').contains(manager.name)
-    cy.getElement('employee_card').contains(manager.position)
+    cy.get('.ant-card-meta-title').contains('Manager').should('have.text', manager.name)
+    cy.get('.ant-card-meta-description').contains('Agile').should('have.text', manager.position)
     cy.getElement('avatar').should('be.visible')
   })
 

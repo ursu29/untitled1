@@ -15,6 +15,8 @@ describe('Check Manager menu', () => {
   })
 
   it('Check all menu names is present', () => {
+    cy.setToken('manager')
+
     cy.addRole()
     cy.get(menuEl.allMenu).should('be.visible')
     cy.checkTextInArrayEl(

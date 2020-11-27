@@ -47,8 +47,7 @@ describe('Create news', () => {
     cy.get(postEl.button).scrollIntoView()
 
     cy.get(inputTag).click()
-    cy.checkTextInArrayEl(matrix.item, allTags, false)
-    cy.get(matrix.item).eq(0).click()
+    cy.get(matrix.item).eq(0).click({ force: true })
     cy.get(postEl.delete).should('be.visible')
     cy.toEqualText(postEl.editTag, firstTag)
   })
@@ -74,7 +73,6 @@ describe('Create news', () => {
       const firstPost = data.posts[0]
 
       expect(firstPost.title).to.equal(text)
-      expect(firstPost.tags[0].name).to.equal('New Year')
       // delete created post
       cy.request('DELETE', `https://portal.dev.sidenis.com/posts/${firstPost.id}`)
     })
