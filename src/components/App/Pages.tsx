@@ -1,6 +1,8 @@
 import { BackTop } from 'antd'
 import React, { Suspense } from 'react'
-import { Redirect, Route, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch, RouteProps } from 'react-router-dom'
+import { StrapiGroups } from '../../types'
+import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 import paths from '../../paths'
 import Onboarding from '../Onboarding'
 import Employee from '../Employees/EmployeePage'
@@ -27,13 +29,13 @@ import Skills from '../Skills/SkillsPage'
 import Statistics from '../Statistics/StatisticsPage'
 import Timemaster from '../Timemaster/TimemasterPage'
 import Content from '../UI/Content'
-import PageContent from '../UI/PageContent'
 import Vacancies from '../Vacancies/VacanciesPage'
 import Vacancy from '../Vacancies/VacancyPage'
 import WikiPage from '../Wiki/Page'
 import Wiki from '../Wiki/WikiPage'
-
-const PageNotFound = () => <PageContent>Page is not found</PageContent>
+import Management from '../Management'
+import NotAllowed from '../UI/NotAllowed'
+import NotFound from '../UI/NotFound'
 
 export default function Pages() {
   return (
@@ -75,9 +77,21 @@ export default function Pages() {
           <Route path={paths.OFFICE_PLANNER} component={OfficePlanner} />
           <Route path={paths.WORKSPACE_PLANNER} component={WorkspacePlanner} />
           <Route path={paths.FEEDBACK} component={Feedback} />
-          <Route component={PageNotFound} />
+          <PrivateRoute path={paths.MANAGEMENT} component={Management} access={'SUPER_USER'} />
+          <Route component={NotFound} />
         </Switch>
       </Suspense>
     </Content>
+  )
+}
+
+function PrivateRoute({
+  access,
+  ...args
+}: { access: keyof typeof StrapiGroups | (keyof typeof StrapiGroups)[] } & RouteProps) {
+  return useStrapiGroupCheck(access) ? (
+    <Route {...args} />
+  ) : (
+    <Route {...args} component={NotAllowed} />
   )
 }

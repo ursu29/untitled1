@@ -9,6 +9,7 @@ import NotAnswering from '../UI/NotAnswering'
 import DevTools from '../DevTools'
 import { EmployeeProvider } from '../../utils/withEmployee'
 import { Modal } from 'antd'
+import { Profile } from '../../types'
 
 const query = gql`
   {
@@ -23,7 +24,7 @@ const query = gql`
 `
 
 export default function Root({ tokenExpired }: { tokenExpired: boolean }) {
-  const { data, loading, error } = useQuery(query)
+  const { data, loading, error } = useQuery<{ profile: Profile; isAuthenticated: boolean }>(query)
 
   // Check access to ClientDevTools
   const { data: dataClientDevTools } = useQuery(

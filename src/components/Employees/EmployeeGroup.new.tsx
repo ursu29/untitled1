@@ -117,7 +117,7 @@ function EmployeeGroup({ title, employees, one2one }: Props) {
       </div>
       <div>
         {employees.slice(0, showMore ? employees.length : 2).map(i => (
-          <EmployeeCard employee={i} key={i.id} />
+          <EmployeeCard employee={i} key={i.id} cardProps={{ bordered: false, hoverable: true }} />
         ))}
       </div>
     </div>

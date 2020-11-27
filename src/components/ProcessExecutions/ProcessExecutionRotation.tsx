@@ -27,7 +27,7 @@ function ProcessExecutionRotation({ history, processExecution }: Props & RouteCo
   >(ROTATE_EMPLOYEE, {
     awaitRefetchQueries: true,
     refetchQueries: [{ query: getProcessExecutions }, { query: getVacancies }],
-    onCompleted: (data) => {
+    onCompleted: data => {
       history.push(getProcessExecutionLink(data.rotateEmployee.id))
     },
   })
@@ -58,7 +58,7 @@ function ProcessExecutionRotation({ history, processExecution }: Props & RouteCo
       </Drawer>
       <Typography.Title level={3}>Want to rotate</Typography.Title>
       <div style={{ display: 'flex' }}>
-        {employees?.map((i) => {
+        {employees?.map(i => {
           return (
             <div key={i.id} style={{ minWidth: 300, marginRight: 16 }}>
               <EmployeeCard email={i.email} />

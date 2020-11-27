@@ -1,4 +1,5 @@
 import React, { PropsWithChildren, useState, useEffect, useContext } from 'react'
+import { Profile } from '../types'
 
 const EmployeeContext = React.createContext<any>(null)
 
@@ -20,7 +21,12 @@ function EmployeeProvider(props: { value: any } & PropsWithChildren<any>) {
 
 const EmployeeConsumer = EmployeeContext.Consumer
 
-function useEmployee() {
+function useEmployee(): {
+  employee: Profile
+  setEmployee: any
+  devOnlyUserRole: string
+  setDevOnlyUserRole: any
+} {
   const { employee, setEmployee, devOnlyUserRole, setDevOnlyUserRole } = useContext(EmployeeContext)
   return { employee, setEmployee, devOnlyUserRole, setDevOnlyUserRole }
 }

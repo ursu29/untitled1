@@ -492,3 +492,24 @@ export interface OnboardingTicket {
   description: string
   responsible: Employee[]
 }
+
+export enum StrapiGroups {
+  REVIEWERS,
+  FEEDBACK,
+  HR_RU,
+  WIKI_EDITORS,
+  HR_EDITORS,
+  NEWS_EDITORS,
+  TECH_PORTAL,
+  WORKSPACE_PLANNER,
+  SYS_ADMINS,
+  HR_ADMINS,
+  SUPER_USER,
+}
+
+export interface Profile {
+  id: string
+  strapiId: string
+  email: string
+  strapiGroupsMembership: (keyof typeof StrapiGroups)[]
+}
