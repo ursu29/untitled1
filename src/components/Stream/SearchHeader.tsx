@@ -8,11 +8,13 @@ export default function SearchHeader({
   onSort,
   onSkillsFilter,
   selectedTechnologies,
+  showSkills,
 }: {
   onSearch: any
   onSort: any
   onSkillsFilter: any
   selectedTechnologies: any
+  showSkills: boolean
 }) {
   const isSingleColumn = useMediaQuery({ maxWidth: 520 })
 
@@ -63,16 +65,18 @@ export default function SearchHeader({
         </Select>
       </div>
 
-      <div style={{ maxWidth: isSingleColumn ? '180px' : '40%', minWidth: 120 }}>
-        <div style={{ marginBottom: '5px', whiteSpace: 'nowrap' }}>With skills</div>
-        <div style={{ minWidth: 120 }} data-cy="select-skill">
-          <SkillTreeSelect
-            value={selectedTechnologies}
-            onChange={value => onSkillsFilter(value)}
-            searchPlaceholder="Select skills"
-          />
+      {showSkills && (
+        <div style={{ maxWidth: isSingleColumn ? '180px' : '40%', minWidth: 120 }}>
+          <div style={{ marginBottom: '5px', whiteSpace: 'nowrap' }}>With skills</div>
+          <div style={{ minWidth: 120 }} data-cy="select-skill">
+            <SkillTreeSelect
+              value={selectedTechnologies}
+              onChange={value => onSkillsFilter(value)}
+              searchPlaceholder="Select skills"
+            />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

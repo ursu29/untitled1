@@ -1,29 +1,48 @@
 import React from 'react'
-import { TeamOutlined, BookOutlined } from '@ant-design/icons'
+import {
+  TeamOutlined,
+  BookOutlined,
+  ContainerOutlined,
+  VideoCameraOutlined,
+} from '@ant-design/icons'
 import { Skill } from '../../types'
 import Tabs from '../UI/Tabs'
 import SkillBookmarks from './SkillBookmarks'
 import SkillMentions from './SkillMentions'
+import SkillFiles from './SkillFiles'
+import Stream from '../Stream/StreamPage'
 
 interface Props {
   tab: string
   skill: Pick<Skill, 'id'>
 }
 
-export default function SkillTabs(props: Props) {
-  let tabs = [
+export default function SkillTabs({ skill, tab = 'mentions' }: Props) {
+  const tabs = [
     {
       title: 'Mentions',
       icon: <TeamOutlined />,
       key: 'mentions',
-      body: <SkillMentions skill={props.skill} />,
+      body: <SkillMentions skill={skill} />,
     },
     {
       title: 'Bookmarks',
       icon: <BookOutlined />,
       key: 'bookmarks',
-      body: <SkillBookmarks skill={props.skill} />,
+      body: <SkillBookmarks skill={skill} />,
+    },
+    {
+      title: 'Streams',
+      icon: <VideoCameraOutlined />,
+      key: 'streams',
+      body: <Stream skill={skill} />,
+    },
+    {
+      title: 'Files',
+      icon: <ContainerOutlined />,
+      key: 'files',
+      body: <SkillFiles skill={skill} />,
     },
   ]
-  return <Tabs tabs={tabs} tab={props.tab} />
+  return <Tabs controlled tabs={tabs} tab={tab} />
 }

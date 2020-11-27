@@ -4,16 +4,19 @@ import { useQuery, useMutation } from '@apollo/react-hooks'
 import VideoRows from './VideoRows'
 import SearchHeader from './SearchHeader'
 import { getStream, StreamQueryType, updateStream } from '../../queries/stream'
+import { Skill } from '../../types'
 import message from '../../message'
 import PageContent from '../UI/PageContent'
 import Divider from '../UI/Divider'
 
-export default function StreamPage() {
+type SkillPick = Pick<Skill, 'id'>
+
+export default function StreamPage({ skill }: { skill?: SkillPick }) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [search, setSearch] = useState('')
   const [sortBy, setSortBy] = useState('publishedDate')
-  const [skillsFilter, setSkillsFilter] = useState([])
+  const [skillsFilter, setSkillsFilter] = useState(() => (skill ? [skill] : []))
 
   const variables = {
     input: {
@@ -21,11 +24,11 @@ export default function StreamPage() {
       sortBy,
       limit: pageSize,
       offset: pageSize * (page - 1),
-      skillsFilter: skillsFilter.map((e: any) => e.id),
+      skillsFilter: skillsFilter.map(e => e.id),
     },
     inputCount: {
       search,
-      skillsFilter: skillsFilter.map((e: any) => e.id),
+      skillsFilter: skillsFilter.map(e => e.id),
     },
   }
 
@@ -66,6 +69,7 @@ export default function StreamPage() {
         onSort={(sort: string) => setSortBy(sort)}
         onSkillsFilter={(skillsFilter: any) => setSkillsFilter(skillsFilter)}
         selectedTechnologies={skillsFilter}
+        showSkills={!skill}
       />
       <Divider />
       <VideoRows videos={data?.streams || []} update={update} />

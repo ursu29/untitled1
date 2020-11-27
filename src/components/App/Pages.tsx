@@ -55,7 +55,7 @@ export default function Pages() {
           <Route path={paths.PROJECTS} component={Projects} />
           <Route path={paths.GUILDS + '/:code'} component={Guild} />
           <Route path={paths.GUILDS} component={Guilds} />
-          <Route path={paths.SKILLS + '/:id:/:tab'} component={Skill} />
+          <Route path={paths.SKILLS + '/:id/:tab'} component={Skill} />
           <Route path={paths.SKILLS + '/:id'} component={Skill} />
           <Route path={paths.SKILLS} component={Skills} />
           <Route path={paths.STATISTICS} component={Statistics} />
@@ -65,6 +65,7 @@ export default function Pages() {
           <Route path={paths.POSTS} component={News} />
           <Route path={paths.PROCESSES + '/:id'} component={Process} />
           <Route path={paths.PROCESSES} component={Processes} />
+          <Route path={paths.KNOWLEDGE + '/:tab'} component={Knowledge} />
           <Route path={paths.KNOWLEDGE} component={Knowledge} />
           <Route path={paths.VACANCIES + '/:id'} component={Vacancy} />
           <Route path={paths.VACANCIES} component={Vacancies} />

@@ -1,6 +1,8 @@
 import React from 'react'
-import { Tabs, Typography } from 'antd'
+import { Typography } from 'antd'
+import { RouteComponentProps } from 'react-router-dom'
 import PageContent from '../UI/PageContent'
+import Tabs from '../UI/Tabs'
 import Bookmarks from '../Bookmarks/BookmarksPage'
 import Files from '../Files/FilesPage'
 import Stream from '../Stream/StreamPage'
@@ -14,9 +16,9 @@ const tabs = [
     body: <Bookmarks />,
   },
   {
-    title: 'Stream',
+    title: 'Streams',
     icon: <VideoCameraOutlined />,
-    key: 'stream',
+    key: 'streams',
     body: <Stream />,
   },
   {
@@ -27,28 +29,14 @@ const tabs = [
   },
 ]
 
-const { TabPane } = Tabs
+interface Props extends RouteComponentProps<{ tab: string }> {}
 
-export default function Knowledge() {
+export default function Knowledge({ match }: Props) {
+  const { tab } = match.params
   return (
     <PageContent>
       <Typography.Title style={{ marginBottom: '40px' }}>Knowledge</Typography.Title>
-      <Tabs>
-        {tabs.map(tab => (
-          <TabPane
-            tab={
-              <span>
-                {tab.icon}
-                {tab.title}
-              </span>
-            }
-            key={tab.key}
-            style={{ paddingTop: '10px' }}
-          >
-            {tab.body}
-          </TabPane>
-        ))}
-      </Tabs>
+      <Tabs controlled tabs={tabs} tab={tab} />
     </PageContent>
   )
 }

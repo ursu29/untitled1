@@ -49,6 +49,7 @@ function PortalTabs({ location, history, noPadding, controlled, tabs, tab }: Pro
         const profile: any = matchPath(location.pathname, { path: paths.PROFILE })
         const projects: any = matchPath(location.pathname, { path: paths.PROJECTS + '/:code' })
         const skills: any = matchPath(location.pathname, { path: paths.SKILLS + '/:id' })
+        const knowledge: any = matchPath(location.pathname, { path: paths.KNOWLEDGE })
         if (profile) {
           history.push(paths.PROFILE + '/' + tab)
         } else if (employees) {
@@ -57,6 +58,8 @@ function PortalTabs({ location, history, noPadding, controlled, tabs, tab }: Pro
           history.push(getProjectLink(projects.params.code) + tab)
         } else if (skills) {
           history.push(getSkillLink(skills.params.id) + tab)
+        } else if (knowledge) {
+          history.push(paths.KNOWLEDGE + '/' + tab)
         }
       }}
     >
