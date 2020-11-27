@@ -38,7 +38,10 @@ const query = gql`
       id
       name
       email
-      subordinateUsersCount
+      subordinateUsersCount {
+        users
+        one2oneRequests
+      }
       agileManager {
         id
         name
@@ -180,12 +183,13 @@ function EmployeeTabs({ match, ...props }: Props) {
     })
   }
 
-  if (employee?.subordinateUsersCount) {
+  if (employee?.subordinateUsersCount?.users) {
     tabs.push({
       title: (
         <Badge
-          count={employee.subordinateUsersCount}
-          offset={[10, -6]}
+          title={`Total count: ${employee.subordinateUsersCount?.users} user(s)`}
+          count={employee.subordinateUsersCount?.users}
+          offset={[12, -6]}
           overflowCount={999}
           showZero
           style={{
@@ -195,7 +199,19 @@ function EmployeeTabs({ match, ...props }: Props) {
             boxShadow: '0 0 0 1px #d9d9d9 inset',
           }}
         >
-          My employees
+          <Badge
+            title={`One-2-one: ${employee.subordinateUsersCount?.one2oneRequests} request(s)`}
+            count={employee.subordinateUsersCount?.one2oneRequests ? '1-2-1' : null}
+            offset={[-25, -9]}
+            size="small"
+            style={{
+              position: 'absolute',
+              backgroundColor: '#ffc400',
+              fontSize: '10px',
+            }}
+          >
+            My employees
+          </Badge>
         </Badge>
       ),
       key: 'employees',

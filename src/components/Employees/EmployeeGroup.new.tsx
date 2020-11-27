@@ -1,14 +1,42 @@
 import React, { useState } from 'react'
 import { EmployeeDetails } from '../../fragments'
-import { Typography } from 'antd'
+import { Typography, Button, Tooltip, Popconfirm } from 'antd'
 import EmployeeCard from './EmployeeCard.new'
+import updateEmployee from '../../queries/updateEmployee'
+import { useQuery, useMutation } from '@apollo/react-hooks'
+import message from '../../message'
+import { useEmployee } from '../../utils/withEmployee'
+import gql from 'graphql-tag'
+
+const queryOne2oneRequest = gql`
+  {
+    profile {
+      id
+      one2oneRequest
+    }
+  }
+`
 
 export interface Props {
   title: string
   employees: EmployeeDetails[]
+  one2one?: boolean
 }
 
-function EmployeeGroup({ title, employees }: Props) {
+function EmployeeGroup({ title, employees, one2one }: Props) {
+  const user = useEmployee()
+
+  const { data: one2OneRequestData } = useQuery(queryOne2oneRequest)
+  const isOne2oneRequest = one2OneRequestData?.profile?.one2oneRequest
+
+  const [update] = useMutation(updateEmployee, {
+    onCompleted: () => message.success('Updated'),
+    refetchQueries: [{ query: queryOne2oneRequest }],
+    onError: e => {
+      message.error(e)
+    },
+  })
+
   const [showMore, setShowMore] = useState(false)
 
   if (!employees.length) {
@@ -23,15 +51,57 @@ function EmployeeGroup({ title, employees }: Props) {
           justifyContent: 'space-between',
         }}
       >
-        <Typography.Title
-          level={4}
-          style={{
-            fontWeight: 400,
-            fontSize: 18,
-          }}
-        >
-          {title}
-        </Typography.Title>
+        <div style={{ display: 'flex', alignItems: 'baseline' }}>
+          <Typography.Title
+            level={4}
+            style={{
+              fontWeight: 400,
+              fontSize: 18,
+            }}
+          >
+            {title}
+          </Typography.Title>
+
+          {one2one && (
+            <Tooltip
+              placement="right"
+              title={
+                isOne2oneRequest
+                  ? 'You have already requested one-2-one'
+                  : 'Create one-2-one request for your manager'
+              }
+            >
+              <Popconfirm
+                placement="top"
+                title={'Are you sure you want to create request?'}
+                onConfirm={() => {
+                  update({
+                    variables: {
+                      input: {
+                        id: user.employee.id,
+                        one2oneRequest: true,
+                      },
+                    },
+                  })
+                }}
+                okText="Yes"
+                cancelText="No"
+                disabled={isOne2oneRequest}
+              >
+                <Button
+                  type="primary"
+                  ghost
+                  size="small"
+                  style={{ marginLeft: '10px' }}
+                  disabled={isOne2oneRequest}
+                >
+                  1-2-1 request
+                </Button>
+              </Popconfirm>
+            </Tooltip>
+          )}
+        </div>
+
         {employees.length > 2 && (
           <div
             style={{ cursor: 'pointer' }}

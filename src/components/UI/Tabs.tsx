@@ -4,7 +4,6 @@ import { useMediaQuery } from 'react-responsive'
 import { matchPath, RouteComponentProps, withRouter } from 'react-router-dom'
 import { COLLAPSE_WIDTH } from '../../config'
 import paths, { getEmployeeLink, getProjectLink, getSkillLink } from '../../paths'
-import { getFirstWord } from '../../utils/cypress'
 
 const { TabPane } = Tabs
 
@@ -65,7 +64,7 @@ function PortalTabs({ location, history, noPadding, controlled, tabs, tab }: Pro
         return (
           <TabPane
             tab={
-              <div style={{ padding: '0 16px' }} data-cy={getFirstWord(tab.title)}>
+              <div style={{ padding: '0 16px' }}>
                 {tab.icon && tab.icon} {tab.title}
               </div>
             }

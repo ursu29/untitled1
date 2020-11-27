@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, DatePicker } from 'antd'
+import { Table, DatePicker, Tooltip, Popconfirm } from 'antd'
 import { Link } from 'react-router-dom'
 import { getEmployeeLink } from '../../paths'
 import { Employee, Project } from '../../types'
@@ -12,6 +12,16 @@ import message from '../../message'
 import BookingEmployee from '../WorkspacePlanner/BookingEmployee'
 import TableSearch from '../UI/TableSearch'
 import { useEmployee } from '../../utils/withEmployee'
+import { BulbTwoTone } from '@ant-design/icons'
+import styled from 'styled-components'
+
+const ActiveBulb = styled.div`
+  cursor: pointer;
+  transition: 0.1s all;
+  &:hover {
+    transform: scale(1.3);
+  }
+`
 
 type ProjectPick = Pick<Project, 'id' | 'name' | 'code'>
 
@@ -27,17 +37,21 @@ export default function EmployeeSubordinates({ employee }: Props) {
 
   const [update] = useMutation(updateEmployee, {
     onCompleted: () => message.success('Updated'),
+    refetchQueries: [{ query, variables: { email: employee?.email } }],
     onError: e => {
       message.error(e)
     },
   })
 
-  const makeUpdate = (employeeId: string, date: string) =>
+  const makeUpdate = (
+    employeeId: string,
+    body: { lastManagerMeeting?: string; one2oneRequest?: boolean },
+  ) =>
     update({
       variables: {
         input: {
           id: employeeId,
-          lastManagerMeeting: date,
+          ...body,
         },
       },
     })
@@ -70,7 +84,7 @@ export default function EmployeeSubordinates({ employee }: Props) {
                 maxWidth: 'fit-content',
               }}
             >
-              {/* it is not the best solution to use this component there. 
+              {/* TODO: it is not the best solution to use this component there. 
               as it was not the best to use Avatar component with name inside it (previous version)
               suggestion: customize EmployeeCard to fit one line (small version) */}
               <BookingEmployee employeeEmail={record.email} />
@@ -97,7 +111,7 @@ export default function EmployeeSubordinates({ employee }: Props) {
         ...new Set(
           subordinateUsers
             ?.filter(e => e.projects?.length)
-            .flatMap(e => e.projects?.map(e => e.name)),
+            .flatMap(e => e.projects?.map((e: ProjectPick) => e.name)),
         ),
       ]
         .sort((a, b) => (a > b ? 1 : -1))
@@ -133,7 +147,9 @@ export default function EmployeeSubordinates({ employee }: Props) {
               : undefined
           }
           onChange={value =>
-            record.id && value ? makeUpdate(record.id, value.toISOString()) : null
+            record.id && value
+              ? makeUpdate(record.id, { lastManagerMeeting: value.toISOString() })
+              : null
           }
           disabledDate={value => value > moment().endOf('day')}
           allowClear={false}
@@ -142,17 +158,59 @@ export default function EmployeeSubordinates({ employee }: Props) {
       //@ts-ignore
       sorter: (a: any, b: any) => new Date(a.lastManagerMeeting) - new Date(b.lastManagerMeeting),
     },
+    {
+      title: '1-2-1',
+      key: 'one2oneRequest',
+      width: '50px',
+      align: 'center',
+      render: (_: any, record: Subordinate) =>
+        record.one2oneRequest ? (
+          <ActiveBulb>
+            <Tooltip placement="left" title="Close one-2-one request">
+              <Popconfirm
+                placement="topLeft"
+                title={'Are you sure you want to close request?'}
+                onConfirm={() => makeUpdate(record.id, { one2oneRequest: false })}
+                okText="Yes"
+                cancelText="No"
+              >
+                <BulbTwoTone
+                  twoToneColor="#ffc400"
+                  style={{
+                    fontSize: '20px',
+                  }}
+                />
+              </Popconfirm>
+            </Tooltip>
+          </ActiveBulb>
+        ) : (
+          <Tooltip placement="left" title="No requests here">
+            <BulbTwoTone
+              twoToneColor="lightgray"
+              style={{ fontSize: '20px', color: 'lightgray' }}
+            />
+          </Tooltip>
+        ),
+      sorter: (a: any, b: any) => (a.one2oneRequest && !b.one2oneRequest ? 1 : -1),
+    },
   ]
 
   return (
-    <Table
-      rowKey="id"
-      columns={columns}
-      //@ts-ignore
-      dataSource={subordinateUsers}
-      pagination={false}
-      loading={loading}
-      size="small"
-    />
+    <>
+      {data?.employeeByEmail?.subordinateUsers.length !== subordinateUsers?.length && (
+        <div style={{ color: 'red', padding: '20px' }}>
+          Error was occurred! Azure user was not found.
+        </div>
+      )}
+      <Table
+        rowKey="id"
+        //@ts-ignore
+        columns={columns}
+        dataSource={subordinateUsers}
+        pagination={false}
+        loading={loading}
+        size="small"
+      />
+    </>
   )
 }
