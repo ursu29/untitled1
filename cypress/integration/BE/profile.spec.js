@@ -8,15 +8,10 @@ import {
 import { checkKeyValueExist } from '../../support/complexLocators'
 
 describe(`Check employee getEmployee`, () => {
-  before(() => {
-    cy.setToken('employee')
-  })
+  let response
 
   beforeEach(() => {
-    cy.restoreLocalStorage()
-  })
-  afterEach(() => {
-    cy.saveLocalStorage()
+    cy.setToken('employee')
   })
 
   it('getEmployee response', () => {
@@ -26,42 +21,17 @@ describe(`Check employee getEmployee`, () => {
 
     cy.compareTwoJson('alias', getEmployeeData(id, __typename), [id, __typename])
   })
-})
-describe(`Check employee geEmployeeAllData`, () => {
-  let response
-
-  before(() => {
-    cy.setToken('employee')
-    cy.getResponse(['getEmployee', 'phoneNumber', 'isMe'], 'alias')
-    cy.visit('/client/profile')
-    cy.wait(`@alias`).then(val => (response = val.response.body.data))
-  })
-
-  beforeEach(() => {
-    cy.restoreLocalStorage()
-  })
-  afterEach(() => {
-    cy.saveLocalStorage()
-  })
 
   it('getEmployeeEmail response', () => {
-    const { agileManager } = employeeData.employee
+    cy.getResponse(['getEmployee', 'phoneNumber'], 'alias')
+    cy.visit('/client/profile')
+    cy.wait(`@alias`).then(val => {
+      response = val.response.body.data
+      const { agileManager } = employeeData.employee
 
-    cy.compareObjectsKeys(response.employeeByEmail, employeeData.employee)
-    checkKeyValueExist(response.employeeByEmail.agileManager, agileManager)
-  })
-})
-
-describe(`Check employee GetEmployeeProjects`, () => {
-  before(() => {
-    cy.setToken('employee')
-  })
-
-  beforeEach(() => {
-    cy.restoreLocalStorage()
-  })
-  afterEach(() => {
-    cy.saveLocalStorage()
+      cy.compareObjectsKeys(response.employeeByEmail, employeeData.employee)
+      checkKeyValueExist(response.employeeByEmail.agileManager, agileManager)
+    })
   })
 
   it('GetEmployeeProjects response', () => {
@@ -71,19 +41,6 @@ describe(`Check employee GetEmployeeProjects`, () => {
     cy.visit('/client/profile')
 
     cy.compareTwoJson('alias', getProject(id, __typename))
-  })
-})
-
-describe(`Check employee Levels`, () => {
-  before(() => {
-    cy.setToken('employee')
-  })
-
-  beforeEach(() => {
-    cy.restoreLocalStorage()
-  })
-  afterEach(() => {
-    cy.saveLocalStorage()
   })
 
   it('GetEmployeeProjects response', () => {
@@ -97,19 +54,6 @@ describe(`Check employee Levels`, () => {
       expect(response.data.levels).to.be.a('array')
       Object.keys(firstLevel).filter(el => expect(Object.keys(level)).includes(el))
     })
-  })
-})
-
-describe(`Check employee matricesAccess`, () => {
-  before(() => {
-    cy.setToken('employee')
-  })
-
-  beforeEach(() => {
-    cy.restoreLocalStorage()
-  })
-  afterEach(() => {
-    cy.saveLocalStorage()
   })
 
   it('matricesAccess response', () => {
