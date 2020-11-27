@@ -131,7 +131,7 @@ export default function ({ employee }: Props) {
         </div>
       </Col>
       <Col md={24} lg={10}>
-        <EmployeeManager employee={employee.agileManager} />
+        <EmployeeManager employee={employee.agileManager} isMe={employee.isMe} />
         <EmployeeProjects employee={employee} />
       </Col>
     </Row>
