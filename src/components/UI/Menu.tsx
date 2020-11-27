@@ -15,6 +15,7 @@ import {
   UserAddOutlined,
   CrownOutlined,
   LikeOutlined,
+  MehOutlined,
 } from '@ant-design/icons'
 import { useQuery } from '@apollo/react-hooks'
 import { Badge, Menu } from 'antd'
@@ -31,6 +32,7 @@ import getActiveProcessExecutions, {
 import { Access } from '../../types'
 import { useEmployee } from '../../utils/withEmployee'
 import Skeleton from '../UI/Skeleton'
+import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 
 const Width = styled.div<{ isLarge: boolean }>`
   .ant-menu-inline-collapsed > .ant-menu-item,
@@ -177,6 +179,14 @@ function PortalMenu(props: Props) {
           route: paths.MATRICES,
           icon: <TableOutlined />,
           title: 'Matrices',
+          subMenu: 'tools',
+        }
+      : null,
+    useStrapiGroupCheck('SUPER_USER')
+      ? {
+          route: paths.MANAGEMENT,
+          icon: <MehOutlined />,
+          title: 'Management',
           subMenu: 'tools',
         }
       : null,

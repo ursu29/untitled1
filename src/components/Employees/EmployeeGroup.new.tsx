@@ -21,9 +21,10 @@ export interface Props {
   title: string
   employees: EmployeeDetails[]
   one2one?: boolean
+  isMe?: boolean
 }
 
-function EmployeeGroup({ title, employees, one2one }: Props) {
+function EmployeeGroup({ title, employees, one2one, isMe }: Props) {
   const user = useEmployee()
 
   const { data: one2OneRequestData } = useQuery(queryOne2oneRequest)
@@ -62,7 +63,7 @@ function EmployeeGroup({ title, employees, one2one }: Props) {
             {title}
           </Typography.Title>
 
-          {one2one && (
+          {one2one && isMe && (
             <Tooltip
               placement="right"
               title={
@@ -117,7 +118,7 @@ function EmployeeGroup({ title, employees, one2one }: Props) {
       </div>
       <div>
         {employees.slice(0, showMore ? employees.length : 2).map(i => (
-          <EmployeeCard employee={i} key={i.id} />
+          <EmployeeCard employee={i} key={i.id} cardProps={{ bordered: false, hoverable: true }} />
         ))}
       </div>
     </div>

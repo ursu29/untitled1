@@ -88,6 +88,7 @@ export default function ({ size, shape, employee, showTooltip, highResolution }:
     return () => {
       observer.current.disconnect()
     }
+    //eslint-disable-next-line
   }, [token, resolution, employee, node, setSrc])
 
   const avatar = (

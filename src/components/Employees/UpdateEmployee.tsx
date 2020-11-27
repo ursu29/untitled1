@@ -14,7 +14,15 @@ type EmployeePick = EmployeeDetails & {
   agileManager: EmployeeDetails | null
 }
 
-function UpdateProject({ employee }: { employee: EmployeePick }) {
+function UpdateProject({
+  employee,
+  isOpen,
+  onClose,
+}: {
+  employee: EmployeePick
+  isOpen?: boolean
+  onClose?: any
+}) {
   const { data } = useQuery(
     gql`
       query getEmployee($email: String!) {
@@ -47,6 +55,8 @@ function UpdateProject({ employee }: { employee: EmployeePick }) {
 
   return (
     <Drawer
+      isOpen={isOpen}
+      onClose={onClose}
       toggler={<Button size="small" icon={<EditOutlined />} type="link"></Button>}
       drawerLabel={'Edit employee ' + employee?.name}
       content={
@@ -63,6 +73,8 @@ function UpdateProject({ employee }: { employee: EmployeePick }) {
               },
               update: onDone,
             })
+
+            onClose()
           }}
         />
       }

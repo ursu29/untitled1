@@ -7,20 +7,25 @@ interface Props {
   toggler: any
   content: any
   size?: 'default' | 'large'
+  isOpen?: boolean
+  onClose?: any
 }
 
-export default function ({ drawerLabel, toggler, content, size }: Props) {
-  const [visible, toggleVisibility] = useState(false)
+export default function ({ drawerLabel, toggler, isOpen, content, size, onClose }: Props) {
+  const [visible, toggleVisibility] = useState(false || isOpen)
   const drawerWidth = size === 'large' ? 800 : 480
   const isLarge = useMediaQuery({ minWidth: drawerWidth })
   return (
     <>
-      {React.cloneElement(toggler, { onClick: () => toggleVisibility(true) })}
+      {!isOpen && React.cloneElement(toggler, { onClick: () => toggleVisibility(true) })}
       <Drawer
         maskClosable={false}
         title={drawerLabel}
         width={isLarge ? drawerWidth : '100%'}
-        onClose={() => toggleVisibility(false)}
+        onClose={() => {
+          toggleVisibility(false)
+          if (onClose) setTimeout(() => onClose(), 1000)
+        }}
         visible={visible}
       >
         {visible &&
