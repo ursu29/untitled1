@@ -69,6 +69,18 @@ export const matricesAccess = {
   },
 }
 
+export const oneTwoOne = {
+  button: 'oneTwoOne',
+  disableBtn: '.ant-popover-disabled-compatible-wrapper',
+  text: 'Are you sure you want to create request?',
+  closeTitle: 'Are you sure you want to close request?',
+}
+
+export const popUp = {
+  title: '.ant-popover-message-title',
+  button: '.ant-btn-sm',
+}
+
 export const skill = {
   description: 'some text',
   id: 'some id',

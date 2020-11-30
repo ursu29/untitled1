@@ -1,16 +1,6 @@
 import { getAllSkills } from '../../support/getData'
 import { getSelectItem, inputSkill, addSkill } from '../../support/complexLocators'
-import { workspace, tabs } from '../../support/locators'
-
-export const skillEl = {
-  item: '.ant-select-selection-item',
-  remove: '.ant-select-selection-item-remove',
-  skill: '.ant-select-tree-title',
-  iconChecked: '.anticon-check',
-  iconEdit: '.anticon-edit',
-  successMes: '.ant-message-success',
-  skillName: 'skills_name',
-}
+import { workspace, tabs, skillEl } from '../../support/locators'
 
 describe('Adding Skills in the Users Profile', () => {
   const skillName = 'Agile'
