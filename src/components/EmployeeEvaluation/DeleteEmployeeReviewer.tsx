@@ -51,7 +51,7 @@ function DeleteEmployeeReviewer({ reviewer }: Props) {
 
   return (
     <div>
-      {reviewer.fromWho.name}
+      {reviewer.fromWho?.name}
       <div>
         <Button type="link" icon="delete" onClick={mutate} />
       </div>

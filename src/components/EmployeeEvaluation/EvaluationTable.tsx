@@ -341,7 +341,7 @@ export default function EvaluationTable({
 
   if (showBaseColumns) {
     columns.push({
-      title: employee.isMe ? 'You' : employee.name,
+      title: employee.isMe ? 'You' : employee?.name,
       width: 120,
       render: (text: any, item: any) => {
         if (item.children) return null
@@ -367,7 +367,7 @@ export default function EvaluationTable({
       columns.push({
         title: (
           <div>
-            Agile Manager<div>{employee.agileManager?.name}</div>
+            Agile Manager<div>{employee.agileManager??.name}</div>
           </div>
         ),
         width: 120,
@@ -397,7 +397,7 @@ export default function EvaluationTable({
   columns = columns.concat(
     reviewers?.map((reviewer, index) => {
       return {
-        title: editable ? <DeleteEmployeeReviewer reviewer={reviewer} /> : reviewer.fromWho.name,
+        title: editable ? <DeleteEmployeeReviewer reviewer={reviewer} /> : reviewer.fromWho?.name,
         width: 120,
         render: (text: any, item: any) => {
           if (item.children) return null
