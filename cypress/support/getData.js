@@ -47,6 +47,18 @@ export const getEmployee = email => ({
     'query getEmployee($email: String!) {employeeByEmail(email: $email) { ...EmployeeDetails agileManager {...EmployeeDetails __typename} bonuses status  __typename}} fragment EmployeeDetails on Employee {id name location country position phoneNumber email isMe __typename}',
 })
 
+export const getEmployees = location => ({
+  operationName: 'getEmployees',
+  variables: { input: { locations: location } },
+  query: 'query getEmployees($input: EmployeesInput) {employees(input: $input) {name }}',
+})
+
+export const getOfficeDays = (startDate, count = 7) => ({
+  operationName: 'getOfficeDays',
+  variables: { input: { startDate, count } },
+  query: 'query getOfficeDays($input: OfficeDaysInput) { officeDays(input: $input) { date }',
+})
+
 export const getAllSkills = () => ({
   operationName: 'getSkills',
   variables: {},

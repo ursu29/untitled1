@@ -1,7 +1,6 @@
 import { getAllSkills } from '../../support/getData'
-import { getSelectItem } from '../../support/complexLocators'
-import { inputSkill } from '../../support/complexLocators'
-import { addSkill } from '../../support/complexLocators'
+import { getSelectItem, inputSkill, addSkill } from '../../support/complexLocators'
+import { workspace, tabs } from '../../support/locators'
 
 export const skillEl = {
   item: '.ant-select-selection-item',
@@ -33,7 +32,11 @@ describe('Adding Skills in the Users Profile', () => {
     cy.deleteAllSkills(skillEl.item, skillEl.remove)
   })
 
-  afterEach('check', () => {
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
     cy.deleteAllSkills(skillEl.item, skillEl.remove)
   })
 
@@ -99,8 +102,8 @@ describe('Adding Skills in the Users Profile', () => {
     getSelectItem(0).click()
     cy.get(skillEl.skill).contains(childSkill).click()
     cy.get(skillEl.skill).contains(skillName).click()
-    cy.getElement('Bookmarks').click()
-    cy.getElement('Skills').click()
+    cy.get(workspace.tab).contains(tabs.bookMark).click()
+    cy.get(workspace.tab).contains(tabs.skill).click()
     cy.get(skillEl.iconChecked).should('have.class', 'anticon-check')
     cy.get(skillEl.item).its('length').should('eq', 2)
   })

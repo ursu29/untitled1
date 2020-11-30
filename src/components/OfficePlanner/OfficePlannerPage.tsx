@@ -299,7 +299,9 @@ function OfficePlannerPage() {
                 }}
               >
                 {Boolean(allEmployees.length) && (
-                  <div style={{ marginRight: 8 }}>{allEmployees.length} employees</div>
+                  <div style={{ marginRight: 8 }} data-cy="employee_sum">
+                    {allEmployees.length} employees
+                  </div>
                 )}
                 <Button
                   style={{ marginRight: 8 }}

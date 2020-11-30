@@ -1,6 +1,6 @@
 import { employeeData } from '../../support/client/employeeData'
 import { checkKeyValueExist } from '../../support/complexLocators'
-import { employeeCV, curriculumVitaeData, vitaeData, project } from '../../support/client/cv'
+import { employeeCV, curriculumVitaeData, vitaeData } from '../../support/client/cv'
 
 describe('Check CV', () => {
   let response
@@ -9,7 +9,14 @@ describe('Check CV', () => {
     cy.setToken('employee')
     cy.getResponse(['getEmployeeCV'], 'alias')
     cy.visit('/client/profile/cv')
-    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
+    cy.wait(`@alias`).then(val => (response = val.response.body.data))
+  })
+
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
   })
 
   it('getEmployeeCV response', () => {
@@ -35,25 +42,5 @@ describe('Check CV', () => {
 
     cy.compareObjectsKeys(firstData, vitaeData)
     checkKeyValueExist(firstData, { __typename })
-  })
-})
-
-describe('Check CV project', () => {
-  let response
-
-  before(() => {
-    cy.setToken('employee')
-    cy.getResponse(['projects', 'description'], 'alias')
-    cy.visit('/client/profile/cv')
-    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
-  })
-
-  it('project response', () => {
-    const { __typename } = project
-    const { projects } = response
-    const firstProject = projects[0]
-
-    cy.compareObjectsKeys(firstProject, project)
-    checkKeyValueExist(firstProject, { __typename })
   })
 })

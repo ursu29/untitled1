@@ -27,6 +27,8 @@
 import { getSkill } from './complexLocators'
 import { filterSkillsName } from './complexLocators'
 
+let LOCAL_STORAGE_MEMORY = {}
+
 Cypress.Commands.add('getElement', name => cy.get(`[data-cy="${name}"]`))
 
 Cypress.Commands.add('getId', name => cy.get(`[id="${name}"]`))
@@ -96,8 +98,24 @@ Cypress.Commands.add('compareObjectsKeys', (firstObj, secondObj) => {
   Object.keys(firstObj).filter(el => expect(Object.keys(secondObj)).includes(el))
 })
 
+Cypress.Commands.add('waitElDisappear', el => {
+  cy.get(el).should('exist')
+  cy.get(el).should('not.exist')
+})
+
 Cypress.Commands.add('checkImgToken', name => {
   if (!localStorage.getItem('img_token')) {
     cy.setImgToken(name)
   }
+})
+
+Cypress.Commands.add('saveLocalStorage', () => {
+  Object.keys(localStorage).forEach(key => {
+    LOCAL_STORAGE_MEMORY[key] = localStorage[key]
+  })
+})
+Cypress.Commands.add('restoreLocalStorage', () => {
+  Object.keys(LOCAL_STORAGE_MEMORY).forEach(key => {
+    localStorage.setItem(key, LOCAL_STORAGE_MEMORY[key])
+  })
 })

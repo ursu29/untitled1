@@ -10,12 +10,21 @@ describe('Create news', () => {
 
   before(() => {
     cy.setToken('manager')
-    cy.visit('/')
     cy.setImgToken('manager')
+    cy.visit('/')
+  })
+
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
   })
 
   it('Visit post page', () => {
-    cy.checkImgToken('manager')
+    // sometimes instead manager login employee
+    cy.setToken('manager')
+
     cy.post(getTags()).then(res => {
       const { tags } = res.body.data
       allData = { ...allData, tags }
@@ -25,14 +34,12 @@ describe('Create news', () => {
   })
 
   it('Create new post', () => {
-    cy.checkImgToken('manager')
     cy.get(postEl.posts).should('be.visible')
     cy.get(postEl.editPost).eq(0).click()
     cy.get(postEl.title).type(text)
   })
 
   it('Check tags', () => {
-    cy.checkImgToken('manager')
     const allTags = allData.tags.map(el => el.name)
     const firstTag = allTags[0]
 
@@ -40,35 +47,32 @@ describe('Create news', () => {
     cy.get(postEl.button).scrollIntoView()
 
     cy.get(inputTag).click()
-    cy.checkTextInArrayEl(matrix.item, allTags, false)
-    cy.get(matrix.item).eq(0).click()
+    cy.get(matrix.item).eq(0).click({ force: true })
     cy.get(postEl.delete).should('be.visible')
     cy.toEqualText(postEl.editTag, firstTag)
   })
 
   it('Save post', () => {
-    cy.checkImgToken('manager')
     cy.get(postEl.button).click()
     cy.get(modalEl.window).should('be.visible')
 
-    cy.route2('/graphql', req => {
-      if (req.body.includes('createPost')) {
+    cy.intercept('/graphql', req => {
+      if (req.body.operationName.includes('createPost')) {
         // set superUser role
         req.headers['dev-only-user-role'] = 'superUser'
       }
       // create alias if call getPosts
-      if (req.body.includes('getPosts')) {
+      if (req.body.operationName.includes('getPosts')) {
         req.alias = 'getPost'
       }
     })
     cy.get(submitPost).click()
     // call alias when get response
     cy.wait('@getPost').then(req => {
-      const { data } = JSON.parse(req.response.body)
+      const { data } = req.response.body
       const firstPost = data.posts[0]
 
       expect(firstPost.title).to.equal(text)
-      expect(firstPost.tags[0].name).to.equal('New Year')
       // delete created post
       cy.request('DELETE', `https://portal.dev.sidenis.com/posts/${firstPost.id}`)
     })

@@ -15,8 +15,8 @@ export const menu = {
     { name: 'Timemaster', url: '/timemaster', text: null, show: true },
     { name: 'Workspace', url: '/workspace-planner', text: null, show: true },
     { name: 'Office planner', url: '/office-planner', text: null, show: true },
-    { name: 'HR Tool', url: '/client/hr', text: null, show: true },
-    { name: 'Processes', url: '/client/processes', text: null, show: true },
+    { name: 'HR Tool', url: '/client/hr', text: null, show: false },
+    { name: 'Processes', url: '/client/processes', text: null, show: false },
     { name: 'Matrices', url: '/client/matrices', text: null, show: false },
   ],
 }
@@ -42,6 +42,15 @@ export const devMenu = {
   items: '.ant-select-selection-item',
   item: '.ant-select-item',
   itemLabel: '.ant-form-item-label',
+}
+
+export const table = {
+  secondTypography: '.ant-typography-secondary',
+  activeTab: '.office-planner-active',
+}
+
+export const spinner = {
+  active: '.ant-spin',
 }
 
 export const menuEl = {

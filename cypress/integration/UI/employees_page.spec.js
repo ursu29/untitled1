@@ -10,6 +10,13 @@ describe('Employees', () => {
     cy.visit('/client/employees')
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('Table of employees has some data', () => {
     cy.get('[data-row-key]').its('length').should('be.greaterThan', 2)
   })

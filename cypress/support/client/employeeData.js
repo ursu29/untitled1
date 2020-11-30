@@ -1,10 +1,10 @@
 export const email = el =>
   el === 'manager' ? 'test.manager@sidenis.com' : 'test.employee@sidenis.com'
 
-const defaultReadAccess = bool => ({ read: bool, __typename: 'Access' })
-const defaultWriteAccess = bool => ({ write: bool, __typename: 'Access' })
+const defaultReadAccess = (bool = false) => ({ read: bool, __typename: 'Access' })
+const defaultWriteAccess = (bool = false) => ({ write: bool, __typename: 'Access' })
 
-export const managerData = {
+export const agileManager = {
   country: 'Unknown',
   email: 'test.manager@sidenis.com',
   id: '75235e54-5776-461d-8eb5-2fd64d1eac0d',
@@ -18,7 +18,7 @@ export const managerData = {
 
 export const employeeData = {
   employee: {
-    agileManager: managerData,
+    agileManager,
     bonuses: 0,
     country: 'Russia',
     email: 'test.employee@sidenis.com',
@@ -64,8 +64,8 @@ export const matricesAccess = {
   data: {
     matricesAccess: defaultReadAccess(false),
     onboardingAccess: defaultReadAccess(false),
-    processExecutionsAccess: defaultReadAccess(true),
-    processesAccess: defaultWriteAccess(true),
+    processExecutionsAccess: defaultReadAccess(false),
+    processesAccess: defaultWriteAccess(false),
   },
 }
 
