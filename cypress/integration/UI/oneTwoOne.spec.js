@@ -82,7 +82,7 @@ describe('Check oneTwoOne request', () => {
       })
       cy.get(popUp.button).contains('Yes').click()
       cy.get(skillEl.successMes).should('have.text', 'Updated')
-      // bug
+      // bug, not updated one-two-one bage
       cy.get(oneTwoOneLocators.bargeCount).eq(0).should('not.exist')
     })
   })
