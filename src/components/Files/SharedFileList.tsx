@@ -1,4 +1,5 @@
-import { Input, Skeleton, Tag, Tree } from 'antd'
+import { Alert, Input, Skeleton, Tag, Tree } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
 import React, { useState } from 'react'
 import { FilesPick } from '../../queries/getSharedFiles'
 import { FileList } from './FileList'
@@ -7,10 +8,11 @@ const { CheckableTag } = Tag
 
 interface Props {
   loading: boolean
+  hasMore: boolean
   files?: FilesPick[]
 }
 
-export default function ({ files, loading }: Props) {
+export default function ({ files, loading, hasMore }: Props) {
   const [chosenFiles, setChosenFiles]: any = useState([])
   const [filter, setFilter] = useState('')
   const [type, setType] = useState<FilesPick['type'] | 'folders' | null>('folders')
@@ -116,6 +118,10 @@ export default function ({ files, loading }: Props) {
           Videos
         </CheckableTag>
       </div>
+
+      {hasMore && (
+        <Alert type="info" showIcon icon={<LoadingOutlined spin />} message="Synchronizing files" />
+      )}
 
       {type === 'folders' ? (
         <div style={{ display: 'flex', marginTop: '20px' }}>

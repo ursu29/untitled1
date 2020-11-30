@@ -2,24 +2,27 @@ import gql from 'graphql-tag'
 import { File, Employee } from '../types'
 
 export default gql`
-  query sharedFiles {
-    sharedFiles {
-      id
-      url
-      fileName
-      createdAt
-      createdBy {
+  query sharedFiles($input: SharedFilesInput) {
+    sharedFiles(input: $input) {
+      hasMore
+      files {
         id
-        name
-        email
-      }
-      size
-      type
-      details {
-        id
-        skills {
+        url
+        fileName
+        createdAt
+        createdBy {
           id
           name
+          email
+        }
+        size
+        type
+        details {
+          id
+          skills {
+            id
+            name
+          }
         }
       }
     }
@@ -34,5 +37,8 @@ export type FilesPick = Pick<
 }
 
 export type QueryType = {
-  sharedFiles: FilesPick[]
+  sharedFiles: {
+    hasMore: boolean
+    files: FilesPick[]
+  }
 }
