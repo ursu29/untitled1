@@ -22,12 +22,17 @@ const COLORS: any = {
   sr: '#8C94AF',
 }
 
+const SWISSRE_PREFIX = 'swissre '
+
 export default function ProjectTag({ project, small = false, leading }: Props) {
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH }) && !small
   if (!project) return null
 
   const codeStarts = project.code.split('-')[0]?.toLowerCase()
   const color = codeStarts ? COLORS[codeStarts] : COLORS.is
+  const name = project.name.toLowerCase().startsWith(SWISSRE_PREFIX)
+    ? project.name.substring(SWISSRE_PREFIX.length)
+    : project.name
   return (
     <span style={{ display: 'inline-block' }}>
       <Link to={getProjectLink(project.code)}>
@@ -60,7 +65,7 @@ export default function ProjectTag({ project, small = false, leading }: Props) {
                 &nbsp;
               </>
             )}
-            {project.name}
+            {name}
           </div>
         </Tag>
       </Link>
