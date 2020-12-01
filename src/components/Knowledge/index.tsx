@@ -34,9 +34,11 @@ interface Props extends RouteComponentProps<{ tab: string }> {}
 export default function Knowledge({ match }: Props) {
   const { tab } = match.params
   return (
-    <PageContent>
-      <Typography.Title style={{ marginBottom: '40px' }}>Knowledge</Typography.Title>
+    <>
+      <PageContent noBottom>
+        <Typography.Title>Knowledge</Typography.Title>
+      </PageContent>
       <Tabs controlled tabs={tabs} tab={tab} />
-    </PageContent>
+    </>
   )
 }
