@@ -31,7 +31,7 @@ type QueryType = {
 }
 
 const WITHOUT_MANAGER = 'Without manager only'
-const NOT_MANAGEMENT = 'Exclude management'
+const NOT_MANAGEMENT = 'Exclude exceptions'
 const checkers = [WITHOUT_MANAGER, NOT_MANAGEMENT]
 
 export default function EmployeesTable() {
