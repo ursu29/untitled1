@@ -1,7 +1,6 @@
 import { email, employeeData } from '../../support/client/employeeData'
 import { getEmployee } from '../../support/getData'
 import { checkKeyValueExist } from '../../support/complexLocators'
-import { bookmarkAccess, bookmark } from '../../support/client/userMenu'
 import {
   matrixEmployees,
   skillData,
@@ -24,7 +23,14 @@ describe(`Check employee matrices`, () => {
     })
     cy.getResponse(['getEmployeeMatrices'], 'alias')
     cy.visit('/client/profile/matrices')
-    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
+    cy.wait(`@alias`).then(val => (response = val.response.body.data))
+  })
+
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
   })
 
   it('Check matrixEmployees keys', () => {
@@ -104,39 +110,6 @@ describe(`Check employee matrices`, () => {
       cy.compareObjectsKeys(skill, skillData)
       expect(firstSkill.__typename).equal(skills.__typename)
       expect(skill.__typename).equal(skillData.__typename)
-    })
-  })
-})
-
-describe(`Check employee getBookmarks`, () => {
-  before(() => {
-    cy.setToken('employee')
-    cy.post(getEmployee(email('employee'))).then(res => {
-      const { data } = res.body
-
-      employeeData.employee = { ...data.employeeByEmail }
-    })
-  })
-
-  it('getBookmarks response', () => {
-    const { email, id, name, __typename } = employeeData.employee
-
-    cy.getResponse(['getBookmarks'], 'alias')
-    cy.visit('/client/profile/bookmarks')
-
-    cy.wait(`@alias`).then(val => {
-      const { bookmarks } = JSON.parse(val.response.body).data
-
-      expect(bookmarks).to.be.a('array')
-      cy.compareObjectsKeys(bookmarks[0], bookmark)
-
-      bookmarks.forEach(el => {
-        expect(el.access).to.deep.equal(bookmarkAccess)
-        expect(el.likes).to.be.a('array')
-        expect(el.skills).to.be.a('array')
-        // employee data is present
-        checkKeyValueExist(el.employee, { email, id, name, __typename })
-      })
     })
   })
 })

@@ -20,6 +20,13 @@ describe('Edit News', () => {
     cy.setImgToken('manager')
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('Edit first post', () => {
     cy.checkImgToken('manager')
     cy.get(postEl.posts).should('be.visible')
@@ -27,7 +34,7 @@ describe('Edit News', () => {
     cy.get(postEl.editPost).eq(1).click()
     cy.get(postEl.title).clear().type(text)
 
-    cy.getId(postEl.annotation).should('not.be.visible')
+    cy.getId(postEl.annotation).should('not.exist')
     cy.get(devMenu.itemLabel).each(val => {
       expect(arr).not.includes(val.text())
     })
@@ -38,21 +45,21 @@ describe('Edit News', () => {
     cy.get(postEl.button).click()
     cy.get(modalEl.window).should('be.visible')
 
-    cy.route2('/graphql', req => {
-      if (req.body.includes('updatePost')) {
+    cy.intercept('/graphql', req => {
+      if (req.body.operationName.includes('updatePost')) {
         // set superUser role
         req.headers['dev-only-user-role'] = 'superUser'
       }
       // create alias if call getPost
-      if (req.body.includes('getPost')) {
+      if (req.body.operationName.includes('getPost')) {
         req.alias = 'getPost'
       }
     })
     cy.get(submitPost).click()
-    cy.get(matrix.alert).should('not.be.visible')
+    cy.get(matrix.alert).should('not.exist')
     // call alias when get response
     cy.wait('@getPost').then(req => {
-      const { data } = JSON.parse(req.response.body)
+      const { data } = req.response.body
       const firstPost = data.post
 
       expect(firstPost.title).to.equal(text)
@@ -62,7 +69,7 @@ describe('Edit News', () => {
   it('Load new posts', () => {
     cy.checkImgToken('manager')
     cy.scrollTo('bottom')
-    cy.get(postEl.loader).should('not.be.visible')
+    cy.get(postEl.loader).should('not.exist')
     cy.get(postEl.post).its('length').should('be.greaterThan', allData.posts.length)
   })
 })

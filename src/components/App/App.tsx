@@ -64,11 +64,11 @@ const App: React.FC = () => {
               <LastLocationProvider>
                 <TokenProvider token={token}>
                   <Root tokenExpired={tokenExpired} />
-                  {!process.env.REACT_APP_LOCAL && <Metrics />}
+                  {process.env.REACT_APP_YANDEX_METRIKA && <Metrics />}
                 </TokenProvider>
               </LastLocationProvider>
             </ApolloProvider>
-            {!process.env.REACT_APP_LOCAL && (
+            {process.env.REACT_APP_YANDEX_METRIKA && (
               <YMInitializer
                 accounts={[Number(process.env.REACT_APP_YANDEX_METRIKA)]}
                 options={{ webvisor: true }}

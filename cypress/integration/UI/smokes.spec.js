@@ -8,6 +8,14 @@ describe('Smokes employee', () => {
     cy.setToken('employee')
     employeeProfile.visit()
   })
+
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('Opens own profile by default', () => {
     employeeProfile.url().should('include', '/client/profile')
     employeeProfile.avatar().should('be.visible')
@@ -16,7 +24,7 @@ describe('Smokes employee', () => {
     employeeProfile.city().should('contain', 'Saint-Petersburg')
   })
 
-  it.skip('Profile include info and link to manager page', () => {
+  it('Profile include info and link to manager page', () => {
     employeeProfile.managerName().click()
     employeeProfile.url().should('include', '/client/employees/test.manager@sidenis.com/')
     employeeProfile.name().should('contain', 'Test Manager')
@@ -28,7 +36,7 @@ describe('Smokes employee', () => {
     employeeProfile.tabSelfEvaluationForm().should('be.visible')
   })
 
-  it.skip('Employee cannot see manager private tabs', () => {
+  it('Employee cannot see manager private tabs', () => {
     employeeProfile.openManagerOfCurrentProfile()
     employeeProfile.tabMatrices().should('not.exist')
     employeeProfile.tabPersonalDevelopment().should('not.exist')
@@ -43,6 +51,13 @@ describe('Smokes manager', () => {
   beforeEach(() => {
     cy.setToken('manager')
     managerProfile.visit()
+  })
+
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
   })
 
   it('Opens profile by default', () => {

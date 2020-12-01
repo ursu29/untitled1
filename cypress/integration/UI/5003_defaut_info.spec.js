@@ -1,5 +1,5 @@
 import { getClient, getManager, getProjects, getEmployeeExperiences } from '../../support/getData'
-import { tabs } from '../../support/locators'
+import { tabs, workspace } from '../../support/locators'
 
 describe('Checking default information', () => {
   const userId = '1bf931df-2015-4516-ac33-0d2caddc7df2'
@@ -31,6 +31,13 @@ describe('Checking default information', () => {
     })
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('Check Employee data', () => {
     const { profile } = allData.client
 
@@ -45,8 +52,8 @@ describe('Checking default information', () => {
   it('Information about employee manager', () => {
     const { manager } = allData.manager.employees[0]
 
-    cy.getElement('employee_card').contains(manager.name)
-    cy.getElement('employee_card').contains(manager.position)
+    cy.get('.ant-card-meta-title').contains('Manager').should('have.text', manager.name)
+    cy.get('.ant-card-meta-description').contains('Agile').should('have.text', manager.position)
     cy.getElement('avatar').should('be.visible')
   })
 
@@ -71,7 +78,7 @@ describe('Checking default information', () => {
   it('Check the Skills tab', () => {
     const { experiences } = allData.levels.employees[0]
 
-    cy.getElement(tabs.skill).contains(tabs.skill)
+    cy.get(workspace.tab).contains(tabs.skill)
     cy.getElement('Title Confident in').contains('Confident in')
     cy.checkSkills('noConfident', 'Confident', 'Confident in', experiences)
     cy.checkSkills('noExperienced', 'Experienced', 'Experienced', experiences)
@@ -80,31 +87,31 @@ describe('Checking default information', () => {
   })
 
   it('Check all tabs', () => {
-    Object.values(tabs).forEach(val => cy.getElement(val).contains(val))
+    Object.values(tabs).forEach(val => cy.get(workspace.tab).contains(val))
   })
 
   it('Check the Bookmarks tab', () => {
-    cy.getElement(tabs.bookMark).click()
+    cy.get(workspace.tab).contains(tabs.bookMark).click()
     cy.getElement('bookmark').contains('Add bookmark')
   })
 
   it('Check the Matrices tab', () => {
-    cy.getElement(tabs.matrices).click()
+    cy.get(workspace.tab).contains(tabs.matrices).click()
     cy.getElement('legend-buttons').should('be.visible')
   })
 
   it('Check the Personal development tab', () => {
-    cy.getElement(tabs.personal).click()
+    cy.get(workspace.tab).contains(tabs.personal).click()
     cy.getElement('evaluation-form').should('be.visible')
   })
 
   it('Check the Self Evaluation Form tab', () => {
-    cy.getElement(tabs.form).click()
+    cy.get(workspace.tab).contains(tabs.form).click()
     cy.getElement('helper').should('be.visible')
   })
 
   it('Check the CV tab', () => {
-    cy.getElement(tabs.cv).click()
+    cy.get(workspace.tab).contains(tabs.cv).click()
     cy.getElement('cv-form').should('be.visible')
   })
 })

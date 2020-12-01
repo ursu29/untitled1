@@ -7,42 +7,39 @@ describe('Check manager employees', () => {
   let response
   let managerId
 
-  before(() => {
-    cy.setToken('manager')
-    cy.post(getEmployee(email('employee'))).then(res => (managerId = res.body.id))
-    cy.getResponse(['getSubordinates'], 'alias')
-    cy.visit('/client/profile/employees')
-    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
+  context('getSubordinates', () => {
+    beforeEach(() => {
+      cy.setToken('manager')
+      cy.post(getEmployee(email('employee'))).then(res => (managerId = res.body.id))
+      cy.getResponse(['getSubordinates'], 'alias')
+      cy.visit('/client/profile/employees')
+      cy.wait(`@alias`).then(val => (response = val.response.body.data))
+    })
+
+    it('getSubordinates response', () => {
+      const { __typename, id, name, position, email } = employeeData.employee
+      const { employeeByEmail } = response
+      const { subordinateUsers } = employeeByEmail
+
+      cy.compareObjectsKeys(subordinateUsers[0], subUser)
+      checkKeyValueExist(employeeByEmail, { managerId, __typename })
+      checkKeyValueExist(subordinateUsers[0], { __typename, id, name, position, email })
+    })
   })
 
-  it('getSubordinates response', () => {
-    const { __typename, id, name, position, email } = employeeData.employee
-    const { employeeByEmail } = response
-    const { subordinateUsers } = employeeByEmail
+  context('Check manager getEmployee', () => {
+    before(() => {
+      cy.setToken('manager')
+      cy.getResponse(['getEmployeeName'], 'alias')
+      cy.visit('/client/profile/employees')
+      cy.wait(`@alias`).then(val => (response = val.response.body.data))
+    })
 
-    cy.compareObjectsKeys(subordinateUsers[0], subUser)
-    checkKeyValueExist(employeeByEmail, { managerId, __typename })
-    checkKeyValueExist(subordinateUsers[0], { __typename, id, name, position, email })
-  })
-})
+    it('getEmployeeName response', () => {
+      const { id, __typename, name } = employeeData.employee
+      const { employeeByEmail } = response
 
-describe('Check manager getEmployee', () => {
-  let response
-
-  before(() => {
-    cy.setToken('manager')
-    cy.getResponse(['getEmployee', 'avatar'], 'alias')
-    cy.visit('/client/profile/evaluation')
-    cy.wait(`@alias`)
-    cy.getResponse(['getEmployee', 'avatar'], 'alias')
-    cy.getElement('My').click()
-    cy.wait(`@alias`).then(val => (response = JSON.parse(val.response.body).data))
-  })
-
-  it('getEmployeeName response', () => {
-    const { id, __typename, name } = employeeData.employee
-    const { employeeByEmail } = response
-
-    checkKeyValueExist(employeeByEmail, { __typename, id, name, avatar: null })
+      checkKeyValueExist(employeeByEmail, { __typename, id, name })
+    })
   })
 })

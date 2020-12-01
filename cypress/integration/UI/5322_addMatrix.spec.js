@@ -1,6 +1,6 @@
 import { getAllMatrices } from '../../support/getData'
 import { getListOfMatrix } from '../../support/complexLocators'
-import { matrix } from '../../support/locators'
+import { workspace, tabs, matrix } from '../../support/locators'
 
 describe('Adding Matrix', () => {
   let allData = {
@@ -16,8 +16,15 @@ describe('Adding Matrix', () => {
     })
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('Check the Matrices tab', () => {
-    cy.getElement(matrix.matrices).click()
+    cy.get(workspace.tab).contains(tabs.matrices).click()
     cy.getElement(matrix.knowledge).should('be.visible')
     const { matrices } = allData.matrices
     const name = matrices.map(val => val.title)
@@ -35,7 +42,7 @@ describe('Adding Matrix', () => {
           cy.getId(matrix.delete).eq(0).click()
           cy.scrollTo('top')
           cy.get(matrix.success).should('be.visible')
-          cy.get(matrix.success).should('not.be.visible')
+          cy.get(matrix.success).should('not.exist')
         })
 
         return
@@ -48,7 +55,7 @@ describe('Adding Matrix', () => {
     cy.get(matrix.item).eq(0).click({ multiple: true })
     cy.get(matrix.alert).should('be.visible')
     cy.get(matrix.alert)
-      .should('not.be.visible')
+      .should('not.exist')
       .then(() => {
         getListOfMatrix().then(el => expect(el.text()).include(matrix.matrixName))
       })
