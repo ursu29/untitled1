@@ -68,7 +68,7 @@ const App: React.FC = () => {
                 </TokenProvider>
               </LastLocationProvider>
             </ApolloProvider>
-            {!process.env.REACT_APP_LOCAL && (
+            {process.env.REACT_APP_LOCAL !== 'true' && (
               <YMInitializer
                 accounts={[Number(process.env.REACT_APP_YANDEX_METRIKA)]}
                 options={{ webvisor: true }}
