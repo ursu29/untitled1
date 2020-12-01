@@ -367,7 +367,7 @@ export default function EvaluationTable({
       columns.push({
         title: (
           <div>
-            Agile Manager<div>{employee.agileManager??.name}</div>
+            Agile Manager<div>{employee.agileManager?.name}</div>
           </div>
         ),
         width: 120,
