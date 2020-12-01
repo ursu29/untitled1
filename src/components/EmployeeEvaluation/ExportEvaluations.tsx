@@ -51,7 +51,7 @@ export default function ExportEvaluations({
           })
           saveAs(
             blob,
-            `self_evaluation_form_${employee.name}_${new Date().toLocaleDateString()}.docx`,
+            `self_evaluation_form_${employee?.name}_${new Date().toLocaleDateString()}.docx`,
           )
         })
     })

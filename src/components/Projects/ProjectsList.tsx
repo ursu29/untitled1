@@ -52,10 +52,10 @@ export default function ProjectsList({ loading, projects }: Props) {
     <PageContent>
       <Skeleton active loading={loading}>
         <Title>Projects</Title>
+        <ProjectGroup projects={projectsSorted} code="sr-" title="SwissRe" />
         <ProjectGroup projects={projectsSorted} code="is-" title="Internal Sidenis" />
         <ProjectGroup projects={projectsSorted} code="guild-" title="Guild" />
         <ProjectGroup projects={projectsSorted} code="az-" title="Allianz" />
-        <ProjectGroup projects={projectsSorted} code="sr-" title="SwissRe" />
       </Skeleton>
     </PageContent>
   )
