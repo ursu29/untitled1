@@ -47,6 +47,7 @@ export const devMenu = {
 export const table = {
   secondTypography: '.ant-typography-secondary',
   activeTab: '.office-planner-active',
+  itemList: '.ant-list-item',
 }
 
 export const spinner = {
@@ -72,7 +73,9 @@ export const postEl = {
   toggle: '.ant-switch-checked',
   editTag: '.ant-select-selection-item-content',
   button: '.ant-btn-primary',
+  buttonPlus: '.ant-btn-dashed',
   delete: '.anticon-close',
+  iconDelete: '.anticon-delete',
   annotation: 'postAnnotation',
   title: '#title',
   writePost: '.CodeMirror-sizer',
@@ -101,6 +104,12 @@ export const workspace = {
   tab: '.ant-tabs-tab-btn',
 }
 
+export const process = {
+  title: 'process_form_title',
+  type: 'process_form_type',
+  customer: 'process_form_customer',
+}
+
 export const notificationEl = {
   title: '.ant-notification-notice-message',
   button: '.ant-btn',
@@ -109,4 +118,9 @@ export const notificationEl = {
 
 export const modalEl = {
   window: '.ant-modal',
+}
+
+export const collapseProcess = {
+  header: '.ant-collapse-header',
+  arrow: '.ant-collapse-arrow',
 }
