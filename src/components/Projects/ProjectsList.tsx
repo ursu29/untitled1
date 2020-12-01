@@ -1,4 +1,4 @@
-import { Skeleton, Typography } from 'antd'
+import { Skeleton, Typography, Tooltip } from 'antd'
 import React from 'react'
 import { Project } from '../../types'
 import PageContent from '../UI/PageContent'
@@ -14,14 +14,26 @@ interface ProjectGroupProps {
 }
 
 const ProjectGroup = ({ title, projects, code }: ProjectGroupProps) => {
-  const projectsFiltered = projects?.filter(project =>
-    project.code.toLowerCase().startsWith(code.toLowerCase()),
-  )
+  const projectsFiltered = projects?.filter(project => {
+    if (project.code === 'is-administrations') return false
+    return project.code.toLowerCase().startsWith(code.toLowerCase())
+  })
 
   if (!projectsFiltered) return null
 
   return (
-    <Section title={title}>
+    <Section
+      title={
+        <Tooltip
+          placement="right"
+          title={`${projectsFiltered.length} ${
+            projectsFiltered.length === 1 ? 'project' : 'projects'
+          }`}
+        >
+          <Typography.Text style={{ userSelect: 'none' }}>{title}</Typography.Text>
+        </Tooltip>
+      }
+    >
       <ProjectTagList projects={projectsFiltered} />
     </Section>
   )
