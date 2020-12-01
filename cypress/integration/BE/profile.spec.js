@@ -12,6 +12,10 @@ describe(`Check employee getEmployee`, () => {
 
   beforeEach(() => {
     cy.setToken('employee')
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
   })
 
   it('getEmployee response', () => {
