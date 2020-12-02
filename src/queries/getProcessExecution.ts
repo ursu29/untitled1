@@ -37,6 +37,7 @@ export default gql`
       }
       employee
       finishDate
+      isIndependentStepsActive
     }
   }
   ${fragments.Employee.Details}
@@ -58,6 +59,7 @@ type ProcessExecutionPick = {
   })[]
   employee: string
   finishDate: string
+  isIndependentStepsActive: boolean
 }
 
 export type QueryType = {

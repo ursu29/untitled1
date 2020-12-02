@@ -19,6 +19,7 @@ interface Props {
   onComplete: (step: Step) => void
   onComment?: (id: string, comment: string) => void
   isProcessRunning?: boolean
+  isIndependentStepsActive?: boolean
 }
 
 export default function Branch({
@@ -30,6 +31,7 @@ export default function Branch({
   onComplete,
   onComment,
   isProcessRunning,
+  isIndependentStepsActive,
 }: Props) {
   if (!steps?.length) return null
 
@@ -111,14 +113,27 @@ export default function Branch({
               )}
               {status === 'active' && (step.type === 'approve' || step.type === 'independent') && (
                 <Controls>
-                  <Button
-                    type="primary"
-                    disabled={!step.responsibleUsers?.find(i => i.isMe) || !isProcessRunning}
-                    onClick={() => onComplete(step)}
-                    size="small"
+                  <Tooltip
+                    placement="bottom"
+                    title={
+                      step.type === 'independent' && !isIndependentStepsActive
+                        ? 'Fill in the fields date and employee'
+                        : ''
+                    }
                   >
-                    Complete
-                  </Button>
+                    <Button
+                      type="primary"
+                      disabled={
+                        !step.responsibleUsers?.find(i => i.isMe) ||
+                        !isProcessRunning ||
+                        (step.type === 'independent' && !isIndependentStepsActive)
+                      }
+                      onClick={() => onComplete(step)}
+                      size="small"
+                    >
+                      Complete
+                    </Button>
+                  </Tooltip>
                 </Controls>
               )}
             </ActiveStepCard>
@@ -138,6 +153,7 @@ export default function Branch({
                   onComplete={onComplete}
                   onComment={onComment}
                   isProcessRunning={isProcessRunning}
+                  isIndependentStepsActive={isIndependentStepsActive}
                 />
               ))}
             </RowWrapper>

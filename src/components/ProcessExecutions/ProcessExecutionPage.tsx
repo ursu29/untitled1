@@ -149,7 +149,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
           tags={<ProcessExecutionStatusTag processExecution={processExecution} />}
           style={{ padding: 0 }}
           extra={[
-            <AbortProcessExecution id={processExecution?.id}>
+            <AbortProcessExecution id={processExecution?.id} key={processExecution?.id}>
               {(abort: any) => {
                 if (processExecution.status !== 'running') return null
                 return (
@@ -242,6 +242,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                     })
                   }}
                   isProcessRunning={processExecution.status === 'running'}
+                  isIndependentStepsActive={processExecution.isIndependentStepsActive}
                 />
                 {index < branches.length - 1 && <Divider />}
               </div>
