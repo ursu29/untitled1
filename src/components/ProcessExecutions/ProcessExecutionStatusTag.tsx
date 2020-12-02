@@ -46,6 +46,14 @@ function ProcessExecutionStatusTag({
     )
   }
 
+  if (processExecution.status === 'holding') {
+    return (
+      <Tag style={{ margin: '0 3px 3px 0' }} color="magenta">
+        Holding
+      </Tag>
+    )
+  }
+
   return null
 }
 

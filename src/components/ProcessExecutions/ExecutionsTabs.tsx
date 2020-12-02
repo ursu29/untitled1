@@ -12,7 +12,11 @@ function ActiveProcesses({ processExecutions }: Props) {
     {
       title: 'All',
       key: 'all',
-      body: <ProcessList items={processExecutions.filter(i => i.status === 'running')} />,
+      body: (
+        <ProcessList
+          items={processExecutions.filter(i => i.status === 'running' || i.status === 'holding')}
+        />
+      ),
     },
     {
       title: 'Onboarding',
@@ -52,7 +56,7 @@ function ActiveProcesses({ processExecutions }: Props) {
       key: 'archived',
       body: (
         <ProcessList
-          items={processExecutions.filter(i => i.status !== 'running')}
+          items={processExecutions.filter(i => i.status !== 'running' && i.status !== 'holding')}
           tabName="archived"
         />
       ),

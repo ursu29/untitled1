@@ -16,6 +16,7 @@ import PageContent from '../UI/PageContent'
 import Skeleton from '../UI/Skeleton'
 import Vacancy from '../Vacancies/Vacancy'
 import AbortProcessExecution from './AbortProcessExecution'
+import OnHoldProcessExecution from './OnHoldProcessExecution'
 import AdditionalInfo from './AdditionalInfo'
 import ActiveStepCard from './ExecutionStepCard'
 import ProcessExecutionBranch from './ProcessExecutionBranch'
@@ -167,6 +168,27 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                 )
               }}
             </AbortProcessExecution>,
+            <OnHoldProcessExecution id={processExecution?.id}>
+              {(onHold: any) => {
+                if (processExecution.status !== 'running' && processExecution.status !== 'holding')
+                  return null
+                return (
+                  <Popconfirm
+                    placement="top"
+                    title={'Are you sure?'}
+                    onConfirm={onHold}
+                    okText="Yes"
+                    cancelText="No"
+                  >
+                    <span>
+                      <Button>
+                        {processExecution.status === 'holding' ? 'Resume' : 'On hold'}
+                      </Button>
+                    </span>
+                  </Popconfirm>
+                )
+              }}
+            </OnHoldProcessExecution>,
           ]}
         ></PageHeader>
       </PageContent>
@@ -191,7 +213,9 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                   { query: getProcessExecution, variables: { input: { id: match.params.id } } },
                   { query: getProcessExecutions },
                 ]}
-                editable={processExecution.vacancy.editable}
+                editable={
+                  processExecution.vacancy.editable && processExecution.status !== 'holding'
+                }
               />
             </ActiveStepCard>
           </PageContent>

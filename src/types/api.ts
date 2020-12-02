@@ -306,7 +306,7 @@ export interface ProcessStep {
 
 export interface ProcessExecution {
   id: string
-  status: 'running' | 'finished' | 'cancelled'
+  status: 'running' | 'finished' | 'cancelled' | 'holding'
   process: Process
   vacancy: Vacancy
   locations: Location[]

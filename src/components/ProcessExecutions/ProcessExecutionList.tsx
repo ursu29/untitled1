@@ -292,7 +292,9 @@ function ProcessList({ items, tabName }: Props) {
       rowKey="id"
       //@ts-ignore
       columns={columns}
-      dataSource={sortedItems}
+      dataSource={sortedItems
+        .filter(e => e.status !== 'holding')
+        .concat(sortedItems.filter(e => e.status === 'holding'))}
       size="small"
       pagination={{ showSizeChanger: true }}
     />
