@@ -49,7 +49,7 @@ export default function Onboarding() {
     >
       <Controls back={<Back />} />
       <Typography.Title style={{ display: 'flex', alignItems: 'baseline', marginBottom: '40px' }}>
-        Onboarding
+        Trainings
         {isAccessWrite && (
           <div
             style={{ color: '#40A9FF', fontSize: '20px', fontStyle: 'italic', marginLeft: '10px' }}

@@ -93,7 +93,7 @@ function PortalMenu(props: Props) {
       ? {
           route: paths.ONBOARDING,
           icon: <LikeOutlined />,
-          title: 'Onboarding',
+          title: 'Trainings',
           status: '',
         }
       : null,
