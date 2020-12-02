@@ -8,7 +8,7 @@ describe('Check manager employees', () => {
   let managerId
 
   context('getSubordinates', () => {
-    beforeEach(() => {
+    before(() => {
       cy.setToken('manager')
       cy.post(getEmployee(email('employee'))).then(res => (managerId = res.body.id))
       cy.getResponse(['getSubordinates'], 'alias')
