@@ -1,6 +1,6 @@
 export const menu = {
   items: [
-    { name: 'Onboarding', url: '/onboarding', text: 'Onboarding', show: false },
+    { name: 'Trainings', url: '/onboarding', text: 'Trainings', show: false },
     { name: 'Employees', url: '/employees', text: null, show: true },
     { name: 'Projects', url: '/projects', text: 'Projects', show: true },
     { name: 'Guild', url: '/guilds', text: 'Guilds', show: true },
