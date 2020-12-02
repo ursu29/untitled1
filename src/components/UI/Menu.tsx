@@ -89,14 +89,12 @@ function PortalMenu(props: Props) {
   const { SubMenu } = Menu
 
   const menuItems = [
-    data?.onboardingAccess?.read
-      ? {
-          route: paths.ONBOARDING,
-          icon: <LikeOutlined />,
-          title: 'Trainings',
-          status: '',
-        }
-      : null,
+    {
+      route: paths.ONBOARDING,
+      icon: <LikeOutlined />,
+      title: 'Trainings',
+      status: '',
+    },
     {
       route: paths.EMPLOYEES,
       icon: <TeamOutlined />,
