@@ -106,3 +106,10 @@ Cypress.Commands.add('compareTwoJson', (alias, expectJson) => {
     console.log('ERROR:', val)
   })
 })
+
+Cypress.Commands.add('shouldBeCalled', (alias, timesCalled) => {
+  expect(
+    cy.state('requests').filter(call => call.alias === alias),
+    `${alias} should have been called ${timesCalled} times`,
+  ).to.have.length(timesCalled)
+})

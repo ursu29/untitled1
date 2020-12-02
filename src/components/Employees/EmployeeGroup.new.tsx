@@ -90,6 +90,7 @@ function EmployeeGroup({ title, employees, one2one, isMe }: Props) {
                 disabled={isOne2oneRequest}
               >
                 <Button
+                  data-cy="oneTwoOne"
                   type="primary"
                   ghost
                   size="small"

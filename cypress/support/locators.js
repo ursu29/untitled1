@@ -30,6 +30,16 @@ export const tabs = {
   cv: 'CV',
 }
 
+export const skillEl = {
+  item: '.ant-select-selection-item',
+  remove: '.ant-select-selection-item-remove',
+  skill: '.ant-select-tree-title',
+  iconChecked: '.anticon-check',
+  iconEdit: '.anticon-edit',
+  successMes: '.ant-message-success',
+  skillName: 'skills_name',
+}
+
 export const locations = [
   { title: 'Saint-Petersburg' },
   { title: 'Tomsk' },
