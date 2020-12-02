@@ -7,39 +7,21 @@ describe('Check manager employees', () => {
   let response
   let managerId
 
-  context('getSubordinates', () => {
-    before(() => {
-      cy.setToken('manager')
-      cy.post(getEmployee(email('employee'))).then(res => (managerId = res.body.id))
-      cy.getResponse(['getSubordinates'], 'alias')
-      cy.visit('/client/profile/employees')
-      cy.wait(`@alias`).then(val => (response = val.response.body.data))
-    })
-
-    it('getSubordinates response', () => {
-      const { __typename, id, name, position, email } = employeeData.employee
-      const { employeeByEmail } = response
-      const { subordinateUsers } = employeeByEmail
-
-      cy.compareObjectsKeys(subordinateUsers[0], subUser)
-      checkKeyValueExist(employeeByEmail, { managerId, __typename })
-      checkKeyValueExist(subordinateUsers[0], { __typename, id, name, position, email })
-    })
+  before(() => {
+    cy.setToken('manager')
+    cy.post(getEmployee(email('employee'))).then(res => (managerId = res.body.id))
+    cy.getResponse(['getSubordinates'], 'alias')
+    cy.visit('/client/profile/employees')
+    cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
-  context('Check manager getEmployee', () => {
-    before(() => {
-      cy.setToken('manager')
-      cy.getResponse(['getEmployeeName'], 'alias')
-      cy.visit('/client/profile/employees')
-      cy.wait(`@alias`).then(val => (response = val.response.body.data))
-    })
+  it('getSubordinates response', () => {
+    const { __typename, id, name, position, email } = employeeData.employee
+    const { employeeByEmail } = response
+    const { subordinateUsers } = employeeByEmail
 
-    it('getEmployeeName response', () => {
-      const { id, __typename, name } = employeeData.employee
-      const { employeeByEmail } = response
-
-      checkKeyValueExist(employeeByEmail, { __typename, id, name })
-    })
+    cy.compareObjectsKeys(subordinateUsers[0], subUser)
+    checkKeyValueExist(employeeByEmail, { managerId, __typename })
+    checkKeyValueExist(subordinateUsers[0], { __typename, id, name, position, email })
   })
 })
