@@ -11,7 +11,7 @@ describe('Check getEvaluationRevieers', () => {
   before(() => {
     cy.setToken('employee')
     cy.getResponse(['getEvaluationRevieers'], 'alias')
-    cy.visit('/client/profile/evaluation')
+    cy.visit('/profile/evaluation')
     cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 

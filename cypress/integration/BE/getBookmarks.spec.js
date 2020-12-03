@@ -17,7 +17,7 @@ describe(`Check employee getBookmarks`, () => {
     const { email, id, name, __typename } = employeeData.employee
 
     cy.getResponse(['getBookmarks'], 'alias')
-    cy.visit('/client/profile/bookmarks')
+    cy.visit('/profile/bookmarks')
 
     cy.wait(`@alias`).then(val => {
       const { bookmarks } = val.response.body.data

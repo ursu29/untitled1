@@ -1,12 +1,13 @@
-const URL = 'https://portal.dev.sidenis.com/gateway/graphql'
+const URL = 'https://portal.dev.sidenis.com/graphql'
 
-Cypress.Commands.add('post', body => {
+Cypress.Commands.add('post', (body, superUser = null, methodName = 'POST') => {
   return cy.request({
     url: URL,
-    method: 'POST',
+    method: methodName,
     headers: {
       authorization: `Bearer ${Cypress.env('accessToken')}`,
       'content-type': 'application/json',
+      'dev-only-user-role': superUser,
     },
     body: body,
   })
@@ -45,6 +46,19 @@ export const getEmployee = email => ({
   variables: { email: email },
   query:
     'query getEmployee($email: String!) {employeeByEmail(email: $email) { ...EmployeeDetails agileManager {...EmployeeDetails __typename} bonuses status  __typename}} fragment EmployeeDetails on Employee {id name location country position phoneNumber email isMe __typename}',
+})
+
+export const createTraining = (title, description, responsibleMail) => ({
+  operationName: 'createOnboardingTicket',
+  variables: {
+    input: {
+      title,
+      description,
+      responsibleMail,
+    },
+  },
+  query:
+    'mutation createOnboardingTicket($input: CreateOnboardingTicketInput) {createOnboardingTicket(input: $input) {id __typename}}',
 })
 
 export const getEmployees = location => ({

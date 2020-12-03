@@ -12,7 +12,7 @@ describe(`Check getDevelopmentPlans`, () => {
     before(() => {
       cy.setToken('employee')
       cy.getResponse(['getDevelopmentPlans', 'developmentRoles'], 'alias')
-      cy.visit('/client/profile/development-plan')
+      cy.visit('/profile/development-plan')
       cy.wait(`@alias`).then(val => (response = val.response.body.data))
     })
 
@@ -62,7 +62,7 @@ describe(`Check getDevelopmentPlans`, () => {
     beforeEach(() => {
       cy.setToken('employee')
       cy.getResponse(['archivedDPVersions'], 'alias')
-      cy.visit('/client/profile/development-plan')
+      cy.visit('/profile/development-plan')
       cy.wait(`@alias`).then(val => (response = val.response.body.data))
     })
 

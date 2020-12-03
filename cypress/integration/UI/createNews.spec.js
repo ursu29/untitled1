@@ -29,7 +29,7 @@ describe('Create news', () => {
       const { tags } = res.body.data
       allData = { ...allData, tags }
     })
-    cy.visit('/client/feed')
+    cy.visit('/feed')
     cy.addRole()
   })
 

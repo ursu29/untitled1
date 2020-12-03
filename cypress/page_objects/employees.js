@@ -4,7 +4,7 @@ class Employees {
   }
 
   visit() {
-    cy.visit('/client/employees', { timeout: 20000 })
+    cy.visit('/employees', { timeout: 20000 })
   }
 
   row() {

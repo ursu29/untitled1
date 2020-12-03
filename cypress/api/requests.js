@@ -1,6 +1,6 @@
 export const postRequest = body => {
   return cy.request({
-    url: '/gateway/graphql',
+    url: '/graphql',
     method: 'POST',
     headers: {
       authorization: 'Bearer ' + Cypress.env('accessToken'),
@@ -16,7 +16,7 @@ export const getEmployeeAttributes = (attributes, userId) => {
       .replace(/ATTRIBUTES_TO_REPLACE/, attributes)
       .replace(/ID_TO_REPLACE/, userId)
     cy.request({
-      url: '/gateway/graphql',
+      url: '/graphql',
       method: 'POST',
       headers: {
         authorization: 'Bearer ' + Cypress.env('accessToken'),
