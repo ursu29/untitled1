@@ -29,9 +29,10 @@ describe('Edit News', () => {
 
   it('Edit first post', () => {
     cy.checkImgToken('manager')
+    cy.scrollTo('top')
     cy.get(postEl.posts).should('be.visible')
     const arr = ['Title image', 'Background image', 'Foreground image']
-    cy.get(postEl.editPost).eq(1).click()
+    cy.get(postEl.editPost).eq(1).click({ force: true })
     cy.get(postEl.title).clear().type(text)
 
     cy.getId(postEl.annotation).should('not.exist')
@@ -43,7 +44,6 @@ describe('Edit News', () => {
   it('Save post', () => {
     cy.checkImgToken('manager')
     cy.scrollTo('bottom')
-    cy.window().then(w => (w.initial = true))
     cy.get(postEl.button).should('exist')
     cy.get(postEl.button).click({ force: true })
     cy.get(modalEl.window).should('be.visible')
