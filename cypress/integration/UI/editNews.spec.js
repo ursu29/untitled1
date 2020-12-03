@@ -42,7 +42,8 @@ describe('Edit News', () => {
 
   it('Save post', () => {
     cy.checkImgToken('manager')
-    cy.get(postEl.button).click()
+    cy.scrollTo('bottom')
+    cy.get(postEl.button).click({ force: true })
     cy.get(modalEl.window).should('be.visible')
 
     cy.intercept('/graphql', req => {
