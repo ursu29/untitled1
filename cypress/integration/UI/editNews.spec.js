@@ -31,8 +31,9 @@ describe('Edit News', () => {
     cy.checkImgToken('manager')
     cy.scrollTo('top')
     cy.get(postEl.posts).should('be.visible')
+    cy.get(postEl.editPost).eq(1).should('be.visible')
     const arr = ['Title image', 'Background image', 'Foreground image']
-    cy.get(postEl.editPost).eq(1).click({ force: true })
+    cy.get(postEl.editPost).eq(1).dblclick()
     cy.get(postEl.title).clear().type(text)
 
     cy.getId(postEl.annotation).should('not.exist')
