@@ -44,7 +44,7 @@ describe('Create news', () => {
     const firstTag = allTags[0]
 
     cy.get(postEl.writePost).type(text)
-    cy.get(postEl.button).scrollIntoView()
+    cy.scrollTo('bottom')
 
     cy.get(inputTag).click()
     cy.get(matrix.item).eq(0).click({ force: true })
@@ -53,7 +53,7 @@ describe('Create news', () => {
   })
 
   it('Save post', () => {
-    cy.get(postEl.button).click()
+    cy.get(postEl.button).click({ force: true })
     cy.get(modalEl.window).should('be.visible')
 
     cy.intercept('/graphql', req => {
