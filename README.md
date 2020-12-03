@@ -12,26 +12,26 @@
 
 ### DEV
 
-CMS Admin: https://portal-strapi.dev.sidenis.com/admin
-Storybook: https://portal-storybook.dev.sidenis.com
-API Sandbox: https://portal.dev.sidenis.com/graphql
-Client: https://portal.dev.sidenis.com
+* CMS Admin: https://portal-strapi.dev.sidenis.com/admin
+* Storybook: https://portal-storybook.dev.sidenis.com
+* API Sandbox: https://portal.dev.sidenis.com/graphql
+* Client: https://portal.dev.sidenis.com
 
 ### PROD
 
 **in current release 1.10**
 
-CMS Admin: https://portal.sidenis.com/admin (ONLY WITHIN INTRANET)
-Storybook: not available
-API Sandbox: not available, api link is https://portal.sidenis.com/gateway/graphql
-Client: https://portal.sidenis.com/client
+* CMS Admin: https://portal.sidenis.com/admin (ONLY WITHIN INTRANET)
+* Storybook: not available
+* API Sandbox: not available, api link is https://portal.sidenis.com/gateway/graphql
+* Client: https://portal.sidenis.com/client
 
 **next release: 1.11**
 
-CMS Admin: https://portal-strapi.sidenis.com/admin (ONLY WITHIN INTRANET)
-Storybook: not available
-API Sandbox: not available, api link is https://portal.sidenis.com/graphql
-Client: https://portal.sidenis.com
+* CMS Admin: https://portal-strapi.sidenis.com/admin (ONLY WITHIN INTRANET)
+* Storybook: not available
+* API Sandbox: not available, api link is https://portal.sidenis.com/graphql
+* Client: https://portal.sidenis.com
 
 ## Installation process
 
