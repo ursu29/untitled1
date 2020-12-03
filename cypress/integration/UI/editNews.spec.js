@@ -43,7 +43,7 @@ describe('Edit News', () => {
   it('Save post', () => {
     cy.checkImgToken('manager')
     cy.scrollTo('bottom')
-
+    cy.window().then(w => (w.initial = true))
     cy.get(postEl.button).should('exist')
     cy.get(postEl.button).click({ force: true })
     cy.get(modalEl.window).should('be.visible')
