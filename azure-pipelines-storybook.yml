@@ -31,7 +31,7 @@ stages:
             inputs:
               command: build
               repository: $(imageRepository)
-              dockerfile: $(dockerfilePath)
+              dockerfile: '**/Dockerfile.storybook'
               containerRegistry: $(dockerRegistryServiceConnection)
               arguments: --build-arg REACT_APP_DT_BRANCH_NAME="$(Build.SourceBranchName)"
                 --build-arg REACT_APP_DT_REPO_NAME="$(Build.Repository.Name)"
