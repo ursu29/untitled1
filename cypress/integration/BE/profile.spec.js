@@ -1,65 +1,82 @@
-import {
-  getProject,
-  getEmployeeData,
-  matricesAccess,
-  employeeData,
-  level,
-} from '../../support/client/employeeData'
+import { matricesAccess, employeeData } from '../../support/client/employeeData'
 import { checkKeyValueExist } from '../../support/complexLocators'
 
 describe(`Check employee getEmployee`, () => {
-  let response
+  const {
+    bonuses,
+    country,
+    email,
+    id,
+    isMe,
+    location,
+    name,
+    phoneNumber,
+    position,
+    status,
+    __typename,
+  } = employeeData.employee
 
-  beforeEach(() => {
+  before(() => {
     cy.setToken('employee')
   })
 
-  it('getEmployee response', () => {
-    const { id, __typename } = employeeData.employee
-    cy.getResponse(['getEmployee', 'activeProcessExecutions'], 'alias')
-    cy.visit('/client/profile')
-
-    cy.compareTwoJson('alias', getEmployeeData(id, __typename), [id, __typename])
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
   })
 
-  it('getEmployeeEmail response', () => {
-    cy.getResponse(['getEmployee', 'phoneNumber'], 'alias')
-    cy.visit('/client/profile')
-    cy.wait(`@alias`).then(val => {
-      response = val.response.body.data
-      const { agileManager } = employeeData.employee
+  context('Check matricesAccess', () => {
+    it('matricesAccess response', () => {
+      cy.getResponse(['matricesAccess'], 'alias')
+      cy.visit('/client/profile')
 
-      cy.compareObjectsKeys(response.employeeByEmail, employeeData.employee)
-      checkKeyValueExist(response.employeeByEmail.agileManager, agileManager)
+      cy.compareTwoJson('alias', matricesAccess)
     })
   })
 
-  it('GetEmployeeProjects response', () => {
-    const { id, __typename } = employeeData.employee
+  context('Check getEmployee response', () => {
+    it('getEmployee response', () => {
+      cy.getResponse(['getEmployee', 'agileManager'], 'alias')
+      cy.visit('/client/profile')
 
-    cy.getResponse(['GetEmployeeProjects'], 'alias')
-    cy.visit('/client/profile')
+      cy.wait('@alias').then(req => {
+        const { data } = req.response.body
 
-    cy.compareTwoJson('alias', getProject(id, __typename))
-  })
-
-  it('GetEmployeeProjects response', () => {
-    cy.getResponse(['levels'], 'alias')
-    cy.visit('/client/profile')
-
-    cy.wait('@alias').then(req => {
-      const response = req.response.body
-      const firstLevel = response.data.levels[0]
-
-      expect(response.data.levels).to.be.a('array')
-      Object.keys(firstLevel).filter(el => expect(Object.keys(level)).includes(el))
+        checkKeyValueExist(data.employeeByEmail, {
+          bonuses,
+          country,
+          email,
+          id,
+          isMe,
+          location,
+          name,
+          phoneNumber,
+          position,
+          status,
+          __typename,
+        })
+        checkKeyValueExist(data.employeeByEmail.agileManager, employeeData.employee.agileManager)
+      })
     })
   })
 
-  it('matricesAccess response', () => {
-    cy.getResponse(['matricesAccess'], 'alias')
-    cy.visit('/client/profile')
+  context('Check GetEmployeeProjects request', () => {
+    it('GetEmployeeProjects response', () => {
+      const { id, __typename } = employeeData.employee
 
-    cy.compareTwoJson('alias', matricesAccess)
+      cy.getResponse(['GetEmployeeProjects'], 'alias')
+      cy.visit('/client/profile')
+
+      cy.wait('@alias').then(req => {
+        const { data } = req.response.body
+        const firstEmployee = data.employees[0]
+
+        expect(firstEmployee.leadingProjects).to.be.a('array')
+        expect(firstEmployee.projects).to.be.a('array')
+        checkKeyValueExist(firstEmployee, { id, __typename })
+      })
+    })
   })
 })

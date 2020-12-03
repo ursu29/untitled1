@@ -58,7 +58,7 @@ function ProcessForm({ form, onSubmit, data, loading }: Props) {
           })(
             <Radio.Group>
               <Radio value="onboarding">Onboarding</Radio>
-              <Radio value="offboarding">Offboaring</Radio>
+              <Radio value="offboarding">Offboarding</Radio>
               <Radio value="rotation">Rotation</Radio>
             </Radio.Group>,
           )}

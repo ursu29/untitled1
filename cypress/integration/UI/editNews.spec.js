@@ -29,20 +29,22 @@ describe('Edit News', () => {
 
   it('Edit first post', () => {
     cy.checkImgToken('manager')
+    cy.scrollTo('top')
     cy.get(postEl.posts).should('be.visible')
+    cy.get(postEl.editPost).eq(1).should('be.visible')
     const arr = ['Title image', 'Background image', 'Foreground image']
-    cy.get(postEl.editPost).eq(1).click()
+    cy.get('.ant-btn-link').eq(0).click()
     cy.get(postEl.title).clear().type(text)
 
     cy.getId(postEl.annotation).should('not.exist')
-    cy.get(devMenu.itemLabel).each(val => {
-      expect(arr).not.includes(val.text())
-    })
+    cy.get(devMenu.itemLabel).each(val => expect(arr).not.includes(val.text()))
   })
 
   it('Save post', () => {
     cy.checkImgToken('manager')
-    cy.get(postEl.button).click()
+    cy.scrollTo('bottom')
+    cy.get(postEl.button).should('exist')
+    cy.get(postEl.button).click({ force: true })
     cy.get(modalEl.window).should('be.visible')
 
     cy.intercept('/graphql', req => {
