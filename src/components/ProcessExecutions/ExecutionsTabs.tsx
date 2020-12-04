@@ -8,15 +8,11 @@ interface Props {
 }
 
 function ActiveProcesses({ processExecutions }: Props) {
-  const tabs = [
+  const tabsActive = [
     {
       title: 'All',
       key: 'all',
-      body: (
-        <ProcessList
-          items={processExecutions.filter(i => i.status === 'running' || i.status === 'holding')}
-        />
-      ),
+      body: <ProcessList items={processExecutions.filter(i => i.status === 'running')} />,
     },
     {
       title: 'Onboarding',
@@ -51,6 +47,19 @@ function ActiveProcesses({ processExecutions }: Props) {
         />
       ),
     },
+  ]
+
+  const tabsInactive = [
+    {
+      title: 'On hold',
+      key: 'holding',
+      body: (
+        <ProcessList
+          items={processExecutions.filter(i => i.status === 'holding')}
+          tabName="archived"
+        />
+      ),
+    },
     {
       title: 'Archived',
       key: 'archived',
@@ -63,7 +72,20 @@ function ActiveProcesses({ processExecutions }: Props) {
     },
   ]
 
-  return <Tabs noPadding tabs={tabs} />
+  const mainTabs = [
+    {
+      title: 'Active',
+      key: 'active',
+      body: <Tabs noPadding tabs={tabsActive} />,
+    },
+    {
+      title: 'Inactive',
+      key: 'inactive',
+      body: <Tabs noPadding tabs={tabsInactive} />,
+    },
+  ]
+
+  return <Tabs tabsProps={{ tabBarGutter: 5, type: 'card' }} noPadding tabs={mainTabs} />
 }
 
 export default ActiveProcesses

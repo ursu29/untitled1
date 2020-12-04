@@ -1,6 +1,5 @@
 import React from 'react'
 import { Card } from 'antd'
-import { CardProps } from 'antd/lib/card'
 import { EmployeeDetails } from '../../fragments'
 import { getEmployeeLink } from '../../paths'
 import { Link } from 'react-router-dom'
@@ -9,7 +8,7 @@ import Avatar from '../Avatar'
 export interface Props {
   employee: EmployeeDetails
   noLink?: boolean
-  cardProps?: CardProps
+  cardProps?: React.ComponentProps<typeof Card>
 }
 
 function EmployeeCard({ employee, noLink, cardProps }: Props) {
