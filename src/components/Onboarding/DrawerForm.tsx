@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
-import { Button, Form, Input, Popconfirm } from 'antd'
+import { Button, Form, Input, Popconfirm, Checkbox } from 'antd'
 import React from 'react'
 import message from '../../message'
 import {
@@ -94,6 +94,10 @@ export default function DrawerForm({
             Save
           </Button>
         </div>
+      </Form.Item>
+
+      <Form.Item label="Optional" name="isOptional" initialValue={ticket?.isOptional}>
+        <Checkbox />
       </Form.Item>
     </Form>
   )

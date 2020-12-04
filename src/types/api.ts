@@ -491,6 +491,7 @@ export interface OnboardingTicket {
   title: string
   description: string
   responsible: Employee[]
+  isOptional: boolean
 }
 
 export enum StrapiGroups {
