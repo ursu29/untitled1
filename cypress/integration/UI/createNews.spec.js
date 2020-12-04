@@ -1,6 +1,7 @@
 import { getTags } from '../../support/getData'
 import { inputTag, submitPost } from '../../support/complexLocators'
 import { matrix, postEl, modalEl } from '../../support/locators'
+import { strapiUrl } from '../../support/authorization'
 
 describe('Create news', () => {
   const text = new Date().toLocaleTimeString()
@@ -74,7 +75,7 @@ describe('Create news', () => {
 
       expect(firstPost.title).to.equal(text)
       // delete created post
-      cy.request('DELETE', `https://portal.dev.sidenis.com/posts/${firstPost.id}`)
+      cy.request('DELETE', `${strapiUrl}/posts/${firstPost.id}`)
     })
   })
 })
