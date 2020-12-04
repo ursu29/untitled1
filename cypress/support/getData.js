@@ -13,7 +13,7 @@ Cypress.Commands.add('post', (body, superUser = null, methodName = 'POST') => {
   })
 })
 
-// need to simplify all this request body 
+// need to simplify all this request body
 export const getManager = id => ({
   operationName: 'GetEmployeeManager',
   variables: { input: { id: id } },
