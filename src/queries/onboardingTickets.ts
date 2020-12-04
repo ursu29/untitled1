@@ -1,20 +1,14 @@
 import gql from 'graphql-tag'
 import { OnboardingTicket } from '../types'
+import fragments from '../fragments'
 
 export const getOnboardingTickets = gql`
   query onboardingTickets {
     onboardingTickets {
-      id
-      title
-      description
-      responsible {
-        id
-        name
-        position
-        email
-      }
+      ...OnboardingTicketDetails
     }
   }
+  ${fragments.OnboardingTicket}
 `
 
 export const onboardingAccess = gql`
@@ -57,6 +51,12 @@ export const updateOnboardingTicket = gql`
 export const completeOnboardingTicket = gql`
   mutation completeOnboardingTicket($input: CompleteOnboardingTicketInput) {
     completeOnboardingTicket(input: $input)
+  }
+`
+
+export const requestOnboardingTicket = gql`
+  mutation requestOnboardingTicket($id: ID!) {
+    requestOnboardingTicket(id: $id)
   }
 `
 

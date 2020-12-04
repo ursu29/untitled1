@@ -16,7 +16,7 @@ const layout = {
   wrapperCol: { span: 17 },
 }
 const tailLayout = {
-  wrapperCol: { span: 24 },
+  wrapperCol: { offset: 7, span: 17 },
 }
 
 export default function DrawerForm({
@@ -50,11 +50,11 @@ export default function DrawerForm({
       name="basic"
       initialValues={{ remember: true }}
       onFinish={values => {
+        console.log(values)
         if (!ticket) createTicket({ variables: { input: values } })
         if (ticket) updateTicket({ variables: { input: { id: ticket.id, ...values } } })
         handleClose()
       }}
-      onFinishFailed={values => console.log(values)}
     >
       <Form.Item label="Title" name="title" initialValue={ticket?.title || ''}>
         <Input />
@@ -70,6 +70,15 @@ export default function DrawerForm({
         initialValue={ticket?.responsible?.[0].email || ''}
       >
         <EmployeeSelect wide keyName="email" />
+      </Form.Item>
+
+      <Form.Item
+        {...tailLayout}
+        name="isOptional"
+        valuePropName="checked"
+        initialValue={ticket?.isOptional || false}
+      >
+        <Checkbox defaultChecked={ticket?.isOptional || false}>Ticket is optional</Checkbox>
       </Form.Item>
 
       <Form.Item {...tailLayout}>
@@ -94,10 +103,6 @@ export default function DrawerForm({
             Save
           </Button>
         </div>
-      </Form.Item>
-
-      <Form.Item label="Optional" name="isOptional" initialValue={ticket?.isOptional}>
-        <Checkbox />
       </Form.Item>
     </Form>
   )

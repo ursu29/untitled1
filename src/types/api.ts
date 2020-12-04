@@ -31,6 +31,7 @@ export interface Employee {
   lastManagerMeeting: string
   one2oneRequest: boolean
   projects: Project[]
+  requestedOnboardingTickets: OnboardingTicket[]
 }
 
 export interface CurriculumVitae {
@@ -492,6 +493,8 @@ export interface OnboardingTicket {
   description: string
   responsible: Employee[]
   isOptional: boolean
+  isRequestedByMe: boolean
+  requestedEmployees: Employee[]
 }
 
 export enum StrapiGroups {

@@ -35,6 +35,8 @@ export default function EmployeeSubordinates({ employee }: Props) {
     variables: { email: employee?.email },
   })
 
+  console.log(data) //TODO:
+
   const [update] = useMutation(updateEmployee, {
     onCompleted: () => message.success('Updated'),
     refetchQueries: [{ query, variables: { email: employee?.email } }],
@@ -97,7 +99,7 @@ export default function EmployeeSubordinates({ employee }: Props) {
     {
       title: 'Position',
       key: 'position',
-      width: '200px',
+      width: '160px',
       dataIndex: ['position'],
       ...TableSearch('position'),
       sorter: (a: any, b: any) => a?.position.localeCompare(b?.position),
@@ -132,6 +134,37 @@ export default function EmployeeSubordinates({ employee }: Props) {
               .sort((a: any, b: any) => a.localCompare(b))
               .join(''),
           ),
+    },
+    {
+      title: 'Upcoming trainings',
+      key: 'trainings',
+      width: '100px',
+      render: (_: any, record: Subordinate) => {
+        const ticketsCount: {
+          mandatory: number
+          optional: number
+        } = record.requestedOnboardingTickets.reduce(
+          (count, ticket) => {
+            ticket.isOptional ? (count.optional += 1) : (count.mandatory += 1)
+            return count
+          },
+          { mandatory: 0, optional: 0 },
+        )
+
+        const showCount = (title: string, count: number) => (
+          <div style={{ display: 'flex' }}>
+            <div style={{ color: 'lightgray', width: '40px', textAlign: 'start' }}>{title}</div>
+            <div>{count ? count : '-'}</div>
+          </div>
+        )
+
+        return (
+          <div>
+            {showCount('man', ticketsCount.mandatory)}
+            {showCount('opt', ticketsCount.optional)}
+          </div>
+        )
+      },
     },
     {
       title: 'Last meeting',

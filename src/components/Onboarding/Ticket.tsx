@@ -1,4 +1,4 @@
-import { Button, Typography, Tag } from 'antd'
+import { Button, Typography, Tag, Popconfirm } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
 import { ReactComponent as OutlookIcon } from '../../svg/outlook.svg'
@@ -25,11 +25,13 @@ export default function Ticket({
   onClick,
   isAccessWrite,
   completeTicket,
+  requestTicket,
 }: { ticket: OnboardingTicket } & {
   isCompleted: boolean
   onClick: any
   isAccessWrite: boolean
   completeTicket: any
+  requestTicket: any
 }) {
   const { title, description, responsible } = ticket
   const { email, name, position } = responsible?.[0] || { email: null, name: null, position: null }
@@ -58,9 +60,9 @@ export default function Ticket({
               <Tag icon={<CheckCircleOutlined />} color="success">
                 COMPLETED
               </Tag>
-            ) : (
+            ) : (ticket.isOptional ? ticket?.isRequestedByMe : true) ? (
               <Tag color="gold">IN PROGRESS</Tag>
-            )
+            ) : null
           ) : null}
         </div>
 
@@ -137,10 +139,27 @@ export default function Ticket({
               </Button>
             </a>
           </div>
-          {!isAccessWrite && !isCompleted && (
-            <Button type="primary" onClick={completeTicket}>
-              Complete
-            </Button>
+          {!isAccessWrite && !isCompleted && (ticket.isOptional ? ticket?.isRequestedByMe : true) && (
+            <Popconfirm
+              placement="top"
+              title={'Are you sure you want to complete this ticket?'}
+              onConfirm={completeTicket}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button type="primary">Complete</Button>
+            </Popconfirm>
+          )}
+          {!isAccessWrite && !isCompleted && ticket.isOptional && !ticket?.isRequestedByMe && (
+            <Popconfirm
+              placement="top"
+              title={'Are you sure you want to sign up for this training?'}
+              onConfirm={requestTicket}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button type="primary">Request training</Button>
+            </Popconfirm>
           )}
         </div>
       </div>

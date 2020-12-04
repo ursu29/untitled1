@@ -8,10 +8,12 @@ import {
   getOnboardingTickets,
   onboardingAccess,
   OnboardingTicketsQueryType,
+  requestOnboardingTicket,
 } from '../../queries/onboardingTickets'
 import { Access } from '../../types'
 import Back from '../UI/Back'
 import Controls from '../UI/Controls'
+import Tabs from '../UI/Tabs'
 import PageContent from '../UI/PageContent'
 import DrawerForm from './DrawerForm'
 import Ticket from './Ticket'
@@ -39,6 +41,46 @@ export default function Onboarding() {
     onCompleted: () => message.success('Ticket has been completed'),
     onError: message.error,
   })
+
+  // Request ticket
+  const [requestTicket] = useMutation(requestOnboardingTicket, {
+    refetchQueries: [{ query: getOnboardingTickets }],
+    onCompleted: () => message.success('Ticket has been requested'),
+    onError: message.error,
+  })
+
+  const ticketList = ({ isOptional }: { isOptional: boolean }) =>
+    data?.onboardingTickets
+      .filter(ticket => ticket.isOptional === isOptional)
+      .sort((a, b) => (completedTickets?.includes(a.id) ? 1 : -1))
+      .map(ticket => (
+        <Ticket
+          key={ticket.id}
+          ticket={ticket}
+          isCompleted={completedTickets?.includes(ticket.id) || false}
+          isAccessWrite={isAccessWrite}
+          onClick={() => {
+            if (!isAccessWrite) return
+            setChosenTicket(ticket.id)
+            setDrawerVisibility(true)
+          }}
+          completeTicket={() => completeTicket({ variables: { input: { id: ticket.id } } })}
+          requestTicket={() => requestTicket({ variables: { id: ticket.id } })}
+        />
+      ))
+
+  const tabs = [
+    {
+      title: 'Mandatory',
+      key: 'mandatory',
+      body: ticketList({ isOptional: false }),
+    },
+    {
+      title: 'Optional',
+      key: 'optional',
+      body: ticketList({ isOptional: true }),
+    },
+  ]
 
   return (
     <PageContent
@@ -71,24 +113,7 @@ export default function Onboarding() {
         </Button>
       )}
 
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        {data?.onboardingTickets
-          .sort((a, b) => (completedTickets?.includes(a.id) ? 1 : -1))
-          .map(ticket => (
-            <Ticket
-              key={ticket.id}
-              ticket={ticket}
-              isCompleted={completedTickets?.includes(ticket.id) || false}
-              isAccessWrite={isAccessWrite}
-              onClick={() => {
-                if (!isAccessWrite) return
-                setChosenTicket(ticket.id)
-                setDrawerVisibility(true)
-              }}
-              completeTicket={() => completeTicket({ variables: { input: { id: ticket.id } } })}
-            />
-          ))}
-      </div>
+      <Tabs noPadding tabs={tabs} />
 
       <Drawer
         maskClosable={false}
