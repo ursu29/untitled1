@@ -61,6 +61,36 @@ export const createTraining = (title, description, responsibleMail) => ({
     'mutation createOnboardingTicket($input: CreateOnboardingTicketInput) {createOnboardingTicket(input: $input) {id __typename}}',
 })
 
+export const createBookmark = (title, link, skills) => ({
+  operationName: 'createBookmark',
+  variables: {
+    input: {
+      title,
+      link,
+      skills,
+    },
+  },
+  query:
+    'mutation createBookmark($input: CreateBookmarkInput!) {createBookmark(input: $input) {id __typename}}',
+})
+
+export const toggleBookmarklike = bookmark => ({
+  operationName: 'toggleBookmarklike',
+  variables: {
+    input: { bookmark },
+  },
+  query:
+    'mutation toggleBookmarklike($input: ToggleBookmarklikeInput!) {toggleBookmarklike(input: $input) {id __typename}}',
+})
+
+export const deleteBookmark = id => ({
+  operationName: 'deleteBookmark',
+  variables: {
+    input: { id },
+  },
+  query:
+    'mutation deleteBookmark($input: DeleteBookmarkInput!) {deleteBookmark(input: $input) {id __typename}}',
+})
 export const getEmployees = location => ({
   operationName: 'getEmployees',
   variables: { input: { locations: location } },
