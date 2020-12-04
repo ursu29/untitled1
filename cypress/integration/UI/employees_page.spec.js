@@ -7,7 +7,7 @@ describe('Employees', () => {
 
   before(() => {
     cy.setToken('employee')
-    cy.visit('/client/employees')
+    cy.visit('/employees')
   })
 
   beforeEach(() => {
@@ -44,7 +44,7 @@ describe('Employees', () => {
 
   it('Open a user profile from the table', () => {
     cy.getElement('profile').click()
-    cy.url().should('include', '/client/profile')
+    cy.url().should('include', '/profile')
     cy.getElement('profile_name').should('have.text', selectProfileName)
     cy.clickElement('Employees')
   })

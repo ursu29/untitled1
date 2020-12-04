@@ -3,7 +3,7 @@ import { locations, workspace, devMenu, matrix } from '../../support/locators'
 describe('Workspace', () => {
   before(() => {
     cy.setToken('manager')
-    cy.visit('/client/workspace-planner')
+    cy.visit('/workspace-planner')
     cy.checkImgToken('manager')
   })
 

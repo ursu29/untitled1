@@ -112,7 +112,7 @@ describe('Checking default information', () => {
   })
 
   it('Manager can see employee private tabs', () => {
-    cy.visit(`/client/employees/${employeeData.employee.email}`)
+    cy.visit(`/employees/${employeeData.employee.email}`)
     ;[tabs.matrices, tabs.personal, tabs.cv, tabs.form].forEach(el =>
       cy.get(workspace.tab).contains(el).should('be.visible'),
     )

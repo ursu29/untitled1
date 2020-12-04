@@ -30,26 +30,20 @@ class Profile {
   }
 
   managerAvatar() {
-    return cy.get(
-      'a > .ant-card > * > .ant-card-meta-avatar > .ant-avatar',
-    )
+    return cy.get('a > .ant-card > * > .ant-card-meta-avatar > .ant-avatar')
   }
 
   managerName() {
-    return cy.get(
-      'a > .ant-card > * .ant-card-meta-detail > .ant-card-meta-title',
-    )
+    return cy.get('a > .ant-card > * .ant-card-meta-detail > .ant-card-meta-title')
   }
 
   managerJobTitle() {
-    return cy.get(
-      'a > .ant-card > * > .ant-card-meta-detail > .ant-card-meta-description',
-    )
+    return cy.get('a > .ant-card > * > .ant-card-meta-detail > .ant-card-meta-description')
   }
 
   openManagerOfCurrentProfile() {
     this.managerName().click()
-    this.url().should('include', '/client/employees/test.manager@sidenis.com/')
+    this.url().should('include', '/employees/test.manager@sidenis.com/')
   }
 
   //role tab

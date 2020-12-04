@@ -31,7 +31,7 @@ describe('Check the process', () => {
     cy.visit('/')
     cy.addRole()
     cy.getResponse(['getProcesses'], 'alias')
-    cy.visit('/client/processes')
+    cy.visit('/processes')
   })
 
   beforeEach(() => {
@@ -67,7 +67,7 @@ describe('Check the process', () => {
 
     it('Add new step', () => {
       cy.getResponse(['getProcesses'], 'alias')
-      cy.visit('/client/processes')
+      cy.visit('/processes')
       cy.wait('@alias').then(_ => {
         cy.scrollTo('bottom')
         cy.get(table.itemList).last().contains(data.title).click()
@@ -99,7 +99,7 @@ describe('Check the process', () => {
 
   context('Create new step', () => {
     it('Delete process', () => {
-      cy.visit('/client/processes')
+      cy.visit('/processes')
       cy.scrollTo('bottom')
       cy.get(postEl.iconDelete).last().click()
       cy.getResponse(['getProcesses'], 'alias')

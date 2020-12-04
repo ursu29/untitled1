@@ -1,6 +1,6 @@
 export const menu = {
   items: [
-    { name: 'Trainings', url: '/onboarding', text: 'Trainings', show: false },
+    { name: 'Trainings', url: '/onboarding', text: 'Trainings', show: true },
     { name: 'Employees', url: '/employees', text: null, show: true },
     { name: 'Projects', url: '/projects', text: 'Projects', show: true },
     { name: 'Guild', url: '/guilds', text: 'Guilds', show: true },
@@ -15,9 +15,9 @@ export const menu = {
     { name: 'Timemaster', url: '/timemaster', text: null, show: true },
     { name: 'Workspace', url: '/workspace-planner', text: null, show: true },
     { name: 'Office planner', url: '/office-planner', text: null, show: true },
-    { name: 'HR Tool', url: '/client/hr', text: null, show: false },
-    { name: 'Processes', url: '/client/processes', text: null, show: false },
-    { name: 'Matrices', url: '/client/matrices', text: null, show: false },
+    { name: 'HR Tool', url: '/hr', text: null, show: false },
+    { name: 'Processes', url: '/processes', text: null, show: false },
+    { name: 'Matrices', url: '/matrices', text: null, show: false },
   ],
 }
 

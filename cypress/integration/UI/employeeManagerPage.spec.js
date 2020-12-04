@@ -5,7 +5,7 @@ describe('Employee check manager page', () => {
   const { email } = employeeData.employee.agileManager
   before(() => {
     cy.setToken('employee')
-    cy.visit(`/client/employees/${email}`)
+    cy.visit(`/employees/${email}`)
   })
 
   it('Employee cannot see manager private tabs', () => {
