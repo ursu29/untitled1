@@ -8,7 +8,7 @@ describe('Create/update training', () => {
   const { responsible, title, description } = trainingData
   const { email, name, position } = agileManager
 
-  context('', () => {
+  context('Check permit', () => {
     before(() => {
       cy.setToken('employee')
       cy.visit('/onboarding')

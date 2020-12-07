@@ -130,6 +130,23 @@ export const getTags = () => ({
   query: '{tags {name description }}',
 })
 
+export const updatePost = (body, id, isTranslated, title) => ({
+  operationName: 'updatePost',
+  variables: {
+    input: {
+      body,
+      id,
+      images: [],
+      isPublic: false,
+      isTranslated,
+      locations: [],
+      tags: ['5df72a93458463001cbe6ebb', '5df8809d458463001cbe6ec6'],
+      title,
+    },
+  },
+  query: 'mutation updatePost($input: UpdatePostInput) {updatePost(input: $input) {id __typename}}',
+})
+
 export const setHeaders = (role = 'superUser') => ({
   accept: '*/*',
   authorization: `Bearer ${Cypress.env('accessToken')}`,
