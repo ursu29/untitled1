@@ -1,3 +1,5 @@
+import { query } from '../fixtures/query'
+
 const URL = 'https://portal.dev.sidenis.com/graphql'
 
 Cypress.Commands.add('post', (body, superUser = null, methodName = 'POST') => {
@@ -17,36 +19,31 @@ Cypress.Commands.add('post', (body, superUser = null, methodName = 'POST') => {
 export const getManager = id => ({
   operationName: 'GetEmployeeManager',
   variables: { input: { id: id } },
-  query:
-    'query GetEmployeeManager($input: EmployeesInput) {employees(input: $input) {id manager {id name position country location phoneNumber email bonuses status isMe}}}',
+  query: query.getManager,
 })
 
 export const getClient = () => ({
   operationName: null,
   variables: {},
-  query:
-    '{profile {id strapiId email name position status, bonuses, country,location, phoneNumber}isAuthenticated}',
+  query: query.getClient,
 })
 
 export const getProjects = id => ({
   operationName: 'GetEmployeeProjects',
   variables: { input: { id: id } },
-  query:
-    'query GetEmployeeProjects($input: EmployeesInput) {employees(input: $input) { id leadingProjects { id name code} projects {id name code}}}',
+  query: query.getProjects,
 })
 
 export const getEmployeeExperiences = id => ({
   operationName: 'getEmployeeExperiences',
   variables: { input: { id: id } },
-  query:
-    'query getEmployeeExperiences($input: EmployeesInput) {employees(input: $input) { id name experiences { ...ExperienceDetails comment } access {read write}}}fragment ExperienceDetails on Experience {id level {id index name} skill {id name description isMatrixOnly }updatedAt}',
+  query: query.getEmployeeExperiences,
 })
 
 export const getEmployee = email => ({
   operationName: 'getEmployee',
   variables: { email: email },
-  query:
-    'query getEmployee($email: String!) {employeeByEmail(email: $email) { ...EmployeeDetails agileManager {...EmployeeDetails __typename} bonuses status  __typename}} fragment EmployeeDetails on Employee {id name location country position phoneNumber email isMe __typename}',
+  query: query.getEmployee,
 })
 
 export const createTraining = (title, description, responsibleMail) => ({
@@ -58,8 +55,7 @@ export const createTraining = (title, description, responsibleMail) => ({
       responsibleMail,
     },
   },
-  query:
-    'mutation createOnboardingTicket($input: CreateOnboardingTicketInput) {createOnboardingTicket(input: $input) {id __typename}}',
+  query: query.createTraining,
 })
 
 export const createBookmark = (title, link, skills) => ({
@@ -71,8 +67,15 @@ export const createBookmark = (title, link, skills) => ({
       skills,
     },
   },
-  query:
-    'mutation createBookmark($input: CreateBookmarkInput!) {createBookmark(input: $input) {id __typename}}',
+  query: query.createBookmark,
+})
+
+export const completeTicket = id => ({
+  operationName: 'completeOnboardingTicket',
+  variables: {
+    input: { id },
+  },
+  query: query.completeTicket,
 })
 
 export const toggleBookmarklike = bookmark => ({
@@ -80,8 +83,7 @@ export const toggleBookmarklike = bookmark => ({
   variables: {
     input: { bookmark },
   },
-  query:
-    'mutation toggleBookmarklike($input: ToggleBookmarklikeInput!) {toggleBookmarklike(input: $input) {id __typename}}',
+  query: query.toggleBookmarklike,
 })
 
 export const deleteBookmark = id => ({
@@ -89,45 +91,49 @@ export const deleteBookmark = id => ({
   variables: {
     input: { id },
   },
-  query:
-    'mutation deleteBookmark($input: DeleteBookmarkInput!) {deleteBookmark(input: $input) {id __typename}}',
+  query: query.deleteBookmark,
 })
+
 export const getEmployees = location => ({
   operationName: 'getEmployees',
   variables: { input: { locations: location } },
-  query: 'query getEmployees($input: EmployeesInput) {employees(input: $input) {name }}',
+  query: query.getEmployees,
+})
+
+export const getEmployeeTickets = () => ({
+  operationName: 'employeeOnboardingTickets',
+  variables: {},
+  query: query.getEmployeeTickets,
 })
 
 export const getOfficeDays = (startDate, count = 7) => ({
   operationName: 'getOfficeDays',
   variables: { input: { startDate, count } },
-  query: 'query getOfficeDays($input: OfficeDaysInput) { officeDays(input: $input) { date }',
+  query: query.getOfficeDays,
 })
 
 export const getAllSkills = () => ({
   operationName: 'getSkills',
   variables: {},
-  query:
-    'query getSkills($input: SkillsInput) {skills(input: $input) {id name description parent { id }isMatrixOnly}}',
+  query: query.allSkills,
 })
 
 export const getAllMatrices = () => ({
   operationName: null,
   variables: {},
-  query: '{matrices {id title description}  matricesAccess {read}}',
+  query: query.getAllMatrices,
 })
 
 export const getFirstPosts = () => ({
   operationName: 'getPosts',
   variables: { first: 4, filter: { tags: [] } },
-  query:
-    'query getPosts($first: Int, $after: ID, $filter: PostsFilter) {posts(first: $first, after: $after, filter: $filter) {id title body isTranslated createdAt locations annotation isPublic publishDate titleImage {id url fileName}backgroundImage {id url fileName}foregroundImage {id url fileName}createdBy {id name email}images {id url fileName}tags { id name description}}}',
+  query: query.getFirstPost,
 })
 
 export const getTags = () => ({
   operationName: null,
   variables: {},
-  query: '{tags {name description }}',
+  query: query.tags,
 })
 
 export const updatePost = (body, id, isTranslated, title) => ({
@@ -144,7 +150,7 @@ export const updatePost = (body, id, isTranslated, title) => ({
       title,
     },
   },
-  query: 'mutation updatePost($input: UpdatePostInput) {updatePost(input: $input) {id __typename}}',
+  query: query.updatePost,
 })
 
 export const setHeaders = (role = 'superUser') => ({
