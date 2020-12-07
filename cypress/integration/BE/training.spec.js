@@ -11,7 +11,7 @@ describe('Create/update training', () => {
   context('Check permit', () => {
     before(() => {
       cy.setToken('employee')
-      cy.visit('/onboarding')
+      cy.visit('/')
     })
     it('Check permit by employee', () => {
       cy.post(createTraining(title, description, responsible)).then(res => {
@@ -25,7 +25,7 @@ describe('Create/update training', () => {
   context('Create new training', () => {
     before(() => {
       cy.setToken('manager')
-      cy.visit('/onboarding')
+      cy.visit('/')
     })
 
     it('Create training', () => {
