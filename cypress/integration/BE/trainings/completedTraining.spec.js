@@ -8,6 +8,7 @@ describe('Completed training', () => {
     cy.setToken('employee')
     cy.post(getEmployeeTickets()).then(req => {
       const { data } = req.body
+      
       allTickets = data.employeeOnboardingTickets
     })
     cy.visit('/onboarding')
