@@ -13,6 +13,7 @@ Cypress.Commands.add('post', (body, superUser = null, methodName = 'POST') => {
   })
 })
 
+// need to simplify all this request body
 export const getManager = id => ({
   operationName: 'GetEmployeeManager',
   variables: { input: { id: id } },
@@ -61,6 +62,36 @@ export const createTraining = (title, description, responsibleMail) => ({
     'mutation createOnboardingTicket($input: CreateOnboardingTicketInput) {createOnboardingTicket(input: $input) {id __typename}}',
 })
 
+export const createBookmark = (title, link, skills) => ({
+  operationName: 'createBookmark',
+  variables: {
+    input: {
+      title,
+      link,
+      skills,
+    },
+  },
+  query:
+    'mutation createBookmark($input: CreateBookmarkInput!) {createBookmark(input: $input) {id __typename}}',
+})
+
+export const toggleBookmarklike = bookmark => ({
+  operationName: 'toggleBookmarklike',
+  variables: {
+    input: { bookmark },
+  },
+  query:
+    'mutation toggleBookmarklike($input: ToggleBookmarklikeInput!) {toggleBookmarklike(input: $input) {id __typename}}',
+})
+
+export const deleteBookmark = id => ({
+  operationName: 'deleteBookmark',
+  variables: {
+    input: { id },
+  },
+  query:
+    'mutation deleteBookmark($input: DeleteBookmarkInput!) {deleteBookmark(input: $input) {id __typename}}',
+})
 export const getEmployees = location => ({
   operationName: 'getEmployees',
   variables: { input: { locations: location } },
@@ -97,6 +128,23 @@ export const getTags = () => ({
   operationName: null,
   variables: {},
   query: '{tags {name description }}',
+})
+
+export const updatePost = (body, id, isTranslated, title) => ({
+  operationName: 'updatePost',
+  variables: {
+    input: {
+      body,
+      id,
+      images: [],
+      isPublic: false,
+      isTranslated,
+      locations: [],
+      tags: ['5df72a93458463001cbe6ebb', '5df8809d458463001cbe6ec6'],
+      title,
+    },
+  },
+  query: 'mutation updatePost($input: UpdatePostInput) {updatePost(input: $input) {id __typename}}',
 })
 
 export const setHeaders = (role = 'superUser') => ({
