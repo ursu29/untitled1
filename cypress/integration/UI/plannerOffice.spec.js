@@ -42,9 +42,6 @@ describe('Office planner', () => {
             ` ${employeeLimit(count)} of ${employeeMaxCount(allEmployees, count)}`,
           )
         })
-      cy.get('.ant-table-cell')
-        .eq(1)
-        .then(val => expect(val.text()).contains(`0 of ${employeeMaxCount(allEmployees, 0)}`))
     })
 
     it('Check default values', () => {
