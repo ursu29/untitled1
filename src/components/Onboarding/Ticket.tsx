@@ -28,12 +28,12 @@ export default function Ticket({
   requestTicket,
 }: { ticket: OnboardingTicket } & {
   isCompleted: boolean
-  onClick: any
+  onClick?: any
   isAccessWrite: boolean
-  completeTicket: any
-  requestTicket: any
+  completeTicket?: any
+  requestTicket?: any
 }) {
-  const { title, description, responsible } = ticket
+  const { title, description, responsible, isSwissRe } = ticket
   const { email, name, position } = responsible?.[0] || { email: null, name: null, position: null }
 
   return (
@@ -46,7 +46,7 @@ export default function Ticket({
             alignItems: 'center',
           }}
         >
-          <div onClick={() => onClick()}>
+          <div onClick={() => (onClick ? onClick() : null)}>
             <Typography.Title
               level={4}
               disabled={!title}
@@ -54,6 +54,23 @@ export default function Ticket({
             >
               {title || 'no title'}
             </Typography.Title>
+            {isSwissRe && (
+              <Tag
+                color="#8C94AF"
+                style={{
+                  borderRadius: 2,
+                  fontSize: 14,
+                  lineHeight: '20px',
+                  padding: '4px 10px',
+                  marginRight: 10,
+                  userSelect: 'none',
+                  marginTop: '-10px',
+                  marginBottom: '5px',
+                }}
+              >
+                SwissRe Only
+              </Tag>
+            )}
           </div>
           {!isAccessWrite ? (
             isCompleted ? (
@@ -139,22 +156,25 @@ export default function Ticket({
               </Button>
             </a>
           </div>
-          {!isAccessWrite && !isCompleted && (ticket.isOptional ? ticket?.isRequestedByMe : true) && (
-            <Popconfirm
-              placement="top"
-              title={'Are you sure you want to complete this ticket?'}
-              onConfirm={completeTicket}
-              okText="Yes"
-              cancelText="No"
-            >
-              <Button type="primary">Complete</Button>
-            </Popconfirm>
-          )}
+          {!isAccessWrite &&
+            !isCompleted &&
+            (ticket.isOptional ? ticket?.isRequestedByMe : true) &&
+            completeTicket && (
+              <Popconfirm
+                placement="top"
+                title={'Are you sure you want to complete this ticket?'}
+                onConfirm={completeTicket}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button type="primary">Complete</Button>
+              </Popconfirm>
+            )}
           {!isAccessWrite && !isCompleted && ticket.isOptional && !ticket?.isRequestedByMe && (
             <Popconfirm
               placement="top"
               title={'Are you sure you want to sign up for this training?'}
-              onConfirm={requestTicket}
+              onConfirm={requestTicket ? requestTicket : null}
               okText="Yes"
               cancelText="No"
             >

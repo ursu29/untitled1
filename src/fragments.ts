@@ -124,6 +124,7 @@ const fragments = {
         email
       }
       isOptional
+      isSwissRe
       isRequestedByMe
     }
   `,

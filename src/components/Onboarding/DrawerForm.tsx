@@ -77,8 +77,18 @@ export default function DrawerForm({
         name="isOptional"
         valuePropName="checked"
         initialValue={ticket?.isOptional || false}
+        style={{ marginBottom: 0 }}
       >
         <Checkbox defaultChecked={ticket?.isOptional || false}>Ticket is optional</Checkbox>
+      </Form.Item>
+
+      <Form.Item
+        {...tailLayout}
+        name="isSwissRe"
+        valuePropName="checked"
+        initialValue={ticket?.isSwissRe || false}
+      >
+        <Checkbox defaultChecked={ticket?.isSwissRe || false}>Ticket is SwissRe only</Checkbox>
       </Form.Item>
 
       <Form.Item {...tailLayout}>
