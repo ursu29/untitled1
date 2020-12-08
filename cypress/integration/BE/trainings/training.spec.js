@@ -7,6 +7,7 @@ describe('Create/update training', () => {
   before(() => {
     cy.setToken('manager')
     cy.visit('/')
+    cy.addRole()
   })
 
   beforeEach(() => {

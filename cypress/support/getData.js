@@ -94,6 +94,14 @@ export const deleteBookmark = id => ({
   query: query.deleteBookmark,
 })
 
+export const deleteTraining = id => ({
+  operationName: 'deleteOnboardingTicket',
+  variables: {
+    input: { id },
+  },
+  query: query.deleteTraining,
+})
+
 export const getEmployees = location => ({
   operationName: 'getEmployees',
   variables: { input: { locations: location } },
