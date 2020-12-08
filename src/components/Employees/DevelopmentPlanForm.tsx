@@ -107,7 +107,7 @@ function DevelopmentPlanForm({ value, onChange, form, locked, resetFields }: Pro
         )}
       </Form.Item>
       <div style={{ marginBottom: 16 }}>
-        <Title level={3}>Personal Development</Title>
+        <Title level={3}>Areas of Interests</Title>
         <Paragraph style={{ maxWidth: 550 }}>
           Below there is a list of roles in three main categories: technical, business analysis and
           agile coaching/leading skills. Please note it is fine to not define any goals if the
