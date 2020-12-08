@@ -33,8 +33,6 @@ function ProjectManagers({ project }: Props) {
     return self.indexOf(value) === index
   })
 
-  console.log(scrumMasters)
-
   return (
     <Skeleton active avatar loading={loading}>
       <EmployeeGroup

@@ -207,7 +207,6 @@ function ProcessList({ items, tabName }: Props) {
         )
       },
       sorter: (a: any, b: any, sortOrder: string) => {
-        console.log(a.finishDate, b.finishDate, sortOrder)
         if (sortOrder === 'ascend') {
           if (!a.finishDate && b.finishDate) return 1
           if (a.finishDate && !b.finishDate) return -1

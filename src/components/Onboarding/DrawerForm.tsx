@@ -50,7 +50,6 @@ export default function DrawerForm({
       name="basic"
       initialValues={{ remember: true }}
       onFinish={values => {
-        console.log(values)
         if (!ticket) createTicket({ variables: { input: values } })
         if (ticket) updateTicket({ variables: { input: { id: ticket.id, ...values } } })
         handleClose()
