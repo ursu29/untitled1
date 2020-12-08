@@ -1,5 +1,5 @@
-import { createTraining } from '../../support/getData'
-import { trainingData } from '../../support/client/training'
+import { createTraining } from '../../../support/getData'
+import { trainingData } from '../../../support/client/training'
 
 describe('Create/update training', () => {
   const { responsible, title, description } = trainingData

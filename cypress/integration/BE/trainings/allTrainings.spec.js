@@ -1,7 +1,7 @@
-import { checkKeyValueExist } from '../../support/complexLocators'
-import { ticket, trainingData } from '../../support/client/training'
-import { agileManager } from '../../support/client/employeeData'
-import { createTraining } from '../../support/getData'
+import { checkKeyValueExist } from '../../../support/complexLocators'
+import { ticket, trainingData } from '../../../support/client/training'
+import { agileManager } from '../../../support/client/employeeData'
+import { createTraining } from '../../../support/getData'
 
 describe('get all trainings response', () => {
   let response
