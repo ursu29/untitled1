@@ -66,14 +66,42 @@ export default function EmployeesTable() {
     {
       title: 'Employee',
       key: 'employee',
+      width: '43%',
       ...TableSearch('name'),
       render: (employee: EmployeeDetails) => <Card employee={employee} />,
       sorter: (a: EmployeeDetails, b: EmployeeDetails): number =>
         a.name < b.name ? -1 : a.name > b.name ? 1 : 0,
     },
     {
+      title: 'Employee Location',
+      key: 'location',
+      dataIndex: 'location',
+      width: '14%',
+      filters: [
+        {
+          text: 'Saint Petersburg',
+          value: 'petersburg',
+        },
+        {
+          text: 'Tomsk',
+          value: 'tomsk',
+        },
+        {
+          text: 'Kaliningrad',
+          value: 'kaliningrad',
+        },
+        {
+          text: 'Zurich',
+          value: 'zurich',
+        },
+      ],
+      onFilter: (value: any, record: EmployeeDetails) =>
+        (record.location && record.location.toLowerCase().includes(value)) || false,
+    },
+    {
       title: 'Manager',
       key: 'manager',
+      width: '43%',
       ...TableSearch('name', 'agileManager'),
       render: (employee: Employee & { agileManager: EmployeeDetails }) =>
         employee?.agileManager ? (
