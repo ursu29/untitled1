@@ -180,7 +180,10 @@ export default function Onboarding() {
       {!!myTickets?.length && (
         <MyTicketTabs
           type="card"
-          onTabClick={key => setIsMyTicketsView(key === 'mine')}
+          onTabClick={key => {
+            setIsMyTicketsView(key === 'mine')
+            setIsSwissReOnlyVisible(false)
+          }}
           tabBarStyle={{ padding: '0 60px' }}
         >
           <MyTicketTabs.TabPane tab="All" key="all" />
