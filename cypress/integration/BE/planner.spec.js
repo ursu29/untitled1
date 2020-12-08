@@ -9,7 +9,7 @@ describe('Check Employees response', () => {
     before(() => {
       cy.setToken('employee')
       cy.getResponse(['getEmployees'], 'alias')
-      cy.visit('/client/office-planner')
+      cy.visit('/office-planner')
       cy.wait(`@alias`).then(val => (response = val.response.body.data))
     })
 
@@ -31,7 +31,7 @@ describe('Check Employees response', () => {
     beforeEach(() => {
       cy.setToken('employee')
       cy.getResponse(['getOfficeDays'], 'alias')
-      cy.visit('/client/office-planner')
+      cy.visit('/office-planner')
       cy.wait(`@alias`).then(val => (response = val.response.body.data))
     })
 

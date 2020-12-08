@@ -30,7 +30,7 @@ describe(`Check employee getEmployee`, () => {
   context('Check matricesAccess', () => {
     it('matricesAccess response', () => {
       cy.getResponse(['matricesAccess'], 'alias')
-      cy.visit('/client/profile')
+      cy.visit('/profile')
 
       cy.compareTwoJson('alias', matricesAccess)
     })
@@ -39,7 +39,7 @@ describe(`Check employee getEmployee`, () => {
   context('Check getEmployee response', () => {
     it('getEmployee response', () => {
       cy.getResponse(['getEmployee', 'agileManager'], 'alias')
-      cy.visit('/client/profile')
+      cy.visit('/profile')
 
       cy.wait('@alias').then(req => {
         const { data } = req.response.body
@@ -67,7 +67,7 @@ describe(`Check employee getEmployee`, () => {
       const { id, __typename } = employeeData.employee
 
       cy.getResponse(['GetEmployeeProjects'], 'alias')
-      cy.visit('/client/profile')
+      cy.visit('/profile')
 
       cy.wait('@alias').then(req => {
         const { data } = req.response.body

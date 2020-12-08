@@ -11,7 +11,7 @@ describe('Check manager employees', () => {
     cy.setToken('manager')
     cy.post(getEmployee(email('employee'))).then(res => (managerId = res.body.id))
     cy.getResponse(['getSubordinates'], 'alias')
-    cy.visit('/client/profile/employees')
+    cy.visit('/profile/employees')
     cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 

@@ -23,7 +23,7 @@ describe('Office planner', () => {
         allEmployees = res.body.data.employees.length
       })
       cy.mockResponse(['getOfficeDays'], officeDays(count, count, todaysDate))
-      cy.visit('/client/office-planner')
+      cy.visit('/office-planner')
     })
 
     beforeEach(() => {
@@ -42,9 +42,6 @@ describe('Office planner', () => {
             ` ${employeeLimit(count)} of ${employeeMaxCount(allEmployees, count)}`,
           )
         })
-      cy.get('.ant-table-cell')
-        .eq(1)
-        .then(val => expect(val.text()).contains(`0 of ${employeeMaxCount(allEmployees, 0)}`))
     })
 
     it('Check default values', () => {
@@ -71,7 +68,7 @@ describe('Office planner', () => {
         res => (allEmployees = res.body.data.employees.length),
       )
       cy.mockResponse(['getOfficeDays'], officeDays(count, count, todaysDate))
-      cy.visit('/client/office-planner')
+      cy.visit('/office-planner')
     })
 
     beforeEach(() => {
@@ -99,7 +96,7 @@ describe('Office planner', () => {
       cy.setToken('employee')
       cy.getResponse(['getOfficeDays'], 'alias')
 
-      cy.visit('/client/office-planner')
+      cy.visit('/office-planner')
       cy.wait('@alias').then(el => {
         const { data } = el.response.body
 
@@ -130,7 +127,7 @@ describe('Office planner', () => {
       cy.setToken('employee')
       cy.getResponse(['getOfficeDays'], 'alias')
 
-      cy.visit('/client/office-planner')
+      cy.visit('/office-planner')
       cy.wait('@alias').then(el => {
         const { data } = el.response.body
 

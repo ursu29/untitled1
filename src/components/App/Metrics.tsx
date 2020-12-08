@@ -8,7 +8,7 @@ export default function () {
   useEffect(() => {
     // TODO: remove /client after migrating api to subdomain.
     // this is only for result unification (between page hit and location changes)
-    ym('hit', '/client' + location.pathname)
+    ym('hit', location.pathname)
   }, [location])
 
   return null

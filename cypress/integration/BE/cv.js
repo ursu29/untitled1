@@ -8,7 +8,7 @@ describe('Check CV', () => {
   before(() => {
     cy.setToken('employee')
     cy.getResponse(['getEmployeeCV'], 'alias')
-    cy.visit('/client/profile/cv')
+    cy.visit('/profile/cv')
     cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 

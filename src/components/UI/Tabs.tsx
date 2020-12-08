@@ -21,9 +21,10 @@ interface Props extends RouteComponentProps {
   tabs: Tab[]
   controlled?: boolean
   noPadding?: boolean
+  tabsProps?: React.ComponentProps<typeof Tabs>
 }
 
-function PortalTabs({ location, history, noPadding, controlled, tabs, tab }: Props) {
+function PortalTabs({ location, history, noPadding, controlled, tabs, tab, tabsProps }: Props) {
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   const padding = isLarge ? 60 : 15
   const addditionalProps = controlled
@@ -62,6 +63,7 @@ function PortalTabs({ location, history, noPadding, controlled, tabs, tab }: Pro
           history.push(paths.KNOWLEDGE + '/' + tab)
         }
       }}
+      {...tabsProps}
     >
       {tabs.map(tab => {
         return (

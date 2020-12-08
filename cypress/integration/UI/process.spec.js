@@ -5,10 +5,8 @@ import {
   postEl,
   table,
   notificationEl,
-  devMenu,
   collapseProcess,
 } from '../../support/locators'
-import { agileManager } from '../../support/client/employeeData'
 
 describe('Check the process', () => {
   const data = {
@@ -31,7 +29,7 @@ describe('Check the process', () => {
     cy.visit('/')
     cy.addRole()
     cy.getResponse(['getProcesses'], 'alias')
-    cy.visit('/client/processes')
+    cy.visit('/processes')
   })
 
   beforeEach(() => {
@@ -67,7 +65,7 @@ describe('Check the process', () => {
 
     it('Add new step', () => {
       cy.getResponse(['getProcesses'], 'alias')
-      cy.visit('/client/processes')
+      cy.visit('/processes')
       cy.wait('@alias').then(_ => {
         cy.scrollTo('bottom')
         cy.get(table.itemList).last().contains(data.title).click()
@@ -78,28 +76,28 @@ describe('Check the process', () => {
     it('Fill all the gaps', () => {
       cy.getId('title').clear().type(data.title)
       cy.getId('description').clear().type(data.title)
-      cy.get(devMenu.menu).eq(0).click().type(agileManager.name)
-      cy.get(matrix.item).contains(agileManager.name).click()
+      //cy.get(devMenu.menu).eq(0).click().type(agileManager.name)
+      //cy.get(matrix.item).contains(agileManager.name).click()
 
       cy.getResponse(['getProcesses'], 'alias')
       cy.get(postEl.button).contains('Save').click({ force: true })
       cy.wait('@alias').then(req => {
         const { processes } = req.response.body.data
         const firstStep = processes[0].steps[0]
-        const { description, title, hasComment, responsibleUsers } = firstStep
+        const { description, title, hasComment } = firstStep
 
         expect(processes[0].steps.length).equal(1)
         expect(description).equal(data.title)
         expect(title).equal(data.title)
         expect(hasComment).equal(false)
-        expect(responsibleUsers[0].name).equal(agileManager.name)
+        //expect(responsibleUsers[0].name).equal(agileManager.name)
       })
     })
   })
 
   context('Create new step', () => {
     it('Delete process', () => {
-      cy.visit('/client/processes')
+      cy.visit('/processes')
       cy.scrollTo('bottom')
       cy.get(postEl.iconDelete).last().click()
       cy.getResponse(['getProcesses'], 'alias')

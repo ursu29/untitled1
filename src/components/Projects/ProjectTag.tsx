@@ -13,6 +13,7 @@ interface Props {
   small?: boolean
   leading?: boolean
   project: Pick<Project, 'id' | 'name' | 'code'>
+  style?: React.CSSProperties
 }
 
 const COLORS: any = {
@@ -24,7 +25,7 @@ const COLORS: any = {
 
 const SWISSRE_PREFIX = 'swissre '
 
-export default function ProjectTag({ project, small = false, leading }: Props) {
+export default function ProjectTag({ project, small = false, leading, style = {} }: Props) {
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH }) && !small
   if (!project) return null
 
@@ -48,6 +49,7 @@ export default function ProjectTag({ project, small = false, leading }: Props) {
             padding: isLarge ? '5px 20px' : '4px 10px',
             marginRight: isLarge ? 16 : 10,
             userSelect: 'none',
+            ...style,
           }}
         >
           <div
