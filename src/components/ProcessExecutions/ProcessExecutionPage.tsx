@@ -168,7 +168,10 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                 )
               }}
             </AbortProcessExecution>,
-            <OnHoldProcessExecution id={processExecution?.id}>
+            <OnHoldProcessExecution
+              id={processExecution?.id}
+              key={processExecution?.id + '_onHold'}
+            >
               {(onHold: any) => {
                 if (processExecution.status !== 'running' && processExecution.status !== 'holding')
                   return null
@@ -226,6 +229,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
         processId={processExecution.id}
         employee={processExecution.employee}
         finishDate={processExecution.finishDate}
+        employeePhone={processExecution.employeePhone}
         refetchQueries={[
           { query: getProcessExecution, variables: { input: { id: match.params.id } } },
         ]}
