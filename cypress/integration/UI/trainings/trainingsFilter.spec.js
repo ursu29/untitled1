@@ -3,6 +3,7 @@ import {
   createTickets,
   trainingLocators,
   mixTrainings,
+  responsibleEmployeeTrainings,
 } from '../../../support/client/training'
 import { generateObjects } from '../../../support/utils'
 import { postEl, workspace } from '../../../support/locators'
@@ -11,7 +12,7 @@ describe('Check filter Trainings', () => {
   const count = 4
 
   before(() => {
-    cy.setToken('manager')
+    cy.setToken('employee')
   })
 
   beforeEach(() => {
@@ -90,7 +91,34 @@ describe('Check filter Trainings', () => {
 
       cy.get(postEl.buttonSwitch).should('not.have.class', 'ant-switch-checked')
       cy.get('.ant-btn-primary').eq(0).should('have.text', 'Request training')
-      cy.get(postEl.button).then(el => expect(el.length).equal(count))
+      cy.get(postEl.button).then(el => expect(el.length).equal(2))
+
+      cy.get(postEl.buttonSwitch).click()
+
+      cy.get(postEl.button).then(el => expect(el.length).equal(2))
+      cy.get('.ant-tag')
+        .contains('SwissRe')
+        .then(el => expect(el.length).equal(1))
+      cy.get(workspace.tab).contains('Completed').eq(0).click()
+
+      cy.get('.ant-tabs-tabpane-active').eq(0).should('have.text', 'nothing here')
+      cy.get(postEl.button).should('be.visible')
+    })
+  })
+
+  context('Check tabs All/My Trainings', () => {
+    const tabs = ['All', 'My Trainings']
+
+    it('Check My Trainings tab', () => {
+      cy.mockResponse(['onboardingTickets'], createTickets(responsibleEmployeeTrainings()))
+
+      cy.visit('/onboarding')
+      tabs.forEach(el => cy.get(workspace.tab).contains(el).should('be.visible'))
+
+      cy.get(workspace.tab).contains(tabs[1]).click()
+
+      expect(cy.getElement(trainingLocators.sendEmail).get('[href=""]').should('not.exist'))
+      cy.getElement(trainingLocators.count).should('have.text', 0)
     })
   })
 })
