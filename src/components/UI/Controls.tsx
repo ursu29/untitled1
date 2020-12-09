@@ -10,11 +10,12 @@ const ControlBar = styled.div<{ withMargin: boolean }>`
 
 interface Props extends PropsWithChildren<any> {
   back?: any
+  style?: React.CSSProperties
 }
 
-export default function Controls({ back, children }: Props) {
+export default function Controls({ back, children, style }: Props) {
   return (
-    <ControlBar withMargin={Boolean(children)}>
+    <ControlBar withMargin={Boolean(children)} style={style ? style : {}}>
       <div>{back}</div>
       {children && (
         <div style={{ display: 'flex' }}>
