@@ -83,6 +83,7 @@ export const postEl = {
   toggle: '.ant-switch-checked',
   editTag: '.ant-select-selection-item-content',
   successTag: '.ant-tag-success',
+  mainTag: '.ant-tag',
   button: '.ant-btn-primary',
   buttonPlus: '.ant-btn-dashed',
   delete: '.anticon-close',

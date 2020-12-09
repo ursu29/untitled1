@@ -32,7 +32,7 @@ describe('Check filter Trainings', () => {
 
       cy.get(postEl.buttonSwitch).should('not.have.class', 'ant-switch-checked')
       ;[0, 1].forEach(el =>
-        cy.get('.ant-tabs-tabpane-active').eq(el).should('have.text', 'nothing here'),
+        cy.get(trainingLocators.activeTab).eq(el).should('have.text', 'nothing here'),
       )
 
       cy.get(workspace.tab).contains('Completed').eq(0).click()
@@ -52,7 +52,7 @@ describe('Check filter Trainings', () => {
 
       cy.get(postEl.buttonSwitch).should('not.have.class', 'ant-switch-checked')
       ;[0, 1].forEach(el =>
-        cy.get('.ant-tabs-tabpane-active').eq(el).should('have.text', 'nothing here'),
+        cy.get(trainingLocators.activeTab).eq(el).should('have.text', 'nothing here'),
       )
 
       cy.get(workspace.tab).contains('Completed').eq(0).click()
@@ -66,7 +66,7 @@ describe('Check filter Trainings', () => {
       cy.get(trainingLocators.ticket).then(el => expect(el.length).equal(count))
       cy.get(postEl.successTag).then(el => expect(el.length).equal(count))
 
-      cy.get('.ant-tabs-tabpane-active').eq(1).should('have.text', 'nothing here')
+      cy.get(trainingLocators.activeTab).eq(1).should('have.text', 'nothing here')
     })
   })
 
@@ -79,7 +79,7 @@ describe('Check filter Trainings', () => {
       cy.visit('/onboarding')
 
       cy.get(postEl.buttonSwitch).should('not.have.class', 'ant-switch-checked')
-      cy.get('.ant-btn-primary').eq(0).should('have.text', 'Request training')
+      cy.get(postEl.button).eq(0).should('have.text', 'Request training')
       cy.get(postEl.button).then(el => expect(el.length).equal(count))
     })
   })
@@ -90,18 +90,18 @@ describe('Check filter Trainings', () => {
       cy.visit('/onboarding')
 
       cy.get(postEl.buttonSwitch).should('not.have.class', 'ant-switch-checked')
-      cy.get('.ant-btn-primary').eq(0).should('have.text', 'Request training')
+      cy.get(postEl.button).eq(0).should('have.text', 'Request training')
       cy.get(postEl.button).then(el => expect(el.length).equal(2))
 
       cy.get(postEl.buttonSwitch).click()
 
       cy.get(postEl.button).then(el => expect(el.length).equal(2))
-      cy.get('.ant-tag')
+      cy.get(postEl.mainTag)
         .contains('SwissRe')
         .then(el => expect(el.length).equal(1))
       cy.get(workspace.tab).contains('Completed').eq(0).click()
 
-      cy.get('.ant-tabs-tabpane-active').eq(0).should('have.text', 'nothing here')
+      cy.get(trainingLocators.activeTab).eq(0).should('have.text', 'nothing here')
       cy.get(postEl.button).should('be.visible')
     })
   })

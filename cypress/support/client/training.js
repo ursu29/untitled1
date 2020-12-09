@@ -45,6 +45,7 @@ export const trainingLocators = {
   ticket: '.iZJrxq',
   sendEmail: 'sendEmail',
   count: 'count',
+  activeTab: '.ant-tabs-tabpane-active',
 }
 
 export const mixTrainings = () =>
