@@ -94,7 +94,7 @@ export default function MyTickets({ tickets }: { tickets: OnboardingTicket[] }) 
                 }}
               >
                 <div style={{ marginRight: '5px' }}>Attendees:</div>
-                <div style={{ marginRight: '15px' }}>
+                <div style={{ marginRight: '15px' }} data-cy="count">
                   {loading ? <Spin size="small" /> : requestedEmployees?.length}
                 </div>
                 {!loading && !!requestedEmployees?.length && (
@@ -112,7 +112,7 @@ export default function MyTickets({ tickets }: { tickets: OnboardingTicket[] }) 
                 )}
               </div>
 
-              <div>
+              <div data-cy="sendEmail">
                 {!loading && requestedEmployees?.length ? (
                   <a
                     href={`https://outlook.office.com/owa/?path=/mail/action/compose&to=${requestedEmployees

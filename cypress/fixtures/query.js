@@ -31,4 +31,6 @@ export const query = {
   tags: '{tags {name description }}',
   updatePost:
     'mutation updatePost($input: UpdatePostInput) {updatePost(input: $input) {id __typename}}',
+  deleteTraining:
+    'mutation deleteOnboardingTicket($input: DeleteOnboardingTicketInput) {deleteOnboardingTicket(input: $input) { id __typename}}',
 }
