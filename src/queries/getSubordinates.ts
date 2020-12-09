@@ -10,6 +10,9 @@ export const query = gql`
         ...EmployeeDetails
         lastManagerMeeting
         one2oneRequest
+        requestedOnboardingTickets {
+          ...OnboardingTicketDetails
+        }
         leadingProjects {
           ...ProjectDetails
         }
@@ -21,10 +24,11 @@ export const query = gql`
   }
   ${fragments.Employee.Details}
   ${fragments.Project}
+  ${fragments.OnboardingTicket}
 `
 
 export type Subordinate = EmployeeDetails &
-  Pick<Employee, 'lastManagerMeeting' | 'one2oneRequest'> & {
+  Pick<Employee, 'lastManagerMeeting' | 'one2oneRequest' | 'requestedOnboardingTickets'> & {
     leadingProjects: ProjectDetails[]
     projects: ProjectDetails[]
   }

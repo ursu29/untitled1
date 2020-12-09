@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
-import { Button, Form, Input, Popconfirm } from 'antd'
+import { Button, Form, Input, Popconfirm, Checkbox } from 'antd'
 import React from 'react'
 import message from '../../message'
 import {
@@ -16,7 +16,7 @@ const layout = {
   wrapperCol: { span: 17 },
 }
 const tailLayout = {
-  wrapperCol: { span: 24 },
+  wrapperCol: { offset: 7, span: 17 },
 }
 
 export default function DrawerForm({
@@ -54,7 +54,6 @@ export default function DrawerForm({
         if (ticket) updateTicket({ variables: { input: { id: ticket.id, ...values } } })
         handleClose()
       }}
-      onFinishFailed={values => console.log(values)}
     >
       <Form.Item label="Title" name="title" initialValue={ticket?.title || ''}>
         <Input />
@@ -70,6 +69,25 @@ export default function DrawerForm({
         initialValue={ticket?.responsible?.[0].email || ''}
       >
         <EmployeeSelect wide keyName="email" />
+      </Form.Item>
+
+      <Form.Item
+        {...tailLayout}
+        name="isOptional"
+        valuePropName="checked"
+        initialValue={ticket?.isOptional || false}
+        style={{ marginBottom: 0 }}
+      >
+        <Checkbox defaultChecked={ticket?.isOptional || false}>Ticket is optional</Checkbox>
+      </Form.Item>
+
+      <Form.Item
+        {...tailLayout}
+        name="isSwissRe"
+        valuePropName="checked"
+        initialValue={ticket?.isSwissRe || false}
+      >
+        <Checkbox defaultChecked={ticket?.isSwissRe || false}>Ticket is SwissRe only</Checkbox>
       </Form.Item>
 
       <Form.Item {...tailLayout}>

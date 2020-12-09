@@ -1,5 +1,5 @@
-import React from 'react'
-import { Table, DatePicker, Tooltip, Popconfirm } from 'antd'
+import React, { useState } from 'react'
+import { Table, DatePicker, Tooltip, Popconfirm, Modal, Typography } from 'antd'
 import { Link } from 'react-router-dom'
 import { getEmployeeLink } from '../../paths'
 import { Employee, Project } from '../../types'
@@ -14,6 +14,8 @@ import TableSearch from '../UI/TableSearch'
 import { useEmployee } from '../../utils/withEmployee'
 import { BulbTwoTone } from '@ant-design/icons'
 import styled from 'styled-components'
+import { OnboardingTicket } from '../../types'
+import Ticket from '../Onboarding/Ticket'
 
 const ActiveBulb = styled.div`
   cursor: pointer;
@@ -33,6 +35,14 @@ export default function EmployeeSubordinates({ employee }: Props) {
   const user = useEmployee()
   const { loading, data } = useQuery<QueryType>(query, {
     variables: { email: employee?.email },
+  })
+
+  const [upcomingTrainingsModal, setUpcomingTrainingsModal] = useState<{
+    isOpen: boolean
+    trainings: OnboardingTicket[]
+  }>({
+    isOpen: false,
+    trainings: [],
   })
 
   const [update] = useMutation(updateEmployee, {
@@ -97,7 +107,7 @@ export default function EmployeeSubordinates({ employee }: Props) {
     {
       title: 'Position',
       key: 'position',
-      width: '200px',
+      width: '150px',
       dataIndex: ['position'],
       ...TableSearch('position'),
       sorter: (a: any, b: any) => a?.position.localeCompare(b?.position),
@@ -105,7 +115,7 @@ export default function EmployeeSubordinates({ employee }: Props) {
     {
       title: 'Project',
       key: 'project',
-      width: '200px',
+      width: '160px',
       filters: [
         //@ts-ignore
         ...new Set(
@@ -132,6 +142,54 @@ export default function EmployeeSubordinates({ employee }: Props) {
               .sort((a: any, b: any) => a.localCompare(b))
               .join(''),
           ),
+    },
+    {
+      title: 'Upcoming trainings',
+      key: 'trainings',
+      width: '100px',
+      render: (_: any, record: Subordinate) => {
+        const ticketsCount: {
+          mandatory: number
+          optional: number
+        } = record.requestedOnboardingTickets.reduce(
+          (count, ticket) => {
+            ticket.isOptional ? (count.optional += 1) : (count.mandatory += 1)
+            return count
+          },
+          { mandatory: 0, optional: 0 },
+        )
+
+        const showCount = (title: string, count: number) => (
+          <Tooltip
+            placement={title === 'man' ? 'topLeft' : 'bottomLeft'}
+            title={
+              title === 'man'
+                ? `Mandatory trainings count: ${count}`
+                : `Optional trainings count: ${count}`
+            }
+          >
+            <div style={{ display: 'flex' }}>
+              <div style={{ color: 'lightgray', width: '40px', textAlign: 'start' }}>{title}</div>
+              <div>{count ? count : '-'}</div>
+            </div>
+          </Tooltip>
+        )
+
+        return (
+          <div
+            style={{ userSelect: 'none', cursor: 'pointer', width: 'min-content' }}
+            onClick={() =>
+              setUpcomingTrainingsModal({
+                isOpen: true,
+                trainings: record.requestedOnboardingTickets,
+              })
+            }
+          >
+            {showCount('man', ticketsCount.mandatory)}
+            {showCount('opt', ticketsCount.optional)}
+          </div>
+        )
+      },
     },
     {
       title: 'Last meeting',
@@ -161,7 +219,7 @@ export default function EmployeeSubordinates({ employee }: Props) {
     {
       title: '1-2-1',
       key: 'one2oneRequest',
-      width: '50px',
+      width: '90px',
       align: 'center',
       render: (_: any, record: Subordinate) =>
         record.one2oneRequest ? (
@@ -195,6 +253,9 @@ export default function EmployeeSubordinates({ employee }: Props) {
     },
   ]
 
+  const mandatoryTrainings = upcomingTrainingsModal.trainings.filter(e => !e.isOptional)
+  const optionalTrainings = upcomingTrainingsModal.trainings.filter(e => e.isOptional)
+
   return (
     <>
       {data?.employeeByEmail?.subordinateUsers.length !== subordinateUsers?.length && (
@@ -211,6 +272,55 @@ export default function EmployeeSubordinates({ employee }: Props) {
         loading={loading}
         size="small"
       />
+
+      <Modal
+        centered
+        bodyStyle={{ maxHeight: '80vh', overflowY: 'auto' }}
+        width={545}
+        title={<div>Employee upcoming trainings</div>}
+        visible={upcomingTrainingsModal.isOpen}
+        onOk={() => setUpcomingTrainingsModal({ ...upcomingTrainingsModal, isOpen: false })}
+        onCancel={() => setUpcomingTrainingsModal({ ...upcomingTrainingsModal, isOpen: false })}
+        destroyOnClose={true}
+        footer={null}
+      >
+        {!!mandatoryTrainings.length && (
+          <div>
+            <Typography.Title
+              level={3}
+              style={{
+                backgroundColor: '#f0808045',
+                padding: '2px 20px',
+                borderRadius: '5px',
+                width: '480px',
+              }}
+            >
+              Mandatory
+            </Typography.Title>
+            {mandatoryTrainings.map(ticket => (
+              <Ticket key={ticket.id} ticket={ticket} isCompleted={false} isAccessWrite={false} />
+            ))}
+          </div>
+        )}
+        {!!optionalTrainings.length && (
+          <div>
+            <Typography.Title
+              level={3}
+              style={{
+                backgroundColor: '#90ee9047',
+                padding: '2px 20px',
+                borderRadius: '5px',
+                width: '480px',
+              }}
+            >
+              Optional
+            </Typography.Title>
+            {optionalTrainings.map(ticket => (
+              <Ticket key={ticket.id} ticket={ticket} isCompleted={false} isAccessWrite={false} />
+            ))}
+          </div>
+        )}
+      </Modal>
     </>
   )
 }

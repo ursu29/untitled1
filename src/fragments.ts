@@ -112,6 +112,22 @@ const fragments = {
       }
     `,
   },
+  OnboardingTicket: gql`
+    fragment OnboardingTicketDetails on OnboardingTicket {
+      id
+      title
+      description
+      responsible {
+        id
+        name
+        position
+        email
+      }
+      isOptional
+      isSwissRe
+      isRequestedByMe
+    }
+  `,
 }
 
 export default fragments
