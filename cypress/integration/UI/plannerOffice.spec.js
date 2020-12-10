@@ -9,8 +9,7 @@ import {
   employeeMaxCount,
   filterEmployeesCount,
 } from '../../support/officePlanner/officeDays'
-
-const LOCATIONS = ['Saint Petersburg', 'Tomsk', 'Kaliningrad', 'Zürich']
+import { LOCATIONS } from '../../support/getData'
 
 describe('Office planner', () => {
   context('Check default values', () => {

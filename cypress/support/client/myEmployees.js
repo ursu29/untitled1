@@ -42,6 +42,7 @@ export const subUser = {
   lastManagerMeeting: null,
   one2oneRequest: {},
   leadingProjects: [],
+  requestedOnboardingTickets: [],
   projects: [],
   name,
   position,
