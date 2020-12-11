@@ -33,7 +33,7 @@ export default function Onboarding() {
 
   // Tickets with me as responsible
   const myTickets = data?.onboardingTickets.filter(
-    ticket => ticket?.responsible?.[0].email.toLowerCase() === user.employee.email.toLowerCase(),
+    ticket => ticket?.responsible?.[0]?.email.toLowerCase() === user.employee.email.toLowerCase(),
   )
 
   // Check write access

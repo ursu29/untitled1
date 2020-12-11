@@ -38,8 +38,8 @@ export default function BookingEmployee({ employeeEmail: email }: Props) {
         width: 'max-content',
       }}
     >
-      <Avatar employee={{ email, name: employee.name }} size="default" />
-      <div style={{ padding: '10px' }}>{employee?.name}</div>
+      <Avatar employee={{ email, name: employee?.name }} size="default" />
+      <div style={{ padding: '10px' }}>{employee?.name || '(undefined)'}</div>
     </div>
   )
 }
