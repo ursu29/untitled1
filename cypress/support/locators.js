@@ -58,10 +58,20 @@ export const table = {
   secondTypography: '.ant-typography-secondary',
   activeTab: '.office-planner-active',
   itemList: '.ant-list-item',
+  tableRow: '.ant-table-row',
+  filter: '.ant-table-filter-trigger-container',
+  dropdownMenu: '.ant-dropdown-menu-item',
+  resetBtn: 'reset',
+  inputSearch: 'search',
+  searchBtn: 'btnSearch',
 }
 
 export const spinner = {
   active: '.ant-spin',
+}
+
+export const card = {
+  title: '.ant-card-meta-title',
 }
 
 export const menuEl = {
@@ -114,6 +124,8 @@ export const workspace = {
   spinner: '.anticon-spin',
   img: '[alt="drawing"]',
   tab: '.ant-tabs-tab-btn',
+  checkbox: '.ant-checkbox',
+  checked: '.ant-checkbox-checked',
 }
 
 export const process = {

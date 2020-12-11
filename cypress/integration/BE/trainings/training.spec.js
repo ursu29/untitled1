@@ -1,4 +1,4 @@
-import { createTraining } from '../../../support/getData'
+import { createTraining, deleteTraining } from '../../../support/getData'
 import { trainingData } from '../../../support/client/training'
 
 describe('Create/update training', () => {
@@ -28,9 +28,11 @@ describe('Create/update training', () => {
   it('Create new training', () => {
     cy.post(createTraining(title, description, responsible), 'superUser').then(res => {
       const { data } = res.body
-      const { __typename } = data.createOnboardingTicket
+      const { __typename, id } = data.createOnboardingTicket
 
       expect(__typename).equal('OnboardingTicket')
+
+      cy.post(deleteTraining(id), 'superUser')
     })
   })
 })
