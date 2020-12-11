@@ -59,7 +59,7 @@ export default function AdditionalInfo({
           <DatePicker
             format={['DD.MM.YYYY']}
             defaultValue={finishDate ? moment(moment(finishDate), ['DD.MM.YYYY']) : undefined}
-            onChange={value => setFinishDateField(value)}
+            onChange={value => setFinishDateField(value?.utcOffset(180) || null)}
             allowClear={false}
           />
         </BlockWrapper>
