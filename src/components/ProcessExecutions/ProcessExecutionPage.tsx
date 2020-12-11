@@ -146,7 +146,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
         <PageHeader
           title={processExecution.process.title}
           subTitle={processExecution.process.type}
-          onBack={() => window.history.back()}
+          // onBack={() => window.history.back()}
           tags={<ProcessExecutionStatusTag processExecution={processExecution} />}
           style={{ padding: 0 }}
           extra={[
