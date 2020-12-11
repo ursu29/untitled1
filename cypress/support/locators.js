@@ -58,6 +58,15 @@ export const table = {
   secondTypography: '.ant-typography-secondary',
   activeTab: '.office-planner-active',
   itemList: '.ant-list-item',
+  tableRow: '.ant-table-row',
+  picker: '.ant-picker-cell-inner',
+}
+
+export const hr = {
+  bottom: 'bottom',
+  name: 'name',
+  phone: 'phone',
+  saveBtn: 'saveEmployee',
 }
 
 export const spinner = {
@@ -114,6 +123,7 @@ export const workspace = {
   spinner: '.anticon-spin',
   img: '[alt="drawing"]',
   tab: '.ant-tabs-tab-btn',
+  data: '.ant-picker-input',
 }
 
 export const process = {

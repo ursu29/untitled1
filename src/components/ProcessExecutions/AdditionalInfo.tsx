@@ -54,6 +54,7 @@ export default function AdditionalInfo({
         <BlockWrapper style={{ width: '30%', minWidth: '175px' }}>
           <span style={{ paddingBottom: '8px' }}>Employee</span>
           <Input
+            data-cy="name"
             placeholder="Enter employee name"
             defaultValue={employee}
             onChange={e => setEmployeeField(e.target.value)}
@@ -71,6 +72,7 @@ export default function AdditionalInfo({
         <BlockWrapper style={{ width: '20%', minWidth: '100px' }}>
           <span style={{ paddingBottom: '8px' }}>Phone</span>
           <Input
+            data-cy="phone"
             placeholder="Enter employee phone"
             defaultValue={employeePhone}
             onChange={e => setEmployeePhoneField(e.target.value)}
@@ -79,6 +81,7 @@ export default function AdditionalInfo({
         <BlockWrapper style={{ paddingTop: '30px' }}>
           <Tooltip placement="bottom" title="Save fields and open 'independent' steps">
             <Button
+              data-cy="saveEmployee"
               onClick={() => {
                 const body: {
                   employee?: string
