@@ -130,7 +130,6 @@ function PortalMenu(props: Props) {
       route: paths.KNOWLEDGE,
       icon: <ReadOutlined />,
       title: 'Knowledge',
-      status: 'UPDATED',
     },
     {
       route: paths.WIKI,
@@ -194,7 +193,6 @@ function PortalMenu(props: Props) {
       title: 'Feedback',
       style: { marginTop: '40px' },
       subMenu: 'feedback',
-      status: 'UPDATED',
     },
   ]
 
