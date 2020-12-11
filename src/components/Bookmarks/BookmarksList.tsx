@@ -34,7 +34,7 @@ export default function BookmarksList({
     return <div>No bookmarks found</div>
   }
 
-  const filteredItems: BookmarkPick[] = (bookmarks || []).filter((bookmark) => {
+  const filteredItems: BookmarkPick[] = (bookmarks || []).filter(bookmark => {
     return bookmark.title?.toLowerCase().includes(filter.trim().toLowerCase())
   })
 
@@ -50,12 +50,12 @@ export default function BookmarksList({
       </div>
       <List
         pagination={{
-          pageSize: 25,
+          defaultPageSize: 20,
           hideOnSinglePage: true,
           showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
         }}
         dataSource={filteredItems}
-        renderItem={(item) => {
+        renderItem={item => {
           return (
             <BookmarkItem
               key={item.id}
