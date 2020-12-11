@@ -125,7 +125,11 @@ export default function EmployeeDevelopmentPlan(props: Props) {
                       onChange={date =>
                         update({
                           variables: {
-                            input: { id: plan?.id, lastDiscussed: moment(date).local().format() },
+                            input: {
+                              id: plan?.id,
+                              lastDiscussed: moment(date).local().format(),
+                              lastUpdatedAt: plan?.updatedAt,
+                            },
                           },
                         })
                       }
