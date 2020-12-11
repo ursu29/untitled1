@@ -37,6 +37,7 @@ export default gql`
       }
       employee
       finishDate
+      employeePhone
       isIndependentStepsActive
     }
   }
@@ -59,6 +60,7 @@ type ProcessExecutionPick = {
   })[]
   employee: string
   finishDate: string
+  employeePhone: string
   isIndependentStepsActive: boolean
 }
 
