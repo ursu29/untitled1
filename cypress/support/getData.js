@@ -146,6 +146,12 @@ export const getTags = () => ({
   query: query.tags,
 })
 
+export const updateEmployee = (id, agileManager) => ({
+  operationName: updateEmployee,
+  variables: { input: { id, agileManager } },
+  query: query.updateEmp,
+})
+
 export const updatePost = (body, id, isTranslated, title) => ({
   operationName: 'updatePost',
   variables: {

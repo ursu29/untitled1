@@ -33,4 +33,6 @@ export const query = {
     'mutation updatePost($input: UpdatePostInput) {updatePost(input: $input) {id __typename}}',
   deleteTraining:
     'mutation deleteOnboardingTicket($input: DeleteOnboardingTicketInput) {deleteOnboardingTicket(input: $input) { id __typename}}',
+  updateEmp:
+    'mutation updateEmployee($input: UpdateEmployeeInput!) {updateEmployee(input: $input) {id __typename}}',
 }

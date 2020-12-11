@@ -23,6 +23,7 @@ export default function TableSearch(columnName: any, nestedName?: string) {
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }: any) => (
       <div style={{ padding: 8 }}>
         <Input
+          data-cy="search"
           ref={searchInput}
           placeholder={`Search ${columnName}`}
           value={selectedKeys[0]}
@@ -31,6 +32,7 @@ export default function TableSearch(columnName: any, nestedName?: string) {
           style={{ width: 188, marginBottom: 8, display: 'block' }}
         />
         <Button
+          data-cy="btnSearch"
           type="primary"
           onClick={() => handleSearch(selectedKeys, confirm, columnName)}
           icon={<SearchOutlined />}
@@ -39,7 +41,12 @@ export default function TableSearch(columnName: any, nestedName?: string) {
         >
           Search
         </Button>
-        <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+        <Button
+          onClick={() => handleReset(clearFilters)}
+          size="small"
+          style={{ width: 90 }}
+          data-cy="reset"
+        >
           Reset
         </Button>
       </div>

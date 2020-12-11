@@ -61,6 +61,9 @@ export const table = {
   tableRow: '.ant-table-row',
   filter: '.ant-table-filter-trigger-container',
   dropdownMenu: '.ant-dropdown-menu-item',
+  resetBtn: 'reset',
+  inputSearch: 'search',
+  searchBtn: 'btnSearch',
 }
 
 export const spinner = {
