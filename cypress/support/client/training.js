@@ -1,11 +1,12 @@
 import { agileManager } from './employeeData'
 import { generateObjects, mergeObjects } from '../utils'
 import { employeeData } from './employeeData'
+import { todaysDate } from '../officePlanner/officeDays'
 
 const { email, id, name, position } = employeeData.employee
 
 export const trainingData = {
-  title: 'react',
+  title: `new title: ${todaysDate}`,
   description: 'how to use hooks?',
   responsible: agileManager.email,
 }

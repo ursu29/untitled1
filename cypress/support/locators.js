@@ -67,10 +67,20 @@ export const hr = {
   name: 'name',
   phone: 'phone',
   saveBtn: 'saveEmployee',
+  tableRow: '.ant-table-row',
+  filter: '.ant-table-filter-trigger-container',
+  dropdownMenu: '.ant-dropdown-menu-item',
+  resetBtn: 'reset',
+  inputSearch: 'search',
+  searchBtn: 'btnSearch',
 }
 
 export const spinner = {
   active: '.ant-spin',
+}
+
+export const card = {
+  title: '.ant-card-meta-title',
 }
 
 export const menuEl = {
@@ -124,6 +134,8 @@ export const workspace = {
   img: '[alt="drawing"]',
   tab: '.ant-tabs-tab-btn',
   data: '.ant-picker-input',
+  checkbox: '.ant-checkbox',
+  checked: '.ant-checkbox-checked',
 }
 
 export const process = {

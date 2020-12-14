@@ -1,6 +1,7 @@
 import { query } from '../fixtures/query'
 
 const URL = 'https://portal.dev.sidenis.com/graphql'
+export const LOCATIONS = ['Saint Petersburg', 'Tomsk', 'Kaliningrad', 'Zürich']
 
 Cypress.Commands.add('post', (body, superUser = null, methodName = 'POST') => {
   return cy.request({
@@ -46,13 +47,14 @@ export const getEmployee = email => ({
   query: query.getEmployee,
 })
 
-export const createTraining = (title, description, responsibleMail) => ({
+export const createTraining = (title, description, responsibleMail, optional = false) => ({
   operationName: 'createOnboardingTicket',
   variables: {
     input: {
       title,
       description,
       responsibleMail,
+      isOptional: optional,
     },
   },
   query: query.createTraining,
@@ -142,6 +144,12 @@ export const getTags = () => ({
   operationName: null,
   variables: {},
   query: query.tags,
+})
+
+export const updateEmployee = (id, agileManager) => ({
+  operationName: updateEmployee,
+  variables: { input: { id, agileManager } },
+  query: query.updateEmp,
 })
 
 export const updatePost = (body, id, isTranslated, title) => ({
