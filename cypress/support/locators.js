@@ -64,6 +64,20 @@ export const table = {
   resetBtn: 'reset',
   inputSearch: 'search',
   searchBtn: 'btnSearch',
+  picker: '.ant-picker-cell-inner',
+}
+
+export const hr = {
+  bottom: 'bottom',
+  name: 'name',
+  phone: 'phone',
+  saveBtn: 'saveEmployee',
+  tableRow: '.ant-table-row',
+  filter: '.ant-table-filter-trigger-container',
+  dropdownMenu: '.ant-dropdown-menu-item',
+  resetBtn: 'reset',
+  inputSearch: 'search',
+  searchBtn: 'btnSearch',
 }
 
 export const spinner = {
@@ -124,6 +138,7 @@ export const workspace = {
   spinner: '.anticon-spin',
   img: '[alt="drawing"]',
   tab: '.ant-tabs-tab-btn',
+  data: '.ant-picker-input',
   checkbox: '.ant-checkbox',
   checked: '.ant-checkbox-checked',
 }

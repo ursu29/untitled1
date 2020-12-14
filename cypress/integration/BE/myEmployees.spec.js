@@ -1,4 +1,4 @@
-import { employeeData, email } from '../../support/client/employeeData'
+import { email, agileManager } from '../../support/client/employeeData'
 import { checkKeyValueExist } from '../../support/complexLocators'
 import { subUser } from '../../support/client/myEmployees'
 import { getEmployee } from '../../support/getData'
@@ -16,7 +16,7 @@ describe('Check manager employees', () => {
   })
 
   it('getSubordinates response', () => {
-    const { __typename, id, name, position, email } = employeeData.employee
+    const { __typename, id, name, position, email } = agileManager
     const { employeeByEmail } = response
     const { subordinateUsers } = employeeByEmail
 
