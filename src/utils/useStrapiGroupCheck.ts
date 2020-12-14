@@ -7,8 +7,8 @@ export default function useStrapiGroupCheck(
   const { employee } = useEmployee()
 
   if (Array.isArray(group)) {
-    return employee.strapiGroupsMembership.some(e => group.includes(e))
+    return employee.strapiGroupsMembership?.some(e => group.includes(e))
   } else {
-    return employee.strapiGroupsMembership.includes(group)
+    return employee.strapiGroupsMembership?.includes(group)
   }
 }
