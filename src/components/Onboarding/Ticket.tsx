@@ -72,14 +72,12 @@ export default function Ticket({
               </Tag>
             )}
           </div>
-          {!isAccessWrite ? (
-            isCompleted ? (
-              <Tag icon={<CheckCircleOutlined />} color="success">
-                COMPLETED
-              </Tag>
-            ) : (ticket.isOptional ? ticket?.isRequestedByMe : true) ? (
-              <Tag color="gold">IN PROGRESS</Tag>
-            ) : null
+          {isCompleted ? (
+            <Tag icon={<CheckCircleOutlined />} color="success">
+              COMPLETED
+            </Tag>
+          ) : (ticket.isOptional ? ticket?.isRequestedByMe : true) ? (
+            <Tag color="gold">IN PROGRESS</Tag>
           ) : null}
         </div>
 
@@ -156,21 +154,18 @@ export default function Ticket({
               </Button>
             </a>
           </div>
-          {!isAccessWrite &&
-            !isCompleted &&
-            (ticket.isOptional ? ticket?.isRequestedByMe : true) &&
-            completeTicket && (
-              <Popconfirm
-                placement="top"
-                title={'Are you sure you want to complete this ticket?'}
-                onConfirm={completeTicket}
-                okText="Yes"
-                cancelText="No"
-              >
-                <Button type="primary">Complete</Button>
-              </Popconfirm>
-            )}
-          {!isAccessWrite && !isCompleted && ticket.isOptional && !ticket?.isRequestedByMe && (
+          {!isCompleted && (ticket.isOptional ? ticket?.isRequestedByMe : true) && completeTicket && (
+            <Popconfirm
+              placement="top"
+              title={'Are you sure you want to complete this ticket?'}
+              onConfirm={completeTicket}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button type="primary">Complete</Button>
+            </Popconfirm>
+          )}
+          {!isCompleted && ticket.isOptional && !ticket?.isRequestedByMe && (
             <Popconfirm
               placement="top"
               title={'Are you sure you want to sign up for this training?'}
