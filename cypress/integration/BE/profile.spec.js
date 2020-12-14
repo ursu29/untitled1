@@ -57,7 +57,6 @@ describe(`Check employee getEmployee`, () => {
           status,
           __typename,
         })
-        checkKeyValueExist(data.employeeByEmail.agileManager, employeeData.employee.agileManager)
       })
     })
   })

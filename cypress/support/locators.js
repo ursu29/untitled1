@@ -59,6 +59,11 @@ export const table = {
   activeTab: '.office-planner-active',
   itemList: '.ant-list-item',
   tableRow: '.ant-table-row',
+  filter: '.ant-table-filter-trigger-container',
+  dropdownMenu: '.ant-dropdown-menu-item',
+  resetBtn: 'reset',
+  inputSearch: 'search',
+  searchBtn: 'btnSearch',
   picker: '.ant-picker-cell-inner',
 }
 
