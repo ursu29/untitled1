@@ -397,16 +397,20 @@ export default function EvaluationTable({
   columns = columns.concat(
     reviewers?.map((reviewer, index) => {
       return {
-        title: editable ? <DeleteEmployeeReviewer reviewer={reviewer} /> : reviewer.fromWho?.name,
+        title: editable ? (
+          <DeleteEmployeeReviewer reviewer={reviewer} />
+        ) : (
+          reviewer.fromWho?.name || '(undefined)'
+        ),
         width: 120,
         render: (text: any, item: any) => {
           if (item.children) return null
           const evaluation = evaluations?.find(i => {
-            return i.evaluationAttribute.id === item.id && i.fromWho.id === reviewer.fromWho.id
+            return i.evaluationAttribute.id === item.id && i.fromWho?.id === reviewer.fromWho?.id
           })
           return (
             <TableCell
-              rateDisabled={!reviewer.fromWho.isMe}
+              rateDisabled={!reviewer.fromWho?.isMe}
               isArchivedChosen={!!isArchivedChosen}
               itemId={item.id}
               cellCode={item.id + ' reviewer' + index}
