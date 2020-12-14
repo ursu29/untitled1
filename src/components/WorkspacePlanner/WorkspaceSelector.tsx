@@ -140,6 +140,7 @@ export default function WorkspaceSelector({
           <>
             {workspace && (
               <Button
+                data-cy="edit"
                 onClick={() => setModalProps({ ...modalProps, mode: 'edit', visible: true })}
                 style={{ marginLeft: '10px' }}
               >
@@ -148,6 +149,7 @@ export default function WorkspaceSelector({
             )}
 
             <Button
+              data-cy="addNew"
               onClick={() => setModalProps({ ...modalProps, mode: 'create', visible: true })}
               style={{ marginLeft: '10px' }}
             >

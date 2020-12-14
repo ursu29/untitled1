@@ -3,7 +3,7 @@ import { response, oneTwoOneLocators } from '../../support/client/oneTwoOne'
 import { skillEl } from '../../support/locators'
 
 describe('Check oneTwoOne request', () => {
-  const { id, name } = employeeData.employee
+  const { id } = employeeData.employee
 
   before(() => {
     cy.setToken('employee')
@@ -63,13 +63,10 @@ describe('Check oneTwoOne request', () => {
       cy.get(oneTwoOneLocators.bargeCount)
         .eq(0)
         .then(el => expect(el.text()).contains('1-2-1'))
-      cy.get('.ant-avatar-circle')
-        .parent()
-        .then(el => expect(el.text()).to.equal(name))
     })
 
     it('Confirm request', () => {
-      cy.get(oneTwoOneLocators.closeOneTwoOne).click()
+      cy.get(oneTwoOneLocators.closeOneTwoOne).eq(0).click()
       cy.get(popUp.title).should('contain.text', oneTwoOne.closeTitle)
 
       cy.intercept('/graphql', req => {

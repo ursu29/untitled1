@@ -55,7 +55,7 @@ describe('Adding Skills in the Users Profile', () => {
   })
 
   it(`Click on a skill ${skillName}`, () => {
-    cy.get(skillEl.skill).contains(skillName).click()
+    cy.get(skillEl.skill).contains(skillName).click({ force: true })
     cy.toEqualText(skillEl.item, skillName)
   })
 

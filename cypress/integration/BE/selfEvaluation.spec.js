@@ -7,7 +7,7 @@ describe(`Check employee Self Evaluation Form`, () => {
 
   it('Attributes response', () => {
     cy.getResponse(['evaluationAttributes', 'id', 'title'], 'alias')
-    cy.visit('/client/profile/evaluation')
+    cy.visit('/profile/evaluation')
     cy.wait(`@alias`).then(val => {
       const response = val.response.body.data
       const { evaluationAttributes } = response
@@ -21,7 +21,7 @@ describe(`Check employee Self Evaluation Form`, () => {
 
   it('getEvaluations response', () => {
     cy.getResponse(['archivedSEFVersions'], 'alias')
-    cy.visit('/client/profile/evaluation')
+    cy.visit('/profile/evaluation')
     cy.wait(`@alias`).then(val => {
       const response = val.response.body.data
       const { archivedSEFVersions } = response

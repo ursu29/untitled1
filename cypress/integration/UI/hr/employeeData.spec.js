@@ -1,10 +1,10 @@
 import { employeeData } from '../../../support/client/employeeData'
-import { skillEl, workspace } from '../../../support/locators'
+import { skillEl, workspace, table, hr } from '../../../support/locators'
 import { checkKeyValueExist } from '../../../support/complexLocators'
-import { table, hr } from '../../../support/locators'
 
 describe('Check employee data', () => {
   let runningProcess
+  const title = 'react employee'
   const randomNumber = new Date().getTime()
 
   before(() => {
@@ -22,7 +22,8 @@ describe('Check employee data', () => {
   })
 
   it('Check default data', () => {
-    const { id } = runningProcess[0]
+    const data = runningProcess.filter(el => el.process.title === title)[0]
+    const { id } = data
 
     cy.get('div > a')
       .eq(1)
