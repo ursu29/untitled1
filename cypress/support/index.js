@@ -1,4 +1,4 @@
-import '@cypress/code-coverage/support'
+// import '@cypress/code-coverage/support'
 
 import './commands'
 import './getData'
