@@ -13,6 +13,7 @@ steps:
     inputs:
       targetFiles: cypress.json
   - script: |
+      yarn cache clean
       yarn
       npx cypress run --headless --spec 'cypress/**/*'
     env:
