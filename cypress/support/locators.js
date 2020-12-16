@@ -18,6 +18,7 @@ export const menu = {
     { name: 'HR Tool', url: '/hr', text: null, show: false },
     { name: 'Processes', url: '/processes', text: null, show: false },
     { name: 'Matrices', url: '/matrices', text: null, show: false },
+    { name: 'Management', url: '/management', text: null, show: false },
   ],
 }
 
