@@ -107,6 +107,7 @@ export const postEl = {
   buttonSwitch: '.ant-switch',
   toggle: '.ant-switch-checked',
   editTag: '.ant-select-selection-item-content',
+  itemsSelect: '.ant-select-item-option-content',
   successTag: '.ant-tag-success',
   mainTag: '.ant-tag',
   button: '.ant-btn-primary',
@@ -139,9 +140,23 @@ export const workspace = {
   spinner: '.anticon-spin',
   img: '[alt="drawing"]',
   tab: '.ant-tabs-tab-btn',
+  activeTab: 'ant-tabs-tab-active',
   data: '.ant-picker-input',
   checkbox: '.ant-checkbox',
   checked: '.ant-checkbox-checked',
+}
+
+export const paginationEl = {
+  number: el => `.ant-pagination-item-${el}`,
+}
+
+export const hrTool = {
+  activeIdProcess: 'active_process_form_process',
+  create: 'create',
+  abort: 'abort',
+  errorMess: '.ant-legacy-form-explain',
+  processName: 'portal-select',
+  selectItem: '.ant-legacy-form-item-children',
 }
 
 export const process = {

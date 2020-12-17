@@ -162,7 +162,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                     cancelText="No"
                   >
                     <span>
-                      <Button>Abort</Button>
+                      <Button data-cy="abort">Abort</Button>
                     </span>
                   </Popconfirm>
                 )

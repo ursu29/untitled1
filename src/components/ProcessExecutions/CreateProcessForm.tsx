@@ -67,7 +67,7 @@ const CreateProcessForm = ({ form, onSubmit, value, loading }: Props) => {
       )}
       <Row>
         <Col>
-          <Button loading={loading} type="primary" htmlType="submit">
+          <Button loading={loading} type="primary" htmlType="submit" data-cy="create">
             Create
           </Button>
         </Col>
