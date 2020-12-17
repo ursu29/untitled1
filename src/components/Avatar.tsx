@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { useAccessToken } from '../utils/useToken'
 import { Employee } from '../types'
 import { UserOutlined } from '@ant-design/icons'
+import { AvatarHat } from './UI/AvatarHat'
 
 const options = {
   root: null,
@@ -17,12 +18,13 @@ interface Props {
   shape?: AvatarProps['shape']
   showTooltip?: boolean
   highResolution?: boolean
+  withHat?: boolean
 }
 
 const avatars: Record<string, Record<string, string>> = { high: {}, low: {} }
 const requests: Record<string, Promise<string | null>> = {}
 
-export default function ({ size, shape, employee, showTooltip, highResolution }: Props) {
+export default function ({ size, shape, employee, showTooltip, highResolution, withHat }: Props) {
   const resolution = highResolution ? 'high' : 'low'
   const storedAvatar = avatars[resolution]?.[employee.email]
   const { token } = useAccessToken()
@@ -92,15 +94,17 @@ export default function ({ size, shape, employee, showTooltip, highResolution }:
   }, [token, resolution, employee, node, setSrc])
 
   const avatar = (
-    <Avatar
-      ref={node}
-      data-cy="avatar"
-      src={src}
-      size={size}
-      shape={shape}
-      alt={`${employee.name}'s avatar`}
-      icon={showPlaceholder && <UserOutlined />}
-    />
+    <AvatarHat withHat={withHat}>
+      <Avatar
+        ref={node}
+        data-cy="avatar"
+        src={src}
+        size={size}
+        shape={shape}
+        alt={`${employee.name}'s avatar`}
+        icon={showPlaceholder && <UserOutlined />}
+      />
+    </AvatarHat>
   )
 
   if (showTooltip) {

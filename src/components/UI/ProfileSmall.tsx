@@ -36,7 +36,7 @@ export default function SiderProfile({ loading, profile }: Props) {
           {profile &&
             (isLarge ? (
               <Card.Meta
-                avatar={<Avatar shape="square" size="large" employee={profile} />}
+                avatar={<Avatar shape="square" size="large" employee={profile} withHat />}
                 description={
                   <>
                     <Text strong data-cy="profile_name">
@@ -59,7 +59,7 @@ export default function SiderProfile({ loading, profile }: Props) {
               />
             ) : (
               <Row justify="center" data-cy="profile_avatar">
-                {<Avatar shape="square" size="large" employee={profile} />}
+                <Avatar shape="square" size="large" employee={profile} withHat />
               </Row>
             ))}
         </Skeleton>

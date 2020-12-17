@@ -10,6 +10,7 @@ import DevTools from '../DevTools'
 import { EmployeeProvider } from '../../utils/withEmployee'
 import { Modal } from 'antd'
 import { Profile } from '../../types'
+import SplashScreen from '../UI/SplashScreen'
 
 const query = gql`
   {
@@ -45,7 +46,7 @@ export default function Root({ tokenExpired }: { tokenExpired: boolean }) {
     }
   }, [tokenExpired])
 
-  if (loading) return null
+  if (loading) return <SplashScreen />
 
   if (data?.isAuthenticated) {
     return (
