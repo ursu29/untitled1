@@ -1,21 +1,24 @@
 import React from 'react'
 import query, { QueryType } from '../../queries/getBookmarks'
-import { Skill } from '../../types'
+import { Guild } from '../../types'
 import { useQuery } from '@apollo/react-hooks'
 import Bookmarks from '../Bookmarks/Bookmarks'
+import message from '../../message'
 
 interface Props {
-  skill?: Pick<Skill, 'id'>
+  guild?: Guild
 }
 
-export default function SkillBookmarks({ skill }: Props) {
-  const variables = { input: { skills: [skill?.id] } }
+export default function GuildBookmarks({ guild }: Props) {
+  const skills = guild?.skills?.map(skill => skill.id) || []
+  const variables = { input: { skills: skills } }
   const { data, loading } = useQuery<QueryType>(query, {
     variables,
-    skip: !skill,
+    skip: !skills.length,
+    onError: message.error,
   })
 
-  if (!skill) return <div>Skill is not found</div>
+  if (!guild) return <div>Guild is not found</div>
 
   return (
     <Bookmarks

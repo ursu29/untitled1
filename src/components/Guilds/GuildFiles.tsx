@@ -1,19 +1,20 @@
 import React, { useEffect } from 'react'
 import { useQuery } from '@apollo/react-hooks'
-import { Skill } from '../../types'
+import { Guild } from '../../types'
 import getSharedFiles, { QueryType } from '../../queries/getSharedFiles'
-import SharedFileList from '../Files/SharedFileList'
 import message from '../../message'
+import SharedFileList from '../Files/SharedFileList'
 
 interface Props {
-  skill?: Pick<Skill, 'id'>
+  guild: Guild
 }
 
-export default function SkillFiles({ skill }: Props) {
-  const variables = { input: { skills: [skill?.id] } }
+export default function GuildFiles({ guild }: Props) {
+  const skills = guild.skills?.map(skill => skill.id) || []
+  const variables = { input: { skills } }
   const { data, loading, startPolling, stopPolling } = useQuery<QueryType>(getSharedFiles, {
     variables,
-    skip: !skill,
+    skip: !skills.length,
     onError: message.error,
   })
   const hasMore = data?.sharedFiles.hasMore || false
@@ -26,7 +27,7 @@ export default function SkillFiles({ skill }: Props) {
     }
   }, [hasMore, startPolling, stopPolling])
 
-  if (!skill) return <div>Skill is not found</div>
+  if (!guild) return <div>Guild is not found</div>
 
   return <SharedFileList loading={loading} hasMore={hasMore} files={files} />
 }

@@ -3,7 +3,7 @@ import React from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { matchPath, RouteComponentProps, withRouter } from 'react-router-dom'
 import { COLLAPSE_WIDTH } from '../../config'
-import paths, { getEmployeeLink, getProjectLink, getSkillLink } from '../../paths'
+import paths, { getEmployeeLink, getGuildLink, getProjectLink, getSkillLink } from '../../paths'
 
 const { TabPane } = Tabs
 
@@ -51,6 +51,7 @@ function PortalTabs({ location, history, noPadding, controlled, tabs, tab, tabsP
         const projects: any = matchPath(location.pathname, { path: paths.PROJECTS + '/:code' })
         const skills: any = matchPath(location.pathname, { path: paths.SKILLS + '/:id' })
         const knowledge: any = matchPath(location.pathname, { path: paths.KNOWLEDGE })
+        const guilds: any = matchPath(location.pathname, { path: paths.GUILDS + '/:code' })
         if (profile) {
           history.push(paths.PROFILE + '/' + tab)
         } else if (employees) {
@@ -59,6 +60,8 @@ function PortalTabs({ location, history, noPadding, controlled, tabs, tab, tabsP
           history.push(getProjectLink(projects.params.code) + tab)
         } else if (skills) {
           history.push(getSkillLink(skills.params.id) + tab)
+        } else if (guilds) {
+          history.push(getGuildLink(guilds.params.code) + tab)
         } else if (knowledge) {
           history.push(paths.KNOWLEDGE + '/' + tab)
         }

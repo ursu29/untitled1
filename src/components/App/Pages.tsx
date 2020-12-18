@@ -55,6 +55,7 @@ export default function Pages() {
           <Route path={paths.PROJECTS + '/:code/:tab'} component={Project} />
           <Route path={paths.PROJECTS + '/:code'} component={Project} />
           <Route path={paths.PROJECTS} component={Projects} />
+          <Route path={paths.GUILDS + '/:code/:tab'} component={Guild} />
           <Route path={paths.GUILDS + '/:code'} component={Guild} />
           <Route path={paths.GUILDS} component={Guilds} />
           <Route path={paths.SKILLS + '/:id/:tab'} component={Skill} />
