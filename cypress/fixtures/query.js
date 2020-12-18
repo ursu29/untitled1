@@ -35,4 +35,14 @@ export const query = {
     'mutation deleteOnboardingTicket($input: DeleteOnboardingTicketInput) {deleteOnboardingTicket(input: $input) { id __typename}}',
   updateEmp:
     'mutation updateEmployee($input: UpdateEmployeeInput!) {updateEmployee(input: $input) {id __typename}}',
+  createProcess:
+    'mutation createProcessExecution($input: CreateProcessExecutionInput) {createProcessExecution(input: $input) {id __typename}}',
+  holdProcess:
+    'mutation toggleHoldProcessExecution($input: AbortProcessExecutionInput!) {toggleHoldProcessExecution(input: $input) {id __typename}}',
+  getProcessExecutions:
+    'query getProcessExecutions($input: ProcessExecutionsInput) {processExecutions(input: $input) { id status process {id title type steps {...ProcessStepDetails __typename} __typename} vacancy { id isPublished rotateEmployees {...EmployeeDetails __typename} responsibleEmployees { ...EmployeeDetails __typename} editable __typename} executionSteps {id step { id type __typename } description isDone  __typename } employee finishDate employeePhone isIndependentStepsActive __typename}}fragment EmployeeDetails on Employee { id name location country position phoneNumber email isMe __typename} fragment ProcessStepDetails on ProcessStep {id title description type responsibleUsers {id name email isMe __typename} sendToTeamlead hasComment send24hoursNotification parentSteps { id __typename} process { id type __typename} __typename}',
+  getAllProcess:
+    '{processExecutions {id process {id title customer type __typename} status vacancy {id position isPublished __typename} project { id name code __typename} locations {id name __typename} employee finishDate activeStepEmployees { id name email __typename} __typename}}',
+  updateProcess:
+    'mutation updateProcessExecution($input: UpdateProcessExecutionInput) {updateProcessExecution(input: $input) {id __typename}}',
 }
