@@ -1,5 +1,6 @@
 import * as Msal from 'msal'
 import React, { useEffect, useState } from 'react'
+import SplashScreen from '../UI/SplashScreen'
 
 const msalConfig: Msal.Configuration = {
   auth: {
@@ -73,7 +74,7 @@ function Oauth({ children }: any) {
     // eslint-disable-next-line
   }, [])
 
-  if (!token) return <div>Authorizing...</div>
+  if (!token) return <SplashScreen />
   return children(token)
 }
 
