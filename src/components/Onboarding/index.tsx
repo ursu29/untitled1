@@ -19,6 +19,7 @@ import DrawerForm from './DrawerForm'
 import Ticket from './Ticket'
 import MyTickets from './MyTickets'
 import { useEmployee } from '../../utils/withEmployee'
+import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 
 export default function Onboarding() {
   const user = useEmployee()
@@ -32,9 +33,13 @@ export default function Onboarding() {
   const { data, loading, error } = useQuery<OnboardingTicketsQueryType>(getOnboardingTickets)
 
   // Tickets with me as responsible
-  const myTickets = data?.onboardingTickets.filter(
-    ticket => ticket?.responsible?.[0]?.email.toLowerCase() === user.employee.email.toLowerCase(),
-  )
+  const writeAccess = useStrapiGroupCheck('SUPER_USER')
+  const myTickets = writeAccess
+    ? data?.onboardingTickets
+    : data?.onboardingTickets.filter(
+        ticket =>
+          ticket?.responsible?.[0]?.email.toLowerCase() === user.employee.email.toLowerCase(),
+      )
 
   // Check write access
   const { data: onboardingAccessData } = useQuery<{ onboardingAccess: Access }>(onboardingAccess)
