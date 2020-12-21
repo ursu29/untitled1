@@ -188,7 +188,7 @@ function DevelopmentPlanForm({ value, onChange, form, locked, resetFields }: Pro
             {getFieldDecorator('developmentRoles.teamLead', {
               valuePropName: 'checked',
               initialValue: value?.developmentRoles?.teamLead,
-            })(<Checkbox disabled={locked}>Team Lead</Checkbox>)}
+            })(<Checkbox disabled={locked}>Tech Lead</Checkbox>)}
           </div>
           <div>
             {getFieldDecorator('developmentRoles.agileCoach', {
