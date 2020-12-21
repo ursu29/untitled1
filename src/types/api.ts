@@ -17,6 +17,7 @@ export interface Employee {
   phoneNumber: string
   email: string
   isMe: boolean
+  startDate: string | null
   subordinateUsers: Employee
   subordinateUsersCount: {
     users: number
