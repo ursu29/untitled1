@@ -4,7 +4,6 @@ import { checkKeyValueExist } from '../../../support/complexLocators'
 
 describe('Check employee data', () => {
   let runningProcess
-  const title = 'react employee'
   const randomNumber = new Date().getTime()
 
   before(() => {
@@ -17,13 +16,8 @@ describe('Check employee data', () => {
     })
   })
 
-  it('Check number of process', () => {
-    cy.get(table.tableRow).then(el => expect(el.length).equal(runningProcess.length))
-  })
-
   it('Check default data', () => {
-    const data = runningProcess.filter(el => el.process.title === title)[0]
-    const { id } = data
+    const { id } = runningProcess[0]
 
     cy.get('div > a')
       .eq(1)
@@ -39,7 +33,7 @@ describe('Check employee data', () => {
     cy.setToken('manager')
     cy.visit(`/hr/${id}`)
 
-    cy.scrollTo('bottom')
+    cy.scrollTo('bottom', { ensureScrollable: false })
     cy.getElement(hr.name).clear().type(name)
     cy.getElement(hr.phone).clear().type(randomNumber)
     cy.get(workspace.data).click()

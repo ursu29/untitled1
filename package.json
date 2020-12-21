@@ -45,7 +45,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start:cra": "react-scripts -r @cypress/instrument-cra start",
+    "start:coverage": "react-scripts -r @cypress/instrument-cra start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "analyze": "source-map-explorer 'build/static/js/*.js'",

@@ -16,3 +16,5 @@ export const mergeObjects = el => {
   el.forEach(data => newObj.push(...data))
   return newObj
 }
+
+export const filterBy = (arr, key, name) => arr.filter(el => el[key] === name)
