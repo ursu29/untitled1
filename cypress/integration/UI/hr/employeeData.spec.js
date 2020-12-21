@@ -33,7 +33,7 @@ describe('Check employee data', () => {
     cy.setToken('manager')
     cy.visit(`/hr/${id}`)
 
-    cy.scrollTo('bottom')
+    cy.scrollTo('bottom', { ensureScrollable: false })
     cy.getElement(hr.name).clear().type(name)
     cy.getElement(hr.phone).clear().type(randomNumber)
     cy.get(workspace.data).click()
