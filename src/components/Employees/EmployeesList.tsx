@@ -10,7 +10,15 @@ import Avatar from '../Avatar'
 
 type EmployeePick = Pick<
   Employee,
-  'id' | 'name' | 'location' | 'country' | 'position' | 'phoneNumber' | 'email' | 'startDate'
+  | 'id'
+  | 'name'
+  | 'location'
+  | 'country'
+  | 'position'
+  | 'phoneNumber'
+  | 'email'
+  | 'startDate'
+  | 'birthday'
 >
 
 interface Props {
@@ -199,6 +207,12 @@ export default function EmployeesList({ employees, loading, fixed }: Props) {
       record.location && record.location.toLowerCase().includes(value),
   }
 
+  const birthday = {
+    title: 'Birthday',
+    key: 'birthday',
+    render: (employee: EmployeePick) => employee.birthday || 'Unknown',
+  }
+
   const startDate = {
     title: 'Contract Start',
     key: 'startDate',
@@ -216,7 +230,7 @@ export default function EmployeesList({ employees, loading, fixed }: Props) {
   }
 
   if (isLarge) {
-    columns = columns.concat([position, level, location, startDate])
+    columns = columns.concat([position, level, location, birthday, startDate])
   }
 
   return (
