@@ -22,7 +22,7 @@ export const employeeData = {
     bonuses: 0,
     country: 'Russia',
     email: 'test.employee@sidenis.com',
-    id: 'Test.Employee@sidenis.com',
+    id: 'test.employee@sidenis.com',
     isMe: true,
     location: 'Saint-Petersburg',
     name: 'Test Employee',
