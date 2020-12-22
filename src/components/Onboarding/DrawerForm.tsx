@@ -7,9 +7,11 @@ import {
   deleteOnboardingTicket,
   getOnboardingTickets,
   updateOnboardingTicket,
+  getEmployeesOnboardingTickets,
 } from '../../queries/onboardingTickets'
 import { OnboardingTicket } from '../../types'
 import EmployeeSelect from '../Employees/EmployeeSelect'
+import { useEmployee } from '../../utils/withEmployee'
 
 const layout = {
   labelCol: { span: 7 },
@@ -26,20 +28,32 @@ export default function DrawerForm({
   ticket: OnboardingTicket | null
   handleClose: any
 }) {
+  const user = useEmployee()
+  const withResponsible = user.employee.email.toLowerCase()
+
   const [createTicket] = useMutation(createOnboardingTicket, {
-    refetchQueries: [{ query: getOnboardingTickets }],
+    refetchQueries: [
+      { query: getOnboardingTickets },
+      { query: getEmployeesOnboardingTickets, variables: { withResponsible } },
+    ],
     onCompleted: () => message.success('New ticket has been created'),
     onError: message.error,
   })
 
   const [updateTicket] = useMutation(updateOnboardingTicket, {
-    refetchQueries: [{ query: getOnboardingTickets }],
+    refetchQueries: [
+      { query: getOnboardingTickets },
+      { query: getEmployeesOnboardingTickets, variables: { withResponsible } },
+    ],
     onCompleted: () => message.success('Ticket has been updated'),
     onError: message.error,
   })
 
   const [deleteTicket] = useMutation(deleteOnboardingTicket, {
-    refetchQueries: [{ query: getOnboardingTickets }],
+    refetchQueries: [
+      { query: getOnboardingTickets },
+      { query: getEmployeesOnboardingTickets, variables: { withResponsible } },
+    ],
     onCompleted: () => message.success('Ticket has been deleted'),
     onError: message.error,
   })

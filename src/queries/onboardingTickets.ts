@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import { OnboardingTicket } from '../types'
-import fragments from '../fragments'
+import fragments, { EmployeeDetails } from '../fragments'
 
 export const getOnboardingTickets = gql`
   query onboardingTickets {
@@ -60,6 +60,23 @@ export const requestOnboardingTicket = gql`
   }
 `
 
+export const getEmployeesOnboardingTickets = gql`
+  query getEmployeesOnboardingTickets($withResponsible: String) {
+    employees {
+      ...EmployeeDetails
+      requestedOnboardingTickets(withResponsible: $withResponsible) {
+        ...OnboardingTicketDetails
+      }
+    }
+  }
+  ${fragments.Employee.Details}
+  ${fragments.OnboardingTicket}
+`
+
 export type OnboardingTicketsQueryType = {
   onboardingTickets: OnboardingTicket[]
+}
+
+export type EmployeesOnboardingTicketsQueryType = {
+  employees: (EmployeeDetails & { requestedOnboardingTickets: OnboardingTicket[] })[]
 }
