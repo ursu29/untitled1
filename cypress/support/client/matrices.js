@@ -6,6 +6,12 @@ export const matrixEmployees = (id, name, __typename) => ({
   __typename,
 })
 
+export const matrixEl = {
+  link: '.sc-jKJlTe',
+  name: '.sc-brqgnP',
+  info: '.sc-jAaTju',
+}
+
 export const matrix = {
   access: { read: false, write: false, __typename: 'Access' },
   body: {},
