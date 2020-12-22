@@ -1,6 +1,8 @@
 import React from 'react'
+import { useParams, useHistory } from 'react-router-dom'
 import { BookOutlined, VideoCameraOutlined, ContainerOutlined } from '@ant-design/icons'
 import { Skill } from '../../types'
+import paths from '../../paths'
 import Tabs from '../UI/Tabs'
 import Stream from '../Stream/StreamPage'
 import EmployeeRecommendationBookmarks from './EmployeeRecommendationBookmarks'
@@ -13,6 +15,12 @@ interface Props {
 }
 
 const EmployeeRecommendations = ({ skills }: Props) => {
+  const history = useHistory()
+  const { tab, subTab } = useParams<{ tab: string; subTab: string }>()
+  const handleTabChange = (nextTab: string) => {
+    history.push(`${paths.PROFILE}/${tab}/${nextTab}`)
+  }
+
   const tabs = [
     {
       title: 'Bookmarks',
@@ -33,11 +41,15 @@ const EmployeeRecommendations = ({ skills }: Props) => {
       body: <EmployeeRecommendationFiles skills={skills} />,
     },
   ]
+
   return (
     <Tabs
       tabs={tabs}
+      tab={subTab}
+      controlled
       noPadding
       tabsProps={{
+        onTabClick: handleTabChange,
         tabBarStyle: { padding: 0 },
       }}
     />
