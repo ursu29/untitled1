@@ -1,8 +1,9 @@
 import { CheckOutlined, CloseOutlined, PauseOutlined, PlayCircleTwoTone } from '@ant-design/icons'
-import { Table, Badge, Tag, Tooltip } from 'antd'
+import { Table, Badge, Tag, Tooltip, Select } from 'antd'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import React from 'react'
+import { useMutation } from '@apollo/react-hooks'
 import { Link } from 'react-router-dom'
 import { getProcessExecutionLink } from '../../paths'
 import { QueryType } from '../../queries/getProcessExecutions'
@@ -11,6 +12,10 @@ import Avatar from '../Avatar'
 import ProjectTag from '../Projects/ProjectTag'
 import PageContent from '../UI/PageContent'
 import TableSearch from '../UI/TableSearch'
+import updateProcessExecution from '../../queries/updateProcessExecution'
+import getProcessExecutions from '../../queries/getProcessExecutions'
+import message from '../../message'
+import './styles.css'
 
 dayjs.extend(relativeTime)
 
@@ -22,11 +27,23 @@ interface Props {
 function ProcessList({ items, tabName }: Props) {
   const user = useEmployee()
 
+  const [update, { loading: updateLoading }] = useMutation(updateProcessExecution, {
+    refetchQueries: [{ query: getProcessExecutions }],
+    awaitRefetchQueries: true,
+    onCompleted: () => {
+      message.success('Updated')
+    },
+    onError: message.error,
+  })
+
+  const updatePrio = (processId: string, prio: number) =>
+    update({ variables: { input: { id: processId, prio } } })
+
   if (!items?.length) {
     return <PageContent>No processes found</PageContent>
   }
 
-  const columns = [
+  let columns = [
     {
       key: 'status',
       width: 30,
@@ -224,83 +241,109 @@ function ProcessList({ items, tabName }: Props) {
 
   if (tabName !== 'archived') {
     //@ts-ignore
-    columns.splice(7, 0, {
-      key: 'responsible',
-      title: 'Responsible',
-      showSorterTooltip: false,
-      render: (_, process) => {
-        const responsibleList = [
+    columns = columns.concat([
+      {
+        key: 'responsible',
+        title: 'Responsible',
+        showSorterTooltip: false,
+        render: (_, process) => {
+          const responsibleList = [
+            //@ts-ignore
+            ...new Set(
+              process.activeStepEmployees?.sort((a: any, b: any) =>
+                a.email.toLowerCase() === user.employee.email.toLowerCase() ? -1 : 1,
+              ),
+            ),
+          ]
+          return (
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+              {responsibleList.map((responsible: any) => {
+                const count = process.activeStepEmployees.filter(
+                  (e: any) => e.email.toLowerCase() === responsible.email.toLowerCase(),
+                ).length
+
+                return (
+                  <React.Fragment key={responsible.email}>
+                    <div
+                      style={{
+                        margin: '3px',
+                        borderRadius: '50%',
+                        boxShadow:
+                          user.employee.email.toLowerCase() === responsible.email.toLowerCase()
+                            ? '#108ee9 0px 0px 0px 3px'
+                            : '',
+                      }}
+                    >
+                      <Avatar employee={responsible} size="small" showTooltip />
+                    </div>
+                    <Badge
+                      count={count > 1 ? count : 0}
+                      size="small"
+                      offset={[-10, 15]}
+                      style={{
+                        backgroundColor: '#108ee9',
+                        marginRight: '-10px',
+                        position: 'absolute',
+                      }}
+                    />
+                  </React.Fragment>
+                )
+              })}
+            </div>
+          )
+        },
+        filters: [
           //@ts-ignore
           ...new Set(
-            process.activeStepEmployees?.sort((a: any, b: any) =>
-              a.email.toLowerCase() === user.employee.email.toLowerCase() ? -1 : 1,
+            items
+              .filter(e => e?.activeStepEmployees)
+              .flatMap(item => {
+                if (item.activeStepEmployees) return item.activeStepEmployees.map(e => e?.name)
+                return []
+              }),
+          ),
+        ].map(e => ({ text: e, value: e })),
+        onFilter: (value: any, record: any) =>
+          record.activeStepEmployees
+            ? record.activeStepEmployees.map((e: any) => e?.name).includes(value)
+            : false,
+        sorter: (a: any, b: any) =>
+          a.activeStepEmployees
+            ?.map((e: any) => e?.name)
+            .sort()
+            .join('')
+            .localeCompare(
+              b.activeStepEmployees
+                ?.map((e: any) => e?.name)
+                .sort()
+                .join(''),
             ),
-          ),
-        ]
-        return (
-          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-            {responsibleList.map((responsible: any) => {
-              const count = process.activeStepEmployees.filter(
-                (e: any) => e.email.toLowerCase() === responsible.email.toLowerCase(),
-              ).length
-
-              return (
-                <React.Fragment key={responsible.email}>
-                  <div
-                    style={{
-                      margin: '3px',
-                      borderRadius: '50%',
-                      boxShadow:
-                        user.employee.email.toLowerCase() === responsible.email.toLowerCase()
-                          ? '#108ee9 0px 0px 0px 3px'
-                          : '',
-                    }}
-                  >
-                    <Avatar employee={responsible} size="small" showTooltip />
-                  </div>
-                  <Badge
-                    count={count > 1 ? count : 0}
-                    size="small"
-                    offset={[-10, 15]}
-                    style={{
-                      backgroundColor: '#108ee9',
-                      marginRight: '-10px',
-                      position: 'absolute',
-                    }}
-                  />
-                </React.Fragment>
-              )
-            })}
-          </div>
-        )
       },
-      filters: [
-        //@ts-ignore
-        ...new Set(
-          items
-            .filter(e => e?.activeStepEmployees)
-            .flatMap(item => {
-              if (item.activeStepEmployees) return item.activeStepEmployees.map(e => e?.name)
-              return []
-            }),
-        ),
-      ].map(e => ({ text: e, value: e })),
-      onFilter: (value: any, record: any) =>
-        record.activeStepEmployees
-          ? record.activeStepEmployees.map((e: any) => e?.name).includes(value)
-          : false,
-      sorter: (a: any, b: any) =>
-        a.activeStepEmployees
-          ?.map((e: any) => e?.name)
-          .sort()
-          .join('')
-          .localeCompare(
-            b.activeStepEmployees
-              ?.map((e: any) => e?.name)
-              .sort()
-              .join(''),
-          ),
-    })
+      {
+        key: 'prio',
+        dataIndex: 'prio',
+        title: 'Prio',
+        width: '80px',
+        showSorterTooltip: false,
+        sorter: (a: any, b: any) => a.prio - b.prio,
+        render: (_, process) => {
+          return (
+            <Select
+              defaultValue={process.prio}
+              onChange={prio => updatePrio(process.id, prio)}
+              bordered={false}
+              disabled={updateLoading}
+            >
+              {Array(3)
+                .fill(0)
+                .map((_, i) => (
+                  <Select.Option value={i + 1}>{i + 1}</Select.Option>
+                ))}
+            </Select>
+          )
+        },
+      },
+    ])
   }
 
   const sortedItems = items.sort((a: any, b: any) => {
@@ -317,6 +360,7 @@ function ProcessList({ items, tabName }: Props) {
   return (
     <Table<QueryType['processExecutions'][0]>
       rowKey="id"
+      rowClassName={rec => (rec.prio === 1 ? 'row-highlight' : '')}
       //@ts-ignore
       columns={columns}
       dataSource={sortedItems

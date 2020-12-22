@@ -21,5 +21,6 @@ export type MutationVariables = {
     process: string
     locations: [string]
     project: string
+    prio: number
   }
 }

@@ -1,0 +1,7 @@
+.row-highlight {
+  background-color: #ffeeee;
+}
+
+.ant-table-tbody > tr.row-highlight:hover > td {
+  background: #f2e6e6;
+}
