@@ -1,9 +1,10 @@
 import { getClient, getManager, getProjects, getEmployeeExperiences } from '../../support/getData'
 import { tabs, workspace } from '../../support/locators'
 import { employeeData } from '../../support/client/employeeData'
+import { employeeData as EmployeeData } from '../../support/client/employeeData'
 
 describe('Checking default information', () => {
-  const userId = '1bf931df-2015-4516-ac33-0d2caddc7df2'
+  const userId = EmployeeData.employee.id
   let allData = {
     client: null,
     manager: null,
@@ -19,6 +20,7 @@ describe('Checking default information', () => {
       allData = { ...allData, client: data }
     })
     cy.post(getManager(userId)).then(res => {
+      debugger
       const { data } = res.body
       allData = { ...allData, manager: data }
     })
@@ -40,6 +42,7 @@ describe('Checking default information', () => {
   })
 
   it('Check Employee data', () => {
+    debugger
     const { profile } = allData.client
     const { manager } = allData.manager.employees[0]
 

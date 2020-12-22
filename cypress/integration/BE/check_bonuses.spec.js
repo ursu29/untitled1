@@ -1,13 +1,14 @@
 import { getEmployeeAttributes } from '../../api/requests'
 import { codeOkAndBodyNotNull } from '../../support/utils'
+import { employeeData as EmployeeData } from '../../support/client/employeeData'
 
 describe('Check bonuses presence and availability. Requires real environment.', () => {
   beforeEach(() => {
     cy.setToken('employee')
   })
 
-  const idUserTest = '1bf931df-2015-4516-ac33-0d2caddc7df2'
-  const idUserAlexey = '9a499237-aa57-4adf-9000-2ced6b4c6079'
+  const idUserTest = EmployeeData.employee.id
+  const idUserAlexey = 'Alexey.Avdeev@sidenis.com'
 
   //made with Test Employee credentials
   it('As employee I can see my own bonus', () => {
