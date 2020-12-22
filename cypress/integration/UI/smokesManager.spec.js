@@ -20,7 +20,6 @@ describe('Checking default information', () => {
       allData = { ...allData, client: data }
     })
     cy.post(getManager(userId)).then(res => {
-      debugger
       const { data } = res.body
       allData = { ...allData, manager: data }
     })
@@ -42,7 +41,6 @@ describe('Checking default information', () => {
   })
 
   it('Check Employee data', () => {
-    debugger
     const { profile } = allData.client
     const { manager } = allData.manager.employees[0]
 
