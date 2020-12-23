@@ -1,9 +1,12 @@
 import React, { useRef, useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 import { debounce } from 'throttle-debounce'
+import { CONTENT_WIDTH } from '../../config'
 
-const Backdrop = styled.canvas`
-  position: fixed;
+const Backdrop = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
   height: 100%;
   width: 100%;
   top: 0;
@@ -46,16 +49,17 @@ const createSnow = (count: number) => {
   return snowflakes
 }
 
-export default function SnowBackdrop() {
-  const ref = useRef<HTMLCanvasElement>()
-  const snowflakes = useMemo(() => createSnow(500), [])
+const Snow = () => {
+  const ref = useRef<HTMLCanvasElement>(null)
+  const snowflakes = useMemo(() => createSnow(50), [])
 
   useEffect(() => {
     const canvas = ref.current
 
     if (canvas) {
       const updateCanvasSize = () => {
-        canvas.width = window.innerWidth
+        // set only visible width
+        canvas.width = Math.floor((window.innerWidth - CONTENT_WIDTH) / 2)
         canvas.height = window.innerHeight
       }
 
@@ -112,10 +116,14 @@ export default function SnowBackdrop() {
     }
   }, [snowflakes])
 
+  return <canvas ref={ref} />
+}
+
+export default function SnowBackdrop() {
   return (
-    <Backdrop
-      // @ts-ignore
-      ref={ref}
-    />
+    <Backdrop>
+      <Snow />
+      <Snow />
+    </Backdrop>
   )
 }
