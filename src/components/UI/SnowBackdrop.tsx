@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { debounce } from 'throttle-debounce'
 import { CONTENT_WIDTH } from '../../config'
 
+const VIEW_OFFSET = 20
+
 const Backdrop = styled.div`
   position: absolute;
   display: flex;
@@ -25,9 +27,9 @@ class Snowflake {
   r = 0
   o = 0
 
-  reset(width: number, height: number) {
-    this.x = Math.random() * width
-    this.y = Math.random() * -height
+  reset(canvas: HTMLCanvasElement) {
+    this.x = Math.random() * canvas.width
+    this.y = Math.random() * -canvas.height
     this.vy = 1 + Math.random() * 3
     this.vx = 0.5 - Math.random()
     this.r = 1 + Math.random() * 2
@@ -37,6 +39,18 @@ class Snowflake {
   move() {
     this.y += this.vy
     this.x += this.vx
+  }
+
+  draw(context: CanvasRenderingContext2D) {
+    context.globalAlpha = this.o
+    context.beginPath()
+    context.arc(this.x, this.y, this.r, 0, Math.PI * 2, false)
+    context.closePath()
+    context.fill()
+  }
+
+  isOutOfView(canvas: HTMLCanvasElement) {
+    return this.y > canvas.height || this.x < -VIEW_OFFSET || this.x > canvas.width + VIEW_OFFSET
   }
 }
 
@@ -79,21 +93,18 @@ const Snow = () => {
     const context = canvas?.getContext('2d')
 
     if (canvas && context) {
-      snowflakes.forEach(snowflake => snowflake.reset(canvas.width, canvas.height))
+      snowflakes.forEach(snowflake => snowflake.reset(canvas))
 
       const draw = () => {
         context.clearRect(0, 0, canvas.width, canvas.height)
         context.fillStyle = '#fff'
         snowflakes.forEach(snowflake => {
-          snowflake.move()
-          context.globalAlpha = snowflake.o
-          context.beginPath()
-          context.arc(snowflake.x, snowflake.y, snowflake.r, 0, Math.PI * 2, false)
-          context.closePath()
-          context.fill()
-          if (snowflake.y > canvas.height) {
-            snowflake.reset(canvas.width, canvas.height)
+          if (snowflake.isOutOfView(canvas)) {
+            snowflake.reset(canvas)
+          } else {
+            snowflake.move()
           }
+          snowflake.draw(context)
         })
       }
 
