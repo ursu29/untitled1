@@ -1,5 +1,5 @@
-import { useQuery } from '@apollo/react-hooks'
-import { Checkbox, Table } from 'antd'
+import { useQuery, useMutation } from '@apollo/react-hooks'
+import { Checkbox, Table, Switch } from 'antd'
 import gql from 'graphql-tag'
 import React, { useState } from 'react'
 import fragments, { EmployeeDetails } from '../../fragments'
@@ -7,6 +7,12 @@ import { Employee } from '../../types'
 import EmployeeCard from '../Employees/EmployeeCard.new'
 import UpdateEmployee from '../Employees/UpdateEmployee'
 import TableSearch from '../UI/TableSearch'
+import message from '../../message'
+import {
+  getMembersOfAccessGroup,
+  updateAccessGroup,
+  GetMembersOfAccessGroupType,
+} from '../../queries/accessGroups'
 
 const getEmployees = gql`
   {
@@ -20,12 +26,6 @@ const getEmployees = gql`
   ${fragments.Employee.Details}
 `
 
-const getMembersOfQuery = gql`
-  query getMembersOf($group: String) {
-    getMembersOf(group: $group)
-  }
-`
-
 type QueryType = {
   employees: (EmployeeDetails & { agileManager: EmployeeDetails })[]
 }
@@ -37,13 +37,14 @@ const checkers = [WITHOUT_MANAGER, NOT_MANAGEMENT]
 export default function EmployeesTable() {
   const [filters, setFilters] = useState(checkers)
   const [chosenUser, setChosenUser] = useState<QueryType['employees'][0] | null>(null)
+  const [exceptionsModifying, setExceptionsModifying] = useState(false)
 
   // Get all employees
   const { data, loading } = useQuery<QueryType>(getEmployees)
   const employees = data?.employees.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
 
   // Get management group
-  const { data: accessGroup } = useQuery<{ getMembersOf: string[] }>(getMembersOfQuery, {
+  const { data: accessGroup } = useQuery<GetMembersOfAccessGroupType>(getMembersOfAccessGroup, {
     variables: { group: 'MANAGEMENT' },
   })
   const managementGroup = accessGroup?.getMembersOf?.map(e => e.toLowerCase())
@@ -60,6 +61,13 @@ export default function EmployeesTable() {
       }}
     />
   )
+
+  // Modify management group - "exceptions"
+  const [modifyManagementGroup] = useMutation(updateAccessGroup, {
+    refetchQueries: [{ query: getMembersOfAccessGroup, variables: { group: 'MANAGEMENT' } }],
+    onCompleted: () => message.success('Group has been modified'),
+    onError: message.error,
+  })
 
   // Table columns
   let columns = [
@@ -136,6 +144,23 @@ export default function EmployeesTable() {
     return accept.every(e => e)
   })
 
+  // Checkbox 'Add to exceptions'
+  const rowSelection = {
+    onChange: (selectedRowKeys: any) => {
+      modifyManagementGroup({
+        variables: {
+          input: {
+            name: 'MANAGEMENT',
+            members: selectedRowKeys,
+          },
+        },
+      })
+    },
+    selectedRowKeys: filteredEmployees
+      ?.filter(e => managementGroup?.includes(e.email.toLowerCase()))
+      .map(e => e.email),
+  }
+
   return (
     <>
       <div style={{ maxWidth: 'fit-content', margin: '0 0 20px 20px', padding: '10px' }}>
@@ -144,10 +169,22 @@ export default function EmployeesTable() {
         </div>
         <Checkbox.Group
           options={checkers}
-          defaultValue={checkers}
+          value={filters}
+          disabled={exceptionsModifying}
           onChange={(checkedValues: any) => setFilters(checkedValues)}
           style={{ display: 'flex', flexDirection: 'column' }}
         />
+        <div style={{ display: 'flex', alignItems: 'center', marginTop: '5px' }}>
+          <Switch
+            size="small"
+            onChange={(checked: boolean) => {
+              setFilters(checked ? [] : checkers)
+              setExceptionsModifying(checked)
+            }}
+            style={{ marginRight: '7px' }}
+          />
+          Edit exceptions
+        </div>
       </div>
 
       <Table
@@ -156,11 +193,20 @@ export default function EmployeesTable() {
         dataSource={filteredEmployees}
         pagination={false}
         columns={columns}
-        rowKey="id"
+        rowKey="email"
         size="small"
         onRow={record => ({
-          onClick: () => setChosenUser(record),
+          onClick: () => (!exceptionsModifying ? setChosenUser(record) : null),
         })}
+        rowSelection={
+          exceptionsModifying
+            ? {
+                type: 'checkbox',
+                hideSelectAll: true,
+                ...rowSelection,
+              }
+            : undefined
+        }
         style={{ maxWidth: '99%', cursor: 'pointer' }}
       />
 
