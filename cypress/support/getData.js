@@ -140,10 +140,10 @@ export const getFirstPosts = () => ({
   query: query.getFirstPost,
 })
 
-export const getTags = () => ({
+export const getGetGuild = () => ({
   operationName: null,
   variables: {},
-  query: query.tags,
+  query: query.guild,
 })
 
 export const updateEmployee = (id, agileManager) => ({
