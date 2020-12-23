@@ -77,7 +77,6 @@ export default function SnowBackdrop() {
     if (canvas && context) {
       snowflakes.forEach(snowflake => snowflake.reset(canvas.width, canvas.height))
 
-      let requestId: number
       const draw = () => {
         context.clearRect(0, 0, canvas.width, canvas.height)
         context.fillStyle = '#fff'
@@ -92,9 +91,22 @@ export default function SnowBackdrop() {
             snowflake.reset(canvas.width, canvas.height)
           }
         })
-        requestId = requestAnimationFrame(draw)
       }
-      draw()
+
+      const fps = 1000 / 30
+      let time = Date.now()
+      let requestId: number
+      const loop = () => {
+        const now = Date.now()
+        const check = now - time
+
+        if (check / fps >= 1) {
+          time = now
+          draw()
+        }
+        requestId = requestAnimationFrame(loop)
+      }
+      loop()
 
       return () => cancelAnimationFrame(requestId)
     }
