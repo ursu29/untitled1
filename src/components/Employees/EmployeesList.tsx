@@ -210,13 +210,13 @@ export default function EmployeesList({ employees, loading, fixed }: Props) {
   const birthday = {
     title: 'Birthday',
     key: 'birthday',
-    render: (employee: EmployeePick) => employee.birthday || 'Unknown',
+    dataIndex: 'birthday',
   }
 
   const startDate = {
     title: 'Contract Start',
     key: 'startDate',
-    render: (employee: EmployeePick) => employee.startDate || 'Unknown',
+    dataIndex: 'startDate',
     sorter: (a: EmployeePick, b: EmployeePick): number => {
       if (a.startDate === b.startDate) return 0
       if (!a.startDate) return -1
