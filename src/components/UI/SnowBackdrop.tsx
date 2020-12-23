@@ -6,7 +6,7 @@ import { CONTENT_WIDTH } from '../../config'
 const VIEW_OFFSET = 20
 
 const Backdrop = styled.div`
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: space-between;
   height: 100%;
