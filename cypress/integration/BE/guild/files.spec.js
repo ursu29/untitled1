@@ -1,5 +1,3 @@
-import { checkElementsInArray } from '../../../support/utils'
-
 describe('Check files', () => {
   let response
 
@@ -16,10 +14,6 @@ describe('Check files', () => {
 
     const { sharedFiles } = response
 
-    if (sharedFiles.length) {
-      // false to write
-      checkElementsInArray(sharedFiles, 'likedByMe', false)
-      sharedFiles.map(el => el.access.write).forEach(el => expect(el).equal(false))
-    }
+    expect(sharedFiles.__typename).equal('SharedFiles')
   })
 })

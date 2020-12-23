@@ -20,4 +20,4 @@ export const mergeObjects = el => {
 export const filterBy = (arr, key, name) => arr.filter(el => el[key] === name)
 
 export const checkElementsInArray = (array, key, value) =>
-  array.map(el => el[key]).forEach(el => expect(el).equal(value))
+  array.forEach(el => expect(el[key]).equal(value))
