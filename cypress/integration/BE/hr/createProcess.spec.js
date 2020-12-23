@@ -28,7 +28,6 @@ describe('create new process', () => {
 
   it('create process', () => {
     cy.post(createProcess(), 'superUser').then(res => {
-      debugger
       const { createProcessExecution } = res.body.data
       const { id, __typename } = createProcessExecution
       newProjectId = id
