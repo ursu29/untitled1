@@ -46,6 +46,7 @@ export default function Pages() {
           <Redirect from="/client/*" to="/*" />
           <Redirect from="/client" to="/" />
           <Redirect exact from="/" to="/profile" />
+          <Route path={paths.PROFILE + '/:tab/:subTab'} component={Profile} />
           <Route path={paths.PROFILE + '/:tab'} component={Profile} />
           <Route path={paths.PROFILE} component={Profile} />
           <Route path={paths.ONBOARDING} component={Onboarding} />
