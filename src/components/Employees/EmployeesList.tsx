@@ -1,15 +1,24 @@
 import { Input, Table } from 'antd'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { COLLAPSE_WIDTH } from '../../config'
 import { useMediaQuery } from 'react-responsive'
+import dayjs from 'dayjs'
+import { COLLAPSE_WIDTH } from '../../config'
 import { getEmployeeLink } from '../../paths'
 import { Employee } from '../../types'
 import Avatar from '../Avatar'
 
 type EmployeePick = Pick<
   Employee,
-  'id' | 'name' | 'location' | 'country' | 'position' | 'phoneNumber' | 'email'
+  | 'id'
+  | 'name'
+  | 'location'
+  | 'country'
+  | 'position'
+  | 'phoneNumber'
+  | 'email'
+  | 'startDate'
+  | 'birthday'
 >
 
 interface Props {
@@ -198,8 +207,30 @@ export default function EmployeesList({ employees, loading, fixed }: Props) {
       record.location && record.location.toLowerCase().includes(value),
   }
 
+  const birthday = {
+    title: 'Birthday',
+    key: 'birthday',
+    dataIndex: 'birthday',
+  }
+
+  const startDate = {
+    title: 'Contract Start',
+    key: 'startDate',
+    dataIndex: 'startDate',
+    sorter: (a: EmployeePick, b: EmployeePick): number => {
+      if (a.startDate === b.startDate) return 0
+      if (!a.startDate) return -1
+      if (!b.startDate) return 1
+      const prev = dayjs(a.startDate, 'DD.MM.YYYY')
+      const next = dayjs(b.startDate, 'DD.MM.YYYY')
+      return prev.isAfter(next) ? 1 : -1
+    },
+    sortDirections: ['descend', 'ascend'],
+    defaultSortOrder: 'ascend',
+  }
+
   if (isLarge) {
-    columns = columns.concat([position, level, location])
+    columns = columns.concat([position, level, location, birthday, startDate])
   }
 
   return (
