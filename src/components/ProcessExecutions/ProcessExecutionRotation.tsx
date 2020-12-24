@@ -41,7 +41,7 @@ function ProcessExecutionRotation({ history, processExecution }: Props & RouteCo
     <div style={{ paddingBottom: 16 }}>
       <Drawer visible={showDrawer} onClose={() => setShowDrawer(false)}>
         <CreateProcessForm
-          onSubmit={({ process, locations, project }) => {
+          onSubmit={({ process, locations, project, prio }) => {
             rotateEmployee({
               variables: {
                 input: {
@@ -50,6 +50,7 @@ function ProcessExecutionRotation({ history, processExecution }: Props & RouteCo
                   process,
                   locations,
                   project,
+                  prio,
                 },
               },
             })

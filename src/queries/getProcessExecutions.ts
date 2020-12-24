@@ -20,27 +20,12 @@ export default gql`
         title
         customer
         type
-        # steps {
-        #   id
-        #   responsibleUsers {
-        #     email
-        #     name
-        #   }
-        # }
       }
-      # executionSteps {
-      #   id
-      #   step {
-      #     id
-      #   }
-      #   isDone
-      # }
       status
       vacancy {
         id
         position
         isPublished
-        # employeeComment
       }
       project {
         id
@@ -58,6 +43,7 @@ export default gql`
         name
         email
       }
+      prio
     }
   }
 `
@@ -77,6 +63,7 @@ type ProcessExecutionPick = {
     step: Pick<ProcessStep, 'id'>
   })[]
   activeStepEmployees?: Employee[]
+  prio: ProcessExecution['prio']
 }
 
 export type QueryType = {

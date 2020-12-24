@@ -314,6 +314,7 @@ export interface ProcessExecution {
   project: Project
   employee: string
   finishDate: string
+  prio: number
 }
 
 export interface ProcessExecutionStep {
