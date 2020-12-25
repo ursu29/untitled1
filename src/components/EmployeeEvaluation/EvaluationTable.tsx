@@ -346,7 +346,10 @@ export default function EvaluationTable({
       render: (text: any, item: any) => {
         if (item.children) return null
         const evaluation = evaluations?.find(i => {
-          return i.evaluationAttribute.id === item.id && i.fromWho.id === employee.id
+          return (
+            i.evaluationAttribute.id === item.id &&
+            i.fromWho.id.toLowerCase() === employee.id.toLowerCase()
+          )
         })
 
         return (
@@ -375,7 +378,8 @@ export default function EvaluationTable({
           if (item.children) return null
           const evaluation = evaluations?.find(i => {
             return (
-              i.evaluationAttribute.id === item.id && i.fromWho.id === employee.agileManager?.id
+              i.evaluationAttribute.id === item.id &&
+              i.fromWho.id.toLowerCase() === employee.agileManager?.id.toLowerCase()
             )
           })
           return (
@@ -406,7 +410,10 @@ export default function EvaluationTable({
         render: (text: any, item: any) => {
           if (item.children) return null
           const evaluation = evaluations?.find(i => {
-            return i.evaluationAttribute.id === item.id && i.fromWho?.id === reviewer.fromWho?.id
+            return (
+              i.evaluationAttribute.id === item.id &&
+              i.fromWho?.id.toLowerCase() === reviewer.fromWho?.id.toLowerCase()
+            )
           })
           return (
             <TableCell
