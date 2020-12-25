@@ -14,7 +14,7 @@ export default function useMarkdownLinkClick(
         const link = e.target.href
 
         if (link.startsWith(window.location.origin)) {
-          history.push('/' + link.split('/client/').slice(1).join(''))
+          history.push(link.split(window.location.origin).slice(1).join(''))
         } else {
           window.open(link)
         }
