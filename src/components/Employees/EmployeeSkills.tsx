@@ -52,7 +52,7 @@ export default function EmployeeSkills({ employee, editable }: Props) {
   const experiences = data?.employees?.[0].experiences
   const levels = lData?.levels
   const levelIds = levels?.filter(level => level.index <= 1).map(level => level.id)
-  const skills = experiences?.filter(exp => levelIds?.includes(exp.level.id)).map(exp => exp.skill)
+  const skills = experiences?.filter(exp => levelIds?.includes(exp.level?.id)).map(exp => exp.skill)
   const showTabs = editable && Boolean(skills?.length)
 
   return (
