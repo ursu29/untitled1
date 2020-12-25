@@ -1,6 +1,6 @@
 ## Introduction
 
-### Sidenis Portal Client
+### Corporate Portal Client
 
 - Typescript
 - React
