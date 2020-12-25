@@ -1,5 +1,6 @@
 import gql from 'graphql-tag'
 import { Guild } from '../types'
+import fragments from '../fragments'
 
 export const getGuild = gql`
   query getGuild($input: GuildInput) {
@@ -15,9 +16,13 @@ export const getGuild = gql`
         name
         description
       }
+      leaders {
+        ...EmployeeDetails
+      }
       accessWrite
     }
   }
+  ${fragments.Employee.Details}
 `
 
 export const getGuilds = gql`

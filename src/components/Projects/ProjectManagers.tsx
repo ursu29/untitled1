@@ -10,11 +10,12 @@ import Skeleton from '../UI/Skeleton'
 interface Props {
   project: Pick<Project, 'id'>
   title?: string
+  managers?: EmployeePick[]
 }
 
 type EmployeePick = EmployeeDetails
 
-function ProjectManagers({ project }: Props) {
+function ProjectManagers({ project, title, managers }: Props) {
   const { data, loading } = useQuery<QueryType>(query, {
     variables: { id: project.id },
     onError: message.error,
@@ -35,14 +36,21 @@ function ProjectManagers({ project }: Props) {
 
   return (
     <Skeleton active avatar loading={loading}>
-      <EmployeeGroup
-        title={scrumMasters.length > 1 ? 'Scrum masters' : 'Scrum master'}
-        employees={scrumMasters}
-      />
-      <EmployeeGroup
-        title={agileManagers.length > 1 ? 'Agile managers' : 'Agile manager'}
-        employees={agileManagers}
-      />
+      {!managers ? (
+        <>
+          {' '}
+          <EmployeeGroup
+            title={scrumMasters.length > 1 ? 'Scrum masters' : 'Scrum master'}
+            employees={scrumMasters}
+          />
+          <EmployeeGroup
+            title={agileManagers.length > 1 ? 'Agile managers' : 'Agile manager'}
+            employees={agileManagers}
+          />{' '}
+        </>
+      ) : (
+        <EmployeeGroup title={title || ''} employees={managers} />
+      )}
     </Skeleton>
   )
 }
