@@ -44,8 +44,8 @@ function UpdateProject({ project }: { project: Partial<Project> }) {
             update({
               variables: {
                 input: {
-                  id: project.id,
-                  scrumMasters: project.scrumMasters,
+                  id: project?.id,
+                  scrumMasters: project?.scrumMasters,
                 },
               },
               update: onDone,
