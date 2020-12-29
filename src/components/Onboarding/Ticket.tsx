@@ -38,7 +38,7 @@ export default function Ticket({
 
   return (
     <TicketCard>
-      <div>
+      <div data-cy="ticket">
         <div
           style={{
             display: 'flex',

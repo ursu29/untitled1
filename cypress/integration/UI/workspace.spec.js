@@ -15,7 +15,6 @@ describe('Workspace', () => {
   })
 
   it('check all location', () => {
-    cy.checkImgToken('manager')
     locations.forEach(el => {
       cy.get(workspace.tab).contains(el.title).click()
       if (el.title !== 'Saint-Petersburg') {
@@ -31,7 +30,6 @@ describe('Workspace', () => {
   })
 
   it('change Saint-Petersburg workspace', () => {
-    cy.checkImgToken('manager')
     cy.get(workspace.tab).contains(locations[0].title).click()
     cy.get(devMenu.items).eq(0).click()
     cy.get(matrix.item).eq(1).click()
@@ -44,7 +42,6 @@ describe('Workspace', () => {
     cy.addRole()
     cy.checkImgToken('manager')
     cy.get('[role=switch]').first().click({ multiple: true })
-    cy.get('.sc-iRbamj').contains('Add New').should('be.visible')
-    cy.get('.sc-iRbamj').first().contains('Edit').should('be.visible')
+    ;['edit', 'addNew'].forEach(el => cy.getElement(el).should('be.visible'))
   })
 })

@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default function SkillFiles({ skill }: Props) {
-  const variables = { input: { skillId: skill?.id } }
+  const variables = { input: { skills: [skill?.id] } }
   const { data, loading, startPolling, stopPolling } = useQuery<QueryType>(getSharedFiles, {
     variables,
     skip: !skill,

@@ -43,7 +43,7 @@ export const createTickets = data => ({
 })
 
 export const trainingLocators = {
-  ticket: '.iZJrxq',
+  ticket: 'ticket',
   sendEmail: 'sendEmail',
   count: 'count',
   activeTab: '.ant-tabs-tabpane-active',

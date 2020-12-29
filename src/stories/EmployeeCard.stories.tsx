@@ -22,6 +22,8 @@ const employee = {
   position: 'Frontend developer',
   location: 'Los Angeles',
   country: 'USA',
+  startDate: '10.08.2020',
+  birthday: '01.10',
 }
 
 const Template: Story<Props> = args => (

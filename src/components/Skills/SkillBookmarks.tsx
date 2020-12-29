@@ -8,8 +8,8 @@ interface Props {
   skill?: Pick<Skill, 'id'>
 }
 
-export default function EmployeeBookmarks({ skill }: Props) {
-  const variables = { input: { skill: skill?.id } }
+export default function SkillBookmarks({ skill }: Props) {
+  const variables = { input: { skills: [skill?.id] } }
   const { data, loading } = useQuery<QueryType>(query, {
     variables,
     skip: !skill,

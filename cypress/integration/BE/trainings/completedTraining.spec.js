@@ -1,21 +1,26 @@
-import { getEmployeeTickets } from '../../../support/getData'
+import { getEmployeeTickets, createTraining } from '../../../support/getData'
 import { postEl, skillEl } from '../../../support/locators'
 import { popUp } from '../../../support/client/employeeData'
+import { trainingData } from '../../../support/client/training'
 
 describe('Completed training', () => {
   let allTickets
+  const { title, description, responsible } = trainingData
 
   before(() => {
-    cy.setToken('employee')
+    cy.setToken('manager')
+    cy.post(createTraining(title, description, responsible), 'superUser')
     cy.post(getEmployeeTickets()).then(req => {
       const { data } = req.body
 
       allTickets = data.employeeOnboardingTickets
     })
-    cy.visit('/onboarding')
   })
 
   it('Complete tickets', () => {
+    cy.setToken('employee')
+    cy.visit('/onboarding')
+
     cy.get(postEl.button).eq(0).click()
     cy.get(popUp.button).contains('Yes').click()
     cy.get(skillEl.successMes).should('be.visible')

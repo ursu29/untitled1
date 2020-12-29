@@ -11,12 +11,18 @@ import Divider from '../UI/Divider'
 
 type SkillPick = Pick<Skill, 'id'>
 
-export default function StreamPage({ skill }: { skill?: SkillPick }) {
+export default function StreamPage({
+  skills,
+  skillsFilterPartial,
+}: {
+  skills?: SkillPick[]
+  skillsFilterPartial?: boolean
+}) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [search, setSearch] = useState('')
   const [sortBy, setSortBy] = useState('publishedDate')
-  const [skillsFilter, setSkillsFilter] = useState(() => (skill ? [skill] : []))
+  const [skillsFilter, setSkillsFilter] = useState(() => skills ?? [])
 
   const variables = {
     input: {
@@ -25,10 +31,12 @@ export default function StreamPage({ skill }: { skill?: SkillPick }) {
       limit: pageSize,
       offset: pageSize * (page - 1),
       skillsFilter: skillsFilter.map(e => e.id),
+      skillsFilterPartial,
     },
     inputCount: {
       search,
       skillsFilter: skillsFilter.map(e => e.id),
+      skillsFilterPartial,
     },
   }
 
@@ -69,7 +77,8 @@ export default function StreamPage({ skill }: { skill?: SkillPick }) {
         onSort={(sort: string) => setSortBy(sort)}
         onSkillsFilter={(skillsFilter: any) => setSkillsFilter(skillsFilter)}
         selectedTechnologies={skillsFilter}
-        showSkills={!skill}
+        // TODO: array length?
+        showSkills={!skills}
       />
       <Divider />
       <VideoRows videos={data?.streams || []} update={update} />

@@ -120,54 +120,56 @@ function Vacancy({
                 </div>
               )}
               <p>
-                <Typography.Title level={1}>{vacancy.position}</Typography.Title>
+                <Typography.Title level={1}>{vacancy?.position}</Typography.Title>
               </p>
               <p>
                 <Typography.Title level={4}>Project</Typography.Title>
-                <Typography.Text>{vacancy.project.name}</Typography.Text>
+                <Typography.Text>{vacancy?.project?.name}</Typography.Text>
               </p>
               <p>
                 <Typography.Title level={4}>Location</Typography.Title>
-                <Typography.Text>{vacancy.locations.map(i => i.name).join(', ')}</Typography.Text>
+                <Typography.Text>{vacancy?.locations?.map(i => i.name).join(', ')}</Typography.Text>
               </p>
               {vacancy.englishLevel && (
                 <p>
                   <Typography.Title level={4}>English Level</Typography.Title>
-                  <Typography.Text>{vacancy.englishLevel}</Typography.Text>
+                  <Typography.Text>{vacancy?.englishLevel}</Typography.Text>
                 </p>
               )}
               {vacancy.employeeExperience && (
                 <p>
                   <Typography.Title level={4}>Employee experience</Typography.Title>
-                  <Typography.Text>{vacancy.employeeExperience}</Typography.Text>
+                  <Typography.Text>{vacancy?.employeeExperience}</Typography.Text>
                 </p>
               )}
               <p>
                 <Typography.Title level={4}>Project</Typography.Title>
-                <Typography.Text>{vacancy.project.name}</Typography.Text>
+                <Typography.Text>{vacancy?.project?.name}</Typography.Text>
               </p>
               <p>
                 <Typography.Title level={4}>What will you do</Typography.Title>
                 <div
-                  dangerouslySetInnerHTML={{ __html: markdownToHtml(vacancy.responsibilities) }}
+                  dangerouslySetInnerHTML={{ __html: markdownToHtml(vacancy?.responsibilities) }}
                 />
               </p>
               <p>
                 <Typography.Title level={4}>What is essential</Typography.Title>
-                <div dangerouslySetInnerHTML={{ __html: markdownToHtml(vacancy.requiredSkills) }} />
+                <div
+                  dangerouslySetInnerHTML={{ __html: markdownToHtml(vacancy?.requiredSkills) }}
+                />
               </p>
-              {vacancy.additionalSkills && (
+              {vacancy?.additionalSkills && (
                 <p>
                   <Typography.Title level={4}>What is nice to have</Typography.Title>
                   <div
-                    dangerouslySetInnerHTML={{ __html: markdownToHtml(vacancy.additionalSkills) }}
+                    dangerouslySetInnerHTML={{ __html: markdownToHtml(vacancy?.additionalSkills) }}
                   />
                 </p>
               )}
-              {vacancy.stack && (
+              {vacancy?.stack && (
                 <p>
                   <Typography.Title level={4}>Project stack</Typography.Title>
-                  <div dangerouslySetInnerHTML={{ __html: markdownToHtml(vacancy.stack) }} />
+                  <div dangerouslySetInnerHTML={{ __html: markdownToHtml(vacancy?.stack) }} />
                 </p>
               )}
             </div>

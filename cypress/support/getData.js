@@ -140,16 +140,62 @@ export const getFirstPosts = () => ({
   query: query.getFirstPost,
 })
 
-export const getTags = () => ({
+export const getGetGuild = () => ({
   operationName: null,
   variables: {},
-  query: query.tags,
+  query: query.guild,
 })
 
 export const updateEmployee = (id, agileManager) => ({
   operationName: updateEmployee,
   variables: { input: { id, agileManager } },
   query: query.updateEmp,
+})
+
+export const createProcess = (
+  process = '5fd3706d6bedc2001cbc528b',
+  locations = ['5e56a0129ff50b001c34a41b', '5e56a01f9ff50b001c34a41c'],
+  project = 'b8dccc35-d0d1-410c-9352-637fa752529f',
+) => ({
+  operationName: 'createProcessExecution',
+  variables: { input: { process, locations, project } },
+  query: query.createProcess,
+})
+
+export const toggleHoldProcess = id => ({
+  operationName: 'toggleHoldProcessExecution',
+  variables: { input: { id } },
+  query: query.holdProcess,
+})
+
+export const getProcessExecutions = id => ({
+  operationName: 'getProcessExecutions',
+  variables: { input: { id } },
+  query: query.getProcessExecutions,
+})
+
+export const getAllProcess = () => ({
+  operationName: null,
+  variables: {},
+  query: query.getAllProcess,
+})
+
+export const updateProcess = (
+  employee,
+  employeePhone,
+  id,
+  finishDate = '2020-12-07T10:33:45.945Z',
+) => ({
+  operationName: 'updateProcessExecution',
+  variables: {
+    input: {
+      employee,
+      employeePhone,
+      finishDate,
+      id,
+    },
+  },
+  query: query.updateProcess,
 })
 
 export const updatePost = (body, id, isTranslated, title) => ({

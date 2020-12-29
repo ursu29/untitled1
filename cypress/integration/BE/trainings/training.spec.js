@@ -6,15 +6,6 @@ describe('Create/update training', () => {
 
   before(() => {
     cy.setToken('manager')
-    cy.visit('/')
-    cy.addRole()
-  })
-
-  beforeEach(() => {
-    cy.restoreLocalStorage()
-  })
-  afterEach(() => {
-    cy.saveLocalStorage()
   })
 
   it('Check permit by employee', () => {

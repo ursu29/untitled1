@@ -36,7 +36,6 @@ describe('Check management page', () => {
 
   it('Check initial filter state', () => {
     ;[0, 1].forEach(el => cy.get('.ant-checkbox-input').eq(el).should('be.checked'))
-    // noManager.length -1 not show one person if isMee=true
     cy.get(table.tableRow).then(el => expect(el.length).equal(noManager.length - 1))
     cy.get(card.title).eq(0).should('contain.text', 'Alberto')
   })
@@ -49,9 +48,8 @@ describe('Check management page', () => {
 
     cy.contains(firstLocation).click()
     cy.contains('OK').click()
-    cy.get(table.tableRow).then(
-      //-1 because manager from SP
-      el => expect(el.length).equal(cityFilter('Saint-Petersburg', noManager).length - 1),
+    cy.get(table.tableRow).then(el =>
+      expect(el.length).equal(cityFilter('Saint-Petersburg', noManager).length - 1),
     )
   })
 
@@ -70,9 +68,8 @@ describe('Check management page', () => {
     cy.get(table.filter).eq(0).click()
     cy.getElement(table.resetBtn).click()
 
-    cy.get(table.tableRow).then(
-      //-1 because manager from SP
-      el => expect(el.length).equal(cityFilter('Saint-Petersburg', noManager).length - 1),
+    cy.get(table.tableRow).then(el =>
+      expect(el.length).equal(cityFilter('Saint-Petersburg', noManager).length - 1),
     )
     cy.get(table.filter).eq(0).should('not.have.class', 'ant-dropdown-open')
   })

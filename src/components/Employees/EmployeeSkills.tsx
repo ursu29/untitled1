@@ -8,6 +8,7 @@ import EmployeeSkillsDraggable from './EmployeeSkillsDraggable'
 import gql from 'graphql-tag'
 import message from '../../message'
 import updateExperience from '../../queries/updateExperience'
+import EmployeeRecommendations from './EmployeeRecommendations'
 
 const updateExperiences = gql`
   mutation updateExperiences($input: UpdateExperiencesInput) {
@@ -50,6 +51,9 @@ export default function EmployeeSkills({ employee, editable }: Props) {
 
   const experiences = data?.employees?.[0].experiences
   const levels = lData?.levels
+  const levelIds = levels?.filter(level => level.index <= 1).map(level => level.id)
+  const skills = experiences?.filter(exp => levelIds?.includes(exp.level?.id)).map(exp => exp.skill)
+  const showTabs = editable && Boolean(skills?.length)
 
   return (
     <Skeleton loading={loading || lLoading} active>
@@ -66,6 +70,7 @@ export default function EmployeeSkills({ employee, editable }: Props) {
           }}
         />
       )}
+      {showTabs && <EmployeeRecommendations skills={skills} />}
     </Skeleton>
   )
 }

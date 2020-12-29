@@ -18,7 +18,7 @@ function ProjectPage({ match }: Props) {
         <Controls back={<Back goto={paths.SKILLS} />} />
         <SkillDetails skill={{ id }} />
       </PageContent>
-      <SkillTabs skill={{ id }} tab={tab} />
+      <SkillTabs key={id} skill={{ id }} tab={tab} />
     </>
   )
 }

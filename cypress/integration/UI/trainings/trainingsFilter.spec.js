@@ -37,7 +37,7 @@ describe('Check filter Trainings', () => {
 
       cy.get(workspace.tab).contains('Completed').eq(0).click()
 
-      cy.get(trainingLocators.ticket).then(el => expect(el.length).equal(count))
+      cy.getElement(trainingLocators.ticket).then(el => expect(el.length).equal(count))
       cy.get(postEl.successTag).then(el => expect(el.length).equal(count))
     })
   })
@@ -57,13 +57,13 @@ describe('Check filter Trainings', () => {
 
       cy.get(workspace.tab).contains('Completed').eq(0).click()
 
-      cy.get(trainingLocators.ticket).then(el => expect(el.length).equal(count))
+      cy.getElement(trainingLocators.ticket).then(el => expect(el.length).equal(count))
       cy.get(postEl.successTag).then(el => expect(el.length).equal(count))
     })
 
     it('Show all SwissRe tasks', () => {
       cy.get(postEl.buttonSwitch).click()
-      cy.get(trainingLocators.ticket).then(el => expect(el.length).equal(count))
+      cy.getElement(trainingLocators.ticket).then(el => expect(el.length).equal(count))
       cy.get(postEl.successTag).then(el => expect(el.length).equal(count))
 
       cy.get(trainingLocators.activeTab).eq(1).should('have.text', 'nothing here')

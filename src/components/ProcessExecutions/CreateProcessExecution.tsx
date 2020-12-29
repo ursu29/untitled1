@@ -42,7 +42,7 @@ function CreateProcessExecution() {
 
   return (
     <Drawer
-      toggler={<Button>Start process</Button>}
+      toggler={<Button data-cy="start">Start process</Button>}
       drawerLabel="Start new process"
       content={
         <CreateProcessForm

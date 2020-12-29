@@ -19,5 +19,5 @@ export const oneTwoOneLocators = {
   bargeSm: '.ant-badge-count-sm',
   bargeCount: '.ant-badge-count',
   bargeCurrent: '.ant-badge-count > .current',
-  closeOneTwoOne: '.sc-kGXeez',
+  closeOneTwoOne: '.anticon-bulb',
 }

@@ -36,6 +36,7 @@ import Wiki from '../Wiki/WikiPage'
 import Management from '../Management'
 import NotAllowed from '../UI/NotAllowed'
 import NotFound from '../UI/NotFound'
+import WarningPage from '../UI/WarningPage'
 
 export default function Pages() {
   return (
@@ -43,9 +44,11 @@ export default function Pages() {
       <Suspense fallback={<div></div>}>
         <BackTop />
         <Switch>
+          <Route path="/*" component={WarningPage} />
           <Redirect from="/client/*" to="/*" />
           <Redirect from="/client" to="/" />
           <Redirect exact from="/" to="/profile" />
+          <Route path={paths.PROFILE + '/:tab/:subTab'} component={Profile} />
           <Route path={paths.PROFILE + '/:tab'} component={Profile} />
           <Route path={paths.PROFILE} component={Profile} />
           <Route path={paths.ONBOARDING} component={Onboarding} />
@@ -55,6 +58,7 @@ export default function Pages() {
           <Route path={paths.PROJECTS + '/:code/:tab'} component={Project} />
           <Route path={paths.PROJECTS + '/:code'} component={Project} />
           <Route path={paths.PROJECTS} component={Projects} />
+          <Route path={paths.GUILDS + '/:code/:tab'} component={Guild} />
           <Route path={paths.GUILDS + '/:code'} component={Guild} />
           <Route path={paths.GUILDS} component={Guilds} />
           <Route path={paths.SKILLS + '/:id/:tab'} component={Skill} />

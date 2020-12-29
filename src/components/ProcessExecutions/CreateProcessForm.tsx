@@ -1,6 +1,6 @@
 import { Form } from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
-import { Button, Col, Row } from 'antd'
+import { Button, Col, Row, Select } from 'antd'
 import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
 import React, { useState } from 'react'
 import { ProcessExecution, ProcessType } from '../../types'
@@ -65,9 +65,25 @@ const CreateProcessForm = ({ form, onSubmit, value, loading }: Props) => {
           })(<ProjectSelect wide />)}
         </Form.Item>
       )}
+      {type && (
+        <Form.Item label="Priority">
+          {getFieldDecorator('prio', {
+            initialValue: 3,
+            rules: [{ required: true }],
+          })(
+            <Select>
+              {Array(3)
+                .fill(0)
+                .map((_, i) => (
+                  <Select.Option value={i + 1}>{i + 1}</Select.Option>
+                ))}
+            </Select>,
+          )}
+        </Form.Item>
+      )}
       <Row>
         <Col>
-          <Button loading={loading} type="primary" htmlType="submit">
+          <Button loading={loading} type="primary" htmlType="submit" data-cy="create">
             Create
           </Button>
         </Col>

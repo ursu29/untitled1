@@ -18,6 +18,7 @@ export const menu = {
     { name: 'HR Tool', url: '/hr', text: null, show: false },
     { name: 'Processes', url: '/processes', text: null, show: false },
     { name: 'Matrices', url: '/matrices', text: null, show: false },
+    { name: 'Management', url: '/management', text: null, show: false },
   ],
 }
 
@@ -64,6 +65,20 @@ export const table = {
   resetBtn: 'reset',
   inputSearch: 'search',
   searchBtn: 'btnSearch',
+  picker: '.ant-picker-cell-inner',
+}
+
+export const hr = {
+  bottom: 'bottom',
+  name: 'name',
+  phone: 'phone',
+  saveBtn: 'saveEmployee',
+  tableRow: '.ant-table-row',
+  filter: '.ant-table-filter-trigger-container',
+  dropdownMenu: '.ant-dropdown-menu-item',
+  resetBtn: 'reset',
+  inputSearch: 'search',
+  searchBtn: 'btnSearch',
 }
 
 export const spinner = {
@@ -92,6 +107,7 @@ export const postEl = {
   buttonSwitch: '.ant-switch',
   toggle: '.ant-switch-checked',
   editTag: '.ant-select-selection-item-content',
+  itemsSelect: '.ant-select-item-option-content',
   successTag: '.ant-tag-success',
   mainTag: '.ant-tag',
   button: '.ant-btn-primary',
@@ -124,8 +140,23 @@ export const workspace = {
   spinner: '.anticon-spin',
   img: '[alt="drawing"]',
   tab: '.ant-tabs-tab-btn',
+  activeTab: 'ant-tabs-tab-active',
+  data: '.ant-picker-input',
   checkbox: '.ant-checkbox',
   checked: '.ant-checkbox-checked',
+}
+
+export const paginationEl = {
+  number: el => `.ant-pagination-item-${el}`,
+}
+
+export const hrTool = {
+  activeIdProcess: 'active_process_form_process',
+  create: 'create',
+  abort: 'abort',
+  errorMess: '.ant-legacy-form-explain',
+  processName: 'portal-select',
+  selectItem: '.ant-legacy-form-item-children',
 }
 
 export const process = {

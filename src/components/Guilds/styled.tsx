@@ -11,7 +11,6 @@ export const LeftBlock = styled.div<{ singleColumn: boolean }>`
 `
 
 export const RightBlock = styled.div<{ singleColumn: boolean }>`
-  margin-top: ${props => (props.singleColumn ? '-10px' : '-50px')};
   margin-bottom: ${props => (props.singleColumn ? '30px' : '')};
   min-width: ${props => (props.singleColumn ? '' : '250px')};
   max-width: fit-content;

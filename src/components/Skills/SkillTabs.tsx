@@ -35,7 +35,7 @@ export default function SkillTabs({ skill, tab = 'mentions' }: Props) {
       title: 'Streams',
       icon: <VideoCameraOutlined />,
       key: 'streams',
-      body: <Stream skill={skill} />,
+      body: <Stream skills={[skill]} />,
     },
     {
       title: 'Files',

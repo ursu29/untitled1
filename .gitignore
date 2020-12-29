@@ -12,6 +12,7 @@ backup/
 __MACOSX
 
 .env.local
+.babelrc
 
 .vscode/settings.json
 yarn-error.log

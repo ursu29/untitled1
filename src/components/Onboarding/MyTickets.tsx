@@ -2,11 +2,13 @@ import { Button, Typography, Spin, Modal } from 'antd'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
-import fragments, { EmployeeDetails } from '../../fragments'
 import { OnboardingTicket } from '../../types'
 import EmployeesList from '../Employees/EmployeesList'
 import { useEmployee } from '../../utils/withEmployee'
+import {
+  getEmployeesOnboardingTickets,
+  EmployeesOnboardingTicketsQueryType,
+} from '../../queries/onboardingTickets'
 
 const TicketCard = styled.div`
   display: flex;
@@ -28,30 +30,13 @@ const ViewAttendees = styled.div`
   }
 `
 
-type QueryType = {
-  employees: (EmployeeDetails & { requestedOnboardingTickets: OnboardingTicket[] })[]
-}
-
 export default function MyTickets({ tickets }: { tickets: OnboardingTicket[] }) {
   const user = useEmployee()
-
-  const getEmployees = gql`
-    {
-      employees {
-        ...EmployeeDetails
-        requestedOnboardingTickets(withResponsible: "${user.employee.email.toLowerCase()}") {
-          ...OnboardingTicketDetails
-        }
-      }
-    }
-    ${fragments.Employee.Details}
-    ${fragments.OnboardingTicket}
-  `
 
   const [attendeesModal, setAttendeesModal] = useState<{
     isOpen: boolean
     ticketTitle: string
-    attendees: QueryType['employees']
+    attendees: EmployeesOnboardingTicketsQueryType['employees']
   }>({
     isOpen: false,
     ticketTitle: '',
@@ -59,9 +44,12 @@ export default function MyTickets({ tickets }: { tickets: OnboardingTicket[] }) 
   })
 
   // Get all employees
-  const { data, loading } = useQuery<QueryType>(getEmployees, {
-    variables: { ticketList: tickets.map(e => e.id) },
-  })
+  const { data, loading } = useQuery<EmployeesOnboardingTicketsQueryType>(
+    getEmployeesOnboardingTickets,
+    {
+      variables: { withResponsible: user.employee.email.toLowerCase() },
+    },
+  )
 
   return (
     <>

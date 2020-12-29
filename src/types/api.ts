@@ -17,6 +17,8 @@ export interface Employee {
   phoneNumber: string
   email: string
   isMe: boolean
+  startDate: string | null
+  birthday: string | null
   subordinateUsers: Employee
   subordinateUsersCount: {
     users: number
@@ -314,6 +316,7 @@ export interface ProcessExecution {
   project: Project
   employee: string
   finishDate: string
+  prio: number
 }
 
 export interface ProcessExecutionStep {

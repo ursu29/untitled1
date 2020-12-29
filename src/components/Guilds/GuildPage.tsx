@@ -1,24 +1,18 @@
 import React from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import { useMediaQuery } from 'react-responsive'
 import TitleEditable from '../UI/TitleEditable'
-import MarkdownEditable from '../UI/MarkdownEditable'
-import GuildShortDescription from './GuildShortDescription'
-import Technologies from '../UI/Technologies'
-import { MainContent, LeftBlock, RightBlock } from './styled'
 import Controls from '../UI/Controls'
 import Back from '../UI/Back'
 import PageContent from '../UI/PageContent'
-import ProjectManagers from '../Projects/ProjectManagers'
 import { getGuild, GuildQueryType, updateGuild } from '../../queries/guilds'
 import message from '../../message'
+import GuildTabs from './GuildTabs'
 
-interface Props extends RouteComponentProps<{ code: string }> {}
+interface Props extends RouteComponentProps<{ code: string; tab?: string }> {}
 
 function GuildPage({ match }: Props) {
-  const { code: azureDisplayName } = match.params
-  const singleColumn = useMediaQuery({ maxWidth: 820 })
+  const { code: azureDisplayName, tab } = match.params
   const variables = { input: { azureDisplayName } }
 
   // Get guild
@@ -34,20 +28,10 @@ function GuildPage({ match }: Props) {
     onError: message.error,
   })
 
-  const guild = data?.guild || {
-    id: '',
-    title: '',
-    description: '',
-    shortDescription: '',
-    skills: [],
-    azureId: '',
-    accessWrite: false,
-  }
+  const guild = data?.guild
 
-  const editable = guild.accessWrite
-
-  const handleSave = (value: any) => {
-    update({ variables: { input: { azureDisplayName, ...value } } })
+  const handleSave = (title: string) => {
+    update({ variables: { input: { azureDisplayName, title } } })
   }
 
   return (
@@ -57,37 +41,20 @@ function GuildPage({ match }: Props) {
       notFound={!data?.guild}
       notFoundMessage="Sorry, that guild was not found"
     >
-      <Controls back={<Back />} />
+      {guild && (
+        <>
+          <Controls back={<Back />} />
 
-      <TitleEditable
-        data={guild.title}
-        editable={editable}
-        handleSave={(data: string) => handleSave({ title: data })}
-        emptyValue="(untitled)"
-      />
-
-      <MainContent singleColumn={singleColumn}>
-        <LeftBlock singleColumn={singleColumn}>
-          {editable && (
-            <GuildShortDescription description={guild.shortDescription} handleSave={handleSave} />
-          )}
-          <MarkdownEditable
-            data={guild.description}
-            editable={editable}
-            handleSave={(data: string) => handleSave({ description: data })}
-          />
-          <Technologies
-            technologies={guild.skills}
-            editable={editable}
+          <TitleEditable
+            data={guild.title}
+            editable={guild.accessWrite}
             handleSave={handleSave}
-            isTitleShown
+            emptyValue="(untitled)"
           />
-        </LeftBlock>
 
-        <RightBlock singleColumn={singleColumn}>
-          <ProjectManagers project={{ id: guild.azureId }} title="Guild Lead" />
-        </RightBlock>
-      </MainContent>
+          <GuildTabs guild={guild} tab={tab} />
+        </>
+      )}
     </PageContent>
   )
 }

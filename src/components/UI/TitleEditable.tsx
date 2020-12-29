@@ -7,7 +7,7 @@ import Input from '../UI/Input'
 interface Props {
   data: string
   editable?: boolean
-  handleSave: Function
+  handleSave: (title: string) => void
   emptyValue?: string
 }
 
