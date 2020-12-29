@@ -36,7 +36,7 @@ import Wiki from '../Wiki/WikiPage'
 import Management from '../Management'
 import NotAllowed from '../UI/NotAllowed'
 import NotFound from '../UI/NotFound'
-import WarningPage from '../UI/WarningPage'
+// import WarningPage from '../UI/WarningPage'
 
 export default function Pages() {
   return (
@@ -44,7 +44,7 @@ export default function Pages() {
       <Suspense fallback={<div></div>}>
         <BackTop />
         <Switch>
-          <Route path="/*" component={WarningPage} />
+          {/* <Route path="/*" component={WarningPage} /> */}
           <Redirect from="/client/*" to="/*" />
           <Redirect from="/client" to="/" />
           <Redirect exact from="/" to="/profile" />
