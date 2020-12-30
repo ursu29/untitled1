@@ -7,7 +7,7 @@ const openNotification = () => {
     description: (
       <Button
         onClick={() => {
-          window.open('https://timemaster-new.sidenis.com', '__blank')
+          window.open('https://timemaster-new.syncretis.com', '__blank')
         }}
       >
         Login
@@ -29,7 +29,7 @@ function TimemasterPage() {
         width="100%"
         height="100%"
         frameBorder="0"
-        src="https://timemaster-new.sidenis.com"
+        src="https://timemaster-new.syncretis.com"
         title="Timemaster"
       ></iframe>
     </div>

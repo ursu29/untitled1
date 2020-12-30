@@ -2,7 +2,7 @@
   "viewportWidth": 1280,
   "viewportHeight": 768,
   "video": false,
-  "baseUrl": "https://portal.dev.sidenis.com",
+  "baseUrl": "https://portal.dev.syncretis.com",
   "watchForFileChanges": false,
   "requestTimeout": 15000,
   "chromeWebSecurity": false,

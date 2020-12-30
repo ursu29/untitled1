@@ -102,7 +102,7 @@ interface PropsTable {
  */
 
 // Condition checking the transmitted word - company field - allowed to change for future purposes
-const isWordSidenis = (word: string) => word.toLowerCase() === 'sidenis'
+const isWordsyncretis = (word: string) => word.toLowerCase() === 'syncretis'
 
 /**
  *
@@ -162,7 +162,7 @@ function EmployeeCV({ employee, editable, form }: PropsGeneral) {
             company: vitae.company.charAt(0).toUpperCase() + vitae.company.slice(1).trim(),
             dateStart: vitae.dateStart ? dateToISO(vitae.dateStart) : '',
             dateEnd: vitae.dateEnd ? dateToISO(vitae.dateEnd) : '',
-            project: isWordSidenis(vitae.company) ? vitae.project : '',
+            project: isWordsyncretis(vitae.company) ? vitae.project : '',
             responsibilities: vitae.responsibilities,
             level: vitae.level,
           })),
@@ -393,7 +393,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
       dataIndex: 'project',
       width: '10%',
       render: (text: any, record: any) =>
-        isWordSidenis(record.company) ? (
+        isWordsyncretis(record.company) ? (
           editable ? (
             <Select
               showSearch

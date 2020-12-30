@@ -12,7 +12,7 @@ function PortalImage({ src, ...props }: any) {
   useEffect(() => {
     if (!token) return
     if (called) return
-    if (!src.includes('sidenis')) {
+    if (!src.includes('syncretis')) {
       if (ref.current) {
         ref.current.src = src
       }

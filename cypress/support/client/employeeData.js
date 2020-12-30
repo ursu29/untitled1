@@ -1,13 +1,13 @@
 export const email = el =>
-  el === 'manager' ? 'test.manager@sidenis.com' : 'test.employee@sidenis.com'
+  el === 'manager' ? 'test.manager@syncretis.com' : 'test.employee@syncretis.com'
 
 const defaultReadAccess = (bool = false) => ({ read: bool, __typename: 'Access' })
 const defaultWriteAccess = (bool = false) => ({ write: bool, __typename: 'Access' })
 
 export const agileManager = {
   country: 'Russia',
-  email: 'test.manager@sidenis.com',
-  id: '75235e54-5776-461d-8eb5-2fd64d1eac0d',
+  email: 'test.manager@syncretis.com',
+  id: 'a8f8f17f-4fc7-491c-8d24-7971770dafd4',
   isMe: false,
   location: 'Saint-Petersburg',
   name: 'Test Manager',
@@ -21,8 +21,8 @@ export const employeeData = {
     agileManager,
     bonuses: 0,
     country: 'Russia',
-    email: 'test.employee@sidenis.com',
-    id: '1bf931df-2015-4516-ac33-0d2caddc7df2',
+    email: 'test.employee@syncretis.com',
+    id: '87144e22-80df-411c-b865-44df023e111c',
     isMe: true,
     location: 'Saint-Petersburg',
     name: 'Test Employee',
