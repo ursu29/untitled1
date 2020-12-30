@@ -11,9 +11,8 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '3b1d3f25-aab2-44ff-be8c-2fad33ddb89a'
   imageRepository: 'portal/client'
-  containerRegistry: 'sideniscontainerrepository.azurecr.io'
+  containerRegistry: ACR-syncretis
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)-$(Build.SourceBranchName)-$(Build.SourceVersion)'
 
@@ -35,7 +34,7 @@ stages:
               command: build
               repository: $(imageRepository)
               dockerfile: $(dockerfilePath)
-              containerRegistry: $(dockerRegistryServiceConnection)
+              containerRegistry: $(ContainerRegistry)
               arguments: --build-arg REACT_APP_DT_BRANCH_NAME="$(Build.SourceBranchName)"
                 --build-arg REACT_APP_DT_REPO_NAME="$(Build.Repository.Name)"
                 --build-arg REACT_APP_DT_SOURCE_VERSION="$(Build.SourceVersion)"
@@ -46,5 +45,5 @@ stages:
             inputs:
               command: push
               repository: $(imageRepository)
-              containerRegistry: $(dockerRegistryServiceConnection)
+              containerRegistry: $(ContainerRegistry)
               tags: $(tag)
