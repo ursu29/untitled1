@@ -57,7 +57,7 @@ export default function AddFeedback() {
               style={{ width: '100%' }}
               onChange={onAboutChange}
             >
-              <Option value="Sidenis">Sidenis</Option>
+              <Option value="Syncretis">syncretis</Option>
               <Option value="Team">Team</Option>
               <Option value="Events">Events</Option>
               <Option value="Portal">Portal</Option>

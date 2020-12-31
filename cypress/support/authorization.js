@@ -1,6 +1,6 @@
 const loginUrl =
-  'https://login.microsoftonline.com/5acc8b65-db91-44ea-8d28-20f9e45b432e/oauth2/v2.0/token'
-export const strapiUrl = 'https://portal-strapi.dev.sidenis.com'
+  'https://login.microsoftonline.com/27d1d5a7-306f-4239-ab67-3bd61777078a/oauth2/v2.0/token'
+export const strapiUrl = 'https://portal-strapi.dev.syncretis.com'
 
 const setBody = (userName, password, scope) => ({
   grant_type: Cypress.env('grant_type'),

@@ -53,7 +53,7 @@ export default function ProjectsList({ loading, projects }: Props) {
       <Skeleton active loading={loading}>
         <Title>Projects</Title>
         <ProjectGroup projects={projectsSorted} code="sr-" title="SwissRe" />
-        <ProjectGroup projects={projectsSorted} code="is-" title="Internal" />
+        <ProjectGroup projects={projectsSorted} code="is-" title="Internal Syncretis" />
         <ProjectGroup projects={projectsSorted} code="guild-" title="Guild" />
         <ProjectGroup projects={projectsSorted} code="az-" title="Allianz" />
       </Skeleton>

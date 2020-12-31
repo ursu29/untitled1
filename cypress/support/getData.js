@@ -1,6 +1,6 @@
 import { query } from '../fixtures/query'
 
-const URL = 'https://portal.dev.sidenis.com/graphql'
+const URL = 'https://portal.dev.syncretis.com/graphql'
 export const LOCATIONS = ['Saint Petersburg', 'Tomsk', 'Kaliningrad', 'Zürich']
 
 Cypress.Commands.add('post', (body, superUser = null, methodName = 'POST') => {

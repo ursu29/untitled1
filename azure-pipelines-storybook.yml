@@ -12,7 +12,7 @@ variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '3b1d3f25-aab2-44ff-be8c-2fad33ddb89a'
   imageRepository: 'portal/client-storybook'
-  containerRegistry: 'sideniscontainerrepository.azurecr.io'
+  containerRegistry: 'syncretiscontainerrepository.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)-$(Build.SourceBranchName)-$(Build.SourceVersion)'
 
