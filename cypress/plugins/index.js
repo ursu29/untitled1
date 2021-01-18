@@ -1,22 +1,24 @@
-// А***********************************************************
-// This example plugins/index.js can be used to load plugins
-//
-// You can change the location of this file or turn off loading
-// the plugins file with the 'pluginsFile' configuration option.
-//
-// You can read more here:
-// https://on.cypress.io/plugins-guide
-// ***********************************************************
+/// <reference types = "node" />
 
-// This function is called when a project is opened or re-opened (e.g. due to
-// the project's config changing)
+const webpack = require("@cypress/webpack-preprocessor");
+
 module.exports = (on, config, bool = false) => {
+  const options = {
+    webpackOptions: require("../../webpack.config"),
+    watchOptions: {}
+  };
+  on("file:preprocessor", getWepPackWithFileChange(options));
+
   if (bool) {
     require('@cypress/code-coverage/task')(on, config)
-    // IMPORTANT to return the config object
-    // with the any changed environment variables
     return config
   }
-  // `on` is used to hook into various events Cypress emits
-  // `config` is the resolved Cypress config
+};
+
+function getWepPackWithFileChange(options) {
+  const webPackPreProcessor = webpack(options);
+  return function(file) {
+    file.outputPath = file.outputPath.replace(".ts", ".js");
+    return webPackPreProcessor(file);
+  };
 }
