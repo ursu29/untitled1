@@ -26,7 +26,7 @@ const requests: Record<string, Promise<string | null>> = {}
 
 export default function ({ size, shape, employee, showTooltip, highResolution, withHat }: Props) {
   const resolution = highResolution ? 'high' : 'low'
-  const storedAvatar = avatars[resolution]?.[employee.email]
+  const storedAvatar = avatars[resolution]?.[employee?.email]
   const { token } = useAccessToken()
   const [src, setSrc] = useState<any>(storedAvatar)
   const [showPlaceholder, setShowPlaceholder] = useState(false)
@@ -55,7 +55,7 @@ export default function ({ size, shape, employee, showTooltip, highResolution, w
             requests[url].then(src => {
               if (src) {
                 setSrc(src)
-                avatars[resolution][employee.email] = src
+                avatars[resolution][employee?.email] = src
               } else {
                 setShowPlaceholder(true)
               }
@@ -71,7 +71,7 @@ export default function ({ size, shape, employee, showTooltip, highResolution, w
                 })
                 .then(blob => {
                   const src = URL.createObjectURL(blob)
-                  avatars[resolution][employee.email] = src
+                  avatars[resolution][employee?.email] = src
                   setSrc(src)
                   resolve(src)
                 })
