@@ -251,7 +251,7 @@ function ProcessList({ items, tabName }: Props) {
             //@ts-ignore
             ...new Set(
               process.activeStepEmployees?.sort((a: any, b: any) =>
-                a.email.toLowerCase() === user.employee.email.toLowerCase() ? -1 : 1,
+                a?.email.toLowerCase() === user.employee?.email.toLowerCase() ? -1 : 1,
               ),
             ),
           ]
@@ -259,17 +259,17 @@ function ProcessList({ items, tabName }: Props) {
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
               {responsibleList.map((responsible: any) => {
                 const count = process.activeStepEmployees.filter(
-                  (e: any) => e.email.toLowerCase() === responsible.email.toLowerCase(),
+                  (e: any) => e?.email.toLowerCase() === responsible?.email.toLowerCase(),
                 ).length
 
                 return (
-                  <React.Fragment key={responsible.email}>
+                  <React.Fragment key={responsible?.email}>
                     <div
                       style={{
                         margin: '3px',
                         borderRadius: '50%',
                         boxShadow:
-                          user.employee.email.toLowerCase() === responsible.email.toLowerCase()
+                          user.employee?.email.toLowerCase() === responsible?.email.toLowerCase()
                             ? '#108ee9 0px 0px 0px 3px'
                             : '',
                       }}
