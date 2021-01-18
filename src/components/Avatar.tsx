@@ -101,7 +101,7 @@ export default function ({ size, shape, employee, showTooltip, highResolution, w
         src={src}
         size={size}
         shape={shape}
-        alt={`${employee.name}'s avatar`}
+        alt={`${employee?.name}'s avatar`}
         icon={showPlaceholder && <UserOutlined />}
       />
     </AvatarHat>
@@ -109,7 +109,7 @@ export default function ({ size, shape, employee, showTooltip, highResolution, w
 
   if (showTooltip) {
     return (
-      <Tooltip key={employee?.email} placement="top" title={employee.name}>
+      <Tooltip key={employee?.email} placement="top" title={employee?.name}>
         {avatar}
       </Tooltip>
     )
