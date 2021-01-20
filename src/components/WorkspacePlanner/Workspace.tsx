@@ -17,6 +17,7 @@ const WorkspaceWrapper = styled.div<{ isDesignMode: boolean }>`
   position: relative;
   width: 100%;
   max-height: 1000px;
+  min-height: 400px;
   border: ${props => (props.isDesignMode ? '1px solid  rgb(17 141 255)' : '1px solid #e5e5e5')};
   background-color: #fafafa;
   overflow: hidden;
