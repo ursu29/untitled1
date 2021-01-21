@@ -339,55 +339,59 @@ export default function EvaluationTable({
     },
   ]
 
-  if (showBaseColumns) {
-    columns.push({
-      title: employee.isMe ? 'You' : employee?.name,
-      width: 120,
-      render: (text: any, item: any) => {
-        if (item.children) return null
-        const evaluation = evaluations?.find(i => {
-          return (
-            i.evaluationAttribute.id === item.id &&
-            i.fromWho.id.toLowerCase() === employee.id.toLowerCase()
-          )
-        })
+  /**
+   * If archive version has chosen
+   */
+  if (isArchivedChosen) {
+    columns = columns.concat(
+      Array.from(new Set(evaluations?.map(e => e.fromWho.name)))?.map((name, index) => {
+        return {
+          title: name || '(undefined)',
+          width: 120,
+          render: (text: any, item: any) => {
+            const evaluation = evaluations?.find(i => {
+              return i.evaluationAttribute.id === item.id && i.fromWho?.name === name
+            })
+            return (
+              <TableCell
+                rateDisabled={false}
+                isArchivedChosen={!!isArchivedChosen}
+                itemId={item.id}
+                cellCode={item.id + ' archive' + index}
+                rateValue={evaluation?.evaluation || 0}
+                comment={evaluation?.comment}
+                textOnly={['free_estimate'].includes(item.group) || false}
+              />
+            )
+          },
+        }
+      }),
+    )
+  }
 
-        return (
-          <TableCell
-            rateDisabled={!employee.isMe}
-            isArchivedChosen={!!isArchivedChosen}
-            itemId={item.id}
-            cellCode={item.id + ' you'}
-            rateValue={evaluation?.evaluation || 0}
-            comment={evaluation?.comment}
-            textOnly={['free_estimate'].includes(item.group) || false}
-          />
-        )
-      },
-    })
-
-    if (employee.agileManager) {
+  /**
+   * If NOT archive version has chosen
+   */
+  if (!isArchivedChosen) {
+    if (showBaseColumns) {
       columns.push({
-        title: (
-          <div>
-            Agile Manager<div>{employee.agileManager?.name}</div>
-          </div>
-        ),
+        title: employee.isMe ? 'You' : employee?.name,
         width: 120,
         render: (text: any, item: any) => {
           if (item.children) return null
           const evaluation = evaluations?.find(i => {
             return (
               i.evaluationAttribute.id === item.id &&
-              i.fromWho.id.toLowerCase() === employee.agileManager?.id.toLowerCase()
+              i.fromWho.id.toLowerCase() === employee.id.toLowerCase()
             )
           })
+
           return (
             <TableCell
-              rateDisabled={!employee.agileManager?.isMe}
+              rateDisabled={!employee.isMe}
               isArchivedChosen={!!isArchivedChosen}
               itemId={item.id}
-              cellCode={item.id + ' agile'}
+              cellCode={item.id + ' you'}
               rateValue={evaluation?.evaluation || 0}
               comment={evaluation?.comment}
               textOnly={['free_estimate'].includes(item.group) || false}
@@ -395,41 +399,72 @@ export default function EvaluationTable({
           )
         },
       })
-    }
-  }
 
-  columns = columns.concat(
-    reviewers?.map((reviewer, index) => {
-      return {
-        title: editable ? (
-          <DeleteEmployeeReviewer reviewer={reviewer} />
-        ) : (
-          reviewer.fromWho?.name || '(undefined)'
-        ),
-        width: 120,
-        render: (text: any, item: any) => {
-          if (item.children) return null
-          const evaluation = evaluations?.find(i => {
+      if (employee.agileManager) {
+        columns.push({
+          title: (
+            <div>
+              Agile Manager<div>{employee.agileManager?.name}</div>
+            </div>
+          ),
+          width: 120,
+          render: (text: any, item: any) => {
+            if (item.children) return null
+            const evaluation = evaluations?.find(i => {
+              return (
+                i.evaluationAttribute.id === item.id &&
+                i.fromWho.id.toLowerCase() === employee.agileManager?.id.toLowerCase()
+              )
+            })
             return (
-              i.evaluationAttribute.id === item.id &&
-              i.fromWho?.id.toLowerCase() === reviewer.fromWho?.id.toLowerCase()
+              <TableCell
+                rateDisabled={!employee.agileManager?.isMe}
+                isArchivedChosen={!!isArchivedChosen}
+                itemId={item.id}
+                cellCode={item.id + ' agile'}
+                rateValue={evaluation?.evaluation || 0}
+                comment={evaluation?.comment}
+                textOnly={['free_estimate'].includes(item.group) || false}
+              />
             )
-          })
-          return (
-            <TableCell
-              rateDisabled={!reviewer.fromWho?.isMe}
-              isArchivedChosen={!!isArchivedChosen}
-              itemId={item.id}
-              cellCode={item.id + ' reviewer' + index}
-              rateValue={evaluation?.evaluation || 0}
-              comment={evaluation?.comment}
-              textOnly={['free_estimate'].includes(item.group) || false}
-            />
-          )
-        },
+          },
+        })
       }
-    }),
-  )
+    }
+
+    columns = columns.concat(
+      reviewers?.map((reviewer, index) => {
+        return {
+          title: editable ? (
+            <DeleteEmployeeReviewer reviewer={reviewer} />
+          ) : (
+            reviewer.fromWho?.name || '(undefined)'
+          ),
+          width: 120,
+          render: (text: any, item: any) => {
+            if (item.children) return null
+            const evaluation = evaluations?.find(i => {
+              return (
+                i.evaluationAttribute.id === item.id &&
+                i.fromWho?.id.toLowerCase() === reviewer.fromWho?.id.toLowerCase()
+              )
+            })
+            return (
+              <TableCell
+                rateDisabled={!reviewer.fromWho?.isMe}
+                isArchivedChosen={!!isArchivedChosen}
+                itemId={item.id}
+                cellCode={item.id + ' reviewer' + index}
+                rateValue={evaluation?.evaluation || 0}
+                comment={evaluation?.comment}
+                textOnly={['free_estimate'].includes(item.group) || false}
+              />
+            )
+          },
+        }
+      }),
+    )
+  }
 
   const comment = comments?.find(i => !i.evaluationAttribute)
 
