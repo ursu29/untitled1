@@ -36,12 +36,9 @@ describe(`Check getDevelopmentPlans`, () => {
     it('Check roles', () => {
       const { developmentPlans } = response
       const { developmentRoles } = developmentPlans[0]
+
       cy.compareObjectsKeys(developmentRoles, developmentRolesData)
-      Object.entries(developmentRoles).forEach(el => {
-        if (!el[0].includes('__typename')) {
-          expect(el[1]).to.be.a('boolean')
-        }
-      })
+
       expect(developmentRoles.__typename).equal(developmentRolesData.__typename)
     })
 
@@ -49,11 +46,7 @@ describe(`Check getDevelopmentPlans`, () => {
       const { developmentPlans } = response
       const { guildContribution } = developmentPlans[0]
       cy.compareObjectsKeys(guildContribution, guildContributionData)
-      Object.entries(guildContribution).forEach(el => {
-        if (!['__typename', 'custom'].some(val => el[0].includes(val))) {
-          expect(el[1]).to.be.a('boolean')
-        }
-      })
+
       expect(guildContribution.__typename).equal(guildContributionData.__typename)
     })
   })

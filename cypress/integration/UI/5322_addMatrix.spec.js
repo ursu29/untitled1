@@ -52,12 +52,14 @@ describe('Adding Matrix', () => {
   })
 
   it('Add matrix', () => {
-    cy.get(matrix.item).eq(0).click({ multiple: true })
+    let name;
+    cy.get(matrix.item).first().then(el => name = el.text())
+    cy.get(matrix.item).eq(0).click({multiple: true})
     cy.get(matrix.alert).should('be.visible')
     cy.get(matrix.alert)
       .should('not.exist')
       .then(() => {
-        getListOfMatrix().then(el => expect(el.text()).include(matrix.matrixName))
+        getListOfMatrix().then(el => expect(el.text()).include(name))
       })
   })
 })
