@@ -1,39 +1,40 @@
-stage: E2E
-    pool:
-      vmImage: 'ubuntu-latest'
-    jobs:
-      - job: E2E_Tests
-        workspace:
-          clean: all
-        steps:
-          - checkout: self
-          - task: Npm@1
-            inputs:
-              command: 'custom'
-              workingDir: 'client'
-              customCommand: 'ci'
-            displayName: Install modules
-          - script: |
-            docker run --rm -i -v $PWD:/cypress -w /cypress/integration -u 1000 --entrypoint=cypress cypress/included:6.2.1 run --browser chrome --headless
-            workingDirectory: client
-            displayName: Run e2e tests
-          - task: PublishTestResults@2
-            condition: succeededOrFailed()
-            inputs:
-              testResultsFormat: 'JUnit'
-              testResultsFiles: 'client/cypress/results/*.xml'
-              failTaskOnFailedTests: true # Optional
-            displayName: Publish test Results to AzureDevops
-          - task: CopyFiles@2
-            condition: failed()
-            inputs:
-              sourceFolder: 'client/cypress/screenshots'
-              contents: '**/*'
-              targetFolder: '$(Build.ArtifactStagingDirectory)'
-            displayName: Copy Screenshots
-          - task: PublishBuildArtifacts@1
-            condition: failed()
-            inputs:
-              pathToPublish: '$(Build.ArtifactStagingDirectory)'
-              artifactName: ScreenShots
-            displayName: Publish Screenshots
+resources:
+  - repo: self
+pool:
+  vmImage: 'ubuntu-latest'
+jobs:
+  - job: E2E_Tests
+    workspace:
+      clean: all
+    steps:
+      - checkout: self
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          workingDir: 'client'
+          customCommand: 'ci'
+        displayName: Install modules
+      - script: |
+        docker run --rm -i -v $PWD:/cypress -w /cypress/integration -u 1000 --entrypoint=cypress cypress/included:6.2.1 run --browser chrome --headless
+        workingDirectory: client
+        displayName: Run e2e tests
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: 'client/cypress/results/*.xml'
+          failTaskOnFailedTests: true # Optional
+        displayName: Publish test Results to AzureDevops
+      - task: CopyFiles@2
+        condition: failed()
+        inputs:
+          sourceFolder: 'client/cypress/screenshots'
+          contents: '**/*'
+          targetFolder: '$(Build.ArtifactStagingDirectory)'
+        displayName: Copy Screenshots
+      - task: PublishBuildArtifacts@1
+        condition: failed()
+        inputs:
+          pathToPublish: '$(Build.ArtifactStagingDirectory)'
+          artifactName: ScreenShots
+        displayName: Publish Screenshots
