@@ -14,7 +14,7 @@ jobs:
           workingDir: 'client'
           customCommand: 'ci'
         displayName: Install modules
-      - script: docker run --rm -i -v $PWD:/cypress -w /cypress/integration -u 1000 --entrypoint=cypress cypress/included:6.2.1 run --browser chrome --headless
+      - script: docker run --rm -i -v $PWD:/ -w /client -u 1000 --entrypoint=cypress cypress/included:6.2.1 run --browser chrome --headless
         env:
           client_id: $(cypress_client_id)
           scope: $(cypress_scope)
