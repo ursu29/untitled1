@@ -14,7 +14,7 @@ stage: E2E
               customCommand: 'ci'
             displayName: Install modules
           - script: |
-            docker run --rm -i -v $PWD:/e2e -w /cypress/integration -u 1000 --entrypoint=cypress cypress/included:6.2.1 run --browser chrome --headless
+            docker run --rm -i -v $PWD:/cypress -w /cypress/integration -u 1000 --entrypoint=cypress cypress/included:6.2.1 run --browser chrome --headless
             workingDirectory: client
             displayName: Run e2e tests
           - task: PublishTestResults@2
