@@ -1,9 +1,13 @@
-import { getEmployee } from '../../support/getData'
+import {createBookmark, deleteBookmark, getEmployee} from '../../support/getData'
 import { email, employeeData } from '../../support/client/employeeData'
 import { bookmark, bookmarkAccess } from '../../support/client/userMenu'
 import { checkKeyValueExist } from '../../support/complexLocators'
+import {defaultValues} from "../../support/knowledge/bookmark";
 
 describe(`Check employee getBookmarks`, () => {
+  const { link, skills, title } = defaultValues
+  let bookmarkId
+
   before(() => {
     cy.setToken('employee')
     cy.post(getEmployee(email('employee'))).then(res => {
@@ -11,7 +15,15 @@ describe(`Check employee getBookmarks`, () => {
 
       employeeData.employee = { ...data.employeeByEmail }
     })
+    cy.post(createBookmark(title, link, skills)).then(res => {
+      const {data} = res.body
+      const {__typename, id} = data.createBookmark
+      bookmarkId = id
+
+      expect(__typename).equal('Bookmark')
+    })
   })
+
 
   it('getBookmarks response', () => {
     const { email, id, name, __typename } = employeeData.employee
@@ -23,8 +35,8 @@ describe(`Check employee getBookmarks`, () => {
       const { bookmarks } = val.response.body.data
 
       expect(bookmarks).to.be.a('array')
-      cy.compareObjectsKeys(bookmarks[0], bookmark)
 
+      cy.compareObjectsKeys(bookmarks[0], bookmark)
       bookmarks.forEach(el => {
         expect(el.access).to.deep.equal(bookmarkAccess)
         expect(el.likes).to.be.a('array')
@@ -33,5 +45,7 @@ describe(`Check employee getBookmarks`, () => {
         checkKeyValueExist(el.employee, { email, id, name, __typename })
       })
     })
+
+    cy.post(deleteBookmark(bookmarkId))
   })
 })

@@ -1,6 +1,6 @@
-import { getClient, getManager, getProjects, getEmployeeExperiences } from '../../support/getData'
+import * as data from '../../support/getData'
 import { tabs, workspace } from '../../support/locators'
-import { employeeData as EmployeeData } from '../../support/client/employeeData'
+import {agileManager, employeeData as EmployeeData} from '../../support/client/employeeData'
 
 describe('Checking default information', () => {
   const userId = EmployeeData.employee.id
@@ -14,19 +14,19 @@ describe('Checking default information', () => {
   before(() => {
     cy.setToken('employee')
     cy.visit('/')
-    cy.post(getClient()).then(res => {
+    cy.post(data.getClient()).then(res => {
       const { data } = res.body
       allData = { ...allData, client: data }
     })
-    cy.post(getManager(userId)).then(res => {
+    cy.post(data.getEmployee(agileManager.email)).then(res => {
       const { data } = res.body
       allData = { ...allData, manager: data }
     })
-    cy.post(getProjects(userId)).then(res => {
+    cy.post(data.getProjects(userId)).then(res => {
       const { data } = res.body
       allData = { ...allData, projects: data }
     })
-    cy.post(getEmployeeExperiences(userId)).then(res => {
+    cy.post(data.getEmployeeExperiences(userId)).then(res => {
       const { data } = res.body
       allData = { ...allData, levels: data }
     })
@@ -51,10 +51,10 @@ describe('Checking default information', () => {
   })
 
   it('Information about employee manager', () => {
-    const { manager } = allData.manager.employees[0]
+    const { employeeByEmail } = allData.manager
 
-    cy.get('.ant-card-meta-title').contains('Manager').should('have.text', manager.name)
-    cy.get('.ant-card-meta-description').contains('Agile').should('have.text', manager.position)
+    cy.get('.ant-card-meta-title').contains('Manager').should('have.text', employeeByEmail.name)
+    cy.get('.ant-card-meta-description').contains('Agile').should('have.text', employeeByEmail.position)
     cy.getElement('avatar').should('be.visible')
   })
 
@@ -91,28 +91,4 @@ describe('Checking default information', () => {
     Object.values(tabs).forEach(val => cy.get(workspace.tab).contains(val))
   })
 
-  it('Check the Bookmarks tab', () => {
-    cy.get(workspace.tab).contains(tabs.bookMark).click()
-    cy.getElement('bookmark').contains('Add bookmark')
-  })
-
-  it('Check the Matrices tab', () => {
-    cy.get(workspace.tab).contains(tabs.matrices).click()
-    cy.getElement('legend-buttons').should('be.visible')
-  })
-
-  it('Check the Personal development tab', () => {
-    cy.get(workspace.tab).contains(tabs.personal).click()
-    cy.getElement('evaluation-form').should('be.visible')
-  })
-
-  it('Check the Self Evaluation Form tab', () => {
-    cy.get(workspace.tab).contains(tabs.form).click()
-    cy.getElement('helper').should('be.visible')
-  })
-
-  it('Check the CV tab', () => {
-    cy.get(workspace.tab).contains(tabs.cv).click()
-    cy.getElement('cv-form').should('be.visible')
-  })
 })

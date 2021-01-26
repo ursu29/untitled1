@@ -37,11 +37,12 @@ describe('Check Employees response', () => {
 
     it('getOfficeDays response', () => {
       const { officeDays } = response
-      const firstDay = officeDays[0]
+      const allDate = officeDays.filter(el => el.location.code === 'saint_petersburg')
+      const firstDay = allDate[0]
       const { __typename, date } = day(getFirstDay)
 
       expect(officeDays).to.be.a('array')
-      expect(officeDays.length).equal(8)
+      expect(allDate.length).equal(8)
       expect(date).equal(firstDay.date)
       expect(__typename).equal(firstDay.__typename)
       cy.compareObjectsKeys(day(getFirstDay), firstDay)

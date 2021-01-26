@@ -2,6 +2,7 @@ import { query } from '../fixtures/query'
 
 const URL = 'https://portal.dev.syncretis.com/graphql'
 export const LOCATIONS = ['Saint Petersburg', 'Tomsk', 'Kaliningrad', 'Zürich']
+export const TAGS = ['5e342a2c5d0413001cbb8287', '5e3d51be5d0413001cbb88b1']
 
 Cypress.Commands.add('post', (body, superUser = null, methodName = 'POST') => {
   return cy.request({
@@ -140,6 +141,12 @@ export const getFirstPosts = () => ({
   query: query.getFirstPost,
 })
 
+export const getTags = () => ({
+  operationName: null,
+  variables: {},
+  query: query.tags
+})
+
 export const getGetGuild = () => ({
   operationName: null,
   variables: {},
@@ -147,19 +154,25 @@ export const getGetGuild = () => ({
 })
 
 export const updateEmployee = (id, agileManager) => ({
-  operationName: updateEmployee,
+  operationName: 'updateEmployee',
   variables: { input: { id, agileManager } },
   query: query.updateEmp,
 })
 
 export const createProcess = (
-  process = '5fd3706d6bedc2001cbc528b',
-  locations = ['5e56a0129ff50b001c34a41b', '5e56a01f9ff50b001c34a41c'],
-  project = 'b8dccc35-d0d1-410c-9352-637fa752529f',
+  process = '600a9737a8239b001ce8bd2b',
+  locations = ['5ece85750fc78f001ce934bc', '5ece85830fc78f001ce934bd'],
+  project = 'guild-bonus',
 ) => ({
   operationName: 'createProcessExecution',
   variables: { input: { process, locations, project } },
   query: query.createProcess,
+})
+
+export const createNewProcess = (title, type, customer) => ({
+  operationName: 'createProcess',
+  query: query.createNewProcess,
+  variables: {input: {title, type, customer}},
 })
 
 export const toggleHoldProcess = id => ({
@@ -198,6 +211,12 @@ export const updateProcess = (
   query: query.updateProcess,
 })
 
+export const deleteProcess = (id) => ({
+  operationName: 'deleteProcess',
+  variables: {input: {id}},
+  query: query.deleteProcess
+})
+
 export const updatePost = (body, id, isTranslated, title) => ({
   operationName: 'updatePost',
   variables: {
@@ -208,7 +227,7 @@ export const updatePost = (body, id, isTranslated, title) => ({
       isPublic: false,
       isTranslated,
       locations: [],
-      tags: ['5df72a93458463001cbe6ebb', '5df8809d458463001cbe6ec6'],
+      tags: TAGS,
       title,
     },
   },

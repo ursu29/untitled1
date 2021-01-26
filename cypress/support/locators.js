@@ -42,7 +42,7 @@ export const skillEl = {
 }
 
 export const locations = [
-  { title: 'Saint-Petersburg' },
+  { title: 'Saint Petersburg' },
   { title: 'Tomsk' },
   { title: 'Kaliningrad' },
   { title: 'Zürich' },

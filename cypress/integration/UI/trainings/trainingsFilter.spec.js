@@ -8,7 +8,7 @@ import {
 import { generateObjects } from '../../../support/utils'
 import { postEl, workspace } from '../../../support/locators'
 
-describe('Check filter Trainings', () => {
+xdescribe('Check filter Trainings', () => {
   const count = 4
 
   before(() => {
