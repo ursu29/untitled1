@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import { Button, Drawer, Typography, Tabs as MyTicketTabs, Switch } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import message from '../../message'
 import {
   completeOnboardingTicket,
@@ -10,6 +10,10 @@ import {
   OnboardingTicketsQueryType,
   requestOnboardingTicket,
 } from '../../queries/onboardingTickets'
+import getEmployeeProjects, {
+  GetEmployeeProjectsQuery,
+  GetEmployeeProjectsVariables,
+} from '../../queries/getEmployeeProjects'
 import { Access } from '../../types'
 import Back from '../UI/Back'
 import Controls from '../UI/Controls'
@@ -25,18 +29,37 @@ export default function Onboarding() {
   const user = useEmployee()
 
   const [drawerVisibility, setDrawerVisibility] = useState(false)
-  const [isSwissReOnlyVisible, setIsSwissReOnlyVisible] = useState(false)
+  const [isSwissReVisible, setIsSwissReVisible] = useState(false)
   const [chosenTicket, setChosenTicket] = useState('')
   const [isMyTicketsView, setIsMyTicketsView] = useState(false)
 
   // Get all onboarding tickets
-  const { data, loading, error } = useQuery<OnboardingTicketsQueryType>(getOnboardingTickets)
+  const { data: ticketsData, loading: ticketsLoading, error: ticketsError } = useQuery<
+    OnboardingTicketsQueryType
+  >(getOnboardingTickets)
+  const { data: projectsData, loading: projectsLoading, error: projectsError } = useQuery<
+    GetEmployeeProjectsQuery,
+    GetEmployeeProjectsVariables
+  >(getEmployeeProjects, {
+    variables: { input: { id: user.employee?.id } },
+  })
+
+  const error = ticketsError || projectsError
+  const loading = ticketsLoading || projectsLoading
+
+  useEffect(() => {
+    const projects = projectsData?.employees?.[0]?.projects
+    const isSwissReOnlyVisibleDefault = projects
+      ? projects.some(p => p.code.startsWith('sr-'))
+      : false
+    setIsSwissReVisible(isSwissReOnlyVisibleDefault)
+  }, [projectsData, isMyTicketsView])
 
   // Tickets with me as responsible
   const writeAccess = useStrapiGroupCheck('SUPER_USER')
   const myTickets = writeAccess
-    ? data?.onboardingTickets
-    : data?.onboardingTickets.filter(
+    ? ticketsData?.onboardingTickets
+    : ticketsData?.onboardingTickets.filter(
         ticket =>
           ticket?.responsible?.[0]?.email.toLowerCase() === user.employee.email.toLowerCase(),
       )
@@ -72,9 +95,9 @@ export default function Onboarding() {
     isOptional: boolean
     isCompleted: boolean
   }) => {
-    const list = data?.onboardingTickets
+    const list = ticketsData?.onboardingTickets
       .filter(ticket => {
-        if (isCompleted || isSwissReOnlyVisible) return true
+        if (isCompleted || isSwissReVisible) return true
         return !ticket.isSwissRe
       })
       .filter(ticket => ticket.isOptional === isOptional)
@@ -127,7 +150,7 @@ export default function Onboarding() {
     <PageContent
       error={error}
       loading={loading}
-      notFound={!data?.onboardingTickets && !isAccessWrite}
+      notFound={!ticketsData?.onboardingTickets && !isAccessWrite}
       notFoundMessage="Sorry, onboarding tickets were not found"
       style={{ padding: 0 }}
     >
@@ -161,8 +184,9 @@ export default function Onboarding() {
             Show SwissRe Trainings
             <Switch
               size="small"
+              checked={isSwissReVisible}
               onChange={() => {
-                setIsSwissReOnlyVisible(!isSwissReOnlyVisible)
+                setIsSwissReVisible(value => !value)
               }}
               style={{ marginLeft: '10px' }}
             />
@@ -187,7 +211,6 @@ export default function Onboarding() {
           type="card"
           onTabClick={key => {
             setIsMyTicketsView(key === 'mine')
-            setIsSwissReOnlyVisible(false)
           }}
           tabBarStyle={{ padding: '0 60px' }}
         >
@@ -222,7 +245,9 @@ export default function Onboarding() {
       >
         <DrawerForm
           ticket={
-            chosenTicket ? data?.onboardingTickets.find(e => e.id === chosenTicket) || null : null
+            chosenTicket
+              ? ticketsData?.onboardingTickets.find(e => e.id === chosenTicket) || null
+              : null
           }
           handleClose={() => setDrawerVisibility(false)}
         />
