@@ -14,14 +14,14 @@ jobs:
           workingDir: 'client'
           customCommand: 'ci'
         displayName: Install modules
-      - script: docker run --rm -i -v $PWD:/ -w /client -u 1000 --entrypoint=cypress cypress/included:6.2.1 run --browser chrome --headless
+      - script: docker run --rm -i -v $PWD:/client/cypress -w /client -u 1000 --entrypoint=cypress cypress/included:6.2.1 run --browser chrome --headless
         env:
           client_id: $(cypress_client_id)
           scope: $(cypress_scope)
           client_secret: $(cypress_client_secret)
           employee_password: $(cypress_employee_password)
           manager_password: $(cypress_manager_password)
-        workingDirectory: '$(Build.SourcesDirectory)/client'
+        workingDirectory: 'client'
         displayName: Run e2e tests
       - task: PublishTestResults@2
         condition: succeededOrFailed()
