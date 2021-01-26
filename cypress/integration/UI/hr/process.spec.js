@@ -1,10 +1,9 @@
-import { workspace, paginationEl } from '../../../support/locators'
+import { workspace } from '../../../support/locators'
 import { filterBy } from '../../../support/utils'
 
 describe('Check active/inactive processes', () => {
   let runningProcess
   let holdProcess
-  let canceledProcess
   const defaultCount = 10
 
   before(() => {
@@ -17,7 +16,6 @@ describe('Check active/inactive processes', () => {
 
       runningProcess = filterBy(processExecutions, 'status', 'running')
       holdProcess = filterBy(processExecutions, 'status', 'holding')
-      canceledProcess = filterBy(processExecutions, 'status', 'cancelled')
     })
   })
 
@@ -49,22 +47,17 @@ describe('Check active/inactive processes', () => {
     cy.getIcon('pause').then(el => expect(el.length).equal(holdProcess.length))
   })
 
-  it('Check number of cancelled pagination process', () => {
+  it('Check count closed process', () => {
+    let closeTasks
+    let checkTasks
+
     cy.get(workspace.tab).eq(1).click()
     cy.get(workspace.tab).contains('Archived').click()
 
-    if (canceledProcess.length > 20) {
-      cy.getIcon('close').then(el => expect(el.length).equal(defaultCount))
-      cy.get(paginationEl.number(2)).click({ force: true, multiple: true })
+    cy.getIcon('close').then(el => closeTasks = el.length)
+    cy.getIcon('check').then(el => checkTasks = el.length)
 
-      cy.getIcon('close').then(el => expect(el.length).equal(defaultCount))
-
-      return
-    }
-
-    cy.getIcon('close').then(el => expect(el.length).equal(defaultCount))
-    cy.get(paginationEl.number(2)).click({ force: true, multiple: true })
-
-    cy.getIcon('close').then(el => expect(el.length).equal(canceledProcess.length - defaultCount))
+    cy.getIcon('close').then(el => expect(el.length).equal(defaultCount - checkTasks))
+    cy.getIcon('check').then(el => expect(el.length).equal(defaultCount - closeTasks))
   })
 })

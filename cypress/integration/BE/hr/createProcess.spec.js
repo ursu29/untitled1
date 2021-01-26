@@ -1,14 +1,10 @@
-import {
-  createProcess,
-  toggleHoldProcess,
-  getProcessExecutions,
-  getAllProcess,
-  updateProcess,
-} from '../../../support/getData'
+import * as data from '../../../support/getData'
 import { filterBy } from '../../../support/utils'
+import {deleteProcess} from "../../../support/getData";
 
 describe('create new process', () => {
   let newProjectId
+  let processId
   let allOffboarding
   let allRotation
 
@@ -18,7 +14,7 @@ describe('create new process', () => {
 
   beforeEach(() => {
     cy.setToken('manager')
-    cy.post(getAllProcess(), 'superUser').then(req => {
+    cy.post(data.getAllProcess(), 'superUser').then(req => {
       const { processExecutions } = req.body.data
 
       allOffboarding = filterByProcess(processExecutions, 'type', 'offboarding')
@@ -26,8 +22,16 @@ describe('create new process', () => {
     })
   })
 
+  it('Create main process', () => {
+    cy.post(data.createNewProcess('offBoarding', 'onboarding', 'internal'), 'superUser').then(res => {
+      const {createProcess} = res.body.data
+
+      processId = createProcess.id
+    })
+  })
+
   it('create process', () => {
-    cy.post(createProcess(), 'superUser').then(res => {
+    cy.post(data.createProcess(processId), 'superUser').then(res => {
       const { createProcessExecution } = res.body.data
       const { id, __typename } = createProcessExecution
       newProjectId = id
@@ -38,7 +42,7 @@ describe('create new process', () => {
   })
 
   it('on hold', () => {
-    cy.post(toggleHoldProcess(newProjectId), 'superUser').then(req => {
+    cy.post(data.toggleHoldProcess(newProjectId), 'superUser').then(req => {
       const { toggleHoldProcessExecution } = req.body.data
       const { id, __typename } = toggleHoldProcessExecution
       newProjectId = id
@@ -49,7 +53,7 @@ describe('create new process', () => {
   })
 
   it('resume task', () => {
-    cy.post(getProcessExecutions(newProjectId), 'superUser').then(req => {
+    cy.post(data.getProcessExecutions(newProjectId), 'superUser').then(req => {
       const { processExecutions } = req.body.data
       const { id, __typename, status } = processExecutions[0]
       newProjectId = id
@@ -63,7 +67,7 @@ describe('create new process', () => {
   it('save offBoarding task', () => {
     const firstId = filterBy(allOffboarding, 'status', 'running')[0].id
 
-    cy.post(updateProcess(name, randomNumber, firstId), 'superUser').then(req => {
+    cy.post(data.updateProcess(name, randomNumber, firstId), 'superUser').then(req => {
       const { id, __typename } = req.body.data.updateProcessExecution
 
       expect(__typename).equal('ProcessExecution')
@@ -74,11 +78,16 @@ describe('create new process', () => {
   it('save rotation task', () => {
     const firstId = filterBy(allRotation, 'status', 'running')[0].id
 
-    cy.post(updateProcess(name, randomNumber, firstId), 'superUser').then(req => {
+    cy.post(data.updateProcess(name, randomNumber, firstId), 'superUser').then(req => {
       const { id, __typename } = req.body.data.updateProcessExecution
 
       expect(__typename).equal('ProcessExecution')
       expect(id).equal(firstId)
     })
   })
+
+  it('delete process', () => {
+   cy.post(deleteProcess(processId), 'superUser').then(res => expect(res.body.data.deleteProcess.id).equal(processId))
+  })
+
 })

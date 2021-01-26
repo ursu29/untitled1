@@ -1,14 +1,11 @@
-import { spinner, table, card } from '../../../support/locators'
+import { spinner, table } from '../../../support/locators'
 
 describe('Check management page', () => {
   let allManagers
   let noManager
-  const name = 'Alexander'
   const managerName = 'Alena'
 
   const cityFilter = (name, arr) => arr.filter(obj => obj.location === name)
-  const cityAndNameFilter = (city, name, arr) =>
-    cityFilter(city, arr).filter(el => el.name.includes(name))
   const filterCityAndManager = (city, name, arr) =>
     cityFilter(city, arr).filter(obj => obj.agileManager.name.includes(name))
 
@@ -36,8 +33,8 @@ describe('Check management page', () => {
 
   it('Check initial filter state', () => {
     ;[0, 1].forEach(el => cy.get('.ant-checkbox-input').eq(el).should('be.checked'))
-    cy.get(table.tableRow).then(el => expect(el.length).equal(noManager.length - 1))
-    cy.get(card.title).eq(0).should('contain.text', 'Alberto')
+    cy.get('.ant-checkbox-input').eq(1).click()
+    cy.get(table.tableRow).then(el => expect(el.length).equal(noManager.length))
   })
 
   it('check filter', () => {
@@ -49,18 +46,7 @@ describe('Check management page', () => {
     cy.contains(firstLocation).click()
     cy.contains('OK').click()
     cy.get(table.tableRow).then(el =>
-      expect(el.length).equal(cityFilter('Saint-Petersburg', noManager).length - 1),
-    )
-  })
-
-  it('search employee', () => {
-    cy.scrollTo('top')
-    cy.get(table.filter).eq(0).click()
-    cy.getElement(table.inputSearch).type(name)
-    cy.getElement(table.searchBtn).click({ force: true })
-
-    cy.get(table.tableRow).then(el =>
-      expect(el.length).equal(cityAndNameFilter('Saint-Petersburg', name, noManager).length),
+      expect(el.length).equal(cityFilter('Saint-Petersburg', noManager).length),
     )
   })
 
@@ -69,7 +55,7 @@ describe('Check management page', () => {
     cy.getElement(table.resetBtn).click()
 
     cy.get(table.tableRow).then(el =>
-      expect(el.length).equal(cityFilter('Saint-Petersburg', noManager).length - 1),
+      expect(el.length).equal(cityFilter('Saint-Petersburg', noManager).length),
     )
     cy.get(table.filter).eq(0).should('not.have.class', 'ant-dropdown-open')
   })

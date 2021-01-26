@@ -4,6 +4,7 @@ import { checkKeyValueExist } from '../../../support/complexLocators'
 
 describe('Check employee data', () => {
   let runningProcess
+  let date
   const randomNumber = new Date().getTime()
 
   before(() => {
@@ -38,6 +39,7 @@ describe('Check employee data', () => {
     cy.getElement(hr.phone).clear().type(randomNumber)
     cy.get(workspace.data).click()
 
+    cy.get(table.picker).eq(10).then(el => date = el.text())
     cy.get(table.picker).eq(10).click()
     cy.getElement(hr.saveBtn).click()
 
@@ -56,7 +58,7 @@ describe('Check employee data', () => {
       const { processExecutions } = req.response.body.data
       const { employee, employeePhone, finishDate } = processExecutions[0]
 
-      expect(finishDate).contains('09')
+      expect(finishDate).contains(date)
       checkKeyValueExist(
         { employee, employeePhone },
         { employee: name, employeePhone: randomNumber.toString() },

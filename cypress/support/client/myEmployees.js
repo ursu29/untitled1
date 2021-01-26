@@ -44,6 +44,8 @@ export const subUser = {
   leadingProjects: [],
   requestedOnboardingTickets: [],
   projects: [],
+  startDate: null,
+  birthday: null,
   name,
   position,
   location,
