@@ -14,7 +14,7 @@ jobs:
           workingDir: 'client'
           customCommand: 'ci'
         displayName: Install modules
-      - script: docker run --rm -i -v $PWD:/e2e -w /e2e -u 1000 --entrypoint=cypress cypress/included:6.2.1 run --browser chrome --headless
+      - script: docker run --rm -i -v $PWD:/e2e -w /e2e/apps -u 1000 --entrypoint=cypress cypress/included:6.2.1 run --browser chrome --headless
         env:
           client_id: $(cypress_client_id)
           scope: $(cypress_scope)
@@ -27,13 +27,13 @@ jobs:
         condition: succeededOrFailed()
         inputs:
           testResultsFormat: 'JUnit'
-          testResultsFiles: 'client/cypress/results/*.xml'
+          testResultsFiles: 'client/apps/cypress/results/*.xml'
           failTaskOnFailedTests: true # Optional
         displayName: Publish test Results to AzureDevops
       - task: CopyFiles@2
         condition: failed()
         inputs:
-          sourceFolder: 'client/cypress/screenshots'
+          sourceFolder: 'client/apps/cypress/screenshots'
           contents: '**/*'
           targetFolder: '$(Build.ArtifactStagingDirectory)'
         displayName: Copy Screenshots
