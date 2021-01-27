@@ -16,9 +16,9 @@ interface Props {
 
 const EmployeeRecommendations = ({ skills }: Props) => {
   const history = useHistory()
-  const { tab, subTab } = useParams<{ tab: string; subTab: string }>()
+  const { subTab } = useParams<{ subTab: string }>()
   const handleTabChange = (nextTab: string) => {
-    history.push(`${paths.PROFILE}/${tab}/${nextTab}`)
+    history.push(`${paths.PROFILE}/skills/${nextTab}`)
   }
 
   const tabs = [
