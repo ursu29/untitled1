@@ -33,8 +33,12 @@ export const query = {
     'mutation updatePost($input: UpdatePostInput) {updatePost(input: $input) {id __typename}}',
   deleteTraining:
     'mutation deleteOnboardingTicket($input: DeleteOnboardingTicketInput) {deleteOnboardingTicket(input: $input) { id __typename}}',
+  deleteProcess:
+  'mutation deleteProcess($input: DeleteProcessInput) { deleteProcess(input: $input) {id __typename}}',
   updateEmp:
     'mutation updateEmployee($input: UpdateEmployeeInput!) {updateEmployee(input: $input) {id __typename}}',
+  createNewProcess:
+      'mutation createProcess($input: CreateProcessInput!) {createProcess(input: $input) {id __typename}}',
   createProcess:
     'mutation createProcessExecution($input: CreateProcessExecutionInput) {createProcessExecution(input: $input) {id __typename}}',
   holdProcess:

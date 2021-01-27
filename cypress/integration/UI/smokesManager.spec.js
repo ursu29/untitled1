@@ -87,31 +87,6 @@ describe('Checking default information', () => {
     Object.values(tabs).forEach(val => cy.get(workspace.tab).contains(val))
   })
 
-  it('Check the Bookmarks tab', () => {
-    cy.get(workspace.tab).contains(tabs.bookMark).click()
-    cy.getElement('bookmark').contains('Add bookmark')
-  })
-
-  it('Check the Matrices tab', () => {
-    cy.get(workspace.tab).contains(tabs.matrices).click()
-    cy.getElement('legend-buttons').should('be.visible')
-  })
-
-  it('Check the Personal development tab', () => {
-    cy.get(workspace.tab).contains(tabs.personal).click()
-    cy.getElement('evaluation-form').should('be.visible')
-  })
-
-  it('Check the Self Evaluation Form tab', () => {
-    cy.get(workspace.tab).contains(tabs.form).click()
-    cy.getElement('helper').should('be.visible')
-  })
-
-  it('Check the CV tab', () => {
-    cy.get(workspace.tab).contains(tabs.cv).click()
-    cy.getElement('cv-form').should('be.visible')
-  })
-
   it('Manager can see employee private tabs', () => {
     cy.visit(`/employees/${employeeData.employee.email}`)
     ;[tabs.matrices, tabs.personal, tabs.cv, tabs.form].forEach(el =>

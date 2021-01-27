@@ -53,7 +53,7 @@ describe('Create news', () => {
     cy.toEqualText(postEl.editTag, firstTag)
   })
 
-  it('Save post', () => {
+  it.skip('Save post', () => {
     cy.get(postEl.button).click({ force: true })
     cy.get(modalEl.window).should('be.visible')
 

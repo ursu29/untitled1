@@ -1,13 +1,22 @@
 import { skillEl, hrTool, postEl } from '../../../support/locators'
 import { popUp } from '../../../support/client/employeeData'
+import * as data from "../../../support/getData";
 
 describe('start new process', () => {
   let newProcess
+  let processId
 
   before(() => {
     cy.setToken('manager')
     cy.visit('/hr')
     cy.getElement('start').click()
+  })
+
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
   })
 
   it('create empty process', () => {
@@ -17,6 +26,14 @@ describe('start new process', () => {
     cy.get(hrTool.errorMess).should('be.visible')
   })
 
+  it('Create main process', () => {
+    cy.post(data.createNewProcess('offBoarding', 'onboarding', 'internal'), 'superUser').then(res => {
+      const {createProcess} = res.body.data
+
+      processId = createProcess.id
+    })
+  })
+
   it('create process with empty location/project', () => {
     cy.getId(hrTool.activeIdProcess).click()
     cy.get(postEl.itemsSelect).eq(4).click()
@@ -24,20 +41,15 @@ describe('start new process', () => {
     cy.get(hrTool.errorMess).should('be.visible')
   })
 
-  it('start new process and abort it', () => {
-    cy.getId(hrTool.processName).eq(1).click().type('Portal{enter}')
+  it('create new process', () => {
+    cy.post(data.createProcess(processId), 'superUser').then(res => {
+      const { createProcessExecution } = res.body.data
+      const { id, __typename } = createProcessExecution
+      newProcess = id
 
-    cy.get(hrTool.selectItem).eq(1).click()
-    cy.get(postEl.itemsSelect).contains('Saint-Petersburg').click({ force: true })
-
-    cy.getResponse(['createProcessExecution'], 'alias')
-    cy.getElement(hrTool.create).click()
-    cy.wait('@alias').then(req => {
-      const { createProcessExecution } = req.response.body.data
-
-      newProcess = createProcessExecution.id
+      expect(__typename).equal('ProcessExecution')
+      expect(id.length).to.be.greaterThan(0)
     })
-    cy.get(skillEl.successMes).should('be.visible')
   })
 
   it('Abort new process', () => {
@@ -47,5 +59,9 @@ describe('start new process', () => {
     cy.getElement(hrTool.abort).click()
     cy.get(popUp.button).contains('Yes').click()
     cy.get(skillEl.successMes).should('be.visible')
+  })
+
+  it('delete process', () => {
+    cy.post(data.deleteProcess(processId), 'superUser').then(res => expect(res.body.data.deleteProcess.id).equal(processId))
   })
 })

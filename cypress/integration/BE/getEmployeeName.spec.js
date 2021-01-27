@@ -7,7 +7,7 @@ describe('Check EmployeeName response', () => {
     cy.visit('/')
   })
 
-  it.skip('getEmployeeName response', () => {
+  it('getEmployeeName response', () => {
     cy.getResponse(['getEmployeeName'], 'alias')
     cy.visit('/profile/employees')
     cy.wait(`@alias`).then(val => {

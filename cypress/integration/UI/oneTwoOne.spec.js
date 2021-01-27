@@ -58,6 +58,14 @@ describe('Check oneTwoOne request', () => {
       cy.setToken('manager')
       cy.visit('client/profile/employees')
     })
+
+    beforeEach(() => {
+      cy.restoreLocalStorage()
+    })
+    afterEach(() => {
+      cy.saveLocalStorage()
+    })
+
     it('Confirm meeting', () => {
       cy.get(oneTwoOneLocators.bargeSm).should('exist')
       cy.get(oneTwoOneLocators.bargeCount)

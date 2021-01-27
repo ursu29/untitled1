@@ -5,6 +5,13 @@ describe(`Check employee Self Evaluation Form`, () => {
     cy.setToken('employee')
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('Attributes response', () => {
     cy.getResponse(['evaluationAttributes', 'id', 'title'], 'alias')
     cy.visit('/profile/evaluation')
