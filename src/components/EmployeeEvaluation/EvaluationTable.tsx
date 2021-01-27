@@ -344,7 +344,7 @@ export default function EvaluationTable({
    */
   if (isArchivedChosen) {
     columns = columns.concat(
-      Array.from(new Set(evaluations?.map(e => e.fromWho.name)))?.map((name, index) => {
+      Array.from(new Set(evaluations?.map(e => e.fromWho?.name)))?.map((name, index) => {
         return {
           title: name || '(undefined)',
           width: 120,
