@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { useQuery } from '@apollo/react-hooks'
 import { OnboardingTicket } from '../../types'
 import EmployeesList from '../Employees/EmployeesList'
-import { useEmployee } from '../../utils/withEmployee'
 import {
   getEmployeesOnboardingTickets,
   EmployeesOnboardingTicketsQueryType,
@@ -30,9 +29,13 @@ const ViewAttendees = styled.div`
   }
 `
 
-export default function MyTickets({ tickets }: { tickets: OnboardingTicket[] }) {
-  const user = useEmployee()
-
+export default function MyTickets({
+  tickets,
+  withResponsible,
+}: {
+  tickets: OnboardingTicket[]
+  withResponsible: string | null
+}) {
   const [attendeesModal, setAttendeesModal] = useState<{
     isOpen: boolean
     ticketTitle: string
@@ -47,7 +50,7 @@ export default function MyTickets({ tickets }: { tickets: OnboardingTicket[] }) 
   const { data, loading } = useQuery<EmployeesOnboardingTicketsQueryType>(
     getEmployeesOnboardingTickets,
     {
-      variables: { withResponsible: user.employee.email.toLowerCase() },
+      variables: withResponsible ? { withResponsible } : {},
     },
   )
 
