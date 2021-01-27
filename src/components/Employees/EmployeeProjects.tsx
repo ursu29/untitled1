@@ -1,7 +1,10 @@
 import React from 'react'
-import { Employee, Project } from '../../types'
-import gql from 'graphql-tag'
+import { Employee } from '../../types'
 import { useQuery } from '@apollo/react-hooks'
+import getEmployeeProjects, {
+  GetEmployeeProjectsQuery,
+  GetEmployeeProjectsVariables,
+} from '../../queries/getEmployeeProjects'
 import ProjectTagList from '../Projects/ProjectTagList'
 import Section from '../UI/Section'
 import Skeleton from '../UI/Skeleton'
@@ -10,33 +13,14 @@ interface Props {
   employee?: Pick<Employee, 'id'>
 }
 
-const query = gql`
-  query GetEmployeeProjects($input: EmployeesInput) {
-    employees(input: $input) {
-      id
-      leadingProjects {
-        id
-        name
-        code
-      }
-      projects {
-        id
-        name
-        code
-      }
-    }
-  }
-`
-
-type ProjectPick = Pick<Project, 'id' | 'name' | 'code'>
-
 export default function EmployeeProjects(props: Props) {
-  const { data, loading, error } = useQuery<{
-    employees: { id: Employee['id']; leadingProjects: ProjectPick[]; projects: ProjectPick[] }[]
-  }>(query, {
-    variables: { input: { id: props.employee?.id } },
-    skip: !props.employee,
-  })
+  const { data, loading, error } = useQuery<GetEmployeeProjectsQuery, GetEmployeeProjectsVariables>(
+    getEmployeeProjects,
+    {
+      variables: { input: { id: props.employee?.id } },
+      skip: !props.employee,
+    },
+  )
 
   if (!props.employee) return null
 
