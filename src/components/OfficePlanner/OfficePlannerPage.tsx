@@ -177,12 +177,12 @@ function OfficePlannerPage() {
   const datesFormatted = dates.map(i => dayjs(i).format('YYYY-MM-DD'))
 
   const allEmployees = employeesQuery.data?.employees || []
-  const me = allEmployees.find(i => i.isMe)
+  const me = allEmployees.find(i => i?.isMe)
 
   //sort me first
   const employees = (me ? [me] : []).concat(
     allEmployees
-      .filter(i => !i.isMe)
+      .filter(i => !i?.isMe)
       .filter(i => i.worksFromOffice.some(day => datesFormatted.includes(day))),
   )
 
@@ -211,7 +211,7 @@ function OfficePlannerPage() {
       key: 'name',
       width: 200,
       render: (name: string, employee: EmployeePick) => {
-        if (employee.isMe) return 'You'
+        if (employee?.isMe) return 'You'
         return name
       },
     },
@@ -261,7 +261,7 @@ function OfficePlannerPage() {
           const pastDay = dayjs(date).isBefore(dayjs().format('YYYY-MM-DD'))
           return (
             <Switch
-              disabled={!employee.isMe || pastDay}
+              disabled={!employee?.isMe || pastDay}
               checked={employee.worksFromOffice.includes(formattedDate)}
               onChange={() => {
                 apply({ variables: { input: { date: formattedDate, location: currentLocation } } })
@@ -343,7 +343,7 @@ function OfficePlannerPage() {
                 dataSource={employees}
                 columns={columns}
                 pagination={false}
-                rowClassName={record => (record.isMe ? 'office-planner-active' : '')}
+                rowClassName={record => (record?.isMe ? 'office-planner-active' : '')}
               />
             </Tabs.TabPane>
           )

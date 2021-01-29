@@ -124,7 +124,7 @@ export default function Branch({
                     <Button
                       type="primary"
                       disabled={
-                        !step.responsibleUsers?.find(i => i.isMe) ||
+                        !step.responsibleUsers?.find(i => i?.isMe) ||
                         !isProcessRunning ||
                         (step.type === 'independent' && !isIndependentStepsActive)
                       }

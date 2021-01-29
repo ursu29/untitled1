@@ -80,7 +80,7 @@ export default function EmployeeMatrix({ employee, matrix, isCurrentTab, onComme
         matrixId={matrix.id}
         employeeMatrixId={matrix.employeeMatrixId || ''}
         onSelectVersion={onSelectVersion}
-        // createSnapshotShown={!isArchivedChosen && employee.isMe}
+        // createSnapshotShown={!isArchivedChosen && employee?.isMe}
       />
       <MatrixWithExperiences
         matrix={showArchiveAllow && !!archivedMatrix ? archivedMatrix : matrix}
@@ -115,7 +115,7 @@ export default function EmployeeMatrix({ employee, matrix, isCurrentTab, onComme
             autoSize={{ minRows: 4 }}
             defaultValue={matrix.comment}
             rows={4}
-            disabled={employee.isMe}
+            disabled={employee?.isMe}
             onBlur={e => {
               onComment({
                 variables: { input: { id: matrix.employeeMatrixId, comment: e.target.value } },
