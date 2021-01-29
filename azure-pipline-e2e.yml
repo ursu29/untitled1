@@ -1,0 +1,110 @@
+trigger: none
+
+name: $(Date:dd-MM-yyyy_HH-mm)
+
+# variables:
+# - group: test-credentials
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+resources:
+  containers:
+    - container: cypress
+      image: cypress/browsers:node12.19.0-chrome86-ff82
+
+jobs:
+  - job: Tests
+    timeoutInMinutes: 15
+    displayName: E2E_Tests
+    workspace:
+      clean: all
+    container: cypress
+    variables:
+      - name: NODE_OPTIONS
+        value: --max-old-space-size=8192
+    steps:
+      - task: Bash@3
+        displayName: 'Yarn install'
+        inputs:
+          targetType: 'inline'
+          script: 'yarn install'
+      - task: Bash@3
+        displayName: 'Yarn install'
+        inputs:
+          targetType: 'inline'
+          script: 'printenv'
+
+      - task: Bash@3
+        displayName: 'Run tests'
+        inputs:
+          targetType: 'inline'
+          script: |
+            yarn run cypress run run --browser chrome --headless \
+            --env client_id=$(cypress_client_id) \
+            --env scope=$(cypress_scope) \
+            --env client_secret=$(cypress_client_secret) \
+            --env employee_password=$(cypress_employee_password) \
+            --env manager_password=$(cypress_manager_password)
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: 'cypress/results/*.xml'
+          failTaskOnFailedTests: true # Optional
+        displayName: Publish test Results to AzureDevops
+      - task: CopyFiles@2
+        condition: failed()
+        inputs:
+          sourceFolder: 'cypress/screenshots'
+          contents: '**/*'
+          targetFolder: '$(Build.ArtifactStagingDirectory)'
+        displayName: Copy Screenshots
+      - task: PublishBuildArtifacts@1
+        condition: failed()
+        inputs:
+          pathToPublish: '$(Build.ArtifactStagingDirectory)'
+          artifactName: ScreenShots
+        displayName: Publish Screenshots
+
+# jobs:
+#   - job: E2E_Tests
+#     workspace:
+#       clean: all
+#     steps:
+#       - checkout: self
+#       - task: Npm@1
+#         inputs:
+#           command: 'custom'
+#           workingDir: 'client'
+#           customCommand: 'ci'
+#         displayName: Install modules
+#       - script: docker run --rm -i -v $PWD:/ -w /client -u 1000 --entrypoint=cypress cypress/included:6.2.1 run --browser chrome --headless
+#         env:
+#           client_id: $(cypress_client_id)
+#           scope: $(cypress_scope)
+#           client_secret: $(cypress_client_secret)
+#           employee_password: $(cypress_employee_password)
+#           manager_password: $(cypress_manager_password)
+#         workingDirectory: '$(Build.SourcesDirectory)/client'
+#         displayName: Run e2e tests
+#       - task: PublishTestResults@2
+#         condition: succeededOrFailed()
+#         inputs:
+#           testResultsFormat: 'JUnit'
+#           testResultsFiles: 'client/cypress/results/*.xml'
+#           failTaskOnFailedTests: true # Optional
+#         displayName: Publish test Results to AzureDevops
+#       - task: CopyFiles@2
+#         condition: failed()
+#         inputs:
+#           sourceFolder: 'client/cypress/screenshots'
+#           contents: '**/*'
+#           targetFolder: '$(Build.ArtifactStagingDirectory)'
+#         displayName: Copy Screenshots
+#       - task: PublishBuildArtifacts@1
+#         condition: failed()
+#         inputs:
+#           pathToPublish: '$(Build.ArtifactStagingDirectory)'
+#           artifactName: ScreenShots
+#         displayName: Publish Screenshots
