@@ -5,7 +5,7 @@ describe('Check Employee',() => {
 
     before(() => {
         cy.setToken('employee')
-        cy.setImgToken('manager')
+        cy.setImgToken('employee')
     })
 
     const {
