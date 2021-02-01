@@ -96,6 +96,8 @@
     "@types/throttle-debounce": "^2.1.0",
     "babel-loader": "^8.1.0",
     "cypress": "6.0.1",
+    "cypress-image-snapshot": "^4.0.1",
+    "cypress-select-tests": "^1.5.9",
     "eslint-plugin-cypress": "^2.11.2",
     "husky": "^4.2.5",
     "lint-staged": "^10.1.4",

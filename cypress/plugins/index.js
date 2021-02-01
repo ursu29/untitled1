@@ -1,4 +1,5 @@
 
+// for adding code-coverage
 module.exports = (on, config, bool = false) => {
   if (bool) {
     require('@cypress/code-coverage/task')(on, config)
@@ -6,3 +7,13 @@ module.exports = (on, config, bool = false) => {
     return config
   }
 };
+
+//for adding tags
+/*
+If we want to execute only tests with the ‘E2E’ tag we will use the command: yarn cypress run --env grep="E2E"
+test.js: describe('login to www website (E2E)', () => {})
+*/
+const selectTestsWithGrep = require('cypress-select-tests/grep')
+module.exports = (on, config) => {
+  on('file:preprocessor', selectTestsWithGrep(config))
+}
