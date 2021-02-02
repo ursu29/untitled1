@@ -5,7 +5,7 @@ variables:
   - group: 'For Cypress'
 
 pool:
-  name: 'Linux-Agents' 
+  name: 'Linux-Agents'
 
 steps:
   - task: qetza.replacetokens.replacetokens-task.replacetokens@3
@@ -21,27 +21,27 @@ steps:
       client_secret: $(cypress_client_secret)
       employee_password: $(cypress_employee_password)
       manager_password: $(cypress_manager_password)
-  - task: CopyFiles@2      
+  - task: CopyFiles@2
     condition: failed()
     inputs:
       sourceFolder: 'cypress/screenshots'
       contents: '**/*'
       targetFolder: '$(Build.ArtifactStagingDirectory)'
     displayName: Copy Screenshots
-  - task: PublishBuildArtifacts@1      
+  - task: PublishBuildArtifacts@1
     condition: failed()
     inputs:
       pathToPublish: '$(Build.ArtifactStagingDirectory)'
       artifactName: ScreenShots
-    displayName: Publish Screenshots      
-  - task: CopyFiles@2      
+    displayName: Publish Screenshots
+  - task: CopyFiles@2
     condition: failed()
     inputs:
       sourceFolder: 'cypress/videos'
       contents: '**/*'
       targetFolder: '$(Build.ArtifactStagingDirectory)'
     displayName: Copy Video
-  - task: PublishBuildArtifacts@1      
+  - task: PublishBuildArtifacts@1
     condition: failed()
     inputs:
       pathToPublish: '$(Build.ArtifactStagingDirectory)'
