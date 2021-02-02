@@ -147,6 +147,22 @@ export const getTags = () => ({
   query: query.tags
 })
 
+export const addJob = (
+    employeeEmail="test.employee@syncretis.com",
+    id= "60098d16a8239b001ce8bcec",
+    company='',
+    dateStart='',
+    dateEnd='',
+    level='',
+    position='',
+    project='',
+    responsibilities=''
+    ) => ({
+    operationName: 'updateCurriculumVitae',
+    variables: {input: {employeeEmail, id, vitaes: [{company, dateEnd, dateStart, level, position, project, responsibilities}]}},
+    query: query.addJob
+    })
+
 export const getGetGuild = () => ({
   operationName: null,
   variables: {},

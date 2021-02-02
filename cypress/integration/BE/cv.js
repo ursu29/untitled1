@@ -1,6 +1,7 @@
 import { employeeData } from '../../support/client/employeeData'
 import { checkKeyValueExist } from '../../support/complexLocators'
 import { employeeCV, curriculumVitaeData, vitaeData } from '../../support/client/cv'
+import {addJob} from "../../support/getData";
 
 describe('Check CV', () => {
   let response
@@ -42,5 +43,12 @@ describe('Check CV', () => {
 
     cy.compareObjectsKeys(firstData, vitaeData)
     checkKeyValueExist(firstData, { __typename })
+  })
+
+  it('add new job', () => {
+    cy.post(addJob()).then(res => {
+      const { ____typename } = res.body.data
+      expect(____typename).toEqual('CurriculumVitae')
+    })
   })
 })

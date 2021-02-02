@@ -29,6 +29,7 @@ export const query = {
   getFirstPost:
     'query getPosts($first: Int, $after: ID, $filter: PostsFilter) {posts(first: $first, after: $after, filter: $filter) {id title body isTranslated createdAt locations annotation isPublic publishDate titleImage {id url fileName}backgroundImage {id url fileName}foregroundImage {id url fileName}createdBy {id name email}images {id url fileName}tags { id name description}}}',
   tags: '{tags {name description }}',
+  addJob: 'mutation updateCurriculumVitae($input: UpdateCurriculumVitaeInput) {updateCurriculumVitae(input: $input) { id __typename}}',
   updatePost:
     'mutation updatePost($input: UpdatePostInput) {updatePost(input: $input) {id __typename}}',
   deleteTraining:
