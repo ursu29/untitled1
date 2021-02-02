@@ -6,7 +6,7 @@
   "watchForFileChanges": false,
   "requestTimeout": 15000,
   "chromeWebSecurity": false,
-  "defaultCommandTimeout": 15000,
+  "defaultCommandTimeout": 10000,
   "reporter": "junit",
   "reporterOptions": {
     "mochaFile": "results/test-[hash].xml",
