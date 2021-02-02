@@ -19,7 +19,7 @@ export const agileManager = {
 export const employeeData = {
   employee: {
     agileManager,
-    bonuses: null, // should be 0
+    bonuses: 35000, // should be 0
     country: 'Russia',
     email: 'test.employee@syncretis.com',
     id: 'test.employee@syncretis.com',

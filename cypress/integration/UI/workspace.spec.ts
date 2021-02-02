@@ -1,19 +1,23 @@
 import { locations, workspace, devMenu, matrix } from '../../support/locators'
+import * as auth from "../../support/authorize";
+import {addRole, getElement} from "../../support/mainCommands";
+
 
 describe('Workspace', () => {
   const city = 'Saint Petersburg'
 
   before(() => {
-    cy.setToken('manager')
+    auth.setToken('manager')
+    auth.setImgToken('manager')
+
     cy.visit('/workspace-planner')
-    cy.checkImgToken('manager')
   })
 
   beforeEach(() => {
-    cy.restoreLocalStorage()
+    auth.restoreLocalStorage()
   })
   afterEach(() => {
-    cy.saveLocalStorage()
+    auth.saveLocalStorage()
   })
 
   it('check all location', () => {
@@ -25,8 +29,8 @@ describe('Workspace', () => {
       }
       if (el.title === city) {
         cy.get(workspace.img)
-          .should('be.visible')
-          .and(img => expect(img[0].naturalWidth).to.be.greaterThan(0))
+            .should('be.visible')
+            .and(img => expect(img[0].naturalWidth).to.be.greaterThan(0))
       }
     })
   })
@@ -36,13 +40,15 @@ describe('Workspace', () => {
     cy.get(devMenu.items).eq(0).click()
     cy.get(matrix.item).eq(1).click()
     cy.get(workspace.img)
-      .should('be.visible')
+        .should('be.visible')
   })
 
   it('check design mode', () => {
-    cy.addRole()
-    cy.checkImgToken('manager')
+    addRole()
+    auth.setImgToken('manager')
+
     cy.get('[role=switch]').first().click({ multiple: true })
-    ;['edit', 'addNew'].forEach(el => cy.getElement(el).should('be.visible'))
+    ;['edit', 'addNew'].forEach(el => getElement(el).should('be.visible'))
   })
 })
+
