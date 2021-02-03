@@ -21,6 +21,6 @@ describe('personal dev plans looks good', () => {
     it('check two reviewers', () => {
         cy.get('.ant-skeleton').should('not.exist')
         cy.getElement('reviewers').matchImageSnapshot('reviewers')
-        cy.getElement('last-discussed').matchImageSnapshot('last-discussed')
+        cy.getElement('lastDiscussed').matchImageSnapshot('lastDiscussed')
     })
 })

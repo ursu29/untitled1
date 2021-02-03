@@ -31,7 +31,7 @@ export default function BookmarksList({
   const [filter, setFilter] = useState('')
 
   if (!loading && !bookmarks) {
-    return <div data-cy="no_bookmarks">No bookmarks found</div>
+    return <div data-cy="noBookmarks">No bookmarks found</div>
   }
 
   const filteredItems: BookmarkPick[] = (bookmarks || []).filter(bookmark => {

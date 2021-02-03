@@ -58,7 +58,7 @@ export default function SiderProfile({ loading, profile }: Props) {
                 }
               />
             ) : (
-              <Row justify="center" data-cy="profile_avatar">
+              <Row justify="center" data-cy="profileAvatar">
                 <Avatar shape="square" size="large" employee={profile} withHat />
               </Row>
             ))}

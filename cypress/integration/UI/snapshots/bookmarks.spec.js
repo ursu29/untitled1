@@ -14,6 +14,6 @@ describe('bookmark looks good', () => {
     })
     it('check bookmarks menu', () => {
         cy.getElement('bookmarks').should('be.visible')
-        cy.get('.ant-tabs-nav').last().matchImageSnapshot('user-menu')
+        cy.get('.ant-tabs-nav').last().matchImageSnapshot('userMenu')
     })
 })

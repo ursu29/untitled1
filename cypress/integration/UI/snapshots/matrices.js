@@ -14,7 +14,7 @@ describe('general matrix looks good', () => {
     it('check all matrix', () => {
         cy.get('.ant-skeleton').should('be.visible')
         cy.get('.ant-skeleton').should('not.exist')
-        cy.get('.ant-tabs-card').matchImageSnapshot('general-matrix')
+        cy.get('.ant-tabs-card').matchImageSnapshot('generalMatrix')
     })
 })
 

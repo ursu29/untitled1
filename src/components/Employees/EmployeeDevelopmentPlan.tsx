@@ -111,7 +111,7 @@ export default function EmployeeDevelopmentPlan(props: Props) {
             <Controls
               back={
                 <Space size="middle">
-                  <Typography.Text data-cy="last-discussed">
+                  <Typography.Text data-cy="lastDiscussed">
                     Last discussed:{' '}
                     <DatePicker
                       size="small"

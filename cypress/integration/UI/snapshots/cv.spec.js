@@ -12,6 +12,6 @@ describe('cv table looks good', () => {
     it('check all matrix', () => {
         cy.get('.ant-skeleton').should('be.visible')
         cy.get('.ant-skeleton').should('not.exist')
-        cy.getElement('cv-form').matchImageSnapshot('cv')
+        cy.getElement('cvForm').matchImageSnapshot('cv')
     })
 })
