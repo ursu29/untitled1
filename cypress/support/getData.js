@@ -1,6 +1,8 @@
 import { query } from '../fixtures/query'
+import {employeeData} from "./client/employeeData";
 
 const URL = 'https://portal.dev.syncretis.com/graphql'
+const {email} = employeeData.employee
 export const LOCATIONS = ['Saint Petersburg', 'Tomsk', 'Kaliningrad', 'Zürich']
 export const TAGS = ['5e342a2c5d0413001cbb8287', '5e3d51be5d0413001cbb88b1']
 
@@ -148,20 +150,32 @@ export const getTags = () => ({
 })
 
 export const addJob = (
-    employeeEmail="test.employee@syncretis.com",
+    employeeEmail= email,
     id= "60098d16a8239b001ce8bcec",
-    company='',
+    company='test company',
     dateStart='',
     dateEnd='',
-    level='',
-    position='',
-    project='',
-    responsibilities=''
+    level='4',
+    position='front',
+    project='portal',
+    responsibilities='no responsibilities'
     ) => ({
     operationName: 'updateCurriculumVitae',
     variables: {input: {employeeEmail, id, vitaes: [{company, dateEnd, dateStart, level, position, project, responsibilities}]}},
     query: query.addJob
     })
+
+export const deleteJob = (employeeEmail = email, id = "60098d16a8239b001ce8bcec") => ({
+  operationName: 'updateCurriculumVitae',
+  variables: {input: {employeeEmail, id, vitaes: []}},
+  query: query.addJob
+})
+
+export const getCV = (employeeEmail = email) => ({
+  operationName: 'getEmployeeCV',
+  variables: {email: employeeEmail},
+  query: query.getCV
+})
 
 export const getGetGuild = () => ({
   operationName: null,
