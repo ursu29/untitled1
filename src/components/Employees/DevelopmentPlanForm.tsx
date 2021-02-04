@@ -40,6 +40,7 @@ function DevelopmentPlanForm({ value, onChange, form, locked, resetFields }: Pro
 
   return (
     <Form
+      data-cy="allEvaluation"
       layout="vertical"
       onChange={e => {
         e.preventDefault()

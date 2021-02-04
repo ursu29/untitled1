@@ -518,7 +518,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
   ]
 
   return (
-    <div className="cv" data-cy="cv-form">
+    <div className="cv" data-cy="cvForm">
       <Table
         dataSource={value.map((i, index) => ({
           key: i.id || index,
