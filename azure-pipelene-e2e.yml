@@ -11,7 +11,7 @@ pool:
 resources:
   containers:
     - container: cypress
-      image: cypress/browsers:node12.9.0-chrome80-ff72
+      image: cypress/browsers:node12.14.0-chrome79-ff71
 
 jobs:
   - job: Tests
