@@ -4,6 +4,7 @@ import { checkKeyValueExist } from '../../support/complexLocators'
 describe('Check EmployeeName response', () => {
   before(() => {
     cy.setToken('manager')
+    cy.setImgToken('employee')
     cy.visit('/')
   })
 

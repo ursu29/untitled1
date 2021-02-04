@@ -10,6 +10,7 @@ describe('Check knowledge page', () => {
 
   before(() => {
     cy.setToken('employee')
+    cy.setImgToken('employee')
   })
 
   it('add bookmark', () => {
