@@ -45,7 +45,9 @@ jobs:
             --env scope=$(cypress_scope) \
             --env client_secret=$(cypress_client_secret) \
             --env employee_password=$(cypress_employee_password) \
-            --env manager_password=$(cypress_manager_password)
+            --env manager_password=$(cypress_manager_password) \
+            --env manager_password=$(cypress_manager_username) \
+            --env manager_password=$(employee_username)
       - task: PublishTestResults@2
         condition: succeededOrFailed()
         inputs:
