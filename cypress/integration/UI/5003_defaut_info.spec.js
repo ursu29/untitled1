@@ -2,7 +2,7 @@ import * as data from '../../support/getData'
 import { tabs, workspace } from '../../support/locators'
 import {agileManager, employeeData as EmployeeData} from '../../support/client/employeeData'
 
-describe('Checking default information', () => {
+describe('Checking default information (e2e)', () => {
   const userId = EmployeeData.employee.id
   let allData = {
     client: null,

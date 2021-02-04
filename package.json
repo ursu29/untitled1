@@ -50,9 +50,14 @@
     "test": "react-scripts test --env=jsdom",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "eject": "react-scripts eject",
-    "cypress:open": "cypress open",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "e2e:run:chrome": "cypress run --browser chrome",
+    "e2e:run:firefox": "cypress run --browser firefox",
+    "cy:run:smoke": "cypress run --env grep=\"smoke\"",
+    "cy:run:e2e": "cypress run --env grep=\"e2e\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -97,6 +102,7 @@
     "babel-loader": "^8.1.0",
     "cypress": "6.0.1",
     "cypress-image-snapshot": "^4.0.1",
+    "cypress-select-tests": "^1.5.9",
     "eslint-plugin-cypress": "^2.11.2",
     "husky": "^4.2.5",
     "lint-staged": "^10.1.4",

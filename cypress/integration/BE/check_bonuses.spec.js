@@ -2,7 +2,7 @@ import { getEmployeeAttributes } from '../../api/requests'
 import { codeOkAndBodyNotNull } from '../../support/utils'
 import { employeeData as EmployeeData } from '../../support/client/employeeData'
 
-describe('Check bonuses presence and availability. Requires real environment.', () => {
+describe('Check bonuses presence and availability. Requires real environment. (e2e)', () => {
   beforeEach(() => {
     cy.setToken('employee')
   })
