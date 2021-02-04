@@ -26,6 +26,9 @@
 
 import { getSkill } from './complexLocators'
 import { filterSkillsName } from './complexLocators'
+import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
+
+addMatchImageSnapshotCommand();
 
 let LOCAL_STORAGE_MEMORY = {}
 

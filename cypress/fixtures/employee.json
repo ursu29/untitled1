@@ -1,5 +1,0 @@
-{
-  "operationName": null,
-  "variables": {},
-  "query": "{employee(id: \"ID_TO_REPLACE\") {ATTRIBUTES_TO_REPLACE}}"
-}

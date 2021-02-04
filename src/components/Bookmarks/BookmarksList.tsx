@@ -31,7 +31,7 @@ export default function BookmarksList({
   const [filter, setFilter] = useState('')
 
   if (!loading && !bookmarks) {
-    return <div>No bookmarks found</div>
+    return <div data-cy="noBookmarks">No bookmarks found</div>
   }
 
   const filteredItems: BookmarkPick[] = (bookmarks || []).filter(bookmark => {
@@ -40,7 +40,7 @@ export default function BookmarksList({
 
   return (
     <Skeleton loading={loading} active>
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }} data-cy="bookmarks">
         <Input
           placeholder="Search"
           onChange={(e: any) => setFilter(e.target.value)}
