@@ -64,4 +64,19 @@ describe('Check CV', () => {
       expect(vitaes.length).to.be.greaterThan(curriculumVitae.vitaes.length)
     })
   })
+
+  it('create job - check request', () => {
+    cy.getElement('addJob').click()
+
+    cy.intercept('POST', '/graphql').as('new-job')
+    cy.wait('@new-job').then(el => {
+      const {body} = el.request
+      const {operationName, variables: {input}} = body
+
+      expect(operationName).equal('updateCurriculumVitae')
+      expect(input.employeeEmail).equal(email)
+      expect(input.id).equal(employeeId)
+    })
+    cy.post(deleteJob(email, employeeId))
+  })
 })
