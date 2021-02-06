@@ -5,27 +5,34 @@ name: $(Date:dd-MM-yyyy_HH-mm)
 # variables:
 # - group: test-credentials
 
-pool:
-  vmImage: 'ubuntu-latest'
+pool: Default
 
 resources:
   containers:
     - container: cypress
-      image: cypress/browsers:node12.9.0-chrome80-ff72
+      image: cypress/browsers:node12.18.3-chrome87-ff82
 
 jobs:
   - job: Tests
-    timeoutInMinutes: 15
+    timeoutInMinutes: 60
     displayName: E2E_Tests
     workspace:
       clean: all
     container: cypress
+    variables:
+      - name: NODE_OPTIONS
+        value: --max-old-space-size=8192
     steps:
       - task: Bash@3
         displayName: 'Yarn install'
         inputs:
           targetType: 'inline'
           script: 'yarn install'
+      - task: Bash@3
+        displayName: 'Yarn install'
+        inputs:
+          targetType: 'inline'
+          script: 'printenv'
 
       - task: Bash@3
         displayName: 'Run tests'
@@ -33,17 +40,35 @@ jobs:
           targetType: 'inline'
           script: |
             yarn run cypress run --browser chrome --headless \
-            --env client_id=$(cypress_client_id) \
-            --env scope=$(cypress_scope) \
-            --env client_secret=$(cypress_client_secret) \
-            --env employee_password=$(cypress_employee_password) \
-            --env manager_password=$(cypress_manager_password)
+            --env client_id=$(cypress_client_id),\
+            scope=$(cypress_scope),\
+            client_secret=$(cypress_client_secret),\
+            employee_password=$(cypress_employee_password),\
+            manager_password=$(cypress_manager_password),\
+            manager_username=$(cypress_manager_username),\
+            employee_username=$(cypress_employee_username),\
+            img_scope=$(cypress_img_scope),\
+            grant_type=$(cypress_grant_type)
       - task: PublishTestResults@2
         condition: succeededOrFailed()
         inputs:
           testResultsFormat: 'JUnit'
-          testResultsFiles: 'client/cypress/results/*.xml'
+          testResultsFiles: 'cypress/results/*.xml'
           failTaskOnFailedTests: true # Optional
+        displayName: Publish test Results to AzureDevops
+      - task: CopyFiles@2
+        condition: failed()
+        inputs:
+          sourceFolder: 'cypress/screenshots'
+          contents: '**/*'
+          targetFolder: '$(Build.ArtifactStagingDirectory)'
+        displayName: Copy Screenshots
+      - task: PublishBuildArtifacts@1
+        condition: failed()
+        inputs:
+          pathToPublish: '$(Build.ArtifactStagingDirectory)'
+          artifactName: ScreenShots
+        displayName: Publish Screenshots
 
 # jobs:
 #   - job: E2E_Tests
