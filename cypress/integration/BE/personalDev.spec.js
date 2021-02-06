@@ -2,25 +2,16 @@ import {
   developmentRolesData,
   guildContributionData,
   plan,
-  planData,
 } from '../../support/client/devPlan'
 
 describe(`Check getDevelopmentPlans`, () => {
   let response
 
-  context('getDevelopmentPlans', () => {
     before(() => {
       cy.setToken('employee')
       cy.getResponse(['getDevelopmentPlans', 'developmentRoles'], 'alias')
       cy.visit('/profile/development-plan')
       cy.wait(`@alias`).then(val => (response = val.response.body.data))
-    })
-
-    beforeEach(() => {
-      cy.restoreLocalStorage()
-    })
-    afterEach(() => {
-      cy.saveLocalStorage()
     })
 
     it('Check plan keys', () => {
@@ -49,24 +40,4 @@ describe(`Check getDevelopmentPlans`, () => {
 
       expect(guildContribution.__typename).equal(guildContributionData.__typename)
     })
-  })
-
-  context('archivedDPVersions', () => {
-    beforeEach(() => {
-      cy.setToken('employee')
-      cy.getResponse(['archivedDPVersions'], 'alias')
-      cy.visit('/profile/development-plan')
-      cy.wait(`@alias`).then(val => (response = val.response.body.data))
-    })
-
-    it('Check archivedDPVersions', () => {
-      const { archivedDPVersions } = response
-
-      expect(archivedDPVersions).to.be.a('array')
-      archivedDPVersions.forEach(el => {
-        cy.compareObjectsKeys(el, planData)
-        expect(el.__typename).equal(planData.__typename)
-      })
-    })
-  })
 })
