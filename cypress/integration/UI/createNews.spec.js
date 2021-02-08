@@ -10,8 +10,10 @@ describe('Check news tags', () => {
 
   before(() => {
     cy.setToken('manager')
-    cy.setImgToken('manager')
     cy.visit('/feed')
+
+    cy.addRole()
+    cy.setImgToken('manager')
   })
 
   beforeEach(() => {
@@ -22,14 +24,10 @@ describe('Check news tags', () => {
   })
 
   it('Visit post page', () => {
-    // sometimes instead manager login employee
-    cy.setToken('manager')
-
     cy.post(getTags()).then(res => {
       const { tags } = res.body.data
       allData = { ...allData, tags }
     })
-    cy.addRole()
   })
 
   it('Create new post', () => {
