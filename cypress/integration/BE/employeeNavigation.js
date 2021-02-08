@@ -16,6 +16,7 @@ describe(`Check employee matrices`, () => {
 
   before(() => {
     cy.setToken('employee')
+    cy.setImgToken('employee')
     cy.post(getEmployee(email('employee'))).then(res => {
       const { data } = res.body
 
