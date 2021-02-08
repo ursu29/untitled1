@@ -22,7 +22,7 @@ export const query = {
   getEmployees: 'query getEmployees($input: EmployeesInput) {employees(input: $input) {name }}',
   getEmployeeTickets: 'query employeeOnboardingTickets { employeeOnboardingTickets}',
   getOfficeDays:
-    'query getOfficeDays($input: OfficeDaysInput) { officeDays(input: $input) { date }',
+    'query getOfficeDays($input: OfficeDaysInput) {officeDays(input: $input) {id date employeeLimit employeeCount location {id code __typename} __typename}}',
   allSkills:
     'query getSkills($input: SkillsInput) {skills(input: $input) {id name description parent { id }isMatrixOnly}}',
   getAllMatrices: '{matrices {id title description}  matricesAccess {read}}',
@@ -49,4 +49,14 @@ export const query = {
     '{processExecutions {id process {id title customer type __typename} status vacancy {id position isPublished __typename} project { id name code __typename} locations {id name __typename} employee finishDate activeStepEmployees { id name email __typename} __typename}}',
   updateProcess:
     'mutation updateProcessExecution($input: UpdateProcessExecutionInput) {updateProcessExecution(input: $input) {id __typename}}',
+  getWikiRootSections:
+      'query getWikiRootSections {wikiRootSections {id title description icon path __typename}}',
+  onboardingAccess:
+  'query onboardingAccess {onboardingAccess {read write __typename}}',
+  guild:
+  'query getGuilds {guilds {title}}',
+  getVacanciesId:
+      'query getVacancies($input: VacanciesInput) {vacancies(input: $input) {id reason locations {id name}}}',
+  applyDay:
+  'mutation apply($input: ApplyToWorkFromOfficeInput!) {applyToWorkFromOffice(input: $input)}'
 }

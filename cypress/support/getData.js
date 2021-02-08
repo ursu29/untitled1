@@ -123,6 +123,12 @@ export const getOfficeDays = (startDate, count = 7) => ({
   query: query.getOfficeDays,
 })
 
+export const applyDay = (date, location= 'SAINT_PETERSBURG') => ({
+  operationName: 'apply',
+  variables: {input: {date, location}},
+  query: query.applyDay,
+})
+
 export const getAllSkills = () => ({
   operationName: 'getSkills',
   variables: {},
@@ -141,16 +147,40 @@ export const getFirstPosts = () => ({
   query: query.getFirstPost,
 })
 
+export const getEmployeeMatrices = () => ({
+  operationName: null,
+  variables: {},
+  query: 'query {clientDevToolsAccess}',
+})
+
+export const getWikiRootSections = () => ({
+  operationName: 'getWikiRootSections',
+  variables: {},
+  query: query.getWikiRootSections,
+})
+
+export const getOnBoardingAccess = () => ({
+  operationName: 'onboardingAccess',
+  variables: {},
+  query: query.onboardingAccess,
+})
+
 export const getTags = () => ({
   operationName: null,
   variables: {},
   query: query.tags
 })
 
-export const getGetGuild = () => ({
-  operationName: null,
+export const getGuildsTitle = () => ({
+  operationName: 'getGuilds',
   variables: {},
   query: query.guild,
+})
+
+export const getVacanciesId = () => ({
+  operationName: 'getVacancies',
+  variables: {},
+  query: query.getVacanciesId,
 })
 
 export const updateEmployee = (id, agileManager) => ({
