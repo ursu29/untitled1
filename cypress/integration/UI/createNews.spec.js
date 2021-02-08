@@ -2,7 +2,7 @@ import { getTags } from '../../support/getData'
 import { inputTag } from '../../support/complexLocators'
 import { matrix, postEl } from '../../support/locators'
 
-describe('Check news tags', () => {
+xdescribe('Check news tags', () => {
   const text = new Date().toLocaleTimeString()
   let allData = {
     tags: null,
