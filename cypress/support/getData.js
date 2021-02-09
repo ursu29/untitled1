@@ -1,10 +1,12 @@
 import { query } from '../fixtures/query'
 import {employeeData} from "./client/employeeData";
 
-const URL = 'https://portal.dev.syncretis.com/graphql'
-const {email} = employeeData.employee
+export const URL = 'https://portal.dev.syncretis.com/graphql'
+export const TIMEMASTER = 'https://timemaster.syncretis.com/'
 export const LOCATIONS = ['Saint Petersburg', 'Tomsk', 'Kaliningrad', 'Zürich']
 export const TAGS = ['5e342a2c5d0413001cbb8287', '5e3d51be5d0413001cbb88b1']
+
+const {email} = employeeData.employee
 
 Cypress.Commands.add('post', (body, superUser = null, methodName = 'POST') => {
   return cy.request({
@@ -125,6 +127,12 @@ export const getOfficeDays = (startDate, count = 7) => ({
   query: query.getOfficeDays,
 })
 
+export const applyDay = (date, location= 'SAINT_PETERSBURG') => ({
+  operationName: 'apply',
+  variables: {input: {date, location}},
+  query: query.applyDay,
+})
+
 export const getAllSkills = () => ({
   operationName: 'getSkills',
   variables: {},
@@ -143,10 +151,34 @@ export const getFirstPosts = () => ({
   query: query.getFirstPost,
 })
 
+export const getEmployeeMatrices = () => ({
+  operationName: null,
+  variables: {},
+  query: query.getEmployeeMatrices,
+})
+
+export const getWikiRootSections = () => ({
+  operationName: 'getWikiRootSections',
+  variables: {},
+  query: query.getWikiRootSections,
+})
+
+export const getOnBoardingAccess = () => ({
+  operationName: 'onboardingAccess',
+  variables: {},
+  query: query.onboardingAccess,
+})
+
 export const getTags = () => ({
   operationName: null,
   variables: {},
   query: query.tags
+})
+
+export const getGuildsTitle = () => ({
+  operationName: 'getGuilds',
+  variables: {},
+  query: query.guild,
 })
 
 export const addJob = (
@@ -181,6 +213,12 @@ export const getGetGuild = () => ({
   operationName: null,
   variables: {},
   query: query.guild,
+})
+
+export const getVacanciesId = () => ({
+  operationName: 'getVacancies',
+  variables: {},
+  query: query.getVacanciesId,
 })
 
 export const getAllBookmarksId = () => ({

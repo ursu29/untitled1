@@ -5,7 +5,7 @@ const defaultReadAccess = (bool = false) => ({ read: bool, __typename: 'Access' 
 const defaultWriteAccess = (bool = false) => ({ write: bool, __typename: 'Access' })
 
 export const agileManager = {
-  country: 'Russia',
+  country: "Unknown",
   email: 'Test.Manager@syncretis.com',
   id: 'Test.Manager@syncretis.com',
   isMe: false,
