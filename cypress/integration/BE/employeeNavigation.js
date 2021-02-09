@@ -27,13 +27,6 @@ describe(`Check employee matrices`, () => {
     cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 
-  beforeEach(() => {
-    cy.restoreLocalStorage()
-  })
-  afterEach(() => {
-    cy.saveLocalStorage()
-  })
-
   it('Check matrixEmployees keys', () => {
     const { id, name, __typename } = employeeData.employee
     const { employees } = response

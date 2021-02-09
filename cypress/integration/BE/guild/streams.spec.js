@@ -6,6 +6,7 @@ describe('Check streams', () => {
 
   before(() => {
     cy.setToken('employee')
+    cy.setImgToken('employee')
 
     cy.getResponse(['getStream'], 'alias')
     cy.visit('/guilds/Community-Frontend/streams')

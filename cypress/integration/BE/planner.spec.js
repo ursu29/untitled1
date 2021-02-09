@@ -8,6 +8,8 @@ describe('Check Employees response', () => {
   context('Employees response', () => {
     before(() => {
       cy.setToken('employee')
+      cy.setImgToken('employee')
+
       cy.getResponse(['getEmployees'], 'alias')
       cy.visit('/office-planner')
       cy.wait(`@alias`).then(val => (response = val.response.body.data))
