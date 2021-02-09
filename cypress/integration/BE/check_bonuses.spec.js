@@ -11,17 +11,17 @@ describe('Check bonuses presence and availability. Requires real environment. (e
   const idUserAlexey = 'Alexey.Avdeev@syncretis.com'
 
   //made with Test Employee credentials
-  it('As employee I can see my own bonus', () => {
+  it.skip('As employee I can see my own bonus', () => {
     getEmployeeAttributes('id bonuses isMe', idUserTest).then(response => {
       codeOkAndBodyNotNull(response)
 
       expect(response.body.data.employee.id).equal(idUserTest)
       expect(response.body.data.employee.isMe).equal(true)
-      //expect(response.body.data.employee.bonuses).to.not.be.oneOf([null, ''])  //uncommit whe Test Employee will get bonuses!
+      expect(response.body.data.employee.bonuses).to.not.be.oneOf([null, ''])
     })
   })
 
-  it('As employee I can not see other persons bonuses', () => {
+  it.skip('As employee I can not see other persons bonuses', () => {
     getEmployeeAttributes('id bonuses isMe', idUserAlexey).then(response => {
       codeOkAndBodyNotNull(response)
 

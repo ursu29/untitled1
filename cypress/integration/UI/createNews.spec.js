@@ -1,9 +1,8 @@
 import { getTags } from '../../support/getData'
-import { inputTag, submitPost } from '../../support/complexLocators'
-import { matrix, postEl, modalEl } from '../../support/locators'
-import { strapiUrl } from '../../support/authorization'
+import { inputTag } from '../../support/complexLocators'
+import { matrix, postEl } from '../../support/locators'
 
-describe('Create news', () => {
+xdescribe('Check news tags', () => {
   const text = new Date().toLocaleTimeString()
   let allData = {
     tags: null,
@@ -11,8 +10,10 @@ describe('Create news', () => {
 
   before(() => {
     cy.setToken('manager')
+    cy.visit('/feed')
+
+    cy.addRole()
     cy.setImgToken('manager')
-    cy.visit('/')
   })
 
   beforeEach(() => {
@@ -23,15 +24,10 @@ describe('Create news', () => {
   })
 
   it('Visit post page', () => {
-    // sometimes instead manager login employee
-    cy.setToken('manager')
-
     cy.post(getTags()).then(res => {
       const { tags } = res.body.data
       allData = { ...allData, tags }
     })
-    cy.visit('/feed')
-    cy.addRole()
   })
 
   it('Create new post', () => {
@@ -51,31 +47,5 @@ describe('Create news', () => {
     cy.get(matrix.item).eq(0).click({ force: true })
     cy.get(postEl.delete).should('be.visible')
     cy.toEqualText(postEl.editTag, firstTag)
-  })
-
-  it.skip('Save post', () => {
-    cy.get(postEl.button).click({ force: true })
-    cy.get(modalEl.window).should('be.visible')
-
-    cy.intercept('/graphql', req => {
-      if (req.body.operationName.includes('createPost')) {
-        // set superUser role
-        req.headers['dev-only-user-role'] = 'superUser'
-      }
-      // create alias if call getPosts
-      if (req.body.operationName.includes('getPosts')) {
-        req.alias = 'getPost'
-      }
-    })
-    cy.get(submitPost).click()
-    // call alias when get response
-    cy.wait('@getPost').then(req => {
-      const { data } = req.response.body
-      const firstPost = data.posts[0]
-
-      expect(firstPost.title).to.equal(text)
-      // delete created post
-      cy.request('DELETE', `${strapiUrl}/posts/${firstPost.id}`)
-    })
   })
 })

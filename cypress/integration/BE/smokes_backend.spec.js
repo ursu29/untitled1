@@ -16,7 +16,7 @@ describe('Check employee api (smoke)', () => {
   })
 
   it('Get projects', () => {
-    cy.fixture('projects_smoke.json').then(body => {
+    cy.fixture('employee.json').then(body => {
       postRequest(body).then(response => {
         //we are using universal request here - when body doesn't need any replacements
         codeOkAndBodyNotNull(response)

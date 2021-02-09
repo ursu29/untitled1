@@ -62,5 +62,11 @@ export const query = {
   applyDay:
   'mutation apply($input: ApplyToWorkFromOfficeInput!) {applyToWorkFromOffice(input: $input)}',
   getEmployeeMatrices:
-      'query {clientDevToolsAccess}'
+      'query {clientDevToolsAccess}',
+  allBookmarkId:
+      'query getBookmarks($input: BookmarksInput) {bookmarks(input: $input) {id}}',
+  getBookmarks:
+      'query getBookmarks($input: BookmarksInput) {bookmarks(input: $input) {id title link employee {id name email __typename} skills {id name __typename} likes {id __typename} access {read write __typename}createdAt likedByMe __typename}}',
+  archivedDPVersions:
+      'query archivedDPVersions($input: ArchiveDPInput) {archivedDPVersions(input: $input) {id createdAt __typename}}'
 }
