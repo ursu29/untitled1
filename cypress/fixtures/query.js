@@ -58,5 +58,7 @@ export const query = {
   getVacanciesId:
       'query getVacancies($input: VacanciesInput) {vacancies(input: $input) {id reason locations {id name}}}',
   applyDay:
-  'mutation apply($input: ApplyToWorkFromOfficeInput!) {applyToWorkFromOffice(input: $input)}'
+  'mutation apply($input: ApplyToWorkFromOfficeInput!) {applyToWorkFromOffice(input: $input)}',
+  getEmployeeMatrices:
+      'query {clientDevToolsAccess}'
 }

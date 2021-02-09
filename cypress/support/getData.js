@@ -1,6 +1,7 @@
 import { query } from '../fixtures/query'
 
-const URL = 'https://portal.dev.syncretis.com/graphql'
+export const URL = 'https://portal.dev.syncretis.com/graphql'
+export const TIMEMASTER = 'https://timemaster.syncretis.com/'
 export const LOCATIONS = ['Saint Petersburg', 'Tomsk', 'Kaliningrad', 'Zürich']
 export const TAGS = ['5e342a2c5d0413001cbb8287', '5e3d51be5d0413001cbb88b1']
 
@@ -150,7 +151,7 @@ export const getFirstPosts = () => ({
 export const getEmployeeMatrices = () => ({
   operationName: null,
   variables: {},
-  query: 'query {clientDevToolsAccess}',
+  query: query.getEmployeeMatrices,
 })
 
 export const getWikiRootSections = () => ({

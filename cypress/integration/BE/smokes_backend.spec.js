@@ -34,7 +34,7 @@ describe('Check employee api (smoke)', () => {
   })
 
   it('get Timemaster url', () => {
-    cy.request('https://timemaster.syncretis.com/').then(res => {
+    cy.request(getData.TIMEMASTER).then(res => {
       expect(res.status).equal(200)
       expect(res.statusText).equal('OK')
     })
