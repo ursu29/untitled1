@@ -14,7 +14,7 @@ resources:
 
 jobs:
   - job: Tests
-    timeoutInMinutes: 60
+    timeoutInMinutes: 30
     displayName: E2E_Tests
     workspace:
       clean: all

@@ -547,6 +547,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
       />
       {editable && (
         <Button
+          data-cy="addJob"
           style={{ margin: '15px 0 20px 10px' }}
           onClick={() => {
             if (onChange) {
