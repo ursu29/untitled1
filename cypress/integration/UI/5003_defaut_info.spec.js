@@ -47,7 +47,7 @@ describe('Checking default information (e2e)', () => {
     cy.haveText('location', profile.location)
     cy.haveText('email', profile.email)
     cy.checkIfElementPresent('phone', profile.phoneNumber)
-    cy.checkIfElementPresent('bonuses', profile.bonuses)
+    cy.getElement('bonuses').should('contain.text', profile.bonuses)
   })
 
   it('Information about employee manager', () => {
