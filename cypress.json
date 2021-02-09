@@ -13,7 +13,6 @@
     "toConsole": true
   },
   "env": {
-    "updateSnapshotDiff": false,
     "grant_type": "password",
     "employee_username": "#{employee_username}#",
     "manager_username": "#{manager_username}#",

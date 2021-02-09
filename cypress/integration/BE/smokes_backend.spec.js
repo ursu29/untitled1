@@ -7,7 +7,7 @@ describe('Smokes backend. Requires real environment.', () => {
   })
 
   it('Get projects', () => {
-    cy.fixture('projects_smoke.json').then(body => {
+    cy.fixture('employee.json').then(body => {
       postRequest(body).then(response => {
         //we are using universal request here - when body doesn't need any replacements
         codeOkAndBodyNotNull(response)

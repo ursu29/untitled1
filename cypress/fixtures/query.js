@@ -51,4 +51,7 @@ export const query = {
     '{processExecutions {id process {id title customer type __typename} status vacancy {id position isPublished __typename} project { id name code __typename} locations {id name __typename} employee finishDate activeStepEmployees { id name email __typename} __typename}}',
   updateProcess:
     'mutation updateProcessExecution($input: UpdateProcessExecutionInput) {updateProcessExecution(input: $input) {id __typename}}',
+  allBookmarkId: 'query getBookmarks($input: BookmarksInput) {bookmarks(input: $input) {id}}',
+  getBookmarks: 'query getBookmarks($input: BookmarksInput) {bookmarks(input: $input) {id title link employee {id name email __typename} skills {id name __typename} likes {id __typename} access {read write __typename}createdAt likedByMe __typename}}',
+  archivedDPVersions: 'query archivedDPVersions($input: ArchiveDPInput) {archivedDPVersions(input: $input) {id createdAt __typename}}'
 }

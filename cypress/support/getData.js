@@ -183,6 +183,24 @@ export const getGetGuild = () => ({
   query: query.guild,
 })
 
+export const getAllBookmarksId = () => ({
+  operationName: 'getBookmarks',
+  variables: {},
+  query: query.allBookmarkId,
+})
+
+export const getBookmarks = () => ({
+  operationName: 'getBookmarks',
+  variables: {},
+  query: query.getBookmarks,
+})
+
+export const getArchivedDPVersions = (email) => ({
+  operationName: 'archivedDPVersions',
+  variables: {input: {employeeAzureId: email}},
+  query: query.archivedDPVersions,
+})
+
 export const updateEmployee = (id, agileManager) => ({
   operationName: 'updateEmployee',
   variables: { input: { id, agileManager } },

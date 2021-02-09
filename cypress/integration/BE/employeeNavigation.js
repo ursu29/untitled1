@@ -16,6 +16,7 @@ describe(`Check employee matrices`, () => {
 
   before(() => {
     cy.setToken('employee')
+    cy.setImgToken('employee')
     cy.post(getEmployee(email('employee'))).then(res => {
       const { data } = res.body
 
@@ -24,13 +25,6 @@ describe(`Check employee matrices`, () => {
     cy.getResponse(['getEmployeeMatrices'], 'alias')
     cy.visit('/profile/matrices')
     cy.wait(`@alias`).then(val => (response = val.response.body.data))
-  })
-
-  beforeEach(() => {
-    cy.restoreLocalStorage()
-  })
-  afterEach(() => {
-    cy.saveLocalStorage()
   })
 
   it('Check matrixEmployees keys', () => {
