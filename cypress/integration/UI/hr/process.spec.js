@@ -48,16 +48,9 @@ describe('Check active/inactive processes', () => {
   })
 
   it('Check count closed process', () => {
-    let closeTasks
-    let checkTasks
 
     cy.get(workspace.tab).eq(1).click()
     cy.get(workspace.tab).contains('Archived').click()
-
-    cy.getIcon('close').then(el => closeTasks = el.length)
-    cy.getIcon('check').then(el => checkTasks = el.length)
-
-    cy.getIcon('close').then(el => expect(el.length).equal(defaultCount - checkTasks))
-    cy.getIcon('check').then(el => expect(el.length).equal(defaultCount - closeTasks))
+    cy.getIcon('close').then(el => expect(el.length).to.be.greaterThan(0))
   })
 })
