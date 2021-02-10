@@ -3,9 +3,12 @@ import { ticket, trainingData } from '../../../support/client/training'
 import { agileManager } from '../../../support/client/employeeData'
 import { createTraining, deleteTraining } from '../../../support/getData'
 import { postEl } from '../../../support/locators'
+import {checkTwoString} from "../../../support/utils";
+import {query} from "../../../fixtures/query";
 
 describe('get all trainings response', () => {
   let response
+  let request
   let getId
 
   const { email, name, position } = agileManager
@@ -20,7 +23,15 @@ describe('get all trainings response', () => {
     })
     cy.getResponse(['onboardingTickets'], 'alias')
     cy.visit('/onboarding')
-    cy.wait(`@alias`).then(req => (response = req.response.body.data))
+    cy.wait(`@alias`).then(req => {
+      response = req.response.body.data
+      request = req.request.body
+    })
+  })
+
+  it('check request body', () => {
+    checkTwoString(query.onboardingTickets, request.query)
+    expect(request.operationName).equal('onboardingTickets')
   })
 
   it('Check all trainings response', () => {

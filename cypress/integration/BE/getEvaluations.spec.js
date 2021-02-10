@@ -5,15 +5,22 @@ import {
   evaluation,
 } from '../../support/client/selfEvaluation'
 import { employeeData } from '../../support/client/employeeData'
+import {checkTwoString} from "../../support/utils";
+import {query} from "../../fixtures/query";
 
 describe('Check getEvaluations response', () => {
   let response
+  let request
+  const OPERATION_NAME = 'getEvaluations'
 
   before(() => {
     cy.setToken('employee')
-    cy.getResponse(['getEvaluations'], 'alias')
+    cy.getResponse([OPERATION_NAME], 'alias')
     cy.visit('/profile/evaluation')
-    cy.wait(`@alias`).then(val => (response = val.response.body.data))
+    cy.wait(`@alias`).then(val => {
+      response = val.response.body.data
+      request = val.request.body
+    })
   })
 
   beforeEach(() => {
@@ -21,6 +28,11 @@ describe('Check getEvaluations response', () => {
   })
   afterEach(() => {
     cy.saveLocalStorage()
+  })
+
+  it('check request body', () => {
+    checkTwoString(query.getEvaluations, request.query)
+    expect(request.operationName).equal(OPERATION_NAME)
   })
 
   it('getEvaluations response', () => {

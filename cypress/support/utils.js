@@ -23,5 +23,5 @@ export const checkElementsInArray = (array, key, value) =>
   array.forEach(el => expect(el[key]).equal(value))
 
 export const removeSpaces = str => str.replace(/\s/g, '')
-
+export const replaceMultipleSpaces = string => string.replace(/\s\s+/g, ' ');
 export const checkTwoString = (first, second) => expect(removeSpaces(first)).equal(removeSpaces(second))

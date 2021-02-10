@@ -4,15 +4,22 @@ import {
   fromWhoReviewers,
   evaluationReviewersData,
 } from '../../support/client/selfEvaluation'
+import {checkTwoString} from "../../support/utils";
+import {query} from "../../fixtures/query";
 
 describe('Check getEvaluationRevieers', () => {
   let response
+  let request
+  const OPERATION_NAME = 'getEvaluationRevieers'
 
   before(() => {
     cy.setToken('employee')
-    cy.getResponse(['getEvaluationRevieers'], 'alias')
+    cy.getResponse([OPERATION_NAME], 'alias')
     cy.visit('/profile/evaluation')
-    cy.wait(`@alias`).then(val => (response = val.response.body.data))
+    cy.wait(`@alias`).then(val => {
+      response = val.response.body.data
+      request = val.request.body
+    })
   })
 
   it('Attributes response', () => {
@@ -27,5 +34,10 @@ describe('Check getEvaluationRevieers', () => {
     cy.compareObjectsKeys(toWhom, toWhomData(id))
     cy.compareObjectsKeys(fromWho, fromWhoReviewers)
     expect(fromWho.isMe).to.be.a('boolean')
+  })
+
+  it('check request body', () => {
+    checkTwoString(query.getEvaluationRevieers, request.query)
+    expect(request.operationName).equal(OPERATION_NAME)
   })
 })
