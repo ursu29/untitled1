@@ -72,7 +72,7 @@ function EmployeeSelect(
         }
       }}
       items={data?.employees
-        .filter(i => (withoutMe ? !i.isMe : true))
+        .filter(i => (withoutMe ? !i?.isMe : true))
         .map(employee => {
           return {
             id: employee.id,

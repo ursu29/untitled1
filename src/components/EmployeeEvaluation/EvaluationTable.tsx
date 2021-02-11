@@ -134,7 +134,7 @@ export default function EvaluationTable({
     })
     .filter(i => i.children)
 
-  const showBaseColumns = editable || employee.isMe
+  const showBaseColumns = editable || employee?.isMe
 
   const TableCell = ({
     rateDisabled,
@@ -344,7 +344,7 @@ export default function EvaluationTable({
    */
   if (isArchivedChosen) {
     columns = columns.concat(
-      Array.from(new Set(evaluations?.map(e => e.fromWho.name)))?.map((name, index) => {
+      Array.from(new Set(evaluations?.map(e => e.fromWho?.name)))?.map((name, index) => {
         return {
           title: name || '(undefined)',
           width: 120,
@@ -375,7 +375,7 @@ export default function EvaluationTable({
   if (!isArchivedChosen) {
     if (showBaseColumns) {
       columns.push({
-        title: employee.isMe ? 'You' : employee?.name,
+        title: employee?.isMe ? 'You' : employee?.name,
         width: 120,
         render: (text: any, item: any) => {
           if (item.children) return null
@@ -388,7 +388,7 @@ export default function EvaluationTable({
 
           return (
             <TableCell
-              rateDisabled={!employee.isMe}
+              rateDisabled={!employee?.isMe}
               isArchivedChosen={!!isArchivedChosen}
               itemId={item.id}
               cellCode={item.id + ' you'}
@@ -499,7 +499,7 @@ export default function EvaluationTable({
           autoSize={{ minRows: 4 }}
           defaultValue={comment?.body}
           rows={4}
-          disabled={employee.isMe || !editable}
+          disabled={employee?.isMe || !editable}
           onChange={e => {
             onComment({
               body: e.target.value,

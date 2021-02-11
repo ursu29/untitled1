@@ -11,7 +11,6 @@ import {
 } from '../../queries/onboardingTickets'
 import { OnboardingTicket } from '../../types'
 import EmployeeSelect from '../Employees/EmployeeSelect'
-import { useEmployee } from '../../utils/withEmployee'
 
 const layout = {
   labelCol: { span: 7 },
@@ -24,36 +23,38 @@ const tailLayout = {
 export default function DrawerForm({
   ticket,
   handleClose,
+  withResponsible,
 }: {
   ticket: OnboardingTicket | null
   handleClose: any
+  withResponsible: string | null
 }) {
-  const user = useEmployee()
-  const withResponsible = user.employee.email.toLowerCase()
+  const refetchQueries = [
+    { query: getOnboardingTickets },
+    {
+      query: getEmployeesOnboardingTickets,
+      variables: withResponsible
+        ? {
+            withResponsible,
+          }
+        : {},
+    },
+  ]
 
   const [createTicket] = useMutation(createOnboardingTicket, {
-    refetchQueries: [
-      { query: getOnboardingTickets },
-      { query: getEmployeesOnboardingTickets, variables: { withResponsible } },
-    ],
+    refetchQueries,
     onCompleted: () => message.success('New ticket has been created'),
     onError: message.error,
   })
 
   const [updateTicket] = useMutation(updateOnboardingTicket, {
-    refetchQueries: [
-      { query: getOnboardingTickets },
-      { query: getEmployeesOnboardingTickets, variables: { withResponsible } },
-    ],
+    refetchQueries,
     onCompleted: () => message.success('Ticket has been updated'),
     onError: message.error,
   })
 
   const [deleteTicket] = useMutation(deleteOnboardingTicket, {
-    refetchQueries: [
-      { query: getOnboardingTickets },
-      { query: getEmployeesOnboardingTickets, variables: { withResponsible } },
-    ],
+    refetchQueries,
     onCompleted: () => message.success('Ticket has been deleted'),
     onError: message.error,
   })

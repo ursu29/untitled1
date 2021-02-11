@@ -12,6 +12,8 @@ export interface Props {
 }
 
 function EmployeeCard({ employee, noLink, cardProps }: Props) {
+  if (!employee) return null
+
   const CardInner = () => (
     <Card size={'small'} style={{ cursor: 'pointer', marginBottom: 4 }} {...cardProps}>
       <Card.Meta

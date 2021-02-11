@@ -56,6 +56,8 @@ export default function Onboarding() {
 
   // Tickets with me as responsible
   const writeAccess = useStrapiGroupCheck('SUPER_USER')
+  const withResponsible = writeAccess ? null : user.employee.email.toLowerCase()
+
   const myTickets = writeAccess
     ? ticketsData?.onboardingTickets
     : ticketsData?.onboardingTickets.filter(
@@ -236,7 +238,9 @@ export default function Onboarding() {
         </>
       )}
 
-      {isMyTicketsView && myTickets && <MyTickets tickets={myTickets} />}
+      {isMyTicketsView && myTickets && (
+        <MyTickets tickets={myTickets} withResponsible={withResponsible} />
+      )}
 
       <Drawer
         maskClosable={false}
@@ -253,6 +257,7 @@ export default function Onboarding() {
               : null
           }
           handleClose={() => setDrawerVisibility(false)}
+          withResponsible={withResponsible}
         />
       </Drawer>
     </PageContent>

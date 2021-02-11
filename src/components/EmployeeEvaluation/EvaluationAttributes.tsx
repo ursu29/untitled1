@@ -148,7 +148,7 @@ function EvaluationAttributes({
         {(reviewers: any) => {
           return (
             <>
-              {(editable || employee.isMe) && (
+              {(editable || employee?.isMe) && (
                 <Controls
                   back={
                     <Space size="middle">
@@ -191,7 +191,7 @@ function EvaluationAttributes({
                 >
                   {editable && <AddEvaluationReviewer employee={employee} />}
                   <Divider type="vertical" style={{ visibility: 'hidden' }} />
-                  {(editable || employee.isMe) && (
+                  {(editable || employee?.isMe) && (
                     <ExportEvaluations
                       evaluationAttributes={data?.evaluationAttributes}
                       evaluations={evaluations}

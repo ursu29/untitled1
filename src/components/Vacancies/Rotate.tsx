@@ -48,7 +48,7 @@ function Rotate({ vacancy }: { vacancy: QueryType['vacancies'][0] }) {
     },
   })
 
-  const isRotating = vacancy.rotateEmployees?.find(i => i.isMe)
+  const isRotating = vacancy.rotateEmployees?.find(i => i?.isMe)
 
   if (isRotating) {
     return (

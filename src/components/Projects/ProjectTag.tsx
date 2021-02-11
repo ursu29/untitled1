@@ -35,7 +35,7 @@ export default function ProjectTag({ project, small = false, leading, style = {}
     ? project.name.substring(SWISSRE_PREFIX.length)
     : project.name
   return (
-    <span style={{ display: 'inline-block' }}>
+    <span>
       <Link to={getProjectLink(project.code)}>
         <Tag
           title={project.name}
@@ -49,6 +49,7 @@ export default function ProjectTag({ project, small = false, leading, style = {}
             padding: isLarge ? '5px 20px' : '4px 10px',
             marginRight: isLarge ? 16 : 10,
             userSelect: 'none',
+            maxWidth: '100%',
             ...style,
           }}
         >
