@@ -62,12 +62,6 @@ export interface Post {
   updatedBy: Employee
   images: File[]
   tags: Tag[]
-  isPublic: boolean
-  annotation: string
-  publishDate?: string
-  titleImage?: File
-  backgroundImage?: File
-  foregroundImage?: File
 }
 
 export interface Project {

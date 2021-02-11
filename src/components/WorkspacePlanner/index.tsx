@@ -348,7 +348,7 @@ export default function WorkspacePlanner() {
       variables: {
         input: {
           workplace: workplaceId,
-          employee: employee.employee.id,
+          // employee: employee.employee.id,
           startDate: dateRange.startDate,
           finishDate: dateRange.finishDate,
         },

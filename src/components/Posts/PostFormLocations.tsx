@@ -1,41 +1,29 @@
 import { Form, Switch, Tag, Space } from 'antd'
 import React, { useCallback, useEffect, useState } from 'react'
+import { LOCATION } from '../../types'
 
 const { CheckableTag } = Tag
 
-const LOCATIONS_EN = ['All', 'Saint Petersburg', 'Tomsk', 'Kaliningrad', 'Zürich']
-const LOCATIONS_RU = ['Saint Petersburg', 'Tomsk', 'Kaliningrad']
+const LOCATIONS = Object.values(LOCATION)
 
 interface Props {
-  isTranslated?: boolean
   value?: string[]
   onChange?: (values: string[] | undefined) => void
 }
 
-export default function PostFormLocations({ isTranslated, value, onChange }: Props) {
+export default function PostFormLocations({ value, onChange }: Props) {
   const [show, toggleShow] = useState(Boolean(value?.length))
-
-  const LOCATIONS = isTranslated ? LOCATIONS_EN : LOCATIONS_RU
 
   const handleChange = useCallback(
     (tag: string) => {
-      if (tag === 'All') {
-        if (onChange) onChange([tag])
-      } else if (value?.includes(tag)) {
-        if (onChange) onChange((value || []).filter(i => i !== tag && i !== 'All'))
+      if (value?.includes(tag)) {
+        if (onChange) onChange((value || []).filter(i => i !== tag))
       } else {
-        if (onChange) onChange((value || []).filter(i => i !== 'All').concat(tag))
+        if (onChange) onChange((value || []).concat(tag))
       }
     },
     [value, onChange],
   )
-
-  useEffect(() => {
-    if (!isTranslated && value?.includes('All')) {
-      if (onChange) onChange((value || []).filter(i => i !== 'All'))
-    }
-    //eslint-disable-next-line
-  }, [isTranslated])
 
   useEffect(() => {
     if (value?.length && !show) {
@@ -54,12 +42,6 @@ export default function PostFormLocations({ isTranslated, value, onChange }: Pro
               if (show) {
                 if (onChange) {
                   onChange(undefined)
-                }
-              } else {
-                if (isTranslated) {
-                  if (onChange) {
-                    onChange(['All'])
-                  }
                 }
               }
             }}

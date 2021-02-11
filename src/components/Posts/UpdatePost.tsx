@@ -1,7 +1,6 @@
 import { EditOutlined } from '@ant-design/icons'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import moment from 'moment'
 import React from 'react'
 import message from '../../message'
 import getPost from '../../queries/getPost'
@@ -21,18 +20,7 @@ const mutation = gql`
 interface Props {
   post: Pick<
     Post,
-    | 'id'
-    | 'title'
-    | 'body'
-    | 'isTranslated'
-    | 'createdAt'
-    | 'locations'
-    | 'publishDate'
-    | 'backgroundImage'
-    | 'foregroundImage'
-    | 'images'
-    | 'annotation'
-    | 'titleImage'
+    'id' | 'title' | 'body' | 'isTranslated' | 'createdAt' | 'locations' | 'images'
   > & {
     tags?: Pick<Tag, 'id' | 'name' | 'description'>[]
   }
@@ -61,34 +49,6 @@ export default function UpdatePost({ post }: Props) {
               id: tag.id,
               name: tag.name,
             })),
-            publishDate: post.publishDate ? moment(post.publishDate, 'YYYY-MM-DDTHH:mm:ssZ') : null,
-            titleImage: post.titleImage
-              ? [
-                  {
-                    ...post.titleImage,
-                    uid: post.titleImage?.id,
-                    name: post.titleImage?.fileName,
-                  },
-                ]
-              : null,
-            backgroundImage: post.backgroundImage
-              ? [
-                  {
-                    ...post.backgroundImage,
-                    uid: post.backgroundImage?.id,
-                    name: post.backgroundImage?.fileName,
-                  },
-                ]
-              : null,
-            foregroundImage: post.foregroundImage
-              ? [
-                  {
-                    ...post.foregroundImage,
-                    uid: post.foregroundImage?.id,
-                    name: post.foregroundImage?.fileName,
-                  },
-                ]
-              : null,
             images: post.images?.map((image: any) => ({
               ...image,
               uid: image.id,
