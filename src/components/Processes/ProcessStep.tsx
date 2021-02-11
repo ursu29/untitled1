@@ -58,7 +58,7 @@ export default function ProcessStep({ step }: { step: ProcessStepDetails }) {
         key="1"
         extra={
           <div style={{ display: 'flex' }}>
-            {step.type === 'notify' && (
+            {step.type === 'NOTIFY' && (
               <div>
                 <Tooltip placement="bottom" title="Automatic">
                   <Tag
@@ -75,7 +75,7 @@ export default function ProcessStep({ step }: { step: ProcessStepDetails }) {
                 </Tooltip>
               </div>
             )}
-            {step.type === 'independent' && (
+            {step.type === 'INDEPENDENT' && (
               <div>
                 <Tooltip placement="bottom" title="Independent">
                   <Tag

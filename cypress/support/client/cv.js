@@ -15,7 +15,7 @@ export const vitaeData = {
   dateEnd: 'date',
   dateStart: 'date',
   id: 'some id',
-  level: 'test',
+  level: 'CONFIDENT',
   position: 'front end',
   project: '',
   responsibilities: 'no',

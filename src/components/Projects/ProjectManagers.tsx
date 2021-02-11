@@ -21,10 +21,10 @@ function ProjectManagers({ project, title, managers }: Props) {
     onError: message.error,
   })
   if (!loading && !data) return null
-  const scrumMasters = data?.project.scrumMasters ?? []
+  const scrumMasters = data?.project?.scrumMasters ?? []
   let agileManagers: EmployeePick[] = []
 
-  data?.project.employees.forEach(employee => {
+  data?.project?.employees.forEach(employee => {
     if (employee.agileManager) {
       agileManagers.push(employee.agileManager)
     }

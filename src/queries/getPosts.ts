@@ -10,24 +10,6 @@ export default gql`
       isTranslated
       createdAt
       locations
-      annotation
-      isPublic
-      publishDate
-      titleImage {
-        id
-        url
-        fileName
-      }
-      backgroundImage {
-        id
-        url
-        fileName
-      }
-      foregroundImage {
-        id
-        url
-        fileName
-      }
       createdBy {
         id
         name

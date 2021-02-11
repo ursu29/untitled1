@@ -128,7 +128,7 @@ function Vacancy({
               </p>
               <p>
                 <Typography.Title level={4}>Location</Typography.Title>
-                <Typography.Text>{vacancy?.locations?.map(i => i.name).join(', ')}</Typography.Text>
+                <Typography.Text>{vacancy?.locations.join(', ')}</Typography.Text>
               </p>
               {vacancy.englishLevel && (
                 <p>

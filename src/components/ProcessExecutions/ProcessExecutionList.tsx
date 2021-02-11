@@ -165,11 +165,7 @@ function ProcessList({ items, tabName }: Props) {
       },
       filters: [
         //@ts-ignore
-        ...new Set(
-          items
-            .filter(e => e?.locations)
-            .flatMap(item => item.locations.map(location => location?.name)),
-        ),
+        ...new Set(items.filter(e => e?.locations).flatMap(item => item.locations)),
       ].map(e => ({ text: e, value: e })),
       onFilter: (value: any, record: any) =>
         record.locations && record.locations.map((e: any) => e?.name).includes(value),
@@ -364,8 +360,8 @@ function ProcessList({ items, tabName }: Props) {
       //@ts-ignore
       columns={columns}
       dataSource={sortedItems
-        .filter(e => e.status !== 'holding')
-        .concat(sortedItems.filter(e => e.status === 'holding'))}
+        .filter(e => e.status !== 'HOLDING')
+        .concat(sortedItems.filter(e => e.status === 'HOLDING'))}
       size="small"
       pagination={{ showSizeChanger: true }}
     />

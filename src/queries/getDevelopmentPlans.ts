@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import { DevelopmentPlan } from '../types'
 
 export default gql`
-  query getDevelopmentPlans($input: DevelopmentPlansInput) {
+  query getDevelopmentPlans($input: DevelopmentPlansInput!) {
     developmentPlans(input: $input) {
       id
       createdAt

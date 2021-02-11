@@ -57,6 +57,7 @@ export default function WorkspaceSelector({
   }
 
   useEffect(() => {
+    if (!pool?.workspaces.length) return
     onSelect(pool?.workspaces[0]?.id || '')
     // eslint-disable-next-line
   }, [pool])

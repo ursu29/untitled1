@@ -36,8 +36,8 @@ export default function BookingList({
       render: (_: any, record: WorkplaceBookingType & { workplaceId: string }) => {
         return (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <BookingEmployee employeeEmail={record.employeeEmail} />
-            {record.employeeEmail.toLowerCase() === employee.employee.email.toLowerCase() &&
+            <BookingEmployee employeeId={record.employeeId} />
+            {record.employeeId === employee.employee.id &&
               dayjs().isSameOrBefore(dayjs(record.finishDate), 'day') && (
                 <div
                   style={{ width: '120px', paddingLeft: '40px' }}

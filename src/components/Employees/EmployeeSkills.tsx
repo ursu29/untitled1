@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Employee } from '../../types'
+import { Employee, LEVEL } from '../../types'
 import query, { QueryType } from '../../queries/getEmployeeExperiences'
 import getLevels, { QueryType as LQueryType } from '../../queries/getLevels'
 import Skeleton from '../UI/Skeleton'
@@ -51,8 +51,8 @@ export default function EmployeeSkills({ employee, editable }: Props) {
 
   const experiences = data?.employees?.[0].experiences
   const levels = lData?.levels
-  const levelIds = levels?.filter(level => level.index <= 1).map(level => level.id)
-  const skills = experiences?.filter(exp => levelIds?.includes(exp.level?.id)).map(exp => exp.skill)
+  const levelIds = levels?.filter(level => level <= LEVEL.LEARNING)
+  const skills = experiences?.filter(exp => levelIds?.includes(exp.level)).map(exp => exp.skill)
   const showTabs = editable && Boolean(skills?.length)
 
   return (
@@ -60,7 +60,7 @@ export default function EmployeeSkills({ employee, editable }: Props) {
       {levels && experiences && (
         <EmployeeSkillsDraggable
           editable={editable}
-          levels={levels.sort((one, two) => (one.index < two.index ? 1 : -1))}
+          levels={levels}
           experiences={experiences.filter(e => !e.skill?.isMatrixOnly)}
           onMoveSkill={(id, level) => updateOne({ variables: { input: { id, level } } })}
           onGroupUpdate={(skills, level) => {

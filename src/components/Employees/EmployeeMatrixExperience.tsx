@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import { Experience, Skill, Employee, Level, ArchivedMatrixRaw } from '../../types'
-import gql from 'graphql-tag'
-import MatrixExperience from '../Matrices/MatrixExperience'
 import { useMutation } from '@apollo/react-hooks'
+import gql from 'graphql-tag'
+import React, { useState } from 'react'
+import message from '../../message'
 import getEmployeeExperiences from '../../queries/getEmployeeExperiences'
 import updateExperience from '../../queries/updateExperience'
-import message from '../../message'
+import { ArchivedMatrixRaw, Employee, Experience, LEVEL, Skill } from '../../types'
+import MatrixExperience from '../Matrices/MatrixExperience'
 
 const createExperience = gql`
   mutation createExperience($input: CreateExperienceInput) {
@@ -26,7 +26,7 @@ const deleteExperience = gql`
 interface Props {
   experience?: {
     id: Experience['id']
-    level: Pick<Level, 'id' | 'index' | 'name'>
+    level: LEVEL
     comment: Experience['comment']
   }
   skill?: Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'>
@@ -90,7 +90,7 @@ export default function EmployeeMatrixExperience({
           input: {
             employee: employee?.id,
             skill: skill?.id,
-            level: level.id,
+            level,
             comment,
           },
         },
@@ -100,7 +100,7 @@ export default function EmployeeMatrixExperience({
         variables: {
           input: {
             id: experience.id,
-            level: level.id,
+            level,
             comment,
           },
         },

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Experience, Skill, Employee, Level } from '../../types'
+import { Experience, Skill, Employee, LEVEL } from '../../types'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
 import SkillLevelSelect from '../Skills/SkillLevelSelect'
@@ -28,7 +28,7 @@ const deleteExperience = gql`
 interface Props {
   experience?: {
     id: Experience['id']
-    level: Pick<Level, 'id' | 'index' | 'name'>
+    level: LEVEL
   }
   skill?: Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'>
   employee?: Pick<Employee, 'id'>
@@ -90,7 +90,7 @@ export default function EmployeeMatrixExperience({ experience, skill, employee }
               input: {
                 employee: employee.id,
                 skill: skill.id,
-                level: level.id,
+                level: level,
               },
             },
           })
@@ -99,7 +99,7 @@ export default function EmployeeMatrixExperience({ experience, skill, employee }
             variables: {
               input: {
                 id: experience.id,
-                level: level.id,
+                level: level,
               },
             },
           })

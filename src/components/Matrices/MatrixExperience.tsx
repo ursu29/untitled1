@@ -6,7 +6,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import getLevels, { QueryType } from '../../queries/getLevels'
 import { MatrixCell } from './styled'
-import { Skill, Level, Experience, ArchivedMatrixRaw } from '../../types'
+import { Skill, LEVEL, Experience, ArchivedMatrixRaw } from '../../types'
 import { CircleButton, circleButtonsPallette } from './CircleButton'
 import { getSkillLink } from '../../paths'
 import { MessageOutlined } from '@ant-design/icons'
@@ -59,7 +59,7 @@ interface Props {
   skill: Pick<Skill, 'id' | 'name' | 'description'>
   experience?: {
     id: Experience['id']
-    level: Pick<Level, 'id' | 'index' | 'name'>
+    level: LEVEL
     comment: Experience['comment']
   }
   archivedExperience?: ArchivedMatrixRaw['experiences'][0]
@@ -72,15 +72,15 @@ interface Props {
   loading?: boolean
 }
 
-const getName = (index: number) => {
-  const names: any = {
-    0: 'Unknown',
-    1: 'Theoretical knowledge',
-    2: 'Practical knowledge',
-    3: 'Practical knowledge',
-  }
-  return names[index] || '?'
-}
+// const getName = (index: number) => {
+//   const names: any = {
+//     0: 'Unknown',
+//     1: 'Theoretical knowledge',
+//     2: 'Practical knowledge',
+//     3: 'Practical knowledge',
+//   }
+//   return names[index] || '?'
+// }
 
 function MatrixExperience({
   skill,
@@ -103,35 +103,33 @@ function MatrixExperience({
 
   const { data } = useQuery<QueryType>(getLevels)
 
-  const wantsToKnowLevel = data?.levels.filter(e => e.index === 0)[0]
+  const wantsToKnowLevel = LEVEL.WANTED
 
-  const filteredLevels = data?.levels
-    .sort((a, b) => a.index - b.index)
-    .filter(level => level.index !== 3)
-    .map(level => {
-      return {
-        ...level,
-        name: getName(level.index),
-      }
-    })
+  const filteredLevels = data?.levels.filter(level => level !== LEVEL.CONFIDENT)
+  // .map(level => {
+  //   return {
+  //     level,
+  //     name: getName(Object.keys(LEVEL).indexOf(level)),
+  //   }
+  // })
 
   let backgroundColor = 'rgba(0, 0, 0, 0.04)'
   if (experience) {
-    if (experience.level.index === 1) {
+    if (experience.level === LEVEL.LEARNING) {
       backgroundColor = 'rgba(242, 201, 76, 0.3)'
     }
-    if (experience.level.index > 1) {
+    if (experience.level > LEVEL.LEARNING) {
       backgroundColor = 'rgba(21, 225, 127, 0.3)'
     }
   }
 
   if (archivedExperience && isArchivedChosen && data) {
-    const levelIndex = data.levels.find(level => level.id === archivedExperience.level)?.index
+    const levelIndex = data.levels.find(level => level === archivedExperience.level)
 
-    if (levelIndex && levelIndex === 1) {
+    if (levelIndex && levelIndex === LEVEL.LEARNING) {
       backgroundColor = 'rgba(242, 201, 76, 0.3)'
     }
-    if (levelIndex && levelIndex > 1) {
+    if (levelIndex && levelIndex > LEVEL.LEARNING) {
       backgroundColor = 'rgba(21, 225, 127, 0.3)'
     }
   }
@@ -213,15 +211,20 @@ function MatrixExperience({
                             backgroundColor={button.backgroundColor}
                             borderColor={button.borderColor}
                             isActive={
-                              experience?.level.index ? i === experience?.level.index : i === 0
+                              experience?.level
+                                ? i === Object.keys(LEVEL).indexOf(experience?.level)
+                                : i === 0
                             }
                             isHovered
                             onClick={() => {
-                              if (i === experience?.level.index) return
+                              if (experience && i === Object.keys(LEVEL).indexOf(experience?.level))
+                                return
                               i === 0 && !experience?.comment
                                 ? onDeselectLevel()
                                 : onUpdateExperience(
-                                    filteredLevels?.find(level => level.index === i),
+                                    filteredLevels?.find(
+                                      level => Object.keys(LEVEL).indexOf(level) === i,
+                                    ),
                                     experience?.comment,
                                   )
                             }}

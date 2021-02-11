@@ -11,8 +11,8 @@ function ProcessExecutionStatusTag({
   }
 }) {
   if (
-    processExecution.status === 'running' &&
-    processExecution.process?.type === 'onboarding' &&
+    processExecution.status === 'RUNNING' &&
+    processExecution.process?.type === 'ONBOARDING' &&
     !processExecution.vacancy?.isPublished
   ) {
     return (
@@ -22,7 +22,7 @@ function ProcessExecutionStatusTag({
     )
   }
 
-  if (processExecution.status === 'cancelled') {
+  if (processExecution.status === 'CANCELLED') {
     return (
       <Tag style={{ margin: '0 3px 3px 0' }} color="volcano">
         Cancelled
@@ -30,7 +30,7 @@ function ProcessExecutionStatusTag({
     )
   }
 
-  if (processExecution.status === 'finished') {
+  if (processExecution.status === 'FINISHED') {
     return (
       <Tag style={{ margin: '0 3px 3px 0' }} color="blue">
         Completed
@@ -38,7 +38,7 @@ function ProcessExecutionStatusTag({
     )
   }
 
-  if (processExecution.status === 'running') {
+  if (processExecution.status === 'RUNNING') {
     return (
       <Tag style={{ margin: '0 3px 3px 0' }} color="green">
         Running
@@ -46,7 +46,7 @@ function ProcessExecutionStatusTag({
     )
   }
 
-  if (processExecution.status === 'holding') {
+  if (processExecution.status === 'HOLDING') {
     return (
       <Tag style={{ margin: '0 3px 3px 0' }} color="magenta">
         Holding

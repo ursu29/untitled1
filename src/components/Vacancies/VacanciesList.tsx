@@ -65,15 +65,11 @@ function ProcessList({ items = [], history }: Props & RouteComponentProps) {
           dataIndex: '.location.name',
           title: 'Location',
           render: (_, i) => {
-            return <span>{i.locations?.map(i => i.name).join(', ') ?? '-'}</span>
+            return <span>{i.locations.join(', ') ?? '-'}</span>
           },
           filters: [
             //@ts-ignore
-            ...new Set(
-              items
-                .filter(e => e.locations)
-                .flatMap(item => item.locations.map(location => location.name)),
-            ),
+            ...new Set(items.filter(e => e.locations).flatMap(item => item.locations)),
           ].map(e => ({ text: e, value: e })),
           onFilter: (value: any, record: any) =>
             record.locations && record.locations.map((e: any) => e.name).includes(value),

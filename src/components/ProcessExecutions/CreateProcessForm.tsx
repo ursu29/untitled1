@@ -52,7 +52,7 @@ const CreateProcessForm = ({ form, onSubmit, value, loading }: Props) => {
       {type && (
         <Form.Item label="Locations">
           {getFieldDecorator('locations', {
-            initialValue: value?.locations?.map(i => i.id),
+            initialValue: value?.locations,
             rules: [{ required: true }],
           })(<LocationSelect mode="multiple" wide />)}
         </Form.Item>

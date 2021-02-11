@@ -1,13 +1,11 @@
 import { useQuery } from '@apollo/react-hooks'
 import React from 'react'
 import getLocations, { QueryType } from '../../queries/getLocations'
-import { Location } from '../../types'
+import { LOCATION } from '../../types'
 import Select, { Props as SelectProps } from '../UI/Select'
 
-type LocationPick = Pick<Location, 'id' | 'name'>
-
 type Props = {
-  value?: LocationPick
+  value?: LOCATION
   onChange?: (i: string | string[]) => any
   onBlur?: any
   defaultOpen?: boolean
@@ -22,8 +20,8 @@ function LocationSelect({ onChange, value, wide, size, mode, ...props }: Props, 
   const { data, loading } = useQuery<QueryType>(getLocations)
 
   const location = Array.isArray(value)
-    ? data?.locations.filter(i => value.includes(i.id))
-    : data?.locations.find(i => i.id === String(value))
+    ? data?.locations.filter(i => value.includes(i))
+    : data?.locations.find(i => i === value)
 
   return (
     <Select
@@ -35,29 +33,29 @@ function LocationSelect({ onChange, value, wide, size, mode, ...props }: Props, 
       size={size}
       value={
         Array.isArray(location)
-          ? location.map(i => ({ key: i.name, value: i.name }))
+          ? location.map(i => ({ key: i, value: i }))
           : location
-          ? { key: location.name, value: location.name }
+          ? { key: location, value: location }
           : undefined
       }
       onBlur={props.onBlur}
       onSelect={(value: any) => {
         if (!mode || mode === null) {
-          const location = data!.locations.find(i => i.name === value.key)
+          const location = data!.locations.find(i => i === value.key)
           if (location) {
-            onChange && onChange(location.id)
+            onChange && onChange(location)
           }
         } else {
           const names = value.map((i: any) => i.key)
-          const locations = data!.locations.filter(i => names.includes(i.name))
-          onChange && onChange(locations.map(i => i.id))
+          const locations = data!.locations.filter(i => names.includes(i))
+          onChange && onChange(locations.map(i => i))
         }
       }}
       items={data?.locations.map(i => {
         return {
-          id: i.id,
-          key: i.name,
-          value: i.name,
+          id: i,
+          key: i,
+          value: i,
         }
       })}
     />

@@ -16,35 +16,35 @@ import './style.css'
 const parent: { title: string; key: string; children?: any }[] = [
   {
     title: 'Quality of work',
-    key: 'quality_of_work',
+    key: 'QUALITY_OF_WORK',
   },
   {
     title: 'Job Competence',
-    key: 'job_competence',
+    key: 'JOB_COMPETENCE',
   },
   {
     title: 'Communication skills',
-    key: 'communication_skills',
+    key: 'COMMUNICATION_SKILLS',
   },
   {
     title: 'Problem solving and decision making',
-    key: 'problem_solving',
+    key: 'PROBLEM_SOLVING',
   },
   {
     title: 'Planning and organizational skills',
-    key: 'planning',
+    key: 'PLANNING',
   },
   {
     title: 'Time management',
-    key: 'time_management',
+    key: 'TIME_MANAGEMENT',
   },
   {
     title: 'Initiative and resourcefulness',
-    key: 'initiative',
+    key: 'INITIATIVE',
   },
   {
     title: 'Free estimate',
-    key: 'free_estimate',
+    key: 'FREE_ESTIMATE',
   },
 ]
 

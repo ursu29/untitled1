@@ -97,7 +97,7 @@ export default function EmployeeSubordinates({ employee }: Props) {
               {/* TODO: it is not the best solution to use this component there. 
               as it was not the best to use Avatar component with name inside it (previous version)
               suggestion: customize EmployeeCard to fit one line (small version) */}
-              <BookingEmployee employeeEmail={record.email} />
+              <BookingEmployee employeeId={record.id} />
             </Link>
           </div>
         )

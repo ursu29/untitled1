@@ -22,7 +22,7 @@ import dayjs from 'dayjs'
 import moment from 'moment'
 
 const mutation = gql`
-  mutation updateDevelopmentPlan($input: UpdateDevelopmentPlanInput) {
+  mutation updateDevelopmentPlan($input: UpdateDevelopmentPlanInput!) {
     updateDevelopmentPlan(input: $input) {
       id
     }

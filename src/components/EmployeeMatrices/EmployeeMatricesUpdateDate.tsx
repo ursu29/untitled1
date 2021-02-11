@@ -42,6 +42,7 @@ export default function EmployeeMatrix({ employee }: Props) {
         employee: employee?.id,
       },
     },
+    skip: !employee,
   })
 
   const [addCustomField] = useMutation(customFieldsMutation, {

@@ -41,7 +41,7 @@ const query = gql`
   }
 `
 const mutation = gql`
-  mutation updateCurriculumVitae($input: UpdateCurriculumVitaeInput) {
+  mutation updateCurriculumVitae($input: UpdateCurriculumVitaeInput!) {
     updateCurriculumVitae(input: $input) {
       id
     }
@@ -155,13 +155,13 @@ function EmployeeCV({ employee, editable, form }: PropsGeneral) {
 
         onChange({
           id: curriculumVitaeID,
-          employeeEmail: employee.email,
+          employee: employee.id,
           vitaes: values.cvForm.map((vitae: any) => ({
             id: vitae.id,
             position: vitae.position,
             company: vitae.company.charAt(0).toUpperCase() + vitae.company.slice(1).trim(),
-            dateStart: vitae.dateStart ? dateToISO(vitae.dateStart) : '',
-            dateEnd: vitae.dateEnd ? dateToISO(vitae.dateEnd) : '',
+            dateStart: vitae.dateStart ? dateToISO(vitae.dateStart) : null,
+            dateEnd: vitae.dateEnd ? dateToISO(vitae.dateEnd) : null,
             project: isWordSidenis(vitae.company) ? vitae.project : '',
             responsibilities: vitae.responsibilities,
             level: vitae.level,

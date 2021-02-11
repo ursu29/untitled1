@@ -16,7 +16,7 @@ import {
   workspaceDesignAccessQuery,
   workspaceDesignAccessQueryType,
 } from '../../queries/workspace'
-import { WorkplaceType } from '../../types'
+import { WorkplaceType, LOCATION } from '../../types'
 import { useEmployee } from '../../utils/withEmployee'
 import PageContent from '../UI/PageContent'
 import BookTools from './BookTools'
@@ -44,12 +44,8 @@ const getOfficeDays = gql`
       employeeCount
       employees {
         id
-        strapiId
       }
-      location {
-        id
-        code
-      }
+      location
     }
   }
 `
@@ -69,7 +65,7 @@ export default function WorkspacePlanner() {
   const employee = useEmployee()
 
   // State
-  const [currentLocation, setCurrentLocation] = useState<string>()
+  const [currentLocation, setCurrentLocation] = useState<LOCATION>(employee.employee.location)
   const [workplaces, setWorkplaces] = useState<WorkplaceType[]>([])
   const [isDesignMode, toggleDesignMode] = useState(false)
   const [dateRange, setDateRange] = useState({
@@ -92,7 +88,7 @@ export default function WorkspacePlanner() {
     getLocations,
     {
       onCompleted: dataLocations => {
-        setCurrentLocation(dataLocations.locations[0].id)
+        setCurrentLocation(dataLocations.locations[0])
       },
     },
   )
@@ -111,7 +107,7 @@ export default function WorkspacePlanner() {
    */
 
   const workspacePoolQueryVariables = {
-    input: { locationId: currentLocation || '' },
+    input: { location: currentLocation || LOCATION.SAINT_PETERSBURG },
     bookingsInput: { startDate: dateRange.startDate, finishDate: dateRange.finishDate },
   }
 
@@ -120,7 +116,7 @@ export default function WorkspacePlanner() {
   >(workspacePoolQuery, {
     variables: workspacePoolQueryVariables,
   })
-  const workspacePool = dataWorkspacePool?.workspacePool
+  const workspacePool = dataWorkspacePool
 
   /**
    *  GET WORKSPACE
@@ -158,9 +154,7 @@ export default function WorkspacePlanner() {
       }
     })
   const bookedByMe = bookingList
-    ?.filter(
-      booking => booking.employeeEmail.toLowerCase() === employee.employee.email.toLowerCase(),
-    )
+    ?.filter(booking => booking.employeeId === employee.employee.id)
     .map(e => e.id)
 
   const workspaceQueryVariables = {
@@ -304,7 +298,7 @@ export default function WorkspacePlanner() {
               variables: {
                 input: {
                   date: dayjs(day).format('YYYY-MM-DD'),
-                  location: 'SAINT_PETERSBURG',
+                  location: LOCATION.SAINT_PETERSBURG,
                   bookOnly: true,
                 },
               },
@@ -319,7 +313,7 @@ export default function WorkspacePlanner() {
                   variables: {
                     input: {
                       date: dayjs(day2).format('YYYY-MM-DD'),
-                      location: 'SAINT_PETERSBURG',
+                      location: LOCATION.SAINT_PETERSBURG,
                       cancelOnly: true,
                     },
                   },
@@ -354,8 +348,7 @@ export default function WorkspacePlanner() {
       variables: {
         input: {
           workplace: workplaceId,
-          employee: employee.employee.strapiId,
-          employeeEmail: employee.employee.email,
+          employee: employee.employee.id,
           startDate: dateRange.startDate,
           finishDate: dateRange.finishDate,
         },
@@ -386,7 +379,7 @@ export default function WorkspacePlanner() {
             variables: {
               input: {
                 date: dayjs(day).format('YYYY-MM-DD'),
-                location: 'SAINT_PETERSBURG',
+                location: LOCATION.SAINT_PETERSBURG,
                 cancelOnly: true,
               },
             },
@@ -489,13 +482,13 @@ export default function WorkspacePlanner() {
         type="card"
         activeKey={currentLocation}
         onChange={location => {
-          setCurrentLocation(location)
+          setCurrentLocation(location as LOCATION)
         }}
       >
         {locations?.map(location => (
           <Tabs.TabPane
-            key={location.id}
-            tab={location.name}
+            key={location}
+            tab={location}
             style={{ display: 'flex', flexDirection: 'column' }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px' }}>
@@ -508,11 +501,12 @@ export default function WorkspacePlanner() {
                   disabled={!workspacePool?.workspaces.length}
                   onSelect={(id: string) => {
                     setSelectedWorkspace(id)
+                    console.log('here')
                     getWorkspace({ variables: { input: { id } } })
                   }}
                   onCreate={(value: any) =>
                     createWorkspace({
-                      variables: { input: { workspace_pool: workspacePool?.id, ...value } },
+                      variables: { input: { ...value } },
                     })
                   }
                   onDelete={(id: string) => deleteWorkspace({ variables: { input: { id } } })}

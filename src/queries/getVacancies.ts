@@ -1,16 +1,12 @@
 import gql from 'graphql-tag'
-import { Vacancy, Project, Location, Employee } from '../types'
+import { Vacancy, Project, Employee, LOCATION } from '../types'
 
 export default gql`
   query getVacancies($input: VacanciesInput) {
     vacancies(input: $input) {
       id
       reason
-      locations {
-        id
-        name
-        code
-      }
+      locations
       position
       responsibilities
       requiredSkills
@@ -50,7 +46,7 @@ export type VacancyPick = Pick<
   | 'isClosed'
 > & {
   project: Pick<Project, 'id' | 'name'>
-  locations: Pick<Location, 'id' | 'name' | 'code'>[]
+  locations: LOCATION[]
   rotateEmployees: Pick<Employee, 'id' | 'isMe'>[]
 }
 

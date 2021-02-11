@@ -42,11 +42,7 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item
-            label="Locations"
-            name="locations"
-            initialValue={vacancy.locations?.map(i => i.id)}
-          >
+          <Form.Item label="Locations" name="locations" initialValue={vacancy.locations}>
             <LocationSelect wide mode="multiple" />
           </Form.Item>
         </Col>

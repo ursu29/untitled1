@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd'
 import { CheckOutlined, EditOutlined } from '@ant-design/icons'
-import { Level, Experience, Skill } from '../../types'
+import { LEVEL, Experience, Skill } from '../../types'
 import Section from '../UI/Section'
 import Button from '../UI/Button'
 import SkillTag from '../Skills/SkillTag'
@@ -11,7 +11,7 @@ import { getFirstWord } from '../../utils/cypress'
 type ExperiencePick = {
   id: Experience['id']
   skill: Pick<Skill, 'id' | 'name' | 'description'>
-  level: Pick<Level, 'id'>
+  level: LEVEL
 }
 
 const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
@@ -37,21 +37,19 @@ const sortMapStringify = (items: ExperiencePick[]) =>
     .toString()
 
 interface LevelSectionProps {
-  level: Pick<Level, 'id' | 'name'>
+  level: LEVEL
   experiences: ExperiencePick[]
   editable: boolean
-  onGroupUpdate: (skill: string[], level: string) => void
+  onGroupUpdate: (skill: string[], level: LEVEL) => void
 }
 
 function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSectionProps) {
-  const [skills, setSkills] = useState(
-    experiences.filter(i => i.level?.id === level.id).map(i => i.skill),
-  )
+  const [skills, setSkills] = useState(experiences.filter(i => i.level === level).map(i => i.skill))
   const [edit, toggleEdit] = useState(false)
 
   useEffect(() => {
     const newSkills = experiences
-      .filter(i => i.level?.id === level?.id && skills.map(skill => skill.id).includes(i.skill.id))
+      .filter(i => i.level === level && skills.map(skill => skill.id).includes(i.skill.id))
       .map(i => i.skill)
       .concat(skills.filter(e => !experiences.map(e => e.skill?.id).includes(e?.id)))
     // update only if element was added or removed
@@ -61,13 +59,13 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
     // eslint-disable-next-line
   }, [experiences])
 
-  const filteredExperiences = experiences.filter(e => e.level?.id === level.id)
+  const filteredExperiences = experiences.filter(e => e.level === level)
 
   return (
     <Section
       title={
-        <div data-cy={`Title ${level.name}`}>
-          {level.name}{' '}
+        <div data-cy={`Title ${level}`}>
+          {level}{' '}
           {editable && (
             <Button
               size="small"
@@ -77,7 +75,7 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
                 if (edit) {
                   onGroupUpdate(
                     skills.map(i => i.id),
-                    level.id,
+                    level,
                   )
                 }
                 toggleEdit(!edit)
@@ -86,18 +84,18 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
           )}
         </div>
       }
-      key={level.id}
+      key={level}
     >
       {!edit && (
-        <Droppable droppableId={level.id} direction="horizontal" isDropDisabled={!editable}>
+        <Droppable droppableId={level} direction="horizontal" isDropDisabled={!editable}>
           {(provided: any, snapshot: any) => (
             <div
               ref={provided.innerRef}
               style={getListStyle(snapshot.isDraggingOver)}
-              data-cy={getFirstWord(level.name)}
+              data-cy={getFirstWord(level)}
             >
               {!filteredExperiences.length && (
-                <div data-cy={`no${getFirstWord(level.name)}`}>No skills yet</div>
+                <div data-cy={`no${getFirstWord(level)}`}>No skills yet</div>
               )}
               {filteredExperiences
                 .sort((one, two) => (one.skill.name > two.skill.name ? 1 : -1))
@@ -130,7 +128,7 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
         <SkillTreeSelect
           isIncludeMatrixSkills={false}
           value={skills}
-          disabledSkills={experiences.filter(i => i.level?.id !== level?.id).map(i => i.skill?.id)}
+          disabledSkills={experiences.filter(i => i.level !== level).map(i => i.skill?.id)}
           onChange={(items: any) => {
             setSkills(items)
           }}
@@ -141,7 +139,7 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
 }
 
 interface Props {
-  levels: Pick<Level, 'id' | 'name' | 'index'>[]
+  levels: LEVEL[]
   experiences: ExperiencePick[]
   editable: boolean
   onMoveSkill: (skill: string, level: string) => void
@@ -164,7 +162,7 @@ export default function EmployeeSkillsDraggable({
       setExperiences(
         experiences.map(i => {
           if (i.id === result.draggableId) {
-            const level = levels.find(i => i.id === destination.droppableId) || i.level
+            const level = levels.find(i => i === destination.droppableId) || i.level
             return { ...i, level }
           }
           return i
@@ -188,7 +186,7 @@ export default function EmployeeSkillsDraggable({
         return (
           <LevelSection
             editable={editable}
-            key={level.id}
+            key={level}
             level={level}
             experiences={experiences}
             onGroupUpdate={props.onGroupUpdate}
