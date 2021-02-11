@@ -26,7 +26,7 @@ export default function Reviewers(props: Props) {
   if (!isAvatarsShown && !isAddButtonShown) return null
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div style={{ display: 'flex', alignItems: 'center' }} data-cy="reviewers">
       {!!reviewers?.length && (
         <div
           style={{

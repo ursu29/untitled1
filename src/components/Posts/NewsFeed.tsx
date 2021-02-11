@@ -41,7 +41,7 @@ function NewsFeed({ editable, employee }: Props) {
             News
           </Typography.Title>
         }
-        subTitle="Latest Sidenis posts"
+        subTitle="Latest Syncretis posts"
         extra={[editable ? <CreatePost key="1" filter={filter} /> : null]}
         style={{
           paddingLeft: 0,

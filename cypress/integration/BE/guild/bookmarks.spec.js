@@ -29,10 +29,7 @@ describe('Check bookmarks', () => {
       cy.get(matrixEl.link)
         .eq(0)
         .should('have.attr', 'href')
-        .then(href => {
-          debugger
-          expect(href).equal(link)
-        })
+        .then(href => expect(href).equal(link))
 
       cy.get(matrixEl.link)
         .eq(0)

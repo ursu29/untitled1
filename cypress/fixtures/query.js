@@ -22,19 +22,25 @@ export const query = {
   getEmployees: 'query getEmployees($input: EmployeesInput) {employees(input: $input) {name }}',
   getEmployeeTickets: 'query employeeOnboardingTickets { employeeOnboardingTickets}',
   getOfficeDays:
-    'query getOfficeDays($input: OfficeDaysInput) { officeDays(input: $input) { date }',
+    'query getOfficeDays($input: OfficeDaysInput) {officeDays(input: $input) {id date employeeLimit employeeCount location {id code __typename} __typename}}',
   allSkills:
     'query getSkills($input: SkillsInput) {skills(input: $input) {id name description parent { id }isMatrixOnly}}',
   getAllMatrices: '{matrices {id title description}  matricesAccess {read}}',
   getFirstPost:
     'query getPosts($first: Int, $after: ID, $filter: PostsFilter) {posts(first: $first, after: $after, filter: $filter) {id title body isTranslated createdAt locations annotation isPublic publishDate titleImage {id url fileName}backgroundImage {id url fileName}foregroundImage {id url fileName}createdBy {id name email}images {id url fileName}tags { id name description}}}',
   tags: '{tags {name description }}',
+  addJob: 'mutation updateCurriculumVitae($input: UpdateCurriculumVitaeInput) {updateCurriculumVitae(input: $input) { id __typename}}',
+  getCV: 'query getEmployeeCV($email: String!) {employeeByEmail(email: $email) { id curriculumVitae {id vitaes {id} __typename} __typename}}',
   updatePost:
     'mutation updatePost($input: UpdatePostInput) {updatePost(input: $input) {id __typename}}',
   deleteTraining:
     'mutation deleteOnboardingTicket($input: DeleteOnboardingTicketInput) {deleteOnboardingTicket(input: $input) { id __typename}}',
+  deleteProcess:
+  'mutation deleteProcess($input: DeleteProcessInput) { deleteProcess(input: $input) {id __typename}}',
   updateEmp:
     'mutation updateEmployee($input: UpdateEmployeeInput!) {updateEmployee(input: $input) {id __typename}}',
+  createNewProcess:
+      'mutation createProcess($input: CreateProcessInput!) {createProcess(input: $input) {id __typename}}',
   createProcess:
     'mutation createProcessExecution($input: CreateProcessExecutionInput) {createProcessExecution(input: $input) {id __typename}}',
   holdProcess:
@@ -45,4 +51,22 @@ export const query = {
     '{processExecutions {id process {id title customer type __typename} status vacancy {id position isPublished __typename} project { id name code __typename} locations {id name __typename} employee finishDate activeStepEmployees { id name email __typename} __typename}}',
   updateProcess:
     'mutation updateProcessExecution($input: UpdateProcessExecutionInput) {updateProcessExecution(input: $input) {id __typename}}',
+  getWikiRootSections:
+      'query getWikiRootSections {wikiRootSections {id title description icon path __typename}}',
+  onboardingAccess:
+  'query onboardingAccess {onboardingAccess {read write __typename}}',
+  guild:
+  'query getGuilds {guilds {title}}',
+  getVacanciesId:
+      'query getVacancies($input: VacanciesInput) {vacancies(input: $input) {id reason locations {id name}}}',
+  applyDay:
+  'mutation apply($input: ApplyToWorkFromOfficeInput!) {applyToWorkFromOffice(input: $input)}',
+  getEmployeeMatrices:
+      'query {clientDevToolsAccess}',
+  allBookmarkId:
+      'query getBookmarks($input: BookmarksInput) {bookmarks(input: $input) {id}}',
+  getBookmarks:
+      'query getBookmarks($input: BookmarksInput) {bookmarks(input: $input) {id title link employee {id name email __typename} skills {id name __typename} likes {id __typename} access {read write __typename}createdAt likedByMe __typename}}',
+  archivedDPVersions:
+      'query archivedDPVersions($input: ArchiveDPInput) {archivedDPVersions(input: $input) {id createdAt __typename}}'
 }

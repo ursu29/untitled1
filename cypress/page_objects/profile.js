@@ -43,7 +43,7 @@ class Profile {
 
   openManagerOfCurrentProfile() {
     this.managerName().click()
-    this.url().should('include', '/employees/test.manager@sidenis.com/')
+    this.url().should('include', '/employees/test.manager@syncretis.com/')
   }
 
   //role tab

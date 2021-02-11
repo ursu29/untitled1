@@ -1,6 +1,6 @@
 ## Introduction
 
-### Sidenis Portal Client
+### Syncretis Portal Client
 
 - Typescript
 - React
@@ -12,30 +12,30 @@
 
 ### DEV
 
-* CMS Admin: https://portal-strapi.dev.sidenis.com/admin
-* Storybook: https://portal-storybook.dev.sidenis.com
-* API Sandbox: https://portal.dev.sidenis.com/graphql
-* Client: https://portal.dev.sidenis.com
+- CMS Admin: https://portal-strapi.dev.syncretis.com/admin
+- Storybook: https://portal-storybook.dev.syncretis.com
+- API Sandbox: https://portal.dev.syncretis.com/graphql
+- Client: https://portal.dev.syncretis.com
 
 ### PROD
 
 **in current release 1.10**
 
-* CMS Admin: https://portal.sidenis.com/admin (ONLY WITHIN INTRANET)
-* Storybook: not available
-* API Sandbox: not available, api link is https://portal.sidenis.com/gateway/graphql
-* Client: https://portal.sidenis.com/client
+- CMS Admin: https://portal.syncretis.com/admin (ONLY WITHIN INTRANET)
+- Storybook: not available
+- API Sandbox: not available, api link is https://portal.syncretis.com/gateway/graphql
+- Client: https://portal.syncretis.com/client
 
 **next release: 1.11**
 
-* CMS Admin: https://portal-strapi.sidenis.com/admin (ONLY WITHIN INTRANET)
-* Storybook: not available
-* API Sandbox: not available, api link is https://portal.sidenis.com/graphql
-* Client: https://portal.sidenis.com
+- CMS Admin: https://portal-strapi.syncretis.com/admin (ONLY WITHIN INTRANET)
+- Storybook: not available
+- API Sandbox: not available, api link is https://portal.syncretis.com/graphql
+- Client: https://portal.syncretis.com
 
 ## Installation process
 
-1nstall deps
+Install deps
 
 `npm install -g yarn && yarn install`
 
@@ -81,4 +81,4 @@ Run cypress
 
 # Contribute
 
-Please check https://portal.sidenis.com/projects/guild-portal/managers and contact anyone from the list
+Please check https://portal.syncretis.com/projects/guild-portal/managers and contact anyone from the list

@@ -26,6 +26,9 @@
 
 import { getSkill } from './complexLocators'
 import { filterSkillsName } from './complexLocators'
+import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
+
+addMatchImageSnapshotCommand();
 
 let LOCAL_STORAGE_MEMORY = {}
 
@@ -93,7 +96,7 @@ Cypress.Commands.add('haveClass', (name, className) =>
 )
 
 Cypress.Commands.add('openProfile', nameAndSurname => {
-  cy.visit('/employees/' + nameAndSurname + '@sidenis.com/')
+  cy.visit('/employees/' + nameAndSurname + '@syncretis.com/')
 })
 
 Cypress.Commands.add('compareObjectsKeys', (firstObj, secondObj) => {

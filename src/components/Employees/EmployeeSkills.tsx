@@ -58,17 +58,19 @@ export default function EmployeeSkills({ employee, editable }: Props) {
   return (
     <Skeleton loading={loading || lLoading} active>
       {levels && experiences && (
-        <EmployeeSkillsDraggable
-          editable={editable}
-          levels={levels}
-          experiences={experiences.filter(e => !e.skill?.isMatrixOnly)}
-          onMoveSkill={(id, level) => updateOne({ variables: { input: { id, level } } })}
-          onGroupUpdate={(skills, level) => {
-            updateMany({
-              variables: { input: { skills, level, employee: employee.id } },
-            })
-          }}
-        />
+        <div data-cy="allSkills">
+          <EmployeeSkillsDraggable
+            editable={editable}
+            levels={levels}
+            experiences={experiences.filter(e => !e.skill?.isMatrixOnly)}
+            onMoveSkill={(id, level) => updateOne({ variables: { input: { id, level } } })}
+            onGroupUpdate={(skills, level) => {
+              updateMany({
+                variables: { input: { skills, level, employee: employee.id } },
+              })
+            }}
+          />
+        </div>
       )}
       {showTabs && <EmployeeRecommendations skills={skills} />}
     </Skeleton>

@@ -26,7 +26,7 @@ const requests: Record<string, Promise<string | null>> = {}
 
 export default function ({ size, shape, employee, showTooltip, highResolution, withHat }: Props) {
   const resolution = highResolution ? 'high' : 'low'
-  const storedAvatar = avatars[resolution]?.[employee.email]
+  const storedAvatar = avatars[resolution]?.[employee?.email]
   const { token } = useAccessToken()
   const [src, setSrc] = useState<any>(storedAvatar)
   const [showPlaceholder, setShowPlaceholder] = useState(false)
@@ -42,8 +42,8 @@ export default function ({ size, shape, employee, showTooltip, highResolution, w
     // 48x48, 64x64, 96x96, 120x120, 240x240, 360x360, 432x432, 504x504, and 648x648
     const path =
       resolution === 'high'
-        ? `users/${employee.email}/photo/$value`
-        : `users/${employee.email}/photos/120x120/$value`
+        ? `users/${employee?.email}/photo/$value`
+        : `users/${employee?.email}/photos/120x120/$value`
 
     const url = `https://graph.microsoft.com/v1.0/${path}`
 
@@ -55,7 +55,7 @@ export default function ({ size, shape, employee, showTooltip, highResolution, w
             requests[url].then(src => {
               if (src) {
                 setSrc(src)
-                avatars[resolution][employee.email] = src
+                avatars[resolution][employee?.email] = src
               } else {
                 setShowPlaceholder(true)
               }
@@ -71,7 +71,7 @@ export default function ({ size, shape, employee, showTooltip, highResolution, w
                 })
                 .then(blob => {
                   const src = URL.createObjectURL(blob)
-                  avatars[resolution][employee.email] = src
+                  avatars[resolution][employee?.email] = src
                   setSrc(src)
                   resolve(src)
                 })
@@ -101,7 +101,7 @@ export default function ({ size, shape, employee, showTooltip, highResolution, w
         src={src}
         size={size}
         shape={shape}
-        alt={`${employee.name}'s avatar`}
+        alt={`${employee?.name}'s avatar`}
         icon={showPlaceholder && <UserOutlined />}
       />
     </AvatarHat>
@@ -109,7 +109,7 @@ export default function ({ size, shape, employee, showTooltip, highResolution, w
 
   if (showTooltip) {
     return (
-      <Tooltip key={employee.email} placement="top" title={employee.name}>
+      <Tooltip key={employee?.email} placement="top" title={employee?.name}>
         {avatar}
       </Tooltip>
     )

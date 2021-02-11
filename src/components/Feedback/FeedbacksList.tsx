@@ -63,7 +63,7 @@ export default function FeedbacksList() {
           style={{ maxWidth: '120px', margin: '0 8px 8px 0' }}
           onChange={(value: any) => setAbout(value)}
         >
-          <Option value="Sidenis">Sidenis</Option>
+          <Option value="Syncretis">Syncretis</Option>
           <Option value="Team">Team</Option>
           <Option value="Events">Events</Option>
           <Option value="Portal">Portal</Option>

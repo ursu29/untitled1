@@ -12,8 +12,8 @@ ARG REACT_APP_DT_SOURCE_VERSION_MSG
 ENV REACT_APP_DT_SOURCE_VERSION_MSG=$REACT_APP_DT_SOURCE_VERSION_MSG
 
 ARG PUBLIC_URL="/"
-ARG REACT_APP_AZURE_TENANT="5acc8b65-db91-44ea-8d28-20f9e45b432e"
-ARG REACT_APP_AZURE_CLIENT="42b2f986-390a-4b73-81a0-deb06f79a7f0"
+ARG REACT_APP_AZURE_TENANT="27d1d5a7-306f-4239-ab67-3bd61777078a"
+ARG REACT_APP_AZURE_CLIENT="c0cf86b2-92ae-4ae4-b5c1-afeb1cec58d8"
 ARG GENERATE_SOURCEMAP=false
 ARG REACT_APP_YANDEX_METRIKA="68498656"
 WORKDIR /usr/src/app
@@ -23,7 +23,7 @@ COPY . ./
 RUN yarn build
 
 # Stage 2 - the production environment
-FROM nginx:1.12-alpine
+FROM nginx:1.19-alpine
 COPY --from=build-deps /usr/src/app/build /usr/share/nginx/html
 COPY --from=build-deps /usr/src/app/default.conf /etc/nginx/conf.d
 EXPOSE 80

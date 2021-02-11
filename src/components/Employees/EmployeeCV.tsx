@@ -102,7 +102,8 @@ interface PropsTable {
  */
 
 // Condition checking the transmitted word - company field - allowed to change for future purposes
-const isWordSidenis = (word: string) => word.toLowerCase() === 'sidenis'
+const isWordSyncretis = (word: string) =>
+  word.toLowerCase() === 'syncretis' || word.toLowerCase() === 'sidenis'
 
 /**
  *
@@ -162,7 +163,7 @@ function EmployeeCV({ employee, editable, form }: PropsGeneral) {
             company: vitae.company.charAt(0).toUpperCase() + vitae.company.slice(1).trim(),
             dateStart: vitae.dateStart ? dateToISO(vitae.dateStart) : null,
             dateEnd: vitae.dateEnd ? dateToISO(vitae.dateEnd) : null,
-            project: isWordSidenis(vitae.company) ? vitae.project : '',
+            project: isWordSyncretis(vitae.company) ? vitae.project : '',
             responsibilities: vitae.responsibilities,
             level: vitae.level,
           })),
@@ -393,7 +394,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
       dataIndex: 'project',
       width: '10%',
       render: (text: any, record: any) =>
-        isWordSidenis(record.company) ? (
+        isWordSyncretis(record.company) ? (
           editable ? (
             <Select
               showSearch
@@ -517,7 +518,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
   ]
 
   return (
-    <div className="cv" data-cy="cv-form">
+    <div className="cv" data-cy="cvForm">
       <Table
         dataSource={value.map((i, index) => ({
           key: i.id || index,
@@ -546,6 +547,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
       />
       {editable && (
         <Button
+          data-cy="addJob"
           style={{ margin: '15px 0 20px 10px' }}
           onClick={() => {
             if (onChange) {

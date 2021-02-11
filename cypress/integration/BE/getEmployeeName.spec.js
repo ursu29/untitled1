@@ -2,14 +2,12 @@ import { employeeData } from '../../support/client/employeeData'
 import { checkKeyValueExist } from '../../support/complexLocators'
 
 describe('Check EmployeeName response', () => {
-  before(() => {
+  it('getEmployeeName response', () => {
     cy.setToken('manager')
-    cy.visit('/')
-  })
 
-  it.skip('getEmployeeName response', () => {
     cy.getResponse(['getEmployeeName'], 'alias')
     cy.visit('/profile/employees')
+
     cy.wait(`@alias`).then(val => {
       const response = val.response.body.data
 

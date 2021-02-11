@@ -1,22 +1,26 @@
-// А***********************************************************
-// This example plugins/index.js can be used to load plugins
-//
-// You can change the location of this file or turn off loading
-// the plugins file with the 'pluginsFile' configuration option.
-//
-// You can read more here:
-// https://on.cypress.io/plugins-guide
-// ***********************************************************
 
-// This function is called when a project is opened or re-opened (e.g. due to
-// the project's config changing)
+// for adding code-coverage
 module.exports = (on, config, bool = false) => {
   if (bool) {
     require('@cypress/code-coverage/task')(on, config)
-    // IMPORTANT to return the config object
-    // with the any changed environment variables
+
     return config
   }
-  // `on` is used to hook into various events Cypress emits
-  // `config` is the resolved Cypress config
+};
+
+//for adding tags
+/*
+If we want to execute only tests with the ‘E2E’ tag we will use the command: yarn cypress run --env grep="E2E"
+test.js: describe('login to www website (E2E)', () => {})
+*/
+const selectTestsWithGrep = require('cypress-select-tests/grep')
+module.exports = (on, config) => {
+  on('file:preprocessor', selectTestsWithGrep(config))
 }
+
+// snapshots
+const { addMatchImageSnapshotPlugin } = require('cypress-image-snapshot/plugin');
+
+module.exports = (on, config) => {
+  addMatchImageSnapshotPlugin(on, config);
+};

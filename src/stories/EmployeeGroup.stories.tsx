@@ -13,7 +13,7 @@ export default {
 
 const employee = {
   id: 'id',
-  email: 'ken.miles@sidenis.com',
+  email: 'ken.miles@syncretis.com',
   isMe: false,
   phoneNumber: '+70009099900',
   name: 'Ken Miles',
