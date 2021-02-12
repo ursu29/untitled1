@@ -134,7 +134,7 @@ export default function EvaluationTable({
     })
     .filter(i => i.children)
 
-  const showBaseColumns = editable || employee?.isMe
+  const showBaseColumns = true // TODO: check access on upper level with evaluationReviewersAccess.read
 
   const TableCell = ({
     rateDisabled,
