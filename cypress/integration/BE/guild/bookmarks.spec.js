@@ -1,15 +1,25 @@
 import { matrixEl } from '../../../support/client/matrices'
-import { checkElementsInArray } from '../../../support/utils'
+import {checkElementsInArray, checkTwoString} from '../../../support/utils'
+import {getBookmarks} from "../../../support/getData";
+import {query} from "../../../fixtures/query";
 
 describe('Check bookmarks', () => {
   let response
+  let request
 
   before(() => {
     cy.setToken('employee')
 
     cy.getResponse(['getBookmarks'], 'alias')
     cy.visit('/guilds/Community-Frontend/bookmarks')
-    cy.wait(`@alias`).then(val => (response = val.response.body.data))
+    cy.wait(`@alias`).then(req => {
+      request = req.request.body
+      response = req.response.body.data})
+  })
+
+  it('check request body', () => {
+    checkTwoString(query.getBookmarks, request.query)
+    expect(request.operationName).equal(getBookmarks().operationName)
   })
 
   it('Check bookmarks data', () => {

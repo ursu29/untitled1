@@ -1,7 +1,10 @@
 import { updatePost, getFirstPosts } from '../../support/getData'
+import {checkTwoString} from "../../support/utils";
+import {query} from "../../fixtures/query";
 
 describe('Edit news', () => {
   let response
+  let request
   const text = new Date().toLocaleTimeString()
 
   before(() => {
@@ -9,8 +12,24 @@ describe('Edit news', () => {
     cy.setImgToken('manager')
     cy.getResponse(['getPosts'], 'alias')
     cy.visit('/feed')
-    cy.wait(`@alias`).then(req => (response = req.response.body.data))
+    cy.wait(`@alias`).then(req => {
+      response = req.response.body.data
+      request = req.request.body
+    })
   })
+
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
+  it('check request body', () => {
+    checkTwoString(query.getFirstPost, request.query)
+    expect(request.operationName).equal(getFirstPosts().operationName)
+  })
+
   it('Edit first post', () => {
     const firstNews = response.posts[0]
 
