@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Snowflake } from './Snowflake'
+import { Spin } from 'antd'
 
 const Wrapper = styled.div`
   position: fixed;
@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 export default function SplashScreen() {
   return (
     <Wrapper>
-      <Snowflake size={96} />
+      <Spin size="large" />
     </Wrapper>
   )
 }

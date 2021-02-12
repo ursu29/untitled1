@@ -4,7 +4,6 @@ import React, { useEffect, useState, useRef } from 'react'
 import { useAccessToken } from '../utils/useToken'
 import { Employee } from '../types'
 import { UserOutlined } from '@ant-design/icons'
-import { AvatarHat } from './UI/AvatarHat'
 
 const options = {
   root: null,
@@ -94,17 +93,15 @@ export default function ({ size, shape, employee, showTooltip, highResolution, w
   }, [token, resolution, employee, node, setSrc])
 
   const avatar = (
-    <AvatarHat withHat={withHat}>
-      <Avatar
-        ref={node}
-        data-cy="avatar"
-        src={src}
-        size={size}
-        shape={shape}
-        alt={`${employee?.name}'s avatar`}
-        icon={showPlaceholder && <UserOutlined />}
-      />
-    </AvatarHat>
+    <Avatar
+      ref={node}
+      data-cy="avatar"
+      src={src}
+      size={size}
+      shape={shape}
+      alt={`${employee?.name}'s avatar`}
+      icon={showPlaceholder && <UserOutlined />}
+    />
   )
 
   if (showTooltip) {
