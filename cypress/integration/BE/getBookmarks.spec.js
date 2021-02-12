@@ -1,12 +1,17 @@
-import {createBookmark, deleteBookmark, getEmployee} from '../../support/getData'
+import {createBookmark, deleteBookmark, getBookmarks, getEmployee} from '../../support/getData'
 import { email, employeeData } from '../../support/client/employeeData'
 import { bookmark, bookmarkAccess } from '../../support/client/userMenu'
 import { checkKeyValueExist } from '../../support/complexLocators'
 import {defaultValues} from "../../support/knowledge/bookmark";
+import {checkTwoString} from "../../support/utils";
+import {query} from "../../fixtures/query";
 
 describe(`Check employee getBookmarks`, () => {
-  const { link, skills, title } = defaultValues
   let bookmarkId
+  let response
+  let request
+
+  const { link, skills, title } = defaultValues
 
   before(() => {
     cy.setToken('employee')
@@ -22,28 +27,34 @@ describe(`Check employee getBookmarks`, () => {
 
       expect(__typename).equal('Bookmark')
     })
-  })
-
-
-  it('getBookmarks response', () => {
-    const { email, id, name, __typename } = employeeData.employee
 
     cy.getResponse(['getBookmarks'], 'alias')
     cy.visit('/profile/bookmarks')
 
     cy.wait(`@alias`).then(val => {
-      const { bookmarks } = val.response.body.data
+      response = val.response.body.data
+      request = val.request.body
+    })
+  })
 
-      expect(bookmarks).to.be.a('array')
+  it('check request body', () => {
+    checkTwoString(query.getBookmarks, request.query)
+    expect(request.operationName).equal(getBookmarks().operationName)
+  })
 
-      cy.compareObjectsKeys(bookmarks[0], bookmark)
-      bookmarks.forEach(el => {
-        expect(el.access).to.deep.equal(bookmarkAccess)
-        expect(el.likes).to.be.a('array')
-        expect(el.skills).to.be.a('array')
-        // employee data is present
-        checkKeyValueExist(el.employee, { email, id, name, __typename })
-      })
+  it('getBookmarks response', () => {
+    const { email, id, name, __typename } = employeeData.employee
+    const {bookmarks} = response
+
+    expect(bookmarks).to.be.a('array')
+
+    cy.compareObjectsKeys(bookmarks[0], bookmark)
+    bookmarks.forEach(el => {
+      expect(el.access).to.deep.equal(bookmarkAccess)
+      expect(el.likes).to.be.a('array')
+      expect(el.skills).to.be.a('array')
+      // employee data is present
+      checkKeyValueExist(el.employee, { email, id, name, __typename })
     })
 
     cy.post(deleteBookmark(bookmarkId))

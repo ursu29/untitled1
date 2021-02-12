@@ -7,7 +7,6 @@ import {todaysDate} from "../../support/officePlanner/officeDays";
 describe('Check employee api (smoke)', () => {
   const SECTION_COUNT = 6
   const FIRST_POSTS = 4
-  const GUILDS_COUNT = 11
   const DAYS = 7
   const MONDAY = '2021-02-08'
 
@@ -77,7 +76,7 @@ describe('Check employee api (smoke)', () => {
     cy.post(getData.getGuildsTitle()).then(res => {
       const {guilds} = res.body.data
 
-      expect(guilds.length).equal(GUILDS_COUNT)
+      expect(guilds.length).to.be.greaterThan(0)
     })
   })
 

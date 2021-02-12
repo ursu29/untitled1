@@ -2,9 +2,12 @@ import { employeeData } from '../../support/client/employeeData'
 import { checkKeyValueExist } from '../../support/complexLocators'
 import { employeeCV, curriculumVitaeData, vitaeData } from '../../support/client/cv'
 import {addJob, deleteJob, getCV} from "../../support/getData";
+import {checkTwoString} from "../../support/utils";
+import {query} from "../../fixtures/query";
 
 describe('Check CV', () => {
   let response
+  let request
   const {email} = employeeData.employee
   const employeeId = '60098d16a8239b001ce8bcec'
 
@@ -14,7 +17,10 @@ describe('Check CV', () => {
 
     cy.post(addJob(email, employeeId))
     cy.visit('/profile/cv')
-    cy.wait(`@alias`).then(val => (response = val.response.body.data))
+    cy.wait(`@alias`).then(val => {
+      response = val.response.body.data
+      request = val.request.body
+    })
   })
 
   beforeEach(() => {
@@ -22,6 +28,11 @@ describe('Check CV', () => {
   })
   afterEach(() => {
     cy.saveLocalStorage()
+  })
+
+  it('check request body', () => {
+    checkTwoString(query.getEmployeeCV, request.query)
+    expect(request.operationName).equal('getEmployeeCV')
   })
 
   it('getEmployeeCV response', () => {

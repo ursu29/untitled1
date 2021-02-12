@@ -21,13 +21,15 @@ export const query = {
     'mutation deleteBookmark($input: DeleteBookmarkInput!) {deleteBookmark(input: $input) {id __typename}}',
   getEmployees: 'query getEmployees($input: EmployeesInput) {employees(input: $input) {name }}',
   getEmployeeTickets: 'query employeeOnboardingTickets { employeeOnboardingTickets}',
+  onboardingTickets:
+      'query onboardingTickets { onboardingTickets { ...OnboardingTicketDetails __typename } } fragment OnboardingTicketDetails on OnboardingTicket { id title description responsible { id name position email __typename } isOptional isSwissRe isRequestedByMe __typename }',
   getOfficeDays:
     'query getOfficeDays($input: OfficeDaysInput) {officeDays(input: $input) {id date employeeLimit employeeCount location {id code __typename} __typename}}',
   allSkills:
     'query getSkills($input: SkillsInput) {skills(input: $input) {id name description parent { id }isMatrixOnly}}',
   getAllMatrices: '{matrices {id title description}  matricesAccess {read}}',
   getFirstPost:
-    'query getPosts($first: Int, $after: ID, $filter: PostsFilter) {posts(first: $first, after: $after, filter: $filter) {id title body isTranslated createdAt locations annotation isPublic publishDate titleImage {id url fileName}backgroundImage {id url fileName}foregroundImage {id url fileName}createdBy {id name email}images {id url fileName}tags { id name description}}}',
+        'query getPosts($first: Int, $after: ID, $filter: PostsFilter) { posts(first: $first, after: $after, filter: $filter) { id title body isTranslated createdAt locations annotation isPublic publishDate titleImage { id url fileName __typename } backgroundImage { id url fileName __typename } foregroundImage { id url fileName __typename } createdBy { id name email __typename } images { id url fileName __typename } tags { id name description __typename } __typename }}',
   tags: '{tags {name description }}',
   addJob: 'mutation updateCurriculumVitae($input: UpdateCurriculumVitaeInput) {updateCurriculumVitae(input: $input) { id __typename}}',
   getCV: 'query getEmployeeCV($email: String!) {employeeByEmail(email: $email) { id curriculumVitae {id vitaes {id} __typename} __typename}}',
@@ -63,10 +65,30 @@ export const query = {
   'mutation apply($input: ApplyToWorkFromOfficeInput!) {applyToWorkFromOffice(input: $input)}',
   getEmployeeMatrices:
       'query {clientDevToolsAccess}',
+  getAllEmployeeMatrices:
+      'query getEmployeeMatrices($input: EmployeesInput) { employees(input: $input) { id name isMe matrices { id title description comment employeeMatrixId access { read write __typename } body { groups { id title description __typename } grades { id title description __typename } skills { type skill { id name description isMatrixOnly __typename } groupId gradeId __typename } __typename } __typename } __typename }}',
   allBookmarkId:
       'query getBookmarks($input: BookmarksInput) {bookmarks(input: $input) {id}}',
   getBookmarks:
       'query getBookmarks($input: BookmarksInput) {bookmarks(input: $input) {id title link employee {id name email __typename} skills {id name __typename} likes {id __typename} access {read write __typename}createdAt likedByMe __typename}}',
   archivedDPVersions:
-      'query archivedDPVersions($input: ArchiveDPInput) {archivedDPVersions(input: $input) {id createdAt __typename}}'
+      'query archivedDPVersions($input: ArchiveDPInput) {archivedDPVersions(input: $input) {id createdAt __typename}}',
+  sharedFiles:
+      'query sharedFiles($input:SharedFilesInput){ sharedFiles(input:$input){ hasMore files{ id url fileName createdAt createdBy{ id name email __typename } size type details{ id skills{ id name __typename } __typename } __typename } __typename } }',
+  getGuild:
+      'query getGuild($input: GuildInput) { guild(input: $input) {id azureDisplayName azureId title description shortDescription skills {id name description __typename}leaders { ...EmployeeDetails __typename}accessWrite __typename}}fragment EmployeeDetails on Employee {  id  name  location  country  position  phoneNumber  email  isMe  startDate  birthday  __typename}',
+  getStream:
+      'query getStream($input: StreamsInput, $inputCount: TotalStreamsCountInput) {streams(input: $input) {id videoId name description duration privacyMode likes views comments publishedDate creatorName creatorMail skills {id name description __typename}__typename}totalStreamsCount(input: $inputCount)}',
+  getEmployeeCV:
+      'query getEmployeeCV($email: String!) { employeeByEmail(email: $email) { id curriculumVitae { id vitaes { id company dateStart dateEnd project position responsibilities level __typename } __typename } __typename }}',
+  getEmployeeName:
+      'query getEmployeeName($email: String!) { employeeByEmail(email: $email) { id name __typename }}',
+  getEvaluations:
+      'query getEvaluations($evaluationsInput: EvaluationsInput!, $evaluationCommentsInput: EvaluationCommentsInput!) { evaluations(input: $evaluationsInput) { id updatedAt fromWho { id name __typename } toWhom { id name __typename } comment evaluation evaluationAttribute { id __typename } __typename } evaluationComments(input: $evaluationCommentsInput) { id body evaluationAttribute { id __typename } editable __typename }}',
+  getSubordinates: 'query getSubordinates($email: String!) { employeeByEmail(email: $email) { id subordinateUsers { ...EmployeeDetails lastManagerMeeting one2oneRequest requestedOnboardingTickets { ...OnboardingTicketDetails __typename } leadingProjects { ...ProjectDetails __typename } projects { ...ProjectDetails __typename } __typename } __typename }\n' +
+      '} fragment EmployeeDetails on Employee { id name location country position phoneNumber email isMe startDate birthday __typename\n' +
+      '} fragment ProjectDetails on Project { id name code description __typename\n' +
+      '} fragment OnboardingTicketDetails on OnboardingTicket { id title description responsible { id name position email __typename } isOptional isSwissRe isRequestedByMe __typename\n' +
+      '}',
+  getEvaluationRevieers: 'query getEvaluationRevieers($input: EvaluationReviewersInput) { evaluationReviewers(input: $input) { id toWhom { id name __typename } fromWho { id name isMe __typename } __typename }}',
 }

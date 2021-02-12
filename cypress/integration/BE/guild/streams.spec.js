@@ -1,8 +1,10 @@
 import { matrixEl } from '../../../support/client/matrices'
-import { checkElementsInArray } from '../../../support/utils'
+import {checkElementsInArray, checkTwoString} from '../../../support/utils'
+import {query} from "../../../fixtures/query";
 
 describe('Check streams', () => {
   let response
+  let request
 
   before(() => {
     cy.setToken('employee')
@@ -10,7 +12,15 @@ describe('Check streams', () => {
 
     cy.getResponse(['getStream'], 'alias')
     cy.visit('/guilds/Community-Frontend/streams')
-    cy.wait(`@alias`).then(val => (response = val.response.body.data))
+    cy.wait(`@alias`).then(val => {
+      response = val.response.body.data
+      request = val.request.body
+    })
+  })
+
+  it('check request body', () => {
+    checkTwoString(query.getStream, request.query)
+    expect(request.operationName).equal('getStream')
   })
 
   it('Check streams data', () => {

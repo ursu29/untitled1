@@ -1,5 +1,5 @@
 import { email, employeeData } from '../../support/client/employeeData'
-import { getEmployee } from '../../support/getData'
+import {getEmployee} from '../../support/getData'
 import { checkKeyValueExist } from '../../support/complexLocators'
 import {
   matrixEmployees,
@@ -10,9 +10,13 @@ import {
   group,
   skills,
 } from '../../support/client/matrices'
+import {checkTwoString} from "../../support/utils";
+import {query} from "../../fixtures/query";
 
 describe(`Check employee matrices`, () => {
   let response
+  let request
+  const OPERATION_NAME = 'getEmployeeMatrices'
 
   before(() => {
     cy.setToken('employee')
@@ -22,9 +26,17 @@ describe(`Check employee matrices`, () => {
 
       employeeData.employee = { ...data.employeeByEmail }
     })
-    cy.getResponse(['getEmployeeMatrices'], 'alias')
+    cy.getResponse([OPERATION_NAME], 'alias')
     cy.visit('/profile/matrices')
-    cy.wait(`@alias`).then(val => (response = val.response.body.data))
+    cy.wait(`@alias`).then(val => {
+      response = val.response.body.data
+      request = val.request.body
+    })
+  })
+
+  it('check request body', () => {
+    checkTwoString(query.getAllEmployeeMatrices, request.query)
+    expect(request.operationName).equal(OPERATION_NAME)
   })
 
   it('Check matrixEmployees keys', () => {

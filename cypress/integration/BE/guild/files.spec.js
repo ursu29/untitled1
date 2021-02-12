@@ -1,12 +1,24 @@
+import {checkTwoString} from "../../../support/utils";
+import {query} from "../../../fixtures/query";
+
 describe('Check files', () => {
   let response
+  let request
 
   before(() => {
     cy.setToken('employee')
 
     cy.getResponse(['sharedFiles'], 'alias')
     cy.visit('/guilds/Community-Frontend/files')
-    cy.wait(`@alias`).then(val => (response = val.response.body.data))
+    cy.wait(`@alias`).then(val => {
+      response = val.response.body.data
+      request = val.request.body
+    })
+  })
+
+  it('check request body', () => {
+    checkTwoString(query.sharedFiles, request.query)
+    expect(request.operationName).equal('sharedFiles')
   })
 
   it('Check files data', () => {
