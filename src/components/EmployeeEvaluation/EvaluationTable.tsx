@@ -344,13 +344,13 @@ export default function EvaluationTable({
    */
   if (isArchivedChosen) {
     columns = columns.concat(
-      Array.from(new Set(evaluations?.map(e => e.fromWho?.name)))?.map((name, index) => {
+      Array.from(new Set(evaluations?.map(e => e.fromWho)))?.map((name, index) => {
         return {
           title: name || '(undefined)',
           width: 120,
           render: (text: any, item: any) => {
             const evaluation = evaluations?.find(i => {
-              return i.evaluationAttribute.id === item.id && i.fromWho?.name === name
+              return i.evaluationAttribute.id === item.id && i.fromWho === name
             })
             return (
               <TableCell
