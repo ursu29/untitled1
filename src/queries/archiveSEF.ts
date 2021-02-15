@@ -21,7 +21,6 @@ export const archivedSEFVersions = gql`
 export const getArchivedSEF = gql`
   query getArchivedSEF($input: GetArchivedSEFInput) {
     archivedSEF(input: $input) {
-      employeeAzureEmail
       compressedData
     }
   }

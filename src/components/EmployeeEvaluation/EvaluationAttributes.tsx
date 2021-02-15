@@ -134,11 +134,13 @@ function EvaluationAttributes({
 
   let updatedAt: any = null
 
-  evaluations?.forEach(i => {
-    if (!updatedAt || dayjs(i.updatedAt).isAfter(dayjs(updatedAt))) {
-      updatedAt = i.updatedAt
-    }
-  })
+  evaluations
+    ?.filter(e => e)
+    .forEach(i => {
+      if (!updatedAt || dayjs(i.updatedAt).isAfter(dayjs(updatedAt))) {
+        updatedAt = i.updatedAt
+      }
+    })
 
   console.log({ evaluations })
 
@@ -206,7 +208,7 @@ function EvaluationAttributes({
               <EvaluationHelper />
               <EvaluationTable
                 evaluationAttributes={data?.evaluationAttributes}
-                evaluations={evaluations}
+                evaluations={evaluations?.filter(e => e)}
                 comments={comments}
                 isArchivedChosen={isArchivedChosen}
                 editable={editable}
