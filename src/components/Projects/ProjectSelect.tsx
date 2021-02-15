@@ -20,6 +20,8 @@ type Props = {
   allowClear?: boolean
 }
 
+const createProjectItem = (i: ProjectPick) => ({ key: i.id, value: i.name })
+
 function ProjectSelect(
   { onChange, value, wide, size, mode, placeholder, allowClear, ...props }: Props,
   ref: any,
@@ -40,9 +42,9 @@ function ProjectSelect(
       size={size}
       value={
         Array.isArray(project)
-          ? project.map(i => ({ key: i.name, value: i.name }))
+          ? project.map(i => createProjectItem(i))
           : project
-          ? { key: project.name, value: project.name }
+          ? createProjectItem(project)
           : undefined
       }
       onBlur={props.onBlur}
@@ -52,23 +54,17 @@ function ProjectSelect(
           return
         }
         if (!mode) {
-          const project = data!.projects.find(i => i.name === value.key)
+          const project = data!.projects.find(i => i.id === value.key)
           if (project) {
             onChange && onChange(project.id)
           }
         } else {
-          const names = value.map((i: any) => i.key)
-          const projects = data!.projects.filter(i => names.includes(i.name))
+          const ids = value.map((i: any) => i.key)
+          const projects = data!.projects.filter(i => ids.includes(i.id))
           onChange && onChange(projects.map(i => i.id))
         }
       }}
-      items={data?.projects.map(i => {
-        return {
-          id: i.id,
-          key: i.name,
-          value: i.name,
-        }
-      })}
+      items={data?.projects.map(i => createProjectItem(i))}
       placeholder={placeholder ? placeholder : ''}
       allowClear={allowClear || false}
     />
