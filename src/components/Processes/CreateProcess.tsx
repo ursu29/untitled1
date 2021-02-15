@@ -26,7 +26,7 @@ interface Props {
 }
 
 export default function CreateBookmark({ refetchQueries = [] }: Props) {
-  const [createBookmark, { loading }] = useMutation<MutationType>(mutation, {
+  const [createProcess, { loading }] = useMutation<MutationType>(mutation, {
     refetchQueries: [{ query: getProcesses }, ...refetchQueries],
     onError: message.error,
     onCompleted: () => message.success('Process is added'),
@@ -46,9 +46,9 @@ export default function CreateBookmark({ refetchQueries = [] }: Props) {
         content={
           <ProcessForm
             loading={loading}
-            onSubmit={(bookmark: any, update: any) => {
-              createBookmark({
-                variables: { input: bookmark },
+            onSubmit={(process: any, update: any) => {
+              createProcess({
+                variables: { input: process },
                 update,
               })
             }}

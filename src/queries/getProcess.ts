@@ -3,8 +3,8 @@ import fragments, { ProcessStepDetails } from '../fragments'
 import { Process } from '../types'
 
 export default gql`
-  {
-    processes {
+  query getProcesses($id: ID!) {
+    process(id: $id) {
       id
       title
       customer
@@ -22,5 +22,5 @@ type ProcessPick = Pick<Process, 'id' | 'customer' | 'type' | 'title'> & {
 }
 
 export type QueryType = {
-  processes: ProcessPick[]
+  process: ProcessPick
 }

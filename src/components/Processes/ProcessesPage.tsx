@@ -6,7 +6,7 @@ import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import message from '../../message'
 import { getProcessLink } from '../../paths'
-import getProceses, { QueryType } from '../../queries/getProcesses'
+import getProcesses, { QueryType } from '../../queries/getProcesses'
 import isForbidden from '../../utils/isForbidden'
 import { Access } from '../../types'
 import NotAllowed from '../UI/NotAllowed'
@@ -27,17 +27,17 @@ type AccessQueryType = {
 }
 
 const mutation = gql`
-  mutation deleteProcess($input: DeleteProcessInput) {
-    deleteProcess(input: $input) {
+  mutation deleteProcess($id: ID!) {
+    deleteProcess(id: $id) {
       id
     }
   }
 `
 
 function ProcessesPage() {
-  const { data, loading: dataLoading, error } = useQuery<QueryType>(getProceses)
+  const { data, loading: dataLoading, error } = useQuery<QueryType>(getProcesses)
   const [deleteProcess, deleteProcessArgs] = useMutation(mutation, {
-    refetchQueries: [{ query: getProceses }],
+    refetchQueries: [{ query: getProcesses }],
     awaitRefetchQueries: true,
     onCompleted: () => message.success('Process is removed'),
     onError: message.error,
@@ -76,7 +76,7 @@ function ProcessesPage() {
                 <Popconfirm
                   title="Sure to delete?"
                   onConfirm={() => {
-                    deleteProcess({ variables: { input: { id: i.id } } })
+                    deleteProcess({ variables: { id: i.id } })
                   }}
                 >
                   <Button type="link" icon={<DeleteOutlined />} />
