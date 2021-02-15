@@ -16,6 +16,8 @@ import updateProcessExecution from '../../queries/updateProcessExecution'
 import getProcessExecutions from '../../queries/getProcessExecutions'
 import message from '../../message'
 import './styles.css'
+import { LOCATION } from '../../types'
+import getLocationName from '../../utils/getLocationName'
 
 dayjs.extend(relativeTime)
 
@@ -154,8 +156,8 @@ function ProcessList({ items, tabName }: Props) {
       showSorterTooltip: false,
       render: (_: any, process: any) => {
         const locations =
-          process?.locations
-            ?.map((i: any) => (i.name === 'Saint-Petersburg' ? 'Saint-P' : i.name))
+          (process?.locations as LOCATION[])
+            ?.map((i: any) => (i === LOCATION.SAINT_PETERSBURG ? 'Saint-P' : getLocationName(i)))
             .join(', ') ?? '-'
         return (
           <span title={locations} style={{ whiteSpace: 'break-spaces' }}>

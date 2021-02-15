@@ -25,6 +25,7 @@ import Workspace from './Workspace'
 import WorkspaceSelector from './WorkspaceSelector'
 import './styles.css'
 import gql from 'graphql-tag' //TODO: REMOVE with workspace planner
+import getLocationName from '../../utils/getLocationName'
 
 //TODO: ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ REMOVE with workspace planner
 const weekday = require('dayjs/plugin/weekday')
@@ -485,83 +486,88 @@ export default function WorkspacePlanner() {
           setCurrentLocation(location as LOCATION)
         }}
       >
-        {locations?.map(location => (
-          <Tabs.TabPane
-            key={location}
-            tab={location}
-            style={{ display: 'flex', flexDirection: 'column' }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px' }}>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <WorkspaceSelector
-                  isDesignMode={isDesignMode}
-                  pool={workspacePool}
-                  selectedWorkspace={selectedWorkspace}
-                  workspace={workspace}
-                  disabled={!workspacePool?.workspaces.length}
-                  onSelect={(id: string) => {
-                    setSelectedWorkspace(id)
-                    console.log('here')
-                    getWorkspace({ variables: { input: { id } } })
-                  }}
-                  onCreate={(value: any) =>
-                    createWorkspace({
-                      variables: { input: { ...value } },
-                    })
-                  }
-                  onDelete={(id: string) => deleteWorkspace({ variables: { input: { id } } })}
-                  onEdit={(value: any) =>
-                    updateWorkspace({
-                      variables: { input: { id: workspace?.id, ...value } },
-                    })
-                  }
-                  refetchGetWorkspace={refetchGetWorkspace}
-                />
-
-                {!isDesignMode && (
-                  <BookTools
-                    dateRange={dateRange}
-                    setDateRange={setDateRange}
+        {locations
+          ?.filter(i => i !== LOCATION.ZURICH)
+          .map(location => (
+            <Tabs.TabPane
+              key={location}
+              tab={getLocationName(location)}
+              style={{ display: 'flex', flexDirection: 'column' }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px' }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <WorkspaceSelector
+                    isDesignMode={isDesignMode}
+                    pool={workspacePool}
+                    selectedWorkspace={selectedWorkspace}
+                    workspace={workspace}
                     disabled={!workspacePool?.workspaces.length}
+                    onSelect={(id: string) => {
+                      setSelectedWorkspace(id)
+                      console.log('here')
+                      getWorkspace({ variables: { input: { id } } })
+                    }}
+                    onCreate={(value: any) =>
+                      createWorkspace({
+                        variables: { input: { ...value } },
+                      })
+                    }
+                    onDelete={(id: string) => deleteWorkspace({ variables: { input: { id } } })}
+                    onEdit={(value: any) =>
+                      updateWorkspace({
+                        variables: { input: { id: workspace?.id, ...value } },
+                      })
+                    }
+                    refetchGetWorkspace={refetchGetWorkspace}
+                  />
+
+                  {!isDesignMode && (
+                    <BookTools
+                      dateRange={dateRange}
+                      setDateRange={setDateRange}
+                      disabled={!workspacePool?.workspaces.length}
+                    />
+                  )}
+                </div>
+
+                {isDesignModeAccess && (
+                  <DesignModeSwitch
+                    isDesignMode={isDesignMode}
+                    toggleDesignMode={toggleDesignMode}
                   />
                 )}
               </div>
 
-              {isDesignModeAccess && (
-                <DesignModeSwitch isDesignMode={isDesignMode} toggleDesignMode={toggleDesignMode} />
+              {workspace && (
+                <Workspace
+                  isDesignMode={isDesignMode}
+                  isDateChosen={!!dateRange.startDate}
+                  isLoading={loading}
+                  isPastDateChosen={isPastDateChosen}
+                  isBookingListOpen={isBookingListOpen}
+                  selectedWorkplace={selectedWorkplace}
+                  dateRange={dateRange}
+                  workspace={workspace}
+                  workplaces={workplaces}
+                  bookings={bookingList}
+                  bookedByMe={bookedByMe}
+                  onSelect={(id: string) =>
+                    selectedWorkplace === id ? setSelectedWorkplace('') : setSelectedWorkplace(id)
+                  }
+                  onClone={addWorkplace}
+                  onDelete={(id: string) => deleteWorkplace({ variables: { input: { id } } })}
+                  onDrag={handleDrag}
+                  onStop={handleStopDrag}
+                  onBook={handleCreateWorkplaceBooking}
+                  onBookCancel={deleteWorkplaceBooking}
+                  isInfoForBooked={isInfoForBooked}
+                  setIsInfoForBooked={setIsInfoForBooked}
+                  setIsBookingListOpen={setIsBookingListOpen}
+                  updateWorkplace={updateWorkplace}
+                />
               )}
-            </div>
-
-            {workspace && (
-              <Workspace
-                isDesignMode={isDesignMode}
-                isDateChosen={!!dateRange.startDate}
-                isLoading={loading}
-                isPastDateChosen={isPastDateChosen}
-                isBookingListOpen={isBookingListOpen}
-                selectedWorkplace={selectedWorkplace}
-                dateRange={dateRange}
-                workspace={workspace}
-                workplaces={workplaces}
-                bookings={bookingList}
-                bookedByMe={bookedByMe}
-                onSelect={(id: string) =>
-                  selectedWorkplace === id ? setSelectedWorkplace('') : setSelectedWorkplace(id)
-                }
-                onClone={addWorkplace}
-                onDelete={(id: string) => deleteWorkplace({ variables: { input: { id } } })}
-                onDrag={handleDrag}
-                onStop={handleStopDrag}
-                onBook={handleCreateWorkplaceBooking}
-                onBookCancel={deleteWorkplaceBooking}
-                isInfoForBooked={isInfoForBooked}
-                setIsInfoForBooked={setIsInfoForBooked}
-                setIsBookingListOpen={setIsBookingListOpen}
-                updateWorkplace={updateWorkplace}
-              />
-            )}
-          </Tabs.TabPane>
-        ))}
+            </Tabs.TabPane>
+          ))}
       </Tabs>
     </PageContent>
   )

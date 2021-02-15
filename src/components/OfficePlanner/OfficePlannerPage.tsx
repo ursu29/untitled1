@@ -8,6 +8,7 @@ import message from '../../message'
 import { Access, Employee, OfficeDay, LOCATION } from '../../types'
 import PageContent from '../UI/PageContent'
 import './OfficePlannerPage.css'
+import getLocationName from '../../utils/getLocationName'
 
 const weekday = require('dayjs/plugin/weekday')
 dayjs.extend(weekday)
@@ -70,10 +71,9 @@ type OfficeDayPick = Pick<OfficeDay, 'id' | 'date' | 'employeeLimit' | 'employee
 }
 
 const LOCATIONS = [
-  { key: LOCATION.SAINT_PETERSBURG, title: 'Saint Petersburg' },
-  { key: LOCATION.TOMSK, title: 'Tomsk' },
-  { key: LOCATION.KALININGRAD, title: 'Kaliningrad' },
-  { key: LOCATION.ZURICH, title: 'Zürich' },
+  { key: LOCATION.SAINT_PETERSBURG, title: getLocationName(LOCATION.SAINT_PETERSBURG) },
+  { key: LOCATION.TOMSK, title: getLocationName(LOCATION.TOMSK) },
+  { key: LOCATION.KALININGRAD, title: getLocationName(LOCATION.KALININGRAD) },
 ]
 
 const LimitInput = ({

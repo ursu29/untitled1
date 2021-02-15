@@ -7,6 +7,7 @@ import Button from '../UI/Button'
 import SkillTag from '../Skills/SkillTag'
 import SkillTreeSelect from '../Skills/SkillTreeSelect'
 import { getFirstWord } from '../../utils/cypress'
+import getLevelName from '../../utils/getLevelName'
 
 type ExperiencePick = {
   id: Experience['id']
@@ -64,8 +65,8 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
   return (
     <Section
       title={
-        <div data-cy={`Title ${level}`}>
-          {level}{' '}
+        <div data-cy={`Title ${getLevelName(level)}`}>
+          {getLevelName(level)}{' '}
           {editable && (
             <Button
               size="small"
