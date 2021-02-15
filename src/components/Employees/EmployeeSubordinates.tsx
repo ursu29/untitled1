@@ -128,9 +128,7 @@ export default function EmployeeSubordinates({ employee }: Props) {
         .map(e => ({ text: e, value: e })),
       onFilter: (value: any, record: any) =>
         record.projects.map((e: any) => e.name).includes(value),
-      render: (_: any, record: Subordinate) => (
-        <ProjectTagList small projects={record.projects} leadingProjects={record.leadingProjects} />
-      ),
+      render: (_: any, record: Subordinate) => <ProjectTagList small projects={record.projects} />,
       sorter: (a: any, b: any) =>
         a.projects
           .map((e: any) => e.name)

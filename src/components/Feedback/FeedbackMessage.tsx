@@ -42,12 +42,7 @@ export const FeedbackMessage = ({
         {dayjs().to(dayjs(feedback.createdAt))}
         <div style={{ fontWeight: 'bold' }}>{feedback.about}</div>
         {feedback.project && (
-          <ProjectTag
-            small={true}
-            key={feedback.project.id}
-            project={feedback.project}
-            leading={false}
-          />
+          <ProjectTag small={true} key={feedback.project.id} project={feedback.project} />
         )}
       </Space>
       <Paragraph style={{ marginTop: '13px', whiteSpace: 'pre-line' }}>{feedback.text}</Paragraph>

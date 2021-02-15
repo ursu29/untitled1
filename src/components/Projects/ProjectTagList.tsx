@@ -9,10 +9,9 @@ interface Props {
   loading?: boolean
   small?: boolean
   projects?: ProjectPick[]
-  leadingProjects?: ProjectPick[]
 }
 
-export default function ProjectTagList({ loading, small, projects, leadingProjects }: Props) {
+export default function ProjectTagList({ loading, small, projects }: Props) {
   // if (!loading && !projects) return null
   return (
     <div style={{ marginBottom: 16 }} data-cy="project">
@@ -26,14 +25,13 @@ export default function ProjectTagList({ loading, small, projects, leadingProjec
         {projects &&
           (projects?.length ? (
             projects.map(project => {
-              const leading = leadingProjects?.find(i => i.id === project.id)
               return (
                 <div
                   key={project.id}
                   style={{ marginBottom: 8, display: 'inline-block' }}
                   data-cy="project_tab"
                 >
-                  <ProjectTag small={small} project={project} leading={Boolean(leading)} />
+                  <ProjectTag small={small} project={project} />
                 </div>
               )
             })

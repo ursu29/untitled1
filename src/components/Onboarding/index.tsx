@@ -40,14 +40,14 @@ export default function Onboarding() {
     GetEmployeeProjectsQuery,
     GetEmployeeProjectsVariables
   >(getEmployeeProjects, {
-    variables: { input: { id: user.employee?.id } },
+    variables: { id: user.employee.id },
   })
 
   const error = ticketsError || projectsError
   const loading = ticketsLoading || projectsLoading
 
   useEffect(() => {
-    const projects = projectsData?.employees?.[0]?.projects
+    const projects = projectsData?.employee.projects
     const isSwissReOnlyVisibleDefault = projects
       ? projects.some(p => p.code.startsWith('sr-'))
       : false
