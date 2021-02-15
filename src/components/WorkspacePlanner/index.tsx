@@ -504,7 +504,6 @@ export default function WorkspacePlanner() {
                     disabled={!workspacePool?.workspaces.length}
                     onSelect={(id: string) => {
                       setSelectedWorkspace(id)
-                      console.log('here')
                       getWorkspace({ variables: { input: { id } } })
                     }}
                     onCreate={(value: any) =>
