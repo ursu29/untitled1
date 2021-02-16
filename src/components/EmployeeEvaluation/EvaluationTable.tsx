@@ -346,15 +346,20 @@ export default function EvaluationTable({
    * If archive version was chosen
    */
   if (isArchivedChosen) {
+    const title = (name: string | any) =>
+      React.createElement('div', { key: name }, [
+        `${parseName(name) || '(undefined)'}`,
+        React.createElement(
+          'div',
+          { key: name, style: { fontSize: '13px', fontWeight: 100, color: 'gray' } },
+          `${name}`,
+        ),
+      ])
+
     columns = columns.concat(
       Array.from(new Set(evaluations?.map(e => e.fromWho)))?.map((name, index) => {
         return {
-          title: () => (
-            <div>
-              <div>{parseName(name) || '(undefined)'}</div>
-              <div style={{ fontSize: '13px', fontWeight: 100, color: 'gray' }}>({name})</div>
-            </div>
-          ),
+          title: title(name),
           width: 120,
           render: (text: any, item: any) => {
             const evaluation = evaluations?.find(i => {
