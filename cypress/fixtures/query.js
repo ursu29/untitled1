@@ -20,7 +20,7 @@ export const query = {
   deleteBookmark:
     'mutation deleteBookmark($input: DeleteBookmarkInput!) {deleteBookmark(input: $input) {id __typename}}',
   getEmployees: 'query getEmployees($input: EmployeesInput) {employees(input: $input) {name }}',
-  getEmployeeTickets: 'query employeeOnboardingTickets { employeeOnboardingTickets}',
+  getEmployeeTickets: 'query employeeOnboardingTickets { employeeOnboardingTickets { id } }',
   onboardingTickets:
       'query onboardingTickets { onboardingTickets { ...OnboardingTicketDetails __typename } } fragment OnboardingTicketDetails on OnboardingTicket { id title description responsible { id name position email __typename } isOptional isSwissRe isRequestedByMe __typename }',
   getOfficeDays:

@@ -168,20 +168,10 @@ function ProcessList({ items, tabName }: Props) {
       filters: [
         //@ts-ignore
         ...new Set(items.filter(e => e?.locations).flatMap(item => item.locations)),
-      ].map(e => ({ text: e, value: e })),
-      onFilter: (value: any, record: any) =>
-        record.locations && record.locations.map((e: any) => e?.name).includes(value),
+      ].map(e => ({ text: getLocationName(e), value: e })),
+      onFilter: (value: any, record: any) => record.locations && record.locations.includes(value),
       sorter: (a: any, b: any) =>
-        a.locations
-          ?.map((e: any) => e?.name)
-          .sort()
-          .join('')
-          .localeCompare(
-            b.locations
-              ?.map((e: any) => e?.name)
-              .sort()
-              .join(''),
-          ),
+        a.locations.sort().join('').localeCompare(b.locations.sort().join('')),
     },
     {
       key: 'position',

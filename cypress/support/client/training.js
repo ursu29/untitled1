@@ -8,7 +8,7 @@ const { email, id, name, position } = employeeData.employee
 export const trainingData = {
   title: `new title: ${todaysDate}`,
   description: 'how to use hooks?',
-  responsible: agileManager.email,
+  responsible: agileManager.id,
 }
 
 export const responsible = (email, id, name, position) => ({
