@@ -87,10 +87,10 @@ export default function DrawerForm({
 
       <Form.Item
         label="Responsible"
-        name="responsibleMail"
-        initialValue={ticket?.responsible?.[0]?.email || ''}
+        name="responsible"
+        initialValue={ticket?.responsible?.[0]?.id || null}
       >
-        <EmployeeSelect wide keyName="email" />
+        <EmployeeSelect wide />
       </Form.Item>
 
       <Form.Item
