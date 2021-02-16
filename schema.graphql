@@ -57,23 +57,23 @@ type AzureFile {
 type Bookmark {
   access: Access
   createdAt: String
-  employee: Employee
+  employee: Employee!
   id: ID!
   likedByMe: Boolean
   likes: [Bookmarklike]
-  link: String
+  link: String!
   skills: [Skill]
-  title: String
+  title: String!
 }
 
 type Bookmarklike {
   bookmark: Bookmark
-  employee: Employee
+  employee: Employee!
   id: ID!
 }
 
 type CurriculumVitae {
-  employeeEmail: String
+  employee: Employee!
   id: ID!
   vitaes: [Vitae]
 }
@@ -136,25 +136,24 @@ type Employee {
   accessEditGlobal: Boolean
   activeProcessExecutions: [ProcessExecution]
   agileManager: Employee
-  avatar: String
+  avatar: String @deprecated(reason: "No longer supported")
   birthday: String
   bonuses: Float
-  country: String
+  country: String @deprecated(reason: "No longer supported")
   curriculumVitae: CurriculumVitae
   developmentPlanReviewers: [Employee]
   email: String!
   experiences: [Experience]
-  firstName: String
+  firstName: String!
   id: ID!
   isMe: Boolean
   lastManagerMeeting: String
-  lastName: String
-  leadingProjects: [Project]
-  location: String
-  manager: Employee
+  lastName: String!
+  location: LOCATION
+  manager: Employee @deprecated(reason: "No longer supported")
   matrices: [Matrix]
   matricesReviewers: [Employee]
-  name: String
+  name: String!
   one2oneRequest: Boolean
   phoneNumber: String
   position: String
@@ -163,7 +162,7 @@ type Employee {
   startDate: String
   status: String
   strapiGroupsMembership: [String]
-  strapiId: ID
+  strapiId: ID @deprecated(reason: "id === strapiId")
   subordinateUsers: [Employee]
   subordinateUsersCount: SubordinateUsersCount
   worksFromOffice: [String]
@@ -211,7 +210,7 @@ type Experience {
   comment: String
   employee: Employee
   id: ID!
-  level: Level
+  level: LEVEL
   skill: Skill
   updatedAt: String
 }
@@ -245,8 +244,9 @@ type FileDetails {
 
 type Guild {
   accessWrite: Boolean
-  azureDisplayName: String
-  azureId: ID
+  azureDisplayName: String @deprecated(reason: "use code")
+  azureId: ID @deprecated(reason: "No longer supported")
+  code: String!
   description: String
   id: ID
   leaders: [Employee]
@@ -261,21 +261,6 @@ type GuildContribution {
   internalProject: Boolean
   noContribution: Boolean
   startup: Boolean
-}
-
-type Level {
-  description: String
-  experiences: [Experience]
-  id: ID!
-  index: Int
-  name: String
-}
-
-type Location {
-  code: String
-  description: String
-  id: ID!
-  name: String
 }
 
 type MatricesCustomFields {
@@ -349,7 +334,7 @@ type Mutation {
   createProcessExecution(input: CreateProcessExecutionInput): ProcessExecution
   createProcessStep(input: CreateProcessStepInput): ProcessStep
   createSkill(input: CreateSkillInput): Skill
-  createTag(input: CreateTagInput): Tag
+  createTag(input: CreateTagInput!): Tag
   createWikiPage(input: CreateWikiPageInput): WikiPage
   createWorkplace(input: CreateWorkplaceInput): Workplace
   createWorkplaceBooking(input: CreateWorkplaceBookingInput): WorkplaceBooking
@@ -361,8 +346,8 @@ type Mutation {
   deleteMatrixGroup(input: DeleteMatrixGroupInput): Matrix
   deleteMatrixSkill(input: DeleteMatrixSkillInput): Matrix
   deleteOnboardingTicket(input: DeleteOnboardingTicketInput): OnboardingTicket
-  deleteProcess(input: DeleteProcessInput): Process
-  deleteProcessStep(input: DeleteProcessStepInput): ProcessStep
+  deleteProcess(id: ID!): Process
+  deleteProcessStep(id: ID!): ProcessStep
   deleteWorkplace(input: DeleteWorkplaceInput): Workplace
   deleteWorkplaceBooking(input: DeleteWorkplaceBookingInput): WorkplaceBooking
   deleteWorkspace(input: DeleteWorkspaceInput): Workspace
@@ -380,9 +365,9 @@ type Mutation {
   toggleHoldProcessExecution(input: AbortProcessExecutionInput!): ProcessExecution
   updateAccessGroup(input: UpdateAccessGroupInput): String
   updateBookmark(input: UpdateBookmarkInput!): Bookmark
-  updateCurriculumVitae(input: UpdateCurriculumVitaeInput): CurriculumVitae
+  updateCurriculumVitae(input: UpdateCurriculumVitaeInput!): CurriculumVitae
   updateCustomFields(input: UpdateCustomFieldsInput): EvaluationCustomFields
-  updateDevelopmentPlan(input: UpdateDevelopmentPlanInput): DevelopmentPlan
+  updateDevelopmentPlan(input: UpdateDevelopmentPlanInput!): DevelopmentPlan
   updateDevelopmentPlanReviewers(input: ReviewerInput): [Employee]
   updateEmployee(input: UpdateEmployeeInput!): Employee
   updateExperience(input: UpdateExperienceInput): Experience
@@ -401,7 +386,6 @@ type Mutation {
   updateProject(input: UpdateProjectInput!): Project
   updateProjectSkills(input: UpdateProjectSkillsInput): Project
   updateSkill(input: UpdateSkillInput): Skill
-  updateStream(input: UpdateStreamInput): Stream
   updateVacancy(input: UpdateVacancyInput): Vacancy
   updateWikiPage(input: UpdateWikiPageInput): WikiPage
   updateWorkplace(input: UpdateWorkplaceInput): Workplace
@@ -414,7 +398,7 @@ type OfficeDay {
   employeeLimit: Int
   employees: [Employee]
   id: ID!
-  location: Location
+  location: LOCATION
 }
 
 type OnboardingTicket {
@@ -435,16 +419,18 @@ type PageInfo {
 }
 
 type Post {
-  body: String
+  body: String!
   createdAt: String
   createdBy: Employee
   id: ID!
-  images: [File]
-  isTranslated: Boolean
-  locations: [String]
+  images: [File] @deprecated(reason: "No longer supported")
+  isTranslated: Boolean @deprecated(reason: "No longer supported")
+  language: LANGUAGE!
+  locations: [LOCATION]
+  slug: String!
   tags: [Tag]
-  title: String
-  updatedAt: String
+  title: String!
+  updatedAt: String @deprecated(reason: "No longer supported")
 }
 
 type PostEdge {
@@ -452,13 +438,13 @@ type PostEdge {
 }
 
 type Process {
-  customer: String
+  customer: CUSTOMER
   id: ID!
   isRotation: Boolean
-  nextCustomer: String
+  nextCustomer: CUSTOMER
   steps: [ProcessStep]
   title: String
-  type: String
+  type: PROCESS_TYPE
 }
 
 type ProcessExecution {
@@ -469,7 +455,7 @@ type ProcessExecution {
   finishDate: String
   id: ID!
   isIndependentStepsActive: Boolean
-  locations: [Location]
+  locations: [LOCATION]
   prio: Int
   process: Process
   project: Project
@@ -487,7 +473,7 @@ type ProcessExecutionComment {
 
 type ProcessExecutionStep {
   description: String
-  execution: ProcessExecution
+  execution: ProcessExecution!
   id: ID!
   isDone: Boolean
   step: ProcessStep
@@ -503,7 +489,7 @@ type ProcessStep {
   send24hoursNotification: Boolean
   sendToTeamlead: Boolean
   title: String
-  type: String
+  type: PROCESS_STEP_TYPE
 }
 
 type Project {
@@ -532,10 +518,10 @@ type Query {
   createdByMeOnboardingTickets: [OnboardingTicket]
   curriculumVitaeAccess(input: AccessInput): Access
   developmentPlanLookReviewersAccess(input: AccessInput): Access
-  developmentPlans(input: DevelopmentPlansInput): [DevelopmentPlan]
-  employee(id: String!): Employee
+  developmentPlans(input: DevelopmentPlansInput!): [DevelopmentPlan]
+  employee(id: ID!): Employee
   employeeByEmail(email: String!): Employee
-  employeeOnboardingTickets: [String]
+  employeeOnboardingTickets: [OnboardingTicket]
   employees(input: EmployeesInput): [Employee]
   evaluationAttributes: [EvaluationAttribute]
   evaluationComments(input: EvaluationCommentsInput): [EvaluationComment]
@@ -551,8 +537,8 @@ type Query {
   guilds: [Guild]
   hello: String
   isAuthenticated: Boolean
-  levels: [Level]
-  locations: [Location]
+  levels: [LEVEL]
+  locations: [LOCATION]
   matrices(input: MatricesInput): [Matrix]
   matricesAccess: Access
   matricesCustomFields(input: MatricesCustomFieldsInput): MatricesCustomFields
@@ -562,11 +548,14 @@ type Query {
   onboardingAccess: Access
   onboardingTickets: [OnboardingTicket]
   post(id: ID!): Post
+  postBySlug(slug: String!): Post
   posts(after: ID, filter: PostsFilter, first: Int): [Post]
-  postsEditor: Access
+  postsEditor: Access @deprecated(reason: "will be moved to employee.access.posts")
+  process(id: ID!): Process
+  processExecution(id: ID!): ProcessExecution
   processExecutions(input: ProcessExecutionsInput): [ProcessExecution]
   processExecutionsAccess: Access
-  processes(input: ProcessesInput): [Process]
+  processes: [Process]
   processesAccess: Access
   profile: Employee
   project(id: ID!): Project
@@ -574,16 +563,15 @@ type Query {
   projects: [Project]
   sharedFiles(input: SharedFilesInput): SharedFiles!
   skills(input: SkillsInput): [Skill]
-  streams(input: StreamsInput): [Stream]
   tags: [Tag]
-  totalStreamsCount(input: TotalStreamsCountInput): Int
   vacancies(input: VacanciesInput): [Vacancy]
+  vacancy(id: ID!): Vacancy
   wikiPage(input: WikiPageInput): WikiPage
   wikiPagesPaths(rootPath: String): [String]
   wikiRootSections: [WikiRootSection]
   workspace(input: GetWorkspaceInput): Workspace
   workspaceDesignAccess: Access
-  workspacePool(input: GetWorkspacePoolInput): WorkspacePool
+  workspaces(input: WorkspacesInput): [Workspace]
 }
 
 type SharedFiles {
@@ -603,46 +591,30 @@ type Skill {
   projects: [Project]
 }
 
-type Stream {
-  comments: Int
-  creatorMail: String
-  creatorName: String
-  description: String
-  duration: String
-  id: ID!
-  likes: Int
-  name: String
-  privacyMode: String
-  publishedDate: String
-  skills: [Skill]
-  videoId: String
-  views: Int
-}
-
 type SubordinateUsersCount {
   one2oneRequests: Int
   users: Int
 }
 
 type Tag {
-  description: String
+  description: String @deprecated(reason: "No longer supported")
   id: ID!
-  name: String
+  name: String!
   posts: [Post]
 }
 
 type Vacancy {
   additionalSkills: String
-  comment: String
+  comment: String @deprecated(reason: "No longer supported")
   customer: String
   editable: Boolean
-  employeeComment: String
+  employeeComment: String @deprecated(reason: "No longer supported")
   employeeExperience: String
   englishLevel: String
   id: ID!
   isClosed: Boolean
   isPublished: Boolean
-  locations: [Location]
+  locations: [LOCATION]
   position: String
   project: Project
   reason: String
@@ -667,7 +639,7 @@ type Vitae {
 type WikiPage {
   body: String
   id: ID!
-  path: String
+  path: String!
   title: String
 }
 
@@ -675,7 +647,7 @@ type WikiRootSection {
   description: String
   icon: String
   id: ID!
-  path: String
+  path: String!
   title: String
 }
 
@@ -689,8 +661,7 @@ type Workplace {
 }
 
 type WorkplaceBooking {
-  employee: Employee
-  employeeEmail: String
+  employeeId: ID!
   finishDate: String
   id: ID!
   startDate: String
@@ -700,15 +671,24 @@ type WorkplaceBooking {
 type Workspace {
   drawing: String
   id: ID!
+  location: LOCATION
   name: String
   workplaces: [Workplace]
-  workspace_pool: WorkspacePool
 }
 
-type WorkspacePool {
-  id: ID!
-  location: Location
-  workspaces: [Workspace]
+enum ACCESS_GROUP {
+  DEV_PORTAL
+  FEEDBACK
+  HR_ADMINS
+  HR_EDITORS
+  HR_RU
+  NEWS_EDITORS
+  REVIEWERS
+  SUPER_USER
+  SYS_ADMINS
+  TECH_PORTAL
+  WIKI_EDITORS
+  WORKSPACE_PLANNER
 }
 
 enum AllowedGroups {
@@ -729,16 +709,53 @@ enum AllowedGroups {
   WORKSPACE_PLANNER
 }
 
+enum CUSTOMER {
+  ALLIANZ
+  INTERNAL
+  SWISSRE
+}
+
 enum CacheControlScope {
   PRIVATE
   PUBLIC
 }
 
-enum OfficeLocation {
+enum LANGUAGE {
+  EN
+  RU
+}
+
+enum LEVEL {
+  CONFIDENT
+  EXPERIENCED
+  LEARNING
+  WANTED
+}
+
+enum LOCATION {
   KALININGRAD
   SAINT_PETERSBURG
   TOMSK
   ZURICH
+}
+
+enum PROCESS_EXECUTION_STATUS {
+  CANCELLED
+  FINISHED
+  HOLDING
+  RUNNING
+}
+
+enum PROCESS_STEP_TYPE {
+  APPROVE
+  INDEPENDENT
+  NOTIFY
+}
+
+enum PROCESS_TYPE {
+  OFFBOARDING
+  ONBOARDING
+  ROTATION
 }
 
 input AbortProcessExecutionInput {
@@ -753,11 +770,11 @@ input ApplyToWorkFromOfficeInput {
   bookOnly: Boolean
   cancelOnly: Boolean
   date: String
-  location: OfficeLocation
+  location: LOCATION
 }
 
 input ArchiveDPInput {
-  employeeAzureId: String!
+  employeeAzureId: ID!
 }
 
 input ArchiveMatrixInput {
@@ -834,8 +851,8 @@ input CreateEvaluationReviewerInput {
 input CreateExperienceInput {
   comment: String
   employee: ID
-  level: ID
-  skill: ID
+  level: LEVEL
+  skill: ID!
 }
 
 input CreateMatrixGradeInput {
@@ -866,22 +883,18 @@ input CreateOnboardingTicketInput {
   description: String
   isOptional: Boolean
   isSwissRe: Boolean
-  responsibleMail: String
+  responsible: String
   title: String
 }
 
 input CreatePostInput {
-  backgroundImage: String
   body: String!
-  foregroundImage: String
   images: [String]
-  isPublic: Boolean
   isTranslated: Boolean
-  locations: [String]
-  publishDate: String
+  language: LANGUAGE
+  locations: [LOCATION]
   tags: [String]
   title: String!
-  titleImage: String
 }
 
 input CreateProcessExecutionInput {
@@ -892,10 +905,10 @@ input CreateProcessExecutionInput {
 }
 
 input CreateProcessInput {
-  customer: String
-  nextCustomer: String
+  customer: CUSTOMER
+  nextCustomer: CUSTOMER
   title: String
-  type: String
+  type: PROCESS_TYPE
 }
 
 input CreateProcessStepInput {
@@ -920,22 +933,20 @@ input CreateWikiPageInput {
 }
 
 input CreateWorkplaceBookingInput {
-  employee: ID!
-  employeeEmail: String!
   finishDate: String!
   startDate: String!
   workplace: ID!
 }
 
 input CreateWorkplaceInput {
-  coordX: Int
-  coordY: Int
-  workspace: String
+  coordX: Int!
+  coordY: Int!
+  workspace: ID!
 }
 
 input CreateWorkspaceInput {
-  name: String
-  workspace_pool: ID
+  location: LOCATION!
+  name: String!
 }
 
 input DeleteBookmarkInput {
@@ -943,7 +954,8 @@ input DeleteBookmarkInput {
 }
 
 input DeleteEvaluationReviewerInput {
-  id: ID
+  fromWho: ID
+  toWhom: ID
 }
 
 input DeleteExperienceInput {
@@ -967,14 +979,6 @@ input DeleteMatrixSkillInput {
 
 input DeleteOnboardingTicketInput {
   id: ID!
-}
-
-input DeleteProcessInput {
-  id: ID
-}
-
-input DeleteProcessStepInput {
-  id: ID
 }
 
 input DeleteWorkplaceBookingInput {
@@ -1029,7 +1033,7 @@ input DevelopmentRolesInput {
 input EmployeesInput {
   email: String
   id: ID
-  locations: [OfficeLocation]
+  locations: [LOCATION]
 }
 
 input EvaluateInput {
@@ -1066,10 +1070,10 @@ input ExperiencesInput {
 }
 
 input FeedbackInput {
-  about: String
-  isPrivate: Boolean
+  about: String!
+  isPrivate: Boolean = false
   project: String
-  text: String
+  text: String!
 }
 
 input FeedbackReplyInput {
@@ -1079,8 +1083,8 @@ input FeedbackReplyInput {
 
 input FeedbacksInput {
   about: String
-  limit: Int
-  offset: Int
+  limit: Int = 10
+  offset: Int = 0
   project: String
   search: String
 }
@@ -1099,10 +1103,6 @@ input GetArchivedSEFInput {
 
 input GetWorkspaceInput {
   id: ID!
-}
-
-input GetWorkspacePoolInput {
-  locationId: String!
 }
 
 input GuildContributionInput {
@@ -1139,22 +1139,19 @@ input MutateHelloInput {
 }
 
 input OfficeDaysInput {
-  count: Int
-  startDate: String
+  count: Int!
+  startDate: String!
 }
 
 input PostsFilter {
   isTranslated: Boolean
+  language: LANGUAGE
   tags: [ID]
   text: String
 }
 
 input ProcessExecutionsInput {
   id: ID!
-}
-
-input ProcessesInput {
-  id: ID
 }
 
 input PublishVacancyInput {
@@ -1200,23 +1197,8 @@ input SkillsInput {
   noMatrixSkills: Boolean
 }
 
-input StreamsInput {
-  limit: Int
-  offset: Int
-  search: String
-  skillsFilter: [String]
-  skillsFilterPartial: Boolean
-  sortBy: String
-}
-
 input ToggleBookmarklikeInput {
   bookmark: ID
-}
-
-input TotalStreamsCountInput {
-  search: String
-  skillsFilter: [String]
-  skillsFilterPartial: Boolean
 }
 
 input UpdateAccessGroupInput {
@@ -1225,16 +1207,16 @@ input UpdateAccessGroupInput {
 }
 
 input UpdateBookmarkInput {
-  id: ID
-  link: String
+  id: ID!
+  link: String!
   skills: [ID]
-  title: String
+  title: String!
 }
 
 input UpdateCurriculumVitaeInput {
-  employeeEmail: String
+  employee: ID!
   id: ID!
-  vitaes: [VitaeInput]
+  vitaes: [VitaeInput]!
 }
 
 input UpdateCustomFieldsInput {
@@ -1261,7 +1243,7 @@ input UpdateDevelopmentPlanInput {
 
 input UpdateEmployeeInput {
   agileManager: String
-  id: ID
+  id: ID!
   lastManagerMeeting: String
   manager: ID
   one2oneRequest: Boolean
@@ -1270,18 +1252,18 @@ input UpdateEmployeeInput {
 input UpdateExperienceInput {
   comment: String
   id: ID
-  level: ID
+  level: LEVEL
 }
 
 input UpdateExperiencesInput {
-  employee: ID
-  level: ID
+  employee: ID!
+  level: LEVEL
   skills: [ID]
 }
 
 input UpdateFileDetailsInput {
   azureId: ID!
-  skills: [ID]
+  skills: [ID!]
 }
 
 input UpdateGuildInput {
@@ -1306,7 +1288,7 @@ input UpdateMatrixInput {
 input UpdateOfficeDayInput {
   date: String
   employeeLimit: Int
-  location: OfficeLocation
+  location: LOCATION
 }
 
 input UpdateOnboardingTicketInput {
@@ -1314,24 +1296,19 @@ input UpdateOnboardingTicketInput {
   id: ID!
   isOptional: Boolean
   isSwissRe: Boolean
-  responsibleMail: String
+  responsible: String
   title: String
 }
 
 input UpdatePostInput {
-  annotation: String
-  backgroundImage: String
   body: String!
-  foregroundImage: String
   id: ID!
   images: [String]
-  isPublic: Boolean
   isTranslated: Boolean
-  locations: [String]
-  publishDate: String
+  language: LANGUAGE
+  locations: [LOCATION]
   tags: [String]
   title: String
-  titleImage: String
 }
 
 input UpdateProcessExecutionInput {
@@ -1343,22 +1320,22 @@ input UpdateProcessExecutionInput {
 }
 
 input UpdateProcessInput {
-  customer: String
+  customer: CUSTOMER
   id: ID!
   isRotation: Boolean
-  type: String
+  type: PROCESS_TYPE
 }
 
 input UpdateProcessStepInput {
   description: String
   hasComment: Boolean
-  id: ID
+  id: ID!
   parentSteps: [ID]
   responsibleUsers: [ID]
   send24hoursNotification: Boolean
   sendToTeamlead: Boolean
   title: String
-  type: String
+  type: PROCESS_STEP_TYPE
 }
 
 input UpdateProjectInput {
@@ -1379,12 +1356,6 @@ input UpdateSkillInput {
   parent: String
 }
 
-input UpdateStreamInput {
-  id: ID!
-  skills: [ID]
-  skillsFilter: [String]
-}
-
 input UpdateVacancyInput {
   additionalSkills: String
   comment: String
@@ -1392,7 +1363,7 @@ input UpdateVacancyInput {
   employeeExperience: String
   englishLevel: String
   id: ID!
-  locations: [ID]
+  locations: [LOCATION]
   position: String
   project: ID
   reason: String
@@ -1409,8 +1380,8 @@ input UpdateWikiPageInput {
 }
 
 input UpdateWorkplaceInput {
-  coordX: Int
-  coordY: Int
+  coordX: Int!
+  coordY: Int!
   id: ID!
   number: Int
 }
@@ -1438,6 +1409,10 @@ input VitaeInput {
 
 input WikiPageInput {
   path: String
+}
+
+input WorkspacesInput {
+  location: LOCATION
 }
 
 "The `Upload` scalar type represents a file upload."
