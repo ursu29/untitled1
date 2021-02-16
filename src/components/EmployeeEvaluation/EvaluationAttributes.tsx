@@ -142,8 +142,6 @@ function EvaluationAttributes({
       }
     })
 
-  console.log({ evaluations })
-
   return (
     <Skeleton active loading={props.loading || loading}>
       <EmployeeEvaluationReviewers employee={employee}>

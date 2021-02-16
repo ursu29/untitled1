@@ -4,7 +4,7 @@ import { ArchivedSEFVersion } from '../types'
 export const archiveSEF = gql`
   mutation archiveSEF($input: ArchiveSEFInput) {
     archiveSEF(input: $input) {
-      employeeAzureEmail
+      compressedData
     }
   }
 `
