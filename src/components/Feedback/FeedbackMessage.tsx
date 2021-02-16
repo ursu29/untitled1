@@ -6,6 +6,7 @@ import ProjectTag from '../Projects/ProjectTag'
 import { Feedback, FeedbackComment } from '../../types'
 import { UserOutlined } from '@ant-design/icons'
 import { FeedbackReplyForm } from './ReplyFeedback'
+import { getAboutLabel } from './about'
 
 dayjs.extend(relativeTime)
 
@@ -40,7 +41,7 @@ export const FeedbackMessage = ({
     <>
       <Space size="middle" align="start" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>
         {dayjs().to(dayjs(feedback.createdAt))}
-        <div style={{ fontWeight: 'bold' }}>{feedback.about}</div>
+        <div style={{ fontWeight: 'bold' }}>{getAboutLabel(feedback.about)}</div>
         {feedback.project && (
           <ProjectTag small={true} key={feedback.project.id} project={feedback.project} />
         )}

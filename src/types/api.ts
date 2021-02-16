@@ -387,7 +387,7 @@ export interface WikiPage {
 
 export interface Feedback {
   id: string
-  about: string
+  about: FEEDBACK_ABOUT
   project: Project
   text: string
   createdAt: string

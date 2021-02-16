@@ -216,7 +216,7 @@ type Experience {
 }
 
 type Feedback {
-  about: String
+  about: FEEDBACK_ABOUT
   comments: [FeedbackComment]
   createdAt: String
   id: ID!
