@@ -216,7 +216,7 @@ type Experience {
 }
 
 type Feedback {
-  about: String
+  about: FEEDBACK_ABOUT
   comments: [FeedbackComment]
   createdAt: String
   id: ID!
@@ -720,6 +720,13 @@ enum CacheControlScope {
   PUBLIC
 }
 
+enum FEEDBACK_ABOUT {
+  COMPANY
+  EVENT
+  PORTAL
+  TEAM
+}
+
 enum LANGUAGE {
   EN
   RU
@@ -1070,7 +1077,7 @@ input ExperiencesInput {
 }
 
 input FeedbackInput {
-  about: String!
+  about: FEEDBACK_ABOUT!
   isPrivate: Boolean = false
   project: String
   text: String!
@@ -1082,7 +1089,7 @@ input FeedbackReplyInput {
 }
 
 input FeedbacksInput {
-  about: String
+  about: FEEDBACK_ABOUT
   limit: Int = 10
   offset: Int = 0
   project: String
