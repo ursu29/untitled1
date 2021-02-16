@@ -4,7 +4,7 @@ import { ArchivedDPVersion } from '../types'
 export const archiveDP = gql`
   mutation archiveDP($input: ArchiveDPInput) {
     archiveDP(input: $input) {
-      employeeAzureEmail
+      compressedData
     }
   }
 `
@@ -21,7 +21,6 @@ export const archivedDPVersions = gql`
 export const getArchivedDP = gql`
   query getArchivedDP($input: GetArchivedDPInput) {
     archivedDP(input: $input) {
-      employeeAzureEmail
       compressedData
     }
   }
