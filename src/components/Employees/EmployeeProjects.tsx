@@ -10,14 +10,14 @@ import Section from '../UI/Section'
 import Skeleton from '../UI/Skeleton'
 
 interface Props {
-  employee?: Pick<Employee, 'id'>
+  employee: Pick<Employee, 'id'>
 }
 
 export default function EmployeeProjects(props: Props) {
   const { data, loading, error } = useQuery<GetEmployeeProjectsQuery, GetEmployeeProjectsVariables>(
     getEmployeeProjects,
     {
-      variables: { input: { id: props.employee?.id } },
+      variables: { id: props.employee.id },
       skip: !props.employee,
     },
   )
@@ -26,14 +26,13 @@ export default function EmployeeProjects(props: Props) {
 
   if (error) return <div>Error :(</div>
 
-  const projects = data?.employees?.[0]?.projects
-  const leadingProjects = data?.employees?.[0]?.leadingProjects
+  const projects = data?.employee.projects
 
   return (
     <Skeleton loading={loading} active line>
       {projects && projects?.length > 0 && (
         <Section title="Projects">
-          <ProjectTagList small projects={projects} leadingProjects={leadingProjects} />
+          <ProjectTagList small projects={projects} />
         </Section>
       )}
     </Skeleton>

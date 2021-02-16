@@ -50,7 +50,7 @@ export default function EmployeeSkills({ employee, editable }: Props) {
   if (!employee) return null
 
   const experiences = data?.employees?.[0].experiences
-  const levels = lData?.levels
+  const levels = lData?.levels ? Object.assign([], lData.levels).reverse() : ([] as LEVEL[])
   const levelIds = levels?.filter(level => level <= LEVEL.LEARNING)
   const skills = experiences?.filter(exp => levelIds?.includes(exp.level)).map(exp => exp.skill)
   const showTabs = editable && Boolean(skills?.length)

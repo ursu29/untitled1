@@ -4,6 +4,8 @@ import { useMutation } from '@apollo/react-hooks'
 import ProjectSelect from '../Projects/ProjectSelect'
 import { addFeedback } from '../../queries/feedback'
 import message from '../../message'
+import { FEEDBACK_ABOUT } from '../../types'
+import { aboutList } from './about'
 
 export default function AddFeedback() {
   const { Panel } = Collapse
@@ -21,7 +23,7 @@ export default function AddFeedback() {
     onError: message.error,
   })
 
-  const [about, setAbout] = useState('')
+  const [about, setAbout] = useState<string | null>(null)
 
   const onFinish = (values: any) => {
     addNewFeedback({
@@ -29,7 +31,7 @@ export default function AddFeedback() {
     })
   }
 
-  const onAboutChange = (value: any) => setAbout(value)
+  const onAboutChange = (value: string) => setAbout(value)
 
   return (
     <Collapse
@@ -57,13 +59,14 @@ export default function AddFeedback() {
               style={{ width: '100%' }}
               onChange={onAboutChange}
             >
-              <Option value="Syncretis">syncretis</Option>
-              <Option value="Team">Team</Option>
-              <Option value="Events">Events</Option>
-              <Option value="Portal">Portal</Option>
+              {aboutList.map(({ label, value }) => (
+                <Option key={value} value={value}>
+                  {label}
+                </Option>
+              ))}
             </Select>
           </Form.Item>
-          {about === 'Team' && (
+          {about === FEEDBACK_ABOUT.TEAM && (
             <Form.Item
               label="Project"
               name="project"

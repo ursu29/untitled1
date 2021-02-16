@@ -60,12 +60,12 @@ function ProcessStepForm({
         label={<p style={{ marginBottom: '-5px', color: 'darkgrey' }}>Step completion</p>}
         style={{ marginBottom: '10px' }}
       >
-        <Select defaultValue="approve">
-          <Option value="approve">Manual</Option>
-          <Option value="notify" disabled={!step.parentSteps?.length}>
+        <Select defaultValue="APPROVE">
+          <Option value="APPROVE">Manual</Option>
+          <Option value="NOTIFY" disabled={!step.parentSteps?.length}>
             Auto
           </Option>
-          <Option value="independent">Manual independent</Option>
+          <Option value="INDEPENDENT">Manual independent</Option>
         </Select>
       </Form.Item>
 

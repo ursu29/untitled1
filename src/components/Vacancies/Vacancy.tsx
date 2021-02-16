@@ -9,6 +9,7 @@ import Skeleton from '../UI/Skeleton'
 import message from '../../message'
 import { Typography, Tag } from 'antd'
 import markdownToHtml from '../../utils/markdownToHtml'
+import getLocationName from '../../utils/getLocationName'
 
 function Vacancy({
   id,
@@ -128,7 +129,9 @@ function Vacancy({
               </p>
               <p>
                 <Typography.Title level={4}>Location</Typography.Title>
-                <Typography.Text>{vacancy?.locations.join(', ')}</Typography.Text>
+                <Typography.Text>
+                  {vacancy?.locations?.map(i => getLocationName(i)).join(', ')}
+                </Typography.Text>
               </p>
               {vacancy.englishLevel && (
                 <p>

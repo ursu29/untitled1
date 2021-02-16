@@ -13,9 +13,6 @@ export const query = gql`
         requestedOnboardingTickets {
           ...OnboardingTicketDetails
         }
-        leadingProjects {
-          ...ProjectDetails
-        }
         projects {
           ...ProjectDetails
         }
@@ -29,7 +26,6 @@ export const query = gql`
 
 export type Subordinate = EmployeeDetails &
   Pick<Employee, 'lastManagerMeeting' | 'one2oneRequest' | 'requestedOnboardingTickets'> & {
-    leadingProjects: ProjectDetails[]
     projects: ProjectDetails[]
   }
 

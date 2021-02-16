@@ -6,6 +6,7 @@ import Rotate from './Rotate'
 import { getVacancyLink } from '../../paths'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import PageContent from '../UI/PageContent'
+import getLocationName from '../../utils/getLocationName'
 
 interface Props {
   items?: QueryType['vacancies']
@@ -65,7 +66,7 @@ function ProcessList({ items = [], history }: Props & RouteComponentProps) {
           dataIndex: '.location.name',
           title: 'Location',
           render: (_, i) => {
-            return <span>{i.locations.join(', ') ?? '-'}</span>
+            return <span>{i.locations?.map(i => getLocationName(i)).join(', ') ?? '-'}</span>
           },
           filters: [
             //@ts-ignore

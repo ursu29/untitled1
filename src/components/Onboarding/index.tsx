@@ -9,6 +9,7 @@ import {
   onboardingAccess,
   OnboardingTicketsQueryType,
   requestOnboardingTicket,
+  EmployeeOnboardingTicketsQueryType,
 } from '../../queries/onboardingTickets'
 import getEmployeeProjects, {
   GetEmployeeProjectsQuery,
@@ -40,14 +41,14 @@ export default function Onboarding() {
     GetEmployeeProjectsQuery,
     GetEmployeeProjectsVariables
   >(getEmployeeProjects, {
-    variables: { input: { id: user.employee?.id } },
+    variables: { id: user.employee.id },
   })
 
   const error = ticketsError || projectsError
   const loading = ticketsLoading || projectsLoading
 
   useEffect(() => {
-    const projects = projectsData?.employees?.[0]?.projects
+    const projects = projectsData?.employee.projects
     const isSwissReOnlyVisibleDefault = projects
       ? projects.some(p => p.code.startsWith('sr-'))
       : false
@@ -70,10 +71,12 @@ export default function Onboarding() {
   const isAccessWrite = onboardingAccessData?.onboardingAccess?.write || false
 
   // Get completed tickets
-  const { data: employeeOnboardingTicketsData } = useQuery<{ employeeOnboardingTickets: string[] }>(
+  const { data: employeeOnboardingTicketsData } = useQuery<EmployeeOnboardingTicketsQueryType>(
     employeeOnboardingTickets,
   )
-  const completedTickets = employeeOnboardingTicketsData?.employeeOnboardingTickets
+  const completedTickets = employeeOnboardingTicketsData?.employeeOnboardingTickets.map(
+    ticket => ticket.id,
+  )
 
   // Complete ticket
   const [completeTicket] = useMutation(completeOnboardingTicket, {

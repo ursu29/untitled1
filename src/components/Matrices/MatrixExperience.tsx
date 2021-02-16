@@ -115,21 +115,27 @@ function MatrixExperience({
 
   let backgroundColor = 'rgba(0, 0, 0, 0.04)'
   if (experience) {
-    if (experience.level === LEVEL.LEARNING) {
+    if (
+      Object.keys(LEVEL).indexOf(experience.level) === Object.keys(LEVEL).indexOf(LEVEL.LEARNING)
+    ) {
       backgroundColor = 'rgba(242, 201, 76, 0.3)'
     }
-    if (experience.level > LEVEL.LEARNING) {
+    if (Object.keys(LEVEL).indexOf(experience.level) > Object.keys(LEVEL).indexOf(LEVEL.LEARNING)) {
       backgroundColor = 'rgba(21, 225, 127, 0.3)'
     }
   }
 
   if (archivedExperience && isArchivedChosen && data) {
-    const levelIndex = data.levels.find(level => level === archivedExperience.level)
-
-    if (levelIndex && levelIndex === LEVEL.LEARNING) {
+    if (
+      Object.keys(LEVEL).indexOf(archivedExperience.level) ===
+      Object.keys(LEVEL).indexOf(LEVEL.LEARNING)
+    ) {
       backgroundColor = 'rgba(242, 201, 76, 0.3)'
     }
-    if (levelIndex && levelIndex > LEVEL.LEARNING) {
+    if (
+      Object.keys(LEVEL).indexOf(archivedExperience.level) >
+      Object.keys(LEVEL).indexOf(LEVEL.LEARNING)
+    ) {
       backgroundColor = 'rgba(21, 225, 127, 0.3)'
     }
   }

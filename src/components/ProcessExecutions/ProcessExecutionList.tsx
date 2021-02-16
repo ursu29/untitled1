@@ -16,6 +16,8 @@ import updateProcessExecution from '../../queries/updateProcessExecution'
 import getProcessExecutions from '../../queries/getProcessExecutions'
 import message from '../../message'
 import './styles.css'
+import { LOCATION } from '../../types'
+import getLocationName from '../../utils/getLocationName'
 
 dayjs.extend(relativeTime)
 
@@ -154,8 +156,8 @@ function ProcessList({ items, tabName }: Props) {
       showSorterTooltip: false,
       render: (_: any, process: any) => {
         const locations =
-          process?.locations
-            ?.map((i: any) => (i.name === 'Saint-Petersburg' ? 'Saint-P' : i.name))
+          (process?.locations as LOCATION[])
+            ?.map((i: any) => (i === LOCATION.SAINT_PETERSBURG ? 'Saint-P' : getLocationName(i)))
             .join(', ') ?? '-'
         return (
           <span title={locations} style={{ whiteSpace: 'break-spaces' }}>
@@ -166,20 +168,10 @@ function ProcessList({ items, tabName }: Props) {
       filters: [
         //@ts-ignore
         ...new Set(items.filter(e => e?.locations).flatMap(item => item.locations)),
-      ].map(e => ({ text: e, value: e })),
-      onFilter: (value: any, record: any) =>
-        record.locations && record.locations.map((e: any) => e?.name).includes(value),
+      ].map(e => ({ text: getLocationName(e), value: e })),
+      onFilter: (value: any, record: any) => record.locations && record.locations.includes(value),
       sorter: (a: any, b: any) =>
-        a.locations
-          ?.map((e: any) => e?.name)
-          .sort()
-          .join('')
-          .localeCompare(
-            b.locations
-              ?.map((e: any) => e?.name)
-              .sort()
-              .join(''),
-          ),
+        a.locations.sort().join('').localeCompare(b.locations.sort().join('')),
     },
     {
       key: 'position',

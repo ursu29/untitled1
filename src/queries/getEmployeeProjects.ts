@@ -1,33 +1,25 @@
 import gql from 'graphql-tag'
-import { Employee, Project } from '../types'
+import { Employee, Project, ID } from '../types'
 
 type ProjectPick = Pick<Project, 'id' | 'name' | 'code'>
 
 type EmployeePick = {
   id: Employee['id']
-  leadingProjects: ProjectPick[]
   projects: ProjectPick[]
 }
 
 export type GetEmployeeProjectsQuery = {
-  employees: EmployeePick[]
+  employee: EmployeePick
 }
 
 export type GetEmployeeProjectsVariables = {
-  input: {
-    id?: string
-  }
+  id: ID
 }
 
 export default gql`
-  query getEmployeeProjects($input: EmployeesInput) {
-    employees(input: $input) {
+  query getEmployeeProjects($id: ID!) {
+    employee(id: $id) {
       id
-      leadingProjects {
-        id
-        name
-        code
-      }
       projects {
         id
         name

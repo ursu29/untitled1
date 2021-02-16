@@ -7,9 +7,9 @@ import { Process } from '../../types'
 
 const CustomerSelect = React.forwardRef((props, ref) => (
   <Select {...props}>
-    <Select.Option value="internal">Internal</Select.Option>
-    <Select.Option value="swissre">Swissre</Select.Option>
-    <Select.Option value="allianz">Allianz</Select.Option>
+    <Select.Option value="INTERNAL">Internal</Select.Option>
+    <Select.Option value="SWISSRE">Swissre</Select.Option>
+    <Select.Option value="ALLIANZ">Allianz</Select.Option>
   </Select>
 ))
 
@@ -57,9 +57,9 @@ function ProcessForm({ form, onSubmit, data, loading }: Props) {
             ],
           })(
             <Radio.Group>
-              <Radio value="onboarding">Onboarding</Radio>
-              <Radio value="offboarding">Offboarding</Radio>
-              <Radio value="rotation">Rotation</Radio>
+              <Radio value="ONBOARDING">Onboarding</Radio>
+              <Radio value="OFFBOARDING">Offboarding</Radio>
+              <Radio value="ROTATION">Rotation</Radio>
             </Radio.Group>,
           )}
         </Form.Item>
@@ -74,7 +74,7 @@ function ProcessForm({ form, onSubmit, data, loading }: Props) {
             initialValue: data?.customer,
           })(<CustomerSelect />)}
         </Form.Item>
-        {getFieldValue('type') === 'rotation' && (
+        {getFieldValue('type') === 'ROTATION' && (
           <Form.Item label="Next Customer">
             {getFieldDecorator('nextCustomer', {
               rules: [

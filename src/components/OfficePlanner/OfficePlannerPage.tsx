@@ -8,6 +8,7 @@ import message from '../../message'
 import { Access, Employee, OfficeDay, LOCATION } from '../../types'
 import PageContent from '../UI/PageContent'
 import './OfficePlannerPage.css'
+import getLocationName from '../../utils/getLocationName'
 
 const weekday = require('dayjs/plugin/weekday')
 dayjs.extend(weekday)
@@ -22,7 +23,6 @@ const query = gql`
       email
       location
       isMe
-      worksFromOffice
     }
     officeAccess {
       read
@@ -43,6 +43,9 @@ const getOfficeDays = gql`
       employeeLimit
       employeeCount
       location
+      employees {
+        id
+      }
     }
   }
 `
@@ -61,19 +64,16 @@ const updateOfficeDayMutation = gql`
   }
 `
 
-type EmployeePick = Pick<
-  Employee,
-  'id' | 'name' | 'email' | 'location' | 'isMe' | 'worksFromOffice'
->
+type EmployeePick = Pick<Employee, 'id' | 'name' | 'email' | 'location' | 'isMe'>
 type OfficeDayPick = Pick<OfficeDay, 'id' | 'date' | 'employeeLimit' | 'employeeCount'> & {
   location: LOCATION
+  employees: Pick<Employee, 'id'>[]
 }
 
 const LOCATIONS = [
-  { key: LOCATION.SAINT_PETERSBURG, title: 'Saint Petersburg' },
-  { key: LOCATION.TOMSK, title: 'Tomsk' },
-  { key: LOCATION.KALININGRAD, title: 'Kaliningrad' },
-  { key: LOCATION.ZURICH, title: 'Zürich' },
+  { key: LOCATION.SAINT_PETERSBURG, title: getLocationName(LOCATION.SAINT_PETERSBURG) },
+  { key: LOCATION.TOMSK, title: getLocationName(LOCATION.TOMSK) },
+  { key: LOCATION.KALININGRAD, title: getLocationName(LOCATION.KALININGRAD) },
 ]
 
 const LimitInput = ({
@@ -176,11 +176,17 @@ function OfficePlannerPage() {
   const allEmployees = employeesQuery.data?.employees || []
   const me = allEmployees.find(i => i?.isMe)
 
+  const officeDays = daysQuery.data?.officeDays.filter(i => i.location === currentLocation) ?? []
+
   //sort me first
   const employees = (me ? [me] : []).concat(
     allEmployees
       .filter(i => !i?.isMe)
-      .filter(i => i.worksFromOffice.some(day => datesFormatted.includes(day))),
+      .filter(i =>
+        officeDays.some(
+          day => datesFormatted.includes(day.date) && day.employees.find(e => e.id === i.id),
+        ),
+      ),
   )
 
   useEffect(() => {
@@ -251,7 +257,11 @@ function OfficePlannerPage() {
           return (
             <Switch
               disabled={!employee?.isMe || pastDay}
-              checked={employee.worksFromOffice.includes(formattedDate)}
+              checked={Boolean(
+                officeDays.find(
+                  i => i.employees.map(i => i.id).includes(employee.id) && i.date === formattedDate,
+                ),
+              )}
               onChange={() => {
                 apply({ variables: { input: { date: formattedDate, location: currentLocation } } })
               }}

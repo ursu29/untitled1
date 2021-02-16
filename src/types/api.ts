@@ -387,7 +387,7 @@ export interface WikiPage {
 
 export interface Feedback {
   id: string
-  about: string
+  about: FEEDBACK_ABOUT
   project: Project
   text: string
   createdAt: string
@@ -398,6 +398,13 @@ export interface FeedbackComment {
   id: string
   text: string
   createdAt: string
+}
+
+export enum FEEDBACK_ABOUT {
+  COMPANY = 'COMPANY',
+  TEAM = 'TEAM',
+  EVENT = 'EVENT',
+  PORTAL = 'PORTAL',
 }
 
 export interface ArchivedMatrixData {

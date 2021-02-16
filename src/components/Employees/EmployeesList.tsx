@@ -5,8 +5,9 @@ import { useMediaQuery } from 'react-responsive'
 import dayjs from 'dayjs'
 import { COLLAPSE_WIDTH } from '../../config'
 import { getEmployeeLink } from '../../paths'
-import { Employee } from '../../types'
+import { Employee, LOCATION } from '../../types'
 import Avatar from '../Avatar'
+import getLocationName from '../../utils/getLocationName'
 
 type EmployeePick = Pick<
   Employee,
@@ -203,6 +204,9 @@ export default function EmployeesList({ employees, loading, fixed }: Props) {
         value: 'zurich',
       },
     ],
+    render: (location: LOCATION) => {
+      return <span>{getLocationName(location)}</span>
+    },
     onFilter: (value: any, record: EmployeePick) =>
       record.location && record.location.toLowerCase().includes(value),
   }

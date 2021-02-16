@@ -1,6 +1,5 @@
 import React from 'react'
-import { CrownOutlined } from '@ant-design/icons'
-import { Tag, Typography, Tooltip } from 'antd'
+import { Tag, Typography } from 'antd'
 import { Project } from '../../types'
 import { Link } from 'react-router-dom'
 import { getProjectLink } from '../../paths'
@@ -11,7 +10,6 @@ const { Text } = Typography
 
 interface Props {
   small?: boolean
-  leading?: boolean
   project: Pick<Project, 'id' | 'name' | 'code'>
   style?: React.CSSProperties
 }
@@ -25,7 +23,7 @@ const COLORS: any = {
 
 const SWISSRE_PREFIX = 'swissre '
 
-export default function ProjectTag({ project, small = false, leading, style = {} }: Props) {
+export default function ProjectTag({ project, small = false, style = {} }: Props) {
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH }) && !small
   if (!project) return null
 
@@ -60,14 +58,6 @@ export default function ProjectTag({ project, small = false, leading, style = {}
               textOverflow: isLarge ? 'unset' : 'ellipsis',
             }}
           >
-            {leading && (
-              <>
-                <Tooltip placement="top" title="Manager">
-                  <CrownOutlined />
-                </Tooltip>
-                &nbsp;
-              </>
-            )}
             {name}
           </div>
         </Tag>

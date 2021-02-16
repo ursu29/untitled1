@@ -13,6 +13,7 @@ import Avatar from '../Avatar'
 import EmployeeManager from './EmployeeManager'
 import EmployeeProjects from './EmployeeProjects'
 import UpdateEmployee from './UpdateEmployee'
+import getLocationName from '../../utils/getLocationName'
 
 const { Text, Title } = Typography
 
@@ -70,7 +71,7 @@ export default function ({ employee }: Props) {
             description={
               <Description>
                 <Text data-cy="position">{employee.position}</Text>
-                <Text data-cy="location">{employee.location}</Text>
+                <Text data-cy="location">{getLocationName(employee.location)}</Text>
                 {!mobile && employeeDetails}
               </Description>
             }

@@ -41,21 +41,30 @@ export default function DrawerForm({
     },
   ]
 
-  const [createTicket] = useMutation(createOnboardingTicket, {
+  const [createTicket, { loading: createLoading }] = useMutation(createOnboardingTicket, {
     refetchQueries,
-    onCompleted: () => message.success('New ticket has been created'),
+    onCompleted: () => {
+      handleClose()
+      message.success('New ticket has been created')
+    },
     onError: message.error,
   })
 
-  const [updateTicket] = useMutation(updateOnboardingTicket, {
+  const [updateTicket, { loading: updateLoading }] = useMutation(updateOnboardingTicket, {
     refetchQueries,
-    onCompleted: () => message.success('Ticket has been updated'),
+    onCompleted: () => {
+      handleClose()
+      message.success('Ticket has been updated')
+    },
     onError: message.error,
   })
 
-  const [deleteTicket] = useMutation(deleteOnboardingTicket, {
+  const [deleteTicket, { loading: deleteLoading }] = useMutation(deleteOnboardingTicket, {
     refetchQueries,
-    onCompleted: () => message.success('Ticket has been deleted'),
+    onCompleted: () => {
+      handleClose()
+      message.success('Ticket has been deleted')
+    },
     onError: message.error,
   })
 
@@ -63,11 +72,9 @@ export default function DrawerForm({
     <Form
       {...layout}
       name="basic"
-      initialValues={{ remember: true }}
       onFinish={values => {
         if (!ticket) createTicket({ variables: { input: values } })
         if (ticket) updateTicket({ variables: { input: { id: ticket.id, ...values } } })
-        handleClose()
       }}
     >
       <Form.Item label="Title" name="title" initialValue={ticket?.title || ''}>
@@ -80,10 +87,10 @@ export default function DrawerForm({
 
       <Form.Item
         label="Responsible"
-        name="responsibleMail"
-        initialValue={ticket?.responsible?.[0]?.email || ''}
+        name="responsible"
+        initialValue={ticket?.responsible?.[0]?.id || null}
       >
-        <EmployeeSelect wide keyName="email" />
+        <EmployeeSelect wide />
       </Form.Item>
 
       <Form.Item
@@ -111,19 +118,16 @@ export default function DrawerForm({
             <Popconfirm
               placement="top"
               title={'Are you sure you want to delete this ticket?'}
-              onConfirm={() => {
-                deleteTicket({ variables: { input: { id: ticket.id } } })
-                handleClose()
-              }}
+              onConfirm={() => deleteTicket({ variables: { input: { id: ticket.id } } })}
               okText="Yes"
               cancelText="No"
             >
-              <Button type="primary" danger style={{ marginRight: '20px' }}>
+              <Button type="primary" danger style={{ marginRight: '20px' }} loading={deleteLoading}>
                 Delete
               </Button>
             </Popconfirm>
           )}
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={createLoading || updateLoading}>
             Save
           </Button>
         </div>
