@@ -400,6 +400,13 @@ export interface FeedbackComment {
   createdAt: string
 }
 
+export enum FEEDBACK_ABOUT {
+  COMPANY = 'COMPANY',
+  TEAM = 'TEAM',
+  EVENT = 'EVENT',
+  PORTAL = 'PORTAL',
+}
+
 export interface ArchivedMatrixData {
   employeeAzureEmail: string
   compressedData: string

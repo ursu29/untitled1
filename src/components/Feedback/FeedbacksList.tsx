@@ -12,15 +12,16 @@ import {
   getFeedbacks,
 } from '../../queries/feedback'
 import { FeedbackMessage } from './FeedbackMessage'
+import { aboutList } from './about'
 
 dayjs.extend(relativeTime)
 
 const { Option } = Select
 
 export default function FeedbacksList() {
-  const [search, setSearch] = useState('')
-  const [about, setAbout] = useState('')
-  const [project, setProject] = useState('')
+  const [search, setSearch] = useState<string | null>(null)
+  const [about, setAbout] = useState<string | null>(null)
+  const [project, setProject] = useState<string | null>(null)
   const [hasMore, setHasMore] = useState(true)
   const limit = 10
 
@@ -54,19 +55,20 @@ export default function FeedbacksList() {
       <div style={{ display: 'flex', flexWrap: 'wrap', maxWidth: '570px', marginBottom: '32px' }}>
         <Input.Search
           placeholder="Search"
-          onSearch={value => setSearch(value)}
+          onSearch={(value: string) => setSearch(value)}
           style={{ width: '300px', margin: '0 8px 8px 0' }}
         />
         <Select
           placeholder="About"
           allowClear
           style={{ maxWidth: '120px', margin: '0 8px 8px 0' }}
-          onChange={(value: any) => setAbout(value)}
+          onChange={(value: string) => setAbout(value)}
         >
-          <Option value="Syncretis">Syncretis</Option>
-          <Option value="Team">Team</Option>
-          <Option value="Events">Events</Option>
-          <Option value="Portal">Portal</Option>
+          {aboutList.map(({ label, value }) => (
+            <Option key={value} value={value}>
+              {label}
+            </Option>
+          ))}
         </Select>
         <div style={{ width: '172px', margin: '0 0px 8px 0' }}>
           <ProjectSelect
