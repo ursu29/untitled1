@@ -22,7 +22,9 @@ export const onboardingAccess = gql`
 
 export const employeeOnboardingTickets = gql`
   query employeeOnboardingTickets {
-    employeeOnboardingTickets
+    employeeOnboardingTickets {
+      id
+    }
   }
 `
 
@@ -76,6 +78,10 @@ export const getEmployeesOnboardingTickets = gql`
 
 export type OnboardingTicketsQueryType = {
   onboardingTickets: OnboardingTicket[]
+}
+
+export type EmployeeOnboardingTicketsQueryType = {
+  employeeOnboardingTickets: Pick<OnboardingTicket, 'id'>[]
 }
 
 export type EmployeesOnboardingTicketsQueryType = {
