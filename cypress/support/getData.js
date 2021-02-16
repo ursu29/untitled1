@@ -52,13 +52,13 @@ export const getEmployee = email => ({
   query: query.getEmployee,
 })
 
-export const createTraining = (title, description, responsibleMail, optional = false) => ({
+export const createTraining = (title, description, responsible, optional = false) => ({
   operationName: 'createOnboardingTicket',
   variables: {
     input: {
       title,
       description,
-      responsibleMail,
+      responsible,
       isOptional: optional,
     },
   },

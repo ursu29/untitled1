@@ -33,6 +33,7 @@ export const createOnboardingTicket = gql`
     }
   }
 `
+
 export const deleteOnboardingTicket = gql`
   mutation deleteOnboardingTicket($input: DeleteOnboardingTicketInput) {
     deleteOnboardingTicket(input: $input) {
