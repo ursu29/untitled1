@@ -57,11 +57,11 @@ function ProcessList({ items, tabName }: Props) {
           </Tooltip>
         )
 
-        if (process.status === 'running') {
+        if (process.status === 'RUNNING') {
           let isPending = false
           if (
-            process.status === 'running' &&
-            process.process?.type === 'onboarding' &&
+            process.status === 'RUNNING' &&
+            process.process?.type === 'ONBOARDING' &&
             !process.vacancy?.isPublished
           )
             isPending = true
@@ -76,17 +76,17 @@ function ProcessList({ items, tabName }: Props) {
             />,
           )
         }
-        if (process.status === 'holding')
+        if (process.status === 'HOLDING')
           return getStatus(
             'Holding',
             <PauseOutlined style={{ fontSize: '16px', color: 'magenta', cursor: 'pointer' }} />,
           )
-        if (process.status === 'cancelled')
+        if (process.status === 'CANCELLED')
           return getStatus(
             'Cancelled',
             <CloseOutlined style={{ color: 'red', cursor: 'pointer' }} />,
           )
-        if (process.status === 'finished')
+        if (process.status === 'FINISHED')
           return getStatus(
             'Completed',
             <CheckOutlined style={{ color: '#52c41a', cursor: 'pointer' }} />,
@@ -96,11 +96,11 @@ function ProcessList({ items, tabName }: Props) {
         const getStatus = (processExecution: any) => {
           let status = processExecution?.status
           if (
-            processExecution.status === 'running' &&
-            processExecution.process?.type === 'onboarding' &&
+            processExecution.status === 'RUNNING' &&
+            processExecution.process?.type === 'ONBOARDING' &&
             !processExecution.vacancy?.isPublished
           )
-            status = 'pending'
+            status = 'PENDING'
           return status
         }
 
