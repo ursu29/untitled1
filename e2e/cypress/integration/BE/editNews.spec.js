@@ -18,19 +18,10 @@ describe('Edit news', () => {
     })
   })
 
-  beforeEach(() => {
-    cy.restoreLocalStorage()
-  })
-  afterEach(() => {
-    cy.saveLocalStorage()
-  })
-
-  it('check request body', () => {
+  it('Edit first post', () => {
     checkTwoString(query.getFirstPost, request.query)
     expect(request.operationName).equal(getFirstPosts().operationName)
-  })
 
-  it('Edit first post', () => {
     const firstNews = response.posts[0]
 
     cy.post(updatePost(text, firstNews.id, text), 'superUser').then(req => {
