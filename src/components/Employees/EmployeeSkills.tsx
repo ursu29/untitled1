@@ -19,11 +19,12 @@ const updateExperiences = gql`
 `
 
 interface Props {
-  editable: boolean
+  editable?: boolean
+  showTabs?: boolean
   employee?: Pick<Employee, 'id'>
 }
 
-export default function EmployeeSkills({ employee, editable }: Props) {
+export default function EmployeeSkills({ employee, editable = false, showTabs = false }: Props) {
   const id = employee?.id
 
   const { loading, data } = useQuery<QueryType>(query, {
@@ -53,7 +54,6 @@ export default function EmployeeSkills({ employee, editable }: Props) {
   const levels = lData?.levels ? Object.assign([], lData.levels).reverse() : ([] as LEVEL[])
   const levelIds = levels?.filter(level => level <= LEVEL.LEARNING)
   const skills = experiences?.filter(exp => levelIds?.includes(exp.level)).map(exp => exp.skill)
-  const showTabs = editable && Boolean(skills?.length)
 
   return (
     <Skeleton loading={loading || lLoading} active>
@@ -72,7 +72,7 @@ export default function EmployeeSkills({ employee, editable }: Props) {
           />
         </div>
       )}
-      {showTabs && <EmployeeRecommendations skills={skills} />}
+      {showTabs && Boolean(skills?.length) && <EmployeeRecommendations skills={skills} />}
     </Skeleton>
   )
 }
