@@ -45,21 +45,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start:coverage": "react-scripts -r @cypress/instrument-cra start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public",
-    "cy:open": "cypress open",
-    "cy:run": "cypress run",
-    "e2e:run:chrome": "cypress run --browser chrome",
-    "e2e:run:firefox": "cypress run --browser firefox",
-    "cy:run:smoke": "cypress run --env grep=\"smoke\"",
-    "cy:run:e2e": "cypress run --env grep=\"e2e\"",
-    "updateScrenshot": "docker run -it -e CYPRESS_updateSnapshots=$CYPRESS_updateSnapshots --ipc=host -v %cd%:/e2e -w /e2e cypress/included:6.0.1"
-
+    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -102,9 +93,6 @@
     "@types/styled-components": "^5.1.4",
     "@types/throttle-debounce": "^2.1.0",
     "babel-loader": "^8.1.0",
-    "cypress": "6.0.1",
-    "cypress-image-snapshot": "^4.0.1",
-    "cypress-select-tests": "^1.5.9",
     "eslint-plugin-cypress": "^2.11.2",
     "husky": "^4.2.5",
     "lint-staged": "^10.1.4",
@@ -125,6 +113,9 @@
       "eslint --cache --max-warnings=0"
     ],
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ],
+    "e2e/**/*.{js,ts,json,md}": [
       "prettier --write"
     ]
   }

@@ -1,0 +1,26 @@
+{
+  "viewportWidth": 1280,
+  "viewportHeight": 768,
+  "video": false,
+  "baseUrl": "https://portal.dev.syncretis.com",
+  "watchForFileChanges": false,
+  "requestTimeout": 15000,
+  "chromeWebSecurity": false,
+  "defaultCommandTimeout": 10000,
+  "reporter": "junit",
+  "reporterOptions": {
+    "mochaFile": "results/test-[hash].xml",
+    "toConsole": true
+  },
+  "env": {
+    "grant_type": "password",
+    "employee_username": "#{employee_username}#",
+    "manager_username": "#{manager_username}#",
+    "client_id": "#{client_id}#",
+    "scope": "#{scope}#",
+    "client_secret": "#{client_secret}#",
+    "employee_password": "#{employee_password}#",
+    "manager_password": "#{manager_password}#",
+    "img_scope": "#{img_scope}#"
+  }
+}
