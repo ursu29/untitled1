@@ -24,7 +24,7 @@ export const query = {
   onboardingTickets:
     'query onboardingTickets { onboardingTickets { ...OnboardingTicketDetails __typename } } fragment OnboardingTicketDetails on OnboardingTicket { id title description responsible { id name position email __typename } isOptional isSwissRe isRequestedByMe __typename }',
   getOfficeDays:
-    'query getOfficeDays($input: OfficeDaysInput) {officeDays(input: $input) {id date employeeLimit employeeCount location __typename}}',
+    'query getOfficeDays($input: OfficeDaysInput) {officeDays(input: $input) { id date employeeLimit employeeCount location employees {id __typename}  __typename}}',
   allSkills:
     'query getSkills($input: SkillsInput) {skills(input: $input) {id name description parent { id }isMatrixOnly}}',
   getAllMatrices: '{matrices {id title description}  matricesAccess {read}}',
@@ -85,11 +85,7 @@ export const query = {
   getEvaluations:
     'query getEvaluations($evaluationsInput: EvaluationsInput!, $evaluationCommentsInput: EvaluationCommentsInput!) { evaluations(input: $evaluationsInput) { id updatedAt fromWho { id name __typename } toWhom { id name __typename } comment evaluation evaluationAttribute { id __typename } __typename } evaluationComments(input: $evaluationCommentsInput) { id body evaluationAttribute { id __typename } editable __typename }}',
   getSubordinates:
-    'query getSubordinates($email: String!) { employeeByEmail(email: $email) { id subordinateUsers { ...EmployeeDetails lastManagerMeeting one2oneRequest requestedOnboardingTickets { ...OnboardingTicketDetails __typename } leadingProjects { ...ProjectDetails __typename } projects { ...ProjectDetails __typename } __typename } __typename }\n' +
-    '} fragment EmployeeDetails on Employee { id name location country position phoneNumber email isMe startDate birthday __typename\n' +
-    '} fragment ProjectDetails on Project { id name code description __typename\n' +
-    '} fragment OnboardingTicketDetails on OnboardingTicket { id title description responsible { id name position email __typename } isOptional isSwissRe isRequestedByMe __typename\n' +
-    '}',
+    'query getSubordinates($email: String!) { employeeByEmail(email: $email) { id subordinateUsers { ...EmployeeDetails lastManagerMeeting one2oneRequest requestedOnboardingTickets { ...OnboardingTicketDetails __typename } projects { ...ProjectDetails __typename } __typename } __typename }}fragment EmployeeDetails on Employee { id name location country position phoneNumber email isMe startDate birthday __typename}fragment ProjectDetails on Project { id name code description __typename}fragment OnboardingTicketDetails on OnboardingTicket { id title description responsible { id name position email __typename } isOptional isSwissRe isRequestedByMe __typename}',
   getEvaluationRevieers:
     'query getEvaluationRevieers($input: EvaluationReviewersInput) { evaluationReviewers(input: $input) { id toWhom { id name __typename } fromWho { id name isMe __typename } __typename }}',
 }

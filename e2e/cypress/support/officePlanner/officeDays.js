@@ -4,7 +4,6 @@ export const officeEmployee = {
   isMe: false,
   location: 'Saint-Petersburg',
   name: 'test name',
-  worksFromOffice: [],
   __typename: 'Employee',
 }
 
