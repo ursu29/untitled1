@@ -1,0 +1,37 @@
+{
+  "name": "portal-client-e2e",
+  "version": "0.1.0",
+  "dependencies": {
+    "@cypress/code-coverage": "^3.8.5",
+    "@cypress/instrument-cra": "^1.4.0",
+    "babel-plugin-istanbul": "^6.0.0",
+    "nyc": "^15.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "start:coverage": "react-scripts -r @cypress/instrument-cra start",
+    "test": "react-scripts test --env=jsdom",
+    "cy:open": "e2e/cypress open",
+    "cy:run": "e2e/cypress run",
+    "e2e:run:chrome": "e2e/cypress run --browser chrome",
+    "e2e:run:firefox": "e2e/cypress run --browser firefox",
+    "cy:run:smoke": "e2e/cypress run --env grep=\\\"smoke\\\"",
+    "cy:run:e2e": "e2e/cypress run --env grep=\\\"e2e\\\"",
+    "updateScrenshot": "docker run -it -e CYPRESS_updateSnapshots=$CYPRESS_updateSnapshots --ipc=host -v %cd%:/e2e -w /e2e e2e/cypress/included:6.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@types/jest": "^26.0.14",
+    "@types/jquery": "^3.5.1",
+    "@types/node": "^14.11.8",
+    "babel-loader": "^8.1.0",
+    "cypress": "6.0.1",
+    "cypress-image-snapshot": "^4.0.1",
+    "cypress-select-tests": "^1.5.9",
+    "eslint-plugin-cypress": "^2.11.2",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.1.4",
+    "prettier": "^2.0.4",
+    "typescript": "3.9.7"
+  }
+}
