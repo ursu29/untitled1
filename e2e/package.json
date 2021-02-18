@@ -17,7 +17,7 @@
     "e2e:run:firefox": "e2e/cypress run --browser firefox",
     "cy:run:smoke": "e2e/cypress run --env grep=\\\"smoke\\\"",
     "cy:run:e2e": "e2e/cypress run --env grep=\\\"e2e\\\"",
-    "updateScrenshot": "docker run -it -e CYPRESS_updateSnapshots=$CYPRESS_updateSnapshots --ipc=host -v %cd%:/e2e -w /e2e e2e/cypress/included:6.0.1"
+    "updateScrenshot": "docker run -it -e CYPRESS_updateSnapshots=$CYPRESS_updateSnapshots --ipc=host -v %cd%:/e2e -w /e2e e2e/ cypress/included:6.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
