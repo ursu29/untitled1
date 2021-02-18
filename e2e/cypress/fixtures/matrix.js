@@ -2,16 +2,16 @@ export const matrix = () => ({
   data: {
     employees: [
       {
-        id: 'test.employee@syncretis.com',
+        id: '602cd4d1bb916c001c54130a',
         name: 'Test Employee',
         isMe: true,
         matrices: [
           {
-            id: '5f737d09291c53001ef8d1b3',
+            id: '602cd5bcbb916c001c54527e',
             title: 'General Matrix',
             description: 'Mandatory matrix for all employees',
             comment: 'some comment',
-            employeeMatrixId: '6012e249a8239b001ce8c115',
+            employeeMatrixId: '602e3cf4b4a44d001c0483f7',
             access: {
               read: false,
               write: false,
@@ -92,7 +92,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5db034955bffb80010003ae5',
+                    id: '602cd4f0bb916c001c5416f0',
                     name:
                       'Able to execute simple project tasks without supervision. In case of any issues asks for help from colleagues',
                     description: '',
@@ -106,7 +106,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5db034a55bffb80010003ae6',
+                    id: '602cd4f0bb916c001c5416f1',
                     name:
                       'Able to resolve issues without assistance, can find а solution with colleague help, searching through web, digging through source code',
                     description: '',
@@ -120,7 +120,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5db034b45bffb80010003ae7',
+                    id: '602cd4f0bb916c001c5416f2',
                     name: 'Can describe high-level architecture of current project',
                     description: '',
                     isMatrixOnly: true,
@@ -133,7 +133,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5db034c25bffb80010003ae8',
+                    id: '602cd4f0bb916c001c5416f3',
                     name:
                       'Able to decompose problem into atomically subproblems and then find an appropriate solution',
                     description: '',
@@ -147,7 +147,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5db034cf5bffb80010003ae9',
+                    id: '602cd4f0bb916c001c5416f4',
                     name:
                       'Take responsibility when introduce a new technology/approach; Can understand side effect of introducing a new technology',
                     description: '',
@@ -161,7 +161,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5db034dd5bffb80010003aea',
+                    id: '602cd4f0bb916c001c5416f5',
                     name:
                       'Able to dig as deep as possible in a problem domain in order to find the cause of the issue and then fix it',
                     description: '',
@@ -175,7 +175,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5db6ec095bffb80010003bec',
+                    id: '602cd4f3bb916c001c5417ed',
                     name: 'Shares experience with colleagues by presentations',
                     description: '(even inside a project), workshops, pair programming',
                     isMatrixOnly: true,
@@ -188,7 +188,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5db6ec185bffb80010003bed',
+                    id: '602cd4f3bb916c001c5417ee',
                     name:
                       'Can do presentations during workshops and provide arguments for ideas, prove concepts',
                     description: '',
@@ -202,7 +202,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5db6ec435bffb80010003bef',
+                    id: '602cd4f3bb916c001c5417f0',
                     name: 'Able to mentor of at least 1 colleague',
                     description: 'Or share knowledge within guild activities outside of project  ',
                     isMatrixOnly: true,
@@ -215,7 +215,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5db6ec2c5bffb80010003bee',
+                    id: '602cd4f3bb916c001c5417ef',
                     name:
                       'Shares knowledge outside of company, participates at a thematic conferences as a speaker, writes technical articles',
                     description: '',
@@ -229,7 +229,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5db6ec565bffb80010003bf0',
+                    id: '602cd4f3bb916c001c5417f1',
                     name: 'Assess other developers and provide feedback to developers',
                     description: 'Help them to grow.',
                     isMatrixOnly: true,
@@ -242,7 +242,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5db035135bffb80010003aeb',
+                    id: '602cd4f0bb916c001c5416f6',
                     name: '< 1.5 years',
                     description: '',
                     isMatrixOnly: true,
@@ -255,7 +255,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5db0352b5bffb80010003aec',
+                    id: '602cd4f0bb916c001c5416f7',
                     name: '1.5 - 3 years',
                     description: '',
                     isMatrixOnly: true,
@@ -268,7 +268,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5db035365bffb80010003aed',
+                    id: '602cd4f0bb916c001c5416f8',
                     name: '3 - 5 years',
                     description: '',
                     isMatrixOnly: true,
@@ -281,7 +281,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5db035445bffb80010003aee',
+                    id: '602cd4f0bb916c001c5416f9',
                     name: '> 5 years',
                     description: '',
                     isMatrixOnly: true,
@@ -294,7 +294,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c7a9a5bffb8001000399b',
+                    id: '602cd4f0bb916c001c5416ac',
                     name: 'Interpersonal skills: Quickly adapts to the variable work',
                     description:
                       'Quickly adapts to the variable work conditions in the project or to the transfer to another project. Positively reacts on feedback and recognizes his/her mistakes.\nBuilds relations in the team/group and creates conditions for the productive work.\nAspires to the common achievement of the team/group goals, heads for brotherhood and solidarity',
@@ -308,7 +308,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c784f5bffb80010003989',
+                    id: '602cd4f0bb916c001c54169a',
                     name: 'Interpersonal skills: Exchanges experience with the colleagues',
                     description:
                       'Argues his/her point of  view in the conflict situations, is constructional in solving disputable questions.\nExpresses positive expectations relative to others and appreciates investment in work performed by his/her colleagues.',
@@ -322,7 +322,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c78365bffb80010003988',
+                    id: '602cd4f0bb916c001c541699',
                     name:
                       'Interpersonal skills: Help for the less experienced and qualified employees',
                     description:
@@ -337,7 +337,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c78085bffb80010003987',
+                    id: '602cd4f0bb916c001c541698',
                     name: 'Interpersonal skills: Consults the colleagues',
                     description: 'If the difficult professional questions appear',
                     isMatrixOnly: true,
@@ -350,7 +350,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c788b5bffb8001000398b',
+                    id: '602cd4f0bb916c001c54169c',
                     name: 'Decision making: Current Status',
                     description:
                       'Timely informs his/her direct manager about the status of the current tasks and occurred problems (potential and real)',
@@ -364,7 +364,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c78775bffb8001000398a',
+                    id: '602cd4f0bb916c001c54169b',
                     name: 'Decision making: Takes the responsibility for the project',
                     description:
                       'Takes the responsibility for the project/group tasks in compliance with his/her role.\nCollects and uses all information, required for making a decision\n',
@@ -378,7 +378,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c78bd5bffb8001000398d',
+                    id: '602cd4f0bb916c001c54169e',
                     name: 'Education: Provides professional tutorship',
                     description:
                       'Provides professional tutorship/guidance up to 2 people and routinely provides feedback for them during the training\nAdjusts the information presentation form according to the trainees needs',
@@ -392,7 +392,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c78a95bffb8001000398c',
+                    id: '602cd4f0bb916c001c54169d',
                     name: 'Education: Identifies talanted employees',
                     description:
                       'Identifies talanted employees for the competent employees development in the appropriate area. Provides the professional training for 3-4 people\n',
@@ -419,7 +419,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5fb5073a8751ed001d487c47',
+                    id: '602cd4f7bb916c001c541997',
                     name: 'Interviewies: Constant help with interviewing new people for Company',
                     description: null,
                     isMatrixOnly: true,
@@ -458,7 +458,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c4c6b5bffb80010003972',
+                    id: '602cd4f0bb916c001c54168e',
                     name: 'English: Speach more or less understandable',
                     description:
                       'Participation in stand-ups, team meetings. Translates simple documentation\n',
@@ -472,7 +472,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c4c415bffb80010003971',
+                    id: '602cd4f0bb916c001c54168d',
                     name: 'English: Short professional discussion',
                     description:
                       'Lead a simple Guild presentation. Amount of difficulties is little during dialogue. Supports discussions about everyday topics. ',
@@ -486,7 +486,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c4be45bffb80010003970',
+                    id: '602cd4f0bb916c001c54168c',
                     name: 'English: Can support long professional discussion',
                     description: 'Lead a seminar, long Guild presentation',
                     isMatrixOnly: true,
@@ -499,7 +499,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c4bba5bffb8001000396f',
+                    id: '602cd4efbb916c001c54168b',
                     name: 'English: Advanced Business English ',
                     description: 'Easy to talk about everything',
                     isMatrixOnly: true,
@@ -512,7 +512,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c4d155bffb80010003976',
+                    id: '602cd4f0bb916c001c541692',
                     name: 'German: Speach more or less understandable',
                     description:
                       'Participation in stand-ups, team meetings. Translates simple documentation',
@@ -526,7 +526,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c4cfe5bffb80010003975',
+                    id: '602cd4f0bb916c001c541691',
                     name: 'German: Short professional discussions',
                     description:
                       'Lead a simple Guild presentation. Amount of difficulties is little during dialogue. Supports discussions about everyday topics. Translates complex documentation',
@@ -540,7 +540,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c4cdd5bffb80010003974',
+                    id: '602cd4f0bb916c001c541690',
                     name: 'German: Can support long professional discussion',
                     description: 'Lead a seminar, long Guild presentation',
                     isMatrixOnly: true,
@@ -553,7 +553,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c4cc95bffb80010003973',
+                    id: '602cd4f0bb916c001c54168f',
                     name: 'German: Advanced Business German',
                     description: 'Easy to talk about everything',
                     isMatrixOnly: true,
@@ -566,7 +566,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c4d9e5bffb8001000397a',
+                    id: '602cd4f0bb916c001c541696',
                     name: "Collaboration: Understands customer's needs",
                     description: '',
                     isMatrixOnly: true,
@@ -579,7 +579,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c4d935bffb80010003979',
+                    id: '602cd4f0bb916c001c541695',
                     name:
                       'Collaboration: Takes on responsibilities for solving araised customer problems, which are in his/her capacity',
                     description: 'Able to deliver middle level domain task.',
@@ -593,7 +593,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c4d805bffb80010003978',
+                    id: '602cd4f0bb916c001c541694',
                     name:
                       'Collaboration: Regulates the effective process of relationship with the customer',
                     description:
@@ -608,7 +608,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5d9c4d335bffb80010003977',
+                    id: '602cd4f0bb916c001c541693',
                     name:
                       "Collaboration: Forecasts and discoveres customer's (internal and external) needs. ",
                     description:
@@ -623,7 +623,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5fb5070f8751ed001d487c42',
+                    id: '602cd4f7bb916c001c541993',
                     name:
                       'Feedback: Open to revieve constructive feedback and percieve it as points for improvements',
                     description: null,
@@ -637,7 +637,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5fb5071d8751ed001d487c43',
+                    id: '602cd4f7bb916c001c541994',
                     name:
                       'Feedback: Provide constructive  (positive and negative) feedback to team members to ensure commitment',
                     description: null,
@@ -651,7 +651,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5fb507288751ed001d487c44',
+                    id: '602cd4f7bb916c001c541995',
                     name: 'Feedback: Make sure that people in the team openely discuss ',
                     description: null,
                     isMatrixOnly: true,
@@ -664,7 +664,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5fb507348751ed001d487c46',
+                    id: '602cd4f7bb916c001c541996',
                     name:
                       'Interviewies: Have experience to interview new team members to the company or project',
                     description: null,
@@ -678,7 +678,7 @@ export const matrix = () => ({
                 {
                   type: null,
                   skill: {
-                    id: '5fb507548751ed001d487c48',
+                    id: '602cd4f7bb916c001c541998',
                     name:
                       'English: Business emails skills; Understand communication differences in multicultural environment and behaves accordingly',
                     description: null,

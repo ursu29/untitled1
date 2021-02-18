@@ -114,7 +114,7 @@ function Vacancy({
               onPublish={handlePublish}
             />
           ) : (
-            <div>
+            <div data-cy="vacancy">
               {vacancy.isClosed && (
                 <div style={{ margin: '-4px 0 10px 0' }}>
                   <Tag color="red">Vacancy is closed</Tag>
