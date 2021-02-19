@@ -77,7 +77,7 @@ export default function EmployeeDevelopmentPlan(props: Props) {
 
   let archivedPlan
   if (archivedDPData) {
-    archivedPlan = JSON.parse(archivedDPData.archivedDP.compressedData).plan
+    archivedPlan = JSON.parse(archivedDPData.archivedDP.compressedData)
   }
 
   // Get DP

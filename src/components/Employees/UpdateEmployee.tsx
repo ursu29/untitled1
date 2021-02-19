@@ -74,7 +74,7 @@ function UpdateProject({
               update: onDone,
             })
 
-            onClose()
+            if (onClose) onClose()
           }}
         />
       }
