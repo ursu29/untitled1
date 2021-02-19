@@ -306,7 +306,7 @@ export const updateProcess = (
 
 export const deleteProcess = id => ({
   operationName: 'deleteProcess',
-  variables: { input: { id } },
+  variables: { id },
   query: query.deleteProcess,
 })
 
