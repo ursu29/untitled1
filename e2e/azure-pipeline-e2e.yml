@@ -64,7 +64,7 @@ jobs:
       - task: CopyFiles@2
         condition: failed()
         inputs:
-          sourceFolder: '$(Build.SourcesDirectory)/e2e/cypress/snapshots/UI/snapshots'
+          sourceFolder: '$(Build.SourcesDirectory)/e2e/cypress/screenshots'
           contents: '**/*'
           targetFolder: '$(Build.ArtifactStagingDirectory)'
         displayName: Copy Screenshots
