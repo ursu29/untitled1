@@ -31,7 +31,6 @@ function UpdateProject({ project }: { project: Partial<Project> }) {
   })
 
   if (!data?.project?.accessEditGlobal) return null
-
   return (
     <Drawer
       toggler={<Button size="small" icon={<EditOutlined />} type="link"></Button>}
