@@ -5,6 +5,8 @@
     "@cypress/code-coverage": "^3.8.5",
     "@cypress/instrument-cra": "^1.4.0",
     "babel-plugin-istanbul": "^6.0.0",
+    "mocha-junit-reporter": "^2.0.0",
+    "mocha-multi-reporters": "^1.5.1",
     "nyc": "^15.1.0"
   },
   "scripts": {
