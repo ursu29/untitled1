@@ -17,11 +17,7 @@ import SkillStatistic from './SkillStatistic'
  */
 const query = gql`
   query getSkills($input: SkillsInput) {
-    levels {
-      id
-      name
-      index
-    }
+    levels
     skills(input: $input) {
       id
       name

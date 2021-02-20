@@ -6,6 +6,7 @@ import Skeleton from '../UI/Skeleton'
 import Section from '../UI/Section'
 import EmployeeTag from '../Employees/EmployeeTag'
 import gql from 'graphql-tag'
+import getLevelName from '../../utils/getLevelName'
 
 const query = gql`
   query getSkillExperiences($input: SkillsInput) {
@@ -49,15 +50,17 @@ export default function SkillMentions(props: Props) {
   })
   const { data: levelsData, loading: levelsLoading } = useQuery<LevelsQueryType>(getLevels)
 
-  const levels = levelsData?.levels || []
+  const levels = levelsData?.levels
+    ? Object.assign([], levelsData.levels).reverse()
+    : ([] as LEVEL[])
   const skill = data?.skills?.[0]
 
   return (
     <Skeleton active loading={loading || levelsLoading}>
-      {levels.map(level => {
+      {levels?.map(level => {
         const levelExperiences = skill?.experiences.filter(i => i.level === level)
         return (
-          <Section key={level} title={level}>
+          <Section key={level} title={getLevelName(level)}>
             {(!levelExperiences || !levelExperiences.length) && (
               <div>No one knows that at this level</div>
             )}

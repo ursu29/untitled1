@@ -39,8 +39,8 @@ const EmployeeForm = ({ form, onSubmit, item, loading }: Props) => {
         <Col style={{ width: '100%' }}>
           <Form.Item label="Agile Manager">
             {getFieldDecorator('agileManager', {
-              initialValue: item?.agileManager?.email,
-            })(<EmployeeSelect wide keyName="email" />)}
+              initialValue: item?.agileManager?.id,
+            })(<EmployeeSelect wide />)}
           </Form.Item>
         </Col>
       </Row>
