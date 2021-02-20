@@ -3,7 +3,7 @@ import { Checkbox, Table, Switch } from 'antd'
 import gql from 'graphql-tag'
 import React, { useState } from 'react'
 import fragments, { EmployeeDetails } from '../../fragments'
-import { Employee } from '../../types'
+import { Employee, LOCATION } from '../../types'
 import EmployeeCard from '../Employees/EmployeeCard.new'
 import UpdateEmployee from '../Employees/UpdateEmployee'
 import TableSearch from '../UI/TableSearch'
@@ -13,6 +13,7 @@ import {
   updateAccessGroup,
   GetMembersOfAccessGroupType,
 } from '../../queries/accessGroups'
+import getLocationName from '../../utils/getLocationName'
 
 const getEmployees = gql`
   {
@@ -85,26 +86,11 @@ export default function EmployeesTable() {
       key: 'location',
       dataIndex: 'location',
       width: '14%',
-      filters: [
-        {
-          text: 'Saint Petersburg',
-          value: 'petersburg',
-        },
-        {
-          text: 'Tomsk',
-          value: 'tomsk',
-        },
-        {
-          text: 'Kaliningrad',
-          value: 'kaliningrad',
-        },
-        {
-          text: 'Zurich',
-          value: 'zurich',
-        },
-      ],
-      onFilter: (value: any, record: EmployeeDetails) =>
-        (record.location && record.location.toLowerCase().includes(value)) || false,
+      filters: Object.keys(LOCATION).map(e => ({ text: getLocationName(e as LOCATION), value: e })),
+      render: (_: any, i: any) => {
+        return <span>{getLocationName(i.location)}</span>
+      },
+      onFilter: (value: any, record: EmployeeDetails) => record.location === value,
     },
     {
       title: 'Manager',
