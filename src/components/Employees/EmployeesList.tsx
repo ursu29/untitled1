@@ -225,12 +225,16 @@ export default function EmployeesList({ employees, loading, fixed }: Props) {
       if (a.startDate === b.startDate) return 0
       if (!a.startDate) return -1
       if (!b.startDate) return 1
-      const prev = dayjs(a.startDate, 'DD.MM.YYYY')
-      const next = dayjs(b.startDate, 'DD.MM.YYYY')
+      const prev = dayjs(a.startDate)
+      const next = dayjs(b.startDate)
       return prev.isAfter(next) ? 1 : -1
     },
     sortDirections: ['descend', 'ascend'],
     defaultSortOrder: 'ascend',
+    render: (date: string) => {
+      if (!date) return null
+      return <span>{dayjs(date).format('YYYY.MM.DD')}</span>
+    },
   }
 
   if (isLarge) {
