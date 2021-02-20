@@ -58,5 +58,5 @@ export default gql`
 type DevelopmentPlanPick = Exclude<DevelopmentPlan, 'employee'>
 
 export type QueryType = {
-  developmentPlans: DevelopmentPlanPick[]
+  developmentPlans: DevelopmentPlanPick
 }

@@ -77,8 +77,10 @@ export default function EmployeeDevelopmentPlan(props: Props) {
 
   let archivedPlan
   if (archivedDPData) {
-    archivedPlan = JSON.parse(archivedDPData.archivedDP.compressedData)
+    archivedPlan = archivedDPData.archivedDP.compressedData
   }
+
+  console.log({ archivedPlan })
 
   // Get DP
   const { data, loading } = useQuery<QueryType>(getDevelopmentPlans, {
@@ -94,13 +96,15 @@ export default function EmployeeDevelopmentPlan(props: Props) {
 
   const debounced = useCallback(debounce(500, update), [update])
 
-  let plan = data?.developmentPlans[0]
+  const plan = data?.developmentPlans
 
   useEffect(() => {
     if (mutateLoading) {
       message.loading('Updating personal plan')
     }
   })
+
+  console.log(data)
 
   return (
     <div>
