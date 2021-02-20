@@ -183,3 +183,7 @@ export const collapseProcess = {
   header: '.ant-collapse-header',
   arrow: '.ant-collapse-arrow',
 }
+
+export const employeeAccess = {
+  employeeUrl: '/employees/a.vygodchikov@syncretis.com/',
+}

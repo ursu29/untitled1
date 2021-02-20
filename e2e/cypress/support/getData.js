@@ -5,7 +5,7 @@ import { mainCity } from './locators'
 export const URL = 'https://portal.dev.syncretis.com/graphql'
 export const TIMEMASTER = 'https://timemaster.syncretis.com/'
 export const LOCATIONS = ['Saint Petersburg', 'Tomsk', 'Kaliningrad', 'Zurich']
-export const TAGS = ['602cd5d1bb916c001c54580f', '602cd5d1bb916c001c545810']
+export const TAGS = ['6030dd7ef84074001c07ebb5', '6030dd7ef84074001c07ebb6']
 
 const { email } = employeeData.employee
 
@@ -22,6 +22,7 @@ Cypress.Commands.add('post', (body, superUser = null, methodName = 'POST') => {
   })
 })
 
+export const getEmployeesData = () => cy.readFile('cypress/fixtures/employees.json')
 // need to simplify all this request body
 export const getManager = id => ({
   operationName: 'GetEmployeeManager',
