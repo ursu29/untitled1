@@ -7,7 +7,7 @@ const defaultWriteAccess = (bool = false) => ({ write: bool, __typename: 'Access
 export let agileManager = {
   country: null,
   email: 'test.manager@syncretis.com',
-  id: '602cd4d1bb916c001c54130b',
+  id: '60300de12de911001cda948e',
   isMe: false,
   location: 'SAINT_PETERSBURG',
   name: 'Test Manager',
@@ -22,7 +22,7 @@ export let employeeData = {
     bonuses: 35000, // should be 0
     country: null,
     email: 'test.employee@syncretis.com',
-    id: '602cd4d1bb916c001c54130a',
+    id: '60300de12de911001cda948d',
     isMe: true,
     location: 'SAINT_PETERSBURG',
     name: 'Test Employee',
