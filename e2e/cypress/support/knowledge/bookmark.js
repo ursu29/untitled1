@@ -1,6 +1,6 @@
 export const randomValues = {
   link: `https://${Math.random().toString(36).substring(7)}.com/`,
-  skills: ['60267b23c099cf001c7d701e'],
+  skills: ['602cd4eabb916c001c54145c'],
   title: Math.random().toString(36).substring(7),
 }
 export const bookmark = (link, skills, title) => ({ link, skills, title })

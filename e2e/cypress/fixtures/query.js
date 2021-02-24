@@ -18,9 +18,10 @@ export const query = {
   toggleBookmarklike:
     'mutation toggleBookmarklike($input: ToggleBookmarklikeInput!) {toggleBookmarklike(input: $input) {id __typename}}',
   deleteBookmark:
-    'mutation deleteBookmark($input: DeleteBookmarkInput!) {deleteBookmark(input: $input) {id __typename}}',
+    'mutation deleteBookmark($input: DeleteBookmarkInput!) {deleteBookmark(input: $input) { id __typename}}',
   getEmployees: 'query getEmployees($input: EmployeesInput) {employees(input: $input) {name }}',
-  getEmployeeTickets: 'query employeeOnboardingTickets { employeeOnboardingTickets}',
+  getEmployeeTickets:
+      'query employeeOnboardingTickets {employeeOnboardingTickets {id __typename}}',
   onboardingTickets:
     'query onboardingTickets { onboardingTickets { ...OnboardingTicketDetails __typename } } fragment OnboardingTicketDetails on OnboardingTicket { id title description responsible { id name position email __typename } isOptional isSwissRe isRequestedByMe __typename }',
   getOfficeDays:
@@ -40,7 +41,7 @@ export const query = {
   deleteTraining:
     'mutation deleteOnboardingTicket($input: DeleteOnboardingTicketInput) {deleteOnboardingTicket(input: $input) { id __typename}}',
   deleteProcess:
-    'mutation deleteProcess($input:DeleteProcessInput) {deleteProcess(input: $input) {id}}',
+    'mutation deleteProcess($id:ID!) {deleteProcess(id: $id) {id}}',
   updateEmp:
     'mutation updateEmployee($input: UpdateEmployeeInput!) {updateEmployee(input: $input) {id __typename}}',
   createNewProcess:

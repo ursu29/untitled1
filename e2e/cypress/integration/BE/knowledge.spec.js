@@ -52,7 +52,7 @@ describe('Check knowledge page', () => {
 
     checkKeyValueExist(skills[0], {
       id: randomValues.skills[0],
-      name: 'Protocols',
+      name: 'Agile',
       __typename: 'Skill',
     })
   })
@@ -69,7 +69,12 @@ describe('Check knowledge page', () => {
       const { __typename } = data.toggleBookmarklike
 
       expect(__typename).equal('Bookmarklike')
-      cy.post(deleteBookmark(getId))
+    })
+  })
+
+  it('delete bookmark', () => {
+    cy.post(deleteBookmark(getId)).then(req => {
+      expect(req.body.data.deleteBookmark.id).equal(getId)
     })
   })
 })

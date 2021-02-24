@@ -11,7 +11,7 @@ describe('Check Info data', () => {
     cy.setImgToken('employee')
 
     cy.getResponse(['getGuild'], 'alias')
-    cy.visit('/guilds/Community-Frontend/info')
+    cy.visit('/guilds/community-frontend/info')
     cy.wait(`@alias`).then(val => {
       response = val.response.body.data
       request = val.request.body
