@@ -8,12 +8,16 @@ import { query } from '../../fixtures/query'
 describe('Check CV', () => {
   let response
   let request
-  const jobId = '602cd507bb916c001c541b9a'
+  let jobId = ''
 
   before(() => {
     cy.setToken('employee')
-    cy.post(addJob())
 
+    cy.post(getCV()).then(val => {
+      const {curriculumVitae: {id}} = val.body.data.employeeByEmail
+      jobId = id
+      cy.post(addJob(employeeData.employee.id, jobId))
+    })
     cy.getResponse(['getEmployeeCV'], 'alias')
     cy.visit('/profile/cv')
 

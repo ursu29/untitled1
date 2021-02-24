@@ -184,7 +184,7 @@ export const getGuildsTitle = () => ({
 
 export const addJob = (
   employeeId = employeeData.employee.id,
-  jobId = '602cd507bb916c001c541b9a',
+  jobId = '6036318cf84074001c07f746',
   company = '',
   dateEnd = null,
   dateStart = null,

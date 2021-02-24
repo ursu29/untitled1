@@ -22,7 +22,7 @@ export let employeeData = {
     bonuses: 35000, // should be 0
     country: null,
     email: 'test.employee@syncretis.com',
-    id: '602cd4d1bb916c001c54130a',
+    id: '6030dc16f84074001c0789a9',
     isMe: true,
     location: 'SAINT_PETERSBURG',
     name: 'Test Employee',
