@@ -96,6 +96,7 @@ export default function BookingList({
       columns={columns}
       dataSource={bookings}
       pagination={false}
+      rowKey="id"
       onRow={record => {
         return {
           onClick: () => {
