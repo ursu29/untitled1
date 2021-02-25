@@ -76,7 +76,7 @@ export default function EmployeeMatrix({ employee, matrix, isCurrentTab, onComme
   return (
     <Skeleton active loading={loading}>
       <ArchiveMatrix
-        employeeAzureId={data?.employees[0].id || ''}
+        employee={data?.employees[0].id || ''}
         matrixId={matrix.id}
         employeeMatrixId={matrix.employeeMatrixId || ''}
         onSelectVersion={onSelectVersion}

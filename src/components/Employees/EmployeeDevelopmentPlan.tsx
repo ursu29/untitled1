@@ -42,7 +42,7 @@ export default function EmployeeDevelopmentPlan(props: Props) {
 
   // Get DP versions
   const { data: dataVersions } = useQuery<ArchivedDPVersions>(archivedDPVersions, {
-    variables: { input: { employeeAzureId: props.employee?.id } },
+    variables: { input: { employee: props.employee?.id } },
   })
 
   // Archive DP
@@ -52,7 +52,7 @@ export default function EmployeeDevelopmentPlan(props: Props) {
       toggleResetFields(!resetFields)
     },
     refetchQueries: [
-      { query: archivedDPVersions, variables: { input: { employeeAzureId: props.employee?.id } } },
+      { query: archivedDPVersions, variables: { input: { employee: props.employee?.id } } },
       { query: getDevelopmentPlans, variables },
     ],
     awaitRefetchQueries: true,
@@ -77,8 +77,10 @@ export default function EmployeeDevelopmentPlan(props: Props) {
 
   let archivedPlan
   if (archivedDPData) {
-    archivedPlan = JSON.parse(archivedDPData.archivedDP.compressedData).plan
+    archivedPlan = archivedDPData.archivedDP.compressedData
   }
+
+  console.log({ archivedPlan })
 
   // Get DP
   const { data, loading } = useQuery<QueryType>(getDevelopmentPlans, {
@@ -94,13 +96,15 @@ export default function EmployeeDevelopmentPlan(props: Props) {
 
   const debounced = useCallback(debounce(500, update), [update])
 
-  let plan = data?.developmentPlans[0]
+  const plan = data?.developmentPlans
 
   useEffect(() => {
     if (mutateLoading) {
       message.loading('Updating personal plan')
     }
   })
+
+  console.log(data)
 
   return (
     <div>
@@ -158,13 +162,15 @@ export default function EmployeeDevelopmentPlan(props: Props) {
               onSelectVersion={(value: string) => onSelectVersion(value)}
               onCreateSnapshot={() =>
                 archive({
-                  variables: { input: { employeeAzureId: props.employee?.id } },
+                  variables: { input: { employee: props.employee?.id } },
                 })
               }
-              versionsList={dataVersions?.archivedDPVersions.map(e => ({
-                id: e.id,
-                createdAt: e.createdAt,
-              }))}
+              versionsList={dataVersions?.archivedDPVersions
+                .sort((a, b) => (new Date(a.createdAt) < new Date(b.createdAt) ? 1 : -1))
+                .map(e => ({
+                  id: e.id,
+                  createdAt: e.createdAt,
+                }))}
               isButtonVisible={true}
               buttonText="Create New Version"
               tooltip="Your current plan will be archived and you will receive a new blank one"

@@ -10,7 +10,15 @@ import message from '../../message'
 const mutation = gql`
   mutation createEvaluationReviewer($input: CreateEvaluationReviewerInput) {
     createEvaluationReviewer(input: $input) {
-      id
+      toWhom {
+        id
+        name
+      }
+      fromWho {
+        id
+        name
+        isMe
+      }
     }
   }
 `

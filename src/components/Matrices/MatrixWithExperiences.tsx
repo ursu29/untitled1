@@ -152,7 +152,7 @@ export default function MatrixWithExperiences({
                   if (isArchivedChosen) {
                     archivedExperience =
                       archivedExperiences?.find(
-                        i => i.skill.id.toString() === skill.id.toString(),
+                        i => i.skill.id?.toString() === skill.id?.toString(),
                       ) || null
                   }
 

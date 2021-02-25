@@ -93,13 +93,12 @@ function PortalMenu(props: Props) {
       route: paths.ONBOARDING,
       icon: <LikeOutlined />,
       title: 'Trainings',
-      status: 'updated',
+      status: '',
     },
     {
       route: paths.EMPLOYEES,
       icon: <TeamOutlined />,
       title: 'Employees',
-      status: '',
     },
     {
       route: paths.PROJECTS,

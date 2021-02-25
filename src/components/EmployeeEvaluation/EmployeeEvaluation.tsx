@@ -32,7 +32,7 @@ function EmployeeEvaluation({ employee, editable }: Props) {
 
   // Get SEF versions
   const { data: dataVersions } = useQuery<ArchivedSEFVersions>(archivedSEFVersions, {
-    variables: { input: { employeeAzureId: employee?.id } },
+    variables: { input: { employee: employee?.id } },
   })
 
   // Archive SEF
@@ -41,7 +41,7 @@ function EmployeeEvaluation({ employee, editable }: Props) {
       message.success('New version has been created')
     },
     refetchQueries: [
-      { query: archivedSEFVersions, variables: { input: { employeeAzureId: employee?.id } } },
+      { query: archivedSEFVersions, variables: { input: { employee: employee?.id } } },
       {
         query: getEvaluations,
         variables: {
@@ -102,13 +102,15 @@ function EmployeeEvaluation({ employee, editable }: Props) {
           onSelectVersion={(value: string) => onSelectVersion(value)}
           onCreateSnapshot={() =>
             archive({
-              variables: { input: { employeeAzureId: employee?.id } },
+              variables: { input: { employee: employee?.id } },
             })
           }
-          versionsList={dataVersions?.archivedSEFVersions.map(e => ({
-            id: e.id,
-            createdAt: e.createdAt,
-          }))}
+          versionsList={dataVersions?.archivedSEFVersions
+            .sort((a, b) => (new Date(a.createdAt) < new Date(b.createdAt) ? 1 : -1))
+            .map(e => ({
+              id: e.id,
+              createdAt: e.createdAt,
+            }))}
           isButtonVisible={true}
           buttonText="Create New Version"
           tooltip="Your current form will be archived and you will receive a new blank one"

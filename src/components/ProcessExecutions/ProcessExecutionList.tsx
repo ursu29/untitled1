@@ -57,11 +57,11 @@ function ProcessList({ items, tabName }: Props) {
           </Tooltip>
         )
 
-        if (process.status === 'running') {
+        if (process.status === 'RUNNING') {
           let isPending = false
           if (
-            process.status === 'running' &&
-            process.process?.type === 'onboarding' &&
+            process.status === 'RUNNING' &&
+            process.process?.type === 'ONBOARDING' &&
             !process.vacancy?.isPublished
           )
             isPending = true
@@ -76,17 +76,17 @@ function ProcessList({ items, tabName }: Props) {
             />,
           )
         }
-        if (process.status === 'holding')
+        if (process.status === 'HOLDING')
           return getStatus(
             'Holding',
             <PauseOutlined style={{ fontSize: '16px', color: 'magenta', cursor: 'pointer' }} />,
           )
-        if (process.status === 'cancelled')
+        if (process.status === 'CANCELLED')
           return getStatus(
             'Cancelled',
             <CloseOutlined style={{ color: 'red', cursor: 'pointer' }} />,
           )
-        if (process.status === 'finished')
+        if (process.status === 'FINISHED')
           return getStatus(
             'Completed',
             <CheckOutlined style={{ color: '#52c41a', cursor: 'pointer' }} />,
@@ -96,11 +96,11 @@ function ProcessList({ items, tabName }: Props) {
         const getStatus = (processExecution: any) => {
           let status = processExecution?.status
           if (
-            processExecution.status === 'running' &&
-            processExecution.process?.type === 'onboarding' &&
+            processExecution.status === 'RUNNING' &&
+            processExecution.process?.type === 'ONBOARDING' &&
             !processExecution.vacancy?.isPublished
           )
-            status = 'pending'
+            status = 'PENDING'
           return status
         }
 
@@ -168,20 +168,10 @@ function ProcessList({ items, tabName }: Props) {
       filters: [
         //@ts-ignore
         ...new Set(items.filter(e => e?.locations).flatMap(item => item.locations)),
-      ].map(e => ({ text: e, value: e })),
-      onFilter: (value: any, record: any) =>
-        record.locations && record.locations.map((e: any) => e?.name).includes(value),
+      ].map(e => ({ text: getLocationName(e), value: e })),
+      onFilter: (value: any, record: any) => record.locations && record.locations.includes(value),
       sorter: (a: any, b: any) =>
-        a.locations
-          ?.map((e: any) => e?.name)
-          .sort()
-          .join('')
-          .localeCompare(
-            b.locations
-              ?.map((e: any) => e?.name)
-              .sort()
-              .join(''),
-          ),
+        a.locations.sort().join('').localeCompare(b.locations.sort().join('')),
     },
     {
       key: 'position',

@@ -21,7 +21,6 @@ export const archivedMatrixVersions = gql`
 export const getArchivedMatrix = gql`
   query getArchivedMatrix($input: GetArchivedMatrixInput) {
     archivedMatrix(input: $input) {
-      employeeAzureEmail
       matrixId
       compressedData
     }

@@ -11,12 +11,12 @@ import {
   StarOutlined,
 } from '@ant-design/icons'
 import { useQuery } from '@apollo/react-hooks'
-import { Badge } from 'antd'
 import paths from '../../paths'
 import { Employee, Access } from '../../types'
 import Skeleton from '../UI/Skeleton'
 import EmployeeMatrices from '../EmployeeMatrices/EmployeeMatrices'
 import Tabs from '../UI/Tabs'
+import { TabTitleWithBadge } from '../UI/TabTitleWithBadge'
 import EmployeeEvaluation from '../EmployeeEvaluation/EmployeeEvaluation'
 import EmployeeBookmarks from './EmployeeBookmarks'
 import EmployeeCV from './EmployeeCV'
@@ -194,33 +194,31 @@ function EmployeeTabs({ match, location, ...props }: Props) {
   if (employee?.subordinateUsersCount?.users) {
     tabs.push({
       title: (
-        <Badge
+        <TabTitleWithBadge
           title={`Total count: ${employee.subordinateUsersCount?.users} user(s)`}
           count={employee.subordinateUsersCount?.users}
           offset={[12, -6]}
           overflowCount={999}
           showZero
           style={{
-            position: 'absolute',
             backgroundColor: '#fff',
             color: '#999',
             boxShadow: '0 0 0 1px #d9d9d9 inset',
           }}
         >
-          <Badge
+          <TabTitleWithBadge
             title={`One-2-one: ${employee.subordinateUsersCount?.one2oneRequests} request(s)`}
             count={employee.subordinateUsersCount?.one2oneRequests ? '1-2-1' : null}
             offset={[-25, -9]}
             size="small"
             style={{
-              position: 'absolute',
               backgroundColor: '#ffc400',
               fontSize: '10px',
             }}
           >
             My employees
-          </Badge>
-        </Badge>
+          </TabTitleWithBadge>
+        </TabTitleWithBadge>
       ),
       key: 'employees',
       icon: <SolutionOutlined />,

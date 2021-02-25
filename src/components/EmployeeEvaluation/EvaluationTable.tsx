@@ -134,7 +134,7 @@ export default function EvaluationTable({
     })
     .filter(i => i.children)
 
-  const showBaseColumns = editable || employee?.isMe
+  const showBaseColumns = true // TODO: check access on upper level with evaluationReviewersAccess.read
 
   const TableCell = ({
     rateDisabled,
@@ -144,6 +144,7 @@ export default function EvaluationTable({
     rateValue,
     comment,
     textOnly,
+    isTitle,
   }: {
     rateDisabled: boolean
     isArchivedChosen: boolean
@@ -152,6 +153,7 @@ export default function EvaluationTable({
     rateValue: number
     comment: string | undefined
     textOnly: boolean
+    isTitle?: boolean
   }) => {
     const commentHandleClick = (title: string) => {
       setAddCommentModal({
@@ -177,7 +179,7 @@ export default function EvaluationTable({
           justifyContent: 'flex-start',
         }}
       >
-        {!textOnly ? (
+        {!textOnly && !isTitle ? (
           <>
             <Rate
               disabled={rateDisabled || isArchivedChosen}
@@ -264,7 +266,8 @@ export default function EvaluationTable({
             {comment}
           </div>
         ) : (
-          !rateDisabled && (
+          !rateDisabled &&
+          !isTitle && (
             <div
               onClick={() => {
                 if (isArchivedChosen) return
@@ -312,7 +315,7 @@ export default function EvaluationTable({
           }
         }
 
-        if (['free_estimate'].includes(item.group)) showMark = false
+        if (['FREE_ESTIMATE'].includes(item.group)) showMark = false
 
         // const comment = comments?.find(i => {
         //   return i.evaluationAttribute?.id === item.id
@@ -340,17 +343,27 @@ export default function EvaluationTable({
   ]
 
   /**
-   * If archive version has chosen
+   * If archive version was chosen
    */
   if (isArchivedChosen) {
+    const title = (name: string | any) =>
+      React.createElement('div', { key: name }, [
+        `${parseName(name) || '(undefined)'}`,
+        React.createElement(
+          'div',
+          { key: name, style: { fontSize: '13px', fontWeight: 100, color: 'gray' } },
+          `${name}`,
+        ),
+      ])
+
     columns = columns.concat(
-      Array.from(new Set(evaluations?.map(e => e.fromWho?.name)))?.map((name, index) => {
+      Array.from(new Set(evaluations?.map(e => e.fromWho)))?.map((name, index) => {
         return {
-          title: name || '(undefined)',
+          title: title(name),
           width: 120,
           render: (text: any, item: any) => {
             const evaluation = evaluations?.find(i => {
-              return i.evaluationAttribute.id === item.id && i.fromWho?.name === name
+              return i.evaluationAttribute === item.id && i.fromWho === name
             })
             return (
               <TableCell
@@ -360,7 +373,8 @@ export default function EvaluationTable({
                 cellCode={item.id + ' archive' + index}
                 rateValue={evaluation?.evaluation || 0}
                 comment={evaluation?.comment}
-                textOnly={['free_estimate'].includes(item.group) || false}
+                textOnly={['FREE_ESTIMATE'].includes(item.group) || false}
+                isTitle={item.children}
               />
             )
           },
@@ -370,7 +384,7 @@ export default function EvaluationTable({
   }
 
   /**
-   * If NOT archive version has chosen
+   * If NOT archive version was chosen
    */
   if (!isArchivedChosen) {
     if (showBaseColumns) {
@@ -394,7 +408,7 @@ export default function EvaluationTable({
               cellCode={item.id + ' you'}
               rateValue={evaluation?.evaluation || 0}
               comment={evaluation?.comment}
-              textOnly={['free_estimate'].includes(item.group) || false}
+              textOnly={['FREE_ESTIMATE'].includes(item.group) || false}
             />
           )
         },
@@ -424,7 +438,7 @@ export default function EvaluationTable({
                 cellCode={item.id + ' agile'}
                 rateValue={evaluation?.evaluation || 0}
                 comment={evaluation?.comment}
-                textOnly={['free_estimate'].includes(item.group) || false}
+                textOnly={['FREE_ESTIMATE'].includes(item.group) || false}
               />
             )
           },
@@ -457,7 +471,7 @@ export default function EvaluationTable({
                 cellCode={item.id + ' reviewer' + index}
                 rateValue={evaluation?.evaluation || 0}
                 comment={evaluation?.comment}
-                textOnly={['free_estimate'].includes(item.group) || false}
+                textOnly={['FREE_ESTIMATE'].includes(item.group) || false}
               />
             )
           },
@@ -527,4 +541,13 @@ export default function EvaluationTable({
       />
     </div>
   )
+}
+
+function parseName(email: string | any) {
+  const re = /^.*@/i
+  const fullName = re.exec(email)?.[0].replace('@', '')
+  return fullName
+    ?.split('.')
+    .map((e, i) => (i === 0 ? e[0].toUpperCase() + '.' : e[0].toUpperCase() + e.slice(1)))
+    .join(' ')
 }

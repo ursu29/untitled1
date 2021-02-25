@@ -21,10 +21,14 @@ export default function GuildBookmarks({ guild }: Props) {
   if (!guild) return <div>Guild is not found</div>
 
   return (
-    <Bookmarks
-      refetchQueries={[{ query, variables }]}
-      loading={loading}
-      bookmarks={data?.bookmarks}
-    />
+    <>
+      <p style={{ fontStyle: 'italic' }}>Bookmarks related to technologies added to the guild</p>
+      <Bookmarks
+        refetchQueries={[{ query, variables }]}
+        loading={loading}
+        bookmarks={data?.bookmarks}
+        isAddButtonHidden={true}
+      />
+    </>
   )
 }
