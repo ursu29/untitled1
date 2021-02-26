@@ -141,7 +141,7 @@ export default function WorkspacePlanner() {
     },
   })
 
-  const workspace = dataWorkspace?.workspace
+  const workspace = workspacePool?.workspaces.length ? dataWorkspace?.workspace : undefined
   const bookingList = workspace?.workplaces
     .flatMap(workplace =>
       workplace.bookings?.map(booking => ({ workplaceId: workplace.id, ...booking })),
