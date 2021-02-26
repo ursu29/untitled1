@@ -13,7 +13,7 @@ describe(`Check employee Self Evaluation Form`, () => {
   })
 
   it('Attributes response', () => {
-    cy.getResponse(['evaluationAttributes', 'id', 'title'], 'alias')
+    cy.getResponse(['getEvaluationReviewers', 'id', 'title'], 'alias')
     cy.visit('/profile/evaluation')
     cy.wait(`@alias`).then(val => {
       const response = val.response.body.data

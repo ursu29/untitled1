@@ -1,13 +1,15 @@
-import { oneTwoOne, popUp, employeeData } from '../../support/client/employeeData'
+import {oneTwoOne, popUp, email} from '../../support/client/employeeData'
 import { response, oneTwoOneLocators } from '../../support/client/oneTwoOne'
 import { skillEl } from '../../support/locators'
+import {getEmployee} from "../../support/getData";
 
 describe('Check oneTwoOne request', () => {
-  const { id } = employeeData.employee
+  let employeeData
 
   before(() => {
     cy.setToken('employee')
     cy.setImgToken('employee')
+    cy.post(getEmployee(email('employee'))).then(res => employeeData = res.body.data.employeeByEmail)
   })
 
   beforeEach(() => {
@@ -19,7 +21,7 @@ describe('Check oneTwoOne request', () => {
 
   context('Check oneTwoOne request', () => {
     before(() => {
-      cy.mockResponse(['one2oneRequest'], response(id, false)).as('alias')
+      cy.mockResponse(['one2oneRequest'], response(employeeData.id, false)).as('alias')
       cy.visit('/')
       cy.wait('@alias').then(() => cy.getElement(oneTwoOne.button).click())
     })
@@ -36,7 +38,7 @@ describe('Check oneTwoOne request', () => {
         if (req.body.operationName.includes('updateEmployee')) {
           const { input } = req.body.variables
 
-          expect(input.id).equal(id)
+          expect(input.id).equal(employeeData.id)
           expect(input.one2oneRequest).equal(true)
         }
       })
@@ -50,7 +52,7 @@ describe('Check oneTwoOne request', () => {
       cy.setToken('manager')
       cy.setImgToken('employee')
 
-      cy.mockResponse(['one2oneRequest'], response(id, true)).as('alias')
+      cy.mockResponse(['one2oneRequest'], response(employeeData.id, true)).as('alias')
       cy.visit('/')
       cy.getElement(oneTwoOne.button).then(el => expect(el.text()).contains('1-2-1 request'))
       cy.wait('@alias').then(() => cy.get(oneTwoOne.disableBtn).should('exist'))
@@ -87,15 +89,12 @@ describe('Check oneTwoOne request', () => {
         if (req.body.operationName.includes('updateEmployee')) {
           const { input } = req.body.variables
 
-          expect(input.id).equal(id)
+          expect(input.id).equal(employeeData.id)
           expect(input.one2oneRequest).equal(false)
         }
       })
       cy.get(popUp.button).contains('Yes').click()
       cy.get(skillEl.successMes).should('have.text', 'Updated')
-      cy.get('.current').then(el =>
-        cy.get(oneTwoOneLocators.closeOneTwoOne).its('length').should('eq', parseInt(el.text())),
-      )
     })
   })
 })

@@ -7,12 +7,21 @@ import {
 } from '../../../support/client/training'
 import { generateObjects } from '../../../support/utils'
 import { postEl, workspace } from '../../../support/locators'
+import {getEmployee} from "../../../support/getData";
+import {email} from "../../../support/client/employeeData";
 
 xdescribe('Check filter Trainings', () => {
   const count = 4
+  let managerId
 
   before(() => {
     cy.setToken('employee')
+
+    cy.post(getEmployee(email('employee'))).then(res => {
+      const { employeeByEmail } = res.body.data
+
+      managerId = employeeByEmail.agileManager.id
+    })
     cy.setImgToken('employee')
   })
 
@@ -27,7 +36,9 @@ xdescribe('Check filter Trainings', () => {
     it('default switch and all tickets completed', () => {
       cy.mockResponse(
         ['onboardingTickets'],
-        createTickets(generateObjects(count, ticket(true, false))),
+        createTickets(generateObjects(
+            count,
+            ticket(true, false, '5f904c2fe384ea001c0dd265', null, null, managerId))),
       )
       cy.visit('/onboarding')
 
@@ -75,7 +86,7 @@ xdescribe('Check filter Trainings', () => {
     it('default switch and all tickets completed', () => {
       cy.mockResponse(
         ['onboardingTickets'],
-        createTickets(generateObjects(count, ticket(true, false, '5f904c2fe384ea001c0dd211'))),
+        createTickets(generateObjects(count, ticket(true, false, '5f904c2fe384ea001c0dd211', managerId))),
       )
       cy.visit('/onboarding')
 
@@ -87,7 +98,7 @@ xdescribe('Check filter Trainings', () => {
 
   context('Check mix of tickets', () => {
     it('default switch and all tickets completed', () => {
-      cy.mockResponse(['onboardingTickets'], createTickets(mixTrainings()))
+      cy.mockResponse(['onboardingTickets'], createTickets(mixTrainings(managerId)))
       cy.visit('/onboarding')
 
       cy.get(postEl.buttonSwitch).should('not.have.class', 'ant-switch-checked')
@@ -111,7 +122,7 @@ xdescribe('Check filter Trainings', () => {
     const tabs = ['All', 'My Trainings']
 
     it('Check My Trainings tab', () => {
-      cy.mockResponse(['onboardingTickets'], createTickets(responsibleEmployeeTrainings()))
+      cy.mockResponse(['onboardingTickets'], createTickets(responsibleEmployeeTrainings(managerId)))
 
       cy.visit('/onboarding')
       tabs.forEach(el => cy.get(workspace.tab).contains(el).should('be.visible'))

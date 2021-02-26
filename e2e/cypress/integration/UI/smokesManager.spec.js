@@ -1,10 +1,9 @@
-import { getClient, getManager, getProjects, getEmployeeExperiences } from '../../support/getData'
+import {getClient, getManager, getProjects, getEmployeeExperiences, getEmployee} from '../../support/getData'
 import { tabs, workspace } from '../../support/locators'
-import { employeeData } from '../../support/client/employeeData'
-import { employeeData as EmployeeData } from '../../support/client/employeeData'
+import {email} from '../../support/client/employeeData'
 
 describe('Checking default information', () => {
-  const userId = EmployeeData.employee.id
+  let employeeData
   let allData = {
     client: null,
     manager: null,
@@ -14,22 +13,27 @@ describe('Checking default information', () => {
 
   before(() => {
     cy.setToken('manager')
+
     cy.visit('/')
-    cy.post(getClient()).then(res => {
-      const { data } = res.body
-      allData = { ...allData, client: data }
-    })
-    cy.post(getManager(userId)).then(res => {
-      const { data } = res.body
-      allData = { ...allData, manager: data }
-    })
-    cy.post(getProjects(userId)).then(res => {
-      const { data } = res.body
-      allData = { ...allData, projects: data }
-    })
-    cy.post(getEmployeeExperiences(userId)).then(res => {
-      const { data } = res.body
-      allData = { ...allData, levels: data }
+    cy.post(getEmployee(email('employee'))).then(res => {
+      employeeData = res.body.data.employeeByEmail
+
+      cy.post(getClient()).then(res => {
+        const { data } = res.body
+        allData = { ...allData, client: data }
+      })
+      cy.post(getManager(employeeData.id)).then(res => {
+        const { data } = res.body
+        allData = { ...allData, manager: data }
+      })
+      cy.post(getProjects(employeeData.id)).then(res => {
+        const { data } = res.body
+        allData = { ...allData, projects: data }
+      })
+      cy.post(getEmployeeExperiences(employeeData.id)).then(res => {
+        const { data } = res.body
+        allData = { ...allData, levels: data }
+      })
     })
   })
 
@@ -76,7 +80,7 @@ describe('Checking default information', () => {
   })
 
   it('Manager can see employee private tabs', () => {
-    cy.visit(`/employees/${employeeData.employee.email}`)
+    cy.visit(`/employees/${employeeData.email}`)
     ;[tabs.matrices, tabs.personal, tabs.cv, tabs.form].forEach(el =>
       cy.get(workspace.tab).contains(el).should('be.visible'),
     )

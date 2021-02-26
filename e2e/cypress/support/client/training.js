@@ -1,15 +1,14 @@
-import { agileManager } from './employeeData'
 import { generateObjects, mergeObjects } from '../utils'
 import { employeeData } from './employeeData'
 import { todaysDate } from '../officePlanner/officeDays'
 
 const { email, id, name, position } = employeeData.employee
 
-export const trainingData = {
+export const trainingData = idManager => ({
   title: `new title: ${todaysDate}`,
   description: 'how to use hooks?',
-  responsible: agileManager.id,
-}
+  responsible: idManager,
+})
 
 export const responsible = (email, id, name, position) => ({
   email,
@@ -25,14 +24,15 @@ export const ticket = (
   trainingId = '5f904c2fe384ea001c0dd265',
   responsible = null,
   isRequestedByMe = null,
+  idManager
 ) => ({
-  description: trainingData.description,
+  description: trainingData(idManager).description,
   id: trainingId,
   responsible,
   isOptional,
   isRequestedByMe,
   isSwissRe,
-  title: trainingData.title,
+  title: trainingData(idManager).title,
   __typename: 'OnboardingTicket',
 })
 
@@ -49,18 +49,19 @@ export const trainingLocators = {
   activeTab: '.ant-tabs-tabpane-active',
 }
 
-export const mixTrainings = () =>
+// need all this horror to simplified
+export const mixTrainings = (managerId) =>
   mergeObjects([
-    generateObjects(1, ticket(false, false)),
-    generateObjects(1, ticket(false, true, '5f904c2fe384ea001c0dd234')),
-    generateObjects(1, ticket(true, false, '5f904c2fe384ea001c0dd211')),
+    generateObjects(1, ticket(false, false, '5f904c2fe384ea001c0dd265', null, null, managerId)),
+    generateObjects(1, ticket(false, true, '5f904c2fe384ea001c0dd234',null, null, managerId)),
+    generateObjects(1, ticket(true, false, '5f904c2fe384ea001c0dd211',null, null, managerId)),
   ])
 
-export const responsibleEmployeeTrainings = () =>
+export const responsibleEmployeeTrainings = (managerId) =>
   mergeObjects([
     generateObjects(
       1,
-      ticket(false, false, '5f904c2fe384ea001c0dd211', [responsible(email, id, name, position)]),
+      ticket(false, false, '5f904c2fe384ea001c0dd211', [responsible(email, id, name, position)], null, managerId),
     ),
-    generateObjects(1, ticket(true, false)),
+    generateObjects(1, ticket(true, false, '5f904c2fe384ea001c0dd265', null, null, managerId)),
   ])

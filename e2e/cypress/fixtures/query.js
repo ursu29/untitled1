@@ -20,7 +20,10 @@ export const query = {
   deleteBookmark:
     'mutation deleteBookmark($input: DeleteBookmarkInput!) {deleteBookmark(input: $input) {id __typename}}',
   getEmployees: 'query getEmployees($input: EmployeesInput) {employees(input: $input) {name }}',
-  getEmployeeTickets: 'query employeeOnboardingTickets { employeeOnboardingTickets}',
+  getEmployeeTickets: 'query employeeOnboardingTickets {employeeOnboardingTickets {id __typename}}',
+  getReviewers: 'query getEvaluationReviewers($input: EvaluationReviewersInput) {evaluationReviewers(input: $input) {toWhom {id name __typename}fromWho {id name isMe __typename} __typename }}',
+  deleteReviewer: 'mutation deleteEvaluationReviewer($input: DeleteEvaluationReviewerInput) {deleteEvaluationReviewer(input: $input) {id __typename}}',
+  createReviewer: 'mutation createEvaluationReviewer($input: CreateEvaluationReviewerInput) {createEvaluationReviewer(input: $input) {toWhom {id name __typename}fromWho {id name isMe __typename} __typename}}',
   onboardingTickets:
     'query onboardingTickets { onboardingTickets { ...OnboardingTicketDetails __typename } } fragment OnboardingTicketDetails on OnboardingTicket { id title description responsible { id name position email __typename } isOptional isSwissRe isRequestedByMe __typename }',
   getOfficeDays:
@@ -30,7 +33,7 @@ export const query = {
   getAllMatrices: '{matrices {id title description}  matricesAccess {read}}',
   getFirstPost:
     'query getPosts($first:Int,$after:ID,$filter:PostsFilter){ posts(first:$first,after:$after,filter:$filter){ id title body isTranslated createdAt locations createdBy{ id name email __typename } images{ id url fileName __typename } tags{ id name description __typename } __typename } }',
-  tags: '{tags {name description }}',
+  tags: '{tags {name description, id}}',
   addJob:
     'mutation updateCurriculumVitae($input: UpdateCurriculumVitaeInput!) {updateCurriculumVitae(input: $input) {id __typename}}',
   getCV:
@@ -88,4 +91,5 @@ export const query = {
     'query getSubordinates($email: String!) { employeeByEmail(email: $email) { id subordinateUsers { ...EmployeeDetails lastManagerMeeting one2oneRequest requestedOnboardingTickets { ...OnboardingTicketDetails __typename } projects { ...ProjectDetails __typename } __typename } __typename }}fragment EmployeeDetails on Employee { id name location country position phoneNumber email isMe startDate birthday __typename}fragment ProjectDetails on Project { id name code description __typename}fragment OnboardingTicketDetails on OnboardingTicket { id title description responsible { id name position email __typename } isOptional isSwissRe isRequestedByMe __typename}',
   getEvaluationRevieers:
     'query getEvaluationRevieers($input: EvaluationReviewersInput) { evaluationReviewers(input: $input) { id toWhom { id name __typename } fromWho { id name isMe __typename } __typename }}',
+  evaluate: 'mutation evaluate($input: EvaluateInput!) {evaluate(input: $input) { id __typename}}'
 }

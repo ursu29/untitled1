@@ -122,6 +122,24 @@ export const getEmployeeTickets = () => ({
   query: query.getEmployeeTickets,
 })
 
+export const getEvaluationReviewers = (id) => ({
+  operationName: 'getEvaluationReviewers',
+  variables: {input: {toWhom: id}},
+  query: query.getReviewers,
+})
+
+export const createEvaluationReviewer = (idUser, idReviewer) => ({
+  operationName: 'createEvaluationReviewer',
+  variables: {input: {fromWho: idReviewer, toWhom: idUser}},
+  query: query.createReviewer,
+})
+
+export const deleteReviewer = (idReviewer, idUser) => ({
+  operationName: 'deleteEvaluationReviewer',
+  variables: {input: {fromWho: idReviewer, toWhom: idUser}},
+  query: query.deleteReviewer,
+})
+
 export const getOfficeDays = (startDate, count = 7) => ({
   operationName: 'getOfficeDays',
   variables: { input: { startDate, count } },
@@ -280,6 +298,27 @@ export const getProcessExecutions = id => ({
   query: query.getProcessExecutions,
 })
 
+export const evaluate = (id, comment, evaluationAtt, evaluation = 3) => ({
+  operationName: 'evaluate',
+  variables: { input: { comment,
+      evaluation,
+      evaluationAttribute: evaluationAtt,
+      toWhom: id} },
+  query: query.evaluate,
+})
+
+export const getEvaluations = employee => ({
+  operationName: 'getEvaluations',
+  variables: {evaluationCommentsInput: {employee}, evaluationsInput: {employee}},
+  query: query.getEvaluations,
+})
+
+export const getSubordinates = emailUser => ({
+  operationName: 'getSubordinates',
+  variables: {email: emailUser},
+  query: query.getSubordinates,
+})
+
 export const getAllProcess = () => ({
   operationName: null,
   variables: {},
@@ -310,7 +349,7 @@ export const deleteProcess = id => ({
   query: query.deleteProcess,
 })
 
-export const updatePost = (body, id, title) => ({
+export const updatePost = (body, id, title, tagsArr = TAGS) => ({
   operationName: 'updatePost',
   variables: {
     input: {
@@ -318,7 +357,7 @@ export const updatePost = (body, id, title) => ({
       id,
       images: [],
       locations: [],
-      tags: TAGS,
+      tags: tagsArr,
       title,
     },
   },
