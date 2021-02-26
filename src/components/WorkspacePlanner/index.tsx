@@ -508,7 +508,7 @@ export default function WorkspacePlanner() {
                     }}
                     onCreate={(value: any) =>
                       createWorkspace({
-                        variables: { input: { ...value } },
+                        variables: { input: { ...value, location } },
                       })
                     }
                     onDelete={(id: string) => deleteWorkspace({ variables: { input: { id } } })}
