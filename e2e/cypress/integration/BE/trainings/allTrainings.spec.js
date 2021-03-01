@@ -1,6 +1,6 @@
 import { checkKeyValueExist } from '../../../support/complexLocators'
 import { ticket, trainingData } from '../../../support/client/training'
-import {agileManagerData, email} from '../../../support/client/employeeData'
+import { email} from '../../../support/client/employeeData'
 import {createTraining, deleteTraining, getEmployee} from '../../../support/getData'
 import { postEl } from '../../../support/locators'
 import { checkTwoString } from '../../../support/utils'
@@ -41,17 +41,9 @@ describe('get all trainings response', () => {
   it('Check all trainings response', () => {
     const allId = response.onboardingTickets.map(el => el.id)
     const task = response.onboardingTickets.filter(el => el.id === getId)[0]
-    const { description, id, responsible, title, __typename } = task
-    const {email, name, position, __typename: type} = agileManagerData(managerId)
+    const { description, id, title, __typename } = task
 
     checkKeyValueExist(ticket(true, false, getId, managerId), { description, id, title, __typename })
-    checkKeyValueExist(responsible[0], {
-      email,
-      name,
-      position,
-      id: managerId,
-      __typename: type,
-    })
 
     expect(allId).includes(getId)
     cy.get(postEl.button).eq(0).should('contain.text', 'Request training')

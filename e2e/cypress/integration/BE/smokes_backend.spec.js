@@ -10,7 +10,7 @@ describe('Check employee api (smoke)', () => {
   let employeeId
   let managerId
 
-  const SECTION_COUNT = 6
+  const SECTION_COUNT = 7
   const FIRST_POSTS = 4
   const MONDAY = '2021-02-08'
 
@@ -23,7 +23,7 @@ describe('Check employee api (smoke)', () => {
     })
   })
 
-  it('Get projects', () => {
+  it.skip('Get projects', () => {
     cy.fixture('employee.json').then(body => {
       postRequest(body).then(response => {
         //we are using universal request here - when body doesn't need any replacements

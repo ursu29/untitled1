@@ -32,7 +32,7 @@ describe('Check employee data', () => {
 
   it('check process data', () => {
     const { name } = employeeData
-    const firstProcess = runningProcess[0]
+    const firstProcess = runningProcess[1]
     const { id } = firstProcess
 
     cy.setToken('manager')
@@ -54,7 +54,7 @@ describe('Check employee data', () => {
 
   it('check data after update', () => {
     const { name } = employeeData
-    const firstProcess = runningProcess[0]
+    const firstProcess = runningProcess[1]
     const { id } = firstProcess
     cy.setToken('manager')
 

@@ -2,7 +2,7 @@ export const getEmployeeSkills = () => ({
   data: {
     employees: [
       {
-        id: '6030dc16f84074001c0789a9',
+        id: '6038a67a7ae138001c21835d',
         name: 'Test Employee',
         experiences: [
           {

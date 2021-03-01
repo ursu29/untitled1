@@ -4,7 +4,7 @@ import { mainCity } from './locators'
 
 export const URL = 'https://portal.dev.syncretis.com/graphql'
 export const TIMEMASTER = 'https://timemaster.syncretis.com/'
-export const LOCATIONS = ['Saint Petersburg', 'Tomsk', 'Kaliningrad', 'Zurich']
+export const LOCATIONS = ['Saint Petersburg', 'Tomsk', 'Kaliningrad', 'Zürich']
 export const TAGS = ['6030dd7ef84074001c07ebb5', '6030dd7ef84074001c07ebb6']
 
 const { email } = employeeData.employee
@@ -54,14 +54,15 @@ export const getEmployee = email => ({
   query: query.getEmployee,
 })
 
-export const createTraining = (title, description, responsible, optional = false) => ({
+export const createTraining = (titleTraining, descr, responsibleTraining, optional = false, isSwissReBool = false) => ({
   operationName: 'createOnboardingTicket',
   variables: {
     input: {
-      title,
-      description,
-      responsible,
+      title: titleTraining,
+      description: descr,
+      responsible: responsibleTraining,
       isOptional: optional,
+      isSwissRe: isSwissReBool
     },
   },
   query: query.createTraining,

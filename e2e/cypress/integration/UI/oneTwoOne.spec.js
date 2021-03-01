@@ -47,22 +47,10 @@ describe('Check oneTwoOne request', () => {
     })
   })
 
-  context('Check disable oneTwoOne request', () => {
-    it('Disable oneTwoOne request', () => {
-      cy.setToken('manager')
-      cy.setImgToken('employee')
-
-      cy.mockResponse(['one2oneRequest'], response(employeeData.id, true)).as('alias')
-      cy.visit('/')
-      cy.getElement(oneTwoOne.button).then(el => expect(el.text()).contains('1-2-1 request'))
-      cy.wait('@alias').then(() => cy.get(oneTwoOne.disableBtn).should('exist'))
-    })
-  })
-
   context('Check Manager oneTwoOne', () => {
     before(() => {
       cy.setToken('manager')
-      cy.setImgToken('employee')
+      cy.setImgToken('manager')
 
       cy.visit('client/profile/employees')
     })
