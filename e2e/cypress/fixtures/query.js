@@ -1,4 +1,9 @@
 export const query = {
+  updateDevelopmentPlan: 'mutation updateDevelopmentPlan($input: UpdateDevelopmentPlanInput!) {updateDevelopmentPlan(input: $input) { id __typename}}',
+  getDevelopmentPlans:
+      'query getDevelopmentPlans($input: DevelopmentPlansInput!) { developmentPlans(input: $input) { id createdAt updatedAt developmentRoles { webDeveloper actuarialBusinessAnalyst agileCoach automationQA devOps infrastructureArchitect javaDeveloper dotnetDeveloper manualQA mathematician scrumMaster solutionArchitect teamLead uxExpert productOwner dataAnalyst __typename } guildContribution { internalProject education noContribution startup custom __typename } previousGoals { id description successCriteria isAchieved comment __typename } actualGoals { id description successCriteria isAchieved comment __typename } amountOfTime longTermGoals lookBackNegative lookBackPositive lookForward lastDiscussed __typename }}',
+  matricesCustomFieldsMutation: 'mutation matricesCustomFieldsMutation($input: UpdateMatricesCustomFieldsInput!) {updateMatricesCustomFields(input: $input) {id __typename}}',
+  matricesCustomFields: 'query matricesCustomFields($input: MatricesCustomFieldsInput) { matricesCustomFields(input: $input) {id employeeMail lastDiscussed __typename}}',
   getManager:
     'query GetEmployeeManager($input: EmployeesInput) {employees(input: $input) {id manager {id name position country location phoneNumber email bonuses status isMe}}}',
   getClient:
