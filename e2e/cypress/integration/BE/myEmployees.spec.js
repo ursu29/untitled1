@@ -23,21 +23,11 @@ describe('Check manager employees', () => {
     })
   })
 
-  beforeEach(() => {
-    cy.restoreLocalStorage()
-  })
-  afterEach(() => {
-    cy.saveLocalStorage()
-  })
-
   it('getSubordinates response', () => {
     const { __typename, id, name, position, email } = employeeData
     const { subordinateUsers } = response.employeeByEmail
 
     checkKeyValueExist(subordinateUsers[0], { __typename, id, name, position, email })
-  })
-
-  it('check request body', () => {
     checkTwoString(query.getSubordinates, request.query)
     expect(request.operationName).equal(OPERATION_NAME)
   })
