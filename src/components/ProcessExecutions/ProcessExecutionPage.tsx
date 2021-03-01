@@ -11,6 +11,7 @@ import getProcessExecution, { QueryType } from '../../queries/getProcessExecutio
 import getProcessExecutions from '../../queries/getProcessExecutions'
 import isForbidden from '../../utils/isForbidden'
 import { useEmployee } from '../../utils/withEmployee'
+import { getProcessName } from '../../utils/getProcessName'
 import NotAllowed from '../UI/NotAllowed'
 import PageContent from '../UI/PageContent'
 import Skeleton from '../UI/Skeleton'
@@ -144,7 +145,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
       <PageContent noBottom>
         <PageHeader
           title={processExecution.process.title}
-          subTitle={processExecution.process.type}
+          subTitle={getProcessName(processExecution.process.type)}
           // onBack={() => window.history.back()}
           tags={<ProcessExecutionStatusTag processExecution={processExecution} />}
           style={{ padding: 0 }}
@@ -192,7 +193,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
               }}
             </OnHoldProcessExecution>,
           ]}
-        ></PageHeader>
+        />
       </PageContent>
       {processExecution.process.type === 'ONBOARDING' && (
         <>

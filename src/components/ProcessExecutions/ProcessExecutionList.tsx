@@ -18,6 +18,7 @@ import message from '../../message'
 import './styles.css'
 import { LOCATION } from '../../types'
 import getLocationName from '../../utils/getLocationName'
+import { getProcessName } from '../../utils/getProcessName'
 
 dayjs.extend(relativeTime)
 
@@ -124,7 +125,7 @@ function ProcessList({ items, tabName }: Props) {
             <Tag
               style={{ color: '#aaaaaa', fontSize: '13px', fontStyle: 'italic', marginTop: '3px' }}
             >
-              {i.process.type}
+              {getProcessName(i.process.type)}
             </Tag>
           </div>
         )
