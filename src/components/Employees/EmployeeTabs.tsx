@@ -1,5 +1,5 @@
 import React from 'react'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { RouteComponentProps, withRouter, matchPath } from 'react-router-dom'
 import gql from 'graphql-tag'
 import {
   SolutionOutlined,
@@ -11,16 +11,17 @@ import {
   StarOutlined,
 } from '@ant-design/icons'
 import { useQuery } from '@apollo/react-hooks'
+import paths from '../../paths'
 import { Employee, Access } from '../../types'
 import Skeleton from '../UI/Skeleton'
 import EmployeeMatrices from '../EmployeeMatrices/EmployeeMatrices'
 import Tabs from '../UI/Tabs'
 import { TabTitleWithBadge } from '../UI/TabTitleWithBadge'
+import EmployeeEvaluation from '../EmployeeEvaluation/EmployeeEvaluation'
 import EmployeeBookmarks from './EmployeeBookmarks'
 import EmployeeCV from './EmployeeCV'
 import EmployeeSkills from './EmployeeSkills'
 import EmployeeDevelopmentPlan from './EmployeeDevelopmentPlan'
-import EmployeeEvaluation from '../EmployeeEvaluation/EmployeeEvaluation'
 import EmployeeSubordinates from './EmployeeSubordinates'
 
 interface Props extends RouteComponentProps {
@@ -105,7 +106,7 @@ type QueryType = {
   </Tag>
 ) */
 
-function EmployeeTabs({ match, ...props }: Props) {
+function EmployeeTabs({ match, location, ...props }: Props) {
   const { data, loading, error } = useQuery<QueryType>(query, {
     variables: {
       input: { id: props.employee.id },
@@ -121,6 +122,7 @@ function EmployeeTabs({ match, ...props }: Props) {
   const matricesLookReviewersAccess = data?.matricesLookReviewersAccess
   const developmentPlanLookReviewersAccess = data?.developmentPlanLookReviewersAccess
   const evaluationReviewersAccess = data?.evaluationReviewersAccess
+  const isProfile = Boolean(matchPath(location.pathname, { path: paths.PROFILE }))
 
   let tabs: any = [
     {
@@ -128,7 +130,13 @@ function EmployeeTabs({ match, ...props }: Props) {
       key: 'skills',
       icon: <CrownOutlined />,
       noPadding: false,
-      body: <EmployeeSkills employee={employee} editable={employee?.access.write || false} />,
+      body: (
+        <EmployeeSkills
+          employee={employee}
+          editable={employee?.access.write}
+          showTabs={isProfile}
+        />
+      ),
     },
     {
       title: 'Bookmarks',
