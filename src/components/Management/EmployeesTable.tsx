@@ -48,7 +48,7 @@ export default function EmployeesTable() {
   const { data: accessGroup } = useQuery<GetMembersOfAccessGroupType>(getMembersOfAccessGroup, {
     variables: { group: 'MANAGEMENT' },
   })
-  const managementGroup = accessGroup?.getMembersOf?.map(e => e.toLowerCase())
+  const managementGroup = accessGroup?.getMembersOf?.map(e => e.id)
 
   // Card for employees table
   const Card = ({ employee }: { employee: EmployeeDetails }) => (
@@ -124,8 +124,8 @@ export default function EmployeesTable() {
     if (filters.includes(WITHOUT_MANAGER)) {
       accept.push(!e.agileManager)
     }
-    if (filters.includes(NOT_MANAGEMENT) && !!managementGroup) {
-      accept.push(!managementGroup.includes(e.email.toLowerCase()))
+    if (filters.includes(NOT_MANAGEMENT) && !!managementGroup?.length) {
+      accept.push(!managementGroup.includes(e.id))
     }
     return accept.every(e => e)
   })
@@ -142,9 +142,7 @@ export default function EmployeesTable() {
         },
       })
     },
-    selectedRowKeys: filteredEmployees
-      ?.filter(e => managementGroup?.includes(e.email.toLowerCase()))
-      .map(e => e.email),
+    selectedRowKeys: filteredEmployees?.filter(e => managementGroup?.includes(e.id)).map(e => e.id),
   }
 
   return (
@@ -179,7 +177,7 @@ export default function EmployeesTable() {
         dataSource={filteredEmployees}
         pagination={false}
         columns={columns}
-        rowKey="email"
+        rowKey="id"
         size="small"
         onRow={record => ({
           onClick: () => (!exceptionsModifying ? setChosenUser(record) : null),
