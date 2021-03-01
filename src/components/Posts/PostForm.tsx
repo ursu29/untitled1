@@ -1,5 +1,5 @@
 import { UploadOutlined } from '@ant-design/icons'
-import { Button, Col, Form, Input, Row, Switch, Upload } from 'antd'
+import { Button, Col, Form, Input, Row, Switch, Upload, Alert } from 'antd'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { GATEWAY } from '../../config'
@@ -135,6 +135,11 @@ export default function PostForm({ values: post, loading, onSubmit }: Props) {
           )
         }}
       >
+        <Alert
+          message="We do not save attached images anymore. Use this field to upload image to the azure file storage and then drag & drop it to the body to get link "
+          type="info"
+          style={{ marginBottom: 8 }}
+        />
         <Upload
           action={GATEWAY + '/upload'}
           name="files"
