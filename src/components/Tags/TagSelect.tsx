@@ -7,7 +7,7 @@ import gql from 'graphql-tag'
 import message from '../../message'
 
 const mutation = gql`
-  mutation createTag($input: CreateTagInput) {
+  mutation createTag($input: CreateTagInput!) {
     createTag(input: $input) {
       id
       name
