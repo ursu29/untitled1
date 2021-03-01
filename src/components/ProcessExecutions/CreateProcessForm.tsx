@@ -8,6 +8,8 @@ import LocationSelect from '../Locations/LocationSelect'
 import ProcessSelect from '../Processes/ProcessSelect'
 import ProjectSelect from '../Projects/ProjectSelect'
 
+const typesWithProjects: ProcessType[] = ['ONBOARDING', 'OFFBOARDING']
+
 export interface Props extends FormComponentProps {
   onSubmit: (value: any, onDone?: () => void) => void
   loading?: boolean
@@ -30,7 +32,7 @@ const CreateProcessForm = ({ form, onSubmit, value, loading }: Props) => {
     })
   }
 
-  const showProjectSelector = type && ['onboarding', 'offboarding'].includes(type)
+  const showProjectSelector = type && typesWithProjects.includes(type)
 
   return (
     <Form layout="vertical" onSubmit={handleSubmit}>
