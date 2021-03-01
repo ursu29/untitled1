@@ -3,7 +3,7 @@ import { response, oneTwoOneLocators } from '../../support/client/oneTwoOne'
 import { skillEl } from '../../support/locators'
 import {getEmployee} from "../../support/getData";
 
-describe('Check oneTwoOne request by employee', () => {
+xdescribe('Check oneTwoOne request by employee', () => {
   let employeeData
 
     before(() => {
@@ -37,7 +37,7 @@ describe('Check oneTwoOne request by employee', () => {
     })
 })
 
-describe('Check oneTwoOne request by manager', () => {
+xdescribe('Check oneTwoOne request by manager', () => {
   let employeeData
     before(() => {
       cy.window().then((window) => {
