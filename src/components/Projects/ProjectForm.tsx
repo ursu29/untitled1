@@ -71,8 +71,8 @@ const ProjectForm = ({ form, onSubmit, item, loading }: Props) => {
         <Col style={{ width: '100%' }}>
           <Form.Item label="Scrum Masters">
             {getFieldDecorator('scrumMasters', {
-              initialValue: item?.scrumMasters?.map(i => i.email),
-            })(<EmployeeSelect wide mode="multiple" keyName="email" />)}
+              initialValue: item?.scrumMasters?.map(i => i.id),
+            })(<EmployeeSelect wide mode="multiple" keyName="id" />)}
           </Form.Item>
         </Col>
       </Row>
