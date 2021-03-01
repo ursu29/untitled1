@@ -325,7 +325,9 @@ function ProcessList({ items, tabName }: Props) {
               {Array(3)
                 .fill(0)
                 .map((_, i) => (
-                  <Select.Option value={i + 1}>{i + 1}</Select.Option>
+                  <Select.Option key={i} value={i + 1}>
+                    {i + 1}
+                  </Select.Option>
                 ))}
             </Select>
           )
