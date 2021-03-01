@@ -1,9 +1,11 @@
 import gql from 'graphql-tag'
-import { ArchivedDPVersion } from '../types'
+import { Employee, ArchivedDPVersion } from '../types'
 
 export const getMembersOfAccessGroup = gql`
   query getMembersOf($group: String) {
-    getMembersOf(group: $group)
+    getMembersOf(group: $group) {
+      id
+    }
   }
 `
 
@@ -17,4 +19,4 @@ export type ArchivedDPVersions = {
   archivedDPVersions: ArchivedDPVersion[]
 }
 
-export type GetMembersOfAccessGroupType = { getMembersOf: string[] }
+export type GetMembersOfAccessGroupType = { getMembersOf: Employee[] }

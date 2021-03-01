@@ -11,7 +11,7 @@ describe('Check bookmarks', () => {
     cy.setToken('employee')
 
     cy.getResponse(['getBookmarks'], 'alias')
-    cy.visit('/guilds/Community-Frontend/bookmarks')
+    cy.visit('/guilds/community-frontend/bookmarks')
     cy.wait(`@alias`).then(req => {
       request = req.request.body
       response = req.response.body.data

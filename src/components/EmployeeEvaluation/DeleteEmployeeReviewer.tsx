@@ -26,7 +26,8 @@ function DeleteEmployeeReviewer({ reviewer }: Props) {
   const [mutate, { loading }] = useMutation(mutation, {
     variables: {
       input: {
-        id: reviewer.id,
+        fromWho: reviewer.fromWho.id,
+        toWhom: reviewer.toWhom.id,
       },
     },
     refetchQueries: [

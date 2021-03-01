@@ -141,7 +141,7 @@ export default function WorkspacePlanner() {
     },
   })
 
-  const workspace = dataWorkspace?.workspace
+  const workspace = workspacePool?.workspaces.length ? dataWorkspace?.workspace : undefined
   const bookingList = workspace?.workplaces
     .flatMap(workplace =>
       workplace.bookings?.map(booking => ({ workplaceId: workplace.id, ...booking })),
@@ -508,7 +508,7 @@ export default function WorkspacePlanner() {
                     }}
                     onCreate={(value: any) =>
                       createWorkspace({
-                        variables: { input: { ...value } },
+                        variables: { input: { ...value, location } },
                       })
                     }
                     onDelete={(id: string) => deleteWorkspace({ variables: { input: { id } } })}

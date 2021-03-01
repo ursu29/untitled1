@@ -447,8 +447,7 @@ export interface ArchivedDPVersion {
 }
 
 export interface ArchivedDPData {
-  employeeAzureEmail: string
-  compressedData: string
+  compressedData: Exclude<DevelopmentPlan, 'employee'>
 }
 
 export interface ArchivedSEFVersion {
@@ -457,7 +456,6 @@ export interface ArchivedSEFVersion {
 }
 
 export interface ArchivedSEFData {
-  employeeAzureEmail: string
   compressedData: string
 }
 

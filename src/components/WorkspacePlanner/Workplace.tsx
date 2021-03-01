@@ -219,6 +219,7 @@ export default function Workplace({
       <Space direction="vertical">
         {bookings?.map((booking, i) => (
           <div
+            key={booking.id}
             style={{
               paddingTop: i !== 0 ? '8px' : '',
               borderTop: i !== 0 ? '1px solid #ffbd7069' : '',

@@ -36,7 +36,7 @@ export let employeesData = (idClient, idManager) => ({
 export let agileManager = {
   country: null,
   email: 'test.manager@syncretis.com',
-  id: '602cd4d1bb916c001c54130b',
+  id: '6030dc16f84074001c0789aa',
   isMe: false,
   location: 'SAINT_PETERSBURG',
   name: 'Test Manager',

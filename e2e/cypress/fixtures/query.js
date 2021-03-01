@@ -18,7 +18,7 @@ export const query = {
   toggleBookmarklike:
     'mutation toggleBookmarklike($input: ToggleBookmarklikeInput!) {toggleBookmarklike(input: $input) {id __typename}}',
   deleteBookmark:
-    'mutation deleteBookmark($input: DeleteBookmarkInput!) {deleteBookmark(input: $input) {id __typename}}',
+    'mutation deleteBookmark($input: DeleteBookmarkInput!) {deleteBookmark(input: $input) { id __typename}}',
   getEmployees: 'query getEmployees($input: EmployeesInput) {employees(input: $input) {name }}',
   getEmployeeTickets: 'query employeeOnboardingTickets {employeeOnboardingTickets {id __typename}}',
   getReviewers: 'query getEvaluationReviewers($input: EvaluationReviewersInput) {evaluationReviewers(input: $input) {toWhom {id name __typename}fromWho {id name isMe __typename} __typename }}',
@@ -43,7 +43,7 @@ export const query = {
   deleteTraining:
     'mutation deleteOnboardingTicket($input: DeleteOnboardingTicketInput) {deleteOnboardingTicket(input: $input) { id __typename}}',
   deleteProcess:
-    'mutation deleteProcess($input:DeleteProcessInput) {deleteProcess(input: $input) {id}}',
+    'mutation deleteProcess($id:ID!) {deleteProcess(id: $id) {id}}',
   updateEmp:
     'mutation updateEmployee($input: UpdateEmployeeInput!) {updateEmployee(input: $input) {id __typename}}',
   createNewProcess:

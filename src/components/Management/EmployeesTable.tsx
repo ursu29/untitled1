@@ -3,7 +3,7 @@ import { Checkbox, Table, Switch } from 'antd'
 import gql from 'graphql-tag'
 import React, { useState } from 'react'
 import fragments, { EmployeeDetails } from '../../fragments'
-import { Employee } from '../../types'
+import { Employee, LOCATION } from '../../types'
 import EmployeeCard from '../Employees/EmployeeCard.new'
 import UpdateEmployee from '../Employees/UpdateEmployee'
 import TableSearch from '../UI/TableSearch'
@@ -13,6 +13,7 @@ import {
   updateAccessGroup,
   GetMembersOfAccessGroupType,
 } from '../../queries/accessGroups'
+import getLocationName from '../../utils/getLocationName'
 
 const getEmployees = gql`
   {
@@ -47,7 +48,7 @@ export default function EmployeesTable() {
   const { data: accessGroup } = useQuery<GetMembersOfAccessGroupType>(getMembersOfAccessGroup, {
     variables: { group: 'MANAGEMENT' },
   })
-  const managementGroup = accessGroup?.getMembersOf?.map(e => e.toLowerCase())
+  const managementGroup = accessGroup?.getMembersOf?.map(e => e.id)
 
   // Card for employees table
   const Card = ({ employee }: { employee: EmployeeDetails }) => (
@@ -85,26 +86,11 @@ export default function EmployeesTable() {
       key: 'location',
       dataIndex: 'location',
       width: '14%',
-      filters: [
-        {
-          text: 'Saint Petersburg',
-          value: 'petersburg',
-        },
-        {
-          text: 'Tomsk',
-          value: 'tomsk',
-        },
-        {
-          text: 'Kaliningrad',
-          value: 'kaliningrad',
-        },
-        {
-          text: 'Zurich',
-          value: 'zurich',
-        },
-      ],
-      onFilter: (value: any, record: EmployeeDetails) =>
-        (record.location && record.location.toLowerCase().includes(value)) || false,
+      filters: Object.keys(LOCATION).map(e => ({ text: getLocationName(e as LOCATION), value: e })),
+      render: (_: any, i: any) => {
+        return <span>{getLocationName(i.location)}</span>
+      },
+      onFilter: (value: any, record: EmployeeDetails) => record.location === value,
     },
     {
       title: 'Manager',
@@ -138,8 +124,8 @@ export default function EmployeesTable() {
     if (filters.includes(WITHOUT_MANAGER)) {
       accept.push(!e.agileManager)
     }
-    if (filters.includes(NOT_MANAGEMENT) && !!managementGroup) {
-      accept.push(!managementGroup.includes(e.email.toLowerCase()))
+    if (filters.includes(NOT_MANAGEMENT) && !!managementGroup?.length) {
+      accept.push(!managementGroup.includes(e.id))
     }
     return accept.every(e => e)
   })
@@ -156,9 +142,7 @@ export default function EmployeesTable() {
         },
       })
     },
-    selectedRowKeys: filteredEmployees
-      ?.filter(e => managementGroup?.includes(e.email.toLowerCase()))
-      .map(e => e.email),
+    selectedRowKeys: filteredEmployees?.filter(e => managementGroup?.includes(e.id)).map(e => e.id),
   }
 
   return (
@@ -193,7 +177,7 @@ export default function EmployeesTable() {
         dataSource={filteredEmployees}
         pagination={false}
         columns={columns}
-        rowKey="email"
+        rowKey="id"
         size="small"
         onRow={record => ({
           onClick: () => (!exceptionsModifying ? setChosenUser(record) : null),

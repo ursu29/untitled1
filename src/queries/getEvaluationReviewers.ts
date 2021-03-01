@@ -2,9 +2,8 @@ import gql from 'graphql-tag'
 import { EvaluationReviewer, Employee } from '../types'
 
 export default gql`
-  query getEvaluationRevieers($input: EvaluationReviewersInput) {
+  query getEvaluationReviewers($input: EvaluationReviewersInput) {
     evaluationReviewers(input: $input) {
-      id
       toWhom {
         id
         name

@@ -7,9 +7,9 @@
   "requestTimeout": 15000,
   "chromeWebSecurity": false,
   "defaultCommandTimeout": 10000,
-  "reporter": "junit",
+  "reporter": "mocha-multi-reporters",
   "reporterOptions": {
-    "mochaFile": "results/test-[hash].xml",
+    "configFile": "cypress-reporters.json",
     "toConsole": true
   },
   "env": {
