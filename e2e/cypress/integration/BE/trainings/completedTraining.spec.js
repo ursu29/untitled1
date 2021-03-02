@@ -13,10 +13,10 @@ describe('Completed training', () => {
       const { employeeByEmail } = res.body.data
 
       managerId = employeeByEmail.agileManager.id
-    })
-    const { title, description, responsible } = trainingData(managerId)
+      const { title, description, responsible } = trainingData(managerId)
 
-    cy.post(createTraining(title, description, responsible), 'superUser')
+      cy.post(createTraining(title, description, responsible), 'superUser')
+    })
     cy.post(getEmployeeTickets()).then(req => {
       const { data } = req.body
 
