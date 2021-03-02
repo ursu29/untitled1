@@ -1,4 +1,7 @@
 export const query = {
+  getProjectSkills: 'query getProjectSkills($id: ID!) { project(id: $id) { id skills { ...SkillDetails __typename } access { read write __typename } __typename }}fragment SkillDetails on Skill { id name description parent { id __typename } isMatrixOnly __typename}',
+  updateProjectSkills: 'mutation updateProjectSkills($input: UpdateProjectSkillsInput!) {updateProjectSkills(input: $input) {id __typename}}',
+  getProjectByCode: 'query getProjectByCode($code: String!) {projectByCode(code: $code) {...ProjectDetails scrumMasters { id email __typename} __typename}}fragment ProjectDetails on Project {id name code description __typename}',
   getManager:
     'query GetEmployeeManager($input: EmployeesInput) {employees(input: $input) {id manager {id name position country location phoneNumber email bonuses status isMe}}}',
   getClient:

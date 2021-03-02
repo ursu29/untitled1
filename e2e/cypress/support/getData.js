@@ -177,6 +177,27 @@ export const getTags = () => ({
   query: query.tags,
 })
 
+export const updateProjectSkills = (projectId, allSkills) => ({
+  operationName: 'updateProjectSkills',
+  variables: {input: {
+    project: projectId,
+    skills: allSkills
+    }},
+  query: query.updateProjectSkills,
+})
+
+export const getProjectSkills = (projectId) => ({
+  operationName: 'getProjectSkills',
+  variables: {id: projectId},
+  query: query.getProjectSkills,
+})
+
+export const getProjectByCode = (code = 'guild-portal') => ({
+  operationName: 'getProjectByCode',
+  variables: {code},
+  query: query.getProjectByCode,
+})
+
 export const getGuildsTitle = () => ({
   operationName: 'getGuilds',
   variables: {},
