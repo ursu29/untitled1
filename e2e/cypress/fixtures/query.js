@@ -29,6 +29,7 @@ export const query = {
   allSkills:
     'query getSkills($input: SkillsInput) {skills(input: $input) {id name description parent { id }isMatrixOnly}}',
   getAllMatrices: '{matrices {id title description}  matricesAccess {read}}',
+  attachMatrixToEmployee: 'mutation attachMatrixToEmployee($input: AttachMatrixToEmployeeInput) { attachMatrixToEmployee(input: $input) { id __typename}}',
   getFirstPost:
     'query getPosts($first:Int,$after:ID,$filter:PostsFilter){ posts(first:$first,after:$after,filter:$filter){ id title body isTranslated createdAt locations createdBy{ id name email __typename } images{ id url fileName __typename } tags{ id name description __typename } __typename } }',
   tags: '{tags {name description }}',
@@ -67,6 +68,7 @@ export const query = {
   applyDay:
     'mutation apply($input: ApplyToWorkFromOfficeInput!) {applyToWorkFromOffice(input: $input)}',
   getEmployeeMatrices: 'query {clientDevToolsAccess}',
+  updateExperience: 'mutation updateExperience($input: UpdateExperienceInput) { updateExperience(input: $input) {id __typename}}',
   getAllEmployeeMatrices:
     'query getEmployeeMatrices($input: EmployeesInput) { employees(input: $input) { id name isMe matrices { id title description comment employeeMatrixId access { read write __typename } body { groups { id title description __typename } grades { id title description __typename } skills { type skill { id name description isMatrixOnly __typename } groupId gradeId __typename } __typename } __typename } __typename }}',
   allBookmarkId: 'query getBookmarks($input: BookmarksInput) {bookmarks(input: $input) {id}}',
