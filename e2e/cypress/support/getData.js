@@ -141,10 +141,16 @@ export const getAllSkills = () => ({
   query: query.allSkills,
 })
 
-export const getAllMatrices = () => ({
+export const getAllMatrices = (employee, skill) => ({
   operationName: null,
-  variables: {},
+  variables: {input: {employee, skill}},
   query: query.getAllMatrices,
+})
+
+export const getExperiences = () => ({
+  operationName: 'getExperiences',
+  variables: {},
+  query: query.getExperiences,
 })
 
 export const getFirstPosts = () => ({
