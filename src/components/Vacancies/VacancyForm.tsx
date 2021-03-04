@@ -1,6 +1,6 @@
 // import { Form } from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
-import { Button, Col, Divider, Form, Input, Popconfirm, Row } from 'antd'
+import { Button, Col, Divider, Form, Input, Popconfirm, Row, Select } from 'antd'
 import React from 'react'
 import { VacancyPick } from '../../queries/getVacancies'
 import LocationSelect from '../Locations/LocationSelect'
@@ -86,7 +86,17 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
             name="employeeExperience"
             initialValue={vacancy.employeeExperience}
           >
-            <Input placeholder="Provide the experience" />
+            <Select placeholder="Provide the experience">
+              <Select.Option value="Без опыта">Без опыта</Select.Option>
+              <Select.Option value="С опытом работы от года">С опытом работы от года</Select.Option>
+              <Select.Option value="С опытом работы 1-3 года">
+                С опытом работы 1-3 года
+              </Select.Option>
+              <Select.Option value="С опытом работы 3-5 лет">С опытом работы 3-5 лет</Select.Option>
+              <Select.Option value="С опытом работы от 5 лет">
+                С опытом работы от 5 лет
+              </Select.Option>
+            </Select>
           </Form.Item>
         </Col>
       </Row>
