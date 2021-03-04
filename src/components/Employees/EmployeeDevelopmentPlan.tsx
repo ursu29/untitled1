@@ -80,8 +80,6 @@ export default function EmployeeDevelopmentPlan(props: Props) {
     archivedPlan = archivedDPData.archivedDP.compressedData
   }
 
-  console.log({ archivedPlan })
-
   // Get DP
   const { data, loading } = useQuery<QueryType>(getDevelopmentPlans, {
     variables,
@@ -103,8 +101,6 @@ export default function EmployeeDevelopmentPlan(props: Props) {
       message.loading('Updating personal plan')
     }
   })
-
-  console.log(data)
 
   return (
     <div>

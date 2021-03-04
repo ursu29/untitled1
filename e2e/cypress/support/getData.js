@@ -54,6 +54,37 @@ export const getEmployee = email => ({
   query: query.getEmployee,
 })
 
+export const updateDevelopmentPlan = (userId, lastDiscussed, lastUpdated) => ({
+  operationName: 'updateDevelopmentPlan',
+  variables: { input:{
+      id: userId,
+      lastDiscussed: `${lastDiscussed}T17:30:14+03:00`,
+      lastUpdatedAt: `${lastUpdated}T14:30:56.738Z`,
+    } },
+  query: query.updateDevelopmentPlan,
+})
+
+export const matricesCustomFieldsMutation = (userId, lastDiscussed) => ({
+  operationName: 'matricesCustomFieldsMutation',
+  variables: { input:{
+      employee: userId,
+      lastDiscussed: `${lastDiscussed}T17:30:14+03:00`
+    }},
+  query: query.matricesCustomFieldsMutation,
+})
+
+export const getDevelopmentPlans = userId => ({
+  operationName: 'getDevelopmentPlans',
+  variables: { input:{employee: userId} },
+  query: query.getDevelopmentPlans,
+})
+
+export const matricesCustomFields = userEmail => ({
+  operationName: 'matricesCustomFields',
+  variables: { input:{employee: userEmail} },
+  query: query.matricesCustomFields,
+})
+
 export const createTraining = (title, description, responsible, optional = false) => ({
   operationName: 'createOnboardingTicket',
   variables: {

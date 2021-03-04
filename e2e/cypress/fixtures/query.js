@@ -1,4 +1,9 @@
 export const query = {
+  updateDevelopmentPlan: 'mutation updateDevelopmentPlan($input: UpdateDevelopmentPlanInput!) {updateDevelopmentPlan(input: $input) { id __typename}}',
+  getDevelopmentPlans:
+      'query getDevelopmentPlans($input: DevelopmentPlansInput!) { developmentPlans(input: $input) { id createdAt updatedAt developmentRoles { webDeveloper actuarialBusinessAnalyst agileCoach automationQA devOps infrastructureArchitect javaDeveloper dotnetDeveloper manualQA mathematician scrumMaster solutionArchitect teamLead uxExpert productOwner dataAnalyst __typename } guildContribution { internalProject education noContribution startup custom __typename } previousGoals { id description successCriteria isAchieved comment __typename } actualGoals { id description successCriteria isAchieved comment __typename } amountOfTime longTermGoals lookBackNegative lookBackPositive lookForward lastDiscussed __typename }}',
+  matricesCustomFieldsMutation: 'mutation matricesCustomFieldsMutation($input: UpdateMatricesCustomFieldsInput!) {updateMatricesCustomFields(input: $input) {id __typename}}',
+  matricesCustomFields: 'query matricesCustomFields($input: MatricesCustomFieldsInput) { matricesCustomFields(input: $input) {id employeeMail lastDiscussed __typename}}',
   getExperiences: 'query getExperiences($input: ExperiencesInput) { experiences(input: $input) { ...ExperienceDetails __typename }}fragment ExperienceDetails on Experience { id level skill { id name description isMatrixOnly __typename } updatedAt __typename}',
   getManager:
     'query GetEmployeeManager($input: EmployeesInput) {employees(input: $input) {id manager {id name position country location phoneNumber email bonuses status isMe}}}',
@@ -30,7 +35,6 @@ export const query = {
   allSkills:
     'query getSkills($input: SkillsInput) {skills(input: $input) {id name description parent { id }isMatrixOnly}}',
   getAllMatrices: '{matrices {id title description}  matricesAccess {read}}',
-  attachMatrixToEmployee: 'mutation attachMatrixToEmployee($input: AttachMatrixToEmployeeInput) { attachMatrixToEmployee(input: $input) { id __typename}}',
   getFirstPost:
     'query getPosts($first:Int,$after:ID,$filter:PostsFilter){ posts(first:$first,after:$after,filter:$filter){ id title body isTranslated createdAt locations createdBy{ id name email __typename } images{ id url fileName __typename } tags{ id name description __typename } __typename } }',
   tags: '{tags {name description }}',
@@ -69,7 +73,6 @@ export const query = {
   applyDay:
     'mutation apply($input: ApplyToWorkFromOfficeInput!) {applyToWorkFromOffice(input: $input)}',
   getEmployeeMatrices: 'query {clientDevToolsAccess}',
-  updateExperience: 'mutation updateExperience($input: UpdateExperienceInput) { updateExperience(input: $input) {id __typename}}',
   getAllEmployeeMatrices:
     'query getEmployeeMatrices($input: EmployeesInput) { employees(input: $input) { id name isMe matrices { id title description comment employeeMatrixId access { read write __typename } body { groups { id title description __typename } grades { id title description __typename } skills { type skill { id name description isMatrixOnly __typename } groupId gradeId __typename } __typename } __typename } __typename }}',
   allBookmarkId: 'query getBookmarks($input: BookmarksInput) {bookmarks(input: $input) {id}}',
