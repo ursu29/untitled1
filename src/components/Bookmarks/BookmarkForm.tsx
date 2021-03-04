@@ -1,10 +1,11 @@
 import { Form } from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
-import { Button, Col, Input, Row } from 'antd'
 import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
+import { useApolloClient } from '@apollo/react-hooks'
+import { Button, Col, Input, Row } from 'antd'
 import React from 'react'
-import { Bookmark, Employee, Access } from '../../types'
-
+import getBookmarkByLink, { QueryType } from '../../queries/getBookmarkByLink'
+import { Access, Bookmark, Employee } from '../../types'
 import SkillTreeSelect from '../Skills/SkillTreeSelect'
 
 type BookmarkPick = Pick<Bookmark, 'id' | 'title' | 'link' | 'skills'> & {
@@ -19,6 +20,7 @@ export interface Props extends FormComponentProps {
 }
 
 const BookmarkForm = ({ form, onSubmit, bookmark, loading }: Props) => {
+  const client = useApolloClient()
   const { getFieldDecorator } = form
 
   const handleSubmit = (e: any) => {
@@ -61,6 +63,17 @@ const BookmarkForm = ({ form, onSubmit, bookmark, loading }: Props) => {
                   required: true,
                   pattern: /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi,
                   message: 'Please enter correct link',
+                },
+                {
+                  validator: async (_, value) => {
+                    const res = await client.query<QueryType>({
+                      query: getBookmarkByLink,
+                      variables: { link: value.trim() },
+                    })
+                    return res.data.bookmarkByLink
+                      ? Promise.reject('Duplicate of ' + res.data.bookmarkByLink.title)
+                      : Promise.resolve()
+                  },
                 },
               ],
             })(
