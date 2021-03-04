@@ -1,6 +1,6 @@
 // import { Form } from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
-import { Button, Col, Divider, Form, Input, Popconfirm, Row, Select } from 'antd'
+import { Button, Col, Divider, Form, Input, Popconfirm, Row, Select, Alert } from 'antd'
 import React from 'react'
 import { VacancyPick } from '../../queries/getVacancies'
 import LocationSelect from '../Locations/LocationSelect'
@@ -103,6 +103,11 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
       <Row>
         <Col span={24}>
           <Form.Item label="Project stack" name="stack" initialValue={vacancy.stack}>
+            <Alert
+              message="Now we use stack from project's technologies list. Please, ask project manager to update it if needed. This field is used only if project is not provided. In future releases we can increase priority of this field to use this value if provided"
+              type="info"
+              style={{ marginBottom: 8 }}
+            />
             <Input.TextArea rows={3} placeholder="Provide the stack" />
           </Form.Item>
         </Col>
