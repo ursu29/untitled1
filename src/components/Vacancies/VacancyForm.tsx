@@ -48,7 +48,7 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
         </Col>
       </Row>
       <Form.Item
-        label="Responsibilities"
+        label="Чем предстоит заниматься"
         name="responsibilities"
         initialValue={vacancy.responsibilities}
       >
@@ -57,7 +57,7 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item
-            label="Required skills"
+            label="Что мы ждём от кандидатов"
             name="requiredSkills"
             initialValue={vacancy.requiredSkills}
           >
@@ -66,7 +66,7 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
         </Col>
         <Col span={12}>
           <Form.Item
-            label="Additional skills"
+            label="Что будет плюсом"
             name="additionalSkills"
             initialValue={vacancy.additionalSkills}
           >
@@ -104,11 +104,11 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
         <Col span={24}>
           <Form.Item label="Project stack" name="stack" initialValue={vacancy.stack}>
             <Alert
-              message="Now we use stack from project's technologies list. Please, ask project manager to update it if needed. This field is used only if project is not provided. In future releases we can increase priority of this field to use this value if provided"
+              message="Now we use stack from project's technologies list. Please, ask project manager to update it if needed."
               type="info"
               style={{ marginBottom: 8 }}
             />
-            <Input.TextArea rows={3} placeholder="Provide the stack" />
+            {/* <Input.TextArea rows={3} placeholder="Provide the stack" /> */}
           </Form.Item>
         </Col>
       </Row>
