@@ -267,6 +267,7 @@ export interface Vacancy {
   employeeExperience: string
   englishLevel: string
   stack: string
+  description: string
 }
 
 export enum LOCATION {

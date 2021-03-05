@@ -1,6 +1,17 @@
 // import { Form } from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
-import { Button, Col, Divider, Form, Input, Popconfirm, Row, Select, Alert } from 'antd'
+import {
+  Button,
+  Col,
+  Divider,
+  Form,
+  Input,
+  Popconfirm,
+  Row,
+  Select,
+  Alert,
+  notification,
+} from 'antd'
 import React from 'react'
 import { VacancyPick } from '../../queries/getVacancies'
 import LocationSelect from '../Locations/LocationSelect'
@@ -15,53 +26,103 @@ interface Props {
 }
 
 export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Props) {
+  console.log(vacancy)
   const [form] = Form.useForm()
   return (
     <Form layout="vertical" form={form}>
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item
-            label="Position"
+            label="Должность"
             name="position"
             initialValue={vacancy.position}
-            rules={[{ required: true, message: 'Position is required!' }]}
+            rules={[{ required: true, message: 'Должность - обязательное поле' }]}
           >
             <Input placeholder="Add position" />
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item label="Reason" name="reason" initialValue={vacancy.reason}>
+          <Form.Item
+            label="Причина"
+            name="reason"
+            initialValue={vacancy.reason}
+            tooltip="Внутреннее поле. Не выводится в публичной вакансии"
+          >
             <Input placeholder="Provide the reason" />
           </Form.Item>
         </Col>
       </Row>
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="Project" name="project" initialValue={vacancy.project?.id}>
+          <Form.Item
+            label="Проект"
+            name="project"
+            initialValue={vacancy.project?.id}
+            tooltip="Внутреннее поле. Не выводится в публичных вакансиях"
+          >
             <ProjectSelect wide />
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item label="Locations" name="locations" initialValue={vacancy.locations}>
+          <Form.Item
+            label="Локации"
+            name="locations"
+            initialValue={vacancy.locations}
+            required
+            rules={[
+              {
+                required: true,
+                message: 'Поле "Локации" не заполнено',
+              },
+            ]}
+          >
             <LocationSelect wide mode="multiple" />
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item
-        label="Чем предстоит заниматься"
-        name="responsibilities"
-        initialValue={vacancy.responsibilities}
-      >
-        <MarkdownEditor id="responsibilities" />
-      </Form.Item>
-      <Row gutter={16}>
+      <Row gutter={16} style={{ marginBottom: 8 }}>
+        <Col span={12}>
+          <Form.Item
+            label="Внешнее описание"
+            name="description"
+            required
+            rules={[
+              {
+                required: true,
+                message: 'Поле "Внешнее описание" не заполнено',
+              },
+            ]}
+            initialValue={vacancy.description}
+            tooltip="Поле используется для описания проекта/вакансии на внешнем сайте. Обязательно для заполнения перед публикации!"
+          >
+            <MarkdownEditor short id="description" />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            label="Чем предстоит заниматься"
+            name="responsibilities"
+            required
+            rules={[
+              {
+                required: true,
+                message: 'Поле "Чем предстоит заниматься" не заполнено',
+              },
+            ]}
+            initialValue={vacancy.responsibilities}
+          >
+            <MarkdownEditor short id="responsibilities" />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row gutter={16} style={{ marginBottom: 8 }}>
         <Col span={12}>
           <Form.Item
             label="Что мы ждём от кандидатов"
             name="requiredSkills"
             initialValue={vacancy.requiredSkills}
           >
-            <MarkdownEditor id="requiredSkills" />
+            <MarkdownEditor short id="requiredSkills" />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -70,13 +131,17 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
             name="additionalSkills"
             initialValue={vacancy.additionalSkills}
           >
-            <MarkdownEditor id="additionalSkills" />
+            <MarkdownEditor short id="additionalSkills" />
           </Form.Item>
         </Col>
       </Row>
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="English level" name="englishLevel" initialValue={vacancy.englishLevel}>
+          <Form.Item
+            label="Уровень английского"
+            name="englishLevel"
+            initialValue={vacancy.englishLevel}
+          >
             <Input placeholder="Provide the level" />
           </Form.Item>
         </Col>
@@ -84,7 +149,8 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
           <Form.Item
             label="Employee experience"
             name="employeeExperience"
-            initialValue={vacancy.employeeExperience}
+            initialValue={vacancy.employeeExperience || 'С опытом работы 1-3 года'}
+            required
           >
             <Select placeholder="Provide the experience">
               <Select.Option value="Без опыта">Без опыта</Select.Option>
@@ -102,13 +168,13 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
       </Row>
       <Row>
         <Col span={24}>
-          <Form.Item label="Project stack" name="stack" initialValue={vacancy.stack}>
+          <Form.Item label="Технологии (stack)" name="stack" initialValue={vacancy.stack}>
             <Alert
-              message="Now we use stack from project's technologies list. Please, ask project manager to update it if needed."
+              message="По умолчанию заполняется из поля Technologies выбранного проекта. Используйте это поле для того, чтобы переписать значение по умолчанию"
               type="info"
               style={{ marginBottom: 8 }}
             />
-            {/* <Input.TextArea rows={3} placeholder="Provide the stack" /> */}
+            <Input.TextArea rows={3} placeholder="Git, Javascript, Angular, Azure DevOps" />
           </Form.Item>
         </Col>
       </Row>
@@ -125,11 +191,10 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
         )}
         <Button
           onClick={() => {
-            form.validateFields().then(values => {
-              onSave({
-                ...vacancy,
-                ...values,
-              })
+            const values = form.getFieldsValue()
+            onSave({
+              ...vacancy,
+              ...values,
             })
           }}
           style={{ marginLeft: '10px' }}
@@ -141,12 +206,19 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
             <Divider type="vertical" />
             <Button
               onClick={() => {
-                form.validateFields().then(values => {
-                  onPublish({
-                    ...vacancy,
-                    ...values,
+                form
+                  .validateFields()
+                  .then(values => {
+                    onPublish({
+                      ...vacancy,
+                      ...values,
+                    })
                   })
-                })
+                  .catch(errors => {
+                    notification.warning({
+                      message: errors.errorFields.map((i: any) => i.errors.toString()).join(', '),
+                    })
+                  })
               }}
               type="primary"
             >

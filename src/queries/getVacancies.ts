@@ -11,6 +11,7 @@ export default gql`
       responsibilities
       requiredSkills
       additionalSkills
+      description
       project {
         id
         name
@@ -37,6 +38,7 @@ export type VacancyPick = Pick<
   | 'reason'
   | 'position'
   | 'responsibilities'
+  | 'description'
   | 'requiredSkills'
   | 'employeeExperience'
   | 'englishLevel'

@@ -68,6 +68,7 @@ function Vacancy({
       employeeExperience,
       englishLevel,
       stack,
+      description,
     }: any) => {
       update({
         variables: {
@@ -83,6 +84,7 @@ function Vacancy({
             employeeExperience,
             englishLevel,
             stack,
+            description,
           },
         },
         update: callback,
