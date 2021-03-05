@@ -23,8 +23,6 @@ export default gql`
         id
         isMe
       }
-      employeeComment
-      comment
       employeeExperience
       englishLevel
       stack
