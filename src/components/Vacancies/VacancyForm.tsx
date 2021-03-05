@@ -1,17 +1,6 @@
 // import { Form } from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
-import {
-  Button,
-  Col,
-  Divider,
-  Form,
-  Input,
-  Popconfirm,
-  Row,
-  Select,
-  Alert,
-  notification,
-} from 'antd'
+import { Button, Col, Divider, Form, Input, Popconfirm, Row, Select, notification } from 'antd'
 import React from 'react'
 import { VacancyPick } from '../../queries/getVacancies'
 import LocationSelect from '../Locations/LocationSelect'
@@ -136,7 +125,7 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
               },
             ]}
             initialValue={vacancy.description}
-            tooltip="Поле используется для описания проекта/вакансии на внешнем сайте. Обязательно для заполнения перед публикации!"
+            tooltip="Поле используется для описания проекта/вакансии на внешнем сайте. Обязательно для заполнения перед публикацией!"
           >
             <MarkdownEditor short id="description" />
           </Form.Item>
@@ -187,12 +176,12 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
       </Row>
       <Row>
         <Col span={24}>
-          <Form.Item label="Технологии (stack)" name="stack" initialValue={vacancy.stack}>
-            <Alert
-              message="По умолчанию заполняется из поля Technologies выбранного проекта. Используйте это поле для того, чтобы переписать значение по умолчанию"
-              type="info"
-              style={{ marginBottom: 8 }}
-            />
+          <Form.Item
+            label="Технологии (stack)"
+            name="stack"
+            initialValue={vacancy.stack}
+            tooltip="По умолчанию заполняется из поля Technologies выбранного проекта. Используйте это поле для того, чтобы переписать значение по умолчанию"
+          >
             <Input.TextArea rows={3} placeholder="Git, Javascript, Angular, Azure DevOps" />
           </Form.Item>
         </Col>
