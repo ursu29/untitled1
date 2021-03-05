@@ -3,17 +3,27 @@ import { codeOkAndBodyNotNull } from '../../support/utils'
 import * as getData from '../../support/getData'
 import * as data from '../../support/client/employeeData'
 import { todaysDate } from '../../support/officePlanner/officeDays'
+import {getEmployee} from "../../support/getData";
+import {email} from "../../support/client/employeeData";
 
 describe('Check employee api (smoke)', () => {
-  const SECTION_COUNT = 6
+  let employeeId
+  let managerId
+
+  const SECTION_COUNT = 7
   const FIRST_POSTS = 4
   const MONDAY = '2021-02-08'
 
   before(() => {
     cy.setToken('employee')
+    cy.post(getEmployee(email('employee'))).then(res => {
+      const { employeeByEmail } = res.body.data
+      employeeId = employeeByEmail.id
+      managerId = employeeByEmail.agileManager.id
+    })
   })
 
-  it('Get projects', () => {
+  it.skip('Get projects', () => {
     cy.fixture('employee.json').then(body => {
       postRequest(body).then(response => {
         //we are using universal request here - when body doesn't need any replacements
@@ -27,7 +37,7 @@ describe('Check employee api (smoke)', () => {
     cy.post(getData.getEmployee(data.email('employee'))).then(res => {
       const { employeeByEmail } = res.body.data
 
-      expect(employeeByEmail).to.deep.equal(data.employeeData.employee)
+      expect(employeeByEmail).to.deep.equal(data.employeesData(employeeId, managerId).employee)
     })
   })
 

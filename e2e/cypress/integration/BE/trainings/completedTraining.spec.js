@@ -1,15 +1,22 @@
-import { getEmployeeTickets, createTraining } from '../../../support/getData'
+import {getEmployeeTickets, createTraining, getEmployee} from '../../../support/getData'
 import { postEl, skillEl } from '../../../support/locators'
-import { popUp } from '../../../support/client/employeeData'
+import {email, popUp} from '../../../support/client/employeeData'
 import { trainingData } from '../../../support/client/training'
 
 describe('Completed training', () => {
   let allTickets
-  const { title, description, responsible } = trainingData
+  let managerId
 
   before(() => {
     cy.setToken('manager')
-    cy.post(createTraining(title, description, responsible), 'superUser')
+    cy.post(getEmployee(email('employee'))).then(res => {
+      const { employeeByEmail } = res.body.data
+
+      managerId = employeeByEmail.agileManager.id
+      const { title, description, responsible } = trainingData(managerId)
+
+      cy.post(createTraining(title, description, responsible), 'superUser')
+    })
     cy.post(getEmployeeTickets()).then(req => {
       const { data } = req.body
 

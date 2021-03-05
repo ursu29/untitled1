@@ -4,7 +4,7 @@ import { mainCity } from './locators'
 
 export const URL = 'https://portal.dev.syncretis.com/graphql'
 export const TIMEMASTER = 'https://timemaster.syncretis.com/'
-export const LOCATIONS = ['Saint Petersburg', 'Tomsk', 'Kaliningrad', 'Zurich']
+export const LOCATIONS = ['Saint Petersburg', 'Tomsk', 'Kaliningrad', 'Zürich']
 export const TAGS = ['6030dd7ef84074001c07ebb5', '6030dd7ef84074001c07ebb6']
 
 const { email } = employeeData.employee
@@ -54,7 +54,38 @@ export const getEmployee = email => ({
   query: query.getEmployee,
 })
 
-export const createTraining = (title, description, responsible, optional = false) => ({
+export const updateDevelopmentPlan = (userId, lastDiscussed, lastUpdated) => ({
+  operationName: 'updateDevelopmentPlan',
+  variables: { input:{
+      id: userId,
+      lastDiscussed: `${lastDiscussed}T17:30:14+03:00`,
+      lastUpdatedAt: `${lastUpdated}T14:30:56.738Z`,
+    } },
+  query: query.updateDevelopmentPlan,
+})
+
+export const matricesCustomFieldsMutation = (userId, lastDiscussed) => ({
+  operationName: 'matricesCustomFieldsMutation',
+  variables: { input:{
+      employee: userId,
+      lastDiscussed: `${lastDiscussed}T17:30:14+03:00`
+    }},
+  query: query.matricesCustomFieldsMutation,
+})
+
+export const getDevelopmentPlans = userId => ({
+  operationName: 'getDevelopmentPlans',
+  variables: { input:{employee: userId} },
+  query: query.getDevelopmentPlans,
+})
+
+export const matricesCustomFields = userEmail => ({
+  operationName: 'matricesCustomFields',
+  variables: { input:{employee: userEmail} },
+  query: query.matricesCustomFields,
+})
+
+export const createTraining = (title, description, responsible, optional = false,  isSwissReBool = false) => ({
   operationName: 'createOnboardingTicket',
   variables: {
     input: {
@@ -62,6 +93,7 @@ export const createTraining = (title, description, responsible, optional = false
       description,
       responsible,
       isOptional: optional,
+      isSwissRe: isSwissReBool
     },
   },
   query: query.createTraining,
@@ -123,6 +155,24 @@ export const getEmployeeTickets = () => ({
   query: query.getEmployeeTickets,
 })
 
+export const getEvaluationReviewers = (id) => ({
+  operationName: 'getEvaluationReviewers',
+  variables: {input: {toWhom: id}},
+  query: query.getReviewers,
+})
+
+export const createEvaluationReviewer = (idUser, idReviewer) => ({
+  operationName: 'createEvaluationReviewer',
+  variables: {input: {fromWho: idReviewer, toWhom: idUser}},
+  query: query.createReviewer,
+})
+
+export const deleteReviewer = (idReviewer, idUser) => ({
+  operationName: 'deleteEvaluationReviewer',
+  variables: {input: {fromWho: idReviewer, toWhom: idUser}},
+  query: query.deleteReviewer,
+})
+
 export const getOfficeDays = (startDate, count = 7) => ({
   operationName: 'getOfficeDays',
   variables: { input: { startDate, count } },
@@ -141,10 +191,16 @@ export const getAllSkills = () => ({
   query: query.allSkills,
 })
 
-export const getAllMatrices = () => ({
+export const getAllMatrices = (employee, skill) => ({
   operationName: null,
-  variables: {},
+  variables: {input: {employee, skill}},
   query: query.getAllMatrices,
+})
+
+export const getExperiences = () => ({
+  operationName: 'getExperiences',
+  variables: {},
+  query: query.getExperiences,
 })
 
 export const getFirstPosts = () => ({
@@ -157,6 +213,24 @@ export const getEmployeeMatrices = () => ({
   operationName: null,
   variables: {},
   query: query.getEmployeeMatrices,
+})
+
+export const attachMatrixToEmployee = (matrix, employee) => ({
+  operationName: 'attachMatrixToEmployee',
+  variables: {input: {matrix, employee}},
+  query: query.attachMatrixToEmployee,
+})
+
+export const allEmployeeMatrices = (userId) => ({
+  operationName: 'getEmployeeMatrices',
+  variables: {input: {id: userId}},
+  query: query.getAllEmployeeMatrices,
+})
+
+export const updateExperience = (matrixId, level, comment) => ({
+  operationName: 'updateExperience',
+  variables: {input: {id: matrixId, level, comment}},
+  query: query.updateExperience,
 })
 
 export const getWikiRootSections = () => ({
@@ -206,7 +280,7 @@ export const getGuildsTitle = () => ({
 
 export const addJob = (
   employeeId = employeeData.employee.id,
-  jobId = '602cd507bb916c001c541b9a',
+  jobId = '6036318cf84074001c07f746',
   company = '',
   dateEnd = null,
   dateStart = null,
@@ -302,6 +376,27 @@ export const getProcessExecutions = id => ({
   query: query.getProcessExecutions,
 })
 
+export const evaluate = (id, comment, evaluationAtt, evaluation = 3) => ({
+  operationName: 'evaluate',
+  variables: { input: { comment,
+      evaluation,
+      evaluationAttribute: evaluationAtt,
+      toWhom: id} },
+  query: query.evaluate,
+})
+
+export const getEvaluations = employee => ({
+  operationName: 'getEvaluations',
+  variables: {evaluationCommentsInput: {employee}, evaluationsInput: {employee}},
+  query: query.getEvaluations,
+})
+
+export const getSubordinates = emailUser => ({
+  operationName: 'getSubordinates',
+  variables: {email: emailUser},
+  query: query.getSubordinates,
+})
+
 export const getAllProcess = () => ({
   operationName: null,
   variables: {},
@@ -332,7 +427,7 @@ export const deleteProcess = id => ({
   query: query.deleteProcess,
 })
 
-export const updatePost = (body, id, title) => ({
+export const updatePost = (body, id, title, tagsArr = TAGS) => ({
   operationName: 'updatePost',
   variables: {
     input: {
@@ -340,7 +435,7 @@ export const updatePost = (body, id, title) => ({
       id,
       images: [],
       locations: [],
-      tags: TAGS,
+      tags: tagsArr,
       title,
     },
   },

@@ -9,7 +9,7 @@ xdescribe('Check streams', () => {
     cy.setImgToken('employee')
 
     cy.getResponse(['getStream'], 'alias')
-    cy.visit('/guilds/Community-Frontend/streams')
+    cy.visit('/guilds/community-frontend/streams')
     cy.wait(`@alias`).then(val => (response = val.response.body.data))
   })
 

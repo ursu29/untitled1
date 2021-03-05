@@ -1,4 +1,18 @@
 export const query = {
+  updateExperience:
+      'mutation updateExperience($input: UpdateExperienceInput) { updateExperience(input: $input) {id __typename}}',
+  attachMatrixToEmployee:
+      'mutation attachMatrixToEmployee($input: AttachMatrixToEmployeeInput) { attachMatrixToEmployee(input: $input) { id __typename}}',
+  updateDevelopmentPlan:
+      'mutation updateDevelopmentPlan($input: UpdateDevelopmentPlanInput!) {updateDevelopmentPlan(input: $input) { id __typename}}',
+  getDevelopmentPlans:
+      'query getDevelopmentPlans($input: DevelopmentPlansInput!) { developmentPlans(input: $input) { id createdAt updatedAt developmentRoles { webDeveloper actuarialBusinessAnalyst agileCoach automationQA devOps infrastructureArchitect javaDeveloper dotnetDeveloper manualQA mathematician scrumMaster solutionArchitect teamLead uxExpert productOwner dataAnalyst __typename } guildContribution { internalProject education noContribution startup custom __typename } previousGoals { id description successCriteria isAchieved comment __typename } actualGoals { id description successCriteria isAchieved comment __typename } amountOfTime longTermGoals lookBackNegative lookBackPositive lookForward lastDiscussed __typename }}',
+  matricesCustomFieldsMutation:
+      'mutation matricesCustomFieldsMutation($input: UpdateMatricesCustomFieldsInput!) {updateMatricesCustomFields(input: $input) {id __typename}}',
+  matricesCustomFields:
+      'query matricesCustomFields($input: MatricesCustomFieldsInput) { matricesCustomFields(input: $input) {id employeeMail lastDiscussed __typename}}',
+  getExperiences:
+      'query getExperiences($input: ExperiencesInput) { experiences(input: $input) { ...ExperienceDetails __typename }}fragment ExperienceDetails on Experience { id level skill { id name description isMatrixOnly __typename } updatedAt __typename}',
   getProjectSkills: 'query getProjectSkills($id: ID!) { project(id: $id) { id skills { ...SkillDetails __typename } access { read write __typename } __typename }}fragment SkillDetails on Skill { id name description parent { id __typename } isMatrixOnly __typename}',
   updateProjectSkills: 'mutation updateProjectSkills($input: UpdateProjectSkillsInput!) {updateProjectSkills(input: $input) {id __typename}}',
   getProjectByCode: 'query getProjectByCode($code: String!) {projectByCode(code: $code) {...ProjectDetails scrumMasters { id email __typename} __typename}}fragment ProjectDetails on Project {id name code description __typename}',
@@ -23,8 +37,10 @@ export const query = {
   deleteBookmark:
     'mutation deleteBookmark($input: DeleteBookmarkInput!) {deleteBookmark(input: $input) { id __typename}}',
   getEmployees: 'query getEmployees($input: EmployeesInput) {employees(input: $input) {name }}',
-  getEmployeeTickets:
-      'query employeeOnboardingTickets {employeeOnboardingTickets {id __typename}}',
+  getEmployeeTickets: 'query employeeOnboardingTickets {employeeOnboardingTickets {id __typename}}',
+  getReviewers: 'query getEvaluationReviewers($input: EvaluationReviewersInput) {evaluationReviewers(input: $input) {toWhom {id name __typename}fromWho {id name isMe __typename} __typename }}',
+  deleteReviewer: 'mutation deleteEvaluationReviewer($input: DeleteEvaluationReviewerInput) {deleteEvaluationReviewer(input: $input) {id __typename}}',
+  createReviewer: 'mutation createEvaluationReviewer($input: CreateEvaluationReviewerInput) {createEvaluationReviewer(input: $input) {toWhom {id name __typename}fromWho {id name isMe __typename} __typename}}',
   onboardingTickets:
     'query onboardingTickets { onboardingTickets { ...OnboardingTicketDetails __typename } } fragment OnboardingTicketDetails on OnboardingTicket { id title description responsible { id name position email __typename } isOptional isSwissRe isRequestedByMe __typename }',
   getOfficeDays:
@@ -34,7 +50,7 @@ export const query = {
   getAllMatrices: '{matrices {id title description}  matricesAccess {read}}',
   getFirstPost:
     'query getPosts($first:Int,$after:ID,$filter:PostsFilter){ posts(first:$first,after:$after,filter:$filter){ id title body isTranslated createdAt locations createdBy{ id name email __typename } images{ id url fileName __typename } tags{ id name description __typename } __typename } }',
-  tags: '{tags {name description }}',
+  tags: '{tags {name description, id}}',
   addJob:
     'mutation updateCurriculumVitae($input: UpdateCurriculumVitaeInput!) {updateCurriculumVitae(input: $input) {id __typename}}',
   getCV:
@@ -92,4 +108,5 @@ export const query = {
     'query getSubordinates($email: String!) { employeeByEmail(email: $email) { id subordinateUsers { ...EmployeeDetails lastManagerMeeting one2oneRequest requestedOnboardingTickets { ...OnboardingTicketDetails __typename } projects { ...ProjectDetails __typename } __typename } __typename }}fragment EmployeeDetails on Employee { id name location country position phoneNumber email isMe startDate birthday __typename}fragment ProjectDetails on Project { id name code description __typename}fragment OnboardingTicketDetails on OnboardingTicket { id title description responsible { id name position email __typename } isOptional isSwissRe isRequestedByMe __typename}',
   getEvaluationRevieers:
     'query getEvaluationRevieers($input: EvaluationReviewersInput) { evaluationReviewers(input: $input) { id toWhom { id name __typename } fromWho { id name isMe __typename } __typename }}',
+  evaluate: 'mutation evaluate($input: EvaluateInput!) {evaluate(input: $input) { id __typename}}'
 }

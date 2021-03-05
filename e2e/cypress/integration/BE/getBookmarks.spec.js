@@ -1,5 +1,5 @@
 import { createBookmark, deleteBookmark, getBookmarks, getEmployee } from '../../support/getData'
-import { email, employeeData } from '../../support/client/employeeData'
+import { email } from '../../support/client/employeeData'
 import { bookmark, bookmarkAccess } from '../../support/client/userMenu'
 import { checkKeyValueExist } from '../../support/complexLocators'
 import { randomValues } from '../../support/knowledge/bookmark'
@@ -9,6 +9,7 @@ import { query } from '../../fixtures/query'
 describe(`Check employee getBookmarks`, () => {
   let bookmarkId
   let response
+  let employeeData
   let request
 
   const { link, skills, title } = randomValues
@@ -18,7 +19,7 @@ describe(`Check employee getBookmarks`, () => {
     cy.post(getEmployee(email('employee'))).then(res => {
       const { data } = res.body
 
-      employeeData.employee = { ...data.employeeByEmail }
+      employeeData = { ...data.employeeByEmail }
     })
     cy.post(createBookmark(title, link, skills)).then(res => {
       const { data } = res.body
@@ -43,7 +44,7 @@ describe(`Check employee getBookmarks`, () => {
   })
 
   it('getBookmarks response', () => {
-    const { email, id, name, __typename } = employeeData.employee
+    const { email, id, name, __typename } = employeeData
     const { bookmarks } = response
 
     expect(bookmarks).to.be.a('array')

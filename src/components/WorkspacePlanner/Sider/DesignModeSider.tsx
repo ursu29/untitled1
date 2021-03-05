@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Form, Input, Button } from 'antd'
+import { Form, Input, Button, Tooltip } from 'antd'
 import Sider from './Sider'
 import { WorkplaceType } from '../../../types'
 
@@ -22,7 +22,6 @@ export default function DesignModeSider({ workplace, onSave, isOpen, onOpen }: P
   const [form] = Form.useForm()
 
   const onFinish = (values: any) => {
-    console.log('Success:', values)
     onSave({
       variables: {
         input: {
@@ -58,9 +57,11 @@ export default function DesignModeSider({ workplace, onSave, isOpen, onOpen }: P
         </Form.Item>
 
         <Form.Item {...tailLayout}>
-          <Button type="primary" htmlType="submit">
-            Save
-          </Button>
+          <Tooltip title={!workplace.id ? 'Select a workplace' : ''}>
+            <Button type="primary" htmlType="submit" disabled={!workplace.id}>
+              Save
+            </Button>
+          </Tooltip>
         </Form.Item>
       </Form>
     </Sider>

@@ -2,6 +2,7 @@ import { useQuery } from '@apollo/react-hooks'
 import React from 'react'
 import getLocations, { QueryType } from '../../queries/getLocations'
 import { LOCATION } from '../../types'
+import getLocationName from '../../utils/getLocationName'
 import Select, { Props as SelectProps } from '../UI/Select'
 
 type Props = {
@@ -55,7 +56,7 @@ function LocationSelect({ onChange, value, wide, size, mode, ...props }: Props, 
         return {
           id: i,
           key: i,
-          value: i,
+          value: getLocationName(i),
         }
       })}
     />

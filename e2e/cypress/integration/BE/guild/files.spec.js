@@ -9,7 +9,7 @@ describe('Check files', () => {
     cy.setToken('employee')
 
     cy.getResponse(['sharedFiles'], 'alias')
-    cy.visit('/guilds/Community-Frontend/files')
+    cy.visit('/guilds/community-frontend/files')
     cy.wait(`@alias`).then(val => {
       response = val.response.body.data
       request = val.request.body

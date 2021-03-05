@@ -1,6 +1,5 @@
-import { employeeData, email } from '../../support/client/employeeData'
+import { email } from '../../support/client/employeeData'
 import { checkKeyValueExist } from '../../support/complexLocators'
-import { subUser } from '../../support/client/myEmployees'
 import { getEmployee } from '../../support/getData'
 import { checkTwoString } from '../../support/utils'
 import { query } from '../../fixtures/query'
@@ -8,14 +7,14 @@ import { query } from '../../fixtures/query'
 describe('Check manager employees', () => {
   let response
   let request
-  let managerId
+  let employeeData
   const OPERATION_NAME = 'getSubordinates'
 
   before(() => {
     cy.setToken('manager')
-    cy.setImgToken('employee')
+    cy.setImgToken('manager')
 
-    cy.post(getEmployee(email('employee'))).then(res => (managerId = res.body.id))
+    cy.post(getEmployee(email('employee'))).then(res => employeeData = res.body.data.employeeByEmail)
     cy.getResponse([OPERATION_NAME], 'alias')
     cy.visit('/profile/employees')
     cy.wait(`@alias`).then(val => {
@@ -25,16 +24,10 @@ describe('Check manager employees', () => {
   })
 
   it('getSubordinates response', () => {
-    const { __typename, id, name, position, email } = employeeData.employee
-    const { employeeByEmail } = response
-    const { subordinateUsers } = employeeByEmail
+    const { __typename, id, name, position, email } = employeeData
+    const { subordinateUsers } = response.employeeByEmail
 
-    cy.compareObjectsKeys(subordinateUsers[0], subUser)
-    checkKeyValueExist(employeeByEmail, { managerId, __typename })
     checkKeyValueExist(subordinateUsers[0], { __typename, id, name, position, email })
-  })
-
-  it('check request body', () => {
     checkTwoString(query.getSubordinates, request.query)
     expect(request.operationName).equal(OPERATION_NAME)
   })

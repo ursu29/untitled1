@@ -1,4 +1,4 @@
-import { email, employeeData } from '../../support/client/employeeData'
+import { email } from '../../support/client/employeeData'
 import { getEmployee } from '../../support/getData'
 import { checkKeyValueExist } from '../../support/complexLocators'
 import {
@@ -16,15 +16,18 @@ import { query } from '../../fixtures/query'
 describe(`Check employee matrices`, () => {
   let response
   let request
+  let employeeData
+
   const OPERATION_NAME = 'getEmployeeMatrices'
 
   before(() => {
     cy.setToken('employee')
     cy.setImgToken('employee')
+
     cy.post(getEmployee(email('employee'))).then(res => {
       const { data } = res.body
 
-      employeeData.employee = { ...data.employeeByEmail }
+      employeeData = { ...data.employeeByEmail }
     })
     cy.getResponse([OPERATION_NAME], 'alias')
     cy.visit('/profile/matrices')
@@ -40,7 +43,7 @@ describe(`Check employee matrices`, () => {
   })
 
   it('Check matrixEmployees keys', () => {
-    const { id, name, __typename } = employeeData.employee
+    const { id, name, __typename } = employeeData
     const { employees } = response
 
     expect(employees).to.be.a('array')
@@ -48,7 +51,7 @@ describe(`Check employee matrices`, () => {
   })
 
   it('Check matrixEmployees values', () => {
-    const { id, name, __typename } = employeeData.employee
+    const { id, name, __typename } = employeeData
     const { employees } = response
 
     employees.forEach(el => {

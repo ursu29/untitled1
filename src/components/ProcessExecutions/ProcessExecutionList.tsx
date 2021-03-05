@@ -18,6 +18,7 @@ import message from '../../message'
 import './styles.css'
 import { LOCATION } from '../../types'
 import getLocationName from '../../utils/getLocationName'
+import { getProcessName } from '../../utils/getProcessName'
 
 dayjs.extend(relativeTime)
 
@@ -124,7 +125,7 @@ function ProcessList({ items, tabName }: Props) {
             <Tag
               style={{ color: '#aaaaaa', fontSize: '13px', fontStyle: 'italic', marginTop: '3px' }}
             >
-              {i.process.type}
+              {getProcessName(i.process.type)}
             </Tag>
           </div>
         )
@@ -325,7 +326,9 @@ function ProcessList({ items, tabName }: Props) {
               {Array(3)
                 .fill(0)
                 .map((_, i) => (
-                  <Select.Option value={i + 1}>{i + 1}</Select.Option>
+                  <Select.Option key={i} value={i + 1}>
+                    {i + 1}
+                  </Select.Option>
                 ))}
             </Select>
           )

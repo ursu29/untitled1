@@ -4,11 +4,12 @@ import { Button, Col, Radio, Row, Select, Input } from 'antd'
 import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
 import React from 'react'
 import { Process } from '../../types'
+import { processList, getProcessName } from '../../utils/getProcessName'
 
 const CustomerSelect = React.forwardRef((props, ref) => (
   <Select {...props}>
     <Select.Option value="INTERNAL">Internal</Select.Option>
-    <Select.Option value="SWISSRE">Swissre</Select.Option>
+    <Select.Option value="SWISSRE">SwissRe</Select.Option>
     <Select.Option value="ALLIANZ">Allianz</Select.Option>
   </Select>
 ))
@@ -57,9 +58,11 @@ function ProcessForm({ form, onSubmit, data, loading }: Props) {
             ],
           })(
             <Radio.Group>
-              <Radio value="ONBOARDING">Onboarding</Radio>
-              <Radio value="OFFBOARDING">Offboarding</Radio>
-              <Radio value="ROTATION">Rotation</Radio>
+              {processList.map(process => (
+                <Radio key={process} value={process}>
+                  {getProcessName(process)}
+                </Radio>
+              ))}
             </Radio.Group>,
           )}
         </Form.Item>

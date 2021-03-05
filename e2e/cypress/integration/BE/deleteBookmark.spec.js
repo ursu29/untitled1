@@ -1,13 +1,18 @@
 import { randomValues } from '../../support/knowledge/bookmark'
-import { createBookmark, deleteBookmark, getAllBookmarksId } from '../../support/getData'
-import { employeeData } from '../../support/client/employeeData'
+import {createBookmark, deleteBookmark, getAllBookmarksId, getEmployee} from '../../support/getData'
+import {email} from '../../support/client/employeeData'
 
 describe('Check all bookmarks after delete one', () => {
   const { link, skills, title } = randomValues
   let getId
+  let employeeEmail
 
   before(() => {
     cy.setToken('employee')
+    cy.post(getEmployee(email('employee'))).then(res => {
+      const { employeeByEmail } = res.body.data
+      employeeEmail = employeeByEmail.email
+    })
   })
 
   it('create bookmark', () => {
@@ -28,7 +33,7 @@ describe('Check all bookmarks after delete one', () => {
   })
 
   it('bookmark does not exist', () => {
-    cy.post(getAllBookmarksId(employeeData.employee.email)).then(res => {
+    cy.post(getAllBookmarksId(employeeEmail)).then(res => {
       const { bookmarks } = res.body.data
 
       expect(bookmarks.map(el => el.id)).not.includes(getId)

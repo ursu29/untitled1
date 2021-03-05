@@ -1,18 +1,31 @@
-import { employeeData } from '../../support/client/employeeData'
+import {email, employeesData} from '../../support/client/employeeData'
 import { checkKeyValueExist } from '../../support/complexLocators'
 import { employeeCV, curriculumVitaeData, vitaeData } from '../../support/client/cv'
-import { addJob, deleteJob, getCV } from '../../support/getData'
+import {addJob, deleteJob, getCV, getEmployee} from '../../support/getData'
 import { checkTwoString } from '../../support/utils'
 import { query } from '../../fixtures/query'
 
 describe('Check CV', () => {
   let response
   let request
-  const jobId = '602cd507bb916c001c541b9a'
+  let employeeId
+  let managerId
+  let jobId = ''
 
   before(() => {
     cy.setToken('employee')
-    cy.post(addJob())
+
+    cy.post(getEmployee(email('employee'))).then(res => {
+      const { employeeByEmail } = res.body.data
+      employeeId = employeeByEmail.id
+      managerId = employeeByEmail.agileManager.id
+
+      cy.post(getCV()).then(val => {
+        jobId = val.body.data.employeeByEmail.curriculumVitae.id
+
+        cy.post(addJob(employeeId, jobId))
+      })
+    })
 
     cy.getResponse(['getEmployeeCV'], 'alias')
     cy.visit('/profile/cv')
@@ -36,7 +49,7 @@ describe('Check CV', () => {
   })
 
   it('getEmployeeCV response', () => {
-    const { id, __typename } = employeeData.employee
+    const { id, __typename } = employeesData(employeeId, managerId).employee
     const { employeeByEmail } = response
 
     cy.compareObjectsKeys(employeeByEmail, employeeCV)
@@ -63,7 +76,7 @@ describe('Check CV', () => {
   it('delete job', () => {
     const { vitaes } = response.employeeByEmail.curriculumVitae
 
-    cy.post(deleteJob(jobId, employeeData.employee.id)).then(res => {
+    cy.post(deleteJob(jobId, employeeId)).then(res => {
       const { __typename, id } = res.body.data.updateCurriculumVitae
 
       expect(id).to.equal(jobId)
@@ -88,9 +101,9 @@ describe('Check CV', () => {
       } = body
 
       expect(operationName).equal('updateCurriculumVitae')
-      expect(input.employee).equal(employeeData.employee.id)
+      expect(input.employee).equal(employeeId)
       expect(input.id).equal(jobId)
     })
-    cy.post(deleteJob(jobId, employeeData.employee.id))
+    cy.post(deleteJob(jobId, employeeId))
   })
 })

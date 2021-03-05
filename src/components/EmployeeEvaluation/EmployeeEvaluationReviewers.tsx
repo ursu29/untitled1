@@ -16,7 +16,7 @@ function EmployeeEvaluationReviewers({ employee, children }: Props) {
     },
   })
   const reviewers = data?.evaluationReviewers
-  console.log(data)
+
   return children(reviewers || [])
 }
 

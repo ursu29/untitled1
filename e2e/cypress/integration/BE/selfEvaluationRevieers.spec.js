@@ -1,43 +1,45 @@
-import { employeeData } from '../../support/client/employeeData'
-import {
-  toWhomData,
-  fromWhoReviewers,
-  evaluationReviewersData,
-} from '../../support/client/selfEvaluation'
-import { checkTwoString } from '../../support/utils'
-import { query } from '../../fixtures/query'
+import {email} from '../../support/client/employeeData'
+import {createEvaluationReviewer, deleteReviewer, getEmployee, getEvaluationReviewers} from "../../support/getData";
 
 describe('Check getEvaluationRevieers', () => {
-  let response
-  let request
-  const OPERATION_NAME = 'getEvaluationRevieers'
+  let employeeId
+  let managerId
+  const errorMessage = 'You have no access'
 
   before(() => {
-    cy.setToken('employee')
-    cy.getResponse([OPERATION_NAME], 'alias')
-    cy.visit('/profile/evaluation')
-    cy.wait(`@alias`).then(val => {
-      response = val.response.body.data
-      request = val.request.body
+    cy.setToken('manager')
+    cy.post(getEmployee(email('employee'))).then(res => {
+      const { employeeByEmail } = res.body.data
+      employeeId = employeeByEmail.id
+      managerId = employeeByEmail.agileManager.id
     })
   })
 
-  it('Attributes response', () => {
-    const { id } = employeeData.employee
-    const { evaluationReviewers } = response
-    const firstAttribute = evaluationReviewers[0]
-    const { toWhom, fromWho } = firstAttribute
+    it('add reviewer', () => {
+      cy.post(createEvaluationReviewer(employeeId, managerId), 'superUser')
+    })
 
-    expect(evaluationReviewers).to.be.a('array')
-    cy.compareObjectsKeys(firstAttribute, evaluationReviewersData)
-    expect(firstAttribute.__typename).equal(evaluationReviewersData.__typename)
-    cy.compareObjectsKeys(toWhom, toWhomData(id))
-    cy.compareObjectsKeys(fromWho, fromWhoReviewers)
-    expect(fromWho.isMe).to.be.a('boolean')
-  })
+    it('delete reviewers if employee has not access', () => {
+      cy.post(getEvaluationReviewers(employeeId)).then(req => {
+        const firstReviewer = req.body.data.evaluationReviewers[0]
 
-  it('check request body', () => {
-    checkTwoString(query.getEvaluationRevieers, request.query)
-    expect(request.operationName).equal(OPERATION_NAME)
+        cy.post(deleteReviewer(firstReviewer.fromWho.id, firstReviewer.toWhom.id)).then(req => {
+          const {message} = req.body.errors[0]
+
+          expect(message).equal(errorMessage)
+        })
+      })
+    })
+
+    it('delete reviewers if employee has access', () => {
+      cy.post(getEvaluationReviewers(employeeId)).then(req => {
+        const firstReviewer = req.body.data.evaluationReviewers[0]
+
+        cy.post(deleteReviewer(firstReviewer.fromWho.id, firstReviewer.toWhom.id), 'superUser').then(req => {
+          const {deleteEvaluationReviewer} = req.body.data
+
+          expect(deleteEvaluationReviewer.__typename).equal('EvaluationReviewer')
+        })
+      })
+    })
   })
-})

@@ -1,27 +1,24 @@
 import { checkKeyValueExist } from '../../support/complexLocators'
-import { employeeData } from '../../support/client/employeeData'
+import {email} from '../../support/client/employeeData'
+import {getEmployee} from "../../support/getData";
 
 describe('Check Employee', () => {
+  let employeeData
+
   before(() => {
     cy.setToken('employee')
     cy.setImgToken('employee')
+
+    cy.post(getEmployee(email('employee'))).then(res => {
+      const { employeeByEmail } = res.body.data
+
+      employeeData = employeeByEmail
+    })
   })
 
-  const {
-    bonuses,
-    country,
-    email,
-    id,
-    isMe,
-    location,
-    name,
-    phoneNumber,
-    position,
-    status,
-    __typename,
-  } = employeeData.employee
-
   it('getEmployee response', () => {
+    const {bonuses, country, email, id, isMe, location, name, phoneNumber, position, status, __typename} = employeeData
+
     cy.getResponse(['getEmployee', 'agileManager'], 'alias')
     cy.visit('/profile')
 
