@@ -108,5 +108,6 @@ export const query = {
     'query getSubordinates($email: String!) { employeeByEmail(email: $email) { id subordinateUsers { ...EmployeeDetails lastManagerMeeting one2oneRequest requestedOnboardingTickets { ...OnboardingTicketDetails __typename } projects { ...ProjectDetails __typename } __typename } __typename }}fragment EmployeeDetails on Employee { id name location country position phoneNumber email isMe startDate birthday __typename}fragment ProjectDetails on Project { id name code description __typename}fragment OnboardingTicketDetails on OnboardingTicket { id title description responsible { id name position email __typename } isOptional isSwissRe isRequestedByMe __typename}',
   getEvaluationRevieers:
     'query getEvaluationRevieers($input: EvaluationReviewersInput) { evaluationReviewers(input: $input) { id toWhom { id name __typename } fromWho { id name isMe __typename } __typename }}',
-  evaluate: 'mutation evaluate($input: EvaluateInput!) {evaluate(input: $input) { id __typename}}'
+  evaluate:
+      'mutation evaluate($input: EvaluateInput!) {evaluate(input: $input) { id __typename}}'
 }
