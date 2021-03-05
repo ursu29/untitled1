@@ -191,11 +191,27 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
         )}
         <Button
           onClick={() => {
-            const values = form.getFieldsValue()
-            onSave({
-              ...vacancy,
-              ...values,
-            })
+            if (vacancy.isPublished) {
+              form
+                .validateFields()
+                .then(values => {
+                  onPublish({
+                    ...vacancy,
+                    ...values,
+                  })
+                })
+                .catch(errors => {
+                  notification.warning({
+                    message: errors.errorFields.map((i: any) => i.errors.toString()).join(', '),
+                  })
+                })
+            } else {
+              const values = form.getFieldsValue()
+              onSave({
+                ...vacancy,
+                ...values,
+              })
+            }
           }}
           style={{ marginLeft: '10px' }}
         >
