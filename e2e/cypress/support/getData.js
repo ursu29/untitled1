@@ -191,10 +191,16 @@ export const getAllSkills = () => ({
   query: query.allSkills,
 })
 
-export const getAllMatrices = () => ({
+export const getAllMatrices = (employee, skill) => ({
   operationName: null,
-  variables: {},
+  variables: {input: {employee, skill}},
   query: query.getAllMatrices,
+})
+
+export const getExperiences = () => ({
+  operationName: 'getExperiences',
+  variables: {},
+  query: query.getExperiences,
 })
 
 export const getFirstPosts = () => ({
@@ -207,6 +213,24 @@ export const getEmployeeMatrices = () => ({
   operationName: null,
   variables: {},
   query: query.getEmployeeMatrices,
+})
+
+export const attachMatrixToEmployee = (matrix, employee) => ({
+  operationName: 'attachMatrixToEmployee',
+  variables: {input: {matrix, employee}},
+  query: query.attachMatrixToEmployee,
+})
+
+export const allEmployeeMatrices = (userId) => ({
+  operationName: 'getEmployeeMatrices',
+  variables: {input: {id: userId}},
+  query: query.getAllEmployeeMatrices,
+})
+
+export const updateExperience = (matrixId, level, comment) => ({
+  operationName: 'updateExperience',
+  variables: {input: {id: matrixId, level, comment}},
+  query: query.updateExperience,
 })
 
 export const getWikiRootSections = () => ({
