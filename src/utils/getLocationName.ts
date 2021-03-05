@@ -10,5 +10,7 @@ export default (location: LOCATION) => {
       return 'Kaliningrad'
     case LOCATION.ZURICH:
       return 'Zürich'
+    default:
+      return 'Unknown'
   }
 }

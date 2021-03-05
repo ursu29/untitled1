@@ -10,6 +10,7 @@ import ROTATE_EMPLOYEE, {
   MutationResult as RotateEmployeeMutationResult,
   MutationVariables as RotateEmployeeMutationVariables,
 } from '../../queries/rotateEmployee'
+import message from '../../message'
 import EmployeeCard from '../Employees/EmployeeCard'
 import Drawer from '../UI/Drawer.new'
 import CreateProcessForm from './CreateProcessForm'
@@ -30,6 +31,7 @@ function ProcessExecutionRotation({ history, processExecution }: Props & RouteCo
     onCompleted: data => {
       history.push(getProcessExecutionLink(data.rotateEmployee.id))
     },
+    onError: message.error,
   })
 
   const employees = processExecution.vacancy?.rotateEmployees || []

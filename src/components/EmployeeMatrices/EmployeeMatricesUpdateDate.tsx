@@ -56,7 +56,7 @@ export default function EmployeeMatrix({ employee }: Props) {
         },
       },
     ],
-    onCompleted: () => message.success('Evaluation is updated'),
+    onCompleted: () => message.success('Date is updated'),
     onError: message.error,
   })
 

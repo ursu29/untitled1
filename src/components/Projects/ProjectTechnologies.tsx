@@ -12,7 +12,7 @@ import Skeleton from '../UI/Skeleton'
 import SkillTag from '../Skills/SkillTag'
 
 const mutation = gql`
-  mutation updateProjectSkills($input: UpdateProjectSkillsInput) {
+  mutation updateProjectSkills($input: UpdateProjectSkillsInput!) {
     updateProjectSkills(input: $input) {
       id
     }
