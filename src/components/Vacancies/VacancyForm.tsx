@@ -80,6 +80,49 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
           </Form.Item>
         </Col>
       </Row>
+      <Row gutter={16}>
+        <Col span={12}>
+          <Form.Item
+            label="Уровень английского"
+            name="englishLevel"
+            required
+            rules={[
+              {
+                required: true,
+                message: 'Поле "Уровень английского" не заполнено',
+              },
+            ]}
+            initialValue={vacancy.englishLevel}
+          >
+            <Select placeholder="Выберите уровень английского">
+              <Select.Option value="Elementary">Elementary</Select.Option>
+              <Select.Option value="Intermediate+">Intermediate+</Select.Option>
+              <Select.Option value="Upper-Intermediate">Upper-Intermediate</Select.Option>
+              <Select.Option value="Advanced">Advanced</Select.Option>
+            </Select>
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            label="Опыт работы"
+            name="employeeExperience"
+            initialValue={vacancy.employeeExperience || 'С опытом работы 1-3 года'}
+            required
+          >
+            <Select placeholder="Provide the experience">
+              <Select.Option value="Без опыта">Без опыта</Select.Option>
+              <Select.Option value="С опытом работы от года">С опытом работы от года</Select.Option>
+              <Select.Option value="С опытом работы 1-3 года">
+                С опытом работы 1-3 года
+              </Select.Option>
+              <Select.Option value="С опытом работы 3-5 лет">С опытом работы 3-5 лет</Select.Option>
+              <Select.Option value="С опытом работы от 5 лет">
+                С опытом работы от 5 лет
+              </Select.Option>
+            </Select>
+          </Form.Item>
+        </Col>
+      </Row>
       <Row gutter={16} style={{ marginBottom: 8 }}>
         <Col span={12}>
           <Form.Item
@@ -120,6 +163,13 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
           <Form.Item
             label="Что мы ждём от кандидатов"
             name="requiredSkills"
+            required
+            rules={[
+              {
+                required: true,
+                message: 'Поле "Что мы ждём от кандидатов" не заполнено',
+              },
+            ]}
             initialValue={vacancy.requiredSkills}
           >
             <MarkdownEditor short id="requiredSkills" />
@@ -132,37 +182,6 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
             initialValue={vacancy.additionalSkills}
           >
             <MarkdownEditor short id="additionalSkills" />
-          </Form.Item>
-        </Col>
-      </Row>
-      <Row gutter={16}>
-        <Col span={12}>
-          <Form.Item
-            label="Уровень английского"
-            name="englishLevel"
-            initialValue={vacancy.englishLevel}
-          >
-            <Input placeholder="Provide the level" />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item
-            label="Employee experience"
-            name="employeeExperience"
-            initialValue={vacancy.employeeExperience || 'С опытом работы 1-3 года'}
-            required
-          >
-            <Select placeholder="Provide the experience">
-              <Select.Option value="Без опыта">Без опыта</Select.Option>
-              <Select.Option value="С опытом работы от года">С опытом работы от года</Select.Option>
-              <Select.Option value="С опытом работы 1-3 года">
-                С опытом работы 1-3 года
-              </Select.Option>
-              <Select.Option value="С опытом работы 3-5 лет">С опытом работы 3-5 лет</Select.Option>
-              <Select.Option value="С опытом работы от 5 лет">
-                С опытом работы от 5 лет
-              </Select.Option>
-            </Select>
           </Form.Item>
         </Col>
       </Row>
