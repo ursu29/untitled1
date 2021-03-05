@@ -66,13 +66,18 @@ const BookmarkForm = ({ form, onSubmit, bookmark, loading }: Props) => {
                 },
                 {
                   validator: async (_, value) => {
-                    const res = await client.query<QueryType>({
-                      query: getBookmarkByLink,
-                      variables: { link: value.trim() },
-                    })
-                    return res.data.bookmarkByLink && res.data.bookmarkByLink.id !== bookmark?.id
-                      ? Promise.reject('Duplicate of ' + res.data.bookmarkByLink.title)
-                      : Promise.resolve()
+                    try {
+                      const res = await client.query<QueryType>({
+                        query: getBookmarkByLink,
+                        variables: { link: value.trim() },
+                        fetchPolicy: 'no-cache',
+                      })
+                      return res.data.bookmarkByLink && res.data.bookmarkByLink.id !== bookmark?.id
+                        ? Promise.reject('Duplicate of ' + res.data.bookmarkByLink.title)
+                        : Promise.resolve()
+                    } catch (error) {
+                      return Promise.resolve() // return success if validation is failed 'cause we have server validation during creation
+                    }
                   },
                 },
               ],
