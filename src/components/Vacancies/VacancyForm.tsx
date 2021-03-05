@@ -47,7 +47,7 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
             label="Проект"
             name="project"
             initialValue={vacancy.project?.id}
-            tooltip="Внутреннее поле. Не выводится в публичных вакансиях"
+            tooltip="Внутреннее поле. Не выводится в публичной вакансии"
           >
             <ProjectSelect wide />
           </Form.Item>
