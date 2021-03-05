@@ -1,18 +1,21 @@
 import { checkKeyValueExist } from '../../support/complexLocators'
-import { employeeData } from '../../support/client/employeeData'
+import {email} from '../../support/client/employeeData'
 import { day, getFirstDay, officeEmployee } from '../../support/officePlanner/officeDays'
 import { checkTwoString } from '../../support/utils'
 import { query } from '../../fixtures/query'
 import { mainCity } from '../../support/locators'
+import {getEmployee} from "../../support/getData";
 
 describe('Check Employees response', () => {
   let response
   let request
+  let employeeData
   const OPERATION_NAME = 'getOfficeDays'
 
   before(() => {
     cy.setToken('employee')
     cy.setImgToken('employee')
+    cy.post(getEmployee(email('employee'))).then(res => employeeData = res.body.data.employeeByEmail)
 
     cy.getResponse(['getEmployees'], 'alias')
     cy.visit('/office-planner')
@@ -21,7 +24,7 @@ describe('Check Employees response', () => {
 
   it('Check Employees response', () => {
     const { employees, officeAccess, profile } = response
-    const { id, location, __typename } = employeeData.employee
+    const { id, location, __typename } = employeeData
     const firstEmployee = employees[0]
 
     expect(employees).to.be.a('array')

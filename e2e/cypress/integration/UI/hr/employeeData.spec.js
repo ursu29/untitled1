@@ -1,14 +1,18 @@
-import { employeeData } from '../../../support/client/employeeData'
+import {email} from '../../../support/client/employeeData'
 import { skillEl, workspace, table, hr } from '../../../support/locators'
 import { checkKeyValueExist } from '../../../support/complexLocators'
+import {getEmployee} from "../../../support/getData";
 
 describe('Check employee data', () => {
   let runningProcess
   let date
+  let employeeData
+
   const randomNumber = new Date().getTime()
 
   before(() => {
     cy.setToken('manager')
+    cy.post(getEmployee(email('employee'))).then(res => employeeData = res.body.data.employeeByEmail)
     cy.getResponse(['processExecutions', 'process', 'employee'], 'alias')
     cy.visit('/hr')
     cy.wait('@alias').then(req => {
@@ -27,8 +31,8 @@ describe('Check employee data', () => {
   })
 
   it('check process data', () => {
-    const { name } = employeeData.employee
-    const firstProcess = runningProcess[0]
+    const { name } = employeeData
+    const firstProcess = runningProcess[1]
     const { id } = firstProcess
 
     cy.setToken('manager')
@@ -49,8 +53,8 @@ describe('Check employee data', () => {
   })
 
   it('check data after update', () => {
-    const { name } = employeeData.employee
-    const firstProcess = runningProcess[0]
+    const { name } = employeeData
+    const firstProcess = runningProcess[1]
     const { id } = firstProcess
     cy.setToken('manager')
 

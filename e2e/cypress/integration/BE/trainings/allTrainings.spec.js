@@ -1,7 +1,7 @@
 import { checkKeyValueExist } from '../../../support/complexLocators'
 import { ticket, trainingData } from '../../../support/client/training'
-import { agileManager } from '../../../support/client/employeeData'
-import { createTraining, deleteTraining } from '../../../support/getData'
+import { email} from '../../../support/client/employeeData'
+import {createTraining, deleteTraining, getEmployee} from '../../../support/getData'
 import { postEl } from '../../../support/locators'
 import { checkTwoString } from '../../../support/utils'
 import { query } from '../../../fixtures/query'
@@ -9,13 +9,17 @@ import { query } from '../../../fixtures/query'
 describe('get all trainings response', () => {
   let response
   let request
+  let managerId
   let getId
-
-  const { email, name, position } = agileManager
-  const { responsible, title, description } = trainingData
 
   before(() => {
     cy.setToken('manager')
+    cy.post(getEmployee(email('employee'))).then(res => {
+      const { employeeByEmail } = res.body.data
+      managerId = employeeByEmail.agileManager.id
+    })
+    const { responsible, title, description } = trainingData(managerId)
+
     cy.post(createTraining(title, description, responsible, true), 'superUser').then(res => {
       const { data } = res.body
       const { id } = data.createOnboardingTicket
@@ -37,16 +41,9 @@ describe('get all trainings response', () => {
   it('Check all trainings response', () => {
     const allId = response.onboardingTickets.map(el => el.id)
     const task = response.onboardingTickets.filter(el => el.id === getId)[0]
-    const { description, id, responsible, title, __typename } = task
+    const { description, id, title, __typename } = task
 
-    checkKeyValueExist(ticket(true, false, getId), { description, id, title, __typename })
-    checkKeyValueExist(responsible[0], {
-      email,
-      name,
-      position,
-      id: agileManager.id,
-      __typename: agileManager.__typename,
-    })
+    checkKeyValueExist(ticket(true, false, getId, managerId), { description, id, title, __typename })
 
     expect(allId).includes(getId)
     cy.get(postEl.button).eq(0).should('contain.text', 'Request training')

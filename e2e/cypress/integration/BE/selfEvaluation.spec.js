@@ -1,29 +1,8 @@
-import { evaluationAttributesData, archivedSEFVersion } from '../../support/client/selfEvaluation'
+import { archivedSEFVersion } from '../../support/client/selfEvaluation'
 
 describe(`Check employee Self Evaluation Form`, () => {
   beforeEach(() => {
     cy.setToken('employee')
-  })
-
-  beforeEach(() => {
-    cy.restoreLocalStorage()
-  })
-  afterEach(() => {
-    cy.saveLocalStorage()
-  })
-
-  it('Attributes response', () => {
-    cy.getResponse(['evaluationAttributes', 'id', 'title'], 'alias')
-    cy.visit('/profile/evaluation')
-    cy.wait(`@alias`).then(val => {
-      const response = val.response.body.data
-      const { evaluationAttributes } = response
-      const firstAttribute = evaluationAttributes[0]
-
-      expect(evaluationAttributes).to.be.a('array')
-      cy.compareObjectsKeys(firstAttribute, evaluationAttributesData)
-      expect(firstAttribute.__typename).equal(evaluationAttributesData.__typename)
-    })
   })
 
   it('getEvaluations response', () => {

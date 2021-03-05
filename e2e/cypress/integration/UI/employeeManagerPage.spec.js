@@ -1,11 +1,10 @@
-import { employeeData } from '../../support/client/employeeData'
+import {email} from '../../support/client/employeeData'
 import { tabs, workspace } from '../../support/locators'
 
 describe('Employee check manager page', () => {
-  const { email } = employeeData.employee.agileManager
   before(() => {
     cy.setToken('employee')
-    cy.visit(`/employees/${email}`)
+    cy.visit(`/employees/${email('manager')}`)
   })
 
   it('Employee cannot see manager private tabs', () => {

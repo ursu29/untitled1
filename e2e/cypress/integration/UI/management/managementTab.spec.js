@@ -41,7 +41,7 @@ describe('Check management page', () => {
   it('check filter', () => {
     cy.get('.ant-dropdown-trigger').eq(1).click()
     LOCATIONS.forEach(el => cy.get(table.dropdownMenu).then(tab => expect(tab.text()).contains(el)))
-    cy.contains('Saint Petersburg').click()
+    cy.get(table.dropdownMenu).eq(0).click()
     cy.contains('OK').click()
     cy.get(table.tableRow).then(el =>
       expect(el.length).equal(cityFilter(mainCity, noManager).length),

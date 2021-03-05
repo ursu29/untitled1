@@ -1,9 +1,9 @@
-import * as data from '../../support/getData'
 import { tabs, workspace } from '../../support/locators'
-import { agileManager, employeeData as EmployeeData } from '../../support/client/employeeData'
+import {email} from '../../support/client/employeeData'
+import {getClient, getEmployee, getEmployeeExperiences, getProjects} from "../../support/getData";
 
 describe('Checking default information (e2e)', () => {
-  const userId = EmployeeData.employee.id
+  let userId
   let allData = {
     client: null,
     manager: null,
@@ -14,21 +14,23 @@ describe('Checking default information (e2e)', () => {
   before(() => {
     cy.setToken('employee')
     cy.visit('/')
-    cy.post(data.getClient()).then(res => {
+    cy.post(getClient()).then(res => {
       const { data } = res.body
       allData = { ...allData, client: data }
     })
-    cy.post(data.getEmployee(agileManager.email)).then(res => {
+    cy.post(getEmployee(email('manager'))).then(res => {
       const { data } = res.body
+      userId = data.employeeByEmail.id
       allData = { ...allData, manager: data }
-    })
-    cy.post(data.getProjects(userId)).then(res => {
-      const { data } = res.body
-      allData = { ...allData, projects: data }
-    })
-    cy.post(data.getEmployeeExperiences(userId)).then(res => {
-      const { data } = res.body
-      allData = { ...allData, levels: data }
+
+      cy.post(getProjects(userId)).then(res => {
+        const { data } = res.body
+        allData = { ...allData, projects: data }
+      })
+      cy.post(getEmployeeExperiences(userId)).then(res => {
+        const { data } = res.body
+        allData = { ...allData, levels: data }
+      })
     })
   })
 

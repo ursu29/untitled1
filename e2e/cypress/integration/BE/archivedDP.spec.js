@@ -1,13 +1,17 @@
 import { planData } from '../../support/client/devPlan'
-import { employeeData } from '../../support/client/employeeData'
-import { getArchivedDPVersions } from '../../support/getData'
+import {email} from '../../support/client/employeeData'
+import {getArchivedDPVersions, getEmployee} from '../../support/getData'
 
 describe('check archivedDPVersions response', () => {
   let response
 
   beforeEach(() => {
     cy.setToken('employee')
-    cy.post(getArchivedDPVersions(employeeData.employee.id)).then(res => (response = res.body.data))
+    cy.post(getEmployee(email('employee'))).then(res => {
+      const { employeeByEmail } = res.body.data
+
+      cy.post(getArchivedDPVersions(employeeByEmail.id)).then(res => (response = res.body.data))
+    })
   })
 
   it('Check archivedDPVersions', () => {
