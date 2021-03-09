@@ -1,5 +1,5 @@
-import {email} from '../../support/client/employeeData'
-import {createEvaluationReviewer, deleteReviewer, getEmployee, getEvaluationReviewers} from "../../support/getData";
+import {email} from '../../../support/client/employeeData'
+import {createEvaluationReviewer, deleteReviewer, getEmployee, getEvaluationReviewers} from "../../../support/getData";
 
 describe('Check getEvaluationRevieers', () => {
   let employeeId

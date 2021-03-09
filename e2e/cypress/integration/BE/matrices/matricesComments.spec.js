@@ -1,11 +1,10 @@
-
-import {email} from "../../support/client/employeeData";
+import {email} from "../../../support/client/employeeData";
 import {
     attachMatrixToEmployee,
     getAllMatrices,
     getEmployee, getEmployeeExperiences,
     updateExperience
-} from "../../support/getData";
+} from "../../../support/getData";
 
 describe('Check saved comments', () => {
     let userId

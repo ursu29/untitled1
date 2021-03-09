@@ -73,6 +73,21 @@ export const matricesCustomFieldsMutation = (userId, lastDiscussed) => ({
   query: query.matricesCustomFieldsMutation,
 })
 
+export const evaluationCustomFields = employee => ({
+  operationName: 'evaluationCustomFields',
+  variables: { input:{employee}},
+  query: query.evaluationCustomFields,
+})
+
+export const customFieldsMutationSelfEv = (userId, lastDiscussed) => ({
+  operationName: 'customFieldsMutation',
+  variables: { input:{
+      employee: userId,
+      lastDiscussed: `${lastDiscussed}T17:30:14+03:00`
+    }},
+  query: query.customFieldsMutationSelfEv,
+})
+
 export const getDevelopmentPlans = userId => ({
   operationName: 'getDevelopmentPlans',
   variables: { input:{employee: userId} },
