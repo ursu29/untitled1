@@ -32,6 +32,16 @@ export default gql`
         name
         code
       }
+      projectFrom {
+        id
+        name
+        code
+      }
+      projectTo {
+        id
+        name
+        code
+      }
       locations
       employee
       finishDate

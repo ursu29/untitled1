@@ -16,7 +16,7 @@ import updateProcessExecution from '../../queries/updateProcessExecution'
 import getProcessExecutions from '../../queries/getProcessExecutions'
 import message from '../../message'
 import './styles.css'
-import { LOCATION } from '../../types'
+import { LOCATION, ProcessExecution } from '../../types'
 import getLocationName from '../../utils/getLocationName'
 import { getProcessName } from '../../utils/getProcessName'
 
@@ -143,8 +143,47 @@ function ProcessList({ items, tabName }: Props) {
         ...new Set(items.filter(e => e?.project && e?.project?.name).map(e => e?.project?.name)),
       ].map(e => ({ text: e, value: e })),
       onFilter: (value: any, record: any) => record.project?.name === value,
-      render: (_: any, i: any) => {
-        return (
+      render: (_: any, i: ProcessExecution) => {
+        return i.process.type === 'ROTATION' ? (
+          <div style={{ display: 'flex', marginLeft: '10px' }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                fontSize: '25px',
+                fontWeight: 'bold',
+                marginRight: '-25px',
+                zIndex: 999,
+              }}
+            >
+              ⤸
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div>
+                {i.projectFrom ? (
+                  <ProjectTag
+                    small
+                    project={i.projectFrom}
+                    style={{ fontSize: '11px', padding: '2px 5px' }}
+                  />
+                ) : (
+                  '?'
+                )}
+              </div>
+              <div>
+                {i.projectTo ? (
+                  <ProjectTag
+                    small
+                    project={i.projectTo}
+                    style={{ fontSize: '11px', padding: '2px 5px' }}
+                  />
+                ) : (
+                  '?'
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (
           <ProjectTag small project={i.project} style={{ fontSize: '11px', padding: '2px 5px' }} />
         )
       },
@@ -235,7 +274,7 @@ function ProcessList({ items, tabName }: Props) {
         key: 'responsible',
         title: 'Responsible',
         showSorterTooltip: false,
-        render: (_, process) => {
+        render: (_: any, process: any) => {
           const responsibleList = [
             //@ts-ignore
             ...new Set(
@@ -315,7 +354,7 @@ function ProcessList({ items, tabName }: Props) {
         width: '80px',
         showSorterTooltip: false,
         sorter: (a: any, b: any) => a.prio - b.prio,
-        render: (_, process) => {
+        render: (_: any, process: any) => {
           return (
             <Select
               defaultValue={process.prio}

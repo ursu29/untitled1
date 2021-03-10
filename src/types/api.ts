@@ -308,6 +308,8 @@ export interface ProcessExecution {
   vacancy: Vacancy
   locations: LOCATION[]
   project: Project
+  projectFrom?: Project
+  projectTo?: Project
   employee: string
   finishDate: string
   prio: number

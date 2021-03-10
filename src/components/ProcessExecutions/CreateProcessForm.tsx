@@ -51,6 +51,22 @@ const CreateProcessForm = ({ form, onSubmit, value, loading }: Props) => {
         )}
       </Form.Item>
       {type && <div style={{ marginBottom: 16 }}>You're about to start {type} process</div>}
+      {type === 'ROTATION' && (
+        <>
+          <Form.Item label="From">
+            {getFieldDecorator('projectFrom', {
+              initialValue: value?.projectFrom?.id,
+              rules: [{ required: true }],
+            })(<ProjectSelect wide />)}
+          </Form.Item>
+          <Form.Item label="To">
+            {getFieldDecorator('projectTo', {
+              initialValue: value?.projectTo?.id,
+              rules: [{ required: true }],
+            })(<ProjectSelect wide />)}
+          </Form.Item>
+        </>
+      )}
       {type && (
         <Form.Item label="Locations">
           {getFieldDecorator('locations', {
