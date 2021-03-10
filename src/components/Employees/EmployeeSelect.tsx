@@ -80,6 +80,7 @@ function EmployeeSelect(
             value: employee.name,
           }
         })}
+      placeholder="Select employee"
     />
   )
 }

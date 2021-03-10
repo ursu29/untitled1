@@ -11,6 +11,7 @@ export default gql`
         id
         title
         type
+        customer
         steps {
           ...ProcessStepDetails
         }
@@ -36,8 +37,12 @@ export default gql`
         isDone
       }
       employee
+      employeeRef {
+        id
+      }
       finishDate
       employeePhone
+      swissReOffboardingDate
       isIndependentStepsActive
     }
   }
@@ -48,7 +53,7 @@ export default gql`
 type ProcessExecutionPick = {
   id: string
   status: ProcessExecution['status']
-  process: Pick<Process, 'id' | 'type' | 'title'> & {
+  process: Pick<Process, 'id' | 'type' | 'title' | 'customer'> & {
     steps: ProcessStepDetails[]
   }
   vacancy: Pick<Vacancy, 'id' | 'isPublished' | 'editable'> & {
@@ -59,8 +64,10 @@ type ProcessExecutionPick = {
     step: Pick<ProcessStep, 'id' | 'type'>
   })[]
   employee: string
+  employeeRef: EmployeeDetails
   finishDate: string
   employeePhone: string
+  swissReOffboardingDate: string
   isIndependentStepsActive: boolean
 }
 

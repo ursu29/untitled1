@@ -6,6 +6,7 @@ import moment from 'moment'
 import PageContent from '../UI/PageContent'
 import updateProcessExecution from '../../queries/updateProcessExecution'
 import message from '../../message'
+import EmployeeSelect from '../Employees/EmployeeSelect'
 
 const MainWrapper = styled.div`
   display: flex;
@@ -21,15 +22,23 @@ const BlockWrapper = styled.div`
 export default function AdditionalInfo({
   processId,
   employee,
+  employeeRef,
   finishDate,
   employeePhone,
+  swissReOffboardingDate,
   refetchQueries,
+  isNotOnboarding,
+  isSwissRe,
 }: {
   processId: string
   employee: string
+  employeeRef: string
   finishDate: string
   employeePhone: string
+  swissReOffboardingDate: string
   refetchQueries: any
+  isNotOnboarding: boolean
+  isSwissRe: boolean
 }) {
   const [update] = useMutation(updateProcessExecution, {
     refetchQueries,
@@ -43,6 +52,7 @@ export default function AdditionalInfo({
   const makeUpdate = (body: any) => update({ variables: { input: { id: processId, ...body } } })
 
   const [employeeField, setEmployeeField] = useState(employee || '')
+  const [employeeRefField, setEmployeeRefField] = useState(employeeRef || '')
   const [employeePhoneField, setEmployeePhoneField] = useState(employeePhone || '')
   const [finishDateField, setFinishDateField] = useState(
     finishDate ? moment(moment(finishDate), ['DD.MM.YYYY']) : null,
@@ -53,12 +63,22 @@ export default function AdditionalInfo({
       <MainWrapper>
         <BlockWrapper style={{ width: '30%', minWidth: '175px' }}>
           <span style={{ paddingBottom: '8px' }}>Employee</span>
-          <Input
-            data-cy="name"
-            placeholder="Enter employee name"
-            defaultValue={employee}
-            onChange={e => setEmployeeField(e.target.value)}
-          />
+          {isNotOnboarding ? (
+            <EmployeeSelect
+              wide
+              keyName="id"
+              //@ts-expect-error
+              onChange={e => setEmployeeRefField(e)}
+              value={employeeRefField}
+            />
+          ) : (
+            <Input
+              data-cy="name"
+              placeholder="Enter employee name"
+              defaultValue={employee}
+              onChange={e => setEmployeeField(e.target.value)}
+            />
+          )}
         </BlockWrapper>
         <BlockWrapper>
           <span style={{ paddingBottom: '8px' }}>Date</span>
@@ -85,19 +105,29 @@ export default function AdditionalInfo({
               onClick={() => {
                 const body: {
                   employee?: string
+                  employeeRef?: string
                   finishDate?: moment.Moment
                   employeePhone?: string
                 } = {}
                 if (employeeField) body.employee = employeeField
+                if (employeeRefField) body.employeeRef = employeeRefField
                 if (finishDateField) body.finishDate = finishDateField
                 if (employeePhoneField) body.employeePhone = employeePhoneField
                 makeUpdate(body)
               }}
               disabled={
-                employeeField === '' ||
+                (employeeField === '' && !isNotOnboarding) ||
+                (employeeRefField === '' && isNotOnboarding) ||
                 finishDateField === null ||
                 employeePhoneField === '' ||
-                (employeeField === employee &&
+                (!!employee &&
+                  !isNotOnboarding &&
+                  employeeField === employee &&
+                  moment(finishDateField).isSame(finishDate) &&
+                  employeePhoneField === employeePhone) ||
+                (!!employeeRef &&
+                  isNotOnboarding &&
+                  employeeRefField === employeeRef &&
                   moment(finishDateField).isSame(finishDate) &&
                   employeePhoneField === employeePhone)
               }
@@ -110,6 +140,32 @@ export default function AdditionalInfo({
       <BlockWrapper style={{ marginTop: '10px', fontStyle: 'italic', fontSize: '12px' }}>
         * fill in these fields to open 'independent' steps
       </BlockWrapper>
+      {isNotOnboarding && isSwissRe && (
+        <BlockWrapper
+          style={{
+            marginTop: '20px',
+            maxWidth: '170px',
+            border: '1px solid lightgray',
+            padding: '10px',
+          }}
+        >
+          <span style={{ paddingBottom: '8px' }}>SwissRe Offboarding</span>
+          <DatePicker
+            format={['DD.MM.YYYY']}
+            defaultValue={
+              swissReOffboardingDate
+                ? moment(moment(swissReOffboardingDate), ['DD.MM.YYYY'])
+                : undefined
+            }
+            onChange={value =>
+              makeUpdate({ swissReOffboardingDate: value?.utcOffset(180) || null })
+            }
+          />
+          <span style={{ marginTop: '10px', fontStyle: 'italic', fontSize: '12px', color: 'gray' }}>
+            (optional - only for admins)
+          </span>
+        </BlockWrapper>
+      )}
     </PageContent>
   )
 }

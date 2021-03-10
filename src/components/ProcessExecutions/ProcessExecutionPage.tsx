@@ -228,11 +228,15 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
       <AdditionalInfo
         processId={processExecution.id}
         employee={processExecution.employee}
+        employeeRef={processExecution.employeeRef.id}
         finishDate={processExecution.finishDate}
         employeePhone={processExecution.employeePhone}
+        swissReOffboardingDate={processExecution.swissReOffboardingDate}
         refetchQueries={[
           { query: getProcessExecution, variables: { input: { id: match.params.id } } },
         ]}
+        isNotOnboarding={['OFFBOARDING', 'ROTATION'].includes(processExecution.process.type)}
+        isSwissRe={processExecution.process.customer === 'SWISSRE'}
       />
       <div style={{ overflow: 'auto', width: '100%', height: '100%' }}>
         <PageContent noTop>
