@@ -168,7 +168,7 @@ export default function EmployeeSubordinates({ employee }: Props) {
           >
             <div style={{ display: 'flex' }}>
               <div style={{ color: 'lightgray', width: '40px', textAlign: 'start' }}>{title}</div>
-              <div>{count ? count : '-'}</div>
+              <div>{count ? count : '✔'}</div>
             </div>
           </Tooltip>
         )
