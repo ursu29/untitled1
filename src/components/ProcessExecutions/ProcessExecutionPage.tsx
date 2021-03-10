@@ -228,7 +228,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
       <AdditionalInfo
         processId={processExecution.id}
         employee={processExecution.employee}
-        employeeRef={processExecution.employeeRef.id}
+        employeeRef={processExecution.employeeRef?.id}
         finishDate={processExecution.finishDate}
         employeePhone={processExecution.employeePhone}
         swissReOffboardingDate={processExecution.swissReOffboardingDate}
