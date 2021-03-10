@@ -11,14 +11,20 @@ interface Props {
   loading: boolean
   bookmarks?: QueryType['bookmarks']
   refetchQueries?: PureQueryOptions[]
+  isAddButtonHidden?: boolean
 }
 
-export default function Bookmarks({ bookmarks, loading, refetchQueries }: Props) {
+export default function Bookmarks({
+  bookmarks,
+  loading,
+  refetchQueries,
+  isAddButtonHidden,
+}: Props) {
   return (
     <BookmarksList
       loading={loading}
       bookmarks={bookmarks}
-      createBookmark={<CreateBookmark refetchQueries={refetchQueries} />}
+      createBookmark={!isAddButtonHidden && <CreateBookmark refetchQueries={refetchQueries} />}
       UpdateBookmark={UpdateBookmark}
       DeleteBookmark={DeleteBookmark}
       LikeBookmark={LikeBookmark}

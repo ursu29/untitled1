@@ -5,13 +5,11 @@ import Drawer from '../UI/Drawer'
 import FileForm from './FileForm'
 import { useMutation } from '@apollo/react-hooks'
 import {
-  fileDetailsFragment,
   updateFileDetails,
   UpdateFileDetailsMutation,
   UpdateFileDetailsMutationInput,
 } from '../../queries/updateFileDetails'
 import message from '../../message'
-import { FileDetails } from '../../types'
 
 interface Props {
   file: FilesPick
@@ -24,19 +22,6 @@ export const UpdateFileDetails = ({ file }: Props) => {
   >(updateFileDetails, {
     onError: message.error,
     onCompleted: () => message.success('File is updated'),
-    update: (cache, { data }) => {
-      const cacheId = `FileDetails:${file.id}`
-      const currentFile = cache.readFragment<FileDetails>({
-        id: cacheId,
-        fragment: fileDetailsFragment,
-      })
-      if (data && currentFile) {
-        cache.writeData({
-          id: cacheId,
-          data: data.updateFileDetails,
-        })
-      }
-    },
   })
   return (
     <Drawer
@@ -53,7 +38,18 @@ export const UpdateFileDetails = ({ file }: Props) => {
           onSubmit={(values, reset) => {
             updateFile({
               variables: { input: values },
-              update: reset,
+              update: (cache, { data }) => {
+                const cacheId = `AzureFile:${file.id}`
+                if (data) {
+                  cache.writeData({
+                    id: cacheId,
+                    data: { details: data.updateFileDetails },
+                  })
+                }
+                if (reset) {
+                  reset()
+                }
+              },
             })
           }}
         />

@@ -8,6 +8,8 @@ import LocationSelect from '../Locations/LocationSelect'
 import ProcessSelect from '../Processes/ProcessSelect'
 import ProjectSelect from '../Projects/ProjectSelect'
 
+const typesWithProjects: ProcessType[] = ['ONBOARDING', 'OFFBOARDING']
+
 export interface Props extends FormComponentProps {
   onSubmit: (value: any, onDone?: () => void) => void
   loading?: boolean
@@ -30,7 +32,7 @@ const CreateProcessForm = ({ form, onSubmit, value, loading }: Props) => {
     })
   }
 
-  const showProjectSelector = type && ['onboarding', 'offboarding'].includes(type)
+  const showProjectSelector = type && typesWithProjects.includes(type)
 
   return (
     <Form layout="vertical" onSubmit={handleSubmit}>
@@ -49,10 +51,26 @@ const CreateProcessForm = ({ form, onSubmit, value, loading }: Props) => {
         )}
       </Form.Item>
       {type && <div style={{ marginBottom: 16 }}>You're about to start {type} process</div>}
+      {type === 'ROTATION' && (
+        <>
+          <Form.Item label="From">
+            {getFieldDecorator('projectFrom', {
+              initialValue: value?.projectFrom?.id,
+              rules: [{ required: true }],
+            })(<ProjectSelect wide />)}
+          </Form.Item>
+          <Form.Item label="To">
+            {getFieldDecorator('projectTo', {
+              initialValue: value?.projectTo?.id,
+              rules: [{ required: true }],
+            })(<ProjectSelect wide />)}
+          </Form.Item>
+        </>
+      )}
       {type && (
         <Form.Item label="Locations">
           {getFieldDecorator('locations', {
-            initialValue: value?.locations?.map(i => i.id),
+            initialValue: value?.locations,
             rules: [{ required: true }],
           })(<LocationSelect mode="multiple" wide />)}
         </Form.Item>
@@ -75,7 +93,9 @@ const CreateProcessForm = ({ form, onSubmit, value, loading }: Props) => {
               {Array(3)
                 .fill(0)
                 .map((_, i) => (
-                  <Select.Option value={i + 1}>{i + 1}</Select.Option>
+                  <Select.Option key={i} value={i + 1}>
+                    {i + 1}
+                  </Select.Option>
                 ))}
             </Select>,
           )}

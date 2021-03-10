@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 import React, { useEffect } from 'react'
 import { ProcessStepDetails } from '../../fragments'
 import message from '../../message'
-import getProcesses from '../../queries/getProcesses'
+import getProcess from '../../queries/getProcess'
 import ProcessStepForm from './ProcessStepForm'
 
 const updateProcessStep = gql`
@@ -17,8 +17,8 @@ const updateProcessStep = gql`
 `
 
 const deleteProcessStep = gql`
-  mutation deleteProcessStep($input: DeleteProcessStepInput) {
-    deleteProcessStep(input: $input) {
+  mutation deleteProcessStep($id: ID!) {
+    deleteProcessStep(id: $id) {
       id
     }
   }
@@ -26,7 +26,7 @@ const deleteProcessStep = gql`
 
 export default function ProcessStep({ step }: { step: ProcessStepDetails }) {
   const [update, { loading }] = useMutation(updateProcessStep, {
-    refetchQueries: [{ query: getProcesses, variables: { input: { id: step?.process?.id } } }],
+    refetchQueries: [{ query: getProcess, variables: { id: step?.process?.id } }],
     awaitRefetchQueries: true,
     onCompleted: () => {
       message.success('Step is updated')
@@ -35,8 +35,8 @@ export default function ProcessStep({ step }: { step: ProcessStepDetails }) {
   })
 
   const [remove, { loading: removeLoading }] = useMutation(deleteProcessStep, {
-    variables: { input: { id: step.id } },
-    refetchQueries: [{ query: getProcesses, variables: { input: { id: step?.process?.id } } }],
+    variables: { id: step.id },
+    refetchQueries: [{ query: getProcess, variables: { id: step?.process?.id } }],
     awaitRefetchQueries: true,
     onCompleted: () => message.success('Step is removed'),
     onError: message.error,
@@ -58,7 +58,7 @@ export default function ProcessStep({ step }: { step: ProcessStepDetails }) {
         key="1"
         extra={
           <div style={{ display: 'flex' }}>
-            {step.type === 'notify' && (
+            {step.type === 'NOTIFY' && (
               <div>
                 <Tooltip placement="bottom" title="Automatic">
                   <Tag
@@ -75,7 +75,7 @@ export default function ProcessStep({ step }: { step: ProcessStepDetails }) {
                 </Tooltip>
               </div>
             )}
-            {step.type === 'independent' && (
+            {step.type === 'INDEPENDENT' && (
               <div>
                 <Tooltip placement="bottom" title="Independent">
                   <Tag
@@ -111,7 +111,7 @@ export default function ProcessStep({ step }: { step: ProcessStepDetails }) {
         <ProcessStepForm
           step={{
             ...step,
-            responsibleUsers: step.responsibleUsers?.map(i => i.id),
+            responsibleUsers: step.responsibleUsers?.map(i => i?.id),
           }}
           loading={loading}
           onUpdate={data =>

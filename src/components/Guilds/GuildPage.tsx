@@ -1,15 +1,16 @@
 import React from 'react'
+import { Typography } from 'antd'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
-import { useQuery, useMutation } from '@apollo/react-hooks'
-import TitleEditable from '../UI/TitleEditable'
+import { useQuery } from '@apollo/react-hooks'
 import Controls from '../UI/Controls'
 import Back from '../UI/Back'
 import PageContent from '../UI/PageContent'
-import { getGuild, GuildQueryType, updateGuild } from '../../queries/guilds'
-import message from '../../message'
+import { getGuild, GuildQueryType } from '../../queries/guilds'
 import GuildTabs from './GuildTabs'
+import UpdateGuild from './UpdateGuild'
 
 interface Props extends RouteComponentProps<{ code: string; tab?: string }> {}
+const { Title } = Typography
 
 function GuildPage({ match }: Props) {
   const { code: azureDisplayName, tab } = match.params
@@ -20,19 +21,7 @@ function GuildPage({ match }: Props) {
     variables,
   })
 
-  // Update guild
-  const [update] = useMutation(updateGuild, {
-    onCompleted: () => message.success('Guild has been updated'),
-    awaitRefetchQueries: true,
-    refetchQueries: [{ query: getGuild, variables }],
-    onError: message.error,
-  })
-
   const guild = data?.guild
-
-  const handleSave = (title: string) => {
-    update({ variables: { input: { azureDisplayName, title } } })
-  }
 
   return (
     <PageContent
@@ -45,12 +34,10 @@ function GuildPage({ match }: Props) {
         <>
           <Controls back={<Back />} />
 
-          <TitleEditable
-            data={guild.title}
-            editable={guild.accessWrite}
-            handleSave={handleSave}
-            emptyValue="(untitled)"
-          />
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Title>{guild.title}</Title>
+            {guild.accessWrite && <UpdateGuild guild={guild} />}
+          </div>
 
           <GuildTabs guild={guild} tab={tab} />
         </>

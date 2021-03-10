@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import { DevelopmentPlan } from '../types'
 
 export default gql`
-  query getDevelopmentPlans($input: DevelopmentPlansInput) {
+  query getDevelopmentPlans($input: DevelopmentPlansInput!) {
     developmentPlans(input: $input) {
       id
       createdAt
@@ -58,5 +58,5 @@ export default gql`
 type DevelopmentPlanPick = Exclude<DevelopmentPlan, 'employee'>
 
 export type QueryType = {
-  developmentPlans: DevelopmentPlanPick[]
+  developmentPlans: DevelopmentPlanPick
 }

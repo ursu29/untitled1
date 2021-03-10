@@ -3,11 +3,11 @@ import {
   Process,
   Vacancy,
   Project,
-  Location,
   ProcessExecution,
   ProcessExecutionStep,
   ProcessStep,
   Employee,
+  LOCATION,
 } from '../types'
 import { ProcessStepDetails } from '../fragments'
 
@@ -32,10 +32,17 @@ export default gql`
         name
         code
       }
-      locations {
+      projectFrom {
         id
         name
+        code
       }
+      projectTo {
+        id
+        name
+        code
+      }
+      locations
       employee
       finishDate
       activeStepEmployees {
@@ -55,7 +62,7 @@ type ProcessExecutionPick = {
   }
   vacancy: Pick<Vacancy, 'id' | 'position' | 'employeeComment'>
   project: Pick<Project, 'id' | 'name' | 'code'>
-  locations: Pick<Location, 'id' | 'name'>[]
+  locations: LOCATION[]
   status: ProcessExecution['status']
   employee: ProcessExecution['employee']
   finishDate: ProcessExecution['finishDate']

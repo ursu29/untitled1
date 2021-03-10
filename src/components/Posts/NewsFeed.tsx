@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/react-hooks'
 import React, { useState } from 'react'
 import getPosts, { QueryType } from '../../queries/getPosts'
-import { Employee } from '../../types'
+import { Employee, LOCATION } from '../../types'
 import Posts from './Posts'
 import { PageHeader, Row, Col, Typography } from 'antd'
 import CreatePost from './CreatePost'
@@ -16,7 +16,7 @@ interface Props {
 function NewsFeed({ editable, employee }: Props) {
   const [hasMore, setHasMore] = useState(true)
   const [filter, setFilter] = useState({
-    isTranslated: employee.location === 'Zurich' ? true : false,
+    isTranslated: employee.location === LOCATION.ZURICH ? true : false,
     tags: null,
     text: null,
   })

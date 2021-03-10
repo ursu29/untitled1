@@ -34,15 +34,7 @@ const { Text, Title, Paragraph } = Typography
 
 type PostPick = Pick<
   Post,
-  | 'id'
-  | 'title'
-  | 'body'
-  | 'isTranslated'
-  | 'createdAt'
-  | 'locations'
-  | 'images'
-  | 'annotation'
-  | 'titleImage'
+  'id' | 'title' | 'body' | 'isTranslated' | 'createdAt' | 'locations' | 'images'
 > & {
   createdBy: Pick<Employee, 'id' | 'name' | 'email'>
   tags?: Pick<TagType, 'id' | 'name' | 'description'>[]
@@ -99,12 +91,6 @@ function PostItem({ post, edit, history, isPreview, loadMore }: Props) {
     // eslint-disable-next-line
   }, [JSON.stringify(post), post.id])
 
-  const titleImage = post.titleImage
-    ? Array.isArray(post.titleImage)
-      ? post.titleImage[0]
-      : post.titleImage
-    : null
-
   return (
     <VisibilitySensor
       partialVisibility
@@ -127,16 +113,7 @@ function PostItem({ post, edit, history, isPreview, loadMore }: Props) {
           <Title level={3} style={{ marginTop: 8 }}>
             {post.title}
           </Title>
-          {post.annotation && (
-            <div
-              dangerouslySetInnerHTML={{
-                __html: markdownToHtml(post.annotation),
-              }}
-            />
-          )}
-          {titleImage && (
-            <Image src={titleImage.url} alt={titleImage.fileName} style={{ paddingBottom: 15 }} />
-          )}
+
           <div
             dangerouslySetInnerHTML={{
               __html: markdownToHtml(post.body),

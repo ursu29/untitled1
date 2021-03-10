@@ -1,17 +1,12 @@
 import gql from 'graphql-tag'
-import { Level } from '../types'
+import { LEVEL } from '../types'
 
 export default gql`
   {
-    levels {
-      id
-      index
-      name
-      description
-    }
+    levels
   }
 `
 
 export type QueryType = {
-  levels: Pick<Level, 'id' | 'index' | 'name' | 'description'>[]
+  levels: LEVEL[]
 }

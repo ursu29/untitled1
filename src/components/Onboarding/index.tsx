@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
-import { Button, Drawer, Typography, Tabs as MyTicketTabs, Switch } from 'antd'
+import { Button, Drawer, Switch, Tabs as MyTicketTabs, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import message from '../../message'
 import {
@@ -9,21 +9,21 @@ import {
   onboardingAccess,
   OnboardingTicketsQueryType,
   requestOnboardingTicket,
+  EmployeeOnboardingTicketsQueryType,
 } from '../../queries/onboardingTickets'
 import getEmployeeProjects, {
   GetEmployeeProjectsQuery,
   GetEmployeeProjectsVariables,
 } from '../../queries/getEmployeeProjects'
 import { Access } from '../../types'
-import Back from '../UI/Back'
-import Controls from '../UI/Controls'
-import Tabs from '../UI/Tabs'
-import PageContent from '../UI/PageContent'
-import DrawerForm from './DrawerForm'
-import Ticket from './Ticket'
-import MyTickets from './MyTickets'
-import { useEmployee } from '../../utils/withEmployee'
 import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
+import { useEmployee } from '../../utils/withEmployee'
+import PageContent from '../UI/PageContent'
+import Skeleton from '../UI/Skeleton'
+import Tabs from '../UI/Tabs'
+import DrawerForm from './DrawerForm'
+import MyTickets from './MyTickets'
+import Ticket from './Ticket'
 
 export default function Onboarding() {
   const user = useEmployee()
@@ -41,14 +41,14 @@ export default function Onboarding() {
     GetEmployeeProjectsQuery,
     GetEmployeeProjectsVariables
   >(getEmployeeProjects, {
-    variables: { input: { id: user.employee?.id } },
+    variables: { id: user.employee.id },
   })
 
   const error = ticketsError || projectsError
   const loading = ticketsLoading || projectsLoading
 
   useEffect(() => {
-    const projects = projectsData?.employees?.[0]?.projects
+    const projects = projectsData?.employee.projects
     const isSwissReOnlyVisibleDefault = projects
       ? projects.some(p => p.code.startsWith('sr-'))
       : false
@@ -57,6 +57,8 @@ export default function Onboarding() {
 
   // Tickets with me as responsible
   const writeAccess = useStrapiGroupCheck('SUPER_USER')
+  const withResponsible = writeAccess ? null : user.employee.email.toLowerCase()
+
   const myTickets = writeAccess
     ? ticketsData?.onboardingTickets
     : ticketsData?.onboardingTickets.filter(
@@ -69,10 +71,12 @@ export default function Onboarding() {
   const isAccessWrite = onboardingAccessData?.onboardingAccess?.write || false
 
   // Get completed tickets
-  const { data: employeeOnboardingTicketsData } = useQuery<{ employeeOnboardingTickets: string[] }>(
+  const { data: employeeOnboardingTicketsData } = useQuery<EmployeeOnboardingTicketsQueryType>(
     employeeOnboardingTickets,
   )
-  const completedTickets = employeeOnboardingTicketsData?.employeeOnboardingTickets
+  const completedTickets = employeeOnboardingTicketsData?.employeeOnboardingTickets.map(
+    ticket => ticket.id,
+  )
 
   // Complete ticket
   const [completeTicket] = useMutation(completeOnboardingTicket, {
@@ -146,15 +150,19 @@ export default function Onboarding() {
     },
   ]
 
+  if (loading) {
+    return <Skeleton withOffset active loading={loading} />
+  }
+
   return (
     <PageContent
       error={error}
       loading={loading}
       notFound={!ticketsData?.onboardingTickets && !isAccessWrite}
       notFoundMessage="Sorry, onboarding tickets were not found"
-      style={{ padding: 0 }}
+      style={{ paddingLeft: 0, paddingRight: 0 }}
     >
-      <Controls back={<Back />} style={{ padding: '20px 0 10px 30px' }} />
+      {/* <Controls back={<Back />} style={{ padding: '20px 0 10px 30px' }} /> */}
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography.Title
           style={{
@@ -233,7 +241,9 @@ export default function Onboarding() {
         </>
       )}
 
-      {isMyTicketsView && myTickets && <MyTickets tickets={myTickets} />}
+      {isMyTicketsView && myTickets && (
+        <MyTickets tickets={myTickets} withResponsible={withResponsible} />
+      )}
 
       <Drawer
         maskClosable={false}
@@ -250,6 +260,7 @@ export default function Onboarding() {
               : null
           }
           handleClose={() => setDrawerVisibility(false)}
+          withResponsible={withResponsible}
         />
       </Drawer>
     </PageContent>

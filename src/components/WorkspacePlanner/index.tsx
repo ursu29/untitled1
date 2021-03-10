@@ -16,7 +16,7 @@ import {
   workspaceDesignAccessQuery,
   workspaceDesignAccessQueryType,
 } from '../../queries/workspace'
-import { WorkplaceType } from '../../types'
+import { WorkplaceType, LOCATION } from '../../types'
 import { useEmployee } from '../../utils/withEmployee'
 import PageContent from '../UI/PageContent'
 import BookTools from './BookTools'
@@ -25,6 +25,7 @@ import Workspace from './Workspace'
 import WorkspaceSelector from './WorkspaceSelector'
 import './styles.css'
 import gql from 'graphql-tag' //TODO: REMOVE with workspace planner
+import getLocationName from '../../utils/getLocationName'
 
 //TODO: ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ REMOVE with workspace planner
 const weekday = require('dayjs/plugin/weekday')
@@ -44,12 +45,8 @@ const getOfficeDays = gql`
       employeeCount
       employees {
         id
-        strapiId
       }
-      location {
-        id
-        code
-      }
+      location
     }
   }
 `
@@ -69,7 +66,7 @@ export default function WorkspacePlanner() {
   const employee = useEmployee()
 
   // State
-  const [currentLocation, setCurrentLocation] = useState<string>()
+  const [currentLocation, setCurrentLocation] = useState<LOCATION>(employee.employee.location)
   const [workplaces, setWorkplaces] = useState<WorkplaceType[]>([])
   const [isDesignMode, toggleDesignMode] = useState(false)
   const [dateRange, setDateRange] = useState({
@@ -92,7 +89,7 @@ export default function WorkspacePlanner() {
     getLocations,
     {
       onCompleted: dataLocations => {
-        setCurrentLocation(dataLocations.locations[0].id)
+        setCurrentLocation(dataLocations.locations[0])
       },
     },
   )
@@ -111,7 +108,7 @@ export default function WorkspacePlanner() {
    */
 
   const workspacePoolQueryVariables = {
-    input: { locationId: currentLocation || '' },
+    input: { location: currentLocation || LOCATION.SAINT_PETERSBURG },
     bookingsInput: { startDate: dateRange.startDate, finishDate: dateRange.finishDate },
   }
 
@@ -120,7 +117,7 @@ export default function WorkspacePlanner() {
   >(workspacePoolQuery, {
     variables: workspacePoolQueryVariables,
   })
-  const workspacePool = dataWorkspacePool?.workspacePool
+  const workspacePool = dataWorkspacePool
 
   /**
    *  GET WORKSPACE
@@ -144,7 +141,7 @@ export default function WorkspacePlanner() {
     },
   })
 
-  const workspace = dataWorkspace?.workspace
+  const workspace = workspacePool?.workspaces.length ? dataWorkspace?.workspace : undefined
   const bookingList = workspace?.workplaces
     .flatMap(workplace =>
       workplace.bookings?.map(booking => ({ workplaceId: workplace.id, ...booking })),
@@ -158,9 +155,7 @@ export default function WorkspacePlanner() {
       }
     })
   const bookedByMe = bookingList
-    ?.filter(
-      booking => booking.employeeEmail.toLowerCase() === employee.employee.email.toLowerCase(),
-    )
+    ?.filter(booking => booking.employeeId === employee.employee.id)
     .map(e => e.id)
 
   const workspaceQueryVariables = {
@@ -304,7 +299,7 @@ export default function WorkspacePlanner() {
               variables: {
                 input: {
                   date: dayjs(day).format('YYYY-MM-DD'),
-                  location: 'SAINT_PETERSBURG',
+                  location: LOCATION.SAINT_PETERSBURG,
                   bookOnly: true,
                 },
               },
@@ -319,7 +314,7 @@ export default function WorkspacePlanner() {
                   variables: {
                     input: {
                       date: dayjs(day2).format('YYYY-MM-DD'),
-                      location: 'SAINT_PETERSBURG',
+                      location: LOCATION.SAINT_PETERSBURG,
                       cancelOnly: true,
                     },
                   },
@@ -354,8 +349,7 @@ export default function WorkspacePlanner() {
       variables: {
         input: {
           workplace: workplaceId,
-          employee: employee.employee.strapiId,
-          employeeEmail: employee.employee.email,
+          // employee: employee.employee.id,
           startDate: dateRange.startDate,
           finishDate: dateRange.finishDate,
         },
@@ -386,7 +380,7 @@ export default function WorkspacePlanner() {
             variables: {
               input: {
                 date: dayjs(day).format('YYYY-MM-DD'),
-                location: 'SAINT_PETERSBURG',
+                location: LOCATION.SAINT_PETERSBURG,
                 cancelOnly: true,
               },
             },
@@ -489,85 +483,90 @@ export default function WorkspacePlanner() {
         type="card"
         activeKey={currentLocation}
         onChange={location => {
-          setCurrentLocation(location)
+          setCurrentLocation(location as LOCATION)
         }}
       >
-        {locations?.map(location => (
-          <Tabs.TabPane
-            key={location.id}
-            tab={location.name}
-            style={{ display: 'flex', flexDirection: 'column' }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px' }}>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <WorkspaceSelector
-                  isDesignMode={isDesignMode}
-                  pool={workspacePool}
-                  selectedWorkspace={selectedWorkspace}
-                  workspace={workspace}
-                  disabled={!workspacePool?.workspaces.length}
-                  onSelect={(id: string) => {
-                    setSelectedWorkspace(id)
-                    getWorkspace({ variables: { input: { id } } })
-                  }}
-                  onCreate={(value: any) =>
-                    createWorkspace({
-                      variables: { input: { workspace_pool: workspacePool?.id, ...value } },
-                    })
-                  }
-                  onDelete={(id: string) => deleteWorkspace({ variables: { input: { id } } })}
-                  onEdit={(value: any) =>
-                    updateWorkspace({
-                      variables: { input: { id: workspace?.id, ...value } },
-                    })
-                  }
-                  refetchGetWorkspace={refetchGetWorkspace}
-                />
-
-                {!isDesignMode && (
-                  <BookTools
-                    dateRange={dateRange}
-                    setDateRange={setDateRange}
+        {locations
+          ?.filter(i => i !== LOCATION.ZURICH)
+          .map(location => (
+            <Tabs.TabPane
+              key={location}
+              tab={getLocationName(location)}
+              style={{ display: 'flex', flexDirection: 'column' }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px' }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <WorkspaceSelector
+                    isDesignMode={isDesignMode}
+                    pool={workspacePool}
+                    selectedWorkspace={selectedWorkspace}
+                    workspace={workspace}
                     disabled={!workspacePool?.workspaces.length}
+                    onSelect={(id: string) => {
+                      setSelectedWorkspace(id)
+                      getWorkspace({ variables: { input: { id } } })
+                    }}
+                    onCreate={(value: any) =>
+                      createWorkspace({
+                        variables: { input: { ...value, location } },
+                      })
+                    }
+                    onDelete={(id: string) => deleteWorkspace({ variables: { input: { id } } })}
+                    onEdit={(value: any) =>
+                      updateWorkspace({
+                        variables: { input: { id: workspace?.id, ...value } },
+                      })
+                    }
+                    refetchGetWorkspace={refetchGetWorkspace}
+                  />
+
+                  {!isDesignMode && (
+                    <BookTools
+                      dateRange={dateRange}
+                      setDateRange={setDateRange}
+                      disabled={!workspacePool?.workspaces.length}
+                    />
+                  )}
+                </div>
+
+                {isDesignModeAccess && (
+                  <DesignModeSwitch
+                    isDesignMode={isDesignMode}
+                    toggleDesignMode={toggleDesignMode}
                   />
                 )}
               </div>
 
-              {isDesignModeAccess && (
-                <DesignModeSwitch isDesignMode={isDesignMode} toggleDesignMode={toggleDesignMode} />
+              {workspace && (
+                <Workspace
+                  isDesignMode={isDesignMode}
+                  isDateChosen={!!dateRange.startDate}
+                  isLoading={loading}
+                  isPastDateChosen={isPastDateChosen}
+                  isBookingListOpen={isBookingListOpen}
+                  selectedWorkplace={selectedWorkplace}
+                  dateRange={dateRange}
+                  workspace={workspace}
+                  workplaces={workplaces}
+                  bookings={bookingList}
+                  bookedByMe={bookedByMe}
+                  onSelect={(id: string) =>
+                    selectedWorkplace === id ? setSelectedWorkplace('') : setSelectedWorkplace(id)
+                  }
+                  onClone={addWorkplace}
+                  onDelete={(id: string) => deleteWorkplace({ variables: { input: { id } } })}
+                  onDrag={handleDrag}
+                  onStop={handleStopDrag}
+                  onBook={handleCreateWorkplaceBooking}
+                  onBookCancel={deleteWorkplaceBooking}
+                  isInfoForBooked={isInfoForBooked}
+                  setIsInfoForBooked={setIsInfoForBooked}
+                  setIsBookingListOpen={setIsBookingListOpen}
+                  updateWorkplace={updateWorkplace}
+                />
               )}
-            </div>
-
-            {workspace && (
-              <Workspace
-                isDesignMode={isDesignMode}
-                isDateChosen={!!dateRange.startDate}
-                isLoading={loading}
-                isPastDateChosen={isPastDateChosen}
-                isBookingListOpen={isBookingListOpen}
-                selectedWorkplace={selectedWorkplace}
-                dateRange={dateRange}
-                workspace={workspace}
-                workplaces={workplaces}
-                bookings={bookingList}
-                bookedByMe={bookedByMe}
-                onSelect={(id: string) =>
-                  selectedWorkplace === id ? setSelectedWorkplace('') : setSelectedWorkplace(id)
-                }
-                onClone={addWorkplace}
-                onDelete={(id: string) => deleteWorkplace({ variables: { input: { id } } })}
-                onDrag={handleDrag}
-                onStop={handleStopDrag}
-                onBook={handleCreateWorkplaceBooking}
-                onBookCancel={deleteWorkplaceBooking}
-                isInfoForBooked={isInfoForBooked}
-                setIsInfoForBooked={setIsInfoForBooked}
-                setIsBookingListOpen={setIsBookingListOpen}
-                updateWorkplace={updateWorkplace}
-              />
-            )}
-          </Tabs.TabPane>
-        ))}
+            </Tabs.TabPane>
+          ))}
       </Tabs>
     </PageContent>
   )

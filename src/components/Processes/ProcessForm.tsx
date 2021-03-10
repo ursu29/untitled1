@@ -4,12 +4,13 @@ import { Button, Col, Radio, Row, Select, Input } from 'antd'
 import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
 import React from 'react'
 import { Process } from '../../types'
+import { processList, getProcessName } from '../../utils/getProcessName'
 
 const CustomerSelect = React.forwardRef((props, ref) => (
   <Select {...props}>
-    <Select.Option value="internal">Internal</Select.Option>
-    <Select.Option value="swissre">Swissre</Select.Option>
-    <Select.Option value="allianz">Allianz</Select.Option>
+    <Select.Option value="INTERNAL">Internal</Select.Option>
+    <Select.Option value="SWISSRE">SwissRe</Select.Option>
+    <Select.Option value="ALLIANZ">Allianz</Select.Option>
   </Select>
 ))
 
@@ -57,9 +58,11 @@ function ProcessForm({ form, onSubmit, data, loading }: Props) {
             ],
           })(
             <Radio.Group>
-              <Radio value="onboarding">Onboarding</Radio>
-              <Radio value="offboarding">Offboarding</Radio>
-              <Radio value="rotation">Rotation</Radio>
+              {processList.map(process => (
+                <Radio key={process} value={process}>
+                  {getProcessName(process)}
+                </Radio>
+              ))}
             </Radio.Group>,
           )}
         </Form.Item>
@@ -74,7 +77,7 @@ function ProcessForm({ form, onSubmit, data, loading }: Props) {
             initialValue: data?.customer,
           })(<CustomerSelect />)}
         </Form.Item>
-        {getFieldValue('type') === 'rotation' && (
+        {getFieldValue('type') === 'ROTATION' && (
           <Form.Item label="Next Customer">
             {getFieldDecorator('nextCustomer', {
               rules: [

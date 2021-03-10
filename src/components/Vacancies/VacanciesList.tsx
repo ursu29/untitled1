@@ -6,6 +6,7 @@ import Rotate from './Rotate'
 import { getVacancyLink } from '../../paths'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import PageContent from '../UI/PageContent'
+import getLocationName from '../../utils/getLocationName'
 
 interface Props {
   items?: QueryType['vacancies']
@@ -65,18 +66,16 @@ function ProcessList({ items = [], history }: Props & RouteComponentProps) {
           dataIndex: '.location.name',
           title: 'Location',
           render: (_, i) => {
-            return <span>{i.locations?.map(i => i.name).join(', ') ?? '-'}</span>
+            return <span>{i.locations?.map(i => getLocationName(i)).join(', ') ?? '-'}</span>
           },
           filters: [
             //@ts-ignore
-            ...new Set(
-              items
-                .filter(e => e.locations)
-                .flatMap(item => item.locations.map(location => location.name)),
-            ),
-          ].map(e => ({ text: e, value: e })),
+            ...new Set(items.filter(e => e.locations).flatMap(item => item.locations)),
+          ].map(e => ({ text: getLocationName(e), value: e })),
           onFilter: (value: any, record: any) =>
-            record.locations && record.locations.map((e: any) => e.name).includes(value),
+            record.locations && record.locations.includes(value),
+          sorter: (a: any, b: any) =>
+            a.locations.sort().join('').localeCompare(b.locations.sort().join('')),
         },
         {
           key: 'actions',

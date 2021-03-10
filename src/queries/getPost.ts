@@ -10,23 +10,6 @@ export default gql`
       isTranslated
       createdAt
       locations
-      annotation
-      isPublic
-      titleImage {
-        id
-        url
-        fileName
-      }
-      backgroundImage {
-        id
-        url
-        fileName
-      }
-      foregroundImage {
-        id
-        url
-        fileName
-      }
       createdBy {
         id
         name
@@ -48,19 +31,7 @@ export default gql`
 
 type PostPick = Pick<
   Post,
-  | 'id'
-  | 'title'
-  | 'body'
-  | 'isTranslated'
-  | 'createdAt'
-  | 'locations'
-  | 'images'
-  | 'annotation'
-  | 'isPublic'
-  | 'titleImage'
-  | 'backgroundImage'
-  | 'foregroundImage'
-  | 'publishDate'
+  'id' | 'title' | 'body' | 'isTranslated' | 'createdAt' | 'locations' | 'images'
 > & {
   createdBy: Pick<Employee, 'id' | 'name' | 'email'>
   tags?: Pick<Tag, 'id' | 'name' | 'description'>[]

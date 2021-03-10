@@ -24,7 +24,7 @@ function ProjectManagers({ project, title, managers }: Props) {
   const scrumMasters = data?.project?.scrumMasters ?? []
   let agileManagers: EmployeePick[] = []
 
-  data?.project.employees.forEach(employee => {
+  data?.project?.employees.forEach(employee => {
     if (employee.agileManager) {
       agileManagers.push(employee.agileManager)
     }

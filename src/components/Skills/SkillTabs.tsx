@@ -1,16 +1,10 @@
+import { BookOutlined, ContainerOutlined, TeamOutlined } from '@ant-design/icons'
 import React from 'react'
-import {
-  TeamOutlined,
-  BookOutlined,
-  ContainerOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons'
 import { Skill } from '../../types'
 import Tabs from '../UI/Tabs'
 import SkillBookmarks from './SkillBookmarks'
-import SkillMentions from './SkillMentions'
 import SkillFiles from './SkillFiles'
-import Stream from '../Stream/StreamPage'
+import SkillMentions from './SkillMentions'
 
 interface Props {
   tab: string
@@ -30,12 +24,6 @@ export default function SkillTabs({ skill, tab = 'mentions' }: Props) {
       icon: <BookOutlined />,
       key: 'bookmarks',
       body: <SkillBookmarks skill={skill} />,
-    },
-    {
-      title: 'Streams',
-      icon: <VideoCameraOutlined />,
-      key: 'streams',
-      body: <Stream skills={[skill]} />,
     },
     {
       title: 'Files',

@@ -3,8 +3,8 @@ import fragments, { ProcessStepDetails } from '../fragments'
 import { Process } from '../types'
 
 export default gql`
-  query getProcesses($input: ProcessesInput) {
-    processes(input: $input) {
+  {
+    processes {
       id
       title
       customer

@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import { Typography, Row, Col, Button } from 'antd'
 
-import { Experience, Level, Skill } from '../../types'
+import { Experience, Skill, LEVEL } from '../../types'
 import Skeleton from '../UI/Skeleton'
 import PageContent from '../UI/PageContent'
 import BarChart from '../UI/BarChart'
@@ -17,19 +17,13 @@ import SkillStatistic from './SkillStatistic'
  */
 const query = gql`
   query getSkills($input: SkillsInput) {
-    levels {
-      id
-      name
-      index
-    }
+    levels
     skills(input: $input) {
       id
       name
       experiences {
         id
-        level {
-          id
-        }
+        level
       }
     }
   }
@@ -38,7 +32,6 @@ const query = gql`
 /**
  * Types definition
  */
-type LevelPick = Pick<Level, 'id' | 'name' | 'index'>
 
 type SkillPick = {
   id: Skill['id']
@@ -46,13 +39,13 @@ type SkillPick = {
   experiences: [
     {
       id: Experience['id']
-      level: Pick<Level, 'id'>
+      level: LEVEL
     },
   ]
 }
 
 type QueryType = {
-  levels: LevelPick[]
+  levels: LEVEL[]
   skills: SkillPick[]
 }
 
@@ -67,7 +60,7 @@ const getHighestSkills = (skills: QueryType['skills'], count: number, levelId?: 
     .map(skill => ({
       name: skill.name,
       rate: levelId
-        ? skill.experiences.filter(el => el.level.id === levelId).length
+        ? skill.experiences.filter(el => el.level === levelId).length
         : skill.experiences.length,
       link: getSkillLink(skill.id),
     }))
@@ -107,10 +100,10 @@ export default function StatisticsPage() {
 
   levels.forEach(level =>
     skillsByLevels.push({
-      id: level.id,
-      index: level.index,
-      name: level.name,
-      skills: getHighestSkills(skills, 5, level.id),
+      id: level,
+      index: Object.keys(LEVEL).indexOf(level),
+      name: level,
+      skills: getHighestSkills(skills, 5, level),
     }),
   )
 
@@ -165,7 +158,7 @@ export default function StatisticsPage() {
       setSkillChosenTitle('All')
     } else {
       setSkillChosen(getHighestSkills(skills, 1000, levelId))
-      setSkillChosenTitle(levels.find(level => level.id === levelId)?.name || '')
+      setSkillChosenTitle(levels.find(level => level === levelId) || '')
     }
 
     setIsSkillChosen(true)

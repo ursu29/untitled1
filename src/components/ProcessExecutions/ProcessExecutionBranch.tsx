@@ -54,7 +54,7 @@ export default function Branch({
     if (!parent) {
       status = 'active'
     } else {
-      if (executionStepParent?.isDone || step.isStrictActive || step.type === 'independent') {
+      if (executionStepParent?.isDone || step.isStrictActive || step.type === 'INDEPENDENT') {
         status = 'active'
       } else {
         status = 'pending'
@@ -62,7 +62,7 @@ export default function Branch({
     }
   }
 
-  if ((!active || (!step.isStrictActive && step.type !== 'independent')) && status !== 'done') {
+  if ((!active || (!step.isStrictActive && step.type !== 'INDEPENDENT')) && status !== 'done') {
     status = 'pending'
   }
 
@@ -84,14 +84,14 @@ export default function Branch({
               status={status}
               employees={step.responsibleUsers}
             >
-              {step.type === 'notify' && (
+              {step.type === 'NOTIFY' && (
                 <div>
                   <Tooltip placement="bottom" title="The step will be completed in the background">
                     <Tag color="blue">Automatic</Tag>
                   </Tooltip>
                 </div>
               )}
-              {step.type === 'independent' && (
+              {step.type === 'INDEPENDENT' && (
                 <div>
                   <Tooltip placement="bottom" title="Can be completed at any time">
                     <Tag color="magenta">Independent</Tag>
@@ -111,12 +111,12 @@ export default function Branch({
                   />
                 </Form.Item>
               )}
-              {status === 'active' && (step.type === 'approve' || step.type === 'independent') && (
+              {status === 'active' && (step.type === 'APPROVE' || step.type === 'INDEPENDENT') && (
                 <Controls>
                   <Tooltip
                     placement="bottom"
                     title={
-                      step.type === 'independent' && !isIndependentStepsActive
+                      step.type === 'INDEPENDENT' && !isIndependentStepsActive
                         ? 'Fill in the fields date and employee'
                         : ''
                     }
@@ -124,9 +124,9 @@ export default function Branch({
                     <Button
                       type="primary"
                       disabled={
-                        !step.responsibleUsers?.find(i => i.isMe) ||
+                        !step.responsibleUsers?.find(i => i?.isMe) ||
                         !isProcessRunning ||
-                        (step.type === 'independent' && !isIndependentStepsActive)
+                        (step.type === 'INDEPENDENT' && !isIndependentStepsActive)
                       }
                       onClick={() => onComplete(step)}
                       size="small"

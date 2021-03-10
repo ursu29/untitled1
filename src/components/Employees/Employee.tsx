@@ -13,6 +13,7 @@ import Avatar from '../Avatar'
 import EmployeeManager from './EmployeeManager'
 import EmployeeProjects from './EmployeeProjects'
 import UpdateEmployee from './UpdateEmployee'
+import getLocationName from '../../utils/getLocationName'
 
 const { Text, Title } = Typography
 
@@ -39,7 +40,7 @@ export default function ({ employee }: Props) {
     <>
       <Text data-cy="email">{employee.email}</Text>
       <Text data-cy="phone">{employee.phoneNumber}</Text>
-      {employee.isMe && employee.bonuses ? (
+      {employee?.isMe && employee.bonuses ? (
         <Text data-cy="bonuses">Bonus: {employee.bonuses} ₽</Text>
       ) : null}
     </>
@@ -60,7 +61,7 @@ export default function ({ employee }: Props) {
                   {employee.name}
                   <UpdateEmployee employee={employee} />
                 </Title>
-                {employee.isMe && !mobile && (
+                {employee?.isMe && !mobile && (
                   <Link to={PATHS.TIMEMASTER} data-cy="timemaster">
                     <Button>Timemaster</Button>
                   </Link>
@@ -70,7 +71,7 @@ export default function ({ employee }: Props) {
             description={
               <Description>
                 <Text data-cy="position">{employee.position}</Text>
-                <Text data-cy="location">{employee.location}</Text>
+                <Text data-cy="location">{getLocationName(employee.location)}</Text>
                 {!mobile && employeeDetails}
               </Description>
             }
@@ -131,7 +132,7 @@ export default function ({ employee }: Props) {
         </div>
       </Col>
       <Col md={24} lg={10}>
-        <EmployeeManager employee={employee.agileManager} isMe={employee.isMe} />
+        <EmployeeManager employee={employee.agileManager} isMe={employee?.isMe} />
         <EmployeeProjects employee={employee} />
       </Col>
     </Row>

@@ -4,7 +4,6 @@ import React, { useEffect, useState, useRef } from 'react'
 import { useAccessToken } from '../utils/useToken'
 import { Employee } from '../types'
 import { UserOutlined } from '@ant-design/icons'
-import { AvatarHat } from './UI/AvatarHat'
 
 const options = {
   root: null,
@@ -28,15 +27,19 @@ export default function ({ size, shape, employee, showTooltip, highResolution, w
   const resolution = highResolution ? 'high' : 'low'
   const storedAvatar = avatars[resolution]?.[employee?.email]
   const { token } = useAccessToken()
-  const [src, setSrc] = useState<any>(storedAvatar)
+  const [src, setSrc] = useState<string>(storedAvatar)
   const [showPlaceholder, setShowPlaceholder] = useState(false)
 
-  const node: any = useRef(null)
-  const observer: any = useRef(null)
+  const node = useRef<HTMLElement>(null)
+  const observer = useRef<IntersectionObserver>()
 
   useEffect(() => {
     if (!token) return
-    if (storedAvatar) return
+    if (storedAvatar) {
+      // fix for cases when email was changed
+      setSrc(storedAvatar)
+      return
+    }
 
     // The supported sizes of HD photos on Microsoft 365 are as follows:
     // 48x48, 64x64, 96x96, 120x120, 240x240, 360x360, 432x432, 504x504, and 648x648
@@ -88,23 +91,20 @@ export default function ({ size, shape, employee, showTooltip, highResolution, w
     if (node.current) observer.current?.observe(node.current)
 
     return () => {
-      observer.current.disconnect()
+      observer.current?.disconnect()
     }
-    //eslint-disable-next-line
-  }, [token, resolution, employee, node, setSrc])
+  }, [token, resolution, employee, storedAvatar])
 
   const avatar = (
-    <AvatarHat withHat={withHat}>
-      <Avatar
-        ref={node}
-        data-cy="avatar"
-        src={src}
-        size={size}
-        shape={shape}
-        alt={`${employee?.name}'s avatar`}
-        icon={showPlaceholder && <UserOutlined />}
-      />
-    </AvatarHat>
+    <Avatar
+      ref={node}
+      data-cy="avatar"
+      src={src}
+      size={size}
+      shape={shape}
+      alt={`${employee?.name}'s avatar`}
+      icon={showPlaceholder && <UserOutlined />}
+    />
   )
 
   if (showTooltip) {

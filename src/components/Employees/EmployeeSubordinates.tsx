@@ -97,7 +97,7 @@ export default function EmployeeSubordinates({ employee }: Props) {
               {/* TODO: it is not the best solution to use this component there. 
               as it was not the best to use Avatar component with name inside it (previous version)
               suggestion: customize EmployeeCard to fit one line (small version) */}
-              <BookingEmployee employeeEmail={record.email} />
+              <BookingEmployee employeeId={record.id} />
             </Link>
           </div>
         )
@@ -128,9 +128,7 @@ export default function EmployeeSubordinates({ employee }: Props) {
         .map(e => ({ text: e, value: e })),
       onFilter: (value: any, record: any) =>
         record.projects.map((e: any) => e.name).includes(value),
-      render: (_: any, record: Subordinate) => (
-        <ProjectTagList small projects={record.projects} leadingProjects={record.leadingProjects} />
-      ),
+      render: (_: any, record: Subordinate) => <ProjectTagList small projects={record.projects} />,
       sorter: (a: any, b: any) =>
         a.projects
           .map((e: any) => e.name)

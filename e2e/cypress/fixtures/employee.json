@@ -1,0 +1,5 @@
+{
+  "operationName": null,
+  "variables": {},
+  "query": "{projects{name employees {projects {name}}}}"
+}

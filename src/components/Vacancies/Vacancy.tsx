@@ -9,6 +9,7 @@ import Skeleton from '../UI/Skeleton'
 import message from '../../message'
 import { Typography, Tag } from 'antd'
 import markdownToHtml from '../../utils/markdownToHtml'
+import getLocationName from '../../utils/getLocationName'
 
 function Vacancy({
   id,
@@ -67,6 +68,7 @@ function Vacancy({
       employeeExperience,
       englishLevel,
       stack,
+      description,
     }: any) => {
       update({
         variables: {
@@ -82,6 +84,7 @@ function Vacancy({
             employeeExperience,
             englishLevel,
             stack,
+            description,
           },
         },
         update: callback,
@@ -113,7 +116,7 @@ function Vacancy({
               onPublish={handlePublish}
             />
           ) : (
-            <div>
+            <div data-cy="vacancy">
               {vacancy.isClosed && (
                 <div style={{ margin: '-4px 0 10px 0' }}>
                   <Tag color="red">Vacancy is closed</Tag>
@@ -128,7 +131,9 @@ function Vacancy({
               </p>
               <p>
                 <Typography.Title level={4}>Location</Typography.Title>
-                <Typography.Text>{vacancy?.locations?.map(i => i.name).join(', ')}</Typography.Text>
+                <Typography.Text>
+                  {vacancy?.locations?.map(i => getLocationName(i)).join(', ')}
+                </Typography.Text>
               </p>
               {vacancy.englishLevel && (
                 <p>

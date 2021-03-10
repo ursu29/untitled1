@@ -9,13 +9,13 @@ import {
 import message from '../../message'
 
 export default function ArchiveMatrix({
-  employeeAzureId,
+  employee,
   matrixId,
   onSelectVersion,
   createSnapshotShown,
   employeeMatrixId,
 }: {
-  employeeAzureId: string
+  employee: string
   matrixId: string
   onSelectVersion: Function
   createSnapshotShown?: boolean
@@ -23,7 +23,7 @@ export default function ArchiveMatrix({
 }) {
   const variables = {
     input: {
-      employeeAzureId,
+      employee,
       matrixId,
     },
   }

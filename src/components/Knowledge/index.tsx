@@ -1,12 +1,11 @@
-import React from 'react'
+import { BookOutlined, ContainerOutlined } from '@ant-design/icons'
 import { Typography } from 'antd'
+import React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import PageContent from '../UI/PageContent'
-import Tabs from '../UI/Tabs'
 import Bookmarks from '../Bookmarks/BookmarksPage'
 import Files from '../Files/FilesPage'
-import Stream from '../Stream/StreamPage'
-import { BookOutlined, ContainerOutlined, VideoCameraOutlined } from '@ant-design/icons'
+import PageContent from '../UI/PageContent'
+import Tabs from '../UI/Tabs'
 
 const tabs = [
   {
@@ -14,12 +13,6 @@ const tabs = [
     icon: <BookOutlined />,
     key: 'bookmarks',
     body: <Bookmarks />,
-  },
-  {
-    title: 'Streams',
-    icon: <VideoCameraOutlined />,
-    key: 'streams',
-    body: <Stream />,
   },
   {
     title: 'Files',

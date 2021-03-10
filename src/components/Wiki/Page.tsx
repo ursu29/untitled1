@@ -14,9 +14,8 @@ export default function Page() {
   const location = useLocation()
   const variables = { input: { path: location.pathname } }
 
-  const writeAccess = useStrapiGroupCheck(
-    location.pathname.startsWith('/guilds-info') ? 'TECH_PORTAL' : 'WIKI_EDITORS',
-  )
+  const writeWikiPageAccess = useStrapiGroupCheck('WIKI_EDITORS')
+  const writeAccess = location.pathname.startsWith('/guilds-info') ? true : writeWikiPageAccess
 
   // Get page
   const { data, loading, error } = useQuery<WikiPageQueryType>(getWikiPage, {

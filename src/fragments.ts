@@ -4,11 +4,11 @@ import {
   Experience,
   ProcessStep,
   Vacancy,
-  Level,
   Skill,
-  Location,
   Project,
   Process,
+  LEVEL,
+  LOCATION,
 } from './types'
 
 const fragments = {
@@ -40,11 +40,7 @@ const fragments = {
     Details: gql`
       fragment ExperienceDetails on Experience {
         id
-        level {
-          id
-          index
-          name
-        }
+        level
         skill {
           id
           name
@@ -77,9 +73,7 @@ const fragments = {
         responsibilities
         requiredSkills
         additionalSkills
-        locations {
-          id
-        }
+        locations
         project {
           id
         }
@@ -151,7 +145,7 @@ export type EmployeeDetails = Pick<
 export type ProjectDetails = Pick<Project, 'id' | 'name' | 'code' | 'description'>
 
 export type ExperienceDetails = Pick<Experience, 'id' | 'updatedAt' | 'comment'> & {
-  level: Pick<Level, 'id' | 'index' | 'name'>
+  level: LEVEL
   skill: Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'>
 }
 
@@ -160,7 +154,7 @@ export type SkillDetails = Pick<Skill, 'id' | 'name' | 'description' | 'isMatrix
 }
 
 export type VacancyDetails = Exclude<Vacancy, 'locations' | 'project'> & {
-  locations: Pick<Location, 'id'>
+  locations: LOCATION[]
   project: Pick<Project, 'id'>
 }
 

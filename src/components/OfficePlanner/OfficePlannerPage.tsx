@@ -5,9 +5,10 @@ import dayjs from 'dayjs'
 import gql from 'graphql-tag'
 import React, { useEffect, useState } from 'react'
 import message from '../../message'
-import { Access, Employee, Location, OfficeDay } from '../../types'
+import { Access, Employee, OfficeDay, LOCATION } from '../../types'
 import PageContent from '../UI/PageContent'
 import './OfficePlannerPage.css'
+import getLocationName from '../../utils/getLocationName'
 
 const weekday = require('dayjs/plugin/weekday')
 dayjs.extend(weekday)
@@ -22,7 +23,6 @@ const query = gql`
       email
       location
       isMe
-      worksFromOffice
     }
     officeAccess {
       read
@@ -42,9 +42,9 @@ const getOfficeDays = gql`
       date
       employeeLimit
       employeeCount
-      location {
+      location
+      employees {
         id
-        code
       }
     }
   }
@@ -64,19 +64,16 @@ const updateOfficeDayMutation = gql`
   }
 `
 
-type EmployeePick = Pick<
-  Employee,
-  'id' | 'name' | 'email' | 'location' | 'isMe' | 'worksFromOffice'
->
+type EmployeePick = Pick<Employee, 'id' | 'name' | 'email' | 'location' | 'isMe'>
 type OfficeDayPick = Pick<OfficeDay, 'id' | 'date' | 'employeeLimit' | 'employeeCount'> & {
-  location: Pick<Location, 'id' | 'code'>
+  location: LOCATION
+  employees: Pick<Employee, 'id'>[]
 }
 
 const LOCATIONS = [
-  { key: 'SAINT_PETERSBURG', title: 'Saint Petersburg' },
-  { key: 'TOMSK', title: 'Tomsk' },
-  { key: 'KALININGRAD', title: 'Kaliningrad' },
-  { key: 'ZURICH', title: 'Zürich' },
+  { key: LOCATION.SAINT_PETERSBURG, title: getLocationName(LOCATION.SAINT_PETERSBURG) },
+  { key: LOCATION.TOMSK, title: getLocationName(LOCATION.TOMSK) },
+  { key: LOCATION.KALININGRAD, title: getLocationName(LOCATION.KALININGRAD) },
 ]
 
 const LimitInput = ({
@@ -119,7 +116,7 @@ function OfficePlannerPage() {
   //@ts-ignore
   const thisMonday = dayjs().weekday(1)
   const [firstDate, setFirstDate] = useState(thisMonday)
-  const [currentLocation, setCurrentLocation] = useState('SAINT_PETERSBURG')
+  const [currentLocation, setCurrentLocation] = useState(LOCATION.SAINT_PETERSBURG)
 
   const employeesQuery = useQuery<{
     employees: EmployeePick[]
@@ -177,26 +174,24 @@ function OfficePlannerPage() {
   const datesFormatted = dates.map(i => dayjs(i).format('YYYY-MM-DD'))
 
   const allEmployees = employeesQuery.data?.employees || []
-  const me = allEmployees.find(i => i.isMe)
+  const me = allEmployees.find(i => i?.isMe)
+
+  const officeDays = daysQuery.data?.officeDays.filter(i => i.location === currentLocation) ?? []
 
   //sort me first
   const employees = (me ? [me] : []).concat(
     allEmployees
-      .filter(i => !i.isMe)
-      .filter(i => i.worksFromOffice.some(day => datesFormatted.includes(day))),
+      .filter(i => !i?.isMe)
+      .filter(i =>
+        officeDays.some(
+          day => datesFormatted.includes(day.date) && day.employees.find(e => e.id === i.id),
+        ),
+      ),
   )
 
   useEffect(() => {
     if (myLocation) {
-      if (myLocation === 'Tomsk') {
-        setCurrentLocation('TOMSK')
-      }
-      if (myLocation === 'Zurich') {
-        setCurrentLocation('ZURICH')
-      }
-      if (myLocation === 'Kaliningrad') {
-        setCurrentLocation('KALININGRAD')
-      }
+      setCurrentLocation(myLocation)
     }
   }, [myLocation])
 
@@ -211,7 +206,7 @@ function OfficePlannerPage() {
       key: 'name',
       width: 200,
       render: (name: string, employee: EmployeePick) => {
-        if (employee.isMe) return 'You'
+        if (employee?.isMe) return 'You'
         return name
       },
     },
@@ -221,7 +216,7 @@ function OfficePlannerPage() {
         title: () => {
           const formattedDate = dayjs(date).format('YYYY-MM-DD')
           const officeDay = daysQuery.data?.officeDays.find(
-            i => i.date === formattedDate && i.location.code.toUpperCase() === currentLocation,
+            i => i.date === formattedDate && i.location === currentLocation,
           )
           const employeeLimit = officeDay?.employeeLimit || 15
           const employeeMaxCount = Math.ceil((allEmployees.length * employeeLimit) / 100)
@@ -261,8 +256,12 @@ function OfficePlannerPage() {
           const pastDay = dayjs(date).isBefore(dayjs().format('YYYY-MM-DD'))
           return (
             <Switch
-              disabled={!employee.isMe || pastDay}
-              checked={employee.worksFromOffice.includes(formattedDate)}
+              disabled={!employee?.isMe || pastDay}
+              checked={Boolean(
+                officeDays.find(
+                  i => i.employees.map(i => i.id).includes(employee.id) && i.date === formattedDate,
+                ),
+              )}
               onChange={() => {
                 apply({ variables: { input: { date: formattedDate, location: currentLocation } } })
               }}
@@ -284,7 +283,7 @@ function OfficePlannerPage() {
         type="card"
         activeKey={currentLocation}
         onChange={location => {
-          setCurrentLocation(location)
+          setCurrentLocation(location as LOCATION)
         }}
       >
         {LOCATIONS.map(i => {
@@ -343,7 +342,7 @@ function OfficePlannerPage() {
                 dataSource={employees}
                 columns={columns}
                 pagination={false}
-                rowClassName={record => (record.isMe ? 'office-planner-active' : '')}
+                rowClassName={record => (record?.isMe ? 'office-planner-active' : '')}
               />
             </Tabs.TabPane>
           )

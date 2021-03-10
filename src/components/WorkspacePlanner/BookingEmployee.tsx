@@ -5,30 +5,31 @@ import { useQuery } from '@apollo/react-hooks'
 import Avatar from '../Avatar'
 
 interface Props {
-  employeeEmail: string
+  employeeId: string
 }
 
 const query = gql`
-  query getEmployeeName($email: String!) {
-    employeeByEmail(email: $email) {
+  query getEmployeeName($id: ID!) {
+    employee(id: $id) {
       id
       name
+      email
     }
   }
 `
 
 type QueryType = {
-  employeeByEmail: Pick<Employee, 'id' | 'name'>
+  employee: Pick<Employee, 'id' | 'name' | 'email'>
 }
 
-export default function BookingEmployee({ employeeEmail: email }: Props) {
-  const { data, loading, error } = useQuery<QueryType>(query, { variables: { email } })
+export default function BookingEmployee({ employeeId: id }: Props) {
+  const { data, loading, error } = useQuery<QueryType>(query, { variables: { id } })
 
   if (!data) return null
   if (loading) return <div>Loading...</div>
   if (error) return <div>Error :(</div>
 
-  const employee = data.employeeByEmail
+  const employee = data.employee
 
   return (
     <div
@@ -38,7 +39,7 @@ export default function BookingEmployee({ employeeEmail: email }: Props) {
         width: 'max-content',
       }}
     >
-      <Avatar employee={{ email, name: employee?.name }} size="default" />
+      <Avatar employee={{ email: employee?.email, name: employee?.name }} size="default" />
       <div style={{ padding: '10px' }}>{employee?.name || '(undefined)'}</div>
     </div>
   )

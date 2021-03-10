@@ -1,14 +1,11 @@
 import gql from 'graphql-tag'
-import { WorkspaceType, WorkspacePoolType } from '../types'
+import { WorkspaceType } from '../types'
 
 export const workspacePoolQuery = gql`
-  query workspacePoolQuery($input: GetWorkspacePoolInput) {
-    workspacePool(input: $input) {
+  query workspacePoolQuery($input: WorkspacesInput) {
+    workspaces(input: $input) {
       id
-      workspaces {
-        id
-        name
-      }
+      name
     }
   }
 `
@@ -25,7 +22,7 @@ export const workspaceQuery = gql`
         number
         bookings(input: $bookingsInput) {
           id
-          employeeEmail
+          employeeId
           startDate
           finishDate
         }
@@ -125,7 +122,7 @@ export type WorkspaceQueryType = {
 }
 
 export type WorkspacePoolQueryType = {
-  workspacePool: WorkspacePoolType
+  workspaces: WorkspaceType[]
 }
 
 export type workspaceDesignAccessQueryType = {

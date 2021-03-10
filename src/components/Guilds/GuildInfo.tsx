@@ -53,7 +53,7 @@ function GuildInfo({ guild }: Props) {
         </LeftBlock>
         <RightBlock singleColumn={singleColumn}>
           <ProjectManagers
-            project={{ id: guild.azureId }}
+            project={{ id: guild.id }}
             title="Guild Leads"
             managers={guild.leaders}
           />

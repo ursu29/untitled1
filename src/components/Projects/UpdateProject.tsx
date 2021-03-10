@@ -29,9 +29,7 @@ function UpdateProject({ project }: { project: Partial<Project> }) {
     awaitRefetchQueries: true,
     onError: message.error,
   })
-
   if (!data?.project?.accessEditGlobal) return null
-
   return (
     <Drawer
       toggler={<Button size="small" icon={<EditOutlined />} type="link"></Button>}
@@ -40,7 +38,7 @@ function UpdateProject({ project }: { project: Partial<Project> }) {
         <ProjectForm
           loading={loading}
           item={project}
-          onSubmit={async (project: any, onDone: any) => {
+          onSubmit={async (project: Partial<Project>, onDone: any) => {
             update({
               variables: {
                 input: {

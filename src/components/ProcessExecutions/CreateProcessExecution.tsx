@@ -32,6 +32,7 @@ function CreateProcessExecution() {
     onCompleted: () => {
       message.success('New process is added')
     },
+    onError: message.error,
   })
 
   useEffect(() => {

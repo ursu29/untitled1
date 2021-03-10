@@ -11,6 +11,7 @@ import getProcessExecution, { QueryType } from '../../queries/getProcessExecutio
 import getProcessExecutions from '../../queries/getProcessExecutions'
 import isForbidden from '../../utils/isForbidden'
 import { useEmployee } from '../../utils/withEmployee'
+import { getProcessName } from '../../utils/getProcessName'
 import NotAllowed from '../UI/NotAllowed'
 import PageContent from '../UI/PageContent'
 import Skeleton from '../UI/Skeleton'
@@ -122,15 +123,14 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
       )
 
       // If parent step in first iteration is not independent and not complete - current must be non active
-      if (isFirstIteration && stepCurrent?.type !== 'independent' && !executionStep?.isDone)
+      if (isFirstIteration && stepCurrent?.type !== 'INDEPENDENT' && !executionStep?.isDone)
         return false
       // If parent step is not independent and already done - current must be active
-      if (stepCurrent?.type !== 'independent' && executionStep?.isDone) return true
+      if (stepCurrent?.type !== 'INDEPENDENT' && executionStep?.isDone) return true
       // If parent step is independent and is the very first - current must be active
-      if (stepCurrent?.type === 'independent' && !stepCurrent.parentSteps?.length) return true
+      if (stepCurrent?.type === 'INDEPENDENT' && !stepCurrent.parentSteps?.length) return true
       // If parent step is not independent and not done - current must be active - current must be non active
-      if (stepCurrent?.type !== 'independent' && !executionStep?.isDone) return false
-      // If parent step is not independent and is the very first and not complete -  current must be non active
+      if (stepCurrent?.type !== 'INDEPENDENT' && !executionStep?.isDone) return false // If parent step is not independent and is the very first and not complete -  current must be non active
       if (!stepCurrent?.parentSteps?.length) return false
 
       // Recursion on parent
@@ -145,14 +145,14 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
       <PageContent noBottom>
         <PageHeader
           title={processExecution.process.title}
-          subTitle={processExecution.process.type}
+          subTitle={getProcessName(processExecution.process.type)}
           // onBack={() => window.history.back()}
           tags={<ProcessExecutionStatusTag processExecution={processExecution} />}
           style={{ padding: 0 }}
           extra={[
             <AbortProcessExecution id={processExecution?.id} key={processExecution?.id}>
               {(abort: any) => {
-                if (processExecution.status !== 'running') return null
+                if (processExecution.status !== 'RUNNING') return null
                 return (
                   <Popconfirm
                     placement="top"
@@ -173,7 +173,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
               key={processExecution?.id + '_onHold'}
             >
               {(onHold: any) => {
-                if (processExecution.status !== 'running' && processExecution.status !== 'holding')
+                if (processExecution.status !== 'RUNNING' && processExecution.status !== 'HOLDING')
                   return null
                 return (
                   <Popconfirm
@@ -185,7 +185,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                   >
                     <span>
                       <Button>
-                        {processExecution.status === 'holding' ? 'Resume' : 'On hold'}
+                        {processExecution.status === 'HOLDING' ? 'Resume' : 'On hold'}
                       </Button>
                     </span>
                   </Popconfirm>
@@ -193,9 +193,9 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
               }}
             </OnHoldProcessExecution>,
           ]}
-        ></PageHeader>
+        />
       </PageContent>
-      {processExecution.process.type === 'onboarding' && (
+      {processExecution.process.type === 'ONBOARDING' && (
         <>
           <PageContent noBottom noTop>
             {/* <Typography.Title style={{ display: 'flex', alignItems: 'center' }}>
@@ -217,7 +217,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                   { query: getProcessExecutions },
                 ]}
                 editable={
-                  processExecution.vacancy.editable && processExecution.status !== 'holding'
+                  processExecution.vacancy.editable && processExecution.status !== 'HOLDING'
                 }
               />
             </ActiveStepCard>
@@ -228,11 +228,15 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
       <AdditionalInfo
         processId={processExecution.id}
         employee={processExecution.employee}
+        employeeRef={processExecution.employeeRef.id}
         finishDate={processExecution.finishDate}
         employeePhone={processExecution.employeePhone}
+        swissReOffboardingDate={processExecution.swissReOffboardingDate}
         refetchQueries={[
           { query: getProcessExecution, variables: { input: { id: match.params.id } } },
         ]}
+        isNotOnboarding={['OFFBOARDING', 'ROTATION'].includes(processExecution.process.type)}
+        isSwissRe={processExecution.process.customer === 'SWISSRE'}
       />
       <div style={{ overflow: 'auto', width: '100%', height: '100%' }}>
         <PageContent noTop>
@@ -248,7 +252,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                     return true
                   })}
                   active={
-                    processExecution.process.type === 'onboarding'
+                    processExecution.process.type === 'ONBOARDING'
                       ? processExecution.vacancy.isPublished
                       : true
                   }
@@ -269,7 +273,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                       },
                     })
                   }}
-                  isProcessRunning={processExecution.status === 'running'}
+                  isProcessRunning={processExecution.status === 'RUNNING'}
                   isIndependentStepsActive={processExecution.isIndependentStepsActive}
                 />
                 {index < branches.length - 1 && <Divider />}

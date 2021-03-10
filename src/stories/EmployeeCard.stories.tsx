@@ -4,6 +4,7 @@ import { Story, Meta } from '@storybook/react/types-6-0'
 import 'antd/dist/antd.css'
 
 import EmployeeCard, { Props } from '../components/Employees/EmployeeCard.new'
+import { LOCATION } from '../types'
 
 export default {
   title: 'Example/Employee Card',
@@ -20,7 +21,7 @@ const employee = {
   phoneNumber: '+70009099900',
   name: 'Ken Miles',
   position: 'Frontend developer',
-  location: 'Los Angeles',
+  location: LOCATION.SAINT_PETERSBURG,
   country: 'USA',
   startDate: '10.08.2020',
   birthday: '01.10',

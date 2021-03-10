@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
-import getProcesses, { QueryType } from '../../queries/getProcesses'
+import getProcess, { QueryType } from '../../queries/getProcess'
 import { Access } from '../../types'
 import PageContent from '../UI/PageContent'
 import Skeleton from '../UI/Skeleton'
@@ -33,15 +33,13 @@ const mutation = gql`
 
 function ProcessPage({ match }: RouteComponentProps<{ id: string }>) {
   const id = match.params.id
-  const { data, loading: dataLoading, error } = useQuery<QueryType>(getProcesses, {
-    variables: {
-      input: { id },
-    },
+  const { data, loading: dataLoading, error } = useQuery<QueryType>(getProcess, {
+    variables: { id },
   })
   const { data: access, loading: accessLoading } = useQuery<AccessQueryType>(accessQuery)
 
   const [create] = useMutation(mutation, {
-    refetchQueries: [{ query: getProcesses, variables: { input: { id } } }],
+    refetchQueries: [{ query: getProcess, variables: { id } }],
   })
 
   if (isForbidden(error) || (access && !access.processesAccess.write)) {
@@ -54,7 +52,7 @@ function ProcessPage({ match }: RouteComponentProps<{ id: string }>) {
 
   const loading = dataLoading || accessLoading
 
-  const process = data?.processes[0]
+  const process = data?.process
 
   const branches = process?.steps.filter(i => !i.parentSteps?.length)
 

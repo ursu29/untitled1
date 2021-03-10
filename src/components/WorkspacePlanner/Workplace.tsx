@@ -219,12 +219,13 @@ export default function Workplace({
       <Space direction="vertical">
         {bookings?.map((booking, i) => (
           <div
+            key={booking.id}
             style={{
               paddingTop: i !== 0 ? '8px' : '',
               borderTop: i !== 0 ? '1px solid #ffbd7069' : '',
             }}
           >
-            <BookingEmployee employeeEmail={booking.employeeEmail} />
+            <BookingEmployee employeeId={booking.employeeId} />
             <div style={{ marginLeft: '40px', whiteSpace: 'pre-line' }}>
               {booking.startDate === booking.finishDate ? (
                 InfoDateField('for', booking.startDate)
@@ -235,7 +236,7 @@ export default function Workplace({
                 </div>
               )}
             </div>
-            {booking.employeeEmail.toLowerCase() === employee.employee.email.toLowerCase() &&
+            {booking.employeeId === employee.employee.id &&
               dayjs().isSameOrBefore(dayjs(booking.finishDate), 'day') && (
                 <div style={{ width: '100%', paddingLeft: '40px', paddingRight: '10px' }}>
                   <Popconfirm

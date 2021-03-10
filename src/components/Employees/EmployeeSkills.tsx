@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Employee } from '../../types'
+import { Employee, LEVEL } from '../../types'
 import query, { QueryType } from '../../queries/getEmployeeExperiences'
 import getLevels, { QueryType as LQueryType } from '../../queries/getLevels'
 import Skeleton from '../UI/Skeleton'
@@ -19,11 +19,12 @@ const updateExperiences = gql`
 `
 
 interface Props {
-  editable: boolean
+  editable?: boolean
+  showTabs?: boolean
   employee?: Pick<Employee, 'id'>
 }
 
-export default function EmployeeSkills({ employee, editable }: Props) {
+export default function EmployeeSkills({ employee, editable = false, showTabs = false }: Props) {
   const id = employee?.id
 
   const { loading, data } = useQuery<QueryType>(query, {
@@ -50,10 +51,9 @@ export default function EmployeeSkills({ employee, editable }: Props) {
   if (!employee) return null
 
   const experiences = data?.employees?.[0].experiences
-  const levels = lData?.levels
-  const levelIds = levels?.filter(level => level.index <= 1).map(level => level.id)
-  const skills = experiences?.filter(exp => levelIds?.includes(exp.level?.id)).map(exp => exp.skill)
-  const showTabs = editable && Boolean(skills?.length)
+  const levels = lData?.levels ? Object.assign([], lData.levels).reverse() : ([] as LEVEL[])
+  const levelIds = levels?.filter(level => level <= LEVEL.LEARNING)
+  const skills = experiences?.filter(exp => levelIds?.includes(exp.level)).map(exp => exp.skill)
 
   return (
     <Skeleton loading={loading || lLoading} active>
@@ -61,7 +61,7 @@ export default function EmployeeSkills({ employee, editable }: Props) {
         <div data-cy="allSkills">
           <EmployeeSkillsDraggable
             editable={editable}
-            levels={levels.sort((one, two) => (one.index < two.index ? 1 : -1))}
+            levels={levels}
             experiences={experiences.filter(e => !e.skill?.isMatrixOnly)}
             onMoveSkill={(id, level) => updateOne({ variables: { input: { id, level } } })}
             onGroupUpdate={(skills, level) => {
@@ -72,7 +72,7 @@ export default function EmployeeSkills({ employee, editable }: Props) {
           />
         </div>
       )}
-      {showTabs && <EmployeeRecommendations skills={skills} />}
+      {showTabs && Boolean(skills?.length) && <EmployeeRecommendations skills={skills} />}
     </Skeleton>
   )
 }

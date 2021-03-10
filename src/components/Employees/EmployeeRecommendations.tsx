@@ -1,10 +1,9 @@
+import { BookOutlined, ContainerOutlined } from '@ant-design/icons'
 import React from 'react'
-import { useParams, useHistory } from 'react-router-dom'
-import { BookOutlined, VideoCameraOutlined, ContainerOutlined } from '@ant-design/icons'
-import { Skill } from '../../types'
+import { useHistory, useParams } from 'react-router-dom'
 import paths from '../../paths'
+import { Skill } from '../../types'
 import Tabs from '../UI/Tabs'
-import Stream from '../Stream/StreamPage'
 import EmployeeRecommendationBookmarks from './EmployeeRecommendationBookmarks'
 import EmployeeRecommendationFiles from './EmployeeRecommendationFiles'
 
@@ -16,9 +15,9 @@ interface Props {
 
 const EmployeeRecommendations = ({ skills }: Props) => {
   const history = useHistory()
-  const { tab, subTab } = useParams<{ tab: string; subTab: string }>()
+  const { subTab } = useParams<{ subTab: string }>()
   const handleTabChange = (nextTab: string) => {
-    history.push(`${paths.PROFILE}/${tab}/${nextTab}`)
+    history.push(`${paths.PROFILE}/skills/${nextTab}`)
   }
 
   const tabs = [
@@ -27,12 +26,6 @@ const EmployeeRecommendations = ({ skills }: Props) => {
       icon: <BookOutlined />,
       key: 'bookmarks',
       body: <EmployeeRecommendationBookmarks skills={skills} />,
-    },
-    {
-      title: 'Streams',
-      icon: <VideoCameraOutlined />,
-      key: 'streams',
-      body: <Stream skills={skills} skillsFilterPartial />,
     },
     {
       title: 'Files',

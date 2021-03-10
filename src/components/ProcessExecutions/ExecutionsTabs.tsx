@@ -12,7 +12,7 @@ function ActiveProcesses({ processExecutions }: Props) {
     {
       title: 'All',
       key: 'all',
-      body: <ProcessList items={processExecutions.filter(i => i.status === 'running')} />,
+      body: <ProcessList items={processExecutions.filter(i => i.status === 'RUNNING')} />,
     },
     {
       title: 'Onboarding',
@@ -20,7 +20,7 @@ function ActiveProcesses({ processExecutions }: Props) {
       body: (
         <ProcessList
           items={processExecutions.filter(
-            i => i.status === 'running' && i.process.type === 'onboarding',
+            i => i.status === 'RUNNING' && i.process.type === 'ONBOARDING',
           )}
         />
       ),
@@ -31,7 +31,7 @@ function ActiveProcesses({ processExecutions }: Props) {
       body: (
         <ProcessList
           items={processExecutions.filter(
-            i => i.status === 'running' && i.process.type === 'offboarding',
+            i => i.status === 'RUNNING' && i.process.type === 'OFFBOARDING',
           )}
         />
       ),
@@ -42,7 +42,7 @@ function ActiveProcesses({ processExecutions }: Props) {
       body: (
         <ProcessList
           items={processExecutions.filter(
-            i => i.status === 'running' && i.process.type === 'rotation',
+            i => i.status === 'RUNNING' && i.process.type === 'ROTATION',
           )}
         />
       ),
@@ -55,7 +55,7 @@ function ActiveProcesses({ processExecutions }: Props) {
       key: 'holding',
       body: (
         <ProcessList
-          items={processExecutions.filter(i => i.status === 'holding')}
+          items={processExecutions.filter(i => i.status === 'HOLDING')}
           tabName="archived"
         />
       ),
@@ -65,7 +65,7 @@ function ActiveProcesses({ processExecutions }: Props) {
       key: 'archived',
       body: (
         <ProcessList
-          items={processExecutions.filter(i => i.status !== 'running' && i.status !== 'holding')}
+          items={processExecutions.filter(i => i.status !== 'RUNNING' && i.status !== 'HOLDING')}
           tabName="archived"
         />
       ),

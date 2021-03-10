@@ -8,7 +8,7 @@ import updateEmployee from '../../queries/updateEmployee'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import { getEmployeeDetails } from './EmployeePage'
-import ProjectForm from './EmployeeForm'
+import EmployeeForm from './EmployeeForm'
 
 type EmployeePick = EmployeeDetails & {
   agileManager: EmployeeDetails | null
@@ -60,7 +60,7 @@ function UpdateProject({
       toggler={<Button size="small" icon={<EditOutlined />} type="link"></Button>}
       drawerLabel={'Edit employee ' + employee?.name}
       content={
-        <ProjectForm
+        <EmployeeForm
           loading={loading}
           item={employee}
           onSubmit={async (item: any, onDone: any) => {
@@ -74,7 +74,7 @@ function UpdateProject({
               update: onDone,
             })
 
-            onClose()
+            if (onClose) onClose()
           }}
         />
       }

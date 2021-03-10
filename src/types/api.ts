@@ -13,7 +13,7 @@ export interface Employee {
   lastName: string
   position: string
   country: string
-  location: string
+  location: LOCATION
   phoneNumber: string
   email: string
   isMe: boolean
@@ -62,12 +62,6 @@ export interface Post {
   updatedBy: Employee
   images: File[]
   tags: Tag[]
-  isPublic: boolean
-  annotation: string
-  publishDate?: string
-  titleImage?: File
-  backgroundImage?: File
-  foregroundImage?: File
 }
 
 export interface Project {
@@ -159,17 +153,16 @@ export interface Experience {
   id: string
   skill: Skill
   employee: Employee
-  level: Level
+  level: LEVEL
   updatedAt: string
   comment: string
 }
 
-export interface Level {
-  id: string
-  index: number
-  name: string
-  description: string
-  experiences: Experience[]
+export enum LEVEL {
+  WANTED = 'WANTED',
+  LEARNING = 'LEARNING',
+  EXPERIENCED = 'EXPERIENCED',
+  CONFIDENT = 'CONFIDENT',
 }
 
 export interface Tag {
@@ -274,17 +267,18 @@ export interface Vacancy {
   employeeExperience: string
   englishLevel: string
   stack: string
-}
-
-export interface Location {
-  id: string
-  name: string
-  code: string
   description: string
 }
 
-export type Customer = 'internal' | 'swissre' | 'allianz'
-export type ProcessType = 'onboarding' | 'offboarding' | 'rotation'
+export enum LOCATION {
+  SAINT_PETERSBURG = 'SAINT_PETERSBURG',
+  KALININGRAD = 'KALININGRAD',
+  TOMSK = 'TOMSK',
+  ZURICH = 'ZURICH',
+}
+
+export type Customer = 'INTERNAL' | 'SWISSRE' | 'ALLIANZ'
+export type ProcessType = 'ONBOARDING' | 'OFFBOARDING' | 'ROTATION'
 
 export interface Process {
   id: string
@@ -296,7 +290,7 @@ export interface Process {
 
 export interface ProcessStep {
   id: string
-  type: 'approve' | 'notify' | 'independent'
+  type: 'APPROVE' | 'NOTIFY' | 'INDEPENDENT'
   responsibleUsers: Employee[]
   parentSteps: ProcessStep[] | null
   process: Process
@@ -309,11 +303,13 @@ export interface ProcessStep {
 
 export interface ProcessExecution {
   id: string
-  status: 'running' | 'finished' | 'cancelled' | 'holding'
+  status: 'RUNNING' | 'FINISHED' | 'CANCELLED' | 'HOLDING'
   process: Process
   vacancy: Vacancy
-  locations: Location[]
+  locations: LOCATION[]
   project: Project
+  projectFrom?: Project
+  projectTo?: Project
   employee: string
   finishDate: string
   prio: number
@@ -348,7 +344,7 @@ export interface OfficeDay {
   employeeLimit: number
   employeeCount: number
   date: string
-  location: Location
+  location: LOCATION
 }
 
 export interface Stream {
@@ -394,7 +390,7 @@ export interface WikiPage {
 
 export interface Feedback {
   id: string
-  about: string
+  about: FEEDBACK_ABOUT
   project: Project
   text: string
   createdAt: string
@@ -407,6 +403,13 @@ export interface FeedbackComment {
   createdAt: string
 }
 
+export enum FEEDBACK_ABOUT {
+  COMPANY = 'COMPANY',
+  TEAM = 'TEAM',
+  EVENT = 'EVENT',
+  PORTAL = 'PORTAL',
+}
+
 export interface ArchivedMatrixData {
   employeeAzureEmail: string
   compressedData: string
@@ -415,7 +418,7 @@ export interface ArchivedMatrixData {
 
 export interface ArchivedMatrixRaw {
   experiences: {
-    level: string
+    level: LEVEL
     skill: {
       id: string
       name: string
@@ -447,8 +450,7 @@ export interface ArchivedDPVersion {
 }
 
 export interface ArchivedDPData {
-  employeeAzureEmail: string
-  compressedData: string
+  compressedData: Exclude<DevelopmentPlan, 'employee'>
 }
 
 export interface ArchivedSEFVersion {
@@ -457,7 +459,6 @@ export interface ArchivedSEFVersion {
 }
 
 export interface ArchivedSEFData {
-  employeeAzureEmail: string
   compressedData: string
 }
 
@@ -470,14 +471,12 @@ export interface WorkplaceType {
 }
 
 export interface WorkspacePoolType {
-  id: string
-  location: Location
   workspaces: WorkspaceType[]
 }
 
 export interface WorkspaceType {
   id: string
-  location: Location
+  location: LOCATION
   drawing?: string
   workplaces: WorkplaceType[]
   name?: string
@@ -485,7 +484,7 @@ export interface WorkspaceType {
 
 export interface WorkplaceBookingType {
   id: string
-  employeeEmail: string
+  employeeId: string
   startDate: string
   finishDate: string
 }
@@ -519,5 +518,6 @@ export interface Profile {
   id: string
   strapiId: string
   email: string
+  location: LOCATION
   strapiGroupsMembership: (keyof typeof StrapiGroups)[]
 }

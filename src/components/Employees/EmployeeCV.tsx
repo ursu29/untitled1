@@ -41,7 +41,7 @@ const query = gql`
   }
 `
 const mutation = gql`
-  mutation updateCurriculumVitae($input: UpdateCurriculumVitaeInput) {
+  mutation updateCurriculumVitae($input: UpdateCurriculumVitaeInput!) {
     updateCurriculumVitae(input: $input) {
       id
     }
@@ -156,13 +156,13 @@ function EmployeeCV({ employee, editable, form }: PropsGeneral) {
 
         onChange({
           id: curriculumVitaeID,
-          employeeEmail: employee.email,
+          employee: employee.id,
           vitaes: values.cvForm.map((vitae: any) => ({
             id: vitae.id,
             position: vitae.position,
             company: vitae.company.charAt(0).toUpperCase() + vitae.company.slice(1).trim(),
-            dateStart: vitae.dateStart ? dateToISO(vitae.dateStart) : '',
-            dateEnd: vitae.dateEnd ? dateToISO(vitae.dateEnd) : '',
+            dateStart: vitae.dateStart ? dateToISO(vitae.dateStart) : null,
+            dateEnd: vitae.dateEnd ? dateToISO(vitae.dateEnd) : null,
             project: isWordSyncretis(vitae.company) ? vitae.project : '',
             responsibilities: vitae.responsibilities,
             level: vitae.level,
@@ -404,14 +404,21 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
               style={{ width: isDatePickersToColumn ? 80 : 150 }}
               value={
                 allProjectsList
-                  ? allProjectsList.filter(project => project.id === record.project)[0]?.name
+                  ? allProjectsList.filter(project => project.code === record.project)[0]?.name
                   : ''
               }
               filterOption={(input: any, option: any) =>
                 option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
               onChange={(projectId: any) => {
-                onChange && onChange(immutableValueChange(record.id, 'project', projectId))
+                onChange &&
+                  onChange(
+                    immutableValueChange(
+                      record.id,
+                      'project',
+                      allProjectsList.find(project => project.id === projectId)?.code,
+                    ),
+                  )
               }}
             >
               {allProjectsList

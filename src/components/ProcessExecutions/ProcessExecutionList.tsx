@@ -16,6 +16,9 @@ import updateProcessExecution from '../../queries/updateProcessExecution'
 import getProcessExecutions from '../../queries/getProcessExecutions'
 import message from '../../message'
 import './styles.css'
+import { LOCATION, ProcessExecution } from '../../types'
+import getLocationName from '../../utils/getLocationName'
+import { getProcessName } from '../../utils/getProcessName'
 
 dayjs.extend(relativeTime)
 
@@ -55,11 +58,11 @@ function ProcessList({ items, tabName }: Props) {
           </Tooltip>
         )
 
-        if (process.status === 'running') {
+        if (process.status === 'RUNNING') {
           let isPending = false
           if (
-            process.status === 'running' &&
-            process.process?.type === 'onboarding' &&
+            process.status === 'RUNNING' &&
+            process.process?.type === 'ONBOARDING' &&
             !process.vacancy?.isPublished
           )
             isPending = true
@@ -74,17 +77,17 @@ function ProcessList({ items, tabName }: Props) {
             />,
           )
         }
-        if (process.status === 'holding')
+        if (process.status === 'HOLDING')
           return getStatus(
             'Holding',
             <PauseOutlined style={{ fontSize: '16px', color: 'magenta', cursor: 'pointer' }} />,
           )
-        if (process.status === 'cancelled')
+        if (process.status === 'CANCELLED')
           return getStatus(
             'Cancelled',
             <CloseOutlined style={{ color: 'red', cursor: 'pointer' }} />,
           )
-        if (process.status === 'finished')
+        if (process.status === 'FINISHED')
           return getStatus(
             'Completed',
             <CheckOutlined style={{ color: '#52c41a', cursor: 'pointer' }} />,
@@ -94,11 +97,11 @@ function ProcessList({ items, tabName }: Props) {
         const getStatus = (processExecution: any) => {
           let status = processExecution?.status
           if (
-            processExecution.status === 'running' &&
-            processExecution.process?.type === 'onboarding' &&
+            processExecution.status === 'RUNNING' &&
+            processExecution.process?.type === 'ONBOARDING' &&
             !processExecution.vacancy?.isPublished
           )
-            status = 'pending'
+            status = 'PENDING'
           return status
         }
 
@@ -122,7 +125,7 @@ function ProcessList({ items, tabName }: Props) {
             <Tag
               style={{ color: '#aaaaaa', fontSize: '13px', fontStyle: 'italic', marginTop: '3px' }}
             >
-              {i.process.type}
+              {getProcessName(i.process.type)}
             </Tag>
           </div>
         )
@@ -140,8 +143,47 @@ function ProcessList({ items, tabName }: Props) {
         ...new Set(items.filter(e => e?.project && e?.project?.name).map(e => e?.project?.name)),
       ].map(e => ({ text: e, value: e })),
       onFilter: (value: any, record: any) => record.project?.name === value,
-      render: (_: any, i: any) => {
-        return (
+      render: (_: any, i: ProcessExecution) => {
+        return i.process.type === 'ROTATION' ? (
+          <div style={{ display: 'flex', marginLeft: '10px' }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                fontSize: '25px',
+                fontWeight: 'bold',
+                marginRight: '-25px',
+                zIndex: 999,
+              }}
+            >
+              ⤸
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div>
+                {i.projectFrom ? (
+                  <ProjectTag
+                    small
+                    project={i.projectFrom}
+                    style={{ fontSize: '11px', padding: '2px 5px' }}
+                  />
+                ) : (
+                  '?'
+                )}
+              </div>
+              <div>
+                {i.projectTo ? (
+                  <ProjectTag
+                    small
+                    project={i.projectTo}
+                    style={{ fontSize: '11px', padding: '2px 5px' }}
+                  />
+                ) : (
+                  '?'
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (
           <ProjectTag small project={i.project} style={{ fontSize: '11px', padding: '2px 5px' }} />
         )
       },
@@ -154,8 +196,8 @@ function ProcessList({ items, tabName }: Props) {
       showSorterTooltip: false,
       render: (_: any, process: any) => {
         const locations =
-          process?.locations
-            ?.map((i: any) => (i.name === 'Saint-Petersburg' ? 'Saint-P' : i.name))
+          (process?.locations as LOCATION[])
+            ?.map((i: any) => (i === LOCATION.SAINT_PETERSBURG ? 'Saint-P' : getLocationName(i)))
             .join(', ') ?? '-'
         return (
           <span title={locations} style={{ whiteSpace: 'break-spaces' }}>
@@ -165,25 +207,11 @@ function ProcessList({ items, tabName }: Props) {
       },
       filters: [
         //@ts-ignore
-        ...new Set(
-          items
-            .filter(e => e?.locations)
-            .flatMap(item => item.locations.map(location => location?.name)),
-        ),
-      ].map(e => ({ text: e, value: e })),
-      onFilter: (value: any, record: any) =>
-        record.locations && record.locations.map((e: any) => e?.name).includes(value),
+        ...new Set(items.filter(e => e?.locations).flatMap(item => item.locations)),
+      ].map(e => ({ text: getLocationName(e), value: e })),
+      onFilter: (value: any, record: any) => record.locations && record.locations.includes(value),
       sorter: (a: any, b: any) =>
-        a.locations
-          ?.map((e: any) => e?.name)
-          .sort()
-          .join('')
-          .localeCompare(
-            b.locations
-              ?.map((e: any) => e?.name)
-              .sort()
-              .join(''),
-          ),
+        a.locations.sort().join('').localeCompare(b.locations.sort().join('')),
     },
     {
       key: 'position',
@@ -246,7 +274,7 @@ function ProcessList({ items, tabName }: Props) {
         key: 'responsible',
         title: 'Responsible',
         showSorterTooltip: false,
-        render: (_, process) => {
+        render: (_: any, process: any) => {
           const responsibleList = [
             //@ts-ignore
             ...new Set(
@@ -326,7 +354,7 @@ function ProcessList({ items, tabName }: Props) {
         width: '80px',
         showSorterTooltip: false,
         sorter: (a: any, b: any) => a.prio - b.prio,
-        render: (_, process) => {
+        render: (_: any, process: any) => {
           return (
             <Select
               defaultValue={process.prio}
@@ -337,7 +365,9 @@ function ProcessList({ items, tabName }: Props) {
               {Array(3)
                 .fill(0)
                 .map((_, i) => (
-                  <Select.Option value={i + 1}>{i + 1}</Select.Option>
+                  <Select.Option key={i} value={i + 1}>
+                    {i + 1}
+                  </Select.Option>
                 ))}
             </Select>
           )
@@ -364,8 +394,8 @@ function ProcessList({ items, tabName }: Props) {
       //@ts-ignore
       columns={columns}
       dataSource={sortedItems
-        .filter(e => e.status !== 'holding')
-        .concat(sortedItems.filter(e => e.status === 'holding'))}
+        .filter(e => e.status !== 'HOLDING')
+        .concat(sortedItems.filter(e => e.status === 'HOLDING'))}
       size="small"
       pagination={{ showSizeChanger: true }}
     />
