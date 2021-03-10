@@ -1,9 +1,10 @@
 import {pastDay, todaysDate} from "../../support/officePlanner/officeDays";
-import {skillEl} from "../../support/locators";
+import {devMenu, feedbackEl, menuEl, skillEl} from "../../support/locators";
 
 describe('add new feedback', () => {
     const items =  ['Syncretis', 'Team', 'Event', 'Portal']
     const feedback = `${todaysDate}${pastDay}`
+    const {about, project, response, send} = feedbackEl
 
     before(() => {
         cy.setToken('employee')
@@ -12,16 +13,16 @@ describe('add new feedback', () => {
 
     it('check default form fields', () => {
         items.forEach(text => {
-            cy.getElement('about').click()
-            cy.get('.ant-select-item').contains(text).click()
+            cy.getElement(about).click()
+            cy.get(devMenu.item).contains(text).click()
 
-            cy.getElement('about').should('contain.text', text)
+            cy.getElement(about).should('contain.text', text)
             if(text === 'Team') {
-                cy.getElement('project').should('be.visible')
+                cy.getElement(project).should('be.visible')
 
                 return
             }
-            cy.getElement('project').should('not.be.visible')
+            cy.getElement(project).should('not.be.visible')
 
         })
     })
@@ -29,14 +30,14 @@ describe('add new feedback', () => {
     it('send default feedback', () => {
         const firstItem = items[0]
 
-        cy.getElement('about').click()
-        cy.get('.ant-select-item').contains(firstItem).click()
+        cy.getElement(about).click()
+        cy.get(devMenu.item).contains(firstItem).click()
 
-        cy.getElement('feedback').type(feedback)
-        cy.getElement('post').click()
+        cy.getElement(response).type(feedback)
+        cy.getElement(send).click()
 
         cy.get(skillEl.successMes).should('be.visible')
         cy.get(skillEl.successMes).should('not.be.visible')
-        cy.get('.ant-typography').contains(feedback).should('be.exist')
+        cy.get(menuEl.title).contains(feedback).should('be.exist')
     })
 })
