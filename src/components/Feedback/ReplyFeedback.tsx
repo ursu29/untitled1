@@ -56,6 +56,7 @@ export const FeedbackReplyForm = ({
   return (
     <Form labelCol={{ span: 4 }} form={form} onFinish={onFinish}>
       <Form.Item
+        data-cy="replayErrorMessage"
         name="text"
         rules={[
           {
@@ -68,16 +69,17 @@ export const FeedbackReplyForm = ({
         style={{ marginBottom: 8 }}
       >
         <Input.TextArea
+          data-cy="text"
           autoFocus
           autoSize={{ minRows: 1, maxRows: 20 }}
           placeholder="What do you want to say?"
         />
       </Form.Item>
       <Form.Item style={{ marginBottom: 0 }}>
-        <Button type="primary" htmlType="submit" loading={loading}>
+        <Button type="primary" htmlType="submit" loading={loading} data-cy="replay">
           Reply
         </Button>
-        <Button onClick={onClose} disabled={loading} style={{ margin: '0 8px' }}>
+        <Button onClick={onClose} disabled={loading} style={{ margin: '0 8px' }} data-cy="cancel">
           Cancel
         </Button>
       </Form.Item>
