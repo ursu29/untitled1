@@ -9,6 +9,8 @@ export const query = {
       'query getDevelopmentPlans($input: DevelopmentPlansInput!) { developmentPlans(input: $input) { id createdAt updatedAt developmentRoles { webDeveloper actuarialBusinessAnalyst agileCoach automationQA devOps infrastructureArchitect javaDeveloper dotnetDeveloper manualQA mathematician scrumMaster solutionArchitect teamLead uxExpert productOwner dataAnalyst __typename } guildContribution { internalProject education noContribution startup custom __typename } previousGoals { id description successCriteria isAchieved comment __typename } actualGoals { id description successCriteria isAchieved comment __typename } amountOfTime longTermGoals lookBackNegative lookBackPositive lookForward lastDiscussed __typename }}',
   matricesCustomFieldsMutation:
       'mutation matricesCustomFieldsMutation($input: UpdateMatricesCustomFieldsInput!) {updateMatricesCustomFields(input: $input) {id __typename}}',
+  evaluationCustomFields: 'query evaluationCustomFields($input: EvaluationCustomFieldsInput) {evaluationCustomFields(input: $input) {id employeeMail lastDiscussed  __typename}}',
+  customFieldsMutationSelfEv: 'mutation customFieldsMutation($input: UpdateCustomFieldsInput!) {updateCustomFields(input: $input) {id  __typename}}',
   matricesCustomFields:
       'query matricesCustomFields($input: MatricesCustomFieldsInput) { matricesCustomFields(input: $input) {id employeeMail lastDiscussed __typename}}',
   getExperiences:
