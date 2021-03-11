@@ -1,10 +1,9 @@
-import { useQuery } from '@apollo/react-hooks'
 import { Card, Skeleton } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { getEmployeeLink } from '../../paths'
-import getEmployee, { QueryType } from '../../queries/getEmployee'
-import { Employee } from '../../types'
+import { useGetEmployeeQuery } from '../../queries/employees'
+import { Employee } from '../../types/graphql'
 import Avatar from '../Avatar'
 
 interface Props {
@@ -13,7 +12,7 @@ interface Props {
 }
 
 export default function EmployeeCard(props: Props) {
-  const { data, loading } = useQuery<QueryType>(getEmployee, {
+  const { data, loading } = useGetEmployeeQuery({
     variables: { email: props.email },
     skip: Boolean(props.employee),
   })

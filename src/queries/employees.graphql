@@ -1,0 +1,30 @@
+fragment EmployeeDetails on Employee {
+  id
+  name
+  location
+  country
+  position
+  phoneNumber
+  email
+  isMe
+  startDate
+  birthday
+}
+
+query getEmployee($email: String!) {
+  employeeByEmail(email: $email) {
+    ...EmployeeDetails
+  }
+}
+
+query getEmployees {
+  employees {
+    ...EmployeeDetails
+  }
+}
+
+mutation updateEmployee($input: UpdateEmployeeInput!) {
+  updateEmployee(input: $input) {
+    id
+  }
+}

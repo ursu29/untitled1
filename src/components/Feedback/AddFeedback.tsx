@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { Collapse, Form, Select, Input, Button, Checkbox } from 'antd'
-import { useMutation } from '@apollo/react-hooks'
 import ProjectSelect from '../Projects/ProjectSelect'
-import { addFeedback } from '../../queries/feedback'
+import { useAddFeedbackMutation } from '../../queries/feedback'
+import { Feedback_About as FeedbackAbout } from '../../types/graphql'
 import message from '../../message'
-import { FEEDBACK_ABOUT } from '../../types'
 import { aboutList } from './about'
 
 export default function AddFeedback() {
@@ -13,7 +12,7 @@ export default function AddFeedback() {
   const [form] = Form.useForm()
   const header = React.createElement('div', { style: { fontSize: '16px' } }, 'Add new')
 
-  const [addNewFeedback, { loading }] = useMutation(addFeedback, {
+  const [addNewFeedback, { loading }] = useAddFeedbackMutation({
     onCompleted: () => {
       message.success('Your feedback has been sent')
       form.resetFields()
@@ -66,7 +65,7 @@ export default function AddFeedback() {
               ))}
             </Select>
           </Form.Item>
-          {about === FEEDBACK_ABOUT.TEAM && (
+          {about === FeedbackAbout.Team && (
             <Form.Item
               label="Project"
               name="project"

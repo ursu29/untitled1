@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
-import { Employee, LEVEL } from '../../types'
+import { Employee } from '../../types'
 import query, { QueryType } from '../../queries/getEmployeeExperiences'
-import getLevels, { QueryType as LQueryType } from '../../queries/getLevels'
+import { useGetLevelsQuery } from '../../queries/levels'
+import { Level } from '../../types/graphql'
 import Skeleton from '../UI/Skeleton'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import EmployeeSkillsDraggable from './EmployeeSkillsDraggable'
@@ -31,7 +32,7 @@ export default function EmployeeSkills({ employee, editable = false, showTabs = 
     variables: { input: { id } },
     skip: !id,
   })
-  const { loading: lLoading, data: lData } = useQuery<LQueryType>(getLevels, { skip: !employee })
+  const { loading: lLoading, data: lData } = useGetLevelsQuery({ skip: !employee })
   const [updateOne, { loading: updateOneLoading }] = useMutation(updateExperience, {
     onCompleted: () => message.success('Skill level updated'),
     onError: message.error,
@@ -51,8 +52,8 @@ export default function EmployeeSkills({ employee, editable = false, showTabs = 
   if (!employee) return null
 
   const experiences = data?.employees?.[0].experiences
-  const levels = lData?.levels ? Object.assign([], lData.levels).reverse() : ([] as LEVEL[])
-  const levelIds = levels?.filter(level => level <= LEVEL.LEARNING)
+  const levels = lData?.levels ? [...lData.levels].reverse() : []
+  const levelIds = levels?.filter(level => level <= Level.Learning)
   const skills = experiences?.filter(exp => levelIds?.includes(exp.level)).map(exp => exp.skill)
 
   return (

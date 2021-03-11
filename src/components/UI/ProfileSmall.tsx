@@ -4,7 +4,7 @@ import { useMediaQuery } from 'react-responsive'
 import { Link } from 'react-router-dom'
 import { COLLAPSE_WIDTH, MENU_WIDTH } from '../../config'
 import paths from '../../paths'
-import { Employee } from '../../types'
+import { Employee } from '../../types/graphql'
 import Avatar from '../Avatar'
 import './styles.css'
 
@@ -12,7 +12,7 @@ const { Text } = Typography
 
 interface Props {
   loading: boolean
-  profile?: Pick<Employee, 'name' | 'email' | 'position' | 'status'>
+  profile?: Pick<Employee, 'name' | 'email' | 'position' | 'status'> | null
 }
 
 export default function SiderProfile({ loading, profile }: Props) {

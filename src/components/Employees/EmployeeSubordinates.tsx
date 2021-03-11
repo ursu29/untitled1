@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import { Table, DatePicker, Tooltip, Popconfirm, Modal, Typography } from 'antd'
 import { Link } from 'react-router-dom'
 import { getEmployeeLink } from '../../paths'
-import { Employee, Project } from '../../types'
+import { Project, OnboardingTicket } from '../../types'
 import { query, QueryType, Subordinate } from '../../queries/getSubordinates'
-import { useQuery, useMutation } from '@apollo/react-hooks'
-import updateEmployee from '../../queries/updateEmployee'
+import { useQuery } from '@apollo/react-hooks'
+import { useUpdateEmployeeMutation } from '../../queries/employees'
+import { Employee } from '../../types/graphql'
 import ProjectTagList from '../Projects/ProjectTagList'
 import moment from 'moment'
 import message from '../../message'
@@ -14,7 +15,6 @@ import TableSearch from '../UI/TableSearch'
 import { useEmployee } from '../../utils/withEmployee'
 import { BulbTwoTone } from '@ant-design/icons'
 import styled from 'styled-components'
-import { OnboardingTicket } from '../../types'
 import Ticket from '../Onboarding/Ticket'
 
 const ActiveBulb = styled.div`
@@ -45,7 +45,7 @@ export default function EmployeeSubordinates({ employee }: Props) {
     trainings: [],
   })
 
-  const [update] = useMutation(updateEmployee, {
+  const [update] = useUpdateEmployeeMutation({
     onCompleted: () => message.success('Updated'),
     refetchQueries: [{ query, variables: { email: employee?.email } }],
     onError: e => {

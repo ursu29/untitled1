@@ -1,18 +1,18 @@
 import React from 'react'
-import getLevels, { QueryType } from '../../queries/getLevels'
+import { useGetLevelsQuery } from '../../queries/levels'
+import { Level } from '../../types/graphql'
 import Select from '../UI/Select'
-import { LEVEL } from '../../types'
-import { useQuery } from '@apollo/react-hooks'
+import { getLevelName } from '../../utils/getLevelName'
 
 interface Props {
   loading?: boolean
-  level: LEVEL | undefined
-  onSelect: (level: LEVEL) => any
+  level: Level | undefined
+  onSelect: (level: Level) => any
   onDeselect: () => any
 }
 
-export default function MatrixLevelSelect({ level, onSelect, onDeselect, loading }: Props) {
-  const { data, loading: queryLoading } = useQuery<QueryType>(getLevels)
+export default function SkillLevelSelect({ level, onSelect, onDeselect, loading }: Props) {
+  const { data, loading: queryLoading } = useGetLevelsQuery()
   const sortedLevels = data?.levels
   return (
     <Select
@@ -24,14 +24,14 @@ export default function MatrixLevelSelect({ level, onSelect, onDeselect, loading
         level &&
         data?.levels && {
           key: level,
-          value: level,
+          value: getLevelName(level),
         }
       }
       onSelect={item => {
         if (!item) {
           onDeselect()
         } else {
-          const level = sortedLevels?.find(level => level === item.key)
+          const level = item.key
           if (level) {
             onSelect(level)
           }
@@ -39,7 +39,7 @@ export default function MatrixLevelSelect({ level, onSelect, onDeselect, loading
       }}
       items={sortedLevels?.map(level => ({
         key: level,
-        value: level,
+        value: getLevelName(level),
       }))}
     />
   )

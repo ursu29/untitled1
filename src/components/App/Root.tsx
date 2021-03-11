@@ -2,40 +2,20 @@ import React, { useEffect } from 'react'
 import Layout from '../UI/Layout'
 import Pages from './Pages'
 import Sider from './Sider'
-import { useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import NotAuthorized from '../UI/NotAuthorized'
 import NotAnswering from '../UI/NotAnswering'
 import DevTools from '../DevTools'
 import { EmployeeProvider } from '../../utils/withEmployee'
 import { Modal } from 'antd'
-import { Profile } from '../../types'
+import { useGetProfileQuery } from '../../queries/profile'
+import { useGetDevToolsAccessQuery } from '../../queries/devtools'
 import SplashScreen from '../UI/SplashScreen'
 
-const query = gql`
-  {
-    profile {
-      id
-      strapiId
-      email
-      strapiGroupsMembership
-      location
-    }
-    isAuthenticated
-  }
-`
-
 export default function Root({ tokenExpired }: { tokenExpired: boolean }) {
-  const { data, loading, error } = useQuery<{ profile: Profile; isAuthenticated: boolean }>(query)
+  const { data, loading, error } = useGetProfileQuery()
 
   // Check access to ClientDevTools
-  const { data: dataClientDevTools } = useQuery(
-    gql`
-      {
-        clientDevToolsAccess
-      }
-    `,
-  )
+  const { data: dataClientDevTools } = useGetDevToolsAccessQuery()
 
   useEffect(() => {
     if (tokenExpired) {

@@ -1,0 +1,38 @@
+query getFeedbacks($input: FeedbacksInput!) {
+  feedbacks(input: $input) {
+    id
+    about
+    project {
+      id
+      name
+      code
+    }
+    text
+    createdAt
+    comments {
+      id
+      text
+      createdAt
+    }
+  }
+}
+
+mutation addFeedback($input: FeedbackInput!) {
+  addFeedback(input: $input) {
+    id
+  }
+}
+
+mutation replyFeedback($input: FeedbackReplyInput!) {
+  replyFeedback(input: $input) {
+    id
+    text
+    createdAt
+  }
+}
+
+query getFeedbackAccess {
+  feedbacksAccess {
+    write
+  }
+}

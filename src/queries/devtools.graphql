@@ -1,0 +1,12 @@
+query getDevtools {
+  clientDevToolsGitInfo {
+    repoName
+    branchName
+    commitId
+    commitMsg
+  }
+}
+
+query getDevToolsAccess {
+  clientDevToolsAccess
+}

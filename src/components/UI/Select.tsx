@@ -9,7 +9,7 @@ interface Item {
 export interface Props {
   loading: boolean
   allowClear?: boolean
-  value?: any
+  value?: Item | Item[] | null
   placeholder?: string
   size?: 'large' | 'middle' | 'small'
   style?: any
@@ -54,6 +54,7 @@ function PortalSelect(
 
   return (
     <Select
+      //@ts-ignore
       value={value}
       ref={ref}
       onBlur={onBlur}

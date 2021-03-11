@@ -2,8 +2,7 @@ import React from 'react'
 import { Select, Space, Tooltip } from 'antd'
 import styled from 'styled-components'
 import { useEmployee } from '../../utils/withEmployee'
-import { useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
+import { useGetDevtoolsQuery } from '../../queries/devtools'
 
 const Wrapper = styled.div`
   position: fixed;
@@ -58,18 +57,7 @@ export default function DevTools({ children }: any) {
   const user = useEmployee()
 
   // Get ClientDevToolsGitInfo
-  const { data } = useQuery(
-    gql`
-      {
-        clientDevToolsGitInfo {
-          repoName
-          branchName
-          commitId
-          commitMsg
-        }
-      }
-    `,
-  )
+  const { data } = useGetDevtoolsQuery()
 
   // GATEWAY Git Info
   const gatewayGitInfo = data?.clientDevToolsGitInfo || {

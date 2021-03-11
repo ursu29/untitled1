@@ -1,10 +1,9 @@
 import React from 'react'
 import { Button, Form, Input } from 'antd'
 import gql from 'graphql-tag'
-import { useMutation } from '@apollo/react-hooks'
-import { replyFeedback, ReplyFeedbackQueryType } from '../../queries/feedback'
+import { useReplyFeedbackMutation } from '../../queries/feedback'
+import { Feedback } from '../../types/graphql'
 import message from '../../message'
-import { Feedback } from '../../types'
 
 type FeedbackWithCommentsFragmentType = Pick<Feedback, 'comments'>
 
@@ -25,7 +24,7 @@ export const FeedbackReplyForm = ({
 }) => {
   const [form] = Form.useForm()
 
-  const [replyOnFeedback, { loading }] = useMutation<ReplyFeedbackQueryType>(replyFeedback, {
+  const [replyOnFeedback, { loading }] = useReplyFeedbackMutation({
     onCompleted: () => {
       message.success('Your reply has been sent')
       onClose()
@@ -36,8 +35,8 @@ export const FeedbackReplyForm = ({
         id: cacheId,
         fragment: feedbackWithCommentsFragment,
       })
-      if (data && currentFeedback) {
-        const comments = currentFeedback.comments.concat(data.replyFeedback)
+      if (data?.replyFeedback && currentFeedback) {
+        const comments = (currentFeedback.comments || []).concat(data.replyFeedback)
         cache.writeData({
           id: cacheId,
           data: { comments },

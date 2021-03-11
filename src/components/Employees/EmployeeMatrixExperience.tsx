@@ -4,8 +4,9 @@ import React, { useState } from 'react'
 import message from '../../message'
 import getEmployeeExperiences from '../../queries/getEmployeeExperiences'
 import updateExperience from '../../queries/updateExperience'
-import { ArchivedMatrixRaw, Employee, Experience, LEVEL, Skill } from '../../types'
+import { ArchivedMatrixRaw, Employee, Experience, Skill } from '../../types'
 import MatrixExperience from '../Matrices/MatrixExperience'
+import { Level } from '../../types/graphql'
 
 const createExperience = gql`
   mutation createExperience($input: CreateExperienceInput) {
@@ -26,7 +27,7 @@ const deleteExperience = gql`
 interface Props {
   experience?: {
     id: Experience['id']
-    level: LEVEL
+    level: Level
     comment: Experience['comment']
   }
   skill?: Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'>
@@ -80,7 +81,7 @@ export default function EmployeeMatrixExperience({
     onError,
   })
 
-  const onUpdateExperience = (level: any, comment: string) => {
+  const onUpdateExperience = (level: Level, comment?: string) => {
     //@ts-ignore
     setExperienceUI({ ...experience, level, comment })
 

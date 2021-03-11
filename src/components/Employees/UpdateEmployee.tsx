@@ -1,10 +1,10 @@
 import { EditOutlined } from '@ant-design/icons'
 import gql from 'graphql-tag'
-import { useMutation, useQuery } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/react-hooks'
 import React from 'react'
 import { EmployeeDetails } from '../../fragments'
 import message from '../../message'
-import updateEmployee from '../../queries/updateEmployee'
+import { useUpdateEmployeeMutation } from '../../queries/employees'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import { getEmployeeDetails } from './EmployeePage'
@@ -35,7 +35,7 @@ function UpdateProject({
     { variables: { email: employee.email } },
   )
 
-  const [update, { loading }] = useMutation(updateEmployee, {
+  const [update, { loading }] = useUpdateEmployeeMutation({
     onCompleted: () => message.success('Employee is updated'),
     refetchQueries: [
       {

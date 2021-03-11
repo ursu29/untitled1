@@ -1,53 +1,17 @@
 import React, { useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
-import { useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import { Typography, Row, Col, Button } from 'antd'
-
-import { Experience, Skill, LEVEL } from '../../types'
 import Skeleton from '../UI/Skeleton'
 import PageContent from '../UI/PageContent'
 import BarChart from '../UI/BarChart'
 import { getSkillLink } from '../../paths'
 import SkillStatistic from './SkillStatistic'
+import { useGetSkillExperiencesQuery, GetSkillExperiencesQuery } from '../../queries/skills'
+import { useGetLevelsQuery } from '../../queries/levels'
+import { ArrayElement } from '../../utils/types'
 
-/**
- * Queries definition
- */
-const query = gql`
-  query getSkills($input: SkillsInput) {
-    levels
-    skills(input: $input) {
-      id
-      name
-      experiences {
-        id
-        level
-      }
-    }
-  }
-`
-
-/**
- * Types definition
- */
-
-type SkillPick = {
-  id: Skill['id']
-  name: Skill['name']
-  experiences: [
-    {
-      id: Experience['id']
-      level: LEVEL
-    },
-  ]
-}
-
-type QueryType = {
-  levels: LEVEL[]
-  skills: SkillPick[]
-}
+type SkillPick = ArrayElement<GetSkillExperiencesQuery['skills']>
 
 /**
  * Getting skills array with the desired length and levels, no-zero rate, sort rate ascending
@@ -55,13 +19,14 @@ type QueryType = {
  * @param count - Results number;
  * @param levelId - Skills level; if omit - execute for all levels
  */
-const getHighestSkills = (skills: QueryType['skills'], count: number, levelId?: string) =>
+const getHighestSkills = (skills: SkillPick[], count: number, levelId?: string) =>
   skills
     .map(skill => ({
       name: skill.name,
-      rate: levelId
-        ? skill.experiences.filter(el => el.level === levelId).length
-        : skill.experiences.length,
+      rate:
+        (levelId
+          ? skill.experiences?.filter(el => el.level === levelId).length
+          : skill.experiences?.length) || 0,
       link: getSkillLink(skill.id),
     }))
     .sort((a, b) => b.rate - a.rate)
@@ -76,13 +41,14 @@ const getHighestSkills = (skills: QueryType['skills'], count: number, levelId?: 
  *
  */
 export default function StatisticsPage() {
-  const { data, loading } = useQuery<QueryType>(query, {
+  const { data, loading } = useGetSkillExperiencesQuery({
     variables: {
       input: {
         noMatrixSkills: true,
       },
     },
   })
+  const { data: lData, loading: lLoading } = useGetLevelsQuery()
 
   const [isSkillChosen, setIsSkillChosen] = useState(false)
   const [skillChosen, setSkillChosen] = useState([{ name: '', rate: 0, link: '' }])
@@ -90,18 +56,15 @@ export default function StatisticsPage() {
 
   const isMakeTitleColumn = useMediaQuery({ maxWidth: 520 })
 
-  const levels = data?.levels || []
+  const levels = lData?.levels || []
   const skills = data?.skills || []
 
   // Fill the complete skills array
-  const skillsByLevels = [
-    { id: 'none', index: -1, name: 'Skills', skills: getHighestSkills(skills, 10) },
-  ]
+  const skillsByLevels = [{ id: 'none', name: 'Skills', skills: getHighestSkills(skills, 10) }]
 
   levels.forEach(level =>
     skillsByLevels.push({
       id: level,
-      index: Object.keys(LEVEL).indexOf(level),
       name: level,
       skills: getHighestSkills(skills, 5, level),
     }),
@@ -150,7 +113,7 @@ export default function StatisticsPage() {
   )
 
   // Clicked on 'check all' button
-  const handleCheckAllClick = (skillId: number, skills: QueryType['skills']) => {
+  const handleCheckAllClick = (skillId: number, skills: SkillPick[]) => {
     const levelId = skillsByLevels[skillId].id
 
     if (levelId === 'none') {
@@ -166,7 +129,7 @@ export default function StatisticsPage() {
   }
 
   // Show skeleton during loading
-  if (loading) {
+  if (loading || lLoading) {
     return (
       <PageContent>
         <Skeleton active loading />

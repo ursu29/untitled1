@@ -1,0 +1,74 @@
+query getSkills($input: SkillsInput) {
+  skills(input: $input) {
+    id
+    name
+    description
+    parent {
+      id
+    }
+    isMatrixOnly
+  }
+}
+
+query getSkillsDetailed($input: SkillsInput) {
+  skills(input: $input) {
+    id
+    name
+    description
+    projects {
+      id
+      name
+      code
+    }
+    parent {
+      id
+      name
+    }
+    addedBy {
+      id
+      name
+      email
+    }
+    isMatrixOnly
+  }
+}
+
+query getSkillProjects($input: SkillsInput) {
+  skills(input: $input) {
+    id
+    name
+    projects {
+      id
+      name
+      code
+    }
+  }
+}
+
+query getSkillExperiences($input: SkillsInput) {
+  skills(input: $input) {
+    id
+    name
+    experiences {
+      id
+      level
+      employee {
+        id
+        name
+        email
+      }
+    }
+  }
+}
+
+mutation createSkill($input: CreateSkillInput) {
+  createSkill(input: $input) {
+    id
+  }
+}
+
+mutation updateSkill($input: UpdateSkillInput) {
+  updateSkill(input: $input) {
+    id
+  }
+}

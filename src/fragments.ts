@@ -7,9 +7,9 @@ import {
   Skill,
   Project,
   Process,
-  LEVEL,
   LOCATION,
 } from './types'
+import { Level } from './types/graphql'
 
 const fragments = {
   Employee: {
@@ -145,7 +145,7 @@ export type EmployeeDetails = Pick<
 export type ProjectDetails = Pick<Project, 'id' | 'name' | 'code' | 'description'>
 
 export type ExperienceDetails = Pick<Experience, 'id' | 'updatedAt' | 'comment'> & {
-  level: LEVEL
+  level: Level
   skill: Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'>
 }
 

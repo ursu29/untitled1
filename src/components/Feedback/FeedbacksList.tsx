@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
-import { useQuery } from '@apollo/react-hooks'
 import { Input, Select, Spin, Timeline } from 'antd'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import ProjectSelect from '../Projects/ProjectSelect'
-import {
-  feedbackAccess,
-  FeedbackAccessQueryType,
-  FeedbackQueryType,
-  getFeedbacks,
-} from '../../queries/feedback'
+import { useGetFeedbackAccessQuery, useGetFeedbacksQuery } from '../../queries/feedback'
+import { Feedback_About as FeedbackAbout } from '../../types/graphql'
 import { FeedbackMessage } from './FeedbackMessage'
 import { aboutList } from './about'
 
@@ -20,7 +15,7 @@ const { Option } = Select
 
 export default function FeedbacksList() {
   const [search, setSearch] = useState<string | null>(null)
-  const [about, setAbout] = useState<string | null>(null)
+  const [about, setAbout] = useState<FeedbackAbout | null>(null)
   const [project, setProject] = useState<string | null>(null)
   const [hasMore, setHasMore] = useState(true)
   const limit = 10
@@ -36,13 +31,13 @@ export default function FeedbacksList() {
   }
 
   // Get feedbacks
-  const { data, fetchMore, loading } = useQuery<FeedbackQueryType>(getFeedbacks, {
+  const { data, fetchMore, loading } = useGetFeedbacksQuery({
     variables,
     notifyOnNetworkStatusChange: true,
   })
-  const { data: accessData } = useQuery<FeedbackAccessQueryType>(feedbackAccess)
+  const { data: accessData } = useGetFeedbackAccessQuery()
   const feedbacks = data?.feedbacks
-  const canReply = accessData?.feedbacksAccess.write
+  const canReply = accessData?.feedbacksAccess?.write || false
 
   useEffect(() => {
     setHasMore(true)
@@ -62,7 +57,7 @@ export default function FeedbacksList() {
           placeholder="About"
           allowClear
           style={{ maxWidth: '120px', margin: '0 8px 8px 0' }}
-          onChange={(value: string) => setAbout(value)}
+          onChange={(value: FeedbackAbout) => setAbout(value)}
         >
           {aboutList.map(({ label, value }) => (
             <Option key={value} value={value}>
@@ -97,9 +92,11 @@ export default function FeedbacksList() {
                 },
               },
               updateQuery: (prev, { fetchMoreResult }) => {
-                if (!fetchMoreResult?.feedbacks.length) setHasMore(false)
-                if (!fetchMoreResult) return prev
-                return { feedbacks: prev.feedbacks.concat(fetchMoreResult.feedbacks) }
+                if (!fetchMoreResult?.feedbacks?.length) {
+                  setHasMore(false)
+                  return prev
+                }
+                return { feedbacks: prev.feedbacks?.concat(fetchMoreResult?.feedbacks) }
               },
             })
           }}

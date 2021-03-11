@@ -1,7 +1,6 @@
 import React from 'react'
-import { Skill, Project } from '../../types'
-import gql from 'graphql-tag'
-import { useQuery } from '@apollo/react-hooks'
+import { useGetSkillProjectsQuery } from '../../queries/skills'
+import { Skill } from '../../types/graphql'
 import ProjectTagList from '../Projects/ProjectTagList'
 import Section from '../UI/Section'
 import Skeleton from '../UI/Skeleton'
@@ -10,29 +9,8 @@ interface Props {
   skill?: Pick<Skill, 'id'>
 }
 
-const query = gql`
-  query getSkillProjects($input: EmployeesInput) {
-    skills(input: $input) {
-      id
-      projects {
-        id
-        name
-        code
-      }
-    }
-  }
-`
-
-type SkillPick = Pick<Skill, 'id'> & {
-  projects: Pick<Project, 'id' | 'name' | 'code'>[]
-}
-
-type QueryType = {
-  skills: SkillPick[]
-}
-
 export default function SkillProjects(props: Props) {
-  const { data, loading, error } = useQuery<QueryType>(query, {
+  const { data, loading, error } = useGetSkillProjectsQuery({
     variables: { input: { id: props.skill?.id } },
     skip: !props.skill,
   })

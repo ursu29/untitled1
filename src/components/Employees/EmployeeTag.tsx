@@ -5,7 +5,7 @@ import { getEmployeeLink } from '../../paths'
 import { Employee } from '../../types'
 
 interface Props {
-  employee: Pick<Employee, 'id' | 'name' | 'email'> | null
+  employee?: Pick<Employee, 'id' | 'name' | 'email'> | null
 }
 
 function EmployeeLink({ employee, history }: Props & RouteComponentProps) {
@@ -14,7 +14,7 @@ function EmployeeLink({ employee, history }: Props & RouteComponentProps) {
   return (
     <Tag
       style={{ cursor: 'pointer', marginBottom: 4 }}
-      onClick={(e) => {
+      onClick={e => {
         e.preventDefault()
         history.push(getEmployeeLink(employee.email))
       }}

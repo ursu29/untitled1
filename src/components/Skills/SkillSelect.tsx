@@ -1,7 +1,6 @@
-import { useQuery } from '@apollo/react-hooks'
 import React from 'react'
-import getSkills, { QueryType } from '../../queries/getSkills'
-import { Skill } from '../../types'
+import { useGetSkillsQuery } from '../../queries/skills'
+import { Skill } from '../../types/graphql'
 import Select from '../UI/Select'
 
 type SkillPick = Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'>
@@ -19,8 +18,8 @@ type Props = {
 }
 
 function SkillSelect({ onChange, value, wide, size, ...props }: Props, ref: any) {
-  const { data, loading } = useQuery<QueryType>(getSkills)
-  const skill = data?.skills.find(i => i.id === String(value))
+  const { data, loading } = useGetSkillsQuery()
+  const skill = data?.skills?.find(i => i.id === String(value))
   return (
     <Select
       ref={ref}
@@ -31,13 +30,13 @@ function SkillSelect({ onChange, value, wide, size, ...props }: Props, ref: any)
       value={skill && { key: skill.name, value: skill.name }}
       onBlur={props.onBlur}
       onSelect={(value: { key: string }) => {
-        const skill = data!.skills.find(skill => skill.name === value.key)
+        const skill = data!.skills?.find(skill => skill.name === value.key)
         if (skill) {
           onChange && onChange(skill.id)
         }
       }}
       items={data?.skills
-        .filter(skill => {
+        ?.filter(skill => {
           if (props.matrixSkillsOnly) return skill.isMatrixOnly
           return true
         })
