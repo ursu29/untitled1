@@ -2,7 +2,7 @@ export const getMockVacancies = () => ({
   data: {
     vacancies: [
       {
-        id: '602e3308b4a44d001c0483e8',
+        id: '603f5a877ae138001c225b64',
         reason: 'REASON',
         locations: ['SAINT_PETERSBURG', 'KALININGRAD'],
         position: 'new position',

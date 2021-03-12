@@ -54,6 +54,7 @@ export default function AddFeedback() {
             rules={[{ required: true, message: ' Please select the object of your feedback' }]}
           >
             <Select
+              data-cy="about"
               placeholder="Select the object of your feedback"
               style={{ width: '100%' }}
               onChange={onAboutChange}
@@ -67,6 +68,7 @@ export default function AddFeedback() {
           </Form.Item>
           {about === FeedbackAbout.Team && (
             <Form.Item
+              data-cy="project"
               label="Project"
               name="project"
               rules={[{ required: true, message: 'Please select the project' }]}
@@ -79,6 +81,7 @@ export default function AddFeedback() {
             </Form.Item>
           )}
           <Form.Item
+            data-cy="message"
             label="Text"
             name="text"
             rules={[
@@ -91,16 +94,17 @@ export default function AddFeedback() {
             ]}
           >
             <Input.TextArea
+              data-cy="feedback"
               autoSize={{ minRows: 4, maxRows: 20 }}
               placeholder="What do you want to say?"
               style={{ width: '100%' }}
             />
           </Form.Item>
           <Form.Item name="isPrivate" valuePropName="checked" wrapperCol={{ offset: 4 }}>
-            <Checkbox>Show only for managers</Checkbox>
+            <Checkbox data-cy="onlyManager">Show only for managers</Checkbox>
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 4 }}>
-            <Button type="primary" htmlType="submit" loading={loading}>
+            <Button type="primary" htmlType="submit" loading={loading} data-cy="post">
               Post
             </Button>
             <div style={{ position: 'absolute', color: '#b3b1b1', marginTop: '5px' }}>

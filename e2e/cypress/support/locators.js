@@ -35,6 +35,12 @@ export const tabs = {
   cv: 'CV',
 }
 
+export const feedbackEl = {
+  about: 'about',
+  project: 'project',
+  response :'feedback',
+  send: 'post'
+}
 export const skillEl = {
   item: '.ant-select-selection-item',
   remove: '.ant-select-selection-item-remove',

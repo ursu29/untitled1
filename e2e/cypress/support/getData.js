@@ -150,6 +150,14 @@ export const deleteBookmark = id => ({
   query: query.deleteBookmark,
 })
 
+export const deleteFeedback = id => ({
+  operationName: 'deleteFeedback',
+  variables: {
+    input: { id },
+  },
+  query: query.deleteFeedback,
+})
+
 export const deleteTraining = id => ({
   operationName: 'deleteOnboardingTicket',
   variables: {
