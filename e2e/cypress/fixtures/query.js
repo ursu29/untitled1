@@ -91,6 +91,9 @@ export const query = {
   getAllEmployeeMatrices:
     'query getEmployeeMatrices($input: EmployeesInput) { employees(input: $input) { id name isMe matrices { id title description comment employeeMatrixId access { read write __typename } body { groups { id title description __typename } grades { id title description __typename } skills { type skill { id name description isMatrixOnly __typename } groupId gradeId __typename } __typename } __typename } __typename }}',
   allBookmarkId: 'query getBookmarks($input: BookmarksInput) {bookmarks(input: $input) {id}}',
+  cancelRotateRequest: 'mutation cancelRotateRequest($input: CancelRotateRequestInput) {cancelRotateRequest(input: $input) {id __typename}}',
+  getVacanci: 'query getVacancies($input: VacanciesInput) { vacancies(input: $input) { id reason locations position responsibilities requiredSkills additionalSkills description project { id name __typename } customer isPublished isClosed rotateEmployees { id isMe __typename } employeeExperience englishLevel stack __typename }}',
+  rotateRequest: 'mutation rotateRequest($input: RotateRequestInput) {rotateRequest(input: $input) {id __typename}}',
   getBookmarks:
     'query getBookmarks($input: BookmarksInput) {bookmarks(input: $input) {id title link employee {id name email __typename} skills {id name __typename} likes {id __typename} access {read write __typename}createdAt likedByMe __typename}}',
   archivedDPVersions:
