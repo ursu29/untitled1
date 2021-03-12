@@ -82,7 +82,7 @@ export default function AddFeedback() {
             </Form.Item>
           )}
           <Form.Item
-            data-cy="errorMessage"
+            data-cy="message"
             label="Text"
             name="text"
             rules={[

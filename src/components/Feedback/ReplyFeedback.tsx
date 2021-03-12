@@ -56,7 +56,7 @@ export const FeedbackReplyForm = ({
   return (
     <Form labelCol={{ span: 4 }} form={form} onFinish={onFinish}>
       <Form.Item
-        data-cy="replayErrorMessage"
+        data-cy="feedbackMessage"
         name="text"
         rules={[
           {
