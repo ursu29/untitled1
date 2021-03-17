@@ -14,6 +14,8 @@ describe('get all trainings response', () => {
 
   before(() => {
     cy.setToken('manager')
+    cy.setImgToken('manager')
+
     cy.post(getEmployee(email('employee'))).then(res => {
       const { employeeByEmail } = res.body.data
       managerId = employeeByEmail.agileManager.id
@@ -31,6 +33,13 @@ describe('get all trainings response', () => {
       response = req.response.body.data
       request = req.request.body
     })
+  })
+
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
   })
 
   it('check request body', () => {
