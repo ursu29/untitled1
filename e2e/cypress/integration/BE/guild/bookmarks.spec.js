@@ -1,14 +1,22 @@
 import { matrixEl } from '../../../support/client/matrices'
 import { checkElementsInArray, checkTwoString } from '../../../support/utils'
-import { getBookmarks } from '../../../support/getData'
+import {getAllSkills, getBookmarks, updateGuild} from '../../../support/getData'
 import { query } from '../../../fixtures/query'
 
 describe('Check bookmarks', () => {
+  const name = 'community-frontend' // tags skills
   let response
   let request
 
   before(() => {
-    cy.setToken('employee')
+    cy.setToken('manager')
+    cy.post(getAllSkills()).then(res => {
+      const {skills} = res.body.data
+      const {id} = skills[0]
+
+      cy.post(updateGuild(name, [id]), 'superUser')
+    })
+
 
     cy.getResponse(['getBookmarks'], 'alias')
     cy.visit('/guilds/community-frontend/bookmarks')
