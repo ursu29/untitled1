@@ -49,6 +49,9 @@ export const skillEl = {
   iconEdit: '.anticon-edit',
   successMes: '.ant-message-success',
   skillName: 'skills_name',
+  titleTree: '.ant-tree-title',
+  searchInput: 'search',
+  name: 'skillName'
 }
 
 export const locations = [
@@ -139,6 +142,10 @@ export const matrix = {
   matrixTabs: '.ant-tabs-tab',
   success: '.ant-message-success',
   alert: '.ant-message-notice-content',
+  createMatrix: 'createMatrix',
+  title: 'titleMatrix',
+  description: 'description',
+  submit: 'submit'
 }
 
 export const workspace = {

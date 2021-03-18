@@ -24,6 +24,7 @@ export default function SkillDrawer(props: Props) {
   return (
     <Controls>
       <Button
+        data-cy="createMatrix"
         icon={props.icon && <EditOutlined />}
         size="small"
         title={props.togglerLabel}

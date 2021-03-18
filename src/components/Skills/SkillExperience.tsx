@@ -51,7 +51,7 @@ export default function PreloadDetails({ skill }: Props) {
 
   return (
     <Skeleton loading={skillLoading} avatar>
-      <Section title="My level">
+      <Section title="My level" data-cy="level">
         <SkillExperience skill={skillData?.skills?.[0]} employee={employee} />
       </Section>
     </Skeleton>
