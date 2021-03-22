@@ -40,6 +40,8 @@ export const query = {
     'mutation deleteBookmark($input: DeleteBookmarkInput!) {deleteBookmark(input: $input) { id __typename}}',
   deleteFeedback:
     'mutation deleteFeedback($input: DeleteFeedbackInput!) {deleteFeedback(input: $input) { id __typename}}',
+  deletePost: 'mutation deletePost($input: DeletePostInput!) {deletePost(input: $input) { id __typename}}',
+  createPost: 'mutation createPost($input: CreatePostInput) {createPost(input: $input) {id __typename}}',
   getEmployees: 'query getEmployees($input: EmployeesInput) {employees(input: $input) {name }}',
   getEmployeeTickets: 'query employeeOnboardingTickets {employeeOnboardingTickets {id __typename}}',
   getReviewers: 'query getEvaluationReviewers($input: EvaluationReviewersInput) {evaluationReviewers(input: $input) {toWhom {id name __typename}fromWho {id name isMe __typename} __typename }}',

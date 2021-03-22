@@ -189,7 +189,7 @@ export default function PostForm({ values: post, loading, onSubmit }: Props) {
       </Row>
       <Row justify="end">
         <Col>
-          <Button loading={loading} type="primary" htmlType="submit">
+          <Button loading={loading} type="primary" htmlType="submit" data-cy="preview">
             Preview & publish
           </Button>
         </Col>

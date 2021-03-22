@@ -46,49 +46,51 @@ function TagSelect({ value, allowAddNew, multiple, onChange }: Props, ref: any) 
   })
 
   return (
-    <Select
-      value={value}
-      ref={ref}
-      loading={loading || mutateLoading}
-      style={{ width: '100%' }}
-      placeholder="Select tags"
-      mode={allowAddNew ? 'tags' : multiple ? 'multiple' : null}
-      items={data?.tags.map(tag => ({
-        value: tag.name,
-        key: tag.name,
-      }))}
-      onSelect={values => {
-        const tagIds = data?.tags.map(i => i.name)
-        const newTag = values.find((v: { key: string; value: string }) => !tagIds?.includes(v.key))
-        if (newTag) {
-          mutate({
-            variables: { input: { name: newTag.key } },
-            update: (_, { data }) => {
-              onChange &&
-                onChange(
-                  values.map((value: { key: string; value: string }) => {
-                    return {
-                      ...value,
-                      id: data?.createTag.id,
-                    }
-                  }),
-                )
-            },
-          })
-        }
-        onChange &&
-          onChange(
-            values.map((value: { key: string; value: string }) => {
-              const tag = data?.tags.find(i => i.name === value.key)
-              return {
-                ...value,
-                id: tag?.id,
-                name: tag?.name,
-              }
-            }),
-          )
-      }}
-    />
+    <div data-cy="selectTag">
+      <Select
+        value={value}
+        ref={ref}
+        loading={loading || mutateLoading}
+        style={{ width: '100%' }}
+        placeholder="Select tags"
+        mode={allowAddNew ? 'tags' : multiple ? 'multiple' : null}
+        items={data?.tags.map(tag => ({
+          value: tag.name,
+          key: tag.name,
+        }))}
+        onSelect={values => {
+          const tagIds = data?.tags.map(i => i.name)
+          const newTag = values.find((v: { key: string; value: string }) => !tagIds?.includes(v.key))
+          if (newTag) {
+            mutate({
+              variables: { input: { name: newTag.key } },
+              update: (_, { data }) => {
+                onChange &&
+                  onChange(
+                    values.map((value: { key: string; value: string }) => {
+                      return {
+                        ...value,
+                        id: data?.createTag.id,
+                      }
+                    }),
+                  )
+              },
+            })
+          }
+          onChange &&
+            onChange(
+              values.map((value: { key: string; value: string }) => {
+                const tag = data?.tags.find(i => i.name === value.key)
+                return {
+                  ...value,
+                  id: tag?.id,
+                  name: tag?.name,
+                }
+              }),
+            )
+        }}
+      />
+    </div>
   )
 }
 
