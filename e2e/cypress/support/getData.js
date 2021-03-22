@@ -150,6 +150,14 @@ export const deleteBookmark = id => ({
   query: query.deleteBookmark,
 })
 
+export const deleteFeedback = id => ({
+  operationName: 'deleteFeedback',
+  variables: {
+    input: { id },
+  },
+  query: query.deleteFeedback,
+})
+
 export const deleteTraining = id => ({
   operationName: 'deleteOnboardingTicket',
   variables: {
@@ -349,6 +357,24 @@ export const getBookmarks = () => ({
   operationName: 'getBookmarks',
   variables: {},
   query: query.getBookmarks,
+})
+
+export const rotateRequest = (comment, id, candidate) => ({
+  operationName: 'rotateRequest',
+  variables: {input:{comment, id, candidate}},
+  query: query.rotateRequest,
+})
+
+export const cancelRotateRequest = (id, candidate) => ({
+  operationName: 'cancelRotateRequest',
+  variables: {input:{id, candidate}},
+  query: query.cancelRotateRequest,
+})
+
+export const getVacancies = () => ({
+  operationName: 'getVacancies',
+  variables: {},
+  query: query.getVacanci,
 })
 
 export const getArchivedDPVersions = email => ({

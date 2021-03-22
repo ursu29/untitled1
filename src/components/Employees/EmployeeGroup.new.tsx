@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { EmployeeDetails } from '../../fragments'
 import { Typography, Button, Tooltip, Popconfirm } from 'antd'
 import EmployeeCard from './EmployeeCard.new'
-import updateEmployee from '../../queries/updateEmployee'
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/react-hooks'
+import { useUpdateEmployeeMutation } from '../../queries/employees'
 import message from '../../message'
 import { useEmployee } from '../../utils/withEmployee'
 import gql from 'graphql-tag'
@@ -30,7 +30,7 @@ function EmployeeGroup({ title, employees, one2one, isMe }: Props) {
   const { data: one2OneRequestData } = useQuery(queryOne2oneRequest)
   const isOne2oneRequest = one2OneRequestData?.profile?.one2oneRequest
 
-  const [update] = useMutation(updateEmployee, {
+  const [update] = useUpdateEmployeeMutation({
     onCompleted: () => message.success('Updated'),
     refetchQueries: [{ query: queryOne2oneRequest }],
     onError: e => {

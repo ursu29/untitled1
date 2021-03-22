@@ -7,14 +7,16 @@ import { QueryType } from '../../queries/getProjectEmployeesExperiences'
 import { ReactComponent as ConfidentIcon } from '../../svg/confident.svg'
 import { ReactComponent as ExperiencedIcon } from '../../svg/experienced.svg'
 import { ReactComponent as StudyingIcon } from '../../svg/studying.svg'
-import { Employee, LEVEL, Skill } from '../../types'
+import { Employee, Skill } from '../../types'
 import EmployeeLink from '../Employees/EmployeeLink'
+import { Level } from '../../types/graphql'
+import { levelList, getLevelName } from '../../utils/getLevelName'
 
 type EmployeeSkillMatrixProps = {
   project: QueryType['project']
 }
 
-function getEmployeeSkillLevel(employee: Partial<Employee>, skill: Partial<Skill>): LEVEL | null {
+function getEmployeeSkillLevel(employee: Partial<Employee>, skill: Partial<Skill>): Level | null {
   const exp = employee.experiences!.find(e => e.skill.id === skill.id)
   if (!exp) {
     return null
@@ -99,8 +101,8 @@ const EmployeeSkillMatrix: React.FC<EmployeeSkillMatrixProps> = ({ project }) =>
             )
           }
           return (
-            <div title={`${level} ${skill.name}`}>
-              {levelIcons[Object.keys(LEVEL).indexOf(level)]}
+            <div title={`${getLevelName(level)} ${skill.name}`}>
+              {levelIcons[levelList.indexOf(level)]}
             </div>
           )
         },
@@ -108,10 +110,7 @@ const EmployeeSkillMatrix: React.FC<EmployeeSkillMatrixProps> = ({ project }) =>
         sorter: (a: Partial<Employee>, b: Partial<Employee>) => {
           const levelA = getEmployeeSkillLevel(a, skill) || { index: -Infinity }
           const levelB = getEmployeeSkillLevel(b, skill) || { index: -Infinity }
-          return (
-            Object.keys(LEVEL).indexOf(levelB as LEVEL) -
-            Object.keys(LEVEL).indexOf(levelA as LEVEL)
-          )
+          return levelList.indexOf(levelB as Level) - levelList.indexOf(levelA as Level)
         },
         title: (
           <Tooltip title={skill.name}>

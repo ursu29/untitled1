@@ -4,7 +4,7 @@ import { getEmployeeLink } from '../../paths'
 import { Employee } from '../../types'
 
 interface Props {
-  employee: Pick<Employee, 'id' | 'name' | 'email'> | null
+  employee?: Pick<Employee, 'id' | 'name' | 'email'> | null
 }
 
 export default function EmployeeLink({ employee }: Props) {

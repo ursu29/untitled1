@@ -1,3 +1,5 @@
+import { Level } from './graphql'
+
 export interface Skill {
   id: string
   name: string
@@ -153,16 +155,9 @@ export interface Experience {
   id: string
   skill: Skill
   employee: Employee
-  level: LEVEL
+  level: Level
   updatedAt: string
   comment: string
-}
-
-export enum LEVEL {
-  WANTED = 'WANTED',
-  LEARNING = 'LEARNING',
-  EXPERIENCED = 'EXPERIENCED',
-  CONFIDENT = 'CONFIDENT',
 }
 
 export interface Tag {
@@ -388,28 +383,6 @@ export interface WikiPage {
   path: string
 }
 
-export interface Feedback {
-  id: string
-  about: FEEDBACK_ABOUT
-  project: Project
-  text: string
-  createdAt: string
-  comments: FeedbackComment[]
-}
-
-export interface FeedbackComment {
-  id: string
-  text: string
-  createdAt: string
-}
-
-export enum FEEDBACK_ABOUT {
-  COMPANY = 'COMPANY',
-  TEAM = 'TEAM',
-  EVENT = 'EVENT',
-  PORTAL = 'PORTAL',
-}
-
 export interface ArchivedMatrixData {
   employeeAzureEmail: string
   compressedData: string
@@ -418,7 +391,7 @@ export interface ArchivedMatrixData {
 
 export interface ArchivedMatrixRaw {
   experiences: {
-    level: LEVEL
+    level: Level
     skill: {
       id: string
       name: string

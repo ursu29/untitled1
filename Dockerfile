@@ -1,5 +1,5 @@
 # Stage 1 - the build process
-FROM node:10.16 as build-deps
+FROM node:14.15.4 as build-deps
 LABEL stage=builder
 
 ARG REACT_APP_DT_BRANCH_NAME

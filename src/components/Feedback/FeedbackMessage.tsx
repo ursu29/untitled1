@@ -3,7 +3,7 @@ import { Avatar, Button, Comment, Space, Typography } from 'antd'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import ProjectTag from '../Projects/ProjectTag'
-import { Feedback, FeedbackComment } from '../../types'
+import { Feedback, FeedbackComment } from '../../types/graphql'
 import { UserOutlined } from '@ant-design/icons'
 import { FeedbackReplyForm } from './ReplyFeedback'
 import { getAboutLabel } from './about'
@@ -16,7 +16,7 @@ const CommentMessage = ({ comment }: { comment: FeedbackComment }) => (
   <Comment
     author="Manager"
     avatar={<Avatar shape="circle" icon={<UserOutlined />} alt="Manager" />}
-    datetime={<span>{dayjs().to(dayjs(comment.createdAt))}</span>}
+    datetime={comment.createdAt && <span>{dayjs().to(dayjs(comment.createdAt))}</span>}
     content={<Paragraph style={{ margin: 0, whiteSpace: 'pre-line' }}>{comment.text}</Paragraph>}
   />
 )
@@ -40,14 +40,16 @@ export const FeedbackMessage = ({
   return (
     <>
       <Space size="middle" align="start" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>
-        {dayjs().to(dayjs(feedback.createdAt))}
-        <div style={{ fontWeight: 'bold' }}>{getAboutLabel(feedback.about)}</div>
+        {feedback.createdAt && dayjs().to(dayjs(feedback.createdAt))}
+        {feedback.about && (
+          <div style={{ fontWeight: 'bold' }}>{getAboutLabel(feedback.about)}</div>
+        )}
         {feedback.project && (
           <ProjectTag small={true} key={feedback.project.id} project={feedback.project} />
         )}
       </Space>
       <Paragraph style={{ marginTop: '13px', whiteSpace: 'pre-line' }}>{feedback.text}</Paragraph>
-      {feedback.comments.map(comment => (
+      {feedback.comments?.map(comment => (
         <CommentMessage key={comment.id} comment={comment} />
       ))}
       {canReply && <ToggledFeedbackReplyForm feedbackId={feedback.id} />}

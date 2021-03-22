@@ -1,0 +1,13 @@
+query getProfile {
+  profile {
+    id
+    name
+    email
+    location
+    position
+    status
+    strapiId
+    strapiGroupsMembership
+  }
+  isAuthenticated
+}

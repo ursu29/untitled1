@@ -3,13 +3,14 @@ import { useQuery } from '@apollo/react-hooks'
 import Skeleton from '../UI/Skeleton'
 import Section from '../UI/Section'
 import { Skill, Employee } from '../../types'
-import gql from 'graphql-tag'
 import getExperiences, { QueryType } from '../../queries/getExperiences'
-import getSkills, { QueryType as SkillsQueryType } from '../../queries/getSkills'
+import { useGetSkillsQuery, GetSkillsQuery } from '../../queries/skills'
+import { ArrayElement } from '../../utils/types'
+import { useEmployee } from '../../utils/withEmployee'
 import UpdateSkillExperience from './UpdateSkillExperience'
 
 interface SkillExperienceProps {
-  skill?: SkillsQueryType['skills'][0]
+  skill?: ArrayElement<GetSkillsQuery['skills']>
   employee: Pick<Employee, 'id'>
 }
 
@@ -34,34 +35,24 @@ function SkillExperience(props: SkillExperienceProps) {
   )
 }
 
-const profileQuery = gql`
-  {
-    profile {
-      id
-    }
-  }
-`
-
 interface Props {
   skill: Pick<Skill, 'id'>
 }
 
 export default function PreloadDetails({ skill }: Props) {
-  const { data, loading, error } = useQuery<{ profile: Pick<Employee, 'id'> }>(profileQuery)
-  const { data: skillData, loading: skillLoading, error: skillLoadingError } = useQuery<
-    SkillsQueryType
-  >(getSkills, {
+  const { employee } = useEmployee()
+  const { data: skillData, loading: skillLoading, error: skillLoadingError } = useGetSkillsQuery({
     variables: { input: { id: skill.id } },
   })
 
-  if (error || skillLoadingError) return <div>Error :(</div>
+  if (skillLoadingError) return <div>Error :(</div>
 
-  if (!loading && !data?.profile) return <div>Employee is not found</div>
+  if (!employee) return <div>Employee is not found</div>
 
   return (
-    <Skeleton loading={loading || skillLoading} avatar>
+    <Skeleton loading={skillLoading} avatar>
       <Section title="My level">
-        {data?.profile && <SkillExperience skill={skillData?.skills[0]} employee={data.profile} />}
+        <SkillExperience skill={skillData?.skills?.[0]} employee={employee} />
       </Section>
     </Skeleton>
   )

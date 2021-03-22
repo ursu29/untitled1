@@ -1,14 +1,14 @@
-import { FEEDBACK_ABOUT } from '../../types'
+import { Feedback_About as FeedbackAbout } from '../../types/graphql'
 
 export const getAboutLabel = (about: string) => {
   switch (about) {
-    case FEEDBACK_ABOUT.COMPANY:
+    case FeedbackAbout.Company:
       return 'Syncretis'
-    case FEEDBACK_ABOUT.TEAM:
+    case FeedbackAbout.Team:
       return 'Team'
-    case FEEDBACK_ABOUT.EVENT:
+    case FeedbackAbout.Event:
       return 'Event'
-    case FEEDBACK_ABOUT.PORTAL:
+    case FeedbackAbout.Portal:
       return 'Portal'
     default:
       return 'Unknown'
@@ -17,19 +17,19 @@ export const getAboutLabel = (about: string) => {
 
 export const aboutList = [
   {
-    value: FEEDBACK_ABOUT.COMPANY,
-    label: getAboutLabel(FEEDBACK_ABOUT.COMPANY),
+    value: FeedbackAbout.Company,
+    label: getAboutLabel(FeedbackAbout.Company),
   },
   {
-    value: FEEDBACK_ABOUT.TEAM,
-    label: getAboutLabel(FEEDBACK_ABOUT.TEAM),
+    value: FeedbackAbout.Team,
+    label: getAboutLabel(FeedbackAbout.Team),
   },
   {
-    value: FEEDBACK_ABOUT.EVENT,
-    label: getAboutLabel(FEEDBACK_ABOUT.EVENT),
+    value: FeedbackAbout.Event,
+    label: getAboutLabel(FeedbackAbout.Event),
   },
   {
-    value: FEEDBACK_ABOUT.PORTAL,
-    label: getAboutLabel(FEEDBACK_ABOUT.PORTAL),
+    value: FeedbackAbout.Portal,
+    label: getAboutLabel(FeedbackAbout.Portal),
   },
 ]

@@ -1,24 +1,14 @@
 import React from 'react'
-import getLevels, { QueryType } from '../../queries/getLevels'
 import Select from '../UI/Select'
-import { LEVEL } from '../../types'
-import { useQuery } from '@apollo/react-hooks'
+import { useGetLevelsQuery } from '../../queries/levels'
+import { Level } from '../../types/graphql'
+import { getMatrixLevelName } from '../../utils/getLevelName'
 
 interface Props {
   loading?: boolean
-  level: LEVEL | undefined
-  onSelect: (level: LEVEL) => any
+  level: Level | undefined
+  onSelect: (level: Level) => any
   onDeselect: () => any
-}
-
-export const getName = (index: number) => {
-  const names: any = {
-    0: 'Unknown',
-    1: 'Theoretical knowledge',
-    2: 'Practical knowledge',
-    3: 'Practical knowledge',
-  }
-  return names[index] || '?'
 }
 
 // const getColor = (index: number): string => {
@@ -31,8 +21,8 @@ export const getName = (index: number) => {
 // }
 
 export default function MatrixLevelSelect({ level, onSelect, onDeselect, loading }: Props) {
-  const { data, loading: queryLoading } = useQuery<QueryType>(getLevels)
-  const filteredLevels = data?.levels.filter(level => level !== LEVEL.CONFIDENT)
+  const { data, loading: queryLoading } = useGetLevelsQuery()
+  const filteredLevels = data?.levels?.filter(level => level !== Level.Confident)
   return (
     <Select
       size="small"
@@ -42,8 +32,8 @@ export default function MatrixLevelSelect({ level, onSelect, onDeselect, loading
       value={
         level &&
         data?.levels && {
-          key: getName(Object.keys(LEVEL).indexOf(level)),
-          value: getName(Object.keys(LEVEL).indexOf(level)),
+          key: level,
+          value: getMatrixLevelName(level),
         }
       }
       onSelect={item => {
@@ -58,7 +48,7 @@ export default function MatrixLevelSelect({ level, onSelect, onDeselect, loading
       }}
       items={filteredLevels?.map(level => ({
         key: level,
-        value: getName(Object.keys(LEVEL).indexOf(level)),
+        value: getMatrixLevelName(level),
       }))}
     />
   )

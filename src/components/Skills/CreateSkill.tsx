@@ -1,32 +1,17 @@
-import { useMutation } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import React, { useEffect, useState } from 'react'
 import { PlusOutlined } from '@ant-design/icons'
 import message from '../../message'
-import getSkills from '../../queries/getSkills'
+import { useCreateSkillMutation, GetSkillsDocument } from '../../queries/skills'
+import { CreateSkillInput } from '../../types/graphql'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import SkillForm from './SkillForm'
 import SkillSelect from './SkillSelect'
 
-const mutation = gql`
-  mutation createSkill($input: CreateSkillInput) {
-    createSkill(input: $input) {
-      id
-    }
-  }
-`
-
-type MutationType = {
-  createSkill: {
-    id: string
-  }
-}
-
 export default function CreateSkill() {
-  const [skill, setSkill] = useState<any>(null)
-  const [createSkill, { loading }] = useMutation<MutationType>(mutation, {
-    refetchQueries: [{ query: getSkills }],
+  const [skill, setSkill] = useState<CreateSkillInput | null>(null)
+  const [createSkill, { loading }] = useCreateSkillMutation({
+    refetchQueries: [{ query: GetSkillsDocument }],
     onError: message.error,
     onCompleted: () => message.success('Skill added'),
   })
@@ -46,7 +31,8 @@ export default function CreateSkill() {
           parentSkillSelect={<SkillSelect wide />}
           loading={loading}
           skill={skill}
-          onSubmit={(skill: any, onDone: any) => {
+          onSubmit={(skill, onDone) => {
+            if ('id' in skill) return
             setSkill(skill)
             createSkill({ variables: { input: skill }, update: onDone })
           }}

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Experience, Skill, Employee, LEVEL } from '../../types'
+import { Experience, Employee } from '../../types'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
 import SkillLevelSelect from '../Skills/SkillLevelSelect'
@@ -7,7 +7,10 @@ import MatrixLevelSelect from '../EmployeeMatrices/MatrixLevelSelect'
 import getEmployeeExperiences from '../../queries/getEmployeeExperiences'
 import getExperiences from '../../queries/getExperiences'
 import updateExperience from '../../queries/updateExperience'
+import { GetSkillsQuery } from '../../queries/skills'
+import { Level } from '../../types/graphql'
 import message from '../../message'
+import { ArrayElement } from '../../utils/types'
 
 const createExperience = gql`
   mutation createExperience($input: CreateExperienceInput) {
@@ -28,9 +31,9 @@ const deleteExperience = gql`
 interface Props {
   experience?: {
     id: Experience['id']
-    level: LEVEL
+    level: Level
   }
-  skill?: Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'>
+  skill?: ArrayElement<GetSkillsQuery['skills']>
   employee?: Pick<Employee, 'id'>
 }
 

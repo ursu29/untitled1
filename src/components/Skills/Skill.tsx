@@ -1,23 +1,14 @@
 import { Col, Row, Skeleton, Tag, Typography } from 'antd'
 import React from 'react'
-import { Employee, Project, Skill } from '../../types'
+import { GetSkillsDetailedQuery } from '../../queries/skills'
+import { ArrayElement } from '../../utils/types'
 import EmployeeLink from '../Employees/EmployeeLink'
 
 const { Text, Title, Paragraph } = Typography
 
-type SkillPick = {
-  id: Skill['id']
-  name: Skill['name']
-  description: Skill['description']
-  isMatrixOnly: Skill['isMatrixOnly']
-  parent: Pick<SkillPick, 'id' | 'name'>
-  projects: Pick<Project, 'id' | 'name' | 'code'>
-  addedBy: Pick<Employee, 'id' | 'name' | 'email'>
-}
-
 interface Props {
   loading: boolean
-  skill?: SkillPick
+  skill?: ArrayElement<GetSkillsDetailedQuery['skills']>
   projects?: any
   experience?: any
   editComponent: React.ReactNode

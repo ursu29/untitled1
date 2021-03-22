@@ -3,16 +3,14 @@ import '@ant-design/compatible/assets/index.css'
 import { Button, Col, Input, Row, Checkbox } from 'antd'
 import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
 import React from 'react'
-import { Skill } from '../../types'
+import { UpdateSkillInput, CreateSkillInput } from '../../types/graphql'
 
-type SkillPick = Partial<Skill> & {
-  parent?: string | null
-}
+type SkillPick = CreateSkillInput | UpdateSkillInput
 
 export interface Props extends FormComponentProps {
   onSubmit: (skill: SkillPick, reset?: () => void) => void
   loading?: boolean
-  skill?: SkillPick
+  skill?: SkillPick | null
   error?: string
   parentSkillSelect: any
 }
@@ -25,7 +23,7 @@ const SkillForm = ({ form, onSubmit, skill, loading, parentSkillSelect }: Props)
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         onSubmit({
-          id: skill?.id,
+          id: skill && 'id' in skill ? skill.id : null,
           ...values,
           // parent: values.parent && values.parent['id'],
         })

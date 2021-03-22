@@ -1,64 +1,29 @@
 import React from 'react'
-import { useQuery } from '@apollo/react-hooks'
-import getLevels, { QueryType as LevelsQueryType } from '../../queries/getLevels'
-import { Skill, Experience, Employee, LEVEL } from '../../types'
 import Skeleton from '../UI/Skeleton'
 import Section from '../UI/Section'
 import EmployeeTag from '../Employees/EmployeeTag'
-import gql from 'graphql-tag'
-import getLevelName from '../../utils/getLevelName'
-
-const query = gql`
-  query getSkillExperiences($input: SkillsInput) {
-    skills(input: $input) {
-      id
-      experiences {
-        id
-        level
-        employee {
-          id
-          name
-          email
-        }
-      }
-    }
-  }
-`
-
-type ExperiencePick = {
-  id: Experience['id']
-  employee: Pick<Employee, 'id' | 'name' | 'email'>
-  level: LEVEL
-}
-
-type SkillPick = {
-  id: Skill['id']
-  experiences: ExperiencePick[]
-}
-
-type QueryType = {
-  skills: SkillPick[]
-}
+import { getLevelName } from '../../utils/getLevelName'
+import { useGetSkillExperiencesQuery } from '../../queries/skills'
+import { useGetLevelsQuery } from '../../queries/levels'
+import { Skill } from '../../types/graphql'
 
 interface Props {
   skill: Pick<Skill, 'id'>
 }
 
 export default function SkillMentions(props: Props) {
-  const { data, loading } = useQuery<QueryType>(query, {
+  const { data, loading } = useGetSkillExperiencesQuery({
     variables: { input: { id: props.skill.id } },
   })
-  const { data: levelsData, loading: levelsLoading } = useQuery<LevelsQueryType>(getLevels)
+  const { data: levelsData, loading: levelsLoading } = useGetLevelsQuery()
 
-  const levels = levelsData?.levels
-    ? Object.assign([], levelsData.levels).reverse()
-    : ([] as LEVEL[])
+  const levels = levelsData?.levels ? [...levelsData.levels].reverse() : []
   const skill = data?.skills?.[0]
 
   return (
     <Skeleton active loading={loading || levelsLoading}>
       {levels?.map(level => {
-        const levelExperiences = skill?.experiences.filter(i => i.level === level)
+        const levelExperiences = skill?.experiences?.filter(i => i.level === level)
         return (
           <Section key={level} title={getLevelName(level)}>
             {(!levelExperiences || !levelExperiences.length) && (

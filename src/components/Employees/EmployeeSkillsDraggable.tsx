@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd'
 import { CheckOutlined, EditOutlined } from '@ant-design/icons'
-import { LEVEL, Experience, Skill } from '../../types'
+import { Experience, Skill } from '../../types'
 import Section from '../UI/Section'
 import Button from '../UI/Button'
 import SkillTag from '../Skills/SkillTag'
 import SkillTreeSelect from '../Skills/SkillTreeSelect'
 import { getFirstWord } from '../../utils/cypress'
-import getLevelName from '../../utils/getLevelName'
+import { getLevelName } from '../../utils/getLevelName'
+import { Level } from '../../types/graphql'
 
 type ExperiencePick = {
   id: Experience['id']
   skill: Pick<Skill, 'id' | 'name' | 'description'>
-  level: LEVEL
+  level: Level
 }
 
 const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
@@ -38,10 +39,10 @@ const sortMapStringify = (items: ExperiencePick[]) =>
     .toString()
 
 interface LevelSectionProps {
-  level: LEVEL
+  level: Level
   experiences: ExperiencePick[]
   editable: boolean
-  onGroupUpdate: (skill: string[], level: LEVEL) => void
+  onGroupUpdate: (skill: string[], level: Level) => void
 }
 
 function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSectionProps) {
@@ -140,7 +141,7 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
 }
 
 interface Props {
-  levels: LEVEL[]
+  levels: Level[]
   experiences: ExperiencePick[]
   editable: boolean
   onMoveSkill: (skill: string, level: string) => void

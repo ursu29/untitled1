@@ -1,8 +1,30 @@
-# This file was generated based on ".graphqlconfig". Do not edit manually.
+directive @accessControl(allowedGroups: [AllowedGroups]!) on FIELD_DEFINITION
 
-schema {
-  query: Query
-  mutation: Mutation
+directive @accessRights(allowRead: [AllowedGroups], allowWrite: [AllowedGroups]) on FIELD_DEFINITION
+
+directive @canEditBookmark on FIELD_DEFINITION
+
+directive @cacheControl(
+  maxAge: Int
+  scope: CacheControlScope
+) on FIELD_DEFINITION | OBJECT | INTERFACE
+
+enum AllowedGroups {
+  GENERAL
+  GENERAL_EXC_ME
+  ME
+  TECH_PORTAL
+  HR_RU
+  WIKI_EDITORS
+  HR_EDITORS
+  HR_ADMINS
+  REVIEWERS
+  DEVELOPMENT_PLAN_REVIEWERS
+  MATRICES_REVIEWERS
+  FEEDBACK
+  WORKSPACE_PLANNER
+  SYS_ADMINS
+  SUPER_USER
 }
 
 type Access {
@@ -10,798 +32,81 @@ type Access {
   write: Boolean
 }
 
-type ArchiveDP {
-  compressedData: String!
-  employeeAzureEmail: String!
+input UpdateAccessGroupInput {
+  name: String
+  members: [String]
 }
 
-type ArchiveMatrix {
-  compressedData: String!
-  employeeAzureEmail: String!
-  matrixId: ID!
+type ArchiveDP {
+  compressedData: DevelopmentPlan
+}
+
+type ArchivedDPVersion {
+  id: ID!
+  createdAt: String!
+}
+
+input GetArchivedDPInput {
+  id: ID!
+}
+
+input ArchiveDPInput {
+  employee: ID!
 }
 
 type ArchiveSEF {
   compressedData: String!
-  employeeAzureEmail: String!
-}
-
-type ArchivedDPVersion {
-  createdAt: String!
-  id: ID!
-}
-
-type ArchivedMatrixVersions {
-  createdAt: String!
-  id: ID!
 }
 
 type ArchivedSEFVersion {
+  id: ID!
   createdAt: String!
+}
+
+input GetArchivedSEFInput {
   id: ID!
-}
-
-type AzureFile {
-  createdAt: String
-  createdBy: Employee
-  details: FileDetails
-  fileName: String
-  id: ID!
-  size: Float
-  type: String
-  updatedAt: String
-  updatedBy: Employee
-  url: String
-}
-
-type Bookmark {
-  access: Access
-  createdAt: String
-  employee: Employee!
-  id: ID!
-  likedByMe: Boolean
-  likes: [Bookmarklike]
-  link: String!
-  skills: [Skill]
-  title: String!
-}
-
-type Bookmarklike {
-  bookmark: Bookmark
-  employee: Employee!
-  id: ID!
-}
-
-type CurriculumVitae {
-  employee: Employee!
-  id: ID!
-  vitaes: [Vitae]
-}
-
-type DevToolsGitInfo {
-  branchName: String
-  commitId: String
-  commitMsg: String
-  repoName: String
-}
-
-type DevelopmentGoal {
-  comment: String
-  createdAt: String
-  description: String
-  id: ID
-  isAchieved: Boolean
-  successCriteria: String
-  updatedAt: String
-}
-
-type DevelopmentPlan {
-  actualGoals: [DevelopmentGoal]
-  amountOfTime: String
-  createdAt: String
-  developmentRoles: DevelopmentRoles
-  employee: Employee
-  guildContribution: GuildContribution
-  id: ID!
-  lastDiscussed: String
-  longTermGoals: String
-  lookBackNegative: String
-  lookBackPositive: String
-  lookForward: String
-  previousGoals: [DevelopmentGoal]
-  updatedAt: String
-}
-
-type DevelopmentRoles {
-  actuarialBusinessAnalyst: Boolean
-  agileCoach: Boolean
-  automationQA: Boolean
-  dataAnalyst: Boolean
-  devOps: Boolean
-  dotnetDeveloper: Boolean
-  infrastructureArchitect: Boolean
-  javaDeveloper: Boolean
-  manualQA: Boolean
-  mathematician: Boolean
-  productOwner: Boolean
-  scrumMaster: Boolean
-  solutionArchitect: Boolean
-  teamLead: Boolean
-  uxExpert: Boolean
-  webDeveloper: Boolean
-}
-
-type Employee {
-  access: Access
-  accessEditGlobal: Boolean
-  activeProcessExecutions: [ProcessExecution]
-  agileManager: Employee
-  avatar: String @deprecated(reason: "No longer supported")
-  birthday: String
-  bonuses: Float
-  country: String @deprecated(reason: "No longer supported")
-  curriculumVitae: CurriculumVitae
-  developmentPlanReviewers: [Employee]
-  email: String!
-  experiences: [Experience]
-  firstName: String!
-  id: ID!
-  isMe: Boolean
-  lastManagerMeeting: String
-  lastName: String!
-  location: LOCATION
-  manager: Employee @deprecated(reason: "No longer supported")
-  matrices: [Matrix]
-  matricesReviewers: [Employee]
-  name: String!
-  one2oneRequest: Boolean
-  phoneNumber: String
-  position: String
-  projects: [Project]
-  requestedOnboardingTickets(withResponsible: String): [OnboardingTicket]
-  startDate: String
-  status: String
-  strapiGroupsMembership: [String]
-  strapiId: ID @deprecated(reason: "id === strapiId")
-  subordinateUsers: [Employee]
-  subordinateUsersCount: SubordinateUsersCount
-  worksFromOffice: [String]
-}
-
-type Evaluation {
-  comment: String
-  evaluation: Int
-  evaluationAttribute: EvaluationAttribute
-  fromWho: Employee
-  id: ID!
-  toWhom: Employee
-  updatedAt: String
-}
-
-type EvaluationAttribute {
-  description: String
-  group: String
-  id: ID!
-  index: Int
-  title: String
-}
-
-type EvaluationComment {
-  body: String
-  editable: Boolean
-  employee: Employee
-  evaluationAttribute: EvaluationAttribute
-  id: ID!
-}
-
-type EvaluationCustomFields {
-  employeeMail: String
-  id: ID!
-  lastDiscussed: String
-}
-
-type EvaluationReviewer {
-  fromWho: Employee
-  id: ID!
-  toWhom: Employee
-}
-
-type Experience {
-  comment: String
-  employee: Employee
-  id: ID!
-  level: LEVEL
-  skill: Skill
-  updatedAt: String
-}
-
-type Feedback {
-  about: FEEDBACK_ABOUT
-  comments: [FeedbackComment]
-  createdAt: String
-  id: ID!
-  project: Project
-  text: String
-}
-
-type FeedbackComment {
-  createdAt: String
-  id: ID!
-  text: String
-}
-
-type File {
-  fileName: String
-  id: ID!
-  url: String
-}
-
-type FileDetails {
-  azureId: ID!
-  id: ID!
-  skills: [Skill]
-}
-
-type Guild {
-  accessWrite: Boolean
-  azureDisplayName: String @deprecated(reason: "use code")
-  azureId: ID @deprecated(reason: "No longer supported")
-  code: String!
-  description: String
-  id: ID
-  leaders: [Employee]
-  shortDescription: String
-  skills: [Skill]
-  title: String
-}
-
-type GuildContribution {
-  custom: String
-  education: Boolean
-  internalProject: Boolean
-  noContribution: Boolean
-  startup: Boolean
-}
-
-type MatricesCustomFields {
-  employeeMail: String
-  id: ID!
-  lastDiscussed: String
-}
-
-type Matrix {
-  access: Access
-  body: MatrixBody
-  comment: String
-  description: String
-  employeeMatrixId: String
-  employees: [Employee]
-  id: ID!
-  title: String
-}
-
-type MatrixBody {
-  grades: [MatrixGrade]
-  groups: [MatrixGroup]
-  skills: [MatrixSkill]
-}
-
-type MatrixGrade {
-  description: String
-  id: ID!
-  title: String
-}
-
-type MatrixGroup {
-  description: String
-  id: ID!
-  title: String
-}
-
-type MatrixSkill {
-  gradeId: ID!
-  groupId: ID!
-  id: ID
-  skill: Skill
-  type: String
-}
-
-type Mutation {
-  abortProcessExecution(input: AbortProcessExecutionInput!): ProcessExecution
-  addFeedback(input: FeedbackInput!): Feedback
-  applyToWorkFromOffice(input: ApplyToWorkFromOfficeInput!): Boolean
-  archiveDP(input: ArchiveDPInput): ArchiveDP
-  archiveMatrix(input: ArchiveMatrixInput): ArchiveMatrix
-  archiveSEF(input: ArchiveSEFInput): ArchiveSEF
-  attachMatrixToEmployee(input: AttachMatrixToEmployeeInput): Matrix
-  cancelRotateRequest(input: CancelRotateRequestInput): Vacancy
-  closeVacancy(input: CloseVacancyInput): Vacancy
-  commentEvaluation(input: CommentEvaluationInput!): EvaluationComment
-  commentMatrix(input: CommentMatrixInput): Matrix
-  commentProcessExecutionStep(input: CommentProcessExecutionStepInput!): ProcessExecutionStep
-  completeOnboardingTicket(input: CompleteOnboardingTicketInput): ID
-  completeProcessExecutionStep(input: CompleteProcessExecutionStepInput!): ProcessExecutionStep
-  createBookmark(input: CreateBookmarkInput!): Bookmark
-  createEvaluationReviewer(input: CreateEvaluationReviewerInput): EvaluationReviewer
-  createExperience(input: CreateExperienceInput): Experience
-  createMatrix(input: CreateMatrixInput): Matrix
-  createMatrixGrade(input: CreateMatrixGradeInput): Matrix
-  createMatrixGroup(input: CreateMatrixGroupInput): Matrix
-  createMatrixSkill(input: CreateMatrixSkillInput): Matrix
-  createOnboardingTicket(input: CreateOnboardingTicketInput): OnboardingTicket
-  createPost(input: CreatePostInput): Post
-  createProcess(input: CreateProcessInput): Process
-  createProcessExecution(input: CreateProcessExecutionInput): ProcessExecution
-  createProcessStep(input: CreateProcessStepInput): ProcessStep
-  createSkill(input: CreateSkillInput): Skill
-  createTag(input: CreateTagInput!): Tag
-  createWikiPage(input: CreateWikiPageInput): WikiPage
-  createWorkplace(input: CreateWorkplaceInput): Workplace
-  createWorkplaceBooking(input: CreateWorkplaceBookingInput): WorkplaceBooking
-  createWorkspace(input: CreateWorkspaceInput): Workspace
-  deleteBookmark(input: DeleteBookmarkInput!): Bookmark
-  deleteEvaluationReviewer(input: DeleteEvaluationReviewerInput): EvaluationReviewer
-  deleteExperience(input: DeleteExperienceInput): Experience
-  deleteMatrixGrade(input: DeleteMatrixGradeInput): Matrix
-  deleteMatrixGroup(input: DeleteMatrixGroupInput): Matrix
-  deleteMatrixSkill(input: DeleteMatrixSkillInput): Matrix
-  deleteOnboardingTicket(input: DeleteOnboardingTicketInput): OnboardingTicket
-  deleteProcess(id: ID!): Process
-  deleteProcessStep(id: ID!): ProcessStep
-  deleteWorkplace(input: DeleteWorkplaceInput): Workplace
-  deleteWorkplaceBooking(input: DeleteWorkplaceBookingInput): WorkplaceBooking
-  deleteWorkspace(input: DeleteWorkspaceInput): Workspace
-  detachMatrixFromEmployee(input: DetachMatrixFromEmployeeInput): Matrix
-  evaluate(input: EvaluateInput!): Evaluation
-  mutateHello(input: MutateHelloInput): String
-  publishVacancy(input: PublishVacancyInput): Vacancy
-  removeWikiPage(input: RemoveWikiPageInput): WikiPage
-  reorderMatrixSkills(input: ReorderMatrixSkillsInput): ID
-  replyFeedback(input: FeedbackReplyInput!): FeedbackComment
-  requestOnboardingTicket(id: ID!): ID
-  rotateEmployee(input: RotateEmployeeInput!): ProcessExecution
-  rotateRequest(input: RotateRequestInput): Vacancy
-  toggleBookmarklike(input: ToggleBookmarklikeInput!): Bookmarklike
-  toggleHoldProcessExecution(input: AbortProcessExecutionInput!): ProcessExecution
-  updateAccessGroup(input: UpdateAccessGroupInput): String
-  updateBookmark(input: UpdateBookmarkInput!): Bookmark
-  updateCurriculumVitae(input: UpdateCurriculumVitaeInput!): CurriculumVitae
-  updateCustomFields(input: UpdateCustomFieldsInput): EvaluationCustomFields
-  updateDevelopmentPlan(input: UpdateDevelopmentPlanInput!): DevelopmentPlan
-  updateDevelopmentPlanReviewers(input: ReviewerInput): [Employee]
-  updateEmployee(input: UpdateEmployeeInput!): Employee
-  updateExperience(input: UpdateExperienceInput): Experience
-  updateExperiences(input: UpdateExperiencesInput): [Experience]
-  updateFileDetails(input: UpdateFileDetailsInput!): FileDetails
-  updateGuild(input: UpdateGuildInput): Guild
-  updateMatricesCustomFields(input: UpdateMatricesCustomFieldsInput): MatricesCustomFields
-  updateMatricesReviewers(input: ReviewerInput): [Employee]
-  updateMatrix(input: UpdateMatrixInput): Matrix
-  updateOfficeDay(input: UpdateOfficeDayInput!): OfficeDay
-  updateOnboardingTicket(input: UpdateOnboardingTicketInput): OnboardingTicket
-  updatePost(input: UpdatePostInput): Post
-  updateProcess(input: UpdateProcessInput): Process
-  updateProcessExecution(input: UpdateProcessExecutionInput): ProcessExecution
-  updateProcessStep(input: UpdateProcessStepInput): ProcessStep
-  updateProject(input: UpdateProjectInput!): Project
-  updateProjectSkills(input: UpdateProjectSkillsInput): Project
-  updateSkill(input: UpdateSkillInput): Skill
-  updateVacancy(input: UpdateVacancyInput): Vacancy
-  updateWikiPage(input: UpdateWikiPageInput): WikiPage
-  updateWorkplace(input: UpdateWorkplaceInput): Workplace
-  updateWorkspace(input: UpdateWorkspaceInput): Workspace
-}
-
-type OfficeDay {
-  date: String
-  employeeCount: Int
-  employeeLimit: Int
-  employees: [Employee]
-  id: ID!
-  location: LOCATION
-}
-
-type OnboardingTicket {
-  description: String
-  id: ID!
-  isOptional: Boolean
-  isRequestedByMe: Boolean
-  isSwissRe: Boolean
-  responsible: [Employee]
-  title: String
-}
-
-type PageInfo {
-  endCursor: ID
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-  startCursor: ID
-}
-
-type Post {
-  body: String!
-  createdAt: String
-  createdBy: Employee
-  id: ID!
-  images: [File] @deprecated(reason: "No longer supported")
-  isTranslated: Boolean @deprecated(reason: "No longer supported")
-  language: LANGUAGE!
-  locations: [LOCATION]
-  slug: String!
-  tags: [Tag]
-  title: String!
-  updatedAt: String @deprecated(reason: "No longer supported")
-}
-
-type PostEdge {
-  node: Post
-}
-
-type Process {
-  customer: CUSTOMER
-  id: ID!
-  isRotation: Boolean
-  nextCustomer: CUSTOMER
-  steps: [ProcessStep]
-  title: String
-  type: PROCESS_TYPE
-}
-
-type ProcessExecution {
-  activeStepEmployees: [Employee]
-  employee: String
-  employeePhone: String
-  executionSteps: [ProcessExecutionStep]
-  finishDate: String
-  id: ID!
-  isIndependentStepsActive: Boolean
-  locations: [LOCATION]
-  prio: Int
-  process: Process
-  project: Project
-  status: String
-  vacancy: Vacancy
-}
-
-type ProcessExecutionComment {
-  body: String
-  createdAt: String
-  employee: Employee
-  id: ID!
-  step: ProcessExecutionStep
-}
-
-type ProcessExecutionStep {
-  description: String
-  execution: ProcessExecution!
-  id: ID!
-  isDone: Boolean
-  step: ProcessStep
-}
-
-type ProcessStep {
-  description: String
-  hasComment: Boolean
-  id: ID!
-  parentSteps: [ProcessStep]
-  process: Process
-  responsibleUsers: [Employee]
-  send24hoursNotification: Boolean
-  sendToTeamlead: Boolean
-  title: String
-  type: PROCESS_STEP_TYPE
-}
-
-type Project {
-  access: Access
-  accessEditGlobal: Boolean
-  code: String!
-  description: String
-  employees: [Employee]
-  id: ID!
-  leaders: [Employee]
-  name: String!
-  scrumMasters: [Employee]
-  skills: [Skill]
-}
-
-type Query {
-  archivedDP(input: GetArchivedDPInput): ArchiveDP
-  archivedDPVersions(input: ArchiveDPInput): [ArchivedDPVersion]
-  archivedMatrix(input: GetArchivedMatrixInput): ArchiveMatrix
-  archivedMatrixVersions(input: ArchiveMatrixInput): [ArchivedMatrixVersions]
-  archivedSEF(input: GetArchivedSEFInput): ArchiveSEF
-  archivedSEFVersions(input: ArchiveSEFInput): [ArchivedSEFVersion]
-  bookmarks(input: BookmarksInput): [Bookmark]
-  clientDevToolsAccess: Boolean
-  clientDevToolsGitInfo: DevToolsGitInfo
-  createdByMeOnboardingTickets: [OnboardingTicket]
-  curriculumVitaeAccess(input: AccessInput): Access
-  developmentPlanLookReviewersAccess(input: AccessInput): Access
-  developmentPlans(input: DevelopmentPlansInput!): [DevelopmentPlan]
-  employee(id: ID!): Employee
-  employeeByEmail(email: String!): Employee
-  employeeOnboardingTickets: [OnboardingTicket]
-  employees(input: EmployeesInput): [Employee]
-  evaluationAttributes: [EvaluationAttribute]
-  evaluationComments(input: EvaluationCommentsInput): [EvaluationComment]
-  evaluationCustomFields(input: EvaluationCustomFieldsInput): EvaluationCustomFields
-  evaluationReviewers(input: EvaluationReviewersInput): [EvaluationReviewer]
-  evaluationReviewersAccess(input: EvaluationReviewersAccessInput): Access
-  evaluations(input: EvaluationsInput!): [Evaluation]
-  experiences(input: ExperiencesInput): [Experience]
-  feedbacks(input: FeedbacksInput!): [Feedback]
-  feedbacksAccess: Access
-  getMembersOf(group: String): [String]
-  guild(input: GuildInput): Guild
-  guilds: [Guild]
-  hello: String
-  isAuthenticated: Boolean
-  levels: [LEVEL]
-  locations: [LOCATION]
-  matrices(input: MatricesInput): [Matrix]
-  matricesAccess: Access
-  matricesCustomFields(input: MatricesCustomFieldsInput): MatricesCustomFields
-  matricesLookReviewersAccess(input: AccessInput): Access
-  officeAccess: Access
-  officeDays(input: OfficeDaysInput): [OfficeDay]
-  onboardingAccess: Access
-  onboardingTickets: [OnboardingTicket]
-  post(id: ID!): Post
-  postBySlug(slug: String!): Post
-  posts(after: ID, filter: PostsFilter, first: Int): [Post]
-  postsEditor: Access @deprecated(reason: "will be moved to employee.access.posts")
-  process(id: ID!): Process
-  processExecution(id: ID!): ProcessExecution
-  processExecutions(input: ProcessExecutionsInput): [ProcessExecution]
-  processExecutionsAccess: Access
-  processes: [Process]
-  processesAccess: Access
-  profile: Employee
-  project(id: ID!): Project
-  projectByCode(code: String!): Project
-  projects: [Project]
-  sharedFiles(input: SharedFilesInput): SharedFiles!
-  skills(input: SkillsInput): [Skill]
-  tags: [Tag]
-  vacancies(input: VacanciesInput): [Vacancy]
-  vacancy(id: ID!): Vacancy
-  wikiPage(input: WikiPageInput): WikiPage
-  wikiPagesPaths(rootPath: String): [String]
-  wikiRootSections: [WikiRootSection]
-  workspace(input: GetWorkspaceInput): Workspace
-  workspaceDesignAccess: Access
-  workspaces(input: WorkspacesInput): [Workspace]
-}
-
-type SharedFiles {
-  files: [AzureFile]
-  hasMore: Boolean
-}
-
-type Skill {
-  addedBy: Employee
-  children: [Skill]
-  description: String
-  experiences(input: ExperiencesInput): [Experience]
-  id: ID!
-  isMatrixOnly: Boolean
-  name: String
-  parent: Skill
-  projects: [Project]
-}
-
-type SubordinateUsersCount {
-  one2oneRequests: Int
-  users: Int
-}
-
-type Tag {
-  description: String @deprecated(reason: "No longer supported")
-  id: ID!
-  name: String!
-  posts: [Post]
-}
-
-type Vacancy {
-  additionalSkills: String
-  comment: String @deprecated(reason: "No longer supported")
-  customer: String
-  editable: Boolean
-  employeeComment: String @deprecated(reason: "No longer supported")
-  employeeExperience: String
-  englishLevel: String
-  id: ID!
-  isClosed: Boolean
-  isPublished: Boolean
-  locations: [LOCATION]
-  position: String
-  project: Project
-  reason: String
-  requiredSkills: String
-  responsibilities: String
-  responsibleEmployees: [Employee]
-  rotateEmployees: [Employee]
-  stack: String
-}
-
-type Vitae {
-  company: String
-  dateEnd: String
-  dateStart: String
-  id: ID!
-  level: String
-  position: String
-  project: String
-  responsibilities: String
-}
-
-type WikiPage {
-  body: String
-  id: ID!
-  path: String!
-  title: String
-}
-
-type WikiRootSection {
-  description: String
-  icon: String
-  id: ID!
-  path: String!
-  title: String
-}
-
-type Workplace {
-  bookings(input: BookingsInput): [WorkplaceBooking]
-  coordX: Int
-  coordY: Int
-  id: ID!
-  number: Int
-  workspace: Workspace
-}
-
-type WorkplaceBooking {
-  employeeId: ID!
-  finishDate: String
-  id: ID!
-  startDate: String
-  workplace: Workplace
-}
-
-type Workspace {
-  drawing: String
-  id: ID!
-  location: LOCATION
-  name: String
-  workplaces: [Workplace]
-}
-
-enum ACCESS_GROUP {
-  DEV_PORTAL
-  FEEDBACK
-  HR_ADMINS
-  HR_EDITORS
-  HR_RU
-  NEWS_EDITORS
-  REVIEWERS
-  SUPER_USER
-  SYS_ADMINS
-  TECH_PORTAL
-  WIKI_EDITORS
-  WORKSPACE_PLANNER
-}
-
-enum AllowedGroups {
-  DEVELOPMENT_PLAN_REVIEWERS
-  FEEDBACK
-  GENERAL
-  GENERAL_EXC_ME
-  HR_ADMINS
-  HR_EDITORS
-  HR_RU
-  MATRICES_REVIEWERS
-  ME
-  REVIEWERS
-  SUPER_USER
-  SYS_ADMINS
-  TECH_PORTAL
-  WIKI_EDITORS
-  WORKSPACE_PLANNER
-}
-
-enum CUSTOMER {
-  ALLIANZ
-  INTERNAL
-  SWISSRE
-}
-
-enum CacheControlScope {
-  PRIVATE
-  PUBLIC
-}
-
-enum FEEDBACK_ABOUT {
-  COMPANY
-  EVENT
-  PORTAL
-  TEAM
-}
-
-enum LANGUAGE {
-  EN
-  RU
-}
-
-enum LEVEL {
-  CONFIDENT
-  EXPERIENCED
-  LEARNING
-  WANTED
-}
-
-enum LOCATION {
-  KALININGRAD
-  SAINT_PETERSBURG
-  TOMSK
-  ZURICH
-}
-
-enum PROCESS_EXECUTION_STATUS {
-  CANCELLED
-  FINISHED
-  HOLDING
-  RUNNING
-}
-
-enum PROCESS_STEP_TYPE {
-  APPROVE
-  INDEPENDENT
-  NOTIFY
-}
-
-enum PROCESS_TYPE {
-  OFFBOARDING
-  ONBOARDING
-  ROTATION
-}
-
-input AbortProcessExecutionInput {
-  id: ID!
-}
-
-input AccessInput {
-  employeeEmail: String
-}
-
-input ApplyToWorkFromOfficeInput {
-  bookOnly: Boolean
-  cancelOnly: Boolean
-  date: String
-  location: LOCATION
-}
-
-input ArchiveDPInput {
-  employeeAzureId: ID!
-}
-
-input ArchiveMatrixInput {
-  employeeAzureId: String!
-  employeeMatrixId: ID
-  matrixId: ID!
 }
 
 input ArchiveSEFInput {
-  employeeAzureId: String!
+  employee: ID!
 }
 
-input AttachMatrixToEmployeeInput {
-  employee: ID
-  matrix: ID
+type ArchiveMatrix {
+  matrixId: ID!
+  compressedData: String!
 }
 
-input BookingsInput {
-  finishDate: String
-  startDate: String
+type ArchivedMatrixVersion {
+  id: ID!
+  createdAt: String!
+}
+
+input GetArchivedMatrixInput {
+  id: ID!
+}
+
+input ArchiveMatrixInput {
+  employee: ID!
+  matrixId: ID!
+  employeeMatrixId: ID
+}
+
+type Bookmark {
+  id: ID!
+  title: String!
+  link: String!
+  employee: Employee!
+  skills: [Skill!]
+  likes: [Bookmarklike]
+  access: Access
+  createdAt: String
+  likedByMe: Boolean
+}
+
+type Bookmarklike {
+  id: ID!
+  employee: Employee!
+  bookmark: Bookmark
 }
 
 input BookmarksInput {
@@ -809,232 +114,228 @@ input BookmarksInput {
   skills: [ID!]
 }
 
-input CancelRotateRequestInput {
-  candidate: ID!
-  id: ID!
-}
-
-input CloseVacancyInput {
-  id: ID!
-}
-
-input CommentEvaluationInput {
-  body: String
-  employee: ID
-  evaluationAttribute: ID
-}
-
-input CommentMatrixInput {
-  comment: String
-  id: ID!
-}
-
-input CommentProcessExecutionStepInput {
-  description: String!
-  execution: ID!
-  step: ID!
-}
-
-input CompleteOnboardingTicketInput {
-  id: ID!
-}
-
-input CompleteProcessExecutionStepInput {
-  execution: ID!
-  step: ID!
-}
-
 input CreateBookmarkInput {
+  title: String
   link: String
   skills: [ID]
-  title: String
 }
 
-input CreateEvaluationReviewerInput {
-  fromWho: ID
-  toWhom: ID
-}
-
-input CreateExperienceInput {
-  comment: String
-  employee: ID
-  level: LEVEL
-  skill: ID!
-}
-
-input CreateMatrixGradeInput {
-  description: String
-  matrixId: ID!
+input UpdateBookmarkInput {
+  id: ID!
   title: String!
-}
-
-input CreateMatrixGroupInput {
-  description: String
-  matrixId: ID!
-  title: String!
-}
-
-input CreateMatrixInput {
-  description: String
-  title: String!
-}
-
-input CreateMatrixSkillInput {
-  gradeId: ID!
-  groupId: ID!
-  matrixId: ID!
-  skillId: ID!
-}
-
-input CreateOnboardingTicketInput {
-  description: String
-  isOptional: Boolean
-  isSwissRe: Boolean
-  responsible: String
-  title: String
-}
-
-input CreatePostInput {
-  body: String!
-  images: [String]
-  isTranslated: Boolean
-  language: LANGUAGE
-  locations: [LOCATION]
-  tags: [String]
-  title: String!
-}
-
-input CreateProcessExecutionInput {
-  locations: [ID]
-  prio: Int
-  process: ID!
-  project: ID
-}
-
-input CreateProcessInput {
-  customer: CUSTOMER
-  nextCustomer: CUSTOMER
-  title: String
-  type: PROCESS_TYPE
-}
-
-input CreateProcessStepInput {
-  parentSteps: [ID]
-  process: ID!
-}
-
-input CreateSkillInput {
-  description: String
-  isMatrixOnly: Boolean
-  name: String!
-  parent: ID
-}
-
-input CreateTagInput {
-  description: String
-  name: String!
-}
-
-input CreateWikiPageInput {
-  path: String
-}
-
-input CreateWorkplaceBookingInput {
-  finishDate: String!
-  startDate: String!
-  workplace: ID!
-}
-
-input CreateWorkplaceInput {
-  coordX: Int!
-  coordY: Int!
-  workspace: ID!
-}
-
-input CreateWorkspaceInput {
-  location: LOCATION!
-  name: String!
+  link: String!
+  skills: [ID]
 }
 
 input DeleteBookmarkInput {
   id: ID
 }
 
-input DeleteEvaluationReviewerInput {
-  fromWho: ID
-  toWhom: ID
+input ToggleBookmarklikeInput {
+  bookmark: ID
 }
 
-input DeleteExperienceInput {
-  id: ID
+type DevToolsGitInfo {
+  repoName: String
+  branchName: String
+  commitId: String
+  commitMsg: String
 }
 
-input DeleteMatrixGradeInput {
-  id: ID
-  matrix: ID
-}
-
-input DeleteMatrixGroupInput {
-  id: ID
-  matrix: ID
-}
-
-input DeleteMatrixSkillInput {
-  id: ID
-  matrix: ID
-}
-
-input DeleteOnboardingTicketInput {
+type CurriculumVitae {
   id: ID!
+  employee: Employee!
+  vitaes: [Vitae]
 }
 
-input DeleteWorkplaceBookingInput {
+type Vitae {
   id: ID!
+  company: String
+  dateStart: String
+  dateEnd: String
+  project: String
+  position: String
+  responsibilities: String
+  level: String
 }
 
-input DeleteWorkplaceInput {
-  id: ID!
-}
-
-input DeleteWorkspaceInput {
-  id: ID!
-}
-
-input DetachMatrixFromEmployeeInput {
-  employee: ID
-  matrix: ID
-}
-
-input DevelopmentGoalInput {
-  comment: String
-  description: String
+input UpdateCurriculumVitaeInput {
   id: ID
-  isAchieved: Boolean
-  successCriteria: String
+  employee: ID!
+  vitaes: [VitaeInput]!
 }
 
-input DevelopmentPlansInput {
-  employee: ID
+input VitaeInput {
+  id: ID
+  company: String
+  dateStart: String
+  dateEnd: String
+  project: String
+  position: String
+  responsibilities: String
+  level: String
 }
 
-input DevelopmentRolesInput {
+type DevelopmentRoles {
+  webDeveloper: Boolean
   actuarialBusinessAnalyst: Boolean
   agileCoach: Boolean
-  agileManager: Boolean
   automationQA: Boolean
-  dataAnalyst: Boolean
   devOps: Boolean
   dotnetDeveloper: Boolean
   infrastructureArchitect: Boolean
   javaDeveloper: Boolean
   manualQA: Boolean
   mathematician: Boolean
-  productOwner: Boolean
   scrumMaster: Boolean
   solutionArchitect: Boolean
   teamLead: Boolean
   uxExpert: Boolean
+  productOwner: Boolean
+  dataAnalyst: Boolean
+}
+
+type GuildContribution {
+  internalProject: Boolean
+  education: Boolean
+  noContribution: Boolean
+  startup: Boolean
+  custom: String
+}
+
+type DevelopmentGoal {
+  id: ID
+  description: String
+  successCriteria: String
+  isAchieved: Boolean
+  comment: String
+  createdAt: String
+  updatedAt: String
+}
+
+input DevelopmentPlansInput {
+  employee: ID
+}
+
+input DevelopmentGoalInput {
+  id: ID
+  description: String
+  successCriteria: String
+  isAchieved: Boolean
+  comment: String
+}
+
+input DevelopmentRolesInput {
   webDeveloper: Boolean
+  actuarialBusinessAnalyst: Boolean
+  agileCoach: Boolean
+  agileManager: Boolean
+  automationQA: Boolean
+  devOps: Boolean
+  dotnetDeveloper: Boolean
+  infrastructureArchitect: Boolean
+  javaDeveloper: Boolean
+  manualQA: Boolean
+  mathematician: Boolean
+  scrumMaster: Boolean
+  solutionArchitect: Boolean
+  teamLead: Boolean
+  uxExpert: Boolean
+  productOwner: Boolean
+  dataAnalyst: Boolean
+}
+
+input GuildContributionInput {
+  internalProject: Boolean
+  education: Boolean
+  noContribution: Boolean
+  startup: Boolean
+  custom: String
+}
+
+input UpdateDevelopmentPlanInput {
+  id: ID!
+  createdAt: String
+  updatedAt: String
+  lastUpdatedAt: String
+  developmentRoles: DevelopmentRolesInput
+  guildContribution: GuildContributionInput
+  previousGoals: [DevelopmentGoalInput]
+  actualGoals: [DevelopmentGoalInput]
+  amountOfTime: String
+  longTermGoals: String
+  lookBackNegative: String
+  lookBackPositive: String
+  lookForward: String
+  lastDiscussed: String
+}
+
+type DevelopmentPlan {
+  id: ID!
+  createdAt: String
+  updatedAt: String
+  developmentRoles: DevelopmentRoles
+  guildContribution: GuildContribution
+  previousGoals: [DevelopmentGoal]
+  actualGoals: [DevelopmentGoal]
+  amountOfTime: String
+  longTermGoals: String
+  lookBackNegative: String
+  lookBackPositive: String
+  lookForward: String
+  employee: Employee
+  lastDiscussed: String
+}
+
+input AccessInput {
+  employeeEmail: String
+}
+
+input ReviewerInput {
+  employeeEmail: String
+  reviewers: [String]
+}
+
+type SubordinateUsersCount {
+  users: Int
+  one2oneRequests: Int
+}
+
+type Employee {
+  id: ID!
+  strapiId: ID @deprecated(reason: "id === strapiId")
+  name: String!
+  firstName: String!
+  lastName: String!
+  position: String
+  country: String @deprecated
+  location: LOCATION
+  phoneNumber: String
+  email: String!
+  startDate: String
+  birthday: String
+  bonuses: Float
+  projects: [Project!]
+  experiences: [Experience!]
+  access: Access
+  avatar: String @deprecated
+  manager: Employee @deprecated
+  subordinateUsers: [Employee!]
+  subordinateUsersCount: SubordinateUsersCount
+  agileManager: Employee
+  isMe: Boolean
+  status: String
+  matrices: [Matrix!]
+  worksFromOffice: [String!]
+  activeProcessExecutions: [ProcessExecution!]
+  lastManagerMeeting: String
+  one2oneRequest: Boolean
+  accessEditGlobal: Boolean
+  strapiGroupsMembership: [String!]
+  requestedOnboardingTickets(withResponsible: String): [OnboardingTicket!]
+  curriculumVitae: CurriculumVitae
+  developmentPlanReviewers: [Employee!]
+  matricesReviewers: [Employee!]
 }
 
 input EmployeesInput {
@@ -1043,19 +344,18 @@ input EmployeesInput {
   locations: [LOCATION]
 }
 
-input EvaluateInput {
-  comment: String
-  evaluation: Int
-  evaluationAttribute: ID
-  toWhom: ID
+input UpdateEmployeeInput {
+  id: ID!
+  manager: ID
+  agileManager: String
+  lastManagerMeeting: String
+  one2oneRequest: Boolean
 }
 
-input EvaluationCommentsInput {
-  employee: ID
-}
-
-input EvaluationCustomFieldsInput {
-  employee: ID!
+type EvaluationReviewer {
+  id: ID!
+  fromWho: Employee
+  toWhom: Employee
 }
 
 input EvaluationReviewersAccessInput {
@@ -1066,164 +366,71 @@ input EvaluationReviewersInput {
   toWhom: ID
 }
 
+input CreateEvaluationReviewerInput {
+  fromWho: ID
+  toWhom: ID
+}
+
+input DeleteEvaluationReviewerInput {
+  fromWho: ID
+  toWhom: ID
+}
+
+type EvaluationAttribute {
+  id: ID!
+  title: String
+  description: String
+  group: String
+  index: Int
+}
+
+type Evaluation {
+  id: ID!
+  fromWho: Employee
+  toWhom: Employee
+  evaluation: Int
+  comment: String
+  updatedAt: String
+  evaluationAttribute: EvaluationAttribute
+}
+
+type EvaluationComment {
+  id: ID!
+  body: String
+  employee: Employee
+  evaluationAttribute: EvaluationAttribute
+  editable: Boolean
+}
+
+type EvaluationCustomFields {
+  id: ID!
+  employeeMail: String
+  lastDiscussed: String
+}
+
 input EvaluationsInput {
   employee: ID
 }
 
-input ExperiencesInput {
+input EvaluationCommentsInput {
   employee: ID
-  noMatrixSkills: Boolean
-  skill: ID
 }
 
-input FeedbackInput {
-  about: FEEDBACK_ABOUT!
-  isPrivate: Boolean = false
-  project: String
-  text: String!
+input CommentEvaluationInput {
+  employee: ID
+  body: String
+  evaluationAttribute: ID
 }
 
-input FeedbackReplyInput {
-  feedbackId: ID!
-  text: String!
+input EvaluateInput {
+  toWhom: ID
+  evaluation: Int
+  comment: String
+  evaluationAttribute: ID
 }
 
-input FeedbacksInput {
-  about: FEEDBACK_ABOUT
-  limit: Int = 10
-  offset: Int = 0
-  project: String
-  search: String
-}
-
-input GetArchivedDPInput {
-  id: ID!
-}
-
-input GetArchivedMatrixInput {
-  id: ID!
-}
-
-input GetArchivedSEFInput {
-  id: ID!
-}
-
-input GetWorkspaceInput {
-  id: ID!
-}
-
-input GuildContributionInput {
-  custom: String
-  education: Boolean
-  internalProject: Boolean
-  noContribution: Boolean
-  startup: Boolean
-}
-
-input GuildInput {
-  azureDisplayName: String
-}
-
-input MatricesCustomFieldsInput {
+input EvaluationCustomFieldsInput {
   employee: ID!
-}
-
-"""
-input MatrixSkillInput {
-id: ID!
-skillId: String!
-type: String
-groupId: ID!
-gradeId: ID!
-}
-"""
-input MatricesInput {
-  id: ID
-}
-
-input MutateHelloInput {
-  hello: String
-}
-
-input OfficeDaysInput {
-  count: Int!
-  startDate: String!
-}
-
-input PostsFilter {
-  isTranslated: Boolean
-  language: LANGUAGE
-  tags: [ID]
-  text: String
-}
-
-input ProcessExecutionsInput {
-  id: ID!
-}
-
-input PublishVacancyInput {
-  id: ID!
-}
-
-input RemoveWikiPageInput {
-  path: String
-}
-
-input ReorderMatrixSkillsInput {
-  insertingEmptySlotsIds: [String]
-  matrixId: ID!
-  newIndex: Int
-  removingEmptySlotsIds: [String]
-  skillId: ID!
-}
-
-input ReviewerInput {
-  employeeEmail: String
-  reviewers: [String]
-}
-
-input RotateEmployeeInput {
-  employee: ID!
-  execution: ID!
-  locations: [ID]
-  process: ID!
-}
-
-input RotateRequestInput {
-  candidate: ID!
-  comment: String!
-  id: ID!
-}
-
-input SharedFilesInput {
-  skills: [ID!]
-}
-
-input SkillsInput {
-  id: ID
-  noMatrixSkills: Boolean
-}
-
-input ToggleBookmarklikeInput {
-  bookmark: ID
-}
-
-input UpdateAccessGroupInput {
-  members: [String]
-  name: String
-}
-
-input UpdateBookmarkInput {
-  id: ID!
-  link: String!
-  skills: [ID]
-  title: String!
-}
-
-input UpdateCurriculumVitaeInput {
-  employee: ID!
-  id: ID!
-  vitaes: [VitaeInput]!
 }
 
 input UpdateCustomFieldsInput {
@@ -1231,41 +438,114 @@ input UpdateCustomFieldsInput {
   lastDiscussed: String
 }
 
-input UpdateDevelopmentPlanInput {
-  actualGoals: [DevelopmentGoalInput]
-  amountOfTime: String
-  createdAt: String
-  developmentRoles: DevelopmentRolesInput
-  guildContribution: GuildContributionInput
+type Experience {
   id: ID!
-  lastDiscussed: String
-  lastUpdatedAt: String
-  longTermGoals: String
-  lookBackNegative: String
-  lookBackPositive: String
-  lookForward: String
-  previousGoals: [DevelopmentGoalInput]
+  employee: Employee
+  level: LEVEL
+  skill: Skill
   updatedAt: String
+  comment: String
 }
 
-input UpdateEmployeeInput {
-  agileManager: String
-  id: ID!
-  lastManagerMeeting: String
-  manager: ID
-  one2oneRequest: Boolean
+input ExperiencesInput {
+  employee: ID
+  skill: ID
+  noMatrixSkills: Boolean
+}
+
+input CreateExperienceInput {
+  skill: ID!
+  level: LEVEL
+  employee: ID
+  comment: String
 }
 
 input UpdateExperienceInput {
-  comment: String
   id: ID
   level: LEVEL
+  comment: String
 }
 
 input UpdateExperiencesInput {
-  employee: ID!
-  level: LEVEL
   skills: [ID]
+  level: LEVEL
+  employee: ID!
+}
+
+input DeleteExperienceInput {
+  id: ID
+}
+
+enum FEEDBACK_ABOUT {
+  COMPANY
+  TEAM
+  EVENT
+  PORTAL
+}
+
+type Feedback {
+  id: ID!
+  about: FEEDBACK_ABOUT
+  project: Project
+  text: String
+  createdAt: String
+  comments: [FeedbackComment!]
+}
+
+type FeedbackComment {
+  id: ID!
+  text: String
+  createdAt: String
+}
+
+input FeedbacksInput {
+  search: String
+  about: FEEDBACK_ABOUT
+  project: String
+  limit: Int = 10
+  offset: Int = 0
+}
+
+input FeedbackInput {
+  about: FEEDBACK_ABOUT!
+  project: String
+  text: String!
+  isPrivate: Boolean = false
+}
+
+input FeedbackReplyInput {
+  feedbackId: ID!
+  text: String!
+}
+
+type File {
+  id: ID!
+  url: String
+  fileName: String
+}
+
+type AzureFile {
+  id: ID!
+  url: String
+  fileName: String
+  createdAt: String
+  createdBy: Employee
+  updatedBy: Employee
+  updatedAt: String
+  size: Float
+  type: String
+  details: FileDetails
+}
+
+type FileDetails {
+  id: ID!
+  azureId: ID!
+  skills: [Skill!]
+}
+
+type SharedFiles {
+  hasMore: Boolean
+  files: [AzureFile]
 }
 
 input UpdateFileDetailsInput {
@@ -1273,12 +553,322 @@ input UpdateFileDetailsInput {
   skills: [ID!]
 }
 
+input SharedFilesInput {
+  skills: [ID!]
+}
+
+type Guild {
+  id: ID
+  azureId: ID @deprecated
+  code: String!
+  azureDisplayName: String @deprecated(reason: "use code")
+  leaders: [Employee!]
+  title: String
+  description: String
+  shortDescription: String
+  skills: [Skill!]
+  accessWrite: Boolean
+}
+
+input GuildInput {
+  azureDisplayName: String
+}
+
 input UpdateGuildInput {
   azureDisplayName: String!
+  title: String
   description: String
   shortDescription: String
   skills: [ID]
+  leaders: [String]
+}
+
+type Query {
+  hello: String
+  isAuthenticated: Boolean
+  getMembersOf(group: String): [Employee!]
+  archivedDPVersions(input: ArchiveDPInput): [ArchivedDPVersion]
+  archivedDP(input: GetArchivedDPInput): ArchiveDP
+  archivedSEFVersions(input: ArchiveSEFInput): [ArchivedSEFVersion]
+  archivedSEF(input: GetArchivedSEFInput): ArchiveSEF
+  archivedMatrixVersions(input: ArchiveMatrixInput): [ArchivedMatrixVersion]
+  archivedMatrix(input: GetArchivedMatrixInput): ArchiveMatrix
+  bookmarks(input: BookmarksInput): [Bookmark]
+  bookmarkByLink(link: String!): Bookmark
+  clientDevToolsAccess: Boolean
+  clientDevToolsGitInfo: DevToolsGitInfo
+  curriculumVitaeAccess(input: AccessInput): Access
+  developmentPlans(input: DevelopmentPlansInput!): DevelopmentPlan
+  developmentPlanLookReviewersAccess(input: AccessInput): Access
+  matricesLookReviewersAccess(input: AccessInput): Access
+  employee(id: ID!): Employee
+  employeeByEmail(email: String!): Employee
+  employees(input: EmployeesInput): [Employee!]
+  profile: Employee
+  evaluationReviewersAccess(input: EvaluationReviewersAccessInput): Access
+  evaluationReviewers(input: EvaluationReviewersInput): [EvaluationReviewer]
+  evaluationAttributes: [EvaluationAttribute]
+  evaluationComments(input: EvaluationCommentsInput): [EvaluationComment]
+  evaluations(input: EvaluationsInput!): [Evaluation]
+  evaluationCustomFields(input: EvaluationCustomFieldsInput): EvaluationCustomFields
+  experiences(input: ExperiencesInput): [Experience]
+  feedbacks(input: FeedbacksInput!): [Feedback!]
+  feedbacksAccess: Access
+  sharedFiles(input: SharedFilesInput): SharedFiles!
+  guild(input: GuildInput): Guild
+  guilds: [Guild]
+  levels: [LEVEL!]
+  locations: [LOCATION!]
+  matrices(input: MatricesInput): [Matrix]
+  matricesAccess: Access
+  matricesCustomFields(input: MatricesCustomFieldsInput): MatricesCustomFields
+  officeDays(input: OfficeDaysInput): [OfficeDay]
+  officeAccess: Access
+  onboardingTickets: [OnboardingTicket]
+  onboardingAccess: Access
+  employeeOnboardingTickets: [OnboardingTicket]
+  createdByMeOnboardingTickets: [OnboardingTicket]
+  post(id: ID!): Post
+  postBySlug(slug: String!): Post
+  posts(first: Int, after: ID, filter: PostsFilter): [Post]
+  postsEditor: Access @deprecated(reason: "will be moved to employee.access.posts")
+  processesAccess: Access
+  process(id: ID!): Process
+  processes: [Process]
+  processExecutionsAccess: Access
+  processExecution(id: ID!): ProcessExecution
+  processExecutions(input: ProcessExecutionsInput): [ProcessExecution]
+  project(id: ID!): Project
+  projectByCode(code: String!): Project
+  projects: [Project]
+  skills(input: SkillsInput): [Skill!]
+  tags: [Tag]
+  vacancy(id: ID!): Vacancy
+  vacancies(input: VacanciesInput): [Vacancy]
+  wikiRootSections: [WikiRootSection]
+  wikiPage(input: WikiPageInput): WikiPage
+  wikiPagesPaths(rootPath: String): [String]
+  workspaceDesignAccess: Access
+  workspaces(input: WorkspacesInput): [Workspace]
+  workspace(input: GetWorkspaceInput): Workspace
+}
+
+input MutateHelloInput {
+  hello: String
+}
+
+type Mutation {
+  mutateHello(input: MutateHelloInput): String
+  updateAccessGroup(input: UpdateAccessGroupInput): String
+  archiveDP(input: ArchiveDPInput): ArchiveDP
+  archiveSEF(input: ArchiveSEFInput): ArchiveSEF
+  archiveMatrix(input: ArchiveMatrixInput): ArchiveMatrix
+  createBookmark(input: CreateBookmarkInput!): Bookmark
+  updateBookmark(input: UpdateBookmarkInput!): Bookmark
+  deleteBookmark(input: DeleteBookmarkInput!): Bookmark
+  toggleBookmarklike(input: ToggleBookmarklikeInput!): Bookmarklike
+  updateCurriculumVitae(input: UpdateCurriculumVitaeInput!): CurriculumVitae
+  updateDevelopmentPlan(input: UpdateDevelopmentPlanInput!): DevelopmentPlan
+  updateDevelopmentPlanReviewers(input: ReviewerInput): [Employee!]
+  updateMatricesReviewers(input: ReviewerInput): [Employee!]
+  updateEmployee(input: UpdateEmployeeInput!): Employee
+  createEvaluationReviewer(input: CreateEvaluationReviewerInput): [EvaluationReviewer]
+  deleteEvaluationReviewer(input: DeleteEvaluationReviewerInput): EvaluationReviewer
+  evaluate(input: EvaluateInput!): Evaluation
+  commentEvaluation(input: CommentEvaluationInput!): EvaluationComment
+  updateCustomFields(input: UpdateCustomFieldsInput): EvaluationCustomFields
+  createExperience(input: CreateExperienceInput): Experience
+  updateExperience(input: UpdateExperienceInput): Experience
+  updateExperiences(input: UpdateExperiencesInput): [Experience]
+  deleteExperience(input: DeleteExperienceInput): Experience
+  addFeedback(input: FeedbackInput!): Feedback
+  replyFeedback(input: FeedbackReplyInput!): FeedbackComment
+  updateFileDetails(input: UpdateFileDetailsInput!): FileDetails
+  updateGuild(input: UpdateGuildInput): Guild
+  attachMatrixToEmployee(input: AttachMatrixToEmployeeInput): Matrix
+  detachMatrixFromEmployee(input: DetachMatrixFromEmployeeInput): Matrix
+  createMatrix(input: CreateMatrixInput): Matrix
+  updateMatrix(input: UpdateMatrixInput): Matrix
+  commentMatrix(input: CommentMatrixInput): Matrix
+  reorderMatrixSkills(input: ReorderMatrixSkillsInput): ID
+  createMatrixSkill(input: CreateMatrixSkillInput): Matrix
+  deleteMatrixSkill(input: DeleteMatrixSkillInput): Matrix
+  createMatrixGroup(input: CreateMatrixGroupInput): Matrix
+  deleteMatrixGroup(input: DeleteMatrixGroupInput): Matrix
+  createMatrixGrade(input: CreateMatrixGradeInput): Matrix
+  deleteMatrixGrade(input: DeleteMatrixGradeInput): Matrix
+  updateMatricesCustomFields(input: UpdateMatricesCustomFieldsInput): MatricesCustomFields
+  applyToWorkFromOffice(input: ApplyToWorkFromOfficeInput!): Boolean
+  updateOfficeDay(input: UpdateOfficeDayInput!): OfficeDay
+  createOnboardingTicket(input: CreateOnboardingTicketInput): OnboardingTicket
+  updateOnboardingTicket(input: UpdateOnboardingTicketInput): OnboardingTicket
+  deleteOnboardingTicket(input: DeleteOnboardingTicketInput): OnboardingTicket
+  completeOnboardingTicket(input: CompleteOnboardingTicketInput): ID
+  requestOnboardingTicket(id: ID!): ID
+  createPost(input: CreatePostInput): Post
+  updatePost(input: UpdatePostInput): Post
+  createProcess(input: CreateProcessInput): Process
+  updateProcess(input: UpdateProcessInput): Process
+  deleteProcess(id: ID!): Process
+  createProcessStep(input: CreateProcessStepInput): ProcessStep
+  updateProcessStep(input: UpdateProcessStepInput): ProcessStep
+  deleteProcessStep(id: ID!): ProcessStep
+  createProcessExecution(input: CreateProcessExecutionInput): ProcessExecution
+  updateProcessExecution(input: UpdateProcessExecutionInput): ProcessExecution
+  abortProcessExecution(input: AbortProcessExecutionInput!): ProcessExecution
+  toggleHoldProcessExecution(input: AbortProcessExecutionInput!): ProcessExecution
+  rotateEmployee(input: RotateEmployeeInput!): ProcessExecution
+  completeProcessExecutionStep(input: CompleteProcessExecutionStepInput!): ProcessExecutionStep
+  commentProcessExecutionStep(input: CommentProcessExecutionStepInput!): ProcessExecutionStep
+  updateProject(input: UpdateProjectInput!): Project
+  updateProjectSkills(input: UpdateProjectSkillsInput!): Project
+  createSkill(input: CreateSkillInput): Skill
+  updateSkill(input: UpdateSkillInput): Skill
+  createTag(input: CreateTagInput!): Tag
+  updateVacancy(input: UpdateVacancyInput): Vacancy
+  publishVacancy(input: PublishVacancyInput): Vacancy
+  closeVacancy(input: CloseVacancyInput): Vacancy
+  rotateRequest(input: RotateRequestInput): Vacancy
+  cancelRotateRequest(input: CancelRotateRequestInput): Vacancy
+  updateWikiPage(input: UpdateWikiPageInput): WikiPage
+  createWikiPage(input: CreateWikiPageInput): WikiPage
+  removeWikiPage(input: RemoveWikiPageInput): WikiPage
+  createWorkspace(input: CreateWorkspaceInput): Workspace
+  updateWorkspace(input: UpdateWorkspaceInput): Workspace
+  deleteWorkspace(input: DeleteWorkspaceInput): Workspace
+  createWorkplace(input: CreateWorkplaceInput): Workplace
+  updateWorkplace(input: UpdateWorkplaceInput): Workplace
+  deleteWorkplace(input: DeleteWorkplaceInput): Workplace
+  createWorkplaceBooking(input: CreateWorkplaceBookingInput): WorkplaceBooking
+  deleteWorkplaceBooking(input: DeleteWorkplaceBookingInput): WorkplaceBooking
+}
+
+type MatrixGrade {
+  id: ID!
   title: String
+  description: String
+}
+
+type MatrixGroup {
+  id: ID!
+  title: String
+  description: String
+}
+
+type MatrixSkill {
+  id: ID
+  type: String
+  skill: Skill
+  groupId: ID!
+  gradeId: ID!
+}
+
+type MatrixBody {
+  groups: [MatrixGroup]
+  grades: [MatrixGrade]
+  skills: [MatrixSkill]
+}
+
+type Matrix {
+  id: ID!
+  title: String
+  description: String
+  body: MatrixBody
+  employees: [Employee!]
+  access: Access
+  comment: String
+  employeeMatrixId: String
+}
+
+type MatricesCustomFields {
+  id: ID!
+  employeeMail: String
+  lastDiscussed: String
+}
+
+"""
+   input MatrixSkillInput {
+  id: ID!
+  skillId: String!
+  type: String
+  groupId: ID!
+  gradeId: ID!
+}
+"""
+input MatricesInput {
+  id: ID
+}
+
+input CreateMatrixInput {
+  title: String!
+  description: String
+}
+
+input CreateMatrixGradeInput {
+  matrixId: ID!
+  title: String!
+  description: String
+}
+
+input CreateMatrixGroupInput {
+  matrixId: ID!
+  title: String!
+  description: String
+}
+
+input UpdateMatrixInput {
+  id: ID!
+  title: String!
+  description: String
+}
+
+input ReorderMatrixSkillsInput {
+  matrixId: ID!
+  skillId: ID!
+  newIndex: Int
+  insertingEmptySlotsIds: [String]
+  removingEmptySlotsIds: [String]
+}
+
+input CreateMatrixSkillInput {
+  matrixId: ID!
+  skillId: ID!
+  gradeId: ID!
+  groupId: ID!
+}
+
+input AttachMatrixToEmployeeInput {
+  matrix: ID
+  employee: ID
+}
+
+input DetachMatrixFromEmployeeInput {
+  matrix: ID
+  employee: ID
+}
+
+input DeleteMatrixSkillInput {
+  matrix: ID
+  id: ID
+}
+
+input DeleteMatrixGroupInput {
+  matrix: ID
+  id: ID
+}
+
+input DeleteMatrixGradeInput {
+  matrix: ID
+  id: ID
+}
+
+input CommentMatrixInput {
+  id: ID!
+  comment: String
+}
+
+input MatricesCustomFieldsInput {
+  employee: ID!
 }
 
 input UpdateMatricesCustomFieldsInput {
@@ -1286,68 +876,279 @@ input UpdateMatricesCustomFieldsInput {
   lastDiscussed: String
 }
 
-input UpdateMatrixInput {
-  description: String
+type OfficeDay {
   id: ID!
-  title: String!
+  date: String
+  employeeLimit: Int
+  location: LOCATION
+  employeeCount: Int
+  employees: [Employee!]
+}
+
+input OfficeDaysInput {
+  startDate: String!
+  count: Int!
+}
+
+input ApplyToWorkFromOfficeInput {
+  date: String
+  location: LOCATION
+  cancelOnly: Boolean
+  bookOnly: Boolean
 }
 
 input UpdateOfficeDayInput {
   date: String
-  employeeLimit: Int
   location: LOCATION
+  employeeLimit: Int
+}
+
+type OnboardingTicket {
+  id: ID!
+  title: String
+  description: String
+  responsible: [Employee!]
+  isOptional: Boolean
+  isSwissRe: Boolean
+  isRequestedByMe: Boolean
+}
+
+input CreateOnboardingTicketInput {
+  title: String
+  description: String
+  responsible: String
+  isOptional: Boolean
+  isSwissRe: Boolean
 }
 
 input UpdateOnboardingTicketInput {
-  description: String
   id: ID!
+  title: String
+  description: String
+  responsible: String
   isOptional: Boolean
   isSwissRe: Boolean
-  responsible: String
-  title: String
 }
 
-input UpdatePostInput {
-  body: String!
+input DeleteOnboardingTicketInput {
   id: ID!
-  images: [String]
+}
+
+input CompleteOnboardingTicketInput {
+  id: ID!
+}
+
+type Post {
+  id: ID!
+  title: String!
+  slug: String!
+  body: String!
+  createdAt: String
+  updatedAt: String @deprecated
+  createdBy: Employee
+  isTranslated: Boolean @deprecated
+  language: LANGUAGE!
+  locations: [LOCATION!]
+  images: [File] @deprecated
+  tags: [Tag]
+}
+
+input CreatePostInput {
+  title: String!
+  body: String!
   isTranslated: Boolean
   language: LANGUAGE
   locations: [LOCATION]
+  images: [String]
   tags: [String]
+}
+
+input UpdatePostInput {
+  id: ID!
   title: String
+  body: String!
+  isTranslated: Boolean
+  language: LANGUAGE
+  locations: [LOCATION]
+  images: [String]
+  tags: [String]
 }
 
-input UpdateProcessExecutionInput {
-  employee: String
-  employeePhone: String
-  finishDate: String
+type PostEdge {
+  node: Post
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: ID
+  endCursor: ID
+}
+
+input PostsFilter {
+  tags: [ID]
+  isTranslated: Boolean
+  language: LANGUAGE
+  text: String
+}
+
+enum PROCESS_TYPE {
+  ROTATION
+  ONBOARDING
+  OFFBOARDING
+}
+
+enum PROCESS_STEP_TYPE {
+  APPROVE
+  NOTIFY
+  INDEPENDENT
+}
+
+type ProcessStep {
   id: ID!
-  prio: Int
+  title: String
+  description: String
+  type: PROCESS_STEP_TYPE
+  responsibleUsers: [Employee!]
+  sendToTeamlead: Boolean
+  send24hoursNotification: Boolean
+  parentSteps: [ProcessStep]
+  process: Process
+  hasComment: Boolean
 }
 
-input UpdateProcessInput {
+type Process {
+  id: ID!
+  title: String
   customer: CUSTOMER
-  id: ID!
+  nextCustomer: CUSTOMER
+  type: PROCESS_TYPE
   isRotation: Boolean
+  steps: [ProcessStep]
+}
+
+input CreateProcessInput {
+  title: String
+  customer: CUSTOMER
+  nextCustomer: CUSTOMER
   type: PROCESS_TYPE
 }
 
-input UpdateProcessStepInput {
-  description: String
-  hasComment: Boolean
+input UpdateProcessInput {
   id: ID!
-  parentSteps: [ID]
-  responsibleUsers: [ID]
-  send24hoursNotification: Boolean
-  sendToTeamlead: Boolean
-  title: String
-  type: PROCESS_STEP_TYPE
+  customer: CUSTOMER
+  type: PROCESS_TYPE
+  isRotation: Boolean
 }
 
-input UpdateProjectInput {
+input CreateProcessStepInput {
+  parentSteps: [ID]
+  process: ID!
+}
+
+input UpdateProcessStepInput {
   id: ID!
-  scrumMasters: [String]
+  title: String
+  description: String
+  type: PROCESS_STEP_TYPE
+  responsibleUsers: [ID]
+  sendToTeamlead: Boolean
+  send24hoursNotification: Boolean
+  parentSteps: [ID]
+  hasComment: Boolean
+}
+
+type ProcessExecutionComment {
+  id: ID!
+  body: String
+  employee: Employee
+  createdAt: String
+  step: ProcessExecutionStep
+}
+
+type ProcessExecutionStep {
+  id: ID!
+  execution: ProcessExecution!
+  step: ProcessStep
+  isDone: Boolean
+  description: String
+}
+
+enum PROCESS_EXECUTION_STATUS {
+  RUNNING
+  FINISHED
+  CANCELLED
+  HOLDING
+}
+
+type ProcessExecution {
+  id: ID!
+  process: Process
+  vacancy: Vacancy
+  locations: [LOCATION!]
+  project: Project
+  status: String
+  executionSteps: [ProcessExecutionStep]
+  employee: String
+  employeePhone: String
+  finishDate: String
+  activeStepEmployees: [Employee!]
+  isIndependentStepsActive: Boolean
+  prio: Int
+}
+
+input ProcessExecutionsInput {
+  id: ID!
+}
+
+input CreateProcessExecutionInput {
+  process: ID!
+  locations: [ID]
+  project: ID
+  prio: Int
+}
+
+input UpdateProcessExecutionInput {
+  id: ID!
+  finishDate: String
+  employee: String
+  employeePhone: String
+  prio: Int
+}
+
+input AbortProcessExecutionInput {
+  id: ID!
+}
+
+input CompleteProcessExecutionStepInput {
+  execution: ID!
+  step: ID!
+}
+
+input CommentProcessExecutionStepInput {
+  execution: ID!
+  step: ID!
+  description: String!
+}
+
+input RotateEmployeeInput {
+  execution: ID!
+  process: ID!
+  locations: [ID]
+  employee: ID!
+}
+
+type Project {
+  id: ID!
+  name: String!
+  code: String!
+  description: String
+  leaders: [Employee!]
+  employees: [Employee!]
+  skills: [Skill!]
+  access: Access
+  scrumMasters: [Employee!]
+  accessEditGlobal: Boolean
 }
 
 input UpdateProjectSkillsInput {
@@ -1355,72 +1156,274 @@ input UpdateProjectSkillsInput {
   skills: [ID]
 }
 
-input UpdateSkillInput {
-  description: String
+input UpdateProjectInput {
   id: ID!
-  isMatrixOnly: Boolean
-  name: String
-  parent: String
+  scrumMasters: [String]
 }
 
-input UpdateVacancyInput {
+type Skill {
+  id: ID!
+  name: String!
+  description: String
+  experiences(input: ExperiencesInput): [Experience!]
+  projects: [Project!]
+  parent: Skill
+  children: [Skill!]
+  addedBy: Employee
+  isMatrixOnly: Boolean!
+}
+
+input SkillsInput {
+  id: ID
+  noMatrixSkills: Boolean
+}
+
+input CreateSkillInput {
+  name: String!
+  description: String
+  parent: ID
+  isMatrixOnly: Boolean
+}
+
+input UpdateSkillInput {
+  id: ID!
+  name: String
+  description: String
+  parent: ID
+  isMatrixOnly: Boolean
+}
+
+type Tag {
+  id: ID!
+  name: String!
+  description: String @deprecated
+  posts: [Post]
+}
+
+input CreateTagInput {
+  name: String!
+  description: String
+}
+
+type Vacancy {
+  id: ID!
+  reason: String
+  locations: [LOCATION!]
+  position: String
+  responsibilities: String
+  requiredSkills: String
   additionalSkills: String
-  comment: String
-  employeeComment: String
+  project: Project
+  isPublished: Boolean
+  isClosed: Boolean
+  customer: String
+  rotateEmployees: [Employee!]
+  responsibleEmployees: [Employee!]
+  editable: Boolean
   employeeExperience: String
   englishLevel: String
-  id: ID!
-  locations: [LOCATION]
-  position: String
-  project: ID
-  reason: String
-  requiredSkills: String
-  responsibilities: String
   stack: String
-}
-
-input UpdateWikiPageInput {
-  body: String
-  id: ID!
-  path: String
-  title: String
-}
-
-input UpdateWorkplaceInput {
-  coordX: Int!
-  coordY: Int!
-  id: ID!
-  number: Int
-}
-
-input UpdateWorkspaceInput {
-  drawing: String
-  id: ID!
-  name: String
+  description: String
 }
 
 input VacanciesInput {
   id: ID
 }
 
-input VitaeInput {
-  company: String
-  dateEnd: String
-  dateStart: String
-  id: ID
-  level: String
+input UpdateVacancyInput {
+  id: ID!
+  reason: String
+  locations: [LOCATION]
   position: String
-  project: String
   responsibilities: String
+  requiredSkills: String
+  additionalSkills: String
+  project: ID
+  employeeExperience: String
+  englishLevel: String
+  stack: String
+  description: String
+}
+
+input PublishVacancyInput {
+  id: ID!
+}
+
+input CloseVacancyInput {
+  id: ID!
+}
+
+input RotateRequestInput {
+  id: ID!
+  candidate: ID!
+  comment: String!
+}
+
+input CancelRotateRequestInput {
+  id: ID!
+  candidate: ID!
+}
+
+type WikiRootSection {
+  id: ID!
+  title: String
+  description: String
+  icon: String
+  path: String!
+}
+
+type WikiPage {
+  id: ID!
+  title: String
+  body: String
+  path: String!
 }
 
 input WikiPageInput {
   path: String
 }
 
+input UpdateWikiPageInput {
+  id: ID!
+  title: String
+  body: String
+  path: String
+}
+
+input CreateWikiPageInput {
+  path: String
+}
+
+input RemoveWikiPageInput {
+  path: String
+}
+
+type Workspace {
+  id: ID!
+  drawing: String
+  workplaces: [Workplace]
+  location: LOCATION
+  name: String
+}
+
+type Workplace {
+  id: ID!
+  workspace: Workspace
+  coordX: Int
+  coordY: Int
+  number: Int
+  bookings(input: BookingsInput): [WorkplaceBooking]
+}
+
+type WorkplaceBooking {
+  id: ID!
+  workplace: Workplace
+  employeeId: ID!
+  startDate: String
+  finishDate: String
+}
+
+input GetWorkspaceInput {
+  id: ID!
+}
+
+input CreateWorkspaceInput {
+  name: String!
+  location: LOCATION!
+}
+
+input UpdateWorkspaceInput {
+  id: ID!
+  name: String
+  drawing: String
+}
+
+input DeleteWorkspaceInput {
+  id: ID!
+}
+
+input CreateWorkplaceInput {
+  workspace: ID!
+  coordX: Int!
+  coordY: Int!
+}
+
+input UpdateWorkplaceInput {
+  id: ID!
+  coordX: Int
+  coordY: Int
+  number: Int
+}
+
+input DeleteWorkplaceInput {
+  id: ID!
+}
+
+input BookingsInput {
+  startDate: String
+  finishDate: String
+}
+
+input CreateWorkplaceBookingInput {
+  workplace: ID!
+  startDate: String!
+  finishDate: String!
+}
+
+input DeleteWorkplaceBookingInput {
+  id: ID!
+}
+
 input WorkspacesInput {
   location: LOCATION
 }
 
-"The `Upload` scalar type represents a file upload."
+enum LANGUAGE {
+  RU
+  EN
+}
+
+enum LEVEL {
+  WANTED
+  LEARNING
+  EXPERIENCED
+  CONFIDENT
+}
+
+enum LOCATION {
+  SAINT_PETERSBURG
+  KALININGRAD
+  TOMSK
+  ZURICH
+}
+
+enum CUSTOMER {
+  INTERNAL
+  SWISSRE
+  ALLIANZ
+}
+
+enum ACCESS_GROUP {
+  REVIEWERS
+  FEEDBACK
+  HR_RU
+  HR_EDITORS
+  NEWS_EDITORS
+  TECH_PORTAL
+  DEV_PORTAL
+  WORKSPACE_PLANNER
+  SYS_ADMINS
+  HR_ADMINS
+  SUPER_USER
+  WIKI_EDITORS
+}
+
+enum CacheControlScope {
+  PUBLIC
+  PRIVATE
+}
+
+"""
+The `Upload` scalar type represents a file upload.
+"""
 scalar Upload

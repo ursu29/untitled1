@@ -1,14 +1,31 @@
-import { LEVEL } from '../types'
+import { Level } from '../types/graphql'
 
-export default (level: LEVEL) => {
+export const levelList = Object.values(Level)
+
+export const getLevelName = (level: Level) => {
   switch (level) {
-    case LEVEL.CONFIDENT:
+    case Level.Confident:
       return 'Confident in'
-    case LEVEL.EXPERIENCED:
+    case Level.Experienced:
       return 'Experienced'
-    case LEVEL.LEARNING:
+    case Level.Learning:
       return 'Currently studies'
-    case LEVEL.WANTED:
+    case Level.Wanted:
       return 'Wants to know'
+  }
+}
+
+export const getMatrixLevelName = (level: Level) => {
+  switch (level) {
+    case Level.Confident:
+      return 'Practical knowledge'
+    case Level.Experienced:
+      return 'Practical knowledge'
+    case Level.Learning:
+      return 'Theoretical knowledge'
+    case Level.Wanted:
+      return 'No Knowledge'
+    default:
+      return '?'
   }
 }

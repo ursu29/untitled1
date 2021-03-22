@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Level } from '../../types/graphql'
+import { getMatrixLevelName } from '../../utils/getLevelName'
 
 const StyledButton = styled.div<{ isHovered: boolean | undefined }>`
   width: 14px;
@@ -26,17 +28,20 @@ export const circleButtonsPallette = [
   {
     backgroundColor: 'rgba(0, 0, 0, 0.15)',
     borderColor: '#adadad',
-    title: 'No Knowledge',
+    title: getMatrixLevelName(Level.Wanted),
+    level: Level.Wanted,
   },
   {
     backgroundColor: 'rgba(242, 201, 76, 0.3)',
     borderColor: '#F2C94C',
-    title: 'Theoretical Knowledge',
+    title: getMatrixLevelName(Level.Learning),
+    level: Level.Learning,
   },
   {
     backgroundColor: 'rgba(21, 225, 127, 0.3)',
     borderColor: '#15E17F',
-    title: 'Practical Knowledge',
+    title: getMatrixLevelName(Level.Experienced),
+    level: Level.Experienced,
   },
 ]
 
@@ -57,6 +62,6 @@ export const CircleButton = ({
         backgroundColor: isActive ? borderColor : backgroundColor,
         ...style,
       }}
-    ></StyledButton>
+    />
   )
 }

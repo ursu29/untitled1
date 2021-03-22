@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { Collapse, Form, Select, Input, Button, Checkbox } from 'antd'
-import { useMutation } from '@apollo/react-hooks'
 import ProjectSelect from '../Projects/ProjectSelect'
-import { addFeedback } from '../../queries/feedback'
+import { useAddFeedbackMutation } from '../../queries/feedback'
+import { Feedback_About as FeedbackAbout } from '../../types/graphql'
 import message from '../../message'
-import { FEEDBACK_ABOUT } from '../../types'
 import { aboutList } from './about'
 
 export default function AddFeedback() {
@@ -13,7 +12,7 @@ export default function AddFeedback() {
   const [form] = Form.useForm()
   const header = React.createElement('div', { style: { fontSize: '16px' } }, 'Add new')
 
-  const [addNewFeedback, { loading }] = useMutation(addFeedback, {
+  const [addNewFeedback, { loading }] = useAddFeedbackMutation({
     onCompleted: () => {
       message.success('Your feedback has been sent')
       form.resetFields()
@@ -55,6 +54,7 @@ export default function AddFeedback() {
             rules={[{ required: true, message: ' Please select the object of your feedback' }]}
           >
             <Select
+              data-cy="about"
               placeholder="Select the object of your feedback"
               style={{ width: '100%' }}
               onChange={onAboutChange}
@@ -66,8 +66,9 @@ export default function AddFeedback() {
               ))}
             </Select>
           </Form.Item>
-          {about === FEEDBACK_ABOUT.TEAM && (
+          {about === FeedbackAbout.Team && (
             <Form.Item
+              data-cy="project"
               label="Project"
               name="project"
               rules={[{ required: true, message: 'Please select the project' }]}
@@ -80,6 +81,7 @@ export default function AddFeedback() {
             </Form.Item>
           )}
           <Form.Item
+            data-cy="message"
             label="Text"
             name="text"
             rules={[
@@ -92,16 +94,17 @@ export default function AddFeedback() {
             ]}
           >
             <Input.TextArea
+              data-cy="feedback"
               autoSize={{ minRows: 4, maxRows: 20 }}
               placeholder="What do you want to say?"
               style={{ width: '100%' }}
             />
           </Form.Item>
           <Form.Item name="isPrivate" valuePropName="checked" wrapperCol={{ offset: 4 }}>
-            <Checkbox>Show only for managers</Checkbox>
+            <Checkbox data-cy="onlyManager">Show only for managers</Checkbox>
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 4 }}>
-            <Button type="primary" htmlType="submit" loading={loading}>
+            <Button type="primary" htmlType="submit" loading={loading} data-cy="post">
               Post
             </Button>
             <div style={{ position: 'absolute', color: '#b3b1b1', marginTop: '5px' }}>

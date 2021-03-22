@@ -1,9 +1,7 @@
-import { useQuery } from '@apollo/react-hooks'
 import React, { useState, useEffect } from 'react'
-
-import query, { QueryType } from '../../queries/getSkills'
+import { useGetSkillsQuery } from '../../queries/skills'
+import { Skill } from '../../types/graphql'
 import TreeSelect from '../UI/TreeSelect'
-import { Skill } from '../../types'
 import message from '../../message'
 
 type SkillPick = Pick<Skill, 'id' | 'name'>
@@ -30,7 +28,7 @@ function SkillTreeSelect(
   const [value, setValue] = useState<string | string[] | undefined>(
     convertSkillsToTreeValue(props.value),
   )
-  const { data, loading } = useQuery<QueryType>(query, {
+  const { data, loading } = useGetSkillsQuery({
     onError: message.error,
   })
 
@@ -51,7 +49,7 @@ function SkillTreeSelect(
       onChange={value => {
         const skills = [value].flat()
         if (props.onChange) {
-          props.onChange(data?.skills.filter(skill => skills.includes(skill.name)) || [])
+          props.onChange(data?.skills?.filter(skill => skills.includes(skill.name)) || [])
         }
         setValue(skills)
       }}

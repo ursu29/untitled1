@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
-import { useQuery } from '@apollo/react-hooks'
-import { LinkOutlined } from '@ant-design/icons'
+import { LinkOutlined, MessageOutlined } from '@ant-design/icons'
 import { Tooltip, Spin } from 'antd'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import styled from 'styled-components'
-import getLevels, { QueryType } from '../../queries/getLevels'
+import { Level } from '../../types/graphql'
 import { MatrixCell } from './styled'
-import { Skill, LEVEL, Experience, ArchivedMatrixRaw } from '../../types'
+import { Skill, Experience, ArchivedMatrixRaw } from '../../types'
 import { CircleButton, circleButtonsPallette } from './CircleButton'
 import { getSkillLink } from '../../paths'
-import { MessageOutlined } from '@ant-design/icons'
 import CommentModal from '../UI/CommentModal'
 
 const Card = styled.div<{ backgroundColor: string }>`
@@ -55,32 +53,35 @@ const Comment = styled.div<{ active: boolean }>`
   }
 `
 
+const getBGColorByLevel = (level?: Level) => {
+  switch (level) {
+    case Level.Learning:
+      return 'rgba(242, 201, 76, 0.3)'
+    case Level.Experienced:
+    case Level.Confident:
+      return 'rgba(21, 225, 127, 0.3)'
+    case Level.Wanted:
+    default:
+      return 'rgba(0, 0, 0, 0.04)'
+  }
+}
+
 interface Props {
   skill: Pick<Skill, 'id' | 'name' | 'description'>
   experience?: {
     id: Experience['id']
-    level: LEVEL
+    level: Level
     comment: Experience['comment']
   }
   archivedExperience?: ArchivedMatrixRaw['experiences'][0]
   isArchivedChosen?: boolean
-  onUpdateExperience: any
-  onDeselectLevel: any
+  onUpdateExperience: (level: Level, comment?: string) => void
+  onDeselectLevel: () => void
   divClassName?: string
   editable: boolean
   type?: string
   loading?: boolean
 }
-
-// const getName = (index: number) => {
-//   const names: any = {
-//     0: 'Unknown',
-//     1: 'Theoretical knowledge',
-//     2: 'Practical knowledge',
-//     3: 'Practical knowledge',
-//   }
-//   return names[index] || '?'
-// }
 
 function MatrixExperience({
   skill,
@@ -101,46 +102,8 @@ function MatrixExperience({
   }
   const [addCommentModal, setAddCommentModal] = useState(initialCommentModal)
 
-  const { data } = useQuery<QueryType>(getLevels)
-
-  const wantsToKnowLevel = LEVEL.WANTED
-
-  const filteredLevels = data?.levels.filter(level => level !== LEVEL.CONFIDENT)
-  // .map(level => {
-  //   return {
-  //     level,
-  //     name: getName(Object.keys(LEVEL).indexOf(level)),
-  //   }
-  // })
-
-  let backgroundColor = 'rgba(0, 0, 0, 0.04)'
-  if (experience) {
-    if (
-      Object.keys(LEVEL).indexOf(experience.level) === Object.keys(LEVEL).indexOf(LEVEL.LEARNING)
-    ) {
-      backgroundColor = 'rgba(242, 201, 76, 0.3)'
-    }
-    if (Object.keys(LEVEL).indexOf(experience.level) > Object.keys(LEVEL).indexOf(LEVEL.LEARNING)) {
-      backgroundColor = 'rgba(21, 225, 127, 0.3)'
-    }
-  }
-
-  if (archivedExperience && isArchivedChosen && data) {
-    if (
-      Object.keys(LEVEL).indexOf(archivedExperience.level) ===
-      Object.keys(LEVEL).indexOf(LEVEL.LEARNING)
-    ) {
-      backgroundColor = 'rgba(242, 201, 76, 0.3)'
-    }
-    if (
-      Object.keys(LEVEL).indexOf(archivedExperience.level) >
-      Object.keys(LEVEL).indexOf(LEVEL.LEARNING)
-    ) {
-      backgroundColor = 'rgba(21, 225, 127, 0.3)'
-    }
-  }
-
-  if (archivedExperience === null && isArchivedChosen) backgroundColor = 'rgba(0, 0, 0, 0.04)'
+  const currentLevel = isArchivedChosen ? archivedExperience?.level : experience?.level
+  const backgroundColor = getBGColorByLevel(currentLevel)
 
   return (
     <>
@@ -211,28 +174,22 @@ function MatrixExperience({
                   ) : (
                     <div style={{ display: 'flex', alignItems: 'flex-end', width: '75px' }}>
                       {editable &&
-                        circleButtonsPallette.map((button, i) => (
+                        circleButtonsPallette.map(button => (
                           <CircleButton
-                            key={i}
+                            key={button.level}
                             backgroundColor={button.backgroundColor}
                             borderColor={button.borderColor}
                             isActive={
                               experience?.level
-                                ? i === Object.keys(LEVEL).indexOf(experience?.level)
-                                : i === 0
+                                ? experience?.level === button.level
+                                : button.level === Level.Wanted
                             }
                             isHovered
                             onClick={() => {
-                              if (experience && i === Object.keys(LEVEL).indexOf(experience?.level))
-                                return
-                              i === 0 && !experience?.comment
+                              if (experience?.level === button.level) return
+                              button.level === Level.Wanted && !experience?.comment
                                 ? onDeselectLevel()
-                                : onUpdateExperience(
-                                    filteredLevels?.find(
-                                      level => Object.keys(LEVEL).indexOf(level) === i,
-                                    ),
-                                    experience?.comment,
-                                  )
+                                : onUpdateExperience(button.level, experience?.comment)
                             }}
                           />
                         ))}
@@ -242,7 +199,7 @@ function MatrixExperience({
               </div>
             </>
           ) : (
-            <div></div>
+            <div />
           )}
         </Card>
       </Tooltip>
@@ -256,7 +213,7 @@ function MatrixExperience({
 
           if (!comment && !addCommentModal.comment) return
 
-          onUpdateExperience(experience?.level || wantsToKnowLevel, comment || '')
+          onUpdateExperience(experience?.level || Level.Wanted, comment || '')
           setAddCommentModal(initialCommentModal)
         }}
         onCancel={() => setAddCommentModal(initialCommentModal)}
