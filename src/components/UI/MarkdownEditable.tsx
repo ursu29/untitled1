@@ -40,8 +40,7 @@ function MarkdownEditable({ data, editable, handleSave, history }: Props & Route
         flexDirection: 'column',
         alignItems: 'flex-end',
         marginBottom: '30px',
-        width: 'fit-content',
-        maxWidth: '96%',
+        width: '96%',
       }}
     >
       <MarkdownEditor
@@ -85,7 +84,7 @@ function MarkdownEditable({ data, editable, handleSave, history }: Props & Route
     </div>
   ) : (
     <div id="markdown_editable" style={{ display: 'flex' }}>
-      <Typography.Paragraph style={{ marginBottom: '30px', maxWidth: '96%' }}>
+      <Typography.Paragraph style={{ marginBottom: '30px', width: '96%' }}>
         {data ? (
           <div
             dangerouslySetInnerHTML={{

@@ -34,6 +34,7 @@ import Vacancy from '../Vacancies/VacancyPage'
 import WikiPage from '../Wiki/Page'
 import Wiki from '../Wiki/WikiPage'
 import Management from '../Management'
+import Calendar from '../Calendar'
 import NotAllowed from '../UI/NotAllowed'
 import NotFound from '../UI/NotFound'
 // import WarningPage from '../UI/WarningPage'
@@ -51,6 +52,7 @@ export default function Pages() {
           <Route path={paths.PROFILE + '/:tab/:subTab'} component={Profile} />
           <Route path={paths.PROFILE + '/:tab'} component={Profile} />
           <Route path={paths.PROFILE} component={Profile} />
+          <Route path={paths.CALENDAR} component={Calendar} />
           <Route path={paths.ONBOARDING} component={Onboarding} />
           <Route path={paths.EMPLOYEES + '/:email/:tab'} component={Employee} />
           <Route path={paths.EMPLOYEES + '/:email'} component={Employee} />
