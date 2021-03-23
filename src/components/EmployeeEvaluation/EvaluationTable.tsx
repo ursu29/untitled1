@@ -396,7 +396,7 @@ export default function EvaluationTable({
           const evaluation = evaluations?.find(i => {
             return (
               i.evaluationAttribute.id === item.id &&
-              i.fromWho.id.toLowerCase() === employee.id.toLowerCase()
+              i.fromWho?.id.toLowerCase() === employee.id.toLowerCase()
             )
           })
 
@@ -427,7 +427,7 @@ export default function EvaluationTable({
             const evaluation = evaluations?.find(i => {
               return (
                 i.evaluationAttribute.id === item.id &&
-                i.fromWho.id.toLowerCase() === employee.agileManager?.id.toLowerCase()
+                i.fromWho?.id.toLowerCase() === employee.agileManager?.id.toLowerCase()
               )
             })
             return (
