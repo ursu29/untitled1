@@ -16,6 +16,7 @@ import {
   CrownOutlined,
   LikeOutlined,
   MehOutlined,
+  CalendarOutlined,
 } from '@ant-design/icons'
 import { useQuery } from '@apollo/react-hooks'
 import { Badge, Menu } from 'antd'
@@ -89,6 +90,12 @@ function PortalMenu(props: Props) {
   const { SubMenu } = Menu
 
   const menuItems = [
+    {
+      route: paths.CALENDAR,
+      icon: <CalendarOutlined />,
+      title: 'Events',
+      status: 'new',
+    },
     {
       route: paths.ONBOARDING,
       icon: <LikeOutlined />,

@@ -494,3 +494,24 @@ export interface Profile {
   location: LOCATION
   strapiGroupsMembership: (keyof typeof StrapiGroups)[]
 }
+
+export interface CalendarEvent {
+  id: string
+  title: string
+  description: string
+  link: string
+  createdBy: Employee
+  start: string
+  end: string
+  importance: 'HIGH' | 'NORMAL' | 'LOW'
+  isOnline: boolean
+  isExternal: boolean
+  city: string
+  location: string
+  skills: Skill[]
+  attendees: {
+    employee: Employee
+    type: string
+    status: 'none' | 'organizer' | 'tentativelyAccepted' | 'accepted' | 'declined' | 'notResponded'
+  }[]
+}
