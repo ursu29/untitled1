@@ -164,7 +164,10 @@ export type CurriculumVitae = {
   __typename?: 'CurriculumVitae'
   id: Scalars['ID']
   employee: Employee
-  vitaes?: Maybe<Array<Maybe<Vitae>>>
+  summary?: Maybe<Scalars['String']>
+  vitaes?: Maybe<Array<Vitae>>
+  certificates?: Maybe<Array<Certificate>>
+  education?: Maybe<Array<Education>>
 }
 
 export type Vitae = {
@@ -179,10 +182,32 @@ export type Vitae = {
   level?: Maybe<Scalars['String']>
 }
 
+export type Certificate = {
+  __typename?: 'Certificate'
+  id: Scalars['ID']
+  name?: Maybe<Scalars['String']>
+  date?: Maybe<Scalars['String']>
+  expirationDate?: Maybe<Scalars['String']>
+  link?: Maybe<Scalars['String']>
+}
+
+export type Education = {
+  __typename?: 'Education'
+  id: Scalars['ID']
+  name?: Maybe<Scalars['String']>
+  speciality?: Maybe<Scalars['String']>
+  degree?: Maybe<Scalars['String']>
+  dateStart?: Maybe<Scalars['String']>
+  dateEnd?: Maybe<Scalars['String']>
+}
+
 export type UpdateCurriculumVitaeInput = {
   id?: Maybe<Scalars['ID']>
+  summary?: Maybe<Scalars['String']>
   employee: Scalars['ID']
-  vitaes: Array<Maybe<VitaeInput>>
+  vitaes?: Maybe<Array<VitaeInput>>
+  certificates?: Maybe<Array<CertificateInput>>
+  education?: Maybe<Array<EducationInput>>
 }
 
 export type VitaeInput = {
@@ -194,6 +219,23 @@ export type VitaeInput = {
   position?: Maybe<Scalars['String']>
   responsibilities?: Maybe<Scalars['String']>
   level?: Maybe<Scalars['String']>
+}
+
+export type CertificateInput = {
+  id?: Maybe<Scalars['ID']>
+  name?: Maybe<Scalars['String']>
+  date?: Maybe<Scalars['String']>
+  expirationDate?: Maybe<Scalars['String']>
+  link?: Maybe<Scalars['String']>
+}
+
+export type EducationInput = {
+  id?: Maybe<Scalars['ID']>
+  name?: Maybe<Scalars['String']>
+  speciality?: Maybe<Scalars['String']>
+  degree?: Maybe<Scalars['String']>
+  dateStart?: Maybe<Scalars['String']>
+  dateEnd?: Maybe<Scalars['String']>
 }
 
 export type DevelopmentRoles = {
@@ -560,6 +602,10 @@ export type FeedbackReplyInput = {
   text: Scalars['String']
 }
 
+export type DeleteFeedbackInput = {
+  id: Scalars['ID']
+}
+
 export type File = {
   __typename?: 'File'
   id: Scalars['ID']
@@ -908,6 +954,7 @@ export type Mutation = {
   updateExperiences?: Maybe<Array<Maybe<Experience>>>
   deleteExperience?: Maybe<Experience>
   addFeedback?: Maybe<Feedback>
+  deleteFeedback?: Maybe<Feedback>
   replyFeedback?: Maybe<FeedbackComment>
   updateFileDetails?: Maybe<FileDetails>
   updateGuild?: Maybe<Guild>
@@ -1063,6 +1110,10 @@ export type MutationDeleteExperienceArgs = {
 
 export type MutationAddFeedbackArgs = {
   input: FeedbackInput
+}
+
+export type MutationDeleteFeedbackArgs = {
+  input: DeleteFeedbackInput
 }
 
 export type MutationReplyFeedbackArgs = {
@@ -1664,12 +1715,16 @@ export type ProcessExecution = {
   vacancy?: Maybe<Vacancy>
   locations?: Maybe<Array<Location>>
   project?: Maybe<Project>
+  projectFrom?: Maybe<Project>
+  projectTo?: Maybe<Project>
   status?: Maybe<Scalars['String']>
   executionSteps?: Maybe<Array<Maybe<ProcessExecutionStep>>>
   employee?: Maybe<Scalars['String']>
+  employeeRef?: Maybe<Employee>
   employeePhone?: Maybe<Scalars['String']>
   finishDate?: Maybe<Scalars['String']>
   activeStepEmployees?: Maybe<Array<Employee>>
+  swissReOffboardingDate?: Maybe<Scalars['String']>
   isIndependentStepsActive?: Maybe<Scalars['Boolean']>
   prio?: Maybe<Scalars['Int']>
 }
@@ -1682,13 +1737,17 @@ export type CreateProcessExecutionInput = {
   process: Scalars['ID']
   locations?: Maybe<Array<Maybe<Scalars['ID']>>>
   project?: Maybe<Scalars['ID']>
+  projectFrom?: Maybe<Scalars['ID']>
+  projectTo?: Maybe<Scalars['ID']>
   prio?: Maybe<Scalars['Int']>
 }
 
 export type UpdateProcessExecutionInput = {
   id: Scalars['ID']
   finishDate?: Maybe<Scalars['String']>
+  swissReOffboardingDate?: Maybe<Scalars['String']>
   employee?: Maybe<Scalars['String']>
+  employeeRef?: Maybe<Scalars['String']>
   employeePhone?: Maybe<Scalars['String']>
   prio?: Maybe<Scalars['Int']>
 }

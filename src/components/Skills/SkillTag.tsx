@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Tag, Popconfirm, Tooltip } from 'antd'
-import { Skill } from '../../types'
+import { Skill } from '../../types/graphql'
 import { withRouter, RouteComponentProps } from 'react-router'
 import { getSkillLink } from '../../paths'
 
