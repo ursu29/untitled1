@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { Employee } from '../../types'
 import query, { QueryType } from '../../queries/getEmployeeExperiences'
 import { useGetLevelsQuery } from '../../queries/levels'
-import { Level } from '../../types/graphql'
 import Skeleton from '../UI/Skeleton'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import EmployeeSkillsDraggable from './EmployeeSkillsDraggable'
@@ -53,8 +52,7 @@ export default function EmployeeSkills({ employee, editable = false, showTabs = 
 
   const experiences = data?.employees?.[0].experiences
   const levels = lData?.levels ? [...lData.levels].reverse() : []
-  const levelIds = levels?.filter(level => level <= Level.Learning)
-  const skills = experiences?.filter(exp => levelIds?.includes(exp.level)).map(exp => exp.skill)
+  const skills = experiences?.map(exp => exp.skill).filter(skill => !skill.isMatrixOnly)
 
   return (
     <Skeleton loading={loading || lLoading} active>

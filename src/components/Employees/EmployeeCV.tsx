@@ -30,6 +30,7 @@ const EmployeeCV = ({ employee, editable }: PropsGeneral) => {
   const skills = experiences
     ?.filter(exp => [Level.Experienced, Level.Confident].includes(exp.level))
     .map(exp => exp.skill)
+    .filter(skill => !skill.isMatrixOnly)
 
   return (
     <Skeleton loading={loading} active withOffset>
