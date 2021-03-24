@@ -22,17 +22,20 @@ const SkillForm = ({ form, onSubmit, skill, loading, parentSkillSelect }: Props)
     e.preventDefault()
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        onSubmit({
-          id: skill && 'id' in skill ? skill.id : null,
-          ...values,
-          // parent: values.parent && values.parent['id'],
-        })
+        onSubmit(values)
       }
     })
   }
 
   return (
     <Form layout="vertical" onSubmit={handleSubmit}>
+      {skill && 'id' in skill && (
+        <Form.Item style={{ display: 'none' }}>
+          {getFieldDecorator('id', {
+            initialValue: skill.id,
+          })(<Input type="hidden" />)}
+        </Form.Item>
+      )}
       <Row gutter={16}>
         <Col>
           <Form.Item label="Name">
