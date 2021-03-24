@@ -65,6 +65,7 @@ export const query = {
     'mutation deleteOnboardingTicket($input: DeleteOnboardingTicketInput) {deleteOnboardingTicket(input: $input) { id __typename}}',
   deleteProcess:
     'mutation deleteProcess($id:ID!) {deleteProcess(id: $id) {id}}',
+  closeVacancy: 'mutation closeVacancy($input: CloseVacancyInput) {closeVacancy(input: $input) {id __typename}}',
   updateEmp:
     'mutation updateEmployee($input: UpdateEmployeeInput!) {updateEmployee(input: $input) {id __typename}}',
   createNewProcess:

@@ -1,3 +1,5 @@
+import {pastDay} from "./officePlanner/officeDays";
+
 export const menu = {
   items: [
     { name: 'Trainings', url: '/onboarding', text: 'Trainings', show: true },
@@ -167,6 +169,17 @@ export const hrTool = {
   errorMess: '.ant-legacy-form-explain',
   processName: 'portal-select',
   selectItem: '.ant-legacy-form-item-children',
+  position: 'position',
+  option: '.ant-select-item-option',
+  level: 'level',
+  skills: 'skills',
+  experience: 'experience',
+  description: 'description',
+  workDescription: 'workDescription',
+  vacancy: 'plus',
+  stack: 'stack',
+  plus: `what will be a plus: ${pastDay}`,
+  publishBtn: 'publish'
 }
 
 export const process = {

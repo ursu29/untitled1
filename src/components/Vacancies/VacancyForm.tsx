@@ -83,7 +83,7 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
             ]}
             initialValue={vacancy.englishLevel}
           >
-            <Select placeholder="Выберите уровень английского">
+            <Select placeholder="Выберите уровень английского" data-cy="level">
               <Select.Option value="Elementary">Elementary</Select.Option>
               <Select.Option value="Intermediate+">Intermediate+</Select.Option>
               <Select.Option value="Upper-Intermediate">Upper-Intermediate</Select.Option>
@@ -98,7 +98,7 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
             initialValue={vacancy.employeeExperience || 'С опытом работы 1-3 года'}
             required
           >
-            <Select placeholder="Provide the experience">
+            <Select placeholder="Provide the experience" data-cy="experience">
               <Select.Option value="Без опыта">Без опыта</Select.Option>
               <Select.Option value="С опытом работы от года">С опытом работы от года</Select.Option>
               <Select.Option value="С опытом работы 1-3 года">
@@ -115,6 +115,7 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
       <Row gutter={16} style={{ marginBottom: 8 }}>
         <Col span={12}>
           <Form.Item
+            data-cy="description"
             label="Внешнее описание"
             name="description"
             required
@@ -132,6 +133,7 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
         </Col>
         <Col span={12}>
           <Form.Item
+            data-cy="workDescription"
             label="Чем предстоит заниматься"
             name="responsibilities"
             required
@@ -150,6 +152,7 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
       <Row gutter={16} style={{ marginBottom: 8 }}>
         <Col span={12}>
           <Form.Item
+            data-cy="skills"
             label="Что мы ждём от кандидатов"
             name="requiredSkills"
             required
@@ -166,6 +169,7 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
         </Col>
         <Col span={12}>
           <Form.Item
+            data-cy="plus"
             label="Что будет плюсом"
             name="additionalSkills"
             initialValue={vacancy.additionalSkills}
@@ -177,6 +181,7 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
       <Row>
         <Col span={24}>
           <Form.Item
+            data-cy="stack"
             label="Технологии (stack)"
             name="stack"
             initialValue={vacancy.stack}
@@ -198,6 +203,7 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
           </Popconfirm>
         )}
         <Button
+          data-cy="saveForm"
           onClick={() => {
             if (vacancy.isPublished) {
               form
@@ -229,6 +235,7 @@ export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Pro
           <>
             <Divider type="vertical" />
             <Button
+              data-cy="publish"
               onClick={() => {
                 form
                   .validateFields()
