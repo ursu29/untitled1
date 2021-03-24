@@ -1,4 +1,3 @@
-
 export const menu = {
   items: [
     { name: 'Trainings', url: '/onboarding', text: 'Trainings', show: true },
