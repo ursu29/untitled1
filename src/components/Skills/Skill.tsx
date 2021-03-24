@@ -21,16 +21,16 @@ export default ({ loading, skill, projects, experience, editComponent }: Props) 
         <div>
           <Row>
             <Col md={24} lg={14} style={{ marginBottom: 20 }}>
-              <Title level={1}>
+              <Title level={1} data-cy="skillName">
                 {skill.name} {editComponent}
               </Title>
-              <Paragraph>{skill.description}</Paragraph>
+              <Paragraph data-cy="description">{skill.description}</Paragraph>
               {skill.isMatrixOnly && (
                 <Paragraph>
                   <Tag color="volcano">Matrix only</Tag>
                 </Paragraph>
               )}
-              <div>
+              <div data-cy="author">
                 <Text>Added by </Text>
                 <EmployeeLink employee={skill.addedBy} />
               </div>

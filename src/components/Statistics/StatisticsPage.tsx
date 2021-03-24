@@ -139,7 +139,7 @@ export default function StatisticsPage() {
 
   return (
     <PageContent>
-      <Title level={1}>Skills Statistics</Title>
+      <Title level={1} data-cy="statTitle">Skills Statistics</Title>
       {isSkillChosen ? (
         <>
           <Button
@@ -155,18 +155,18 @@ export default function StatisticsPage() {
         </>
       ) : (
         <>
-          <Row>
+          <Row data-cy="topSkills">
             <Col span={24}>{barChartContainer(0)}</Col>
           </Row>
           <Row>
-            <Col span={10}>{barChartContainer(1)}</Col>
-            <Col span={10} offset={2}>
+            <Col span={10} data-cy="wanted">{barChartContainer(1)}</Col>
+            <Col span={10} offset={2} data-cy="learning">
               {barChartContainer(2)}
             </Col>
           </Row>
           <Row>
-            <Col span={10}>{barChartContainer(3)}</Col>
-            <Col span={10} offset={2}>
+            <Col span={10} data-cy="experienced">{barChartContainer(3)}</Col>
+            <Col span={10} offset={2} data-cy="confident">
               {barChartContainer(4)}
             </Col>
           </Row>
