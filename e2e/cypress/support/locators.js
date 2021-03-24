@@ -1,4 +1,3 @@
-import {pastDay} from "./officePlanner/officeDays";
 
 export const menu = {
   items: [
@@ -176,9 +175,8 @@ export const hrTool = {
   experience: 'experience',
   description: 'description',
   workDescription: 'workDescription',
-  vacancy: 'plus',
+  plus: 'plus',
   stack: 'stack',
-  plus: `what will be a plus: ${pastDay}`,
   publishBtn: 'publish'
 }
 

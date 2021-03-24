@@ -18,7 +18,7 @@ const vacancy = {
 }
 
 describe('Create new vacancy', () => {
-    let processId, newProjectId, allVacancies
+    let processId, newProjectId, allVacanciesLength
     const {
         position,
         processName,
@@ -26,11 +26,11 @@ describe('Create new vacancy', () => {
         description,
         workDescription,
         skills,
-        plus,
         stack,
         publishBtn,
         abort,
         level,
+        plus,
         experience
     } = hrTool
     const mainFields = [description, workDescription, skills, plus, stack]
@@ -57,7 +57,7 @@ describe('Create new vacancy', () => {
         cy.post(getData.deleteProcess(processId), 'superUser').then(req => {
             expect(req.body.data.deleteProcess.id).equal(processId)
             cy.post(getData.getVacancies())
-                .then(req => expect(allVacancies.length).to.be.greaterThan(req.body.data.vacancies.length))
+                .then(req => expect(allVacanciesLength).to.be.greaterThan(req.body.data.vacancies.length))
         })
     })
 
@@ -74,7 +74,7 @@ describe('Create new vacancy', () => {
         cy.get(option).contains('Без опыта').click()
 
         //type all fields
-        mainFields.forEach(el => cy.getElement(el).type(vacancy.el))
+        mainFields.forEach(el => cy.getElement(el).type(vacancy[el]))
 
         cy.getElement(publishBtn).click()
 
@@ -82,7 +82,7 @@ describe('Create new vacancy', () => {
         cy.get(skillEl.successMes).should('not.exist')
 
         cy.post(getData.getVacancies())
-            .then(req => allVacancies = req.body.data.vacancies)
+            .then(req => allVacanciesLength = req.body.data.vacancies.length)
     })
 
     it(`Abort new position`, () => {
