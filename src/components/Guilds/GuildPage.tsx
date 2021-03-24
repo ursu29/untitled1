@@ -35,8 +35,10 @@ function GuildPage({ match }: Props) {
           <Controls back={<Back />} />
 
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Title>{guild.title}</Title>
-            {guild.accessWrite && <UpdateGuild guild={guild} />}
+            <Title data-cy='guildTitle'>{guild.title}</Title>
+            <div data-cy='updateGuild'>
+              {guild.accessWrite && <UpdateGuild guild={guild} />}
+            </div>
           </div>
 
           <GuildTabs guild={guild} tab={tab} />

@@ -65,6 +65,7 @@ export const query = {
     'mutation deleteOnboardingTicket($input: DeleteOnboardingTicketInput) {deleteOnboardingTicket(input: $input) { id __typename}}',
   deleteProcess:
     'mutation deleteProcess($id:ID!) {deleteProcess(id: $id) {id}}',
+  updateGuild: 'mutation updateGuild($input: UpdateGuildInput) {updateGuild(input: $input) {azureDisplayName __typename}}',
   updateEmp:
     'mutation updateEmployee($input: UpdateEmployeeInput!) {updateEmployee(input: $input) {id __typename}}',
   createNewProcess:
@@ -85,8 +86,9 @@ export const query = {
     'query getWikiRootSections {wikiRootSections {id title description icon path __typename}}',
   onboardingAccess: 'query onboardingAccess {onboardingAccess {read write __typename}}',
   guild: 'query getGuilds {guilds {title}}',
+  guildInfo: 'query getGuild($input: GuildInput) { guild(input: $input) { id azureDisplayName azureId title description shortDescription skills { id name description __typename } leaders { ...EmployeeDetails __typename } accessWrite __typename }}fragment EmployeeDetails on Employee { id name location country position phoneNumber email isMe startDate birthday __typename}',
   getVacanciesId:
-    'query getVacancies($input: VacanciesInput) { vacancies(input: $input) { id reason locations position responsibilities requiredSkills additionalSkills project { id name __typename } customer isPublished isClosed rotateEmployees { id isMe __typename } employeeComment comment employeeExperience englishLevel stack __typename }}',
+    'query getVacancies($input: VacanciesInput) { vacancies(input: $input) { id reason locations position responsibilities requiredSkills additionalSkills description project { id name __typename } customer isPublished isClosed rotateEmployees { id isMe __typename } employeeExperience englishLevel stack __typename }}',
   applyDay:
     'mutation apply($input: ApplyToWorkFromOfficeInput!) {applyToWorkFromOffice(input: $input)}',
   getEmployeeMatrices: 'query {clientDevToolsAccess}',

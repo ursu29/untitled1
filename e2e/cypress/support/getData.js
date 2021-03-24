@@ -301,6 +301,12 @@ export const getGuildsTitle = () => ({
   query: query.guild,
 })
 
+export const updateGuildTitleAndLeaders = (azureDisplayName, leaders = [], title) => ({
+  operationName: 'updateGuild',
+  variables: {input:{azureDisplayName, leaders, title}},
+  query: query.updateGuild,
+})
+
 export const addJob = (
   employeeId = employeeData.employee.id,
   jobId = '6036318cf84074001c07f746',
@@ -341,6 +347,12 @@ export const getGetGuild = () => ({
   query: query.guild,
 })
 
+export const getGuildInfo = (azureDisplayName = 'community-frontend') => ({
+  operationName: 'getGuild',
+  variables: {input: {azureDisplayName}},
+  query: query.guildInfo,
+})
+
 export const getVacanciesId = () => ({
   operationName: 'getVacancies',
   variables: {},
@@ -356,6 +368,12 @@ export const getAllBookmarksId = () => ({
 export const getBookmarks = () => ({
   operationName: 'getBookmarks',
   variables: {},
+  query: query.getBookmarks,
+})
+
+export const getRelatedBookmarks = (skills = []) => ({
+  operationName: 'getBookmarks',
+  variables: {input: {skills}},
   query: query.getBookmarks,
 })
 
@@ -466,6 +484,24 @@ export const deleteProcess = id => ({
   operationName: 'deleteProcess',
   variables: { id },
   query: query.deleteProcess,
+})
+
+export const updateGuild = (azureDisplayName, skills = []) => ({
+  operationName: 'updateGuild',
+  variables: { input: {azureDisplayName, skills }},
+  query: query.updateGuild,
+})
+
+export const updateGuildShortDescription = (azureDisplayName, shortDescription) => ({
+  operationName: 'updateGuild',
+  variables: { input: {azureDisplayName, shortDescription }},
+  query: query.updateGuild,
+})
+
+export const updateGuildDescription = (azureDisplayName, description) => ({
+  operationName: 'updateGuild',
+  variables: { input: {azureDisplayName, description }},
+  query: query.updateGuild,
 })
 
 export const updatePost = (body, id, title, tagsArr = TAGS) => ({

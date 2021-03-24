@@ -28,15 +28,16 @@ export default function useMarkdownInjection(trigger?: any, delay?: number) {
             >
               {collapseList.titles.map((title: string, i: number) => (
                 <Collapse.Panel
-                  header={decodeURI(title)}
+                  header={title}
                   key={i + Math.random()}
                   style={{
                     borderRadius: i === collapseList.titles.length - 1 ? '8px' : 0,
+                    width: '100%',
                   }}
                 >
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: markdownToHtml(decodeURI(collapseList.bodies[i])),
+                      __html: markdownToHtml(collapseList.bodies[i]),
                     }}
                   />
                 </Collapse.Panel>

@@ -45,7 +45,7 @@ describe('add new feedback', () => {
             const  {addFeedback: {id}} = val.response.body.data
 
             cy.post(deleteFeedback(id))
-                .then(req => expect(req.body.data.deleteFeedback.id).to.be.greaterThan(0))
+                .then(req => expect(req.body.data.deleteFeedback.id.length).to.be.greaterThan(0))
         })
     })
 })

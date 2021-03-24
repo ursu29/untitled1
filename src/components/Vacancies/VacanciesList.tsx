@@ -86,7 +86,7 @@ function ProcessList({ items = [], history }: Props & RouteComponentProps) {
                 <Rotate vacancy={vacancy} />
                 <Divider type="vertical" />
                 <a
-                  data-cy='suggestBtn'
+                  data-cy="suggestBtn"
                   href={`https://outlook.office.com/owa/?path=/mail/action/compose&to=HR1@syncretis.com&subject=Suggest a candidate to ${vacancy.project?.name}&body=I want to recommend my friend to this vacancy. His  CV is attached.`}
                   target="_blank"
                   rel="noopener noreferrer"
