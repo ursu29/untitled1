@@ -58,7 +58,7 @@ export const skillEl = {
   iconEdit: '.anticon-edit',
   successMes: '.ant-message-success',
   skillName: 'skills_name',
-  select: '.ant-select-multiple'
+  select: '.ant-select-multiple',
   titleTree: '.ant-tree-title',
   searchInput: 'search',
   name: 'skillName'
@@ -141,7 +141,7 @@ export const postEl = {
   title: '#title',
   writePost: '.CodeMirror-sizer',
   edit: '.ant-drawer-title',
-  close: '.ant-drawer-close',
+  close: '.ant-drawer-close'
 }
 
 export const matrix = {
@@ -172,7 +172,7 @@ export const workspace = {
   activeTab: 'ant-tabs-tab-active',
   data: '.ant-picker-input',
   checkbox: '.ant-checkbox',
-  checked: '.ant-checkbox-checked',
+  checked: '.ant-checkbox-checked'
 }
 
 export const paginationEl = {
