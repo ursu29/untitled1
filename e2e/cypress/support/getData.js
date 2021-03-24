@@ -158,6 +158,22 @@ export const deleteFeedback = id => ({
   query: query.deleteFeedback,
 })
 
+export const deletePost = id => ({
+  operationName: 'deletePost',
+  variables: {
+    input: { id },
+  },
+  query: query.deletePost,
+})
+
+export const createPost = (body, title, tags = []) => ({
+  operationName: 'createPost',
+  variables: {
+    input: { body, tags, title}
+  },
+  query: query.createPost,
+})
+
 export const deleteTraining = id => ({
   operationName: 'deleteOnboardingTicket',
   variables: {
