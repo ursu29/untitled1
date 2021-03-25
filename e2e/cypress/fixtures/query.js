@@ -68,6 +68,7 @@ export const query = {
   deleteProcess:
     'mutation deleteProcess($id:ID!) {deleteProcess(id: $id) {id}}',
   updateGuild: 'mutation updateGuild($input: UpdateGuildInput) {updateGuild(input: $input) {azureDisplayName __typename}}',
+  closeVacancy: 'mutation closeVacancy($input: CloseVacancyInput) {closeVacancy(input: $input) {id __typename}}',
   updateEmp:
     'mutation updateEmployee($input: UpdateEmployeeInput!) {updateEmployee(input: $input) {id __typename}}',
   createNewProcess:

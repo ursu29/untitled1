@@ -182,6 +182,14 @@ export const deleteTraining = id => ({
   query: query.deleteTraining,
 })
 
+export const closeVacancy = id => ({
+  operationName: 'closeVacancy',
+  variables: {
+    input: { id },
+  },
+  query: query.closeVacancy,
+})
+
 export const getEmployees = location => ({
   operationName: 'getEmployees',
   variables: { input: { locations: location } },
