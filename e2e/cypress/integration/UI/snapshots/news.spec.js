@@ -5,9 +5,11 @@ describe('Visual regression news page', () => {
         cy.setToken('employee')
         cy.setImgToken('employee')
 
-
-        cy.visit('/feed')
         cy.mockResponse(['getPosts'], getNews())
+        cy.visit('/feed')
+
+        cy.get('div').find('img').should('be.visible')
+
     })
 
 
