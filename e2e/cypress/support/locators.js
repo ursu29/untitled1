@@ -23,7 +23,6 @@ export const menu = {
 }
 
 export const mainCity = 'SAINT_PETERSBURG'
-
 export const LOCATIONS = ['SAINT_PETERSBURG', 'KALININGRAD', 'TOMSK', 'ZURICH']
 
 export const guildElements = {
