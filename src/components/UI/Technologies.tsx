@@ -28,6 +28,7 @@ export default function Technologies({
   const [selectedTechnologies, setSelectedTechnologies] = useState(
     technologies.map(({ id, name }) => ({ id, name })),
   )
+  const [isShownAll, setIsShownAll] = useState(false)
 
   const EditButton = () => (
     <Button
@@ -89,7 +90,7 @@ export default function Technologies({
                 minHeight: '35px',
               }}
             >
-              {technologies.slice(0, amount ? amount : undefined).map(e => (
+              {technologies.slice(0, amount && !isShownAll ? amount : undefined).map(e => (
                 <SkillTag key={e.id} skill={e} style={{ cursor: 'pointer' }} />
               ))}
               {!!amount && technologies.length > amount && (
@@ -99,9 +100,11 @@ export default function Technologies({
                     color: 'rgba(0, 0, 0, 0.45)',
                     userSelect: 'none',
                     alignSelf: 'center',
+                    cursor: 'pointer',
                   }}
+                  onClick={() => setIsShownAll(!isShownAll)}
                 >
-                  + {technologies.length - amount || 2} more...
+                  {isShownAll ? 'less' : `+ ${technologies.length - amount || 2} more...`}
                 </span>
               )}
             </div>

@@ -48,11 +48,14 @@ export default function Calendar() {
   })
 
   const events = filterEvents(data?.events, filters)
-  const cities =
-    data?.events
-      .map(e => e.city)
-      .filter(e => e)
-      .sort() || []
+  const cities = Array.from(
+    new Set(
+      data?.events
+        .map(e => e.city)
+        .filter(e => e)
+        .sort() || [],
+    ),
+  )
 
   return (
     <PageContent
