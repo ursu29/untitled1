@@ -39,7 +39,7 @@ const MatrixForm = ({ form, onSubmit, data, loading }: Props) => {
                   message: 'Please enter title',
                 },
               ],
-            })(<Input onPressEnter={handleSubmit} placeholder="Please enter title" />)}
+            })(<Input onPressEnter={handleSubmit} placeholder="Please enter title" data-cy="titleMatrix"/>)}
           </Form.Item>
         </Col>
       </Row>
@@ -56,6 +56,7 @@ const MatrixForm = ({ form, onSubmit, data, loading }: Props) => {
               ],
             })(
               <Input.TextArea
+                data-cy="description"
                 rows={4}
                 onPressEnter={handleSubmit}
                 placeholder="please enter description"
@@ -66,7 +67,7 @@ const MatrixForm = ({ form, onSubmit, data, loading }: Props) => {
       </Row>
       <Row>
         <Col>
-          <Button loading={loading} type="primary" htmlType="submit">
+          <Button loading={loading} type="primary" htmlType="submit" data-cy="submit">
             Publish
           </Button>
         </Col>

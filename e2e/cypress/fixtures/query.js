@@ -40,6 +40,8 @@ export const query = {
     'mutation deleteBookmark($input: DeleteBookmarkInput!) {deleteBookmark(input: $input) { id __typename}}',
   deleteFeedback:
     'mutation deleteFeedback($input: DeleteFeedbackInput!) {deleteFeedback(input: $input) { id __typename}}',
+  deletePost: 'mutation deletePost($input: DeletePostInput!) {deletePost(input: $input) { id __typename}}',
+  createPost: 'mutation createPost($input: CreatePostInput) {createPost(input: $input) {id __typename}}',
   getEmployees: 'query getEmployees($input: EmployeesInput) {employees(input: $input) {name }}',
   getEmployeeTickets: 'query employeeOnboardingTickets {employeeOnboardingTickets {id __typename}}',
   getReviewers: 'query getEvaluationReviewers($input: EvaluationReviewersInput) {evaluationReviewers(input: $input) {toWhom {id name __typename}fromWho {id name isMe __typename} __typename }}',
@@ -65,6 +67,7 @@ export const query = {
     'mutation deleteOnboardingTicket($input: DeleteOnboardingTicketInput) {deleteOnboardingTicket(input: $input) { id __typename}}',
   deleteProcess:
     'mutation deleteProcess($id:ID!) {deleteProcess(id: $id) {id}}',
+  updateGuild: 'mutation updateGuild($input: UpdateGuildInput) {updateGuild(input: $input) {azureDisplayName __typename}}',
   closeVacancy: 'mutation closeVacancy($input: CloseVacancyInput) {closeVacancy(input: $input) {id __typename}}',
   updateEmp:
     'mutation updateEmployee($input: UpdateEmployeeInput!) {updateEmployee(input: $input) {id __typename}}',
@@ -86,8 +89,9 @@ export const query = {
     'query getWikiRootSections {wikiRootSections {id title description icon path __typename}}',
   onboardingAccess: 'query onboardingAccess {onboardingAccess {read write __typename}}',
   guild: 'query getGuilds {guilds {title}}',
+  guildInfo: 'query getGuild($input: GuildInput) { guild(input: $input) { id azureDisplayName azureId title description shortDescription skills { id name description __typename } leaders { ...EmployeeDetails __typename } accessWrite __typename }}fragment EmployeeDetails on Employee { id name location country position phoneNumber email isMe startDate birthday __typename}',
   getVacanciesId:
-    'query getVacancies($input: VacanciesInput) { vacancies(input: $input) { id reason locations position responsibilities requiredSkills additionalSkills project { id name __typename } customer isPublished isClosed rotateEmployees { id isMe __typename } employeeComment comment employeeExperience englishLevel stack __typename }}',
+    'query getVacancies($input: VacanciesInput) { vacancies(input: $input) { id reason locations position responsibilities requiredSkills additionalSkills description project { id name __typename } customer isPublished isClosed rotateEmployees { id isMe __typename } employeeExperience englishLevel stack __typename }}',
   applyDay:
     'mutation apply($input: ApplyToWorkFromOfficeInput!) {applyToWorkFromOffice(input: $input)}',
   getEmployeeMatrices: 'query {clientDevToolsAccess}',

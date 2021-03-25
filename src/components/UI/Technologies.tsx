@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { CheckOutlined, EditOutlined } from '@ant-design/icons'
 import SkillTag from '../Skills/SkillTag'
 import SkillTreeSelect from '../Skills/SkillTreeSelect'
-import { Skill } from '../../types'
+import { Skill } from '../../types/graphql'
 import Button from './Button'
 
 interface Props {
@@ -28,6 +28,7 @@ export default function Technologies({
   const [selectedTechnologies, setSelectedTechnologies] = useState(
     technologies.map(({ id, name }) => ({ id, name })),
   )
+  const [isShownAll, setIsShownAll] = useState(false)
 
   const EditButton = () => (
     <Button
@@ -83,17 +84,30 @@ export default function Technologies({
         ) : (
           <div style={{ display: 'flex', alignItems: 'baseline' }}>
             <div
-              style={{ display: 'flex', flexWrap: singleRow ? 'nowrap' : 'wrap', height: '35px' }}
+              style={{
+                display: 'flex',
+                flexWrap: singleRow ? 'nowrap' : 'wrap',
+                minHeight: '35px',
+              }}
             >
-              {technologies.slice(0, amount ? amount : undefined).map(e => (
+              {technologies.slice(0, amount && !isShownAll ? amount : undefined).map(e => (
                 <SkillTag key={e.id} skill={e} style={{ cursor: 'pointer' }} />
               ))}
+              {!!amount && technologies.length > amount && (
+                <span
+                  style={{
+                    marginLeft: '6px',
+                    color: 'rgba(0, 0, 0, 0.45)',
+                    userSelect: 'none',
+                    alignSelf: 'center',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => setIsShownAll(!isShownAll)}
+                >
+                  {isShownAll ? 'less' : `+ ${technologies.length - amount || 2} more...`}
+                </span>
+              )}
             </div>
-            {!!amount && technologies.length > amount && (
-              <span style={{ marginLeft: '6px', color: 'rgba(0, 0, 0, 0.45)', userSelect: 'none' }}>
-                + {technologies.length - amount || 2} more...
-              </span>
-            )}
             {!technologies.length && (
               <span style={{ color: 'rgba(0, 0, 0, 0.45)', alignSelf: 'center' }}>
                 {emptyString || '(not assigned yet)'}

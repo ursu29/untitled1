@@ -232,7 +232,7 @@ function EmployeeTabs({ match, location, ...props }: Props) {
       title: 'CV',
       icon: <FormOutlined />,
       key: 'cv',
-      noPadding: true,
+      noPadding: false,
       body: (
         <EmployeeCV
           editable={curriculumVitaeAccess?.write}

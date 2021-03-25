@@ -26,6 +26,15 @@ export const mainCity = 'SAINT_PETERSBURG'
 
 export const LOCATIONS = ['SAINT_PETERSBURG', 'KALININGRAD', 'TOMSK', 'ZURICH']
 
+export const guildElements = {
+  update: 'updateGuild',
+  title: 'guild_form_title',
+  lead: 'leads',
+  submit: 'submit',
+  mainTitle: 'guildTitle',
+  employeeCard: 'employeeCard'
+}
+
 export const tabs = {
   skill: 'Skills',
   bookMark: 'Bookmarks',
@@ -49,6 +58,10 @@ export const skillEl = {
   iconEdit: '.anticon-edit',
   successMes: '.ant-message-success',
   skillName: 'skills_name',
+  select: '.ant-select-multiple',
+  titleTree: '.ant-tree-title',
+  searchInput: 'search',
+  name: 'skillName'
 }
 
 export const locations = [
@@ -127,6 +140,8 @@ export const postEl = {
   annotation: 'postAnnotation',
   title: '#title',
   writePost: '.CodeMirror-sizer',
+  edit: '.ant-drawer-title',
+  close: '.ant-drawer-close'
 }
 
 export const matrix = {
@@ -139,6 +154,10 @@ export const matrix = {
   matrixTabs: '.ant-tabs-tab',
   success: '.ant-message-success',
   alert: '.ant-message-notice-content',
+  createMatrix: 'createMatrix',
+  title: 'titleMatrix',
+  description: 'description',
+  submit: 'submit'
 }
 
 export const workspace = {
@@ -153,7 +172,7 @@ export const workspace = {
   activeTab: 'ant-tabs-tab-active',
   data: '.ant-picker-input',
   checkbox: '.ant-checkbox',
-  checked: '.ant-checkbox-checked',
+  checked: '.ant-checkbox-checked'
 }
 
 export const paginationEl = {

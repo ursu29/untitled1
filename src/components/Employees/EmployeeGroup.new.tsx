@@ -45,7 +45,7 @@ function EmployeeGroup({ title, employees, one2one, isMe }: Props) {
   }
 
   return (
-    <div data-cy="employee_card">
+    <div data-cy="employeeCard">
       <div
         style={{
           display: 'flex',

@@ -160,7 +160,7 @@ export default class SkillsTree extends React.Component<Props> {
     return (
       <Skeleton loading={this.props.loading} active paragraph={{ rows: 10 }}>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
-          <Search placeholder="Search" onChange={this.handleSearch} />
+          <Search placeholder="Search" onChange={this.handleSearch} data-cy="search"/>
           {controls && <div style={{ marginLeft: 8 }}>{controls}</div>}
         </div>
 

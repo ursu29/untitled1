@@ -1,6 +1,6 @@
-import { getAllMatrices } from '../../support/getData'
-import { getListOfMatrix } from '../../support/complexLocators'
-import { workspace, tabs, matrix } from '../../support/locators'
+import { getAllMatrices } from '../../../support/getData'
+import { getListOfMatrix } from '../../../support/complexLocators'
+import { workspace, tabs, matrix } from '../../../support/locators'
 
 describe('Adding Matrix', () => {
   let allData = {

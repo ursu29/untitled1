@@ -1,0 +1,44 @@
+fragment CV on CurriculumVitae {
+  id
+  summary
+  vitaes {
+    id
+    company
+    dateStart
+    dateEnd
+    project
+    position
+    responsibilities
+    level
+  }
+  certificates {
+    id
+    name
+    date
+    expirationDate
+    link
+  }
+  education {
+    id
+    name
+    speciality
+    degree
+    dateStart
+    dateEnd
+  }
+}
+
+query getCV($email: String!) {
+  employeeByEmail(email: $email) {
+    id
+    curriculumVitae {
+      ...CV
+    }
+  }
+}
+
+mutation updateCV($input: UpdateCurriculumVitaeInput!) {
+  updateCurriculumVitae(input: $input) {
+    ...CV
+  }
+}

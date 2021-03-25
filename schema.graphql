@@ -145,7 +145,10 @@ type DevToolsGitInfo {
 type CurriculumVitae {
   id: ID!
   employee: Employee!
-  vitaes: [Vitae]
+  summary: String
+  vitaes: [Vitae!]
+  certificates: [Certificate!]
+  education: [Education!]
 }
 
 type Vitae {
@@ -159,10 +162,30 @@ type Vitae {
   level: String
 }
 
+type Certificate {
+  id: ID!
+  name: String
+  date: String
+  expirationDate: String
+  link: String
+}
+
+type Education {
+  id: ID!
+  name: String
+  speciality: String
+  degree: String
+  dateStart: String
+  dateEnd: String
+}
+
 input UpdateCurriculumVitaeInput {
   id: ID
+  summary: String
   employee: ID!
-  vitaes: [VitaeInput]!
+  vitaes: [VitaeInput!]
+  certificates: [CertificateInput!]
+  education: [EducationInput!]
 }
 
 input VitaeInput {
@@ -174,6 +197,23 @@ input VitaeInput {
   position: String
   responsibilities: String
   level: String
+}
+
+input CertificateInput {
+  id: ID
+  name: String
+  date: String
+  expirationDate: String
+  link: String
+}
+
+input EducationInput {
+  id: ID
+  name: String
+  speciality: String
+  degree: String
+  dateStart: String
+  dateEnd: String
 }
 
 type DevelopmentRoles {
@@ -518,6 +558,10 @@ input FeedbackReplyInput {
   text: String!
 }
 
+input DeleteFeedbackInput {
+  id: ID!
+}
+
 type File {
   id: ID!
   url: String
@@ -682,6 +726,7 @@ type Mutation {
   updateExperiences(input: UpdateExperiencesInput): [Experience]
   deleteExperience(input: DeleteExperienceInput): Experience
   addFeedback(input: FeedbackInput!): Feedback
+  deleteFeedback(input: DeleteFeedbackInput!): Feedback
   replyFeedback(input: FeedbackReplyInput!): FeedbackComment
   updateFileDetails(input: UpdateFileDetailsInput!): FileDetails
   updateGuild(input: UpdateGuildInput): Guild
@@ -1087,12 +1132,16 @@ type ProcessExecution {
   vacancy: Vacancy
   locations: [LOCATION!]
   project: Project
+  projectFrom: Project
+  projectTo: Project
   status: String
   executionSteps: [ProcessExecutionStep]
   employee: String
+  employeeRef: Employee
   employeePhone: String
   finishDate: String
   activeStepEmployees: [Employee!]
+  swissReOffboardingDate: String
   isIndependentStepsActive: Boolean
   prio: Int
 }
@@ -1105,13 +1154,17 @@ input CreateProcessExecutionInput {
   process: ID!
   locations: [ID]
   project: ID
+  projectFrom: ID
+  projectTo: ID
   prio: Int
 }
 
 input UpdateProcessExecutionInput {
   id: ID!
   finishDate: String
+  swissReOffboardingDate: String
   employee: String
+  employeeRef: String
   employeePhone: String
   prio: Int
 }
