@@ -11,6 +11,8 @@ const { Text } = Typography
 interface Props {
   small?: boolean
   project: Pick<Project, 'id' | 'name' | 'code'>
+  capacity?: number
+  isExtraCapacity?: boolean
   style?: React.CSSProperties
 }
 
@@ -23,7 +25,13 @@ const COLORS: any = {
 
 const SWISSRE_PREFIX = 'swissre '
 
-export default function ProjectTag({ project, small = false, style = {} }: Props) {
+export default function ProjectTag({
+  project,
+  small = false,
+  style = {},
+  capacity,
+  isExtraCapacity,
+}: Props) {
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH }) && !small
   if (!project) return null
 
@@ -58,7 +66,8 @@ export default function ProjectTag({ project, small = false, style = {} }: Props
               textOverflow: isLarge ? 'unset' : 'ellipsis',
             }}
           >
-            {name}
+            {name} {!!capacity && capacity + '%'}
+            {!!isExtraCapacity && ' !'}
           </div>
         </Tag>
       </Link>

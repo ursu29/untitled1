@@ -5,6 +5,7 @@ import React from 'react'
 import { EmployeeDetails } from '../../fragments'
 import message from '../../message'
 import { useUpdateEmployeeMutation } from '../../queries/employees'
+import getEmployeeProjects from '../../queries/getEmployeeProjects'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import { getEmployeeDetails } from './EmployeePage'
@@ -44,6 +45,12 @@ function UpdateProject({
           email: employee.email,
         },
       },
+      {
+        query: getEmployeeProjects,
+        variables: {
+          id: employee.id,
+        },
+      },
     ],
     awaitRefetchQueries: true,
     onError: e => {
@@ -69,6 +76,11 @@ function UpdateProject({
                 input: {
                   id: item.id,
                   agileManager: item.agileManager,
+                  employeeProjects: item.projectsOccupancy?.map((e: any) => ({
+                    id: e.id,
+                    capacity: e.capacity,
+                    isExtraCapacity: e.isExtraCapacity,
+                  })),
                 },
               },
               update: onDone,

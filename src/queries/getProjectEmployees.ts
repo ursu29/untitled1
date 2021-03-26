@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { Project } from '../types'
+import { Project, EmployeeProject } from '../types'
 import fragments, { EmployeeDetails } from '../fragments'
 
 export default gql`
@@ -8,6 +8,14 @@ export default gql`
       id
       employees {
         ...EmployeeDetails
+        employeeProjects {
+          id
+          capacity
+          isExtraCapacity
+          project {
+            id
+          }
+        }
       }
     }
   }
@@ -15,7 +23,7 @@ export default gql`
 `
 
 type ProjectPick = Pick<Project, 'id'> & {
-  employees: EmployeeDetails[]
+  employees: (EmployeeDetails & { employeeProjects?: EmployeeProject[] })[]
 }
 
 export type QueryType = {

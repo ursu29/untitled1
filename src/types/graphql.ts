@@ -368,6 +368,14 @@ export type SubordinateUsersCount = {
   one2oneRequests?: Maybe<Scalars['Int']>
 }
 
+export type EmployeeProject = {
+  __typename?: 'EmployeeProject'
+  id: Scalars['String']
+  capacity?: Maybe<Scalars['Int']>
+  isExtraCapacity?: Maybe<Scalars['Boolean']>
+  project?: Maybe<Project>
+}
+
 export type Employee = {
   __typename?: 'Employee'
   id: Scalars['ID']
@@ -386,6 +394,7 @@ export type Employee = {
   birthday?: Maybe<Scalars['String']>
   bonuses?: Maybe<Scalars['Float']>
   projects?: Maybe<Array<Project>>
+  employeeProjects?: Maybe<Array<EmployeeProject>>
   experiences?: Maybe<Array<Experience>>
   access?: Maybe<Access>
   /** @deprecated Field no longer supported */
@@ -420,12 +429,19 @@ export type EmployeesInput = {
   locations?: Maybe<Array<Maybe<Location>>>
 }
 
+export type EmployeeProjectInput = {
+  id: Scalars['String']
+  capacity?: Maybe<Scalars['Int']>
+  isExtraCapacity?: Maybe<Scalars['Boolean']>
+}
+
 export type UpdateEmployeeInput = {
   id: Scalars['ID']
   manager?: Maybe<Scalars['ID']>
   agileManager?: Maybe<Scalars['String']>
   lastManagerMeeting?: Maybe<Scalars['String']>
   one2oneRequest?: Maybe<Scalars['Boolean']>
+  employeeProjects?: Maybe<Array<Maybe<EmployeeProjectInput>>>
 }
 
 export type EvaluationReviewer = {
@@ -517,6 +533,80 @@ export type EvaluationCustomFieldsInput = {
 export type UpdateCustomFieldsInput = {
   employee: Scalars['ID']
   lastDiscussed?: Maybe<Scalars['String']>
+}
+
+export enum Importance {
+  High = 'HIGH',
+  Normal = 'NORMAL',
+  Low = 'LOW',
+}
+
+export type EventAttendee = {
+  __typename?: 'EventAttendee'
+  employee?: Maybe<Employee>
+  type?: Maybe<Scalars['String']>
+  status?: Maybe<Scalars['String']>
+}
+
+export type Event = {
+  __typename?: 'Event'
+  id: Scalars['ID']
+  title: Scalars['String']
+  description?: Maybe<Scalars['String']>
+  link?: Maybe<Scalars['String']>
+  createdBy: Employee
+  start?: Maybe<Scalars['String']>
+  end?: Maybe<Scalars['String']>
+  importance?: Maybe<Importance>
+  isAllDay?: Maybe<Scalars['Boolean']>
+  isDraft?: Maybe<Scalars['Boolean']>
+  isOnline?: Maybe<Scalars['Boolean']>
+  isExternal?: Maybe<Scalars['Boolean']>
+  city?: Maybe<Scalars['String']>
+  location?: Maybe<Scalars['String']>
+  skills?: Maybe<Array<Maybe<Skill>>>
+  attendees?: Maybe<Array<Maybe<EventAttendee>>>
+}
+
+export type EventsInput = {
+  start: Scalars['String']
+  end: Scalars['String']
+}
+
+export type CreateEventInput = {
+  title: Scalars['String']
+  description?: Maybe<Scalars['String']>
+  link?: Maybe<Scalars['String']>
+  start: Scalars['String']
+  end: Scalars['String']
+  importance: Importance
+  isAllDay?: Maybe<Scalars['Boolean']>
+  isDraft?: Maybe<Scalars['Boolean']>
+  isOnline?: Maybe<Scalars['Boolean']>
+  isExternal?: Maybe<Scalars['Boolean']>
+  city?: Maybe<Scalars['String']>
+  location?: Maybe<Scalars['String']>
+  skills?: Maybe<Array<Maybe<Scalars['ID']>>>
+}
+
+export type UpdateEventInput = {
+  id: Scalars['ID']
+  title?: Maybe<Scalars['String']>
+  description?: Maybe<Scalars['String']>
+  link?: Maybe<Scalars['String']>
+  start?: Maybe<Scalars['String']>
+  end?: Maybe<Scalars['String']>
+  importance?: Maybe<Importance>
+  isAllDay?: Maybe<Scalars['Boolean']>
+  isDraft?: Maybe<Scalars['Boolean']>
+  isOnline?: Maybe<Scalars['Boolean']>
+  city?: Maybe<Scalars['String']>
+  location?: Maybe<Scalars['String']>
+}
+
+export type CancelEventInput = {
+  id: Scalars['ID']
+  comment?: Maybe<Scalars['String']>
 }
 
 export type Experience = {
@@ -707,6 +797,8 @@ export type Query = {
   evaluationComments?: Maybe<Array<Maybe<EvaluationComment>>>
   evaluations?: Maybe<Array<Maybe<Evaluation>>>
   evaluationCustomFields?: Maybe<EvaluationCustomFields>
+  events?: Maybe<Array<Maybe<Event>>>
+  event?: Maybe<Event>
   experiences?: Maybe<Array<Maybe<Experience>>>
   feedbacks?: Maybe<Array<Feedback>>
   feedbacksAccess?: Maybe<Access>
@@ -834,6 +926,14 @@ export type QueryEvaluationCustomFieldsArgs = {
   input?: Maybe<EvaluationCustomFieldsInput>
 }
 
+export type QueryEventsArgs = {
+  input: EventsInput
+}
+
+export type QueryEventArgs = {
+  id: Scalars['ID']
+}
+
 export type QueryExperiencesArgs = {
   input?: Maybe<ExperiencesInput>
 }
@@ -949,6 +1049,10 @@ export type Mutation = {
   evaluate?: Maybe<Evaluation>
   commentEvaluation?: Maybe<EvaluationComment>
   updateCustomFields?: Maybe<EvaluationCustomFields>
+  createEvent?: Maybe<Event>
+  updateEvent?: Maybe<Event>
+  cancelEvent?: Maybe<Scalars['ID']>
+  attendEvent?: Maybe<Scalars['Boolean']>
   createExperience?: Maybe<Experience>
   updateExperience?: Maybe<Experience>
   updateExperiences?: Maybe<Array<Maybe<Experience>>>
@@ -980,6 +1084,7 @@ export type Mutation = {
   requestOnboardingTicket?: Maybe<Scalars['ID']>
   createPost?: Maybe<Post>
   updatePost?: Maybe<Post>
+  deletePost?: Maybe<Post>
   createProcess?: Maybe<Process>
   updateProcess?: Maybe<Process>
   deleteProcess?: Maybe<Process>
@@ -1090,6 +1195,22 @@ export type MutationCommentEvaluationArgs = {
 
 export type MutationUpdateCustomFieldsArgs = {
   input?: Maybe<UpdateCustomFieldsInput>
+}
+
+export type MutationCreateEventArgs = {
+  input: CreateEventInput
+}
+
+export type MutationUpdateEventArgs = {
+  input: UpdateEventInput
+}
+
+export type MutationCancelEventArgs = {
+  input: CancelEventInput
+}
+
+export type MutationAttendEventArgs = {
+  id: Scalars['ID']
 }
 
 export type MutationCreateExperienceArgs = {
@@ -1214,6 +1335,10 @@ export type MutationCreatePostArgs = {
 
 export type MutationUpdatePostArgs = {
   input?: Maybe<UpdatePostInput>
+}
+
+export type MutationDeletePostArgs = {
+  input?: Maybe<DeletePostInput>
 }
 
 export type MutationCreateProcessArgs = {
@@ -1593,6 +1718,10 @@ export type UpdatePostInput = {
   locations?: Maybe<Array<Maybe<Location>>>
   images?: Maybe<Array<Maybe<Scalars['String']>>>
   tags?: Maybe<Array<Maybe<Scalars['String']>>>
+}
+
+export type DeletePostInput = {
+  id: Scalars['ID']
 }
 
 export type PostEdge = {
