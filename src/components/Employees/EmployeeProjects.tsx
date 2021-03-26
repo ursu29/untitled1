@@ -27,12 +27,13 @@ export default function EmployeeProjects(props: Props) {
   if (error) return <div>Error :(</div>
 
   const projects = data?.employee.projects
+  const employeeProjects = data?.employee.employeeProjects
 
   return (
     <Skeleton loading={loading} active line>
       {projects && projects?.length > 0 && (
         <Section title="Projects">
-          <ProjectTagList small projects={projects} />
+          <ProjectTagList small projects={projects} employeeProjects={employeeProjects} />
         </Section>
       )}
     </Skeleton>

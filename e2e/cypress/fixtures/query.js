@@ -1,4 +1,7 @@
 export const query = {
+  createEvent: 'mutation createEvent($input: CreateEventInput!) {createEvent(input: $input) {id __typename}}',
+  cancelEvent: 'mutation cancelEvent($input: CancelEventInput!) {cancelEvent(input: $input)}',
+  getEvent: 'query getEvent($id: ID!) { event(id: $id) { id title description link start end importance isOnline isExternal city location skills { id name description __typename } attendees { employee { id name email position __typename } status __typename } createdBy { id __typename } __typename }}',
   updateExperience:
       'mutation updateExperience($input: UpdateExperienceInput) { updateExperience(input: $input) {id __typename}}',
   attachMatrixToEmployee:
@@ -68,6 +71,7 @@ export const query = {
   deleteProcess:
     'mutation deleteProcess($id:ID!) {deleteProcess(id: $id) {id}}',
   updateGuild: 'mutation updateGuild($input: UpdateGuildInput) {updateGuild(input: $input) {azureDisplayName __typename}}',
+  closeVacancy: 'mutation closeVacancy($input: CloseVacancyInput) {closeVacancy(input: $input) {id __typename}}',
   updateEmp:
     'mutation updateEmployee($input: UpdateEmployeeInput!) {updateEmployee(input: $input) {id __typename}}',
   createNewProcess:

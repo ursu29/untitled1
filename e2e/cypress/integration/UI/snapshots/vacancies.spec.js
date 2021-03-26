@@ -1,15 +1,18 @@
 import { getMockVacancies } from '../../../fixtures/vacancies'
+import {menuEl} from "../../../support/locators";
 
 describe('vacancy tab looks god', () => {
   before(() => {
     cy.setToken('employee')
     cy.setImgToken('employee')
 
-    cy.visit('/vacancies')
+    cy.visit('/')
   })
 
   it('check vacancy data', () => {
-    cy.mockResponse(['getVacancies'], getMockVacancies())
+    cy.get(menuEl.item).contains('Vacancies').click()
+
+    cy.mockResponse(['getVacancies', 'employeeExperience'], getMockVacancies())
 
     cy.get('.ant-btn-link').eq(0).click()
 

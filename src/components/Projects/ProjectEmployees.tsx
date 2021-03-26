@@ -15,5 +15,12 @@ export default function ProjectEmployees({ project }: Props) {
     onError: message.error,
   })
 
-  return <EmployeesList loading={loading} employees={data?.project?.employees} />
+  return (
+    <EmployeesList
+      loading={loading}
+      employees={data?.project?.employees}
+      showCapacity={true}
+      projectId={project.id}
+    />
+  )
 }

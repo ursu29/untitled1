@@ -23,7 +23,6 @@ export const menu = {
 }
 
 export const mainCity = 'SAINT_PETERSBURG'
-
 export const LOCATIONS = ['SAINT_PETERSBURG', 'KALININGRAD', 'TOMSK', 'ZURICH']
 
 export const guildElements = {
@@ -186,6 +185,16 @@ export const hrTool = {
   errorMess: '.ant-legacy-form-explain',
   processName: 'portal-select',
   selectItem: '.ant-legacy-form-item-children',
+  position: 'position',
+  option: '.ant-select-item-option',
+  level: 'level',
+  skills: 'skills',
+  experience: 'experience',
+  description: 'description',
+  workDescription: 'workDescription',
+  plus: 'plus',
+  stack: 'stack',
+  publishBtn: 'publish'
 }
 
 export const process = {

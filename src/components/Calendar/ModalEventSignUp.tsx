@@ -123,13 +123,13 @@ export default function ModalEventSignUp({
         )}
         <div>
           Attendees:{' '}
-          <Typography.Text style={{ fontWeight: 'bold' }}>
+          <Typography.Text style={{ fontWeight: 'bold' }} data-cy="count">
             {acceptedEmployees.length}
           </Typography.Text>
           {!!acceptedEmployees.length && !isAllAttendeesShown && (
             <div style={{ display: 'flex', marginTop: '4px', alignItems: 'center' }}>
               {acceptedEmployees.slice(0, 7).map(user => (
-                <div key={user.id} style={{ margin: '3px' }}>
+                <div key={user.id} style={{ margin: '3px' }} data-cy="user">
                   <Avatar employee={user} size="large" showTooltip />
                 </div>
               ))}
@@ -165,6 +165,7 @@ export default function ModalEventSignUp({
       </Space>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
         <Button
+          data-cy="signUp"
           type="primary"
           onClick={() => attend({ variables: { id: eventId } })}
           disabled={!!myStatus}
@@ -180,7 +181,7 @@ export default function ModalEventSignUp({
             okText="Yes"
             cancelText="No"
           >
-            <Button type="primary" danger>
+            <Button type="primary" danger data-cy="delete">
               Cancel it
             </Button>
           </Popconfirm>

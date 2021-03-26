@@ -1,11 +1,12 @@
 import gql from 'graphql-tag'
-import { Employee, Project, ID } from '../types'
+import { Employee, Project, ID, EmployeeProject } from '../types'
 
 type ProjectPick = Pick<Project, 'id' | 'name' | 'code'>
 
 type EmployeePick = {
   id: Employee['id']
   projects: ProjectPick[]
+  employeeProjects?: EmployeeProject[]
 }
 
 export type GetEmployeeProjectsQuery = {
@@ -24,6 +25,14 @@ export default gql`
         id
         name
         code
+      }
+      employeeProjects {
+        id
+        capacity
+        isExtraCapacity
+        project {
+          id
+        }
       }
     }
   }

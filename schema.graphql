@@ -341,6 +341,13 @@ type SubordinateUsersCount {
   one2oneRequests: Int
 }
 
+type EmployeeProject {
+  id: String!
+  capacity: Int
+  isExtraCapacity: Boolean
+  project: Project
+}
+
 type Employee {
   id: ID!
   strapiId: ID @deprecated(reason: "id === strapiId")
@@ -356,6 +363,7 @@ type Employee {
   birthday: String
   bonuses: Float
   projects: [Project!]
+  employeeProjects: [EmployeeProject!]
   experiences: [Experience!]
   access: Access
   avatar: String @deprecated
@@ -384,12 +392,19 @@ input EmployeesInput {
   locations: [LOCATION]
 }
 
+input EmployeeProjectInput {
+  id: String!
+  capacity: Int
+  isExtraCapacity: Boolean
+}
+
 input UpdateEmployeeInput {
   id: ID!
   manager: ID
   agileManager: String
   lastManagerMeeting: String
   one2oneRequest: Boolean
+  employeeProjects: [EmployeeProjectInput]
 }
 
 type EvaluationReviewer {
@@ -476,6 +491,78 @@ input EvaluationCustomFieldsInput {
 input UpdateCustomFieldsInput {
   employee: ID!
   lastDiscussed: String
+}
+
+enum IMPORTANCE {
+  HIGH
+  NORMAL
+  LOW
+}
+
+type EventAttendee {
+  employee: Employee
+  type: String
+  status: String
+}
+
+type Event {
+  id: ID!
+  title: String!
+  description: String
+  link: String
+  createdBy: Employee!
+  start: String
+  end: String
+  importance: IMPORTANCE
+  isAllDay: Boolean
+  isDraft: Boolean
+  isOnline: Boolean
+  isExternal: Boolean
+  city: String
+  location: String
+  skills: [Skill]
+  attendees: [EventAttendee]
+}
+
+input EventsInput {
+  start: String!
+  end: String!
+}
+
+input CreateEventInput {
+  title: String!
+  description: String
+  link: String
+  start: String!
+  end: String!
+  importance: IMPORTANCE!
+  isAllDay: Boolean
+  isDraft: Boolean
+  isOnline: Boolean
+  isExternal: Boolean
+  city: String
+  location: String
+  skills: [ID]
+}
+
+input UpdateEventInput {
+  id: ID!
+  title: String
+  description: String
+  link: String
+  start: String
+  end: String
+  importance: IMPORTANCE
+  isAllDay: Boolean
+  isDraft: Boolean
+  isOnline: Boolean
+  city: String
+  location: String
+}
+
+input CancelEventInput {
+  id: ID!
+  comment: String
 }
 
 type Experience {
@@ -655,6 +742,8 @@ type Query {
   evaluationComments(input: EvaluationCommentsInput): [EvaluationComment]
   evaluations(input: EvaluationsInput!): [Evaluation]
   evaluationCustomFields(input: EvaluationCustomFieldsInput): EvaluationCustomFields
+  events(input: EventsInput!): [Event]
+  event(id: ID!): Event
   experiences(input: ExperiencesInput): [Experience]
   feedbacks(input: FeedbacksInput!): [Feedback!]
   feedbacksAccess: Access
@@ -721,6 +810,10 @@ type Mutation {
   evaluate(input: EvaluateInput!): Evaluation
   commentEvaluation(input: CommentEvaluationInput!): EvaluationComment
   updateCustomFields(input: UpdateCustomFieldsInput): EvaluationCustomFields
+  createEvent(input: CreateEventInput!): Event
+  updateEvent(input: UpdateEventInput!): Event
+  cancelEvent(input: CancelEventInput!): ID
+  attendEvent(id: ID!): Boolean
   createExperience(input: CreateExperienceInput): Experience
   updateExperience(input: UpdateExperienceInput): Experience
   updateExperiences(input: UpdateExperiencesInput): [Experience]
@@ -752,6 +845,7 @@ type Mutation {
   requestOnboardingTicket(id: ID!): ID
   createPost(input: CreatePostInput): Post
   updatePost(input: UpdatePostInput): Post
+  deletePost(input: DeletePostInput): Post
   createProcess(input: CreateProcessInput): Process
   updateProcess(input: UpdateProcessInput): Process
   deleteProcess(id: ID!): Process
@@ -1017,6 +1111,10 @@ input UpdatePostInput {
   locations: [LOCATION]
   images: [String]
   tags: [String]
+}
+
+input DeletePostInput {
+  id: ID!
 }
 
 type PostEdge {

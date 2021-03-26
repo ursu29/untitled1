@@ -515,3 +515,9 @@ export interface CalendarEvent {
     status: 'none' | 'organizer' | 'tentativelyAccepted' | 'accepted' | 'declined' | 'notResponded'
   }[]
 }
+
+export interface EmployeeProject {
+  capacity: number
+  isExtraCapacity: boolean
+  project: Project
+}

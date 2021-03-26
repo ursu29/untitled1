@@ -5,7 +5,7 @@ import { useMediaQuery } from 'react-responsive'
 import dayjs from 'dayjs'
 import { COLLAPSE_WIDTH } from '../../config'
 import { getEmployeeLink } from '../../paths'
-import { Employee, LOCATION } from '../../types'
+import { Employee, LOCATION, EmployeeProject } from '../../types'
 import Avatar from '../Avatar'
 import getLocationName from '../../utils/getLocationName'
 
@@ -23,12 +23,20 @@ type EmployeePick = Pick<
 >
 
 interface Props {
-  employees?: EmployeePick[]
+  employees?: (EmployeePick & { employeeProjects?: EmployeeProject[] })[]
   loading: boolean
   fixed?: boolean
+  showCapacity?: boolean
+  projectId?: string
 }
 
-export default function EmployeesList({ employees, loading, fixed }: Props) {
+export default function EmployeesList({
+  employees,
+  loading,
+  fixed,
+  showCapacity,
+  projectId,
+}: Props) {
   const [filter, setFilter] = useState('')
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   let columns: any = [
@@ -239,6 +247,18 @@ export default function EmployeesList({ employees, loading, fixed }: Props) {
 
   if (isLarge) {
     columns = columns.concat([position, level, location, birthday, startDate])
+  }
+
+  if (showCapacity) {
+    columns.push({
+      title: 'Occupancy',
+      key: 'occupancy',
+      width: 100,
+      render: (employee: Employee & { employeeProjects: EmployeeProject[] }) => {
+        const employeeProject = employee.employeeProjects.find(e => e.project.id === projectId)
+        return employeeProject?.capacity + '%' + (employeeProject?.isExtraCapacity ? ' !' : '')
+      },
+    })
   }
 
   return (

@@ -30,6 +30,24 @@ export const getManager = id => ({
   query: query.getManager,
 })
 
+export const createEvent = (obj) => ({
+  operationName: 'createEvent',
+  variables: {input:{...obj}},
+  query: query.createEvent,
+})
+
+export const getEvent = (id) => ({
+  operationName: 'getEvent',
+  variables: {id},
+  query: query.getEvent,
+})
+
+export const cancelEvent = (id, comment) => ({
+  operationName: 'cancelEvent',
+  variables: {input:{id, comment}},
+  query: query.cancelEvent,
+})
+
 export const getClient = () => ({
   operationName: null,
   variables: {},
@@ -180,6 +198,14 @@ export const deleteTraining = id => ({
     input: { id },
   },
   query: query.deleteTraining,
+})
+
+export const closeVacancy = id => ({
+  operationName: 'closeVacancy',
+  variables: {
+    input: { id },
+  },
+  query: query.closeVacancy,
 })
 
 export const getEmployees = location => ({
