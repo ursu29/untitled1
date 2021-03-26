@@ -62,7 +62,7 @@ export default function AdditionalInfo({
     <PageContent noTop noBottom>
       <MainWrapper>
         <BlockWrapper style={{ width: '30%', minWidth: '175px' }}>
-          <span style={{ paddingBottom: '8px' }}>Employee</span>
+          <span style={{ paddingBottom: '8px' }}>* Employee</span>
           {isNotOnboarding ? (
             <EmployeeSelect
               wide
@@ -81,7 +81,7 @@ export default function AdditionalInfo({
           )}
         </BlockWrapper>
         <BlockWrapper>
-          <span style={{ paddingBottom: '8px' }}>Date</span>
+          <span style={{ paddingBottom: '8px' }}>* Date</span>
           <DatePicker
             format={['DD.MM.YYYY']}
             defaultValue={finishDate ? moment(moment(finishDate), ['DD.MM.YYYY']) : undefined}
@@ -90,7 +90,7 @@ export default function AdditionalInfo({
           />
         </BlockWrapper>
         <BlockWrapper style={{ width: '20%', minWidth: '100px' }}>
-          <span style={{ paddingBottom: '8px' }}>Phone</span>
+          <span style={{ paddingBottom: '8px' }}>* Phone</span>
           <Input
             data-cy="phone"
             placeholder="Enter employee phone"
@@ -136,36 +136,26 @@ export default function AdditionalInfo({
             </Button>
           </Tooltip>
         </BlockWrapper>
+        {isNotOnboarding && isSwissRe && (
+          <BlockWrapper style={{ marginLeft: '32px' }}>
+            <span style={{ paddingBottom: '8px' }}>SwissRe Offboarding</span>
+            <DatePicker
+              format={['DD.MM.YYYY']}
+              defaultValue={
+                swissReOffboardingDate
+                  ? moment(moment(swissReOffboardingDate), ['DD.MM.YYYY'])
+                  : undefined
+              }
+              onChange={value =>
+                makeUpdate({ swissReOffboardingDate: value?.utcOffset(180) || null })
+              }
+            />
+          </BlockWrapper>
+        )}
       </MainWrapper>
       <BlockWrapper style={{ marginTop: '10px', fontStyle: 'italic', fontSize: '12px' }}>
         * fill in these fields to open 'independent' steps
       </BlockWrapper>
-      {isNotOnboarding && isSwissRe && (
-        <BlockWrapper
-          style={{
-            marginTop: '20px',
-            maxWidth: '170px',
-            border: '1px solid lightgray',
-            padding: '10px',
-          }}
-        >
-          <span style={{ paddingBottom: '8px' }}>SwissRe Offboarding</span>
-          <DatePicker
-            format={['DD.MM.YYYY']}
-            defaultValue={
-              swissReOffboardingDate
-                ? moment(moment(swissReOffboardingDate), ['DD.MM.YYYY'])
-                : undefined
-            }
-            onChange={value =>
-              makeUpdate({ swissReOffboardingDate: value?.utcOffset(180) || null })
-            }
-          />
-          <span style={{ marginTop: '10px', fontStyle: 'italic', fontSize: '12px', color: 'gray' }}>
-            (optional - only for admins)
-          </span>
-        </BlockWrapper>
-      )}
     </PageContent>
   )
 }
