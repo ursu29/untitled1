@@ -1,7 +1,7 @@
 export const getCv = (id) => ({
   data: {
     "employeeByEmail": {
-      "id": id,
+      id,
       "curriculumVitae": {
         "id": "6041de13fe2832001c7e7fd3",
         "summary": null,
@@ -19,12 +19,12 @@ export const getCv = (id) => ({
           },
           {
             "id": "605c95f538b5de001d505051",
-            "company": "Test company 2",
+            "company": "Syncretis",
             "dateStart": "2021-03-25",
             "dateEnd": null,
-            "project": "",
-            "position": "position2",
-            "responsibilities": "",
+            "project": "guild-portal",
+            "position": "front end",
+            "responsibilities": "Automation QA\nSaint Petersburg\ntest.employee@syncretis.com\n+7(905)209-83-92\nBonus: 35000 ₽",
             "level": "5",
             "__typename": "Vitae"
           }
