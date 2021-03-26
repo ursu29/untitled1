@@ -89,7 +89,7 @@ export default function Calendar() {
           )}
         </Typography.Title>
 
-        <Button type="primary" onClick={() => setModalAddEvent({ visible: true })}>
+        <Button type="primary" onClick={() => setModalAddEvent({ visible: true })} data-cy="addEvent">
           Add Event
         </Button>
       </div>

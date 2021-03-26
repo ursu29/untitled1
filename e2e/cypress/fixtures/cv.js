@@ -1,38 +1,41 @@
-export const getCv = () => ({
+export const getCv = (id) => ({
   data: {
-    employeeByEmail: {
-      id: 'test.employee@syncretis.com',
-      curriculumVitae: {
-        id: '60267b07c099cf001c7d6e2c',
-        vitaes: [
+    "employeeByEmail": {
+      id,
+      "curriculumVitae": {
+        "id": "6041de13fe2832001c7e7fd3",
+        "summary": null,
+        "vitaes": [
           {
-            id: '60098d16a8239b001ce8bced',
-            company: 'Test company',
-            dateStart: '2021-01-21T14:18:01.834Z',
-            dateEnd: '2021-02-23T12:53:43.112Z',
-            project: '',
-            position: 'qa ',
-            responsibilities:
-              'responsible for assessing the quality of specifications and technical design documents in order',
-            level: 'master',
-            __typename: 'Vitae',
+            "id": "605c7ff938b5de001d50502a",
+            "company": "Test Company",
+            "dateStart": "2021-03-01",
+            "dateEnd": "2021-03-25",
+            "project": "",
+            "position": "position",
+            "responsibilities": "getCV , Responsibilities\t,",
+            "level": "2",
+            "__typename": "Vitae"
           },
           {
-            id: '60194b8aa8239b001ce8c1de',
-            company: 'Syncretis',
-            dateStart: '2021-02-15T12:54:54.023Z',
-            dateEnd: null,
-            project: 'guild-portal',
-            position: 'font',
-            responsibilities:
-              'Determining the structure and design of web pages.\nEnsuring user experience determines design choices.\nDeveloping features to enhance the user experience.\nStriking a balance between functional and aesthetic design.',
-            level: '',
-            __typename: 'Vitae',
-          },
+            "id": "605c95f538b5de001d505051",
+            "company": "Syncretis",
+            "dateStart": "2021-03-25",
+            "dateEnd": null,
+            "project": "guild-portal",
+            "position": "front end",
+            "responsibilities": "Automation QA\nSaint Petersburg\ntest.employee@syncretis.com\n+7(905)209-83-92\nBonus: 35000 ₽",
+            "level": "5",
+            "__typename": "Vitae"
+          }
         ],
-        __typename: 'CurriculumVitae',
+        "certificates": [],
+        "education": [],
+        "__typename": "CurriculumVitae"
       },
-      __typename: 'Employee',
-    },
-  },
+      "__typename": "Employee"
+    }
+  }
 })
+
+
