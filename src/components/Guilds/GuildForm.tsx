@@ -26,6 +26,7 @@ const GuildForm = ({ form, onSubmit, item, loading }: Props) => {
     })
   }
 
+  console.log(item?.leaders)
   return (
     <Form layout="vertical" onSubmit={handleSubmit}>
       <Row gutter={16}>
@@ -33,7 +34,7 @@ const GuildForm = ({ form, onSubmit, item, loading }: Props) => {
           <Form.Item label="Title">
             {getFieldDecorator('title', {
               initialValue: item?.title,
-            })(<Input data-cy="title"/>)}
+            })(<Input data-cy="title" />)}
           </Form.Item>
         </Col>
       </Row>
