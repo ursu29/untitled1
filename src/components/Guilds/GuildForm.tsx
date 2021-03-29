@@ -42,9 +42,7 @@ const GuildForm = ({ form, onSubmit, item, loading }: Props) => {
           <Form.Item label="Guild Leads">
             {getFieldDecorator('leaders', {
               initialValue: item?.leaders?.map(i => i.id),
-            })(<div data-cy="leads">
-                <EmployeeSelect wide mode="multiple" keyName="id" />
-              </div>)}
+            })(<EmployeeSelect wide mode="multiple" keyName="id" />)}
           </Form.Item>
         </Col>
       </Row>

@@ -27,6 +27,7 @@ describe('Visual regression employees page', () => {
     })
 
     it(`Should match previous screenshot employees Page`, () => {
+        cy.wait(500) // need to look more clear solution
         cy.get(eventsEl.modal).matchImageSnapshot('eventModal')
     })
 });
