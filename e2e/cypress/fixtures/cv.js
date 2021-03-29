@@ -27,6 +27,17 @@ export const getCv = (id) => ({
             "responsibilities": "Automation QA\nSaint Petersburg\ntest.employee@syncretis.com\n+7(905)209-83-92\nBonus: 35000 ₽",
             "level": "5",
             "__typename": "Vitae"
+          },
+          {
+            "id": "605c95f538b5de001d505053",
+            "company": "Sidenis",
+            "dateStart": "2021-01-25",
+            "dateEnd": null,
+            "project": "guild-portal",
+            "position": "front end",
+            "responsibilities": "Automation QA\nSaint Petersburg\ntest.employee@syncretis.com: 35000 ₽",
+            "level": "2",
+            "__typename": "Vitae"
           }
         ],
         "certificates": [],
