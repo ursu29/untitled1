@@ -79,6 +79,9 @@ export default function AdditionalInfo({
               onChange={e => setEmployeeField(e.target.value)}
             />
           )}
+          <BlockWrapper style={{ marginTop: '10px', fontStyle: 'italic', fontSize: '12px' }}>
+            * fill in these fields to open 'independent' steps
+          </BlockWrapper>
         </BlockWrapper>
         <BlockWrapper>
           <span style={{ paddingBottom: '8px' }}>* Date</span>
@@ -150,12 +153,10 @@ export default function AdditionalInfo({
                 makeUpdate({ swissReOffboardingDate: value?.utcOffset(180) || null })
               }
             />
+            <span style={{ fontStyle: 'italic', fontSize: '12px', color: 'gray' }}>optional</span>
           </BlockWrapper>
         )}
       </MainWrapper>
-      <BlockWrapper style={{ marginTop: '10px', fontStyle: 'italic', fontSize: '12px' }}>
-        * fill in these fields to open 'independent' steps
-      </BlockWrapper>
     </PageContent>
   )
 }
