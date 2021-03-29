@@ -7,6 +7,7 @@ import { Employee, CurriculumVitae, CertificateInput } from '../../types/graphql
 import { useUpdateCvMutation } from '../../queries/cv'
 import message from '../../message'
 import { EditableTable, CellDate, TableTitle, EditableColumnType } from './EmployeeTableEditable'
+import { LINK_REGEXP } from '../../utils/links'
 
 type EmployeePick = Pick<Employee, 'id'>
 type CVPick = Pick<CurriculumVitae, 'id' | 'certificates'>
@@ -16,8 +17,6 @@ type Props = {
   employee: EmployeePick
   cv?: CVPick | null
 }
-
-const LINK_REGEXP = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi
 
 const withoutTypename = <T extends { __typename?: string }>({ __typename, ...data }: T) => data
 
