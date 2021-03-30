@@ -2,7 +2,7 @@ import {getEmployee, getProjects, updateEmployeeCapacity} from "../../../support
 import {postEl, skillEl} from "../../../support/locators";
 import {createCapacityObj} from "../../../support/client/cv";
 
-describe('add capacity to employee', () => {
+describe('add capacity to employee (capacity)', () => {
     const testEmail = 'alexey.avdeev@syncretis.com'
     let employeeData
     let projects

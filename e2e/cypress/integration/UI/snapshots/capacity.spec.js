@@ -2,7 +2,7 @@ import {capacity} from "../../../fixtures/capacity";
 import {getEmployee} from "../../../support/getData";
 import {email} from "../../../support/client/employeeData";
 
-describe('Visual regression "Capacity"', () => {
+describe('Visual regression "Capacity" (capacity)', () => {
     const user = 'employee'
     let userId
 

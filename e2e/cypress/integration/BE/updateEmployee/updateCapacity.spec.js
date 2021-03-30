@@ -2,7 +2,7 @@ import {getEmployee, getProjects, updateEmployeeCapacity} from "../../../support
 import {tomorrow} from "../../../support/officePlanner/officeDays";
 import {createCapacityObj} from "../../../support/client/cv";
 
-describe('Check capacity data', () => {
+describe('Check capacity data (capacity)', () => {
 
     const testEmail = 'alexey.avdeev@syncretis.com'
     let employeeData
