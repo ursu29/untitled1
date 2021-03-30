@@ -15,7 +15,7 @@ describe('cv table looks good', () => {
 
   it('check all matrix', () => {
     cy.visit('/profile/cv')
-    cy.mockResponse(['getEmployeeCV'], getCv(id))
+    cy.mockResponse(['getCV'], getCv(id))
 
     cy.get('.ant-skeleton').should('be.visible')
     cy.get('.ant-skeleton').should('not.exist')

@@ -256,6 +256,12 @@ export const getAllSkills = () => ({
   query: query.allSkills,
 })
 
+export const deleteSkill = (id) => ({
+  operationName: 'deleteSkill',
+  variables:  {input:{ id }},
+  query: query.deleteSkill,
+})
+
 export const getAllMatrices = (employee, skill) => ({
   operationName: null,
   variables: {input: {employee, skill}},
