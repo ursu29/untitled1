@@ -29,3 +29,9 @@ export const project = {
   name: 'EXRO',
   __typename: 'Project',
 }
+
+export const createCapacityObj = (capacity, id, isExtraCapacity) => ({
+  capacity,
+  id,
+  isExtraCapacity
+})

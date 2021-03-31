@@ -32,7 +32,7 @@ export default function EmployeeProjects(props: Props) {
   return (
     <Skeleton loading={loading} active line>
       {projects && projects?.length > 0 && (
-        <Section title="Projects">
+        <Section title="Projects" data-cy="projects">
           <ProjectTagList small projects={projects} employeeProjects={employeeProjects} />
         </Section>
       )}
