@@ -14,7 +14,7 @@ const request = (id, jobId, title) => ({
     summary: title
 })
 
-describe('add summary', () => {
+describe('add summary (cv)', () => {
     let employeeData
     let jobs
 

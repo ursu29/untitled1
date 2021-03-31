@@ -10,7 +10,7 @@ const obj = {
   project: "",
   responsibilities: ""
 }
-describe('add new work experience', () => {
+describe('add new work experience (cv)', () => {
   let employeeData
   let jobs
 

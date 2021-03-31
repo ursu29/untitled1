@@ -15,7 +15,7 @@ const request = (id, jobId) => ({
     certificates: [{}]
 })
 
-describe('add certificates', () => {
+describe('add certificates (cv)', () => {
     let employeeData
     let jobs
     before(() => {

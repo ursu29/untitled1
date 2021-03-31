@@ -11,7 +11,7 @@ const obj = {
     responsibilities: ""
 }
 
-describe('delete work experience', () => {
+describe('delete work experience (cv)', () => {
     let employeeData
     let jobs
 

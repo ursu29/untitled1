@@ -16,7 +16,7 @@ const request = (id, jobId, educationObj) => ({
     education: [educationObj]
 })
 
-describe('add education', () => {
+describe('add education (cv)', () => {
     let employeeData
     let jobs
     before(() => {
