@@ -65,6 +65,8 @@ export const query = {
     'mutation updateCurriculumVitae($input: UpdateCurriculumVitaeInput!) {updateCurriculumVitae(input: $input) {id __typename}}',
   getCV:
     'query getEmployeeCV($email: String!) {employeeByEmail(email: $email) { id curriculumVitae {id vitaes {id} __typename} __typename}}',
+  updateCV:
+    'mutation updateCV($input: UpdateCurriculumVitaeInput!) { updateCurriculumVitae(input: $input) { ...CV __typename }}fragment CV on CurriculumVitae { id summary vitaes { id company dateStart dateEnd project position responsibilities level __typename } certificates { id name date expirationDate link __typename } education { id name speciality degree dateStart dateEnd __typename } __typename}',
   updatePost:
     'mutation updatePost($input: UpdatePostInput) {updatePost(input: $input) {id __typename}}',
   deleteTraining:
