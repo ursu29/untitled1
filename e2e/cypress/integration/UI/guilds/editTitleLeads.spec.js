@@ -8,7 +8,7 @@ import {todaysDate} from "../../../support/officePlanner/officeDays";
 describe('Update guilds title and leads', () => {
     let guildInfo
     const {itemsSelect, edit, close} = postEl
-    const {update, title, lead, submit, employeeCard} = guildElements
+    const {update, title, submit, employeeCard} = guildElements
 
     before(() => {
         cy.setToken('manager')
@@ -33,7 +33,7 @@ describe('Update guilds title and leads', () => {
         cy.getId(title).type(todaysDate)
 
         //select value
-        cy.getElement(lead).click()
+        cy.get('span').contains('employee').click()
         cy.get(itemsSelect).eq(0).click()
         cy.get(edit).click()
 
