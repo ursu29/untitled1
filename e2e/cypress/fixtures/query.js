@@ -91,6 +91,7 @@ export const query = {
     'mutation updateProcessExecution($input: UpdateProcessExecutionInput) {updateProcessExecution(input: $input) {id __typename}}',
   getWikiRootSections:
     'query getWikiRootSections {wikiRootSections {id title description icon path __typename}}',
+  getPaths: 'query getPaths($rootPath: String) {wikiPagesPaths(rootPath: $rootPath)}',
   onboardingAccess: 'query onboardingAccess {onboardingAccess {read write __typename}}',
   guild: 'query getGuilds {guilds {title}}',
   guildInfo: 'query getGuild($input: GuildInput) { guild(input: $input) { id azureDisplayName azureId title description shortDescription skills { id name description __typename } leaders { ...EmployeeDetails __typename } accessWrite __typename }}fragment EmployeeDetails on Employee { id name location country position phoneNumber email isMe startDate birthday __typename}',
