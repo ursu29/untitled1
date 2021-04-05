@@ -4,7 +4,15 @@ import * as Showdown from 'showdown'
 const injectExtensions = () => {
   const foundGalleries = {
     type: 'lang',
-    regex: /gallery\([^*]*?\)/g,
+    regex: /GALLERY\([^*]*?\)GALLERY/g,
+    replace: text => {
+      const formattedString = text.slice(8, text.length - 8)
+      return `<div class='md-injected-gallery'>${formattedString}</div>`
+    },
+  }
+  const foundGalleriesOLD = {
+    type: 'lang',
+    regex: /gallery\([^*]*?\)/g, //TODO: deprecated
     replace: text => {
       const formattedString = text.slice(8, text.length - 1)
       return `<div class='injected-image-gallery'>${formattedString}</div>`
@@ -57,7 +65,25 @@ const injectExtensions = () => {
       return `<div class='md-injected-space'>${trimMeta(space, 'SPACE')}</div>`
     },
   }
-  return [foundGalleries, foundCollapses, foundBlocks, foundSpaces]
+  const foundTables = {
+    type: 'lang',
+    regex: /TABLE\((\s*ROW([^]*?)ROW\s)+\)TABLE/g,
+    replace: text => {
+      const innerString = /(TABLE\(\s*)[^]*?(\s*\)TABLE)/g.exec(text)?.[0]
+      const rowsRegexp = /(ROW\(\s*)[^]+?(\s*\)ROW)/gm
+
+      let resRowsList
+
+      const rows = []
+
+      while ((resRowsList = rowsRegexp.exec(innerString)) !== null) {
+        rows.push((trimMeta(resRowsList?.[0], 'ROW') || '').split('#COL#').map(e => e.trim()))
+      }
+
+      return `<div class='md-injected-table'>${JSON.stringify(rows)}</div>`
+    },
+  }
+  return [foundGalleries, foundCollapses, foundBlocks, foundSpaces, foundTables, foundGalleriesOLD]
 }
 
 Showdown.extension('injectExtensions', injectExtensions)

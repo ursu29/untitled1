@@ -16,6 +16,7 @@ import {
   Select,
   Tooltip,
   Typography,
+  AutoComplete,
 } from 'antd'
 import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
 import styled from 'styled-components'
@@ -46,8 +47,9 @@ interface PropsTable {
  */
 
 // Condition checking the transmitted word - company field - allowed to change for future purposes
+const syncretisNames = ['Sidenis', 'Syncretis (ex Sidenis)', 'Syncretis']
 const isWordSyncretis = (word: string) =>
-  word.toLowerCase() === 'syncretis' || word.toLowerCase() === 'sidenis'
+  syncretisNames.map(e => e.toLowerCase()).includes(word.toLowerCase())
 
 /**
  *
@@ -225,7 +227,21 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
       title: 'Company',
       dataIndex: 'company',
       width: editable ? '15%' : '10%',
-      editable,
+      render: (text: any, record: any) => (
+        <AutoComplete
+          style={{ width: 200 }}
+          options={syncretisNames.map(value => ({ value }))}
+          defaultValue={record.company ? record.company : undefined}
+          onBlur={event =>
+            //@ts-ignore
+            onChange && onChange(immutableValueChange(record.id, 'company', event.target.value))
+          }
+          filterOption={(inputValue, option) =>
+            option!.value.toUpperCase().startsWith(inputValue.toUpperCase())
+          }
+          disabled={!editable}
+        />
+      ),
     },
     {
       title: 'Time',

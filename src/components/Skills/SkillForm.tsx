@@ -99,13 +99,13 @@ const SkillForm = ({ form, onSubmit, skill, loading, parentSkillSelect }: Props)
                   message: 'please enter parent skill',
                 },
               ],
-            })(<Checkbox>For matrices only</Checkbox>)}
+            })(<Checkbox data-cy="matricesOnly">For matrices only</Checkbox>)}
           </Form.Item>
         </Col>
       </Row>
       <Row>
         <Col>
-          <Button loading={loading} type="primary" htmlType="submit">
+          <Button loading={loading} type="primary" htmlType="submit" data-cy="submit">
             Publish
           </Button>
         </Col>

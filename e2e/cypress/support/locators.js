@@ -60,7 +60,11 @@ export const skillEl = {
   select: '.ant-select-multiple',
   titleTree: '.ant-tree-title',
   searchInput: 'search',
-  name: 'skillName'
+  name: 'skillName',
+  skillId: 'skill_form_name',
+  description: 'skill_form_description',
+  submit: 'submit',
+  selectSkill :'portal-select',
 }
 
 export const locations = [

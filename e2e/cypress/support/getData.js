@@ -256,6 +256,12 @@ export const getAllSkills = () => ({
   query: query.allSkills,
 })
 
+export const deleteSkill = (id) => ({
+  operationName: 'deleteSkill',
+  variables:  {input:{ id }},
+  query: query.deleteSkill,
+})
+
 export const getAllMatrices = (employee, skill) => ({
   operationName: null,
   variables: {input: {employee, skill}},
@@ -446,6 +452,12 @@ export const getArchivedDPVersions = email => ({
 export const updateEmployee = (id, agileManager) => ({
   operationName: 'updateEmployee',
   variables: { input: { id, agileManager } },
+  query: query.updateEmp,
+})
+
+export const updateEmployeeCapacity = (id, agileManager, employeeProjects) => ({
+  operationName: 'updateEmployee',
+  variables: { input: { id, agileManager, employeeProjects } },
   query: query.updateEmp,
 })
 

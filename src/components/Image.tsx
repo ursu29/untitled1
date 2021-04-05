@@ -56,7 +56,7 @@ function PortalImage({ src, ...props }: any) {
     return <Skeleton.Image />
   }
 
-  return <img ref={ref} {...props} alt={props.alt || props.src} />
+  return <img ref={ref} {...props} src={ref.current?.src || src} alt={props.alt || props.src} />
 }
 
 export default PortalImage

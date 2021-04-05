@@ -26,7 +26,7 @@ export const query = {
   getClient:
     '{profile {id strapiId email name position status, bonuses, country,location, phoneNumber}isAuthenticated}',
   getProjects:
-    'query getEmployeeProjects($id: ID!) {employee(id: $id) {id projects {id name code __typename} __typename}}',
+    'query getEmployeeProjects($id: ID!) {employee(id: $id) {id projects {id name code __typename }employeeProjects { id capacity isExtraCapacity project { id __typename} __typename} __typename}}',
   getEmployeeExperiences:
     'query getEmployeeExperiences($input: EmployeesInput) {employees(input: $input) { id name experiences { ...ExperienceDetails comment } access {read write}}}fragment ExperienceDetails on Experience {id level skill {id name description isMatrixOnly }updatedAt}',
   getEmployee:
@@ -41,6 +41,7 @@ export const query = {
     'mutation toggleBookmarklike($input: ToggleBookmarklikeInput!) {toggleBookmarklike(input: $input) {id __typename}}',
   deleteBookmark:
     'mutation deleteBookmark($input: DeleteBookmarkInput!) {deleteBookmark(input: $input) { id __typename}}',
+  deleteSkill: 'mutation deleteSkill($input: DeleteSkillInput!) {deleteSkill(input: $input) { id __typename}}',
   deleteFeedback:
     'mutation deleteFeedback($input: DeleteFeedbackInput!) {deleteFeedback(input: $input) { id __typename}}',
   deletePost: 'mutation deletePost($input: DeletePostInput!) {deletePost(input: $input) { id __typename}}',

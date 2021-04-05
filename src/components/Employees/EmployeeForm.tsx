@@ -132,7 +132,7 @@ export default function EmployeeForm({ onSubmit, item, loading }: Props) {
         ))}
       </Form.Item>
       <Form.Item>
-        <Button loading={loading} type="primary" htmlType="submit" style={{ marginTop: '10px' }}>
+        <Button loading={loading} type="primary" htmlType="submit" style={{ marginTop: '10px' }} data-cy="save">
           Save
         </Button>
       </Form.Item>

@@ -24,7 +24,7 @@ export default function CreateSkill() {
 
   return (
     <Drawer
-      toggler={<Button icon={<PlusOutlined />}>Add skill</Button>}
+      toggler={<Button icon={<PlusOutlined />} data-cy="addSkill">Add skill</Button>}
       drawerLabel="Create a new skill"
       content={
         <SkillForm
