@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { ExclamationOutlined } from '@ant-design/icons'
-import { Table, Rate, Input, Tooltip } from 'antd'
+import { Table, Input, Tooltip } from 'antd'
 import {
   EvaluationAttribute,
   EvaluationComment,
@@ -10,7 +10,7 @@ import {
 } from '../../types'
 import { CommentEmpty, CommentFill } from './Icons'
 import CommentModal from '../UI/CommentModal'
-
+import { EvaluationRate } from '../UI/EvaluationRate'
 import './style.css'
 
 const parent: { title: string; key: string; children?: any }[] = [
@@ -181,7 +181,7 @@ export default function EvaluationTable({
       >
         {!textOnly && !isTitle ? (
           <>
-            <Rate
+            <EvaluationRate
               disabled={rateDisabled || isArchivedChosen}
               onChange={value => {
                 onEvaluate({
