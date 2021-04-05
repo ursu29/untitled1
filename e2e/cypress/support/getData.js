@@ -310,6 +310,12 @@ export const getWikiRootSections = () => ({
   query: query.getWikiRootSections,
 })
 
+export const getPaths = () => ({
+  operationName: 'getPaths',
+  variables: {},
+  query: query.getPaths,
+})
+
 export const getOnBoardingAccess = () => ({
   operationName: 'onboardingAccess',
   variables: {},
