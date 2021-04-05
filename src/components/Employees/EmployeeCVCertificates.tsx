@@ -7,7 +7,7 @@ import { Employee, CurriculumVitae, CertificateInput } from '../../types/graphql
 import { useUpdateCvMutation } from '../../queries/cv'
 import message from '../../message'
 import { EditableTable, CellDate, TableTitle, EditableColumnType } from './EmployeeTableEditable'
-import { LINK_REGEXP } from '../../utils/links'
+import { LINK_REGEXP, makeExternalUrl } from '../../utils/links'
 
 type EmployeePick = Pick<Employee, 'id'>
 type CVPick = Pick<CurriculumVitae, 'id' | 'certificates'>
@@ -88,7 +88,7 @@ const EmployeeCVCertificatesTable = ({
       ],
       render(value: TableItem['link']) {
         return value ? (
-          <a href={value} target="_blank" rel="noopener noreferrer">
+          <a href={makeExternalUrl(value)} target="_blank" rel="noopener noreferrer">
             {value}
           </a>
         ) : null
