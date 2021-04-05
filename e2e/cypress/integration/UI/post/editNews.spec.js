@@ -18,7 +18,7 @@ describe('Update post', () => {
     })
 
     after('delete post', () => {
-        cy.post(deletePost(createdId)).then(req => {
+        cy.post(deletePost(createdId), 'superUser').then(req => {
             const {deletePost: {id}} = req.body.data
 
             expect(createdId).equal(id)

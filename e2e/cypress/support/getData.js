@@ -395,6 +395,12 @@ export const getCV = (employeeEmail = email) => ({
   query: query.getCV,
 })
 
+export const updateCV = (obj) => ({
+  operationName: 'updateCV',
+  variables: { input: {...obj} },
+  query: query.updateCV,
+})
+
 export const getGetGuild = () => ({
   operationName: null,
   variables: {},

@@ -70,9 +70,8 @@ export const skillEl = {
 export const locations = [
   { title: 'Saint Petersburg' },
   { title: 'Tomsk' },
-  { title: 'Kaliningrad' },
-  { title: 'Zürich' },
-]
+  { title: 'Kaliningrad' }
+  ]
 
 export const devMenu = {
   menu: '.ant-select-selection-search',
