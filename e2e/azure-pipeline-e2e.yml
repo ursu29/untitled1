@@ -23,7 +23,7 @@ jobs:
       - name: E2E_DIR
         value: $(Build.SourcesDirectory)/e2e
       - name: NODE_OPTIONS
-        value: --max-old-space-size=12192
+        value: --max-old-space-size=8192
     steps:
       - task: Bash@3
         displayName: 'Yarn install'
