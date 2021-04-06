@@ -112,7 +112,7 @@ function EmployeeEvaluation({ employee, editable }: Props) {
               createdAt: e.createdAt,
             }))}
           isButtonVisible={true}
-          buttonText="Add New"
+          buttonText="Create New Version"
           tooltip="Your current form will be archived and you will receive a new blank one"
         />
       )}
