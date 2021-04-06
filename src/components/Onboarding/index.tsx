@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import message from '../../message'
 import {
   completeOnboardingTicket,
+  cancelOnboardingTicket,
   employeeOnboardingTickets,
   getOnboardingTickets,
   onboardingAccess,
@@ -81,7 +82,16 @@ export default function Onboarding() {
   // Complete ticket
   const [completeTicket] = useMutation(completeOnboardingTicket, {
     refetchQueries: [{ query: employeeOnboardingTickets }],
+    awaitRefetchQueries: true,
     onCompleted: () => message.success('Ticket has been completed'),
+    onError: message.error,
+  })
+
+  // Cancel ticket
+  const [cancelTicket] = useMutation(cancelOnboardingTicket, {
+    refetchQueries: [{ query: getOnboardingTickets }],
+    awaitRefetchQueries: true,
+    onCompleted: () => message.success('Ticket has been cancelled'),
     onError: message.error,
   })
 
@@ -127,6 +137,7 @@ export default function Onboarding() {
                 setDrawerVisibility(true)
               }}
               completeTicket={() => completeTicket({ variables: { input: { id: ticket.id } } })}
+              cancelTicket={() => cancelTicket({ variables: { input: { id: ticket.id } } })}
               requestTicket={() => requestTicket({ variables: { id: ticket.id } })}
             />
           ))
