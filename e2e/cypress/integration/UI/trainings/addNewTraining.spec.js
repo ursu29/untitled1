@@ -1,7 +1,7 @@
 import {deleteTraining} from "../../../support/getData";
 import {matrix} from "../../../support/locators";
 
-describe('Create a new training', () => {
+describe('Create a new training (training)', () => {
     let createdId
     const text = new Date().getTime().toString()
 

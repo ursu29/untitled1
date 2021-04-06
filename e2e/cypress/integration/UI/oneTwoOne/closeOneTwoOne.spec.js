@@ -3,7 +3,7 @@ import {email, oneTwoOne, popUp} from "../../../support/client/employeeData";
 import {matrix} from "../../../support/locators";
 import {oneTwoOneLocators} from "../../../support/client/oneTwoOne";
 
-describe('Close oneTwoOne meeting', () => {
+describe('Close oneTwoOne meeting (oneTwoOne)', () => {
     let employeeData
 
     before(() => {

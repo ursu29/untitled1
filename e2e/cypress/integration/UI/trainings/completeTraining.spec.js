@@ -3,7 +3,7 @@ import {createTraining, deleteTraining} from "../../../support/getData";
 import {matrix} from "../../../support/locators";
 import {popUp} from "../../../support/client/employeeData";
 
-describe('Complete the training', () => {
+describe('Complete the training (training)', () => {
     let createdId
     const text = new Date().getTime().toString()
 

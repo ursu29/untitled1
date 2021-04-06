@@ -2,7 +2,7 @@ import {getEmployee, updateOneTwoOne} from "../../../support/getData";
 import {email, oneTwoOne, popUp} from "../../../support/client/employeeData";
 import {matrix} from "../../../support/locators";
 
-describe('Create new oneTwoOne', () => {
+describe('Create new oneTwoOne (oneTwoOne)', () => {
     let employeeData
 
     before(() => {

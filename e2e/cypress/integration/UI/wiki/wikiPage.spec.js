@@ -1,7 +1,7 @@
 import {getWikiRootSections} from "../../../support/getData";
 import {menuEl} from "../../../support/locators";
 
-describe('Check all wiki pages', () => {
+describe('Check all wiki pages (wiki)', () => {
     let wikiData
 
     before(() => {
