@@ -162,7 +162,7 @@ export default function Ticket({
               okText="Yes"
               cancelText="No"
             >
-              <Button type="primary">Complete</Button>
+              <Button type="primary" dat-cy="complete">Complete</Button>
             </Popconfirm>
           )}
           {!isCompleted && ticket.isOptional && !ticket?.isRequestedByMe && (
@@ -173,7 +173,7 @@ export default function Ticket({
               okText="Yes"
               cancelText="No"
             >
-              <Button type="primary">Request training</Button>
+              <Button type="primary" data-cy="request">Request training</Button>
             </Popconfirm>
           )}
         </div>

@@ -100,7 +100,7 @@ export default function DrawerForm({
         initialValue={ticket?.isOptional || false}
         style={{ marginBottom: 0 }}
       >
-        <Checkbox defaultChecked={ticket?.isOptional || false}>Ticket is optional</Checkbox>
+        <Checkbox defaultChecked={ticket?.isOptional || false} data-cy="optional">Ticket is optional</Checkbox>
       </Form.Item>
 
       <Form.Item
@@ -109,7 +109,7 @@ export default function DrawerForm({
         valuePropName="checked"
         initialValue={ticket?.isSwissRe || false}
       >
-        <Checkbox defaultChecked={ticket?.isSwissRe || false}>Ticket is SwissRe only</Checkbox>
+        <Checkbox defaultChecked={ticket?.isSwissRe || false} data-cy="ticketSwissRe">Ticket is SwissRe only</Checkbox>
       </Form.Item>
 
       <Form.Item {...tailLayout}>
@@ -127,7 +127,7 @@ export default function DrawerForm({
               </Button>
             </Popconfirm>
           )}
-          <Button type="primary" htmlType="submit" loading={createLoading || updateLoading}>
+          <Button type="primary" htmlType="submit" loading={createLoading || updateLoading} data-cy="saveTicket">
             Save
           </Button>
         </div>
