@@ -1,7 +1,5 @@
 import React from 'react'
-import { Rate } from 'antd'
-import { RateProps } from 'antd/lib/rate'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { ReactComponent as Rate1 } from '../../svg/rate1.svg'
 import { ReactComponent as Rate2 } from '../../svg/rate2.svg'
 import { ReactComponent as Rate3 } from '../../svg/rate3.svg'
@@ -15,46 +13,73 @@ const Description = styled.span`
   }
 `
 
-const RateIcon = styled(Rate)`
-  color: #fff;
+const rateIconMixin = css`
+  svg {
+    color: #000;
 
-  // uses class from svg file for styling
-  .rate-bg {
-    fill: #1890ff;
-    stroke: #1890ff;
-  }
-
-  .ant-rate-star.ant-rate-star-zero {
-    .ant-rate-star-first,
-    .ant-rate-star-second {
-      color: #000;
-
-      // uses class from svg file for styling
-      .rate-bg {
-        fill: none;
-        stroke: #000;
-      }
+    // uses class from svg file for styling
+    .rate-bg {
+      fill: none;
+      stroke: #000;
     }
   }
 `
 
+const rateIconActiveMixin = css`
+  svg {
+    color: #fff;
+
+    // uses class from svg file for styling
+    .rate-bg {
+      fill: #1890ff;
+      stroke: #1890ff;
+    }
+  }
+`
+
+const RateButton = styled.button<{ active: boolean }>`
+  border: none;
+  background: none;
+  line-height: 0;
+  padding: 0;
+  outline: none;
+  transition: transform 0.3s;
+  :hover {
+    transform: scale(1.1);
+  }
+
+  & + & {
+    margin-left: 8px;
+  }
+
+  ${rateIconMixin}
+  :not(:disabled) {
+    cursor: pointer;
+    :hover,
+    :focus {
+      ${rateIconActiveMixin}
+    }
+  }
+  ${props => props.active && rateIconActiveMixin}
+`
+
 const icons = [
   {
-    key: 'rate1',
+    key: 1,
     icon: <Rate1 />,
     description: 'Needs Improvement',
   },
   {
-    key: 'rate2',
+    key: 2,
     icon: <Rate2 />,
     description: 'Meets requirements',
   },
   {
-    key: 'rate3',
+    key: 3,
     icon: <Rate3 />,
     description: 'Exceeds requirements',
   },
-]
+] as const
 
 export const EvaluationRateDescription = () => (
   <div>
@@ -66,6 +91,26 @@ export const EvaluationRateDescription = () => (
   </div>
 )
 
-export const EvaluationRate = (props: RateProps) => (
-  <RateIcon character={({ index }: { index: number }) => icons[index].icon} {...props} />
-)
+export const EvaluationRate = (props: {
+  disabled?: boolean
+  onChange: (value: 0 | 1 | 2 | 3) => void
+  value: number
+}) => {
+  return (
+    <div>
+      {icons.map(({ key, icon }) => (
+        <RateButton
+          key={key}
+          type="button"
+          onClick={() => {
+            props.onChange(props.value === key ? 0 : key)
+          }}
+          disabled={props.disabled}
+          active={props.value === key}
+        >
+          {icon}
+        </RateButton>
+      ))}
+    </div>
+  )
+}

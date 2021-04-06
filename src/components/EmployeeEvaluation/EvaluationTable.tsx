@@ -191,15 +191,14 @@ export default function EvaluationTable({
                   evaluationAttribute: itemId,
                 })
               }}
-              count={3}
               value={rateValue}
             />
 
             {!rateDisabled && !isArchivedChosen && (
               <div
                 style={{
-                  marginLeft: '90px',
-                  marginTop: '7px',
+                  marginLeft: '94px',
+                  marginTop: '4px',
                   cursor: 'pointer',
                   position: 'absolute',
                 }}
@@ -227,8 +226,8 @@ export default function EvaluationTable({
                     if (!rateDisabled) commentHandleClick('Comment')
                   }}
                   style={{
-                    marginLeft: '90px',
-                    marginTop: '7px',
+                    marginLeft: '94px',
+                    marginTop: '4px',
                     cursor: 'pointer',
                     position: 'absolute',
                   }}
