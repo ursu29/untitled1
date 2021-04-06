@@ -25,12 +25,14 @@ export default function Ticket({
   onClick,
   isAccessWrite,
   completeTicket,
+  cancelTicket,
   requestTicket,
 }: { ticket: OnboardingTicket } & {
   isCompleted: boolean
   onClick?: any
   isAccessWrite: boolean
   completeTicket?: any
+  cancelTicket?: any
   requestTicket?: any
 }) {
   const { title, description, responsible, isSwissRe } = ticket
@@ -155,15 +157,30 @@ export default function Ticket({
             </a>
           </div>
           {!isCompleted && (ticket.isOptional ? ticket?.isRequestedByMe : true) && completeTicket && (
-            <Popconfirm
-              placement="top"
-              title={'Are you sure you want to complete this ticket?'}
-              onConfirm={completeTicket}
-              okText="Yes"
-              cancelText="No"
-            >
-              <Button type="primary" dat-cy="complete">Complete</Button>
-            </Popconfirm>
+            <div>
+              <Popconfirm
+                placement="top"
+                title={'Are you sure you want to cancel this ticket?'}
+                onConfirm={cancelTicket}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button type="primary" danger>
+                  Cancel
+                </Button>
+              </Popconfirm>
+              <Popconfirm
+                placement="top"
+                title={'Are you sure you want to complete this ticket?'}
+                onConfirm={completeTicket}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button type="primary" style={{ marginLeft: '16px' }}>
+                  Complete
+                </Button>
+              </Popconfirm>
+            </div>
           )}
           {!isCompleted && ticket.isOptional && !ticket?.isRequestedByMe && (
             <Popconfirm
