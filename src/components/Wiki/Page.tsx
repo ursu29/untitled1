@@ -9,6 +9,7 @@ import TitleEditable from '../UI/TitleEditable'
 import MarkdownEditable from '../UI/MarkdownEditable'
 import message from '../../message'
 import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
+import Search from './Search'
 
 export default function Page() {
   const location = useLocation()
@@ -36,7 +37,10 @@ export default function Page() {
 
   return (
     <PageContent error={error} loading={loading} notFound={!data?.wikiPage}>
-      <Controls back={<Back />} />
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Controls back={<Back />} />
+        <Search />
+      </div>
       <TitleEditable
         data={data?.wikiPage?.title || ''}
         editable={writeAccess}

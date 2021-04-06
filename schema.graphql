@@ -342,7 +342,7 @@ type SubordinateUsersCount {
 }
 
 type EmployeeProject {
-  id: String!
+  id: ID!
   capacity: Int
   isExtraCapacity: Boolean
   project: Project
@@ -404,7 +404,7 @@ input UpdateEmployeeInput {
   agileManager: String
   lastManagerMeeting: String
   one2oneRequest: Boolean
-  employeeProjects: [EmployeeProjectInput]
+  employeeProjects: [EmployeeProjectInput!]
 }
 
 type EvaluationReviewer {
@@ -781,6 +781,7 @@ type Query {
   wikiRootSections: [WikiRootSection]
   wikiPage(input: WikiPageInput): WikiPage
   wikiPagesPaths(rootPath: String): [String]
+  wikiSearchText(input: WikiSearchTextInput): [FoundWikiPage]
   workspaceDesignAccess: Access
   workspaces(input: WorkspacesInput): [Workspace]
   workspace(input: GetWorkspaceInput): Workspace
@@ -1430,6 +1431,13 @@ type WikiPage {
   path: String!
 }
 
+type FoundWikiPage {
+  id: ID!
+  title: String!
+  path: String!
+  textFragment: String!
+}
+
 input WikiPageInput {
   path: String
 }
@@ -1447,6 +1455,11 @@ input CreateWikiPageInput {
 
 input RemoveWikiPageInput {
   path: String
+}
+
+input WikiSearchTextInput {
+  path: String
+  text: String!
 }
 
 type Workspace {

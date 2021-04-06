@@ -1,0 +1,8 @@
+query wikiSearchText($input: WikiSearchTextInput) {
+  wikiSearchText(input: $input) {
+    id
+    title
+    path
+    textFragment
+  }
+}
