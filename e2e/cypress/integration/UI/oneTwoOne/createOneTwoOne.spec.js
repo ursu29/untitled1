@@ -16,6 +16,7 @@ describe('Create new oneTwoOne (oneTwoOne)', () => {
         cy.post(updateOneTwoOne(employeeData, false), 'superUser')
     })
     it('create a new meeting', () => {
+
         cy.visit('/')
         cy.getElement(oneTwoOne.button).click()
 
