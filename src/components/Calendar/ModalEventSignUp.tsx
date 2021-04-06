@@ -12,6 +12,7 @@ import message from '../../message'
 import EmployeeCard from '../Employees/EmployeeCard.new'
 import { useEmployee } from '../../utils/withEmployee'
 import { QuestionCircleOutlined } from '@ant-design/icons'
+import { makeExternalUrl } from '../../utils/links'
 
 export default function ModalEventSignUp({
   visible,
@@ -109,16 +110,13 @@ export default function ModalEventSignUp({
         )}
         {event.link && (
           <a
-            href={event.link}
-            target="blank"
+            href={makeExternalUrl(event.link)}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{ display: 'flex', alignItems: 'center', width: 'fit-content' }}
           >
             To the event page
-            <img
-              src={ExternalLinkIcon}
-              style={{ width: '16px', marginLeft: '8px' }}
-              alt="link"
-            ></img>
+            <img src={ExternalLinkIcon} style={{ width: '16px', marginLeft: '8px' }} alt="link" />
           </a>
         )}
         <div>
