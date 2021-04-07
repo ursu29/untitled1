@@ -11,6 +11,7 @@ export default function Search() {
   const history = useHistory()
   const [options, setOptions] = useState<any>([])
   const [searchText, setSearchText] = useState('')
+  const [inputValue, setInputValue] = useState('')
   const [search, { data }] = useWikiSearchTextLazyQuery()
   const suggestions = data?.wikiSearchText
 
@@ -88,6 +89,13 @@ export default function Search() {
   }, [suggestions])
 
   const onSelect = (value: any, option: any) => {
+    setInputValue('')
+    setOptions([
+      {
+        label: <Spin style={{ marginLeft: '16px' }} />,
+        options: [],
+      },
+    ])
     history.push(option.path)
   }
 
@@ -103,6 +111,8 @@ export default function Search() {
         onSelect={onSelect}
         onSearch={onSearch}
         notFoundContent={!searchText ? '' : 'nothing was found'}
+        value={inputValue}
+        onChange={value => setInputValue(value)}
       />
     </div>
   )
