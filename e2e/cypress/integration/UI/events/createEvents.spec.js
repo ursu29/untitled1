@@ -36,7 +36,6 @@ describe('Create new event (events)', () => {
 
         cy.getId('date').click()
         ;[today -1, today].forEach(el => {
-            debugger
             cy.get('td').contains(el).click()
             cy.get('button').contains('Ok').click()
         })
