@@ -370,7 +370,7 @@ export type SubordinateUsersCount = {
 
 export type EmployeeProject = {
   __typename?: 'EmployeeProject'
-  id: Scalars['String']
+  id: Scalars['ID']
   capacity?: Maybe<Scalars['Int']>
   isExtraCapacity?: Maybe<Scalars['Boolean']>
   project?: Maybe<Project>
@@ -441,7 +441,7 @@ export type UpdateEmployeeInput = {
   agileManager?: Maybe<Scalars['String']>
   lastManagerMeeting?: Maybe<Scalars['String']>
   one2oneRequest?: Maybe<Scalars['Boolean']>
-  employeeProjects?: Maybe<Array<Maybe<EmployeeProjectInput>>>
+  employeeProjects?: Maybe<Array<EmployeeProjectInput>>
 }
 
 export type EvaluationReviewer = {
@@ -837,6 +837,7 @@ export type Query = {
   wikiRootSections?: Maybe<Array<Maybe<WikiRootSection>>>
   wikiPage?: Maybe<WikiPage>
   wikiPagesPaths?: Maybe<Array<Maybe<Scalars['String']>>>
+  wikiSearchText?: Maybe<Array<Maybe<FoundWikiPage>>>
   workspaceDesignAccess?: Maybe<Access>
   workspaces?: Maybe<Array<Maybe<Workspace>>>
   workspace?: Maybe<Workspace>
@@ -1014,6 +1015,10 @@ export type QueryWikiPageArgs = {
 
 export type QueryWikiPagesPathsArgs = {
   rootPath?: Maybe<Scalars['String']>
+}
+
+export type QueryWikiSearchTextArgs = {
+  input?: Maybe<WikiSearchTextInput>
 }
 
 export type QueryWorkspacesArgs = {
@@ -2055,6 +2060,14 @@ export type WikiPage = {
   path: Scalars['String']
 }
 
+export type FoundWikiPage = {
+  __typename?: 'FoundWikiPage'
+  id: Scalars['ID']
+  title: Scalars['String']
+  path: Scalars['String']
+  textFragment: Scalars['String']
+}
+
 export type WikiPageInput = {
   path?: Maybe<Scalars['String']>
 }
@@ -2072,6 +2085,11 @@ export type CreateWikiPageInput = {
 
 export type RemoveWikiPageInput = {
   path?: Maybe<Scalars['String']>
+}
+
+export type WikiSearchTextInput = {
+  path?: Maybe<Scalars['String']>
+  text: Scalars['String']
 }
 
 export type Workspace = {

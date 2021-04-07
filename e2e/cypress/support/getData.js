@@ -310,6 +310,12 @@ export const getWikiRootSections = () => ({
   query: query.getWikiRootSections,
 })
 
+export const getPaths = () => ({
+  operationName: 'getPaths',
+  variables: {},
+  query: query.getPaths,
+})
+
 export const getOnBoardingAccess = () => ({
   operationName: 'onboardingAccess',
   variables: {},
@@ -387,6 +393,12 @@ export const getCV = (employeeEmail = email) => ({
   operationName: 'getEmployeeCV',
   variables: { email: employeeEmail },
   query: query.getCV,
+})
+
+export const updateCV = (obj) => ({
+  operationName: 'updateCV',
+  variables: { input: {...obj} },
+  query: query.updateCV,
 })
 
 export const getGetGuild = () => ({

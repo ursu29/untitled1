@@ -29,7 +29,7 @@ export default function TitleEditable({ data, editable, handleSave, emptyValue }
           }}
         />
       ) : (
-        <Typography.Title style={{ marginRight: '10px', marginBottom: 0 }}>{data}</Typography.Title>
+        <Typography.Title style={{ marginRight: '10px', marginBottom: 0 }} data-cy="title">{data}</Typography.Title>
       )}
       {editable && (
         <Button

@@ -70,9 +70,8 @@ export const skillEl = {
 export const locations = [
   { title: 'Saint Petersburg' },
   { title: 'Tomsk' },
-  { title: 'Kaliningrad' },
-  { title: 'Zürich' },
-]
+  { title: 'Kaliningrad' }
+  ]
 
 export const devMenu = {
   menu: '.ant-select-selection-search',
@@ -122,6 +121,7 @@ export const menuEl = {
   subMenu: '[id="tools$Menu"]',
   subMenuItem: '[id="tools$Menu"] > .ant-menu-item',
   title: '.ant-typography',
+  back: 'back-button'
 }
 
 export const postEl = {

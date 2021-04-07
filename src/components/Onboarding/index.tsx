@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import message from '../../message'
 import {
   completeOnboardingTicket,
+  cancelOnboardingTicket,
   employeeOnboardingTickets,
   getOnboardingTickets,
   onboardingAccess,
@@ -29,7 +30,7 @@ export default function Onboarding() {
   const user = useEmployee()
 
   const [drawerVisibility, setDrawerVisibility] = useState(false)
-  const [isSwissReVisible, setIsSwissReVisible] = useState(false)
+  const [isSwissreVisible, setisSwissreVisible] = useState(false)
   const [chosenTicket, setChosenTicket] = useState('')
   const [isMyTicketsView, setIsMyTicketsView] = useState(false)
 
@@ -49,10 +50,10 @@ export default function Onboarding() {
 
   useEffect(() => {
     const projects = projectsData?.employee.projects
-    const isSwissReOnlyVisibleDefault = projects
+    const isSwissreOnlyVisibleDefault = projects
       ? projects.some(p => p.code.startsWith('sr-'))
       : false
-    setIsSwissReVisible(isSwissReOnlyVisibleDefault)
+    setisSwissreVisible(isSwissreOnlyVisibleDefault)
   }, [projectsData, isMyTicketsView])
 
   // Tickets with me as responsible
@@ -81,7 +82,16 @@ export default function Onboarding() {
   // Complete ticket
   const [completeTicket] = useMutation(completeOnboardingTicket, {
     refetchQueries: [{ query: employeeOnboardingTickets }],
+    awaitRefetchQueries: true,
     onCompleted: () => message.success('Ticket has been completed'),
+    onError: message.error,
+  })
+
+  // Cancel ticket
+  const [cancelTicket] = useMutation(cancelOnboardingTicket, {
+    refetchQueries: [{ query: getOnboardingTickets }],
+    awaitRefetchQueries: true,
+    onCompleted: () => message.success('Ticket has been cancelled'),
     onError: message.error,
   })
 
@@ -101,8 +111,8 @@ export default function Onboarding() {
   }) => {
     const list = ticketsData?.onboardingTickets
       .filter(ticket => {
-        if (isCompleted || isSwissReVisible) return true
-        return !ticket.isSwissRe
+        if (isCompleted || isSwissreVisible) return true
+        return !ticket.isSwissre
       })
       .filter(ticket => ticket.isOptional === isOptional)
       .filter(ticket =>
@@ -127,6 +137,7 @@ export default function Onboarding() {
                 setDrawerVisibility(true)
               }}
               completeTicket={() => completeTicket({ variables: { input: { id: ticket.id } } })}
+              cancelTicket={() => cancelTicket({ variables: { input: { id: ticket.id } } })}
               requestTicket={() => requestTicket({ variables: { id: ticket.id } })}
             />
           ))
@@ -192,9 +203,9 @@ export default function Onboarding() {
             Show SwissRe Trainings
             <Switch
               size="small"
-              checked={isSwissReVisible}
+              checked={isSwissreVisible}
               onChange={() => {
-                setIsSwissReVisible(value => !value)
+                setisSwissreVisible(value => !value)
               }}
               style={{ marginLeft: '10px' }}
             />

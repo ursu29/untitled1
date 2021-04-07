@@ -468,7 +468,7 @@ export interface OnboardingTicket {
   description: string
   responsible: Employee[]
   isOptional: boolean
-  isSwissRe: boolean
+  isSwissre: boolean
   isRequestedByMe: boolean
   requestedEmployees: Employee[]
 }
