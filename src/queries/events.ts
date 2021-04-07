@@ -65,6 +65,12 @@ export const attendEvent = gql`
   }
 `
 
+export const attendEventEveryone = gql`
+  mutation attendEventEveryone($id: ID!) {
+    attendEventEveryone(id: $id)
+  }
+`
+
 export const cancelEvent = gql`
   mutation cancelEvent($input: CancelEventInput!) {
     cancelEvent(input: $input)

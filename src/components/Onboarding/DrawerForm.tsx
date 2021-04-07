@@ -105,11 +105,11 @@ export default function DrawerForm({
 
       <Form.Item
         {...tailLayout}
-        name="isSwissRe"
+        name="isSwissre"
         valuePropName="checked"
-        initialValue={ticket?.isSwissRe || false}
+        initialValue={ticket?.isSwissre || false}
       >
-        <Checkbox defaultChecked={ticket?.isSwissRe || false} data-cy="ticketSwissRe">Ticket is SwissRe only</Checkbox>
+        <Checkbox defaultChecked={ticket?.isSwissre || false} data-cy="ticketSwissRe">Ticket is SwissRe only</Checkbox>
       </Form.Item>
 
       <Form.Item {...tailLayout}>

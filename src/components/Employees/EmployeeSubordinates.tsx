@@ -132,12 +132,12 @@ export default function EmployeeSubordinates({ employee }: Props) {
       sorter: (a: any, b: any) =>
         a.projects
           .map((e: any) => e.name)
-          .sort((a: any, b: any) => a.localCompare(b))
+          .sort((a: string, b: string) => a.localeCompare(b))
           .join('')
           .localeCompare(
             b.projects
               .map((e: any) => e.name)
-              .sort((a: any, b: any) => a.localCompare(b))
+              .sort((a: string, b: string) => a.localeCompare(b))
               .join(''),
           ),
     },

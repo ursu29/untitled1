@@ -30,7 +30,7 @@ export default function Onboarding() {
   const user = useEmployee()
 
   const [drawerVisibility, setDrawerVisibility] = useState(false)
-  const [isSwissReVisible, setIsSwissReVisible] = useState(false)
+  const [isSwissreVisible, setisSwissreVisible] = useState(false)
   const [chosenTicket, setChosenTicket] = useState('')
   const [isMyTicketsView, setIsMyTicketsView] = useState(false)
 
@@ -50,10 +50,10 @@ export default function Onboarding() {
 
   useEffect(() => {
     const projects = projectsData?.employee.projects
-    const isSwissReOnlyVisibleDefault = projects
+    const isSwissreOnlyVisibleDefault = projects
       ? projects.some(p => p.code.startsWith('sr-'))
       : false
-    setIsSwissReVisible(isSwissReOnlyVisibleDefault)
+    setisSwissreVisible(isSwissreOnlyVisibleDefault)
   }, [projectsData, isMyTicketsView])
 
   // Tickets with me as responsible
@@ -111,8 +111,8 @@ export default function Onboarding() {
   }) => {
     const list = ticketsData?.onboardingTickets
       .filter(ticket => {
-        if (isCompleted || isSwissReVisible) return true
-        return !ticket.isSwissRe
+        if (isCompleted || isSwissreVisible) return true
+        return !ticket.isSwissre
       })
       .filter(ticket => ticket.isOptional === isOptional)
       .filter(ticket =>
@@ -203,9 +203,9 @@ export default function Onboarding() {
             Show SwissRe Trainings
             <Switch
               size="small"
-              checked={isSwissReVisible}
+              checked={isSwissreVisible}
               onChange={() => {
-                setIsSwissReVisible(value => !value)
+                setisSwissreVisible(value => !value)
               }}
               style={{ marginLeft: '10px' }}
             />

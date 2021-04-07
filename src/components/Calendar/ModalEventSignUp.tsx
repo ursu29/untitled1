@@ -3,7 +3,7 @@ import { Modal, Button, Space, Alert, Typography, Popconfirm, Input, Form } from
 import { useQuery } from '@apollo/react-hooks'
 import dayjs from 'dayjs'
 import Technologies from '../UI/Technologies'
-import { getEvent, attendEvent, cancelEvent } from '../../queries/events'
+import { getEvent, attendEvent, attendEventEveryone, cancelEvent } from '../../queries/events'
 import { CalendarEvent } from '../../types'
 import ExternalLinkIcon from '../../svg/external-link.svg'
 import Avatar from '../Avatar'
@@ -12,6 +12,7 @@ import message from '../../message'
 import EmployeeCard from '../Employees/EmployeeCard.new'
 import { useEmployee } from '../../utils/withEmployee'
 import { QuestionCircleOutlined } from '@ant-design/icons'
+import { makeExternalUrl } from '../../utils/links'
 
 export default function ModalEventSignUp({
   visible,
@@ -36,6 +37,13 @@ export default function ModalEventSignUp({
 
   const [attend, { loading: attendLoading }] = useMutation(attendEvent, {
     onCompleted: () => message.success('You have successfully signed up to the event'),
+    awaitRefetchQueries: true,
+    refetchQueries: [{ query: getEvent, variables: { id: eventId } }],
+    onError: message.error,
+  })
+
+  const [attendEveryone, { loading: attendEveryoneLoading }] = useMutation(attendEventEveryone, {
+    onCompleted: () => message.success('You have successfully invited everyone to the event'),
     awaitRefetchQueries: true,
     refetchQueries: [{ query: getEvent, variables: { id: eventId } }],
     onError: message.error,
@@ -109,16 +117,13 @@ export default function ModalEventSignUp({
         )}
         {event.link && (
           <a
-            href={event.link}
-            target="blank"
+            href={makeExternalUrl(event.link)}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{ display: 'flex', alignItems: 'center', width: 'fit-content' }}
           >
             To the event page
-            <img
-              src={ExternalLinkIcon}
-              style={{ width: '16px', marginLeft: '8px' }}
-              alt="link"
-            ></img>
+            <img src={ExternalLinkIcon} style={{ width: '16px', marginLeft: '8px' }} alt="link" />
           </a>
         )}
         <div>
@@ -174,17 +179,34 @@ export default function ModalEventSignUp({
           Sign Up
         </Button>
         {event.createdBy.id === user.employee.id && (
-          <Popconfirm
-            placement="top"
-            title={'Are you sure you want to cancel this event?'}
-            onConfirm={() => setIsCancelModalShown(true)}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button type="primary" danger data-cy="delete">
-              Cancel it
-            </Button>
-          </Popconfirm>
+          <div>
+            <Popconfirm
+              placement="top"
+              title={'Are you sure you want to invite everyone to this event?'}
+              onConfirm={() => attendEveryone({ variables: { id: eventId } })}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button
+                type="primary"
+                style={{ marginRight: '16px' }}
+                loading={attendEveryoneLoading}
+              >
+                Invite everyone
+              </Button>
+            </Popconfirm>
+            <Popconfirm
+              placement="top"
+              title={'Are you sure you want to cancel this event?'}
+              onConfirm={() => setIsCancelModalShown(true)}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button type="primary" danger data-cy="delete">
+                Cancel it
+              </Button>
+            </Popconfirm>
+          </div>
         )}
       </div>
       <Modal

@@ -120,7 +120,7 @@ const fragments = {
         email
       }
       isOptional
-      isSwissRe
+      isSwissre
       isRequestedByMe
     }
   `,

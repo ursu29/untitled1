@@ -35,7 +35,7 @@ export default function Ticket({
   cancelTicket?: any
   requestTicket?: any
 }) {
-  const { title, description, responsible, isSwissRe } = ticket
+  const { title, description, responsible, isSwissre } = ticket
   const { email, name, position } = responsible?.[0] || { email: null, name: null, position: null }
 
   return (
@@ -56,7 +56,7 @@ export default function Ticket({
             >
               {title || 'no title'}
             </Typography.Title>
-            {isSwissRe && (
+            {isSwissre && (
               <Tag
                 color="#8C94AF"
                 style={{
@@ -158,17 +158,19 @@ export default function Ticket({
           </div>
           {!isCompleted && (ticket.isOptional ? ticket?.isRequestedByMe : true) && completeTicket && (
             <div>
-              <Popconfirm
-                placement="top"
-                title={'Are you sure you want to cancel this ticket?'}
-                onConfirm={cancelTicket}
-                okText="Yes"
-                cancelText="No"
-              >
-                <Button type="primary" danger>
-                  Cancel
-                </Button>
-              </Popconfirm>
+              {ticket.isOptional && (
+                <Popconfirm
+                  placement="top"
+                  title={'Are you sure you want to cancel this ticket?'}
+                  onConfirm={cancelTicket}
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  <Button type="primary" danger>
+                    Cancel
+                  </Button>
+                </Popconfirm>
+              )}
               <Popconfirm
                 placement="top"
                 title={'Are you sure you want to complete this ticket?'}

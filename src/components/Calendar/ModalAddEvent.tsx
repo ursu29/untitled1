@@ -8,6 +8,7 @@ import dayjs from 'dayjs'
 import { createEvent } from '../../queries/events'
 import { useMutation } from '@apollo/react-hooks'
 import message from '../../message'
+import { LINK_REGEXP } from '../../utils/links'
 
 const StyledForm = styled(Form)`
   .ant-form-item {
@@ -148,7 +149,16 @@ export default function ModalAddEvent({
         <Form.Item label="Skills" name="skills">
           <SkillTreeSelect />
         </Form.Item>
-        <Form.Item label="Link (more info)" name="link">
+        <Form.Item
+          label="Link (more info)"
+          name="link"
+          rules={[
+            {
+              pattern: LINK_REGEXP,
+              message: 'Please enter correct link',
+            },
+          ]}
+        >
           <Input />
         </Form.Item>
         <Form.Item name="importance" valuePropName="checked">
