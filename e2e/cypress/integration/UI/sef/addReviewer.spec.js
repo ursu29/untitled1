@@ -3,7 +3,7 @@ import {deleteReviewer, getEmployee} from "../../../support/getData";
 import {addNewReviewer} from "../../../support/complexLocators";
 import {email} from "../../../support/client/employeeData";
 
-describe('add reviewer to SEF', () => {
+describe('add reviewer to SEF (sef)', () => {
     let employeeId, managerData, managerId, employeeEmail
 
     before(() => {

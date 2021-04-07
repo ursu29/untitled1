@@ -2,7 +2,7 @@ import {matrix, notificationsText} from '../../../support/locators'
 import {createEvaluationReviewer, getEmployee} from "../../../support/getData";
 import {email} from "../../../support/client/employeeData";
 
-describe('delete reviewer from SEF', () => {
+describe('delete reviewer from SEF (sef)', () => {
     let employeeData
 
     before(() => {
