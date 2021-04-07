@@ -215,6 +215,7 @@ export default function Onboarding() {
 
       {isAccessWrite && (
         <Button
+            data-cy="create"
           onClick={() => {
             setChosenTicket('')
             setDrawerVisibility(true)

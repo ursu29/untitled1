@@ -473,6 +473,12 @@ export const updateEmployeeCapacity = (id, agileManager, employeeProjects) => ({
   query: query.updateEmp,
 })
 
+export const updateOneTwoOne = (id, one2oneRequest) => ({
+  operationName: 'updateEmployee',
+  variables: { input: { id, one2oneRequest } },
+  query: query.updateEmp,
+})
+
 export const createProcess = (
   process = '602b73cdb47506001d900f24',
   locations = [mainCity],

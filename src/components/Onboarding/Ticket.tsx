@@ -192,7 +192,7 @@ export default function Ticket({
               okText="Yes"
               cancelText="No"
             >
-              <Button type="primary">Request training</Button>
+              <Button type="primary" data-cy="request">Request training</Button>
             </Popconfirm>
           )}
         </div>
