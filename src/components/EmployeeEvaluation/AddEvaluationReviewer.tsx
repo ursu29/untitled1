@@ -63,7 +63,7 @@ function AddEvaluationReviewer({ employee }: Props) {
         }}
       />
     )
-  return <Button onClick={setAddingTrue}>Add reviewer</Button>
+  return <Button onClick={setAddingTrue} data-cy="reviewer">Add reviewer</Button>
 }
 
 export default AddEvaluationReviewer

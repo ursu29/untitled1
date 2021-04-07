@@ -7,6 +7,7 @@ export const postData = id => cy.get('.sc-gPEVay > span.ant-typography').eq(id)
 export const postTitle = id => cy.get('.sc-gPEVay > h3.ant-typography').eq(id)
 export const addSkill = id => cy.get('.ant-btn-link').eq(id)
 export const getSelectItem = id => cy.get('.ant-select-tree-switcher').eq(id)
+export const addNewReviewer = '[style="display: flex;"] > :nth-child(1) > .ant-btn > span'
 export const getListOfMatrix = () =>
   cy.get(
     '[data-cy=matrix-tabs] > .ant-tabs > .ant-tabs-nav > .ant-tabs-nav-wrap > .ant-tabs-nav-list > .ant-tabs-tab',
