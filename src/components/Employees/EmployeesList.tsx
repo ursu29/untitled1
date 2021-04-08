@@ -5,7 +5,7 @@ import { useMediaQuery } from 'react-responsive'
 import dayjs from 'dayjs'
 import { COLLAPSE_WIDTH } from '../../config'
 import { getEmployeeLink } from '../../paths'
-import { Employee, LOCATION, EmployeeProject } from '../../types'
+import { Employee, EmployeeProject, LOCATION } from '../../types'
 import Avatar from '../Avatar'
 import getLocationName from '../../utils/getLocationName'
 
@@ -278,8 +278,8 @@ export default function EmployeesList({
       scroll={fixed ? { y: 'calc(100vh - 105px)' } : undefined}
       title={() => (
         <Input
-          data-cy="find_employee"
-          placeholder="Find employee"
+          data-cy="search"
+          placeholder="Search"
           value={filter}
           onChange={(e: any) => setFilter(e.target.value)}
         />

@@ -23,6 +23,7 @@ const PATHS = {
   OFFICE_PLANNER: '/office-planner',
   WORKSPACE_PLANNER: '/workspace-planner',
   FEEDBACK: '/feedback',
+  LIBRARY: '/library',
   MANAGEMENT: '/management',
 }
 

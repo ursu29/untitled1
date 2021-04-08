@@ -135,6 +135,14 @@ input ToggleBookmarklikeInput {
   bookmark: ID
 }
 
+type Book {
+  id: ID!
+  title: String!
+  author: String!
+  holder: Employee
+  tags: [Skill!]!
+}
+
 type DevToolsGitInfo {
   repoName: String
   branchName: String
@@ -342,7 +350,7 @@ type SubordinateUsersCount {
 }
 
 type EmployeeProject {
-  id: String!
+  id: ID!
   capacity: Int
   isExtraCapacity: Boolean
   project: Project
@@ -404,7 +412,7 @@ input UpdateEmployeeInput {
   agileManager: String
   lastManagerMeeting: String
   one2oneRequest: Boolean
-  employeeProjects: [EmployeeProjectInput]
+  employeeProjects: [EmployeeProjectInput!]
 }
 
 type EvaluationReviewer {
@@ -726,6 +734,7 @@ type Query {
   archivedMatrix(input: GetArchivedMatrixInput): ArchiveMatrix
   bookmarks(input: BookmarksInput): [Bookmark]
   bookmarkByLink(link: String!): Bookmark
+  books: [Book!]!
   clientDevToolsAccess: Boolean
   clientDevToolsGitInfo: DevToolsGitInfo
   curriculumVitaeAccess(input: AccessInput): Access
@@ -781,6 +790,7 @@ type Query {
   wikiRootSections: [WikiRootSection]
   wikiPage(input: WikiPageInput): WikiPage
   wikiPagesPaths(rootPath: String): [String]
+  wikiSearchText(input: WikiSearchTextInput): [FoundWikiPage]
   workspaceDesignAccess: Access
   workspaces(input: WorkspacesInput): [Workspace]
   workspace(input: GetWorkspaceInput): Workspace
@@ -842,6 +852,7 @@ type Mutation {
   updateOnboardingTicket(input: UpdateOnboardingTicketInput): OnboardingTicket
   deleteOnboardingTicket(input: DeleteOnboardingTicketInput): OnboardingTicket
   completeOnboardingTicket(input: CompleteOnboardingTicketInput): ID
+  cancelOnboardingTicket(input: CompleteOnboardingTicketInput): ID
   requestOnboardingTicket(id: ID!): ID
   createPost(input: CreatePostInput): Post
   updatePost(input: UpdatePostInput): Post
@@ -863,6 +874,7 @@ type Mutation {
   updateProjectSkills(input: UpdateProjectSkillsInput!): Project
   createSkill(input: CreateSkillInput): Skill
   updateSkill(input: UpdateSkillInput): Skill
+  deleteSkill(input: DeleteSkillInput!): Skill
   createTag(input: CreateTagInput!): Tag
   updateVacancy(input: UpdateVacancyInput): Vacancy
   publishVacancy(input: PublishVacancyInput): Vacancy
@@ -1344,6 +1356,10 @@ input UpdateSkillInput {
   isMatrixOnly: Boolean
 }
 
+input DeleteSkillInput {
+  id: ID!
+}
+
 type Tag {
   id: ID!
   name: String!
@@ -1430,6 +1446,13 @@ type WikiPage {
   path: String!
 }
 
+type FoundWikiPage {
+  id: ID!
+  title: String
+  path: String!
+  textFragment: String!
+}
+
 input WikiPageInput {
   path: String
 }
@@ -1447,6 +1470,11 @@ input CreateWikiPageInput {
 
 input RemoveWikiPageInput {
   path: String
+}
+
+input WikiSearchTextInput {
+  path: String
+  text: String!
 }
 
 type Workspace {

@@ -152,6 +152,15 @@ export type ToggleBookmarklikeInput = {
   bookmark?: Maybe<Scalars['ID']>
 }
 
+export type Book = {
+  __typename?: 'Book'
+  id: Scalars['ID']
+  title: Scalars['String']
+  author: Scalars['String']
+  holder?: Maybe<Employee>
+  tags: Array<Skill>
+}
+
 export type DevToolsGitInfo = {
   __typename?: 'DevToolsGitInfo'
   repoName?: Maybe<Scalars['String']>
@@ -370,7 +379,7 @@ export type SubordinateUsersCount = {
 
 export type EmployeeProject = {
   __typename?: 'EmployeeProject'
-  id: Scalars['String']
+  id: Scalars['ID']
   capacity?: Maybe<Scalars['Int']>
   isExtraCapacity?: Maybe<Scalars['Boolean']>
   project?: Maybe<Project>
@@ -441,7 +450,7 @@ export type UpdateEmployeeInput = {
   agileManager?: Maybe<Scalars['String']>
   lastManagerMeeting?: Maybe<Scalars['String']>
   one2oneRequest?: Maybe<Scalars['Boolean']>
-  employeeProjects?: Maybe<Array<Maybe<EmployeeProjectInput>>>
+  employeeProjects?: Maybe<Array<EmployeeProjectInput>>
 }
 
 export type EvaluationReviewer = {
@@ -781,6 +790,7 @@ export type Query = {
   archivedMatrix?: Maybe<ArchiveMatrix>
   bookmarks?: Maybe<Array<Maybe<Bookmark>>>
   bookmarkByLink?: Maybe<Bookmark>
+  books: Array<Book>
   clientDevToolsAccess?: Maybe<Scalars['Boolean']>
   clientDevToolsGitInfo?: Maybe<DevToolsGitInfo>
   curriculumVitaeAccess?: Maybe<Access>
@@ -837,6 +847,7 @@ export type Query = {
   wikiRootSections?: Maybe<Array<Maybe<WikiRootSection>>>
   wikiPage?: Maybe<WikiPage>
   wikiPagesPaths?: Maybe<Array<Maybe<Scalars['String']>>>
+  wikiSearchText?: Maybe<Array<Maybe<FoundWikiPage>>>
   workspaceDesignAccess?: Maybe<Access>
   workspaces?: Maybe<Array<Maybe<Workspace>>>
   workspace?: Maybe<Workspace>
@@ -1016,6 +1027,10 @@ export type QueryWikiPagesPathsArgs = {
   rootPath?: Maybe<Scalars['String']>
 }
 
+export type QueryWikiSearchTextArgs = {
+  input?: Maybe<WikiSearchTextInput>
+}
+
 export type QueryWorkspacesArgs = {
   input?: Maybe<WorkspacesInput>
 }
@@ -1081,6 +1096,7 @@ export type Mutation = {
   updateOnboardingTicket?: Maybe<OnboardingTicket>
   deleteOnboardingTicket?: Maybe<OnboardingTicket>
   completeOnboardingTicket?: Maybe<Scalars['ID']>
+  cancelOnboardingTicket?: Maybe<Scalars['ID']>
   requestOnboardingTicket?: Maybe<Scalars['ID']>
   createPost?: Maybe<Post>
   updatePost?: Maybe<Post>
@@ -1102,6 +1118,7 @@ export type Mutation = {
   updateProjectSkills?: Maybe<Project>
   createSkill?: Maybe<Skill>
   updateSkill?: Maybe<Skill>
+  deleteSkill?: Maybe<Skill>
   createTag?: Maybe<Tag>
   updateVacancy?: Maybe<Vacancy>
   publishVacancy?: Maybe<Vacancy>
@@ -1325,6 +1342,10 @@ export type MutationCompleteOnboardingTicketArgs = {
   input?: Maybe<CompleteOnboardingTicketInput>
 }
 
+export type MutationCancelOnboardingTicketArgs = {
+  input?: Maybe<CompleteOnboardingTicketInput>
+}
+
 export type MutationRequestOnboardingTicketArgs = {
   id: Scalars['ID']
 }
@@ -1407,6 +1428,10 @@ export type MutationCreateSkillArgs = {
 
 export type MutationUpdateSkillArgs = {
   input?: Maybe<UpdateSkillInput>
+}
+
+export type MutationDeleteSkillArgs = {
+  input: DeleteSkillInput
 }
 
 export type MutationCreateTagArgs = {
@@ -1964,6 +1989,10 @@ export type UpdateSkillInput = {
   isMatrixOnly?: Maybe<Scalars['Boolean']>
 }
 
+export type DeleteSkillInput = {
+  id: Scalars['ID']
+}
+
 export type Tag = {
   __typename?: 'Tag'
   id: Scalars['ID']
@@ -2055,6 +2084,14 @@ export type WikiPage = {
   path: Scalars['String']
 }
 
+export type FoundWikiPage = {
+  __typename?: 'FoundWikiPage'
+  id: Scalars['ID']
+  title?: Maybe<Scalars['String']>
+  path: Scalars['String']
+  textFragment: Scalars['String']
+}
+
 export type WikiPageInput = {
   path?: Maybe<Scalars['String']>
 }
@@ -2072,6 +2109,11 @@ export type CreateWikiPageInput = {
 
 export type RemoveWikiPageInput = {
   path?: Maybe<Scalars['String']>
+}
+
+export type WikiSearchTextInput = {
+  path?: Maybe<Scalars['String']>
+  text: Scalars['String']
 }
 
 export type Workspace = {
