@@ -77,7 +77,7 @@ export default function Reviewers(props: Props) {
               style={{ width: 200 }}
             />
           ) : (
-            <Button onClick={() => setIsAddReviewerSelectOpen(true)}>Add reviewer</Button>
+            <Button onClick={() => setIsAddReviewerSelectOpen(true)} data-cy="reviewer">Add reviewer</Button>
           )}
         </div>
       )}
