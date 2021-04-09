@@ -53,11 +53,6 @@ export default function WorkspacePlanner() {
   // Get locations
   const { data: dataLocations, loading: loadingLocations } = useQuery<GetLocationQueryType>(
     getLocations,
-    {
-      onCompleted: dataLocations => {
-        setCurrentLocation(dataLocations.locations[0])
-      },
-    },
   )
   const locations = dataLocations?.locations
 
