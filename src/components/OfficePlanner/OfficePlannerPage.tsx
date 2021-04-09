@@ -1,14 +1,36 @@
+import { CheckOutlined, CloseOutlined, DownOutlined, TeamOutlined } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/react-hooks'
-import { TeamOutlined } from '@ant-design/icons'
-import { Button, Input, Switch, Table, Tabs, Typography } from 'antd'
+import {
+  Button,
+  Checkbox,
+  DatePicker,
+  Divider,
+  Dropdown,
+  Menu,
+  Modal,
+  PageHeader,
+  Radio,
+  Space,
+  Switch,
+  Table,
+  Typography,
+} from 'antd'
 import dayjs from 'dayjs'
 import gql from 'graphql-tag'
+import moment, { Moment } from 'moment'
 import React, { useEffect, useState } from 'react'
+import { useMediaQuery } from 'react-responsive'
 import message from '../../message'
-import { Access, Employee, OfficeDay, LOCATION } from '../../types'
-import PageContent from '../UI/PageContent'
-import './OfficePlannerPage.css'
+import { cancelOfficeBooking } from '../../queries/cancelOfficeBooking'
+import { createOfficeBooking } from '../../queries/createOfficeBooking'
+import { getOfficeDays, QueryType as OfficeDayQueryType } from '../../queries/getOfficeDays'
+import { Access, Employee, LOCATION } from '../../types'
 import getLocationName from '../../utils/getLocationName'
+import PageContent from '../UI/PageContent'
+import EditOfficeLimits from './EditOfficeLimits'
+import './OfficePlannerPage.css'
+
+const { RangePicker } = DatePicker
 
 const weekday = require('dayjs/plugin/weekday')
 dayjs.extend(weekday)
@@ -35,40 +57,7 @@ const query = gql`
   }
 `
 
-const getOfficeDays = gql`
-  query getOfficeDays($input: OfficeDaysInput) {
-    officeDays(input: $input) {
-      id
-      date
-      employeeLimit
-      employeeCount
-      location
-      employees {
-        id
-      }
-    }
-  }
-`
-
-const applyMutation = gql`
-  mutation apply($input: ApplyToWorkFromOfficeInput!) {
-    applyToWorkFromOffice(input: $input)
-  }
-`
-
-const updateOfficeDayMutation = gql`
-  mutation update($input: UpdateOfficeDayInput!) {
-    updateOfficeDay(input: $input) {
-      id
-    }
-  }
-`
-
 type EmployeePick = Pick<Employee, 'id' | 'name' | 'email' | 'location' | 'isMe'>
-type OfficeDayPick = Pick<OfficeDay, 'id' | 'date' | 'employeeLimit' | 'employeeCount'> & {
-  location: LOCATION
-  employees: Pick<Employee, 'id'>[]
-}
 
 const LOCATIONS = [
   { key: LOCATION.SAINT_PETERSBURG, title: getLocationName(LOCATION.SAINT_PETERSBURG) },
@@ -76,47 +65,21 @@ const LOCATIONS = [
   { key: LOCATION.KALININGRAD, title: getLocationName(LOCATION.KALININGRAD) },
 ]
 
-const LimitInput = ({
-  editable,
-  value = '15',
-  onChange,
-}: {
-  editable?: boolean
-  value: string | number
-  onChange: (value: number) => void
-}) => {
-  const [limit, setLimit] = useState(String(value))
-  if (!editable) return null
-
-  const handleChange = () => {
-    onChange(Number(limit))
-  }
-
-  return (
-    <div style={{ whiteSpace: 'nowrap' }}>
-      <Input
-        type="number"
-        style={{ width: 70, marginRight: 4 }}
-        value={limit}
-        onPressEnter={handleChange}
-        onBlur={handleChange}
-        onChange={e => {
-          setLimit(e.target.value)
-        }}
-        placeholder="Limit"
-        min="0"
-        max="100"
-      />
-      %
-    </div>
-  )
-}
+const MODE_CREATE = 'CREATE'
+const MODE_CANCEL = 'CANCEL'
 
 function OfficePlannerPage() {
-  //@ts-ignore
+  // @ts-ignore
   const thisMonday = dayjs().weekday(1)
   const [firstDate, setFirstDate] = useState(thisMonday)
   const [currentLocation, setCurrentLocation] = useState(LOCATION.SAINT_PETERSBURG)
+  const isDesktop = useMediaQuery({ minWidth: 1200 })
+
+  const [currentMode, setCurrentMode] = useState(MODE_CREATE)
+  const [currentDateStart, setCurrentDateStart] = useState<Moment | undefined>(undefined)
+  const [currentDateEnd, setCurrentDateEnd] = useState<Moment | undefined>(undefined)
+  const [currentSkipWeekends, setCurrentSkipWeekends] = useState(true)
+  const [isModalVisible, setShowModal] = useState(false)
 
   const employeesQuery = useQuery<{
     employees: EmployeePick[]
@@ -127,11 +90,11 @@ function OfficePlannerPage() {
     fetchPolicy: 'network-only',
   })
 
-  const daysQuery = useQuery<{ officeDays: OfficeDayPick[] }>(getOfficeDays, {
+  const daysQuery = useQuery<OfficeDayQueryType>(getOfficeDays, {
     variables: {
       input: {
-        startDate: dayjs(firstDate).format('YYYY-MM-DD'),
-        count: DAYS_IN_A_ROW,
+        dateStart: dayjs(firstDate).format('YYYY-MM-DD'),
+        dateEnd: dayjs(firstDate).add(DAYS_IN_A_ROW, 'day').format('YYYY-MM-DD'),
       },
     },
     fetchPolicy: 'network-only',
@@ -143,34 +106,45 @@ function OfficePlannerPage() {
       query: getOfficeDays,
       variables: {
         input: {
-          startDate: dayjs(firstDate).format('YYYY-MM-DD'),
-          count: DAYS_IN_A_ROW,
+          dateStart: dayjs(firstDate).format('YYYY-MM-DD'),
+          dateEnd: dayjs(firstDate).add(DAYS_IN_A_ROW, 'day').format('YYYY-MM-DD'),
         },
       },
       fetchPolicy: 'network-only',
     },
   ]
 
-  const [apply, applyArgs] = useMutation(applyMutation, {
+  const [create, createArgs] = useMutation(createOfficeBooking, {
     awaitRefetchQueries: true,
     refetchQueries,
     onError: message.error,
+    onCompleted: () => {
+      if (isModalVisible) {
+        setShowModal(false)
+      }
+    },
   })
 
-  const [updateDay, updateDayArgs] = useMutation(updateOfficeDayMutation, {
+  const [cancel, cancelArgs] = useMutation(cancelOfficeBooking, {
     awaitRefetchQueries: true,
     refetchQueries,
     onError: message.error,
+    onCompleted: () => {
+      if (isModalVisible) {
+        setShowModal(false)
+      }
+    },
   })
 
   const editable = employeesQuery.data?.officeAccess.write
   const myLocation = employeesQuery.data?.profile.location
 
-  const dates = Array.from({ length: DAYS_IN_A_ROW }).map((i, index) => {
+  const dates = Array.from({ length: DAYS_IN_A_ROW }).map((_, index) => {
     let nextDay = new Date(firstDate)
     nextDay.setDate(nextDay.getDate() + index)
     return nextDay
   })
+
   const datesFormatted = dates.map(i => dayjs(i).format('YYYY-MM-DD'))
 
   const allEmployees = employeesQuery.data?.employees || []
@@ -207,42 +181,43 @@ function OfficePlannerPage() {
       width: 200,
       render: (name: string, employee: EmployeePick) => {
         if (employee?.isMe) return 'You'
-        return name
+        if (isDesktop) {
+          return name
+        }
+        const firstName = name.split(' ')?.[0]
+        const lastName = name.split(' ')?.[1]
+        return (
+          <div>
+            {firstName}
+            {lastName && (
+              <>
+                <br />
+                {lastName}
+              </>
+            )}
+          </div>
+        )
       },
     },
     ...dates.map(date => {
       const isToday = dayjs(date).isSame(dayjs().format('YYYY-MM-DD'), 'day')
+      const isTomorrow = dayjs(date).isSame(dayjs().add(1, 'day').format('YYYY-MM-DD'), 'day')
       return {
         title: () => {
           const formattedDate = dayjs(date).format('YYYY-MM-DD')
           const officeDay = daysQuery.data?.officeDays.find(
             i => i.date === formattedDate && i.location === currentLocation,
           )
-          const employeeLimit = officeDay?.employeeLimit || 15
-          const employeeMaxCount = Math.ceil((allEmployees.length * employeeLimit) / 100)
-
-          const handleChange = (value: number) => {
-            if (value !== employeeLimit) {
-              updateDay({
-                variables: {
-                  input: {
-                    date: formattedDate,
-                    employeeLimit: value,
-                    location: currentLocation,
-                  },
-                },
-              })
-            }
-          }
+          const employeeLimit = officeDay?.employeeLimit
+          const employeeMaxCount = employeeLimit
 
           return (
             <div key={date.toISOString()}>
               <div>{dayjs(date).format('ddd, DD MMM')}</div>
               {!daysQuery.loading && (
                 <>
-                  <LimitInput editable={editable} value={employeeLimit} onChange={handleChange} />
                   <Typography.Text type="secondary">
-                    <TeamOutlined /> {officeDay?.employeeCount || 0} of {employeeMaxCount}
+                    <TeamOutlined /> {officeDay?.employees?.length || 0} of {employeeMaxCount}
                   </Typography.Text>
                 </>
               )}
@@ -251,19 +226,51 @@ function OfficePlannerPage() {
         },
         width: 100,
         className: isToday ? 'office-planner-active' : '',
+        align: 'center',
+        responsive: isToday || isTomorrow ? undefined : ['sm'],
         render: (employee: EmployeePick) => {
           const formattedDate = dayjs(date).format('YYYY-MM-DD')
           const pastDay = dayjs(date).isBefore(dayjs().format('YYYY-MM-DD'))
+          const booking = officeDays.find(
+            i => i.employees.map(i => i.id).includes(employee.id) && i.date === formattedDate,
+          )
+          const isChecked = Boolean(booking)
+          if (!employee.isMe) {
+            return (
+              <div>
+                {isChecked ? (
+                  <CheckOutlined style={{ color: '#1890FF' }} />
+                ) : (
+                  <CloseOutlined style={{ color: 'rgba(0, 0, 0, 0.25)' }} />
+                )}
+              </div>
+            )
+          }
           return (
             <Switch
               disabled={!employee?.isMe || pastDay}
-              checked={Boolean(
-                officeDays.find(
-                  i => i.employees.map(i => i.id).includes(employee.id) && i.date === formattedDate,
-                ),
-              )}
+              checked={isChecked}
               onChange={() => {
-                apply({ variables: { input: { date: formattedDate, location: currentLocation } } })
+                if (isChecked) {
+                  cancel({
+                    variables: {
+                      input: {
+                        dateStart: formattedDate,
+                        location: currentLocation,
+                      },
+                    },
+                  })
+                } else {
+                  create({
+                    variables: {
+                      input: {
+                        dateStart: formattedDate,
+                        location: currentLocation,
+                        skipWeekends: currentSkipWeekends,
+                      },
+                    },
+                  })
+                }
               }}
             />
           )
@@ -273,82 +280,201 @@ function OfficePlannerPage() {
   ]
 
   const actionsDisabled =
-    applyArgs.loading || daysQuery.loading || updateDayArgs.loading || employeesQuery.loading
+    createArgs.loading || cancelArgs.loading || daysQuery.loading || employeesQuery.loading
+
+  const locationsMenu = (
+    <Menu
+      onClick={({ key }) => {
+        setCurrentLocation(key as LOCATION)
+      }}
+    >
+      {LOCATIONS.map(i => {
+        return <Menu.Item key={i.key}>{i.title}</Menu.Item>
+      })}
+    </Menu>
+  )
 
   return (
-    <PageContent>
-      <Typography.Title level={1}>Office Planner</Typography.Title>
-      <Tabs
-        animated={false}
-        type="card"
-        activeKey={currentLocation}
-        onChange={location => {
-          setCurrentLocation(location as LOCATION)
+    <>
+      <Modal
+        confirmLoading={actionsDisabled}
+        cancelButtonProps={{ loading: actionsDisabled }}
+        title={currentMode === MODE_CREATE ? 'Booking confirmation' : 'Booking cancel'}
+        visible={isModalVisible}
+        onOk={() => {
+          if (currentMode === MODE_CREATE)
+            create({
+              variables: {
+                input: {
+                  dateStart: currentDateStart?.format('YYYY-MM-DD'),
+                  dateEnd: currentDateEnd?.format('YYYY-MM-DD'),
+                  location: currentLocation,
+                  skipWeekends: currentSkipWeekends,
+                },
+              },
+            })
+
+          if (currentMode === MODE_CANCEL)
+            cancel({
+              variables: {
+                input: {
+                  dateStart: currentDateStart?.format('YYYY-MM-DD'),
+                  dateEnd: currentDateEnd?.format('YYYY-MM-DD'),
+                  location: currentLocation,
+                },
+              },
+            })
+        }}
+        onCancel={() => {
+          setShowModal(false)
         }}
       >
-        {LOCATIONS.map(i => {
-          return (
-            <Tabs.TabPane key={i.key} tab={i.title}>
-              <div
-                style={{
-                  marginBottom: 16,
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  alignItems: 'center',
-                }}
-              >
-                {Boolean(allEmployees.length) && (
-                  <div style={{ marginRight: 8 }} data-cy="employee_sum">
-                    {allEmployees.length} employees
-                  </div>
+        <Space direction="vertical">
+          <Radio.Group
+            value={currentMode}
+            onChange={e => {
+              setCurrentMode(e.target.value)
+            }}
+          >
+            <Radio.Button value={MODE_CREATE}>Create</Radio.Button>
+            <Radio.Button value={MODE_CANCEL}>Cancel</Radio.Button>
+          </Radio.Group>
+          <RangePicker
+            value={[moment(currentDateStart), moment(currentDateEnd)]}
+            defaultValue={[moment(currentDateStart), moment(currentDateEnd)]}
+            // TODO: disabled dates
+            disabledDate={date => {
+              if (date.isBefore(moment())) {
+                return true
+              }
+              if (date.isAfter(moment().add(60, 'day'))) {
+                return true
+              }
+              return false
+            }}
+            onChange={(value: any) => {
+              if (value) {
+                setCurrentDateStart(value[0])
+                setCurrentDateEnd(value[1])
+              }
+            }}
+          />
+          {currentMode === MODE_CREATE && (
+            <Checkbox
+              onChange={value => {
+                setCurrentSkipWeekends(value.target.checked)
+              }}
+              checked={currentSkipWeekends}
+            >
+              Skip weekends
+            </Checkbox>
+          )}
+        </Space>
+      </Modal>
+      <PageContent>
+        <PageHeader
+          className="site-page-header"
+          title="Office Planner"
+          extra={
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                height: '100%',
+              }}
+            >
+              <Space size={16}>
+                <Dropdown overlay={locationsMenu} placement="bottomRight">
+                  <a
+                    className="ant-dropdown-link"
+                    href={`/office-planner`}
+                    onClick={e => e.preventDefault()}
+                  >
+                    {getLocationName(currentLocation)}{' '}
+                    {Boolean(allEmployees.length) && (
+                      <>
+                        · <span data-cy="employee_sum">{allEmployees.length} employees</span>
+                      </>
+                    )}{' '}
+                    <DownOutlined />
+                  </a>
+                </Dropdown>
+                {editable && isDesktop && (
+                  <EditOfficeLimits
+                    refetchQueries={refetchQueries}
+                    currentLocation={currentLocation}
+                  />
                 )}
-                <Button
-                  style={{ marginRight: 8 }}
-                  disabled={actionsDisabled}
-                  onClick={() => {
-                    let nextDay = new Date(firstDate)
-                    nextDay.setDate(nextDay.getDate() - DAYS_IN_A_ROW)
-                    setFirstDate(nextDay)
-                  }}
-                >
-                  Previous week
-                </Button>
-                <Button
-                  onClick={() => {
-                    setFirstDate(thisMonday)
-                  }}
-                  disabled={actionsDisabled}
-                  type="primary"
-                  style={{ marginRight: 8 }}
-                >
-                  This week
-                </Button>
-                <Button
-                  disabled={actionsDisabled}
-                  onClick={() => {
-                    let nextDay = new Date(firstDate)
-                    nextDay.setDate(nextDay.getDate() + DAYS_IN_A_ROW)
-                    setFirstDate(nextDay)
-                  }}
-                >
-                  Next week
-                </Button>
+              </Space>
+            </div>
+          }
+          style={{ paddingLeft: 0, paddingRight: 0 }}
+        >
+          {isDesktop && (
+            <>
+              <Divider style={{ margin: '0 0 16px' }} />
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Space>
+                  <Button
+                    disabled={actionsDisabled}
+                    onClick={() => {
+                      let nextDay = new Date(firstDate)
+                      nextDay.setDate(nextDay.getDate() - DAYS_IN_A_ROW)
+                      setFirstDate(nextDay)
+                    }}
+                  >
+                    Previous week
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setFirstDate(thisMonday)
+                    }}
+                    disabled={actionsDisabled}
+                    type="primary"
+                  >
+                    This week
+                  </Button>
+                  <Button
+                    disabled={actionsDisabled}
+                    onClick={() => {
+                      let nextDay = new Date(firstDate)
+                      nextDay.setDate(nextDay.getDate() + DAYS_IN_A_ROW)
+                      setFirstDate(nextDay)
+                    }}
+                  >
+                    Next week
+                  </Button>
+                </Space>
+                <Space>
+                  <Button
+                    disabled={actionsDisabled}
+                    onClick={() => {
+                      setCurrentDateStart(moment())
+                      setCurrentDateEnd(moment().add(1, 'day'))
+                      setShowModal(true)
+                    }}
+                  >
+                    Book the range
+                  </Button>
+                </Space>
               </div>
-              <Table<EmployeePick>
-                size="small"
-                loading={actionsDisabled}
-                bordered
-                rowKey="id"
-                dataSource={employees}
-                columns={columns}
-                pagination={false}
-                rowClassName={record => (record?.isMe ? 'office-planner-active' : '')}
-              />
-            </Tabs.TabPane>
-          )
-        })}
-      </Tabs>
-    </PageContent>
+            </>
+          )}
+        </PageHeader>
+
+        <Table<EmployeePick>
+          size="small"
+          loading={actionsDisabled}
+          bordered
+          rowKey="id"
+          dataSource={employees}
+          columns={columns}
+          pagination={false}
+          rowClassName={record => (record?.isMe ? 'office-planner-active' : '')}
+        />
+      </PageContent>
+    </>
   )
 }
 

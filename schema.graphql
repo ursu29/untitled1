@@ -9,6 +9,46 @@ directive @cacheControl(
   scope: CacheControlScope
 ) on FIELD_DEFINITION | OBJECT | INTERFACE
 
+enum LANGUAGE {
+  RU
+  EN
+}
+
+enum LEVEL {
+  WANTED
+  LEARNING
+  EXPERIENCED
+  CONFIDENT
+}
+
+enum LOCATION {
+  SAINT_PETERSBURG
+  KALININGRAD
+  TOMSK
+  ZURICH
+}
+
+enum CUSTOMER {
+  INTERNAL
+  SWISSRE
+  ALLIANZ
+}
+
+enum ACCESS_GROUP {
+  REVIEWERS
+  FEEDBACK
+  HR_RU
+  HR_EDITORS
+  NEWS_EDITORS
+  TECH_PORTAL
+  DEV_PORTAL
+  WORKSPACE_PLANNER
+  SYS_ADMINS
+  HR_ADMINS
+  SUPER_USER
+  WIKI_EDITORS
+}
+
 enum AllowedGroups {
   GENERAL
   GENERAL_EXC_ME
@@ -765,12 +805,12 @@ type Query {
   postBySlug(slug: String!): Post
   posts(first: Int, after: ID, filter: PostsFilter): [Post]
   postsEditor: Access @deprecated(reason: "will be moved to employee.access.posts")
-  processesAccess: Access
-  process(id: ID!): Process
-  processes: [Process]
   processExecutionsAccess: Access
   processExecution(id: ID!): ProcessExecution
   processExecutions(input: ProcessExecutionsInput): [ProcessExecution]
+  processesAccess: Access
+  process(id: ID!): Process
+  processes: [Process]
   project(id: ID!): Project
   projectByCode(code: String!): Project
   projects: [Project]
@@ -784,7 +824,7 @@ type Query {
   wikiSearchText(input: WikiSearchTextInput): [FoundWikiPage]
   workspaceDesignAccess: Access
   workspaces(input: WorkspacesInput): [Workspace]
-  workspace(input: GetWorkspaceInput): Workspace
+  workspace(id: ID!): Workspace
 }
 
 input MutateHelloInput {
@@ -837,8 +877,9 @@ type Mutation {
   createMatrixGrade(input: CreateMatrixGradeInput): Matrix
   deleteMatrixGrade(input: DeleteMatrixGradeInput): Matrix
   updateMatricesCustomFields(input: UpdateMatricesCustomFieldsInput): MatricesCustomFields
-  applyToWorkFromOffice(input: ApplyToWorkFromOfficeInput!): Boolean
-  updateOfficeDay(input: UpdateOfficeDayInput!): OfficeDay
+  createOfficeBooking(input: CreateOfficeBookingInput!): Boolean
+  cancelOfficeBooking(input: CancelOfficeBookingInput!): Boolean
+  updateOfficeDays(input: UpdateOfficeDaysInput!): Boolean
   createOnboardingTicket(input: CreateOnboardingTicketInput): OnboardingTicket
   updateOnboardingTicket(input: UpdateOnboardingTicketInput): OnboardingTicket
   deleteOnboardingTicket(input: DeleteOnboardingTicketInput): OnboardingTicket
@@ -847,12 +888,6 @@ type Mutation {
   createPost(input: CreatePostInput): Post
   updatePost(input: UpdatePostInput): Post
   deletePost(input: DeletePostInput): Post
-  createProcess(input: CreateProcessInput): Process
-  updateProcess(input: UpdateProcessInput): Process
-  deleteProcess(id: ID!): Process
-  createProcessStep(input: CreateProcessStepInput): ProcessStep
-  updateProcessStep(input: UpdateProcessStepInput): ProcessStep
-  deleteProcessStep(id: ID!): ProcessStep
   createProcessExecution(input: CreateProcessExecutionInput): ProcessExecution
   updateProcessExecution(input: UpdateProcessExecutionInput): ProcessExecution
   abortProcessExecution(input: AbortProcessExecutionInput!): ProcessExecution
@@ -860,6 +895,12 @@ type Mutation {
   rotateEmployee(input: RotateEmployeeInput!): ProcessExecution
   completeProcessExecutionStep(input: CompleteProcessExecutionStepInput!): ProcessExecutionStep
   commentProcessExecutionStep(input: CommentProcessExecutionStepInput!): ProcessExecutionStep
+  createProcess(input: CreateProcessInput): Process
+  updateProcess(input: UpdateProcessInput): Process
+  deleteProcess(id: ID!): Process
+  createProcessStep(input: CreateProcessStepInput): ProcessStep
+  updateProcessStep(input: UpdateProcessStepInput): ProcessStep
+  deleteProcessStep(id: ID!): ProcessStep
   updateProject(input: UpdateProjectInput!): Project
   updateProjectSkills(input: UpdateProjectSkillsInput!): Project
   createSkill(input: CreateSkillInput): Skill
@@ -875,12 +916,12 @@ type Mutation {
   removeWikiPage(input: RemoveWikiPageInput): WikiPage
   createWorkspace(input: CreateWorkspaceInput): Workspace
   updateWorkspace(input: UpdateWorkspaceInput): Workspace
-  deleteWorkspace(input: DeleteWorkspaceInput): Workspace
+  deleteWorkspace(id: ID!): Workspace
   createWorkplace(input: CreateWorkplaceInput): Workplace
   updateWorkplace(input: UpdateWorkplaceInput): Workplace
-  deleteWorkplace(input: DeleteWorkplaceInput): Workplace
+  deleteWorkplace(id: ID!): Workplace
   createWorkplaceBooking(input: CreateWorkplaceBookingInput): WorkplaceBooking
-  deleteWorkplaceBooking(input: DeleteWorkplaceBookingInput): WorkplaceBooking
+  deleteWorkplaceBooking(id: ID!): WorkplaceBooking
 }
 
 type MatrixGrade {
@@ -1021,26 +1062,34 @@ type OfficeDay {
   date: String
   employeeLimit: Int
   location: LOCATION
-  employeeCount: Int
   employees: [Employee!]
 }
 
 input OfficeDaysInput {
-  startDate: String!
-  count: Int!
+  dateStart: String!
+  dateEnd: String!
 }
 
-input ApplyToWorkFromOfficeInput {
-  date: String
-  location: LOCATION
-  cancelOnly: Boolean
-  bookOnly: Boolean
+input CreateOfficeBookingInput {
+  dateStart: String!
+  dateEnd: String
+  location: LOCATION!
+  skipWeekends: Boolean
 }
 
-input UpdateOfficeDayInput {
-  date: String
-  location: LOCATION
-  employeeLimit: Int
+input CancelOfficeBookingInput {
+  dateStart: String!
+  dateEnd: String
+  location: LOCATION!
+  skipWeekends: Boolean
+}
+
+input UpdateOfficeDaysInput {
+  dateStart: String!
+  location: LOCATION!
+  employeeLimit: Int!
+  dateEnd: String
+  skipWeekends: Boolean
 }
 
 type OnboardingTicket {
@@ -1136,72 +1185,6 @@ input PostsFilter {
   text: String
 }
 
-enum PROCESS_TYPE {
-  ROTATION
-  ONBOARDING
-  OFFBOARDING
-}
-
-enum PROCESS_STEP_TYPE {
-  APPROVE
-  NOTIFY
-  INDEPENDENT
-}
-
-type ProcessStep {
-  id: ID!
-  title: String
-  description: String
-  type: PROCESS_STEP_TYPE
-  responsibleUsers: [Employee!]
-  sendToTeamlead: Boolean
-  send24hoursNotification: Boolean
-  parentSteps: [ProcessStep]
-  process: Process
-  hasComment: Boolean
-}
-
-type Process {
-  id: ID!
-  title: String
-  customer: CUSTOMER
-  nextCustomer: CUSTOMER
-  type: PROCESS_TYPE
-  isRotation: Boolean
-  steps: [ProcessStep]
-}
-
-input CreateProcessInput {
-  title: String
-  customer: CUSTOMER
-  nextCustomer: CUSTOMER
-  type: PROCESS_TYPE
-}
-
-input UpdateProcessInput {
-  id: ID!
-  customer: CUSTOMER
-  type: PROCESS_TYPE
-  isRotation: Boolean
-}
-
-input CreateProcessStepInput {
-  parentSteps: [ID]
-  process: ID!
-}
-
-input UpdateProcessStepInput {
-  id: ID!
-  title: String
-  description: String
-  type: PROCESS_STEP_TYPE
-  responsibleUsers: [ID]
-  sendToTeamlead: Boolean
-  send24hoursNotification: Boolean
-  parentSteps: [ID]
-  hasComment: Boolean
-}
-
 type ProcessExecutionComment {
   id: ID!
   body: String
@@ -1288,6 +1271,72 @@ input RotateEmployeeInput {
   process: ID!
   locations: [ID]
   employee: ID!
+}
+
+enum PROCESS_TYPE {
+  ROTATION
+  ONBOARDING
+  OFFBOARDING
+}
+
+enum PROCESS_STEP_TYPE {
+  APPROVE
+  NOTIFY
+  INDEPENDENT
+}
+
+type ProcessStep {
+  id: ID!
+  title: String
+  description: String
+  type: PROCESS_STEP_TYPE
+  responsibleUsers: [Employee!]
+  sendToTeamlead: Boolean
+  send24hoursNotification: Boolean
+  parentSteps: [ProcessStep]
+  process: Process
+  hasComment: Boolean
+}
+
+type Process {
+  id: ID!
+  title: String
+  customer: CUSTOMER
+  nextCustomer: CUSTOMER
+  type: PROCESS_TYPE
+  isRotation: Boolean
+  steps: [ProcessStep]
+}
+
+input CreateProcessInput {
+  title: String
+  customer: CUSTOMER
+  nextCustomer: CUSTOMER
+  type: PROCESS_TYPE
+}
+
+input UpdateProcessInput {
+  id: ID!
+  customer: CUSTOMER
+  type: PROCESS_TYPE
+  isRotation: Boolean
+}
+
+input CreateProcessStepInput {
+  parentSteps: [ID]
+  process: ID!
+}
+
+input UpdateProcessStepInput {
+  id: ID!
+  title: String
+  description: String
+  type: PROCESS_STEP_TYPE
+  responsibleUsers: [ID]
+  sendToTeamlead: Boolean
+  send24hoursNotification: Boolean
+  parentSteps: [ID]
+  hasComment: Boolean
 }
 
 type Project {
@@ -1487,10 +1536,6 @@ type WorkplaceBooking {
   finishDate: String
 }
 
-input GetWorkspaceInput {
-  id: ID!
-}
-
 input CreateWorkspaceInput {
   name: String!
   location: LOCATION!
@@ -1500,10 +1545,6 @@ input UpdateWorkspaceInput {
   id: ID!
   name: String
   drawing: String
-}
-
-input DeleteWorkspaceInput {
-  id: ID!
 }
 
 input CreateWorkplaceInput {
@@ -1519,10 +1560,6 @@ input UpdateWorkplaceInput {
   number: Int
 }
 
-input DeleteWorkplaceInput {
-  id: ID!
-}
-
 input BookingsInput {
   startDate: String
   finishDate: String
@@ -1534,52 +1571,8 @@ input CreateWorkplaceBookingInput {
   finishDate: String!
 }
 
-input DeleteWorkplaceBookingInput {
-  id: ID!
-}
-
 input WorkspacesInput {
   location: LOCATION
-}
-
-enum LANGUAGE {
-  RU
-  EN
-}
-
-enum LEVEL {
-  WANTED
-  LEARNING
-  EXPERIENCED
-  CONFIDENT
-}
-
-enum LOCATION {
-  SAINT_PETERSBURG
-  KALININGRAD
-  TOMSK
-  ZURICH
-}
-
-enum CUSTOMER {
-  INTERNAL
-  SWISSRE
-  ALLIANZ
-}
-
-enum ACCESS_GROUP {
-  REVIEWERS
-  FEEDBACK
-  HR_RU
-  HR_EDITORS
-  NEWS_EDITORS
-  TECH_PORTAL
-  DEV_PORTAL
-  WORKSPACE_PLANNER
-  SYS_ADMINS
-  HR_ADMINS
-  SUPER_USER
-  WIKI_EDITORS
 }
 
 enum CacheControlScope {

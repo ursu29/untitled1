@@ -11,8 +11,8 @@ export const workspacePoolQuery = gql`
 `
 
 export const workspaceQuery = gql`
-  query workspace($input: GetWorkspaceInput, $bookingsInput: BookingsInput) {
-    workspace(input: $input) {
+  query workspace($id: ID!, $bookingsInput: BookingsInput) {
+    workspace(id: $id) {
       id
       drawing
       workplaces {
@@ -56,8 +56,8 @@ export const WORKSPACE = {
     }
   `,
   delete: gql`
-    mutation deleteWorkspace($input: DeleteWorkspaceInput) {
-      deleteWorkspace(input: $input) {
+    mutation deleteWorkspace($id: ID!) {
+      deleteWorkspace(id: $id) {
         id
       }
     }
@@ -85,8 +85,8 @@ export const WORKPLACE = {
     }
   `,
   delete: gql`
-    mutation deleteWorkplace($input: DeleteWorkplaceInput) {
-      deleteWorkplace(input: $input) {
+    mutation deleteWorkplace($id: ID!) {
+      deleteWorkplace(id: $id) {
         id
       }
     }
@@ -107,8 +107,8 @@ export const BOOKING = {
     }
   `,
   delete: gql`
-    mutation deleteWorkplaceBooking($input: DeleteWorkplaceBookingInput) {
-      deleteWorkplaceBooking(input: $input) {
+    mutation deleteWorkplaceBooking($id: ID!) {
+      deleteWorkplaceBooking(id: $id) {
         id
         startDate
         finishDate

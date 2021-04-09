@@ -24,45 +24,11 @@ import DesignModeSwitch from './DesignModeSwitch'
 import Workspace from './Workspace'
 import WorkspaceSelector from './WorkspaceSelector'
 import './styles.css'
-import gql from 'graphql-tag' //TODO: REMOVE with workspace planner
 import getLocationName from '../../utils/getLocationName'
 
-//TODO: ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ REMOVE with workspace planner
-const weekday = require('dayjs/plugin/weekday')
-dayjs.extend(weekday)
-
-const applyMutation = gql`
-  mutation apply($input: ApplyToWorkFromOfficeInput!) {
-    applyToWorkFromOffice(input: $input)
-  }
-`
-const getOfficeDays = gql`
-  query getOfficeDays($input: OfficeDaysInput) {
-    officeDays(input: $input) {
-      id
-      date
-      employeeLimit
-      employeeCount
-      employees {
-        id
-      }
-      location
-    }
-  }
-`
-//↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ REMOVE with workspace planner
-
 dayjs.extend(customParseFormat)
-export default function WorkspacePlanner() {
-  //TODO: ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ REMOVE with workspace planner
-  const [getQueryOfficeDays, { data: officeDaysData }] = useLazyQuery(getOfficeDays, {
-    fetchPolicy: 'network-only',
-  })
-  const [apply] = useMutation(applyMutation, {
-    onError: message.error,
-  })
-  //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ REMOVE with workspace planner
 
+export default function WorkspacePlanner() {
   const employee = useEmployee()
 
   // State
@@ -159,7 +125,7 @@ export default function WorkspacePlanner() {
     .map(e => e.id)
 
   const workspaceQueryVariables = {
-    input: { id: workspace?.id },
+    id: workspace?.id,
     bookingsInput: { startDate: dateRange.startDate, finishDate: dateRange.finishDate },
   }
 
@@ -258,82 +224,9 @@ export default function WorkspacePlanner() {
    *  WORKPLACE BOOKING CRUD
    */
 
-  //TODO: ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ REMOVE with workspace planner
-  useEffect(() => {
-    const startDateRange = dayjs(dayjs(dateRange.startDate + '-0000', 'DD.MM.YYYYZZ')).toDate()
-    const finishDateRange = dayjs(dayjs(dateRange.finishDate + '-0000', 'DD.MM.YYYYZZ')).toDate()
-
-    getQueryOfficeDays({
-      variables: {
-        input: {
-          startDate: dayjs(startDateRange).format('YYYY-MM-DD'),
-          //@ts-ignore
-          count: Math.abs(finishDateRange - startDateRange) / 8.64e7,
-        },
-      },
-    })
-  }, [dateRange, getQueryOfficeDays])
-  //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ REMOVE with workspace planner
-
   const [createWorkplaceBooking, { loading: loadingCreateWorkplaceBooking }] = useMutation(
     BOOKING.create,
     {
-      onCompleted: async booking => {
-        //TODO: remove async and argument with office planner
-        message.success('Reservation has been created')
-
-        //TODO: ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ REMOVE with workspace planner
-        const startDateRange = dayjs(dayjs(dateRange.startDate + '-0000', 'DD.MM.YYYYZZ')).toDate()
-        const finishDateRange = dayjs(
-          dayjs(dateRange.finishDate + '-0000', 'DD.MM.YYYYZZ'),
-        ).toDate()
-
-        for (const day = startDateRange; day <= finishDateRange; day.setDate(day.getDate() + 1)) {
-          const officeDay = officeDaysData.officeDays.find(
-            (e: any) => e.date === dayjs(day).format('YYYY-MM-DD'),
-          )
-          if (
-            !officeDay?.employees.map((e: any) => e.strapiId).includes(employee.employee.strapiId)
-          ) {
-            const officePlannerDayBook = await apply({
-              variables: {
-                input: {
-                  date: dayjs(day).format('YYYY-MM-DD'),
-                  location: LOCATION.SAINT_PETERSBURG,
-                  bookOnly: true,
-                },
-              },
-            })
-            if (!officePlannerDayBook?.data?.applyToWorkFromOffice) {
-              for (
-                const day2 = dayjs(dayjs(dateRange.startDate + '-0000', 'DD.MM.YYYYZZ')).toDate();
-                day2 < day;
-                day2.setDate(day2.getDate() + 1)
-              ) {
-                await apply({
-                  variables: {
-                    input: {
-                      date: dayjs(day2).format('YYYY-MM-DD'),
-                      location: LOCATION.SAINT_PETERSBURG,
-                      cancelOnly: true,
-                    },
-                  },
-                })
-              }
-              await deleteWorkplaceBooking({
-                variables: { input: { id: booking?.createWorkplaceBooking?.id } },
-              })
-              setTimeout(
-                () =>
-                  message.error(`The office is full this day: ${dayjs(day).format('DD.MM.YYYY')}`),
-                1000,
-              )
-              return
-            }
-          }
-        }
-        //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ REMOVE with workspace planner
-      },
       refetchQueries: [
         {
           query: workspaceQuery,
@@ -360,34 +253,6 @@ export default function WorkspacePlanner() {
   const [deleteWorkplaceBooking, { loading: loadingDeleteWorkplaceBooking }] = useMutation(
     BOOKING.delete,
     {
-      onCompleted: async booking => {
-        //TODO: remove async and argument with office planner
-        setSelectedWorkplace('')
-        message.success('Reservation has been canceled')
-
-        //TODO: ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ REMOVE with workspace planner
-        const startDateRange = dayjs(
-          booking.deleteWorkplaceBooking.startDate,
-          'YYYY-MM-DD',
-        ).toDate()
-        const finishDateRange = dayjs(
-          booking.deleteWorkplaceBooking.finishDate,
-          'YYYY-MM-DD',
-        ).toDate()
-
-        for (const day = startDateRange; day <= finishDateRange; day.setDate(day.getDate() + 1)) {
-          await apply({
-            variables: {
-              input: {
-                date: dayjs(day).format('YYYY-MM-DD'),
-                location: LOCATION.SAINT_PETERSBURG,
-                cancelOnly: true,
-              },
-            },
-          })
-        }
-        //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ REMOVE with workspace planner
-      },
       refetchQueries: [
         {
           query: workspaceQuery,
@@ -477,7 +342,9 @@ export default function WorkspacePlanner() {
 
   return (
     <PageContent style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <Typography.Title style={{ marginBottom: '40px' }}>Workspace Planner</Typography.Title>
+      <Typography.Title level={1} style={{ marginBottom: '40px' }}>
+        Workspace Planner
+      </Typography.Title>
       <Tabs
         animated={false}
         type="card"
@@ -504,14 +371,14 @@ export default function WorkspacePlanner() {
                     disabled={!workspacePool?.workspaces.length}
                     onSelect={(id: string) => {
                       setSelectedWorkspace(id)
-                      getWorkspace({ variables: { input: { id } } })
+                      getWorkspace({ variables: { id } })
                     }}
                     onCreate={(value: any) =>
                       createWorkspace({
                         variables: { input: { ...value, location } },
                       })
                     }
-                    onDelete={(id: string) => deleteWorkspace({ variables: { input: { id } } })}
+                    onDelete={(id: string) => deleteWorkspace({ variables: { id } })}
                     onEdit={(value: any) =>
                       updateWorkspace({
                         variables: { input: { id: workspace?.id, ...value } },
