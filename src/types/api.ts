@@ -338,7 +338,6 @@ export interface EvaluationComment {
 export interface OfficeDay {
   id: string
   employeeLimit: number
-  employeeCount: number
   date: string
   location: LOCATION
 }
