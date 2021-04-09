@@ -8,7 +8,7 @@ import getEvaluations from '../../queries/getEvaluations'
 import { Employee, Evaluation, EvaluationComment } from '../../types'
 import Controls from '../UI/Controls'
 import Divider from '../UI/Divider'
-import EvaluationHelper from '../UI/EvaluationHelper'
+import { EvaluationRateDescription } from '../UI/EvaluationRate'
 import Skeleton from '../UI/Skeleton'
 import AddEvaluationReviewer from './AddEvaluationReviewer'
 import DeleteEmployeeReviewer from './DeleteEmployeeReviewer'
@@ -203,7 +203,7 @@ function EvaluationAttributes({
                 </Controls>
               )}
               {versionSnapshot()}
-              <EvaluationHelper />
+              <EvaluationRateDescription />
               <EvaluationTable
                 evaluationAttributes={data?.evaluationAttributes}
                 evaluations={evaluations?.filter(e => e)}
