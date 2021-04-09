@@ -306,6 +306,7 @@ export interface ProcessExecution {
   projectFrom?: Project
   projectTo?: Project
   employee: string
+  employeeRef: Employee
   finishDate: string
   prio: number
 }
