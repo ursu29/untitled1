@@ -88,9 +88,9 @@ function DevelopmentPlanForm({ value, onChange, form, locked, resetFields }: Pro
         <Paragraph style={{ maxWidth: 550 }}>
           Please copy here a list of goals from previous period. List includes goals from regular
           Performance development and from the Guild contribution. Report have you achieved success
-          criteria for this goal. Put mark if goal was reached or not. 0=Didn’t reach (explain why
-          in comments) 1=Goal was reached (in case there are some exceeded expectations achievements
-          please put them in comments) N/A=Goal was postponed/dropped by legitimate reasons
+          criteria for this goal. It is fine if goal appeared to be unnecessary and not achieved -
+          just leave a comment regarding it. Plans and goals can change with time and circumstances.
+          Important is that plans are being discussed and aligned with a Project, Company goals.
         </Paragraph>
         {getFieldDecorator('previousGoals', {
           initialValue: value?.previousGoals,
