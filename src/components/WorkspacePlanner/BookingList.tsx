@@ -53,7 +53,7 @@ export default function BookingList({
                       </p>
                     )}
                     onConfirm={() => {
-                      onBookCancel({ variables: { input: { id: record.id } } })
+                      onBookCancel({ variables: { id: record.id } })
                     }}
                     okText="Yes"
                     cancelText="No"
