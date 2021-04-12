@@ -126,7 +126,7 @@ export const createTraining = (title, description, responsible, optional = false
       description,
       responsible,
       isOptional: optional,
-      isSwissRe: isSwissReBool
+      isSwissre: isSwissReBool
     },
   },
   query: query.createTraining,
@@ -238,15 +238,15 @@ export const deleteReviewer = (idReviewer, idUser) => ({
   query: query.deleteReviewer,
 })
 
-export const getOfficeDays = (startDate, count = 7) => ({
+export const getOfficeDays = (dateStart, dateEnd) => ({
   operationName: 'getOfficeDays',
-  variables: { input: { startDate, count } },
+  variables: { input: { dateStart, dateEnd } },
   query: query.getOfficeDays,
 })
 
-export const applyDay = (date, location = 'SAINT_PETERSBURG') => ({
-  operationName: 'apply',
-  variables: { input: { date, location } },
+export const createOfficeBooking = (dateStart, location = 'SAINT_PETERSBURG', skipWeekends = true) => ({
+  operationName: 'createOfficeBooking',
+  variables: { input: { dateStart, location, skipWeekends } },
   query: query.applyDay,
 })
 

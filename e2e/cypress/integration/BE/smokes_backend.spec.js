@@ -2,7 +2,7 @@ import { postRequest } from '../../api/requests'
 import { codeOkAndBodyNotNull } from '../../support/utils'
 import * as getData from '../../support/getData'
 import * as data from '../../support/client/employeeData'
-import { todaysDate } from '../../support/officePlanner/officeDays'
+import {pastDay, todaysDate} from '../../support/officePlanner/officeDays'
 import {getEmployee} from "../../support/getData";
 import {email} from "../../support/client/employeeData";
 
@@ -12,7 +12,6 @@ describe('Check employee api (smoke)', () => {
 
   const SECTION_COUNT = 7
   const FIRST_POSTS = 4
-  const MONDAY = '2021-02-08'
 
   before(() => {
     cy.setToken('employee')
@@ -100,15 +99,15 @@ describe('Check employee api (smoke)', () => {
   })
 
   it('check apply days', () => {
-    cy.post(getData.applyDay(todaysDate)).then(res => {
-      const { applyToWorkFromOffice } = res.body.data
+    cy.post(getData.createOfficeBooking(todaysDate)).then(res => {
+      const { createOfficeBooking } = res.body.data
 
-      expect(applyToWorkFromOffice).equal(true)
+      expect(createOfficeBooking).equal(true)
     })
   })
 
   it('check officce days', () => {
-    cy.post(getData.getOfficeDays(MONDAY)).then(res => {
+    cy.post(getData.getOfficeDays(pastDay, todaysDate)).then(res => {
       const { officeDays } = res.body.data
 
       expect(officeDays.length).to.be.greaterThan(0)

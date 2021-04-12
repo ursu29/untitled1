@@ -4,14 +4,14 @@ export const employees = () => ({
             {
                 "id": "603f59277ae138001c21f5d6",
                 "name": "Alexander Vygodchikov",
-                "location": "SAINT_PETERSBURG",
+                "location": "TOMSK",
                 "country": null,
                 "position": "Frontend Developer",
                 "phoneNumber": "+7(999)515-99-00",
                 "email": "a.vygodchikov@syncretis.com",
                 "isMe": false,
                 "startDate": "2020-04-20",
-                "birthday": null,
+                "birthday": "22.06",
                 "__typename": "Employee"
             },
             {
@@ -24,7 +24,7 @@ export const employees = () => ({
                 "email": "alan.tsagolti@syncretis.com",
                 "isMe": false,
                 "startDate": "2006-07-01",
-                "birthday": null,
+                "birthday": "24.09",
                 "__typename": "Employee"
             },
             {
@@ -37,7 +37,7 @@ export const employees = () => ({
                 "email": "alena.makrushina@syncretis.com",
                 "isMe": false,
                 "startDate": "2013-06-27",
-                "birthday": null,
+                "birthday": "18.04",
                 "__typename": "Employee"
             },
             {
@@ -50,9 +50,9 @@ export const employees = () => ({
                 "email": "alexander.bashmakov@syncretis.com",
                 "isMe": false,
                 "startDate": "2011-04-01",
-                "birthday": null,
+                "birthday": "24.10",
                 "__typename": "Employee"
-            }
+            },
         ]
     },
 })
