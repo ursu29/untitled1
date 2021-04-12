@@ -132,7 +132,7 @@ export default function WorkspacePlanner() {
     onCompleted: workspace => {
       const { id } = workspace.createWorkspace
       setSelectedWorkspace(id)
-      getWorkspace({ variables: { input: { id } } })
+      getWorkspace({ variables: { id } })
       message.success('Workspace has been created')
     },
     refetchQueries: [
@@ -149,7 +149,7 @@ export default function WorkspacePlanner() {
     onCompleted: workspace => {
       const { id } = workspace.updateWorkspace
       setSelectedWorkspace(id)
-      getWorkspace({ variables: { input: { id } } })
+      getWorkspace({ variables: { id } })
       message.success('Workspace has been updated')
     },
     refetchQueries: [
