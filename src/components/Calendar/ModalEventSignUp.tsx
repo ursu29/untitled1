@@ -191,6 +191,7 @@ export default function ModalEventSignUp({
                 type="primary"
                 style={{ marginRight: '16px' }}
                 loading={attendEveryoneLoading}
+                disabled={event.isAttendAll}
               >
                 Invite everyone
               </Button>

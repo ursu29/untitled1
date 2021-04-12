@@ -44,6 +44,7 @@ export const getEvent = gql`
         }
         status
       }
+      isAttendAll
       createdBy {
         id
       }

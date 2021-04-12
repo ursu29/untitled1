@@ -514,6 +514,7 @@ export interface CalendarEvent {
     type: string
     status: 'none' | 'organizer' | 'tentativelyAccepted' | 'accepted' | 'declined' | 'notResponded'
   }[]
+  isAttendAll: boolean
 }
 
 export interface EmployeeProject {
