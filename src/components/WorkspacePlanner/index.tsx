@@ -416,7 +416,7 @@ export default function WorkspacePlanner() {
                     selectedWorkplace === id ? setSelectedWorkplace('') : setSelectedWorkplace(id)
                   }
                   onClone={addWorkplace}
-                  onDelete={(id: string) => deleteWorkplace({ variables: { input: { id } } })}
+                  onDelete={(id: string) => deleteWorkplace({ variables: { id } })}
                   onDrag={handleDrag}
                   onStop={handleStopDrag}
                   onBook={handleCreateWorkplaceBooking}
