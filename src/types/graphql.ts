@@ -17,46 +17,6 @@ export type Scalars = {
   Upload: any
 }
 
-export enum Language {
-  Ru = 'RU',
-  En = 'EN',
-}
-
-export enum Level {
-  Wanted = 'WANTED',
-  Learning = 'LEARNING',
-  Experienced = 'EXPERIENCED',
-  Confident = 'CONFIDENT',
-}
-
-export enum Location {
-  SaintPetersburg = 'SAINT_PETERSBURG',
-  Kaliningrad = 'KALININGRAD',
-  Tomsk = 'TOMSK',
-  Zurich = 'ZURICH',
-}
-
-export enum Customer {
-  Internal = 'INTERNAL',
-  Swissre = 'SWISSRE',
-  Allianz = 'ALLIANZ',
-}
-
-export enum Access_Group {
-  Reviewers = 'REVIEWERS',
-  Feedback = 'FEEDBACK',
-  HrRu = 'HR_RU',
-  HrEditors = 'HR_EDITORS',
-  NewsEditors = 'NEWS_EDITORS',
-  TechPortal = 'TECH_PORTAL',
-  DevPortal = 'DEV_PORTAL',
-  WorkspacePlanner = 'WORKSPACE_PLANNER',
-  SysAdmins = 'SYS_ADMINS',
-  HrAdmins = 'HR_ADMINS',
-  SuperUser = 'SUPER_USER',
-  WikiEditors = 'WIKI_EDITORS',
-}
-
 export enum AllowedGroups {
   General = 'GENERAL',
   GeneralExcMe = 'GENERAL_EXC_ME',
@@ -205,6 +165,7 @@ export type CurriculumVitae = {
   id: Scalars['ID']
   employee: Employee
   summary?: Maybe<Scalars['String']>
+  languages?: Maybe<Scalars['String']>
   vitaes?: Maybe<Array<Vitae>>
   certificates?: Maybe<Array<Certificate>>
   education?: Maybe<Array<Education>>
@@ -244,6 +205,7 @@ export type Education = {
 export type UpdateCurriculumVitaeInput = {
   id?: Maybe<Scalars['ID']>
   summary?: Maybe<Scalars['String']>
+  languages?: Maybe<Scalars['String']>
   employee: Scalars['ID']
   vitaes?: Maybe<Array<VitaeInput>>
   certificates?: Maybe<Array<CertificateInput>>
@@ -606,6 +568,7 @@ export type Event = {
   location?: Maybe<Scalars['String']>
   skills?: Maybe<Array<Maybe<Skill>>>
   attendees?: Maybe<Array<Maybe<EventAttendee>>>
+  isAttendAll?: Maybe<Scalars['Boolean']>
 }
 
 export type EventsInput = {
@@ -861,12 +824,12 @@ export type Query = {
   posts?: Maybe<Array<Maybe<Post>>>
   /** @deprecated will be moved to employee.access.posts */
   postsEditor?: Maybe<Access>
-  processExecutionsAccess?: Maybe<Access>
-  processExecution?: Maybe<ProcessExecution>
-  processExecutions?: Maybe<Array<Maybe<ProcessExecution>>>
   processesAccess?: Maybe<Access>
   process?: Maybe<Process>
   processes?: Maybe<Array<Maybe<Process>>>
+  processExecutionsAccess?: Maybe<Access>
+  processExecution?: Maybe<ProcessExecution>
+  processExecutions?: Maybe<Array<Maybe<ProcessExecution>>>
   project?: Maybe<Project>
   projectByCode?: Maybe<Project>
   projects?: Maybe<Array<Maybe<Project>>>
@@ -1017,16 +980,16 @@ export type QueryPostsArgs = {
   filter?: Maybe<PostsFilter>
 }
 
+export type QueryProcessArgs = {
+  id: Scalars['ID']
+}
+
 export type QueryProcessExecutionArgs = {
   id: Scalars['ID']
 }
 
 export type QueryProcessExecutionsArgs = {
   input?: Maybe<ProcessExecutionsInput>
-}
-
-export type QueryProcessArgs = {
-  id: Scalars['ID']
 }
 
 export type QueryProjectArgs = {
@@ -1098,6 +1061,7 @@ export type Mutation = {
   updateEvent?: Maybe<Event>
   cancelEvent?: Maybe<Scalars['ID']>
   attendEvent?: Maybe<Scalars['Boolean']>
+  attendEventEveryone?: Maybe<Scalars['Boolean']>
   createExperience?: Maybe<Experience>
   updateExperience?: Maybe<Experience>
   updateExperiences?: Maybe<Array<Maybe<Experience>>>
@@ -1127,10 +1091,17 @@ export type Mutation = {
   updateOnboardingTicket?: Maybe<OnboardingTicket>
   deleteOnboardingTicket?: Maybe<OnboardingTicket>
   completeOnboardingTicket?: Maybe<Scalars['ID']>
+  cancelOnboardingTicket?: Maybe<Scalars['ID']>
   requestOnboardingTicket?: Maybe<Scalars['ID']>
   createPost?: Maybe<Post>
   updatePost?: Maybe<Post>
   deletePost?: Maybe<Post>
+  createProcess?: Maybe<Process>
+  updateProcess?: Maybe<Process>
+  deleteProcess?: Maybe<Process>
+  createProcessStep?: Maybe<ProcessStep>
+  updateProcessStep?: Maybe<ProcessStep>
+  deleteProcessStep?: Maybe<ProcessStep>
   createProcessExecution?: Maybe<ProcessExecution>
   updateProcessExecution?: Maybe<ProcessExecution>
   abortProcessExecution?: Maybe<ProcessExecution>
@@ -1138,16 +1109,11 @@ export type Mutation = {
   rotateEmployee?: Maybe<ProcessExecution>
   completeProcessExecutionStep?: Maybe<ProcessExecutionStep>
   commentProcessExecutionStep?: Maybe<ProcessExecutionStep>
-  createProcess?: Maybe<Process>
-  updateProcess?: Maybe<Process>
-  deleteProcess?: Maybe<Process>
-  createProcessStep?: Maybe<ProcessStep>
-  updateProcessStep?: Maybe<ProcessStep>
-  deleteProcessStep?: Maybe<ProcessStep>
   updateProject?: Maybe<Project>
   updateProjectSkills?: Maybe<Project>
   createSkill?: Maybe<Skill>
   updateSkill?: Maybe<Skill>
+  deleteSkill?: Maybe<Skill>
   createTag?: Maybe<Tag>
   updateVacancy?: Maybe<Vacancy>
   publishVacancy?: Maybe<Vacancy>
@@ -1256,6 +1222,10 @@ export type MutationCancelEventArgs = {
 }
 
 export type MutationAttendEventArgs = {
+  id: Scalars['ID']
+}
+
+export type MutationAttendEventEveryoneArgs = {
   id: Scalars['ID']
 }
 
@@ -1375,6 +1345,10 @@ export type MutationCompleteOnboardingTicketArgs = {
   input?: Maybe<CompleteOnboardingTicketInput>
 }
 
+export type MutationCancelOnboardingTicketArgs = {
+  input?: Maybe<CompleteOnboardingTicketInput>
+}
+
 export type MutationRequestOnboardingTicketArgs = {
   id: Scalars['ID']
 }
@@ -1389,6 +1363,30 @@ export type MutationUpdatePostArgs = {
 
 export type MutationDeletePostArgs = {
   input?: Maybe<DeletePostInput>
+}
+
+export type MutationCreateProcessArgs = {
+  input?: Maybe<CreateProcessInput>
+}
+
+export type MutationUpdateProcessArgs = {
+  input?: Maybe<UpdateProcessInput>
+}
+
+export type MutationDeleteProcessArgs = {
+  id: Scalars['ID']
+}
+
+export type MutationCreateProcessStepArgs = {
+  input?: Maybe<CreateProcessStepInput>
+}
+
+export type MutationUpdateProcessStepArgs = {
+  input?: Maybe<UpdateProcessStepInput>
+}
+
+export type MutationDeleteProcessStepArgs = {
+  id: Scalars['ID']
 }
 
 export type MutationCreateProcessExecutionArgs = {
@@ -1419,30 +1417,6 @@ export type MutationCommentProcessExecutionStepArgs = {
   input: CommentProcessExecutionStepInput
 }
 
-export type MutationCreateProcessArgs = {
-  input?: Maybe<CreateProcessInput>
-}
-
-export type MutationUpdateProcessArgs = {
-  input?: Maybe<UpdateProcessInput>
-}
-
-export type MutationDeleteProcessArgs = {
-  id: Scalars['ID']
-}
-
-export type MutationCreateProcessStepArgs = {
-  input?: Maybe<CreateProcessStepInput>
-}
-
-export type MutationUpdateProcessStepArgs = {
-  input?: Maybe<UpdateProcessStepInput>
-}
-
-export type MutationDeleteProcessStepArgs = {
-  id: Scalars['ID']
-}
-
 export type MutationUpdateProjectArgs = {
   input: UpdateProjectInput
 }
@@ -1457,6 +1431,10 @@ export type MutationCreateSkillArgs = {
 
 export type MutationUpdateSkillArgs = {
   input?: Maybe<UpdateSkillInput>
+}
+
+export type MutationDeleteSkillArgs = {
+  input: DeleteSkillInput
 }
 
 export type MutationCreateTagArgs = {
@@ -1691,7 +1669,6 @@ export type CancelOfficeBookingInput = {
   dateStart: Scalars['String']
   dateEnd?: Maybe<Scalars['String']>
   location: Location
-  skipWeekends?: Maybe<Scalars['Boolean']>
 }
 
 export type UpdateOfficeDaysInput = {
@@ -1699,7 +1676,6 @@ export type UpdateOfficeDaysInput = {
   location: Location
   employeeLimit: Scalars['Int']
   dateEnd?: Maybe<Scalars['String']>
-  skipWeekends?: Maybe<Scalars['Boolean']>
 }
 
 export type OnboardingTicket = {
@@ -1709,7 +1685,7 @@ export type OnboardingTicket = {
   description?: Maybe<Scalars['String']>
   responsible?: Maybe<Array<Employee>>
   isOptional?: Maybe<Scalars['Boolean']>
-  isSwissRe?: Maybe<Scalars['Boolean']>
+  isSwissre?: Maybe<Scalars['Boolean']>
   isRequestedByMe?: Maybe<Scalars['Boolean']>
 }
 
@@ -1718,7 +1694,7 @@ export type CreateOnboardingTicketInput = {
   description?: Maybe<Scalars['String']>
   responsible?: Maybe<Scalars['String']>
   isOptional?: Maybe<Scalars['Boolean']>
-  isSwissRe?: Maybe<Scalars['Boolean']>
+  isSwissre?: Maybe<Scalars['Boolean']>
 }
 
 export type UpdateOnboardingTicketInput = {
@@ -1727,7 +1703,7 @@ export type UpdateOnboardingTicketInput = {
   description?: Maybe<Scalars['String']>
   responsible?: Maybe<Scalars['String']>
   isOptional?: Maybe<Scalars['Boolean']>
-  isSwissRe?: Maybe<Scalars['Boolean']>
+  isSwissre?: Maybe<Scalars['Boolean']>
 }
 
 export type DeleteOnboardingTicketInput = {
@@ -1800,6 +1776,74 @@ export type PostsFilter = {
   isTranslated?: Maybe<Scalars['Boolean']>
   language?: Maybe<Language>
   text?: Maybe<Scalars['String']>
+}
+
+export enum Process_Type {
+  Rotation = 'ROTATION',
+  Onboarding = 'ONBOARDING',
+  Offboarding = 'OFFBOARDING',
+}
+
+export enum Process_Step_Type {
+  Approve = 'APPROVE',
+  Notify = 'NOTIFY',
+  Independent = 'INDEPENDENT',
+}
+
+export type ProcessStep = {
+  __typename?: 'ProcessStep'
+  id: Scalars['ID']
+  title?: Maybe<Scalars['String']>
+  description?: Maybe<Scalars['String']>
+  type?: Maybe<Process_Step_Type>
+  responsibleUsers?: Maybe<Array<Employee>>
+  sendToTeamlead?: Maybe<Scalars['Boolean']>
+  send24hoursNotification?: Maybe<Scalars['Boolean']>
+  parentSteps?: Maybe<Array<Maybe<ProcessStep>>>
+  process?: Maybe<Process>
+  hasComment?: Maybe<Scalars['Boolean']>
+}
+
+export type Process = {
+  __typename?: 'Process'
+  id: Scalars['ID']
+  title?: Maybe<Scalars['String']>
+  customer?: Maybe<Customer>
+  nextCustomer?: Maybe<Customer>
+  type?: Maybe<Process_Type>
+  isRotation?: Maybe<Scalars['Boolean']>
+  steps?: Maybe<Array<Maybe<ProcessStep>>>
+}
+
+export type CreateProcessInput = {
+  title?: Maybe<Scalars['String']>
+  customer?: Maybe<Customer>
+  nextCustomer?: Maybe<Customer>
+  type?: Maybe<Process_Type>
+}
+
+export type UpdateProcessInput = {
+  id: Scalars['ID']
+  customer?: Maybe<Customer>
+  type?: Maybe<Process_Type>
+  isRotation?: Maybe<Scalars['Boolean']>
+}
+
+export type CreateProcessStepInput = {
+  parentSteps?: Maybe<Array<Maybe<Scalars['ID']>>>
+  process: Scalars['ID']
+}
+
+export type UpdateProcessStepInput = {
+  id: Scalars['ID']
+  title?: Maybe<Scalars['String']>
+  description?: Maybe<Scalars['String']>
+  type?: Maybe<Process_Step_Type>
+  responsibleUsers?: Maybe<Array<Maybe<Scalars['ID']>>>
+  sendToTeamlead?: Maybe<Scalars['Boolean']>
+  send24hoursNotification?: Maybe<Scalars['Boolean']>
+  parentSteps?: Maybe<Array<Maybe<Scalars['ID']>>>
+  hasComment?: Maybe<Scalars['Boolean']>
 }
 
 export type ProcessExecutionComment = {
@@ -1893,74 +1937,6 @@ export type RotateEmployeeInput = {
   employee: Scalars['ID']
 }
 
-export enum Process_Type {
-  Rotation = 'ROTATION',
-  Onboarding = 'ONBOARDING',
-  Offboarding = 'OFFBOARDING',
-}
-
-export enum Process_Step_Type {
-  Approve = 'APPROVE',
-  Notify = 'NOTIFY',
-  Independent = 'INDEPENDENT',
-}
-
-export type ProcessStep = {
-  __typename?: 'ProcessStep'
-  id: Scalars['ID']
-  title?: Maybe<Scalars['String']>
-  description?: Maybe<Scalars['String']>
-  type?: Maybe<Process_Step_Type>
-  responsibleUsers?: Maybe<Array<Employee>>
-  sendToTeamlead?: Maybe<Scalars['Boolean']>
-  send24hoursNotification?: Maybe<Scalars['Boolean']>
-  parentSteps?: Maybe<Array<Maybe<ProcessStep>>>
-  process?: Maybe<Process>
-  hasComment?: Maybe<Scalars['Boolean']>
-}
-
-export type Process = {
-  __typename?: 'Process'
-  id: Scalars['ID']
-  title?: Maybe<Scalars['String']>
-  customer?: Maybe<Customer>
-  nextCustomer?: Maybe<Customer>
-  type?: Maybe<Process_Type>
-  isRotation?: Maybe<Scalars['Boolean']>
-  steps?: Maybe<Array<Maybe<ProcessStep>>>
-}
-
-export type CreateProcessInput = {
-  title?: Maybe<Scalars['String']>
-  customer?: Maybe<Customer>
-  nextCustomer?: Maybe<Customer>
-  type?: Maybe<Process_Type>
-}
-
-export type UpdateProcessInput = {
-  id: Scalars['ID']
-  customer?: Maybe<Customer>
-  type?: Maybe<Process_Type>
-  isRotation?: Maybe<Scalars['Boolean']>
-}
-
-export type CreateProcessStepInput = {
-  parentSteps?: Maybe<Array<Maybe<Scalars['ID']>>>
-  process: Scalars['ID']
-}
-
-export type UpdateProcessStepInput = {
-  id: Scalars['ID']
-  title?: Maybe<Scalars['String']>
-  description?: Maybe<Scalars['String']>
-  type?: Maybe<Process_Step_Type>
-  responsibleUsers?: Maybe<Array<Maybe<Scalars['ID']>>>
-  sendToTeamlead?: Maybe<Scalars['Boolean']>
-  send24hoursNotification?: Maybe<Scalars['Boolean']>
-  parentSteps?: Maybe<Array<Maybe<Scalars['ID']>>>
-  hasComment?: Maybe<Scalars['Boolean']>
-}
-
 export type Project = {
   __typename?: 'Project'
   id: Scalars['ID']
@@ -2020,6 +1996,10 @@ export type UpdateSkillInput = {
   description?: Maybe<Scalars['String']>
   parent?: Maybe<Scalars['ID']>
   isMatrixOnly?: Maybe<Scalars['Boolean']>
+}
+
+export type DeleteSkillInput = {
+  id: Scalars['ID']
 }
 
 export type Tag = {
@@ -2116,7 +2096,7 @@ export type WikiPage = {
 export type FoundWikiPage = {
   __typename?: 'FoundWikiPage'
   id: Scalars['ID']
-  title: Scalars['String']
+  title?: Maybe<Scalars['String']>
   path: Scalars['String']
   textFragment: Scalars['String']
 }
@@ -2214,6 +2194,46 @@ export type CreateWorkplaceBookingInput = {
 
 export type WorkspacesInput = {
   location?: Maybe<Location>
+}
+
+export enum Language {
+  Ru = 'RU',
+  En = 'EN',
+}
+
+export enum Level {
+  Wanted = 'WANTED',
+  Learning = 'LEARNING',
+  Experienced = 'EXPERIENCED',
+  Confident = 'CONFIDENT',
+}
+
+export enum Location {
+  SaintPetersburg = 'SAINT_PETERSBURG',
+  Kaliningrad = 'KALININGRAD',
+  Tomsk = 'TOMSK',
+  Zurich = 'ZURICH',
+}
+
+export enum Customer {
+  Internal = 'INTERNAL',
+  Swissre = 'SWISSRE',
+  Allianz = 'ALLIANZ',
+}
+
+export enum Access_Group {
+  Reviewers = 'REVIEWERS',
+  Feedback = 'FEEDBACK',
+  HrRu = 'HR_RU',
+  HrEditors = 'HR_EDITORS',
+  NewsEditors = 'NEWS_EDITORS',
+  TechPortal = 'TECH_PORTAL',
+  DevPortal = 'DEV_PORTAL',
+  WorkspacePlanner = 'WORKSPACE_PLANNER',
+  SysAdmins = 'SYS_ADMINS',
+  HrAdmins = 'HR_ADMINS',
+  SuperUser = 'SUPER_USER',
+  WikiEditors = 'WIKI_EDITORS',
 }
 
 export enum CacheControlScope {

@@ -1,6 +1,7 @@
 fragment CV on CurriculumVitae {
   id
   summary
+  languages
   vitaes {
     id
     company
