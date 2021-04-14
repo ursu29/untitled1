@@ -46,6 +46,7 @@ const query = gql`
       agileManager {
         id
         name
+        email
         isMe
       }
       access {
