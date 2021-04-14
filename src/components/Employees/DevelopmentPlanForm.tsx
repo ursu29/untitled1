@@ -20,7 +20,7 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
 
   useEffect(() => {
     form.resetFields()
-  }, [resetFields])
+  }, [resetFields, form])
 
   const handleSubmit = (values: any) => {
     onChange({

@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@ant-design/compatible": "^1.0.4",
     "@ant-design/icons": "^4.2.1",
     "@apollo/react-hooks": "3",
     "@cypress/code-coverage": "^3.8.5",

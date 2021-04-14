@@ -1,5 +1,3 @@
-// import { Form } from '@ant-design/compatible'
-import '@ant-design/compatible/assets/index.css'
 import { Button, Col, Divider, Form, Input, Popconfirm, Row, Select, notification } from 'antd'
 import React from 'react'
 import { VacancyPick } from '../../queries/getVacancies'
@@ -15,7 +13,6 @@ interface Props {
 }
 
 export default function VacancyForm({ vacancy, onClose, onSave, onPublish }: Props) {
-  console.log(vacancy)
   const [form] = Form.useForm()
   return (
     <Form layout="vertical" form={form}>

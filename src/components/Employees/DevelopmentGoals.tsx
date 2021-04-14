@@ -50,7 +50,7 @@ interface EditableCellProps {
   handleSave: (record: Item) => void
 }
 
-const EditableCell: React.FC<EditableCellProps> = ({
+export const EditableCell: React.FC<EditableCellProps> = ({
   title,
   editable,
   children,
