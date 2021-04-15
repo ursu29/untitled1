@@ -8,10 +8,12 @@ import EmployeeCVSummary from './EmployeeCVSummary'
 import query, { QueryType } from '../../queries/getEmployeeExperiences'
 import EmployeeCVCertificates from './EmployeeCVCertificates'
 import EmployeeCVEducation from './EmployeeCVEducation'
+// import Button from '../UI/Button'
+// import { GATEWAY } from '../../config'
 
 type PropsGeneral = {
   editable: boolean
-  employee: Pick<Employee, 'id' | 'email'>
+  employee: Pick<Employee, 'id' | 'email' | 'isMe' | 'name'>
 }
 
 const EmployeeCV = ({ employee, editable }: PropsGeneral) => {
@@ -32,8 +34,35 @@ const EmployeeCV = ({ employee, editable }: PropsGeneral) => {
     .map(exp => exp.skill)
     .filter(skill => !skill.isMatrixOnly)
 
+  /* const handleExport = () => {
+    import('file-saver').then(({ saveAs }) => {
+      fetch(`${GATEWAY}/export-cv`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          cv,
+          skills,
+        }),
+      })
+        .then(res => res.arrayBuffer())
+        .then(data => {
+          const blob = new Blob([data], {
+            type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          })
+          saveAs(blob, `CV_${employee?.name}_${new Date().toLocaleDateString()}.docx`)
+        })
+    })
+  } */
+
   return (
     <Skeleton loading={loading} active withOffset>
+      {/* {(editable || employee?.isMe) && (
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button onClick={handleExport}>Export</Button>
+        </div>
+      )} */}
       <EmployeeCVSummary editable={editable} employee={employee} cv={cv} skills={skills} />
       <EmployeeCVExperience
         employee={employee}
