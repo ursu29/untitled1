@@ -237,6 +237,9 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
         ]}
         isNotOnboarding={['OFFBOARDING', 'ROTATION'].includes(processExecution.process.type)}
         isSwissRe={processExecution.process.customer === 'SWISSRE'}
+        projectFrom={processExecution.projectFrom}
+        projectTo={processExecution.projectTo}
+        type={processExecution.process.type}
       />
       <div style={{ overflow: 'auto', width: '100%', height: '100%' }}>
         <PageContent noTop>

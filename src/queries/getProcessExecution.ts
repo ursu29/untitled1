@@ -44,6 +44,16 @@ export default gql`
       employeePhone
       swissReOffboardingDate
       isIndependentStepsActive
+      projectFrom {
+        id
+        name
+        code
+      }
+      projectTo {
+        id
+        name
+        code
+      }
     }
   }
   ${fragments.Employee.Details}
@@ -69,6 +79,16 @@ type ProcessExecutionPick = {
   employeePhone: string
   swissReOffboardingDate: string
   isIndependentStepsActive: boolean
+  projectFrom: {
+    id: string
+    name: string
+    code: string
+  }
+  projectTo: {
+    id: string
+    name: string
+    code: string
+  }
 }
 
 export type QueryType = {

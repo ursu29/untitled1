@@ -9,6 +9,7 @@ import message from '../../message'
 import EmployeeSelect from '../Employees/EmployeeSelect'
 import { CopyOutlined } from '@ant-design/icons'
 import copyToClipboard from '../../utils/copyToClipboard'
+import ProjectTag from '../Projects/ProjectTag'
 
 const MainWrapper = styled.div`
   display: flex;
@@ -31,6 +32,9 @@ export default function AdditionalInfo({
   refetchQueries,
   isNotOnboarding,
   isSwissRe,
+  projectFrom,
+  projectTo,
+  type,
 }: {
   processId: string
   employee: string
@@ -41,6 +45,17 @@ export default function AdditionalInfo({
   refetchQueries: any
   isNotOnboarding: boolean
   isSwissRe: boolean
+  projectFrom?: {
+    id: string
+    name: string
+    code: string
+  }
+  projectTo?: {
+    id: string
+    name: string
+    code: string
+  }
+  type: 'ONBOARDING' | 'ROTATION' | 'OFFBOARDING'
 }) {
   const [update] = useMutation(updateProcessExecution, {
     refetchQueries,
@@ -63,6 +78,39 @@ export default function AdditionalInfo({
 
   return (
     <PageContent noTop noBottom>
+      {type === 'ROTATION' && (
+        <MainWrapper>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              fontStyle: 'italic',
+              marginBottom: '16px',
+            }}
+          >
+            Rotation from
+            {projectFrom ? (
+              <ProjectTag
+                small
+                project={projectFrom}
+                style={{ fontSize: '11px', padding: '2px 5px', margin: '0 8px 0 8px' }}
+              />
+            ) : (
+              ' - '
+            )}
+            to
+            {projectTo ? (
+              <ProjectTag
+                small
+                project={projectTo}
+                style={{ fontSize: '11px', padding: '2px 5px', margin: '0 8px 0 8px' }}
+              />
+            ) : (
+              ' - '
+            )}
+          </div>
+        </MainWrapper>
+      )}
       <MainWrapper>
         <BlockWrapper style={{ width: '30%', minWidth: '175px' }}>
           <span style={{ paddingBottom: '8px' }}>* Employee</span>
