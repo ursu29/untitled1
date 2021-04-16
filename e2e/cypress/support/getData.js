@@ -22,6 +22,17 @@ Cypress.Commands.add('post', (body, superUser = null, methodName = 'POST') => {
   })
 })
 
+Cypress.Commands.add('get', URL => {
+  return cy.request({
+    url: URL,
+    method: 'GET',
+    headers: {
+      authorization: `Bearer ${Cypress.env('accessToken')}`,
+      'content-type': 'application/json',
+    },
+  })
+})
+
 export const getEmployeesData = () => cy.readFile('cypress/fixtures/employees.json')
 // need to simplify all this request body
 export const getManager = id => ({
