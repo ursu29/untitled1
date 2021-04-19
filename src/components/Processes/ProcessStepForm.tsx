@@ -1,6 +1,7 @@
 import { Form, Button, Checkbox, Input, Select } from 'antd'
 import React, { useState } from 'react'
 import EmployeeSelect from '../Employees/EmployeeSelect'
+import { ProcessStepDetails } from '../../fragments'
 
 const { Option } = Select
 
@@ -9,12 +10,14 @@ function ProcessStepForm({
   onUpdate,
   loading,
 }: {
-  step: any
+  step: Omit<ProcessStepDetails, 'responsibleUsers'> & { responsibleUsers?: any }
   loading: boolean
   onUpdate: (data: any) => void
 }) {
   const [form] = Form.useForm()
   const [isTouched, setIsTouched] = useState(false)
+  const [stepType, setStepType] = useState('')
+  const [isAgileResponsible, setIsAgileResponsible] = useState<boolean | string>('init')
 
   const onSubmit = (data: any) => {
     onUpdate(data)
@@ -52,7 +55,18 @@ function ProcessStepForm({
         label={<p style={{ marginBottom: '-5px', color: 'darkgrey' }}>Responsible</p>}
         style={{ marginBottom: 0 }}
       >
-        <EmployeeSelect wide mode="multiple" />
+        <EmployeeSelect
+          wide
+          mode="multiple"
+          selectProps={{
+            disabled:
+              //@ts-ignore
+              ((stepType !== 'INDEPENDENT' || (stepType === '' && step.type !== 'INDEPENDENT')) &&
+                !!isAgileResponsible &&
+                isAgileResponsible !== 'init') ||
+              (isAgileResponsible === 'init' && !!step.isAgileResponsible),
+          }}
+        />
       </Form.Item>
 
       <Form.Item
@@ -60,7 +74,18 @@ function ProcessStepForm({
         label={<p style={{ marginBottom: '-5px', color: 'darkgrey' }}>Step completion</p>}
         style={{ marginBottom: '10px' }}
       >
-        <Select defaultValue="APPROVE">
+        <Select
+          defaultValue="APPROVE"
+          onSelect={value => {
+            //@ts-expect-error
+            if (value === 'INDEPENDENT') {
+              form.setFieldsValue({ isAgileResponsible: false })
+              if (!form.getFieldValue('responsibleUsers').length)
+                form.setFieldsValue({ responsibleUsers: step.responsibleUsers })
+            }
+            setStepType(value)
+          }}
+        >
           <Option value="APPROVE">Manual</Option>
           <Option value="NOTIFY" disabled={!step.parentSteps?.length}>
             Auto
@@ -77,8 +102,32 @@ function ProcessStepForm({
         <Checkbox>Send notification to the project manager</Checkbox>
       </Form.Item>
 
-      <Form.Item name="send24hoursNotification" valuePropName="checked" style={{ marginBottom: 0 }}>
+      <Form.Item
+        name="send24hoursNotification"
+        valuePropName="checked"
+        style={{ marginBottom: '-10px' }}
+      >
         <Checkbox>Send 24-hours notification reminders</Checkbox>
+      </Form.Item>
+
+      <Form.Item name="isAgileResponsible" valuePropName="checked" style={{ marginBottom: 0 }}>
+        <Checkbox
+          disabled={
+            !step.parentSteps?.length ||
+            stepType === 'INDEPENDENT' ||
+            (step.type === 'INDEPENDENT' && stepType === '')
+          }
+          onChange={event => {
+            setIsAgileResponsible(event.target.checked)
+            if (event.target.checked) {
+              form.setFieldsValue({ responsibleUsers: [] })
+            } else {
+              form.setFieldsValue({ responsibleUsers: step.responsibleUsers })
+            }
+          }}
+        >
+          Make the agile manager responsible
+        </Checkbox>
       </Form.Item>
 
       {isTouched && (

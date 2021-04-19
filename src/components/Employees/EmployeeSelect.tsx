@@ -1,6 +1,7 @@
 import React from 'react'
 import { useGetEmployeesQuery } from '../../queries/employees'
 import Select, { Props as SelectProps } from '../UI/Select'
+import { Select as AntdSelect } from 'antd'
 
 type Props = {
   value?: any
@@ -16,6 +17,7 @@ type Props = {
   style?: any
   loading?: boolean
   withoutMe?: boolean
+  selectProps?: React.ComponentProps<typeof AntdSelect>
 }
 
 function EmployeeSelect(
@@ -29,6 +31,7 @@ function EmployeeSelect(
     style,
     loading: parentLoading = false,
     withoutMe = false,
+    selectProps,
     ...props
   }: Props,
   ref: any,
@@ -77,6 +80,7 @@ function EmployeeSelect(
           }
         })}
       placeholder="Select employee"
+      selectProps={selectProps}
     />
   )
 }

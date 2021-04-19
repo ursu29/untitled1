@@ -292,6 +292,7 @@ export interface ProcessStep {
   title: string
   description: string
   sendToTeamlead: boolean
+  isAgileResponsible: boolean
   hasComment: boolean
   send24hoursNotification: boolean
 }

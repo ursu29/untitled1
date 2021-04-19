@@ -111,7 +111,7 @@ export default function ProcessStep({ step }: { step: ProcessStepDetails }) {
         <ProcessStepForm
           step={{
             ...step,
-            responsibleUsers: step.responsibleUsers?.map(i => i?.id),
+            responsibleUsers: step.responsibleUsers?.map(i => i?.id) || null,
           }}
           loading={loading}
           onUpdate={data =>
