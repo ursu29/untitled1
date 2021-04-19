@@ -1,14 +1,14 @@
-export const EMAIL_URL = 'https://graph.microsoft.com/v1.0/me/messages?$top=1000'
+export const EMAIL_URL = 'https://graph.microsoft.com/v1.0/me/messages?$top=1'
 
-export const checkNewEmail = (allMessages, obj, URL = EMAIL_URL) => {
+export const checkNewEmail = (emailData, obj, URL = EMAIL_URL) => {
+    cy.wait(500)
     cy.get(URL).then(el => {
-        if(el.body.value.length > allMessages){
-            const {bodyPreview} =  el.body.value[0]
+        const {bodyPreview} =  el.body.value[0]
 
+        if(emailData !== bodyPreview) {
             Object.values(obj).forEach(el => expect(bodyPreview).contain(el))
             return;
         }
-
-        checkNewEmail(allMessages, obj, URL)
+        checkNewEmail(emailData, obj, URL)
     })
 }
