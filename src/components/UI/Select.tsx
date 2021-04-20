@@ -19,6 +19,7 @@ export interface Props {
   autoFocus?: boolean
   mode?: 'multiple' | 'tags' | null
   open?: boolean
+  selectProps?: React.ComponentProps<typeof Select>
 }
 
 function PortalSelect(
@@ -35,6 +36,7 @@ function PortalSelect(
     onSelect,
     value,
     open,
+    selectProps,
   }: Props,
   ref: any,
 ) {
@@ -75,6 +77,7 @@ function PortalSelect(
         option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
       }
       {...selectConditionalProps}
+      {...selectProps}
     >
       {items?.map(item => {
         return (

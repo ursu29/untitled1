@@ -9,46 +9,6 @@ directive @cacheControl(
   scope: CacheControlScope
 ) on FIELD_DEFINITION | OBJECT | INTERFACE
 
-enum LANGUAGE {
-  RU
-  EN
-}
-
-enum LEVEL {
-  WANTED
-  LEARNING
-  EXPERIENCED
-  CONFIDENT
-}
-
-enum LOCATION {
-  SAINT_PETERSBURG
-  KALININGRAD
-  TOMSK
-  ZURICH
-}
-
-enum CUSTOMER {
-  INTERNAL
-  SWISSRE
-  ALLIANZ
-}
-
-enum ACCESS_GROUP {
-  REVIEWERS
-  FEEDBACK
-  HR_RU
-  HR_EDITORS
-  NEWS_EDITORS
-  TECH_PORTAL
-  DEV_PORTAL
-  WORKSPACE_PLANNER
-  SYS_ADMINS
-  HR_ADMINS
-  SUPER_USER
-  WIKI_EDITORS
-}
-
 enum AllowedGroups {
   GENERAL
   GENERAL_EXC_ME
@@ -186,6 +146,7 @@ type CurriculumVitae {
   id: ID!
   employee: Employee!
   summary: String
+  languages: String
   vitaes: [Vitae!]
   certificates: [Certificate!]
   education: [Education!]
@@ -222,6 +183,7 @@ type Education {
 input UpdateCurriculumVitaeInput {
   id: ID
   summary: String
+  languages: String
   employee: ID!
   vitaes: [VitaeInput!]
   certificates: [CertificateInput!]
@@ -562,6 +524,7 @@ type Event {
   location: String
   skills: [Skill]
   attendees: [EventAttendee]
+  isAttendAll: Boolean
 }
 
 input EventsInput {
@@ -805,12 +768,12 @@ type Query {
   postBySlug(slug: String!): Post
   posts(first: Int, after: ID, filter: PostsFilter): [Post]
   postsEditor: Access @deprecated(reason: "will be moved to employee.access.posts")
-  processExecutionsAccess: Access
-  processExecution(id: ID!): ProcessExecution
-  processExecutions(input: ProcessExecutionsInput): [ProcessExecution]
   processesAccess: Access
   process(id: ID!): Process
   processes: [Process]
+  processExecutionsAccess: Access
+  processExecution(id: ID!): ProcessExecution
+  processExecutions(input: ProcessExecutionsInput): [ProcessExecution]
   project(id: ID!): Project
   projectByCode(code: String!): Project
   projects: [Project]
@@ -855,6 +818,7 @@ type Mutation {
   updateEvent(input: UpdateEventInput!): Event
   cancelEvent(input: CancelEventInput!): ID
   attendEvent(id: ID!): Boolean
+  attendEventEveryone(id: ID!): Boolean
   createExperience(input: CreateExperienceInput): Experience
   updateExperience(input: UpdateExperienceInput): Experience
   updateExperiences(input: UpdateExperiencesInput): [Experience]
@@ -884,10 +848,17 @@ type Mutation {
   updateOnboardingTicket(input: UpdateOnboardingTicketInput): OnboardingTicket
   deleteOnboardingTicket(input: DeleteOnboardingTicketInput): OnboardingTicket
   completeOnboardingTicket(input: CompleteOnboardingTicketInput): ID
+  cancelOnboardingTicket(input: CompleteOnboardingTicketInput): ID
   requestOnboardingTicket(id: ID!): ID
   createPost(input: CreatePostInput): Post
   updatePost(input: UpdatePostInput): Post
   deletePost(input: DeletePostInput): Post
+  createProcess(input: CreateProcessInput): Process
+  updateProcess(input: UpdateProcessInput): Process
+  deleteProcess(id: ID!): Process
+  createProcessStep(input: CreateProcessStepInput): ProcessStep
+  updateProcessStep(input: UpdateProcessStepInput): ProcessStep
+  deleteProcessStep(id: ID!): ProcessStep
   createProcessExecution(input: CreateProcessExecutionInput): ProcessExecution
   updateProcessExecution(input: UpdateProcessExecutionInput): ProcessExecution
   abortProcessExecution(input: AbortProcessExecutionInput!): ProcessExecution
@@ -895,16 +866,11 @@ type Mutation {
   rotateEmployee(input: RotateEmployeeInput!): ProcessExecution
   completeProcessExecutionStep(input: CompleteProcessExecutionStepInput!): ProcessExecutionStep
   commentProcessExecutionStep(input: CommentProcessExecutionStepInput!): ProcessExecutionStep
-  createProcess(input: CreateProcessInput): Process
-  updateProcess(input: UpdateProcessInput): Process
-  deleteProcess(id: ID!): Process
-  createProcessStep(input: CreateProcessStepInput): ProcessStep
-  updateProcessStep(input: UpdateProcessStepInput): ProcessStep
-  deleteProcessStep(id: ID!): ProcessStep
   updateProject(input: UpdateProjectInput!): Project
   updateProjectSkills(input: UpdateProjectSkillsInput!): Project
   createSkill(input: CreateSkillInput): Skill
   updateSkill(input: UpdateSkillInput): Skill
+  deleteSkill(input: DeleteSkillInput!): Skill
   createTag(input: CreateTagInput!): Tag
   updateVacancy(input: UpdateVacancyInput): Vacancy
   publishVacancy(input: PublishVacancyInput): Vacancy
@@ -1081,7 +1047,6 @@ input CancelOfficeBookingInput {
   dateStart: String!
   dateEnd: String
   location: LOCATION!
-  skipWeekends: Boolean
 }
 
 input UpdateOfficeDaysInput {
@@ -1089,7 +1054,6 @@ input UpdateOfficeDaysInput {
   location: LOCATION!
   employeeLimit: Int!
   dateEnd: String
-  skipWeekends: Boolean
 }
 
 type OnboardingTicket {
@@ -1098,7 +1062,7 @@ type OnboardingTicket {
   description: String
   responsible: [Employee!]
   isOptional: Boolean
-  isSwissRe: Boolean
+  isSwissre: Boolean
   isRequestedByMe: Boolean
 }
 
@@ -1107,7 +1071,7 @@ input CreateOnboardingTicketInput {
   description: String
   responsible: String
   isOptional: Boolean
-  isSwissRe: Boolean
+  isSwissre: Boolean
 }
 
 input UpdateOnboardingTicketInput {
@@ -1116,7 +1080,7 @@ input UpdateOnboardingTicketInput {
   description: String
   responsible: String
   isOptional: Boolean
-  isSwissRe: Boolean
+  isSwissre: Boolean
 }
 
 input DeleteOnboardingTicketInput {
@@ -1183,6 +1147,72 @@ input PostsFilter {
   isTranslated: Boolean
   language: LANGUAGE
   text: String
+}
+
+enum PROCESS_TYPE {
+  ROTATION
+  ONBOARDING
+  OFFBOARDING
+}
+
+enum PROCESS_STEP_TYPE {
+  APPROVE
+  NOTIFY
+  INDEPENDENT
+}
+
+type ProcessStep {
+  id: ID!
+  title: String
+  description: String
+  type: PROCESS_STEP_TYPE
+  responsibleUsers: [Employee!]
+  sendToTeamlead: Boolean
+  send24hoursNotification: Boolean
+  parentSteps: [ProcessStep]
+  process: Process
+  hasComment: Boolean
+}
+
+type Process {
+  id: ID!
+  title: String
+  customer: CUSTOMER
+  nextCustomer: CUSTOMER
+  type: PROCESS_TYPE
+  isRotation: Boolean
+  steps: [ProcessStep]
+}
+
+input CreateProcessInput {
+  title: String
+  customer: CUSTOMER
+  nextCustomer: CUSTOMER
+  type: PROCESS_TYPE
+}
+
+input UpdateProcessInput {
+  id: ID!
+  customer: CUSTOMER
+  type: PROCESS_TYPE
+  isRotation: Boolean
+}
+
+input CreateProcessStepInput {
+  parentSteps: [ID]
+  process: ID!
+}
+
+input UpdateProcessStepInput {
+  id: ID!
+  title: String
+  description: String
+  type: PROCESS_STEP_TYPE
+  responsibleUsers: [ID]
+  sendToTeamlead: Boolean
+  send24hoursNotification: Boolean
+  parentSteps: [ID]
+  hasComment: Boolean
 }
 
 type ProcessExecutionComment {
@@ -1273,72 +1303,6 @@ input RotateEmployeeInput {
   employee: ID!
 }
 
-enum PROCESS_TYPE {
-  ROTATION
-  ONBOARDING
-  OFFBOARDING
-}
-
-enum PROCESS_STEP_TYPE {
-  APPROVE
-  NOTIFY
-  INDEPENDENT
-}
-
-type ProcessStep {
-  id: ID!
-  title: String
-  description: String
-  type: PROCESS_STEP_TYPE
-  responsibleUsers: [Employee!]
-  sendToTeamlead: Boolean
-  send24hoursNotification: Boolean
-  parentSteps: [ProcessStep]
-  process: Process
-  hasComment: Boolean
-}
-
-type Process {
-  id: ID!
-  title: String
-  customer: CUSTOMER
-  nextCustomer: CUSTOMER
-  type: PROCESS_TYPE
-  isRotation: Boolean
-  steps: [ProcessStep]
-}
-
-input CreateProcessInput {
-  title: String
-  customer: CUSTOMER
-  nextCustomer: CUSTOMER
-  type: PROCESS_TYPE
-}
-
-input UpdateProcessInput {
-  id: ID!
-  customer: CUSTOMER
-  type: PROCESS_TYPE
-  isRotation: Boolean
-}
-
-input CreateProcessStepInput {
-  parentSteps: [ID]
-  process: ID!
-}
-
-input UpdateProcessStepInput {
-  id: ID!
-  title: String
-  description: String
-  type: PROCESS_STEP_TYPE
-  responsibleUsers: [ID]
-  sendToTeamlead: Boolean
-  send24hoursNotification: Boolean
-  parentSteps: [ID]
-  hasComment: Boolean
-}
-
 type Project {
   id: ID!
   name: String!
@@ -1392,6 +1356,10 @@ input UpdateSkillInput {
   description: String
   parent: ID
   isMatrixOnly: Boolean
+}
+
+input DeleteSkillInput {
+  id: ID!
 }
 
 type Tag {
@@ -1482,7 +1450,7 @@ type WikiPage {
 
 type FoundWikiPage {
   id: ID!
-  title: String!
+  title: String
   path: String!
   textFragment: String!
 }
@@ -1573,6 +1541,46 @@ input CreateWorkplaceBookingInput {
 
 input WorkspacesInput {
   location: LOCATION
+}
+
+enum LANGUAGE {
+  RU
+  EN
+}
+
+enum LEVEL {
+  WANTED
+  LEARNING
+  EXPERIENCED
+  CONFIDENT
+}
+
+enum LOCATION {
+  SAINT_PETERSBURG
+  KALININGRAD
+  TOMSK
+  ZURICH
+}
+
+enum CUSTOMER {
+  INTERNAL
+  SWISSRE
+  ALLIANZ
+}
+
+enum ACCESS_GROUP {
+  REVIEWERS
+  FEEDBACK
+  HR_RU
+  HR_EDITORS
+  NEWS_EDITORS
+  TECH_PORTAL
+  DEV_PORTAL
+  WORKSPACE_PLANNER
+  SYS_ADMINS
+  HR_ADMINS
+  SUPER_USER
+  WIKI_EDITORS
 }
 
 enum CacheControlScope {

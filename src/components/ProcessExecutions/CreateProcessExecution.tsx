@@ -8,6 +8,7 @@ import Drawer from '../UI/Drawer'
 import CreateProcessForm from './CreateProcessForm'
 import { useEmployee } from '../../utils/withEmployee'
 import getActiveProcessExecutions from '../../queries/getEmployeeActiveProcessExecutions'
+import { useHistory } from 'react-router-dom'
 
 const mutation = gql`
   mutation createProcessExecution($input: CreateProcessExecutionInput) {
@@ -19,6 +20,7 @@ const mutation = gql`
 
 function CreateProcessExecution() {
   const { employee } = useEmployee()
+  const history = useHistory()
 
   const [create, args] = useMutation(mutation, {
     refetchQueries: [
@@ -29,8 +31,10 @@ function CreateProcessExecution() {
       },
     ],
     awaitRefetchQueries: true,
-    onCompleted: () => {
+    onCompleted: res => {
+      const id = res.createProcessExecution.id
       message.success('New process is added')
+      history.push(`/hr/${id}`)
     },
     onError: message.error,
   })
