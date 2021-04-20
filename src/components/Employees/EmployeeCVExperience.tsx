@@ -586,7 +586,8 @@ export const EditableCell: React.FC<EditableCellProps> = ({
       toggleEdit()
       handleSave({ ...record, ...values })
     } catch (errInfo) {
-      console.log('Save failed:', errInfo)
+      message.error('Some fields are not valid')
+      console.error('Save failed:', errInfo)
     }
   }
 

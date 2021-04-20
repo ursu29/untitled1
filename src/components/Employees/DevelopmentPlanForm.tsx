@@ -19,7 +19,9 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
   const [form] = Form.useForm()
 
   useEffect(() => {
-    form.resetFields()
+    if (resetFields) {
+      form.resetFields()
+    }
   }, [resetFields, form])
 
   const handleSubmit = (values: any) => {
@@ -84,7 +86,6 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
         <DevelopmentGoals
           showAchievedSwitch
           onChange={values => {
-            console.log(value)
             form.setFieldsValue({
               previousGoals: values,
             })
@@ -295,7 +296,6 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
           onBlur={handleSubmit}
           disabled={locked}
         />
-        ,
       </Form.Item>
     </Form>
   )
