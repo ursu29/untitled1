@@ -1,0 +1,43 @@
+query getDevrels($type: String!) {
+  devrels(type: $type) {
+    id
+    type
+    title
+    link
+    resource
+    dateStart
+    dateEnd
+    employee {
+      id
+      email
+      name
+    }
+    isCompleted
+  }
+}
+
+mutation createDevrel($input: CreateDevrelInput) {
+  createDevrel(input: $input) {
+    id
+  }
+}
+
+mutation updateDevrel($input: UpdateDevrelInput) {
+  updateDevrel(input: $input) {
+    id
+  }
+}
+
+mutation deleteDevrel($id: ID!) {
+  deleteDevrel(id: $id) {
+    id
+  }
+}
+
+mutation proposeDevrelEvent($input: ProposeDevrelEventInput) {
+  proposeDevrelEvent(input: $input)
+}
+
+mutation participateDevrelEvent($id: ID!) {
+  participateDevrelEvent(id: $id)
+}
