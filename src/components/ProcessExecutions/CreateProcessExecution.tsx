@@ -47,7 +47,24 @@ function CreateProcessExecution() {
 
   return (
     <Drawer
-      toggler={<Button data-cy="start">Start process</Button>}
+      toggler={
+        <div style={{ display: 'flex' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              marginRight: '25px',
+              color: 'rgba(0, 0, 0, 0.45)',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span>Rotation: Agile manager</span> <span>Onboarding: HR</span>
+            </div>
+            <div>Offboarding: Ekaterina Makova, Irina Zaloznykh</div>
+          </div>
+          <Button data-cy="start">Start process</Button>
+        </div>
+      }
       drawerLabel="Start new process"
       content={
         <CreateProcessForm
