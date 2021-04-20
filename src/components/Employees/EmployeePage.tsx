@@ -61,7 +61,7 @@ function EmployeePage({
             <Controls back={!hideNavigation && <Back goto={paths.EMPLOYEES} />} />
             <Employee employee={employee} />
           </PageContent>
-          <EmployeeTabs employee={employee} tab={tab} />
+          <EmployeeTabs key={employee.id} employee={employee} tab={tab} />
         </>
       )}
     </Skeleton>
