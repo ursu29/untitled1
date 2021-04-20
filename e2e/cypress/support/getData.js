@@ -22,6 +22,17 @@ Cypress.Commands.add('post', (body, superUser = null, methodName = 'POST') => {
   })
 })
 
+Cypress.Commands.add('get', URL => {
+  return cy.request({
+    url: URL,
+    method: 'GET',
+    headers: {
+      authorization: `Bearer ${Cypress.env('accessToken')}`,
+      'content-type': 'application/json',
+    },
+  })
+})
+
 export const getEmployeesData = () => cy.readFile('cypress/fixtures/employees.json')
 // need to simplify all this request body
 export const getManager = id => ({
@@ -132,6 +143,12 @@ export const createTraining = (title, description, responsible, optional = false
   query: query.createTraining,
 })
 
+export const requestOnboardingTicket = (id) => ({
+  operationName: 'requestOnboardingTicket',
+  variables: {id},
+  query: query.requestOnboardingTicket,
+})
+
 export const createBookmark = (title, link, skills) => ({
   operationName: 'createBookmark',
   variables: {
@@ -150,6 +167,12 @@ export const completeTicket = id => ({
     input: { id },
   },
   query: query.completeTicket,
+})
+
+export const cancelOnboardingTicket = id => ({
+  operationName: 'cancelOnboardingTicket',
+  variables: {input: { id }},
+  query: query.cancelOnboardingTicket,
 })
 
 export const toggleBookmarklike = bookmark => ({
@@ -176,6 +199,12 @@ export const deleteFeedback = id => ({
   query: query.deleteFeedback,
 })
 
+export const addFeedback = (text, about = 'PORTAL', isPrivate = false)=> ({
+  operationName: 'addFeedback',
+  variables: {input: {about, text, isPrivate}},
+  query: query.addFeedback,
+})
+
 export const deletePost = id => ({
   operationName: 'deletePost',
   variables: {
@@ -184,10 +213,16 @@ export const deletePost = id => ({
   query: query.deletePost,
 })
 
-export const createPost = (body, title, tags = []) => ({
+export const createPost = (
+    body,
+    title,
+    locations = [],
+    tags = [],
+    isTranslated = false,
+) => ({
   operationName: 'createPost',
   variables: {
-    input: { body, tags, title}
+    input: { body, tags, title, isTranslated, locations}
   },
   query: query.createPost,
 })
@@ -475,7 +510,7 @@ export const updateEmployeeCapacity = (id, agileManager, employeeProjects) => ({
 
 export const updateOneTwoOne = (id, one2oneRequest) => ({
   operationName: 'updateEmployee',
-  variables: { input: { id, one2oneRequest } },
+  variables: {input: {id, one2oneRequest}},
   query: query.updateEmp,
 })
 
