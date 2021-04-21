@@ -1,0 +1,16 @@
+.library-filters {
+  display: flex;
+}
+
+.search-input {
+  width: 30%;
+  margin-right: 5%;
+}
+
+.radio-container {
+  display: flex;
+}
+
+.show {
+  margin-right: 10px;
+}

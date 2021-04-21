@@ -3,6 +3,7 @@ import { RadioChangeEvent } from 'antd/lib/radio'
 import React, { useEffect, useState } from 'react'
 import { GetBooksQuery } from '../../queries/books'
 import { ArrayElement } from '../../utils/types'
+import './styles.css'
 
 type Props = {
   books?: GetBooksQuery['books']
@@ -40,18 +41,25 @@ export const LibraryFilters = ({ books, onFilterChange }: Props) => {
   }, [searchFilter, statusFilter, books, onFilterChange])
 
   return (
-    <>
+    <div className="library-filters">
       <Input
+        className="search-input"
         placeholder="Search"
         value={searchFilter}
         onChange={(e: any) => setSearchFilter(e.target.value)}
         data-cy="search"
       />
-      <Radio.Group onChange={(e: RadioChangeEvent) => setStatusFilter(e.target.value)}>
-        <Radio value="all">All</Radio>
-        <Radio value="taken">Taken</Radio>
-        <Radio value="free">Free</Radio>
-      </Radio.Group>
-    </>
+      <div className="radio-container">
+        <span className="show">Show:</span>
+        <Radio.Group
+          defaultValue="all"
+          onChange={(e: RadioChangeEvent) => setStatusFilter(e.target.value)}
+        >
+          <Radio value="all">All</Radio>
+          <Radio value="taken">Taken</Radio>
+          <Radio value="free">Free</Radio>
+        </Radio.Group>
+      </div>
+    </div>
   )
 }

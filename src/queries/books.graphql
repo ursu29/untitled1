@@ -1,15 +1,25 @@
+fragment BookResponse on Book {
+  id
+  title
+  author
+  tags {
+    id
+    name
+  }
+  holder {
+    id
+    name
+  }
+}
+
 query getBooks {
   books {
-    id
-    title
-    author
-    tags {
-      id
-      name
-    }
-    holder {
-      id
-      name
-    }
+    ...BookResponse
+  }
+}
+
+mutation updateBook($input: UpdateBookInput) {
+  updateBook(input: $input) {
+    ...BookResponse
   }
 }

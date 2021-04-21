@@ -8,33 +8,50 @@ import * as Types from '../types/graphql'
 import gql from 'graphql-tag'
 import * as ApolloReactCommon from '@apollo/react-common'
 import * as ApolloReactHooks from '@apollo/react-hooks'
+export type BookResponseFragment = { __typename?: 'Book' } & Pick<
+  Types.Book,
+  'id' | 'title' | 'author'
+> & {
+    tags: Array<{ __typename?: 'Skill' } & Pick<Types.Skill, 'id' | 'name'>>
+    holder?: Types.Maybe<{ __typename?: 'Employee' } & Pick<Types.Employee, 'id' | 'name'>>
+  }
+
 export type GetBooksQueryVariables = Types.Exact<{ [key: string]: never }>
 
 export type GetBooksQuery = { __typename?: 'Query' } & {
-  books: Array<
-    { __typename?: 'Book' } & Pick<Types.Book, 'id' | 'title' | 'author'> & {
-        tags: Array<{ __typename?: 'Skill' } & Pick<Types.Skill, 'id' | 'name'>>
-        holder?: Types.Maybe<{ __typename?: 'Employee' } & Pick<Types.Employee, 'id' | 'name'>>
-      }
-  >
+  books: Array<{ __typename?: 'Book' } & BookResponseFragment>
 }
 
+export type UpdateBookMutationVariables = Types.Exact<{
+  input?: Types.Maybe<Types.UpdateBookInput>
+}>
+
+export type UpdateBookMutation = { __typename?: 'Mutation' } & {
+  updateBook?: Types.Maybe<{ __typename?: 'Book' } & BookResponseFragment>
+}
+
+export const BookResponseFragmentDoc = gql`
+  fragment BookResponse on Book {
+    id
+    title
+    author
+    tags {
+      id
+      name
+    }
+    holder {
+      id
+      name
+    }
+  }
+`
 export const GetBooksDocument = gql`
   query getBooks {
     books {
-      id
-      title
-      author
-      tags {
-        id
-        name
-      }
-      holder {
-        id
-        name
-      }
+      ...BookResponse
     }
   }
+  ${BookResponseFragmentDoc}
 `
 
 /**
@@ -73,4 +90,51 @@ export type GetBooksLazyQueryHookResult = ReturnType<typeof useGetBooksLazyQuery
 export type GetBooksQueryResult = ApolloReactCommon.QueryResult<
   GetBooksQuery,
   GetBooksQueryVariables
+>
+export const UpdateBookDocument = gql`
+  mutation updateBook($input: UpdateBookInput) {
+    updateBook(input: $input) {
+      ...BookResponse
+    }
+  }
+  ${BookResponseFragmentDoc}
+`
+export type UpdateBookMutationFn = ApolloReactCommon.MutationFunction<
+  UpdateBookMutation,
+  UpdateBookMutationVariables
+>
+
+/**
+ * __useUpdateBookMutation__
+ *
+ * To run a mutation, you first call `useUpdateBookMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateBookMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateBookMutation, { data, loading, error }] = useUpdateBookMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateBookMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    UpdateBookMutation,
+    UpdateBookMutationVariables
+  >,
+) {
+  return ApolloReactHooks.useMutation<UpdateBookMutation, UpdateBookMutationVariables>(
+    UpdateBookDocument,
+    baseOptions,
+  )
+}
+export type UpdateBookMutationHookResult = ReturnType<typeof useUpdateBookMutation>
+export type UpdateBookMutationResult = ApolloReactCommon.MutationResult<UpdateBookMutation>
+export type UpdateBookMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  UpdateBookMutation,
+  UpdateBookMutationVariables
 >
