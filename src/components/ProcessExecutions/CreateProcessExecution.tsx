@@ -46,38 +46,36 @@ function CreateProcessExecution() {
   }, [args.loading])
 
   return (
-    <Drawer
-      toggler={
-        <div style={{ display: 'flex' }}>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              marginRight: '25px',
-              color: 'rgba(0, 0, 0, 0.45)',
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span>Rotation: Agile manager</span> <span>Onboarding: HR</span>
-            </div>
-            <div>Offboarding: Ekaterina Makova, Irina Zaloznykh</div>
-          </div>
-          <Button data-cy="start">Start process</Button>
+    <div style={{ display: 'flex' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          marginRight: '25px',
+          color: 'rgba(0, 0, 0, 0.45)',
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <span>Rotation: Agile manager</span> <span>Onboarding: HR</span>
         </div>
-      }
-      drawerLabel="Start new process"
-      content={
-        <CreateProcessForm
-          loading={args.loading}
-          onSubmit={(bookmark: any, update: any) => {
-            create({
-              variables: { input: bookmark },
-              update,
-            })
-          }}
-        />
-      }
-    />
+        <div>Offboarding: Ekaterina Makova, Irina Zaloznykh</div>
+      </div>
+      <Drawer
+        toggler={<Button data-cy="start">Start process</Button>}
+        drawerLabel="Start new process"
+        content={
+          <CreateProcessForm
+            loading={args.loading}
+            onSubmit={(bookmark: any, update: any) => {
+              create({
+                variables: { input: bookmark },
+                update,
+              })
+            }}
+          />
+        }
+      />
+    </div>
   )
 }
 
