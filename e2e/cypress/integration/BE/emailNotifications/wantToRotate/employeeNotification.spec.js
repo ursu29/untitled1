@@ -11,7 +11,7 @@ describe('Send notification to Employee when employee started rotation process (
 
     before(() => {
         cy.setToken('manager')
-        cy.get(EMAIL_URL).then(el => lastEmail =  el.body.value[0].bodyPreview)
+        cy.getRequestData(EMAIL_URL).then(el => lastEmail =  el.body.value[0].bodyPreview)
         cy.post(getData.getEmployee(email('employee')))
             .then(res => employeeData  = res.body.data.employeeByEmail)
         cy.post(getData.getVacancies())

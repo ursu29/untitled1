@@ -13,7 +13,7 @@ describe('Send News notification (emails)', () => {
 
     before(() => {
         cy.setToken('manager')
-        cy.get(EMAIL_URL).then(el => emailData =  el.body.value[0].bodyPreview)
+        cy.getRequestData(EMAIL_URL).then(el => emailData =  el.body.value[0].bodyPreview)
     })
 
     after(() => {

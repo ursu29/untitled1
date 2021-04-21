@@ -27,7 +27,7 @@ export const checkRotationEmail = (emailData) => {
     const {name, email, firstVacancy, reasonText, toHrMessage} = emailData
 
     cy.wait(500)
-    cy.get(EMAIL_URL).then(el => {
+    cy.getRequestData(EMAIL_URL).then(el => {
         const {bodyPreview} =  el.body.value[0]
         const emailBody = toHrMessage ? hrMessage(reasonText, name, firstVacancy.position) :
             employeeMessage(email, name, firstVacancy.project.name)
