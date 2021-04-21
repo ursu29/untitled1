@@ -22,7 +22,7 @@ Cypress.Commands.add('post', (body, superUser = null, methodName = 'POST') => {
   })
 })
 
-Cypress.Commands.add('get', URL => {
+Cypress.Commands.add('getRequestData', URL => {
   return cy.request({
     url: URL,
     method: 'GET',
