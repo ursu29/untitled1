@@ -1,6 +1,7 @@
 import { getCv } from '../../../fixtures/cv'
 import {getEmployee} from "../../../support/getData";
 import {email} from "../../../support/client/employeeData";
+import {skillEl} from "../../../support/locators";
 
 describe('cv table looks good', () => {
   let id
@@ -19,6 +20,8 @@ describe('cv table looks good', () => {
 
     cy.get('.ant-skeleton').should('be.visible')
     cy.get('.ant-skeleton').should('not.exist')
+    cy.get(skillEl.item).contains('Portal').should('be.visible')
+
     cy.getElement('cvForm').matchImageSnapshot('cv')
   })
 })

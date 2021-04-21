@@ -5,6 +5,7 @@ import { Typography } from 'antd'
 import PageContent from '../UI/PageContent'
 import MainMenuItem from './MainMenuItem'
 import QrWiFi from './QrWiFi'
+import Search from './Search'
 
 export default function WikiPage() {
   // Get wiki root sections
@@ -15,7 +16,10 @@ export default function WikiPage() {
 
   return (
     <PageContent>
-      <Typography.Title style={{ marginBottom: '40px' }}>Wiki</Typography.Title>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '40px' }}>
+        <Typography.Title>Wiki</Typography.Title>
+        <Search />
+      </div>
       {sections?.wikiRootSections.map((section, i) => (
         <MainMenuItem
           key={i}

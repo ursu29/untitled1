@@ -182,6 +182,7 @@ export type CurriculumVitae = {
   id: Scalars['ID']
   employee: Employee
   summary?: Maybe<Scalars['String']>
+  languages?: Maybe<Scalars['String']>
   vitaes?: Maybe<Array<Vitae>>
   certificates?: Maybe<Array<Certificate>>
   education?: Maybe<Array<Education>>
@@ -221,6 +222,7 @@ export type Education = {
 export type UpdateCurriculumVitaeInput = {
   id?: Maybe<Scalars['ID']>
   summary?: Maybe<Scalars['String']>
+  languages?: Maybe<Scalars['String']>
   employee: Scalars['ID']
   vitaes?: Maybe<Array<VitaeInput>>
   certificates?: Maybe<Array<CertificateInput>>
@@ -368,6 +370,43 @@ export type DevelopmentPlan = {
   lookForward?: Maybe<Scalars['String']>
   employee?: Maybe<Employee>
   lastDiscussed?: Maybe<Scalars['String']>
+}
+
+export type Devrel = {
+  __typename?: 'Devrel'
+  id: Scalars['ID']
+  type: Scalars['String']
+  title?: Maybe<Scalars['String']>
+  link?: Maybe<Scalars['String']>
+  resource?: Maybe<Scalars['String']>
+  dateStart?: Maybe<Scalars['String']>
+  dateEnd?: Maybe<Scalars['String']>
+  employee?: Maybe<Employee>
+  isCompleted?: Maybe<Scalars['Boolean']>
+}
+
+export type CreateDevrelInput = {
+  type: Scalars['String']
+  title?: Maybe<Scalars['String']>
+  link?: Maybe<Scalars['String']>
+  resource?: Maybe<Scalars['String']>
+  dateStart?: Maybe<Scalars['String']>
+  dateEnd?: Maybe<Scalars['String']>
+}
+
+export type UpdateDevrelInput = {
+  id: Scalars['ID']
+  title?: Maybe<Scalars['String']>
+  link?: Maybe<Scalars['String']>
+  resource?: Maybe<Scalars['String']>
+  isCompleted?: Maybe<Scalars['Boolean']>
+}
+
+export type ProposeDevrelEventInput = {
+  title: Scalars['String']
+  link?: Maybe<Scalars['String']>
+  dateStart: Scalars['String']
+  dateEnd: Scalars['String']
 }
 
 export type AccessInput = {
@@ -583,6 +622,7 @@ export type Event = {
   location?: Maybe<Scalars['String']>
   skills?: Maybe<Array<Maybe<Skill>>>
   attendees?: Maybe<Array<Maybe<EventAttendee>>>
+  isAttendAll?: Maybe<Scalars['Boolean']>
 }
 
 export type EventsInput = {
@@ -803,6 +843,7 @@ export type Query = {
   clientDevToolsGitInfo?: Maybe<DevToolsGitInfo>
   curriculumVitaeAccess?: Maybe<Access>
   developmentPlans?: Maybe<DevelopmentPlan>
+  devrels: Array<Devrel>
   developmentPlanLookReviewersAccess?: Maybe<Access>
   matricesLookReviewersAccess?: Maybe<Access>
   employee?: Maybe<Employee>
@@ -903,6 +944,10 @@ export type QueryCurriculumVitaeAccessArgs = {
 
 export type QueryDevelopmentPlansArgs = {
   input: DevelopmentPlansInput
+}
+
+export type QueryDevrelsArgs = {
+  type: Scalars['String']
 }
 
 export type QueryDevelopmentPlanLookReviewersAccessArgs = {
@@ -1044,7 +1089,7 @@ export type QueryWorkspacesArgs = {
 }
 
 export type QueryWorkspaceArgs = {
-  input?: Maybe<GetWorkspaceInput>
+  id: Scalars['ID']
 }
 
 export type MutateHelloInput = {
@@ -1065,6 +1110,11 @@ export type Mutation = {
   updateBook?: Maybe<Book>
   updateCurriculumVitae?: Maybe<CurriculumVitae>
   updateDevelopmentPlan?: Maybe<DevelopmentPlan>
+  createDevrel?: Maybe<Devrel>
+  updateDevrel?: Maybe<Devrel>
+  proposeDevrelEvent?: Maybe<Scalars['Boolean']>
+  participateDevrelEvent?: Maybe<Scalars['Boolean']>
+  deleteDevrel?: Maybe<Devrel>
   updateDevelopmentPlanReviewers?: Maybe<Array<Employee>>
   updateMatricesReviewers?: Maybe<Array<Employee>>
   updateEmployee?: Maybe<Employee>
@@ -1077,6 +1127,7 @@ export type Mutation = {
   updateEvent?: Maybe<Event>
   cancelEvent?: Maybe<Scalars['ID']>
   attendEvent?: Maybe<Scalars['Boolean']>
+  attendEventEveryone?: Maybe<Scalars['Boolean']>
   createExperience?: Maybe<Experience>
   updateExperience?: Maybe<Experience>
   updateExperiences?: Maybe<Array<Maybe<Experience>>>
@@ -1099,8 +1150,9 @@ export type Mutation = {
   createMatrixGrade?: Maybe<Matrix>
   deleteMatrixGrade?: Maybe<Matrix>
   updateMatricesCustomFields?: Maybe<MatricesCustomFields>
-  applyToWorkFromOffice?: Maybe<Scalars['Boolean']>
-  updateOfficeDay?: Maybe<OfficeDay>
+  createOfficeBooking?: Maybe<Scalars['Boolean']>
+  cancelOfficeBooking?: Maybe<Scalars['Boolean']>
+  updateOfficeDays?: Maybe<Scalars['Boolean']>
   createOnboardingTicket?: Maybe<OnboardingTicket>
   updateOnboardingTicket?: Maybe<OnboardingTicket>
   deleteOnboardingTicket?: Maybe<OnboardingTicket>
@@ -1195,6 +1247,26 @@ export type MutationUpdateDevelopmentPlanArgs = {
   input: UpdateDevelopmentPlanInput
 }
 
+export type MutationCreateDevrelArgs = {
+  input: CreateDevrelInput
+}
+
+export type MutationUpdateDevrelArgs = {
+  input: UpdateDevrelInput
+}
+
+export type MutationProposeDevrelEventArgs = {
+  input: ProposeDevrelEventInput
+}
+
+export type MutationParticipateDevrelEventArgs = {
+  id: Scalars['ID']
+}
+
+export type MutationDeleteDevrelArgs = {
+  id: Scalars['ID']
+}
+
 export type MutationUpdateDevelopmentPlanReviewersArgs = {
   input?: Maybe<ReviewerInput>
 }
@@ -1240,6 +1312,10 @@ export type MutationCancelEventArgs = {
 }
 
 export type MutationAttendEventArgs = {
+  id: Scalars['ID']
+}
+
+export type MutationAttendEventEveryoneArgs = {
   id: Scalars['ID']
 }
 
@@ -1331,12 +1407,16 @@ export type MutationUpdateMatricesCustomFieldsArgs = {
   input?: Maybe<UpdateMatricesCustomFieldsInput>
 }
 
-export type MutationApplyToWorkFromOfficeArgs = {
-  input: ApplyToWorkFromOfficeInput
+export type MutationCreateOfficeBookingArgs = {
+  input: CreateOfficeBookingInput
 }
 
-export type MutationUpdateOfficeDayArgs = {
-  input: UpdateOfficeDayInput
+export type MutationCancelOfficeBookingArgs = {
+  input: CancelOfficeBookingInput
+}
+
+export type MutationUpdateOfficeDaysArgs = {
+  input: UpdateOfficeDaysInput
 }
 
 export type MutationCreateOnboardingTicketArgs = {
@@ -1492,7 +1572,7 @@ export type MutationUpdateWorkspaceArgs = {
 }
 
 export type MutationDeleteWorkspaceArgs = {
-  input?: Maybe<DeleteWorkspaceInput>
+  id: Scalars['ID']
 }
 
 export type MutationCreateWorkplaceArgs = {
@@ -1504,7 +1584,7 @@ export type MutationUpdateWorkplaceArgs = {
 }
 
 export type MutationDeleteWorkplaceArgs = {
-  input?: Maybe<DeleteWorkplaceInput>
+  id: Scalars['ID']
 }
 
 export type MutationCreateWorkplaceBookingArgs = {
@@ -1512,7 +1592,7 @@ export type MutationCreateWorkplaceBookingArgs = {
 }
 
 export type MutationDeleteWorkplaceBookingArgs = {
-  input?: Maybe<DeleteWorkplaceBookingInput>
+  id: Scalars['ID']
 }
 
 export type MatrixGrade = {
@@ -1660,26 +1740,32 @@ export type OfficeDay = {
   date?: Maybe<Scalars['String']>
   employeeLimit?: Maybe<Scalars['Int']>
   location?: Maybe<Location>
-  employeeCount?: Maybe<Scalars['Int']>
   employees?: Maybe<Array<Employee>>
 }
 
 export type OfficeDaysInput = {
-  startDate: Scalars['String']
-  count: Scalars['Int']
+  dateStart: Scalars['String']
+  dateEnd: Scalars['String']
 }
 
-export type ApplyToWorkFromOfficeInput = {
-  date?: Maybe<Scalars['String']>
-  location?: Maybe<Location>
-  cancelOnly?: Maybe<Scalars['Boolean']>
-  bookOnly?: Maybe<Scalars['Boolean']>
+export type CreateOfficeBookingInput = {
+  dateStart: Scalars['String']
+  dateEnd?: Maybe<Scalars['String']>
+  location: Location
+  skipWeekends?: Maybe<Scalars['Boolean']>
 }
 
-export type UpdateOfficeDayInput = {
-  date?: Maybe<Scalars['String']>
-  location?: Maybe<Location>
-  employeeLimit?: Maybe<Scalars['Int']>
+export type CancelOfficeBookingInput = {
+  dateStart: Scalars['String']
+  dateEnd?: Maybe<Scalars['String']>
+  location: Location
+}
+
+export type UpdateOfficeDaysInput = {
+  dateStart: Scalars['String']
+  location: Location
+  employeeLimit: Scalars['Int']
+  dateEnd?: Maybe<Scalars['String']>
 }
 
 export type OnboardingTicket = {
@@ -1689,7 +1775,7 @@ export type OnboardingTicket = {
   description?: Maybe<Scalars['String']>
   responsible?: Maybe<Array<Employee>>
   isOptional?: Maybe<Scalars['Boolean']>
-  isSwissRe?: Maybe<Scalars['Boolean']>
+  isSwissre?: Maybe<Scalars['Boolean']>
   isRequestedByMe?: Maybe<Scalars['Boolean']>
 }
 
@@ -1698,7 +1784,7 @@ export type CreateOnboardingTicketInput = {
   description?: Maybe<Scalars['String']>
   responsible?: Maybe<Scalars['String']>
   isOptional?: Maybe<Scalars['Boolean']>
-  isSwissRe?: Maybe<Scalars['Boolean']>
+  isSwissre?: Maybe<Scalars['Boolean']>
 }
 
 export type UpdateOnboardingTicketInput = {
@@ -1707,7 +1793,7 @@ export type UpdateOnboardingTicketInput = {
   description?: Maybe<Scalars['String']>
   responsible?: Maybe<Scalars['String']>
   isOptional?: Maybe<Scalars['Boolean']>
-  isSwissRe?: Maybe<Scalars['Boolean']>
+  isSwissre?: Maybe<Scalars['Boolean']>
 }
 
 export type DeleteOnboardingTicketInput = {
@@ -1803,6 +1889,7 @@ export type ProcessStep = {
   responsibleUsers?: Maybe<Array<Employee>>
   sendToTeamlead?: Maybe<Scalars['Boolean']>
   send24hoursNotification?: Maybe<Scalars['Boolean']>
+  isAgileResponsible?: Maybe<Scalars['Boolean']>
   parentSteps?: Maybe<Array<Maybe<ProcessStep>>>
   process?: Maybe<Process>
   hasComment?: Maybe<Scalars['Boolean']>
@@ -1846,6 +1933,7 @@ export type UpdateProcessStepInput = {
   responsibleUsers?: Maybe<Array<Maybe<Scalars['ID']>>>
   sendToTeamlead?: Maybe<Scalars['Boolean']>
   send24hoursNotification?: Maybe<Scalars['Boolean']>
+  isAgileResponsible?: Maybe<Scalars['Boolean']>
   parentSteps?: Maybe<Array<Maybe<Scalars['ID']>>>
   hasComment?: Maybe<Scalars['Boolean']>
 }
@@ -2161,10 +2249,6 @@ export type WorkplaceBooking = {
   finishDate?: Maybe<Scalars['String']>
 }
 
-export type GetWorkspaceInput = {
-  id: Scalars['ID']
-}
-
 export type CreateWorkspaceInput = {
   name: Scalars['String']
   location: Location
@@ -2174,10 +2258,6 @@ export type UpdateWorkspaceInput = {
   id: Scalars['ID']
   name?: Maybe<Scalars['String']>
   drawing?: Maybe<Scalars['String']>
-}
-
-export type DeleteWorkspaceInput = {
-  id: Scalars['ID']
 }
 
 export type CreateWorkplaceInput = {
@@ -2193,10 +2273,6 @@ export type UpdateWorkplaceInput = {
   number?: Maybe<Scalars['Int']>
 }
 
-export type DeleteWorkplaceInput = {
-  id: Scalars['ID']
-}
-
 export type BookingsInput = {
   startDate?: Maybe<Scalars['String']>
   finishDate?: Maybe<Scalars['String']>
@@ -2206,10 +2282,6 @@ export type CreateWorkplaceBookingInput = {
   workplace: Scalars['ID']
   startDate: Scalars['String']
   finishDate: Scalars['String']
-}
-
-export type DeleteWorkplaceBookingInput = {
-  id: Scalars['ID']
 }
 
 export type WorkspacesInput = {

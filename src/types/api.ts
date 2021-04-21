@@ -300,6 +300,7 @@ export interface ProcessStep {
   title: string
   description: string
   sendToTeamlead: boolean
+  isAgileResponsible: boolean
   hasComment: boolean
   send24hoursNotification: boolean
 }
@@ -314,6 +315,7 @@ export interface ProcessExecution {
   projectFrom?: Project
   projectTo?: Project
   employee: string
+  employeeRef: Employee
   finishDate: string
   prio: number
 }
@@ -345,7 +347,6 @@ export interface EvaluationComment {
 export interface OfficeDay {
   id: string
   employeeLimit: number
-  employeeCount: number
   date: string
   location: LOCATION
 }
@@ -476,7 +477,7 @@ export interface OnboardingTicket {
   description: string
   responsible: Employee[]
   isOptional: boolean
-  isSwissRe: boolean
+  isSwissre: boolean
   isRequestedByMe: boolean
   requestedEmployees: Employee[]
 }
@@ -493,6 +494,7 @@ export enum StrapiGroups {
   SYS_ADMINS,
   HR_ADMINS,
   SUPER_USER,
+  DEVREL,
 }
 
 export interface Profile {
@@ -522,6 +524,7 @@ export interface CalendarEvent {
     type: string
     status: 'none' | 'organizer' | 'tentativelyAccepted' | 'accepted' | 'declined' | 'notResponded'
   }[]
+  isAttendAll: boolean
 }
 
 export interface EmployeeProject {

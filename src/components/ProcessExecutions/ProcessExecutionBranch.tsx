@@ -7,6 +7,8 @@ import Controls from '../UI/Controls'
 import { Form } from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
 import { Button, Input, Tag, Tooltip } from 'antd'
+import { Employee } from '../../types'
+import { useEmployee } from '../../utils/withEmployee'
 
 type Step = QueryType['processes'][0]['steps'][0] & { isStrictActive: boolean }
 
@@ -20,6 +22,8 @@ interface Props {
   onComment?: (id: string, comment: string) => void
   isProcessRunning?: boolean
   isIndependentStepsActive?: boolean
+  isLocked?: boolean
+  agileManager?: Pick<Employee, 'id' | 'name' | 'email'>
 }
 
 export default function Branch({
@@ -32,7 +36,11 @@ export default function Branch({
   onComment,
   isProcessRunning,
   isIndependentStepsActive,
+  isLocked,
+  agileManager,
 }: Props) {
+  const user = useEmployee()
+
   if (!steps?.length) return null
 
   const step = startItem
@@ -82,7 +90,13 @@ export default function Branch({
               title={step.title}
               description={step.description}
               status={status}
-              employees={step.responsibleUsers}
+              employees={
+                step.isAgileResponsible
+                  ? agileManager
+                    ? [agileManager]
+                    : []
+                  : step.responsibleUsers
+              }
             >
               {step.type === 'NOTIFY' && (
                 <div>
@@ -95,6 +109,13 @@ export default function Branch({
                 <div>
                   <Tooltip placement="bottom" title="Can be completed at any time">
                     <Tag color="magenta">Independent</Tag>
+                  </Tooltip>
+                </div>
+              )}
+              {step.isAgileResponsible && (
+                <div>
+                  <Tooltip placement="bottom" title="Agile Manager is responsible for this step">
+                    <Tag color="orange">Responsible - Agile M</Tag>
                   </Tooltip>
                 </div>
               )}
@@ -118,15 +139,19 @@ export default function Branch({
                     title={
                       step.type === 'INDEPENDENT' && !isIndependentStepsActive
                         ? 'Fill in the fields date and employee'
+                        : isLocked
+                        ? 'Employee can not be empty'
                         : ''
                     }
                   >
                     <Button
                       type="primary"
                       disabled={
-                        !step.responsibleUsers?.find(i => i?.isMe) ||
+                        (!step.isAgileResponsible && !step.responsibleUsers?.find(i => i?.isMe)) ||
+                        (step.isAgileResponsible && agileManager?.id !== user.employee.id) ||
                         !isProcessRunning ||
-                        (step.type === 'INDEPENDENT' && !isIndependentStepsActive)
+                        (step.type === 'INDEPENDENT' && !isIndependentStepsActive) ||
+                        isLocked
                       }
                       onClick={() => onComplete(step)}
                       size="small"
@@ -154,6 +179,7 @@ export default function Branch({
                   onComment={onComment}
                   isProcessRunning={isProcessRunning}
                   isIndependentStepsActive={isIndependentStepsActive}
+                  agileManager={agileManager}
                 />
               ))}
             </RowWrapper>

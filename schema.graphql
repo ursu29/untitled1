@@ -162,6 +162,7 @@ type CurriculumVitae {
   id: ID!
   employee: Employee!
   summary: String
+  languages: String
   vitaes: [Vitae!]
   certificates: [Certificate!]
   education: [Education!]
@@ -198,6 +199,7 @@ type Education {
 input UpdateCurriculumVitaeInput {
   id: ID
   summary: String
+  languages: String
   employee: ID!
   vitaes: [VitaeInput!]
   certificates: [CertificateInput!]
@@ -341,6 +343,42 @@ type DevelopmentPlan {
   lookForward: String
   employee: Employee
   lastDiscussed: String
+}
+
+type Devrel {
+  id: ID!
+  type: String!
+  title: String
+  link: String
+  resource: String
+  dateStart: String
+  dateEnd: String
+  employee: Employee
+  isCompleted: Boolean
+}
+
+input CreateDevrelInput {
+  type: String!
+  title: String
+  link: String
+  resource: String
+  dateStart: String
+  dateEnd: String
+}
+
+input UpdateDevrelInput {
+  id: ID!
+  title: String
+  link: String
+  resource: String
+  isCompleted: Boolean
+}
+
+input ProposeDevrelEventInput {
+  title: String!
+  link: String
+  dateStart: String!
+  dateEnd: String!
 }
 
 input AccessInput {
@@ -538,6 +576,7 @@ type Event {
   location: String
   skills: [Skill]
   attendees: [EventAttendee]
+  isAttendAll: Boolean
 }
 
 input EventsInput {
@@ -747,6 +786,7 @@ type Query {
   clientDevToolsGitInfo: DevToolsGitInfo
   curriculumVitaeAccess(input: AccessInput): Access
   developmentPlans(input: DevelopmentPlansInput!): DevelopmentPlan
+  devrels(type: String!): [Devrel!]!
   developmentPlanLookReviewersAccess(input: AccessInput): Access
   matricesLookReviewersAccess(input: AccessInput): Access
   employee(id: ID!): Employee
@@ -801,7 +841,7 @@ type Query {
   wikiSearchText(input: WikiSearchTextInput): [FoundWikiPage]
   workspaceDesignAccess: Access
   workspaces(input: WorkspacesInput): [Workspace]
-  workspace(input: GetWorkspaceInput): Workspace
+  workspace(id: ID!): Workspace
 }
 
 input MutateHelloInput {
@@ -821,6 +861,11 @@ type Mutation {
   updateBook(input: UpdateBookInput): Book
   updateCurriculumVitae(input: UpdateCurriculumVitaeInput!): CurriculumVitae
   updateDevelopmentPlan(input: UpdateDevelopmentPlanInput!): DevelopmentPlan
+  createDevrel(input: CreateDevrelInput!): Devrel
+  updateDevrel(input: UpdateDevrelInput!): Devrel
+  proposeDevrelEvent(input: ProposeDevrelEventInput!): Boolean
+  participateDevrelEvent(id: ID!): Boolean
+  deleteDevrel(id: ID!): Devrel
   updateDevelopmentPlanReviewers(input: ReviewerInput): [Employee!]
   updateMatricesReviewers(input: ReviewerInput): [Employee!]
   updateEmployee(input: UpdateEmployeeInput!): Employee
@@ -833,6 +878,7 @@ type Mutation {
   updateEvent(input: UpdateEventInput!): Event
   cancelEvent(input: CancelEventInput!): ID
   attendEvent(id: ID!): Boolean
+  attendEventEveryone(id: ID!): Boolean
   createExperience(input: CreateExperienceInput): Experience
   updateExperience(input: UpdateExperienceInput): Experience
   updateExperiences(input: UpdateExperiencesInput): [Experience]
@@ -855,8 +901,9 @@ type Mutation {
   createMatrixGrade(input: CreateMatrixGradeInput): Matrix
   deleteMatrixGrade(input: DeleteMatrixGradeInput): Matrix
   updateMatricesCustomFields(input: UpdateMatricesCustomFieldsInput): MatricesCustomFields
-  applyToWorkFromOffice(input: ApplyToWorkFromOfficeInput!): Boolean
-  updateOfficeDay(input: UpdateOfficeDayInput!): OfficeDay
+  createOfficeBooking(input: CreateOfficeBookingInput!): Boolean
+  cancelOfficeBooking(input: CancelOfficeBookingInput!): Boolean
+  updateOfficeDays(input: UpdateOfficeDaysInput!): Boolean
   createOnboardingTicket(input: CreateOnboardingTicketInput): OnboardingTicket
   updateOnboardingTicket(input: UpdateOnboardingTicketInput): OnboardingTicket
   deleteOnboardingTicket(input: DeleteOnboardingTicketInput): OnboardingTicket
@@ -895,12 +942,12 @@ type Mutation {
   removeWikiPage(input: RemoveWikiPageInput): WikiPage
   createWorkspace(input: CreateWorkspaceInput): Workspace
   updateWorkspace(input: UpdateWorkspaceInput): Workspace
-  deleteWorkspace(input: DeleteWorkspaceInput): Workspace
+  deleteWorkspace(id: ID!): Workspace
   createWorkplace(input: CreateWorkplaceInput): Workplace
   updateWorkplace(input: UpdateWorkplaceInput): Workplace
-  deleteWorkplace(input: DeleteWorkplaceInput): Workplace
+  deleteWorkplace(id: ID!): Workplace
   createWorkplaceBooking(input: CreateWorkplaceBookingInput): WorkplaceBooking
-  deleteWorkplaceBooking(input: DeleteWorkplaceBookingInput): WorkplaceBooking
+  deleteWorkplaceBooking(id: ID!): WorkplaceBooking
 }
 
 type MatrixGrade {
@@ -1041,26 +1088,32 @@ type OfficeDay {
   date: String
   employeeLimit: Int
   location: LOCATION
-  employeeCount: Int
   employees: [Employee!]
 }
 
 input OfficeDaysInput {
-  startDate: String!
-  count: Int!
+  dateStart: String!
+  dateEnd: String!
 }
 
-input ApplyToWorkFromOfficeInput {
-  date: String
-  location: LOCATION
-  cancelOnly: Boolean
-  bookOnly: Boolean
+input CreateOfficeBookingInput {
+  dateStart: String!
+  dateEnd: String
+  location: LOCATION!
+  skipWeekends: Boolean
 }
 
-input UpdateOfficeDayInput {
-  date: String
-  location: LOCATION
-  employeeLimit: Int
+input CancelOfficeBookingInput {
+  dateStart: String!
+  dateEnd: String
+  location: LOCATION!
+}
+
+input UpdateOfficeDaysInput {
+  dateStart: String!
+  location: LOCATION!
+  employeeLimit: Int!
+  dateEnd: String
 }
 
 type OnboardingTicket {
@@ -1069,7 +1122,7 @@ type OnboardingTicket {
   description: String
   responsible: [Employee!]
   isOptional: Boolean
-  isSwissRe: Boolean
+  isSwissre: Boolean
   isRequestedByMe: Boolean
 }
 
@@ -1078,7 +1131,7 @@ input CreateOnboardingTicketInput {
   description: String
   responsible: String
   isOptional: Boolean
-  isSwissRe: Boolean
+  isSwissre: Boolean
 }
 
 input UpdateOnboardingTicketInput {
@@ -1087,7 +1140,7 @@ input UpdateOnboardingTicketInput {
   description: String
   responsible: String
   isOptional: Boolean
-  isSwissRe: Boolean
+  isSwissre: Boolean
 }
 
 input DeleteOnboardingTicketInput {
@@ -1176,6 +1229,7 @@ type ProcessStep {
   responsibleUsers: [Employee!]
   sendToTeamlead: Boolean
   send24hoursNotification: Boolean
+  isAgileResponsible: Boolean
   parentSteps: [ProcessStep]
   process: Process
   hasComment: Boolean
@@ -1218,6 +1272,7 @@ input UpdateProcessStepInput {
   responsibleUsers: [ID]
   sendToTeamlead: Boolean
   send24hoursNotification: Boolean
+  isAgileResponsible: Boolean
   parentSteps: [ID]
   hasComment: Boolean
 }
@@ -1511,10 +1566,6 @@ type WorkplaceBooking {
   finishDate: String
 }
 
-input GetWorkspaceInput {
-  id: ID!
-}
-
 input CreateWorkspaceInput {
   name: String!
   location: LOCATION!
@@ -1524,10 +1575,6 @@ input UpdateWorkspaceInput {
   id: ID!
   name: String
   drawing: String
-}
-
-input DeleteWorkspaceInput {
-  id: ID!
 }
 
 input CreateWorkplaceInput {
@@ -1543,10 +1590,6 @@ input UpdateWorkplaceInput {
   number: Int
 }
 
-input DeleteWorkplaceInput {
-  id: ID!
-}
-
 input BookingsInput {
   startDate: String
   finishDate: String
@@ -1556,10 +1599,6 @@ input CreateWorkplaceBookingInput {
   workplace: ID!
   startDate: String!
   finishDate: String!
-}
-
-input DeleteWorkplaceBookingInput {
-  id: ID!
 }
 
 input WorkspacesInput {

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Access, Bookmark, Employee, Skill } from '../../types'
 import EmployeeLink from '../Employees/EmployeeLink'
 import { SkillLink } from '../Skills/SkillLink'
+import { makeExternalUrl } from '../../utils/links'
 
 const StyledBookmark = styled.div`
   color: #8d96ac;
@@ -40,7 +41,11 @@ export default withRouter(
   ({ bookmark, history, edit, remove, like }: Props & RouteComponentProps) => {
     return (
       <StyledBookmark>
-        <StyledTitle href={bookmark.link} target="_blank">
+        <StyledTitle
+          href={makeExternalUrl(bookmark.link)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {bookmark.title}
         </StyledTitle>
         {!!bookmark.skills?.length && (

@@ -156,11 +156,18 @@ export const matrix = {
   matrixName: 'QA Matrix',
   matrixTabs: '.ant-tabs-tab',
   success: '.ant-message-success',
+  error: '.ant-message-error',
   alert: '.ant-message-notice-content',
   createMatrix: 'createMatrix',
   title: 'titleMatrix',
   description: 'description',
   submit: 'submit'
+}
+
+export const notificationsText = {
+  errorSef: 'You cannot change your own reviewers list',
+  deleteReviewer:  'Reviewer removed',
+  addReviewer: 'Reviewer added'
 }
 
 export const workspace = {

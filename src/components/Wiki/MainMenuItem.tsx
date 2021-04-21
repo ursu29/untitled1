@@ -10,7 +10,13 @@ import {
   GlobalOutlined,
   QuestionOutlined,
 } from '@ant-design/icons'
-import Gamepad from '../../svg/gamepad.svg'
+import GamepadIcon from '../../svg/gamepad.svg'
+import MarkdownIcon from '../../svg/markdown.svg'
+import HeadphonesIcon from '../../svg/headphones.svg'
+import BookIcon from '../../svg/book.svg'
+import SyncretisIcon from '../../svg/syncretis.svg'
+import MicIcon from '../../svg/mic.svg'
+import ClockArrowIcon from '../../svg/clock-arrow.svg'
 import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 
 const Title = styled.div`
@@ -81,7 +87,19 @@ export default function MainMenuItem({
       case 'global':
         return <GlobalOutlined style={style} />
       case 'gamepad':
-        return <img src={Gamepad} alt="gamepad" />
+        return <img src={GamepadIcon} alt="gamepad" />
+      case 'markdown':
+        return <img src={MarkdownIcon} alt="markdown" />
+      case 'headphones':
+        return <img src={HeadphonesIcon} alt="headphones" />
+      case 'book':
+        return <img src={BookIcon} alt="book" />
+      case 'syncretis':
+        return <img src={SyncretisIcon} alt="syncretis" />
+      case 'mic':
+        return <img src={MicIcon} alt="mic" />
+      case 'clock-arrow':
+        return <img src={ClockArrowIcon} alt="clock-arrow" />
       default:
         return <QuestionOutlined style={style} />
     }

@@ -20,6 +20,8 @@ describe('personal dev plans looks good', () => {
 
   it('check two reviewers', () => {
     cy.get('.ant-skeleton').should('not.exist')
+    cy.getElement('avatar').find('img').should('be.visible')
+
     cy.getElement('reviewers').matchImageSnapshot('reviewers')
     cy.getElement('lastDiscussed').matchImageSnapshot('lastDiscussed')
   })

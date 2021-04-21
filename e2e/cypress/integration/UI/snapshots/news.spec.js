@@ -9,7 +9,6 @@ describe('Visual regression news page', () => {
         cy.visit('/feed')
 
         cy.get('div').find('img').should('be.visible')
-
     })
 
 

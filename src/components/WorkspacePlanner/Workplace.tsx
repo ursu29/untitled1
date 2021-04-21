@@ -250,7 +250,7 @@ export default function Workplace({
                     )}
                     onConfirm={() => {
                       onSelect('')
-                      onBookCancel({ variables: { input: { id: booking.id } } })
+                      onBookCancel({ variables: { id: booking.id } })
                     }}
                     okText="Yes"
                     cancelText="No"

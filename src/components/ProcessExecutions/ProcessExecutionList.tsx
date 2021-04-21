@@ -229,8 +229,14 @@ function ProcessList({ items, tabName }: Props) {
       title: 'Employee',
       width: 150,
       showSorterTooltip: false,
-      render: (_: any, process: any) => {
-        return <div style={{ whiteSpace: 'break-spaces' }}>{process?.employee}</div>
+      render: (_: any, process: QueryType['processExecutions'][0]) => {
+        return (
+          <div style={{ whiteSpace: 'break-spaces' }}>
+            {process?.process.type !== 'ONBOARDING'
+              ? process?.employeeRef?.name
+              : process?.employee}
+          </div>
+        )
       },
       ellipsis: true,
       sorter: (a: any, b: any) => (a?.employee || '').localeCompare(b?.employee || ''),

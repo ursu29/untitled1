@@ -44,6 +44,7 @@ export const getEvent = gql`
         }
         status
       }
+      isAttendAll
       createdBy {
         id
       }
@@ -62,6 +63,12 @@ export const createEvent = gql`
 export const attendEvent = gql`
   mutation attendEvent($id: ID!) {
     attendEvent(id: $id)
+  }
+`
+
+export const attendEventEveryone = gql`
+  mutation attendEventEveryone($id: ID!) {
+    attendEventEveryone(id: $id)
   }
 `
 
