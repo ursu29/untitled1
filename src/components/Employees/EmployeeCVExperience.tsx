@@ -229,7 +229,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
       width: editable ? '15%' : '10%',
       render: (text: any, record: any) => (
         <AutoComplete
-          style={{ width: 200 }}
+          // style={{ width: 200 }}
           options={syncretisNames.map(value => ({ value }))}
           defaultValue={record.company ? record.company : undefined}
           onBlur={event =>
@@ -252,7 +252,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
           style={{
             display: 'flex',
             flexDirection: isDatePickersToColumn ? 'column' : 'row',
-            width: editable ? (isDatePickersToColumn ? '110px' : '260px') : '190px',
+            // width: editable ? (isDatePickersToColumn ? '110px' : '260px') : '190px',
             justifyContent: editable ? 'space-between' : 'start',
             alignItems: 'center',
           }}
@@ -271,7 +271,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
                   }
                   disabled={!editable}
                   style={{
-                    width: '125px',
+                    width: '110px',
                   }}
                 />
               </div>
@@ -302,7 +302,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
                   disabled={isNoTimeEndList.includes(record.key) || !editable}
                   {...getDateEndValue(record.id)}
                   style={{
-                    width: '125px',
+                    width: '110px',
                   }}
                 />
               </div>
@@ -354,7 +354,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
               placeholder="Select a project"
               optionFilterProp="children"
               disabled={!editable}
-              style={{ width: isDatePickersToColumn ? 80 : 150 }}
+              // style={{ width: isDatePickersToColumn ? 80 : 150 }}
               value={
                 allProjectsList
                   ? allProjectsList.filter(project => project.code === record.project)[0]?.name
@@ -394,7 +394,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
             style={{
               display: 'flex',
               justifyContent: editable ? 'center' : 'flex-start',
-              width: isDatePickersToColumn ? 80 : 150,
+              // width: isDatePickersToColumn ? 80 : 150,
             }}
           >
             &#8212;
@@ -422,6 +422,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
                   record.id,
                 ])
               }
+              style={{ maxWidth: '120px' }}
             >
               {text}
             </div>
@@ -438,7 +439,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
                       )
                   }, 5000)
                 }}
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: 'pointer', maxWidth: '120px' }}
               >
                 {text.slice(0, 50) + '...'}
               </div>
@@ -513,6 +514,10 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
         components={components}
         pagination={false}
         rowClassName={() => 'tableRowTopAlign'}
+        style={{
+          width: '100%',
+          tableLayout: 'fixed',
+        }}
         //@ts-ignore
         columns={columns.map(col => {
           if (!col.editable) {
