@@ -6,6 +6,7 @@ import Avatar from '../Avatar'
 
 interface Props {
   employeeId: string
+  narrow?: boolean
 }
 
 const query = gql`
@@ -22,7 +23,7 @@ type QueryType = {
   employee: Pick<Employee, 'id' | 'name' | 'email'>
 }
 
-export default function BookingEmployee({ employeeId: id }: Props) {
+export default function BookingEmployee({ employeeId: id, narrow }: Props) {
   const { data, loading, error } = useQuery<QueryType>(query, { variables: { id } })
 
   if (!data) return null
@@ -30,6 +31,10 @@ export default function BookingEmployee({ employeeId: id }: Props) {
   if (error) return <div>Error :(</div>
 
   const employee = data.employee
+
+  const parts = employee?.name?.split(' ')
+  const firstName = parts?.[0]
+  const lastName = parts?.[1]
 
   return (
     <div
@@ -40,7 +45,9 @@ export default function BookingEmployee({ employeeId: id }: Props) {
       }}
     >
       <Avatar employee={{ email: employee?.email, name: employee?.name }} size="default" />
-      <div style={{ padding: '10px' }}>{employee?.name || '(undefined)'}</div>
+      <div style={{ padding: '10px' }}>
+        {firstName} {narrow ? <br /> : null} {lastName}
+      </div>
     </div>
   )
 }

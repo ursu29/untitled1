@@ -1,17 +1,19 @@
-import React, { useState } from 'react'
 import { Button } from 'antd'
-import Workplace from './Workplace'
-import { WorkspaceType, WorkplaceType, WorkplaceBookingType } from '../../types'
-import styled from 'styled-components'
+import React, { useState } from 'react'
+//@ts-ignore
+import { MapInteractionCSS } from 'react-map-interaction'
 import { useMediaQuery } from 'react-responsive'
-import { COLLAPSE_WIDTH } from '../../config'
-import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
+import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
+import styled from 'styled-components'
 import { debounce } from 'throttle-debounce'
-import BookingList from './BookingList'
+import { COLLAPSE_WIDTH } from '../../config'
+import { WorkplaceBookingType, WorkplaceType, WorkspaceType } from '../../types'
 import Image from '../Image'
+import BookingList from './BookingList'
 import DesignModeSider from './Sider/DesignModeSider'
 import Sider from './Sider/Sider'
 import './styles.css'
+import Workplace from './Workplace'
 
 const WorkspaceWrapper = styled.div<{ isDesignMode: boolean }>`
   position: relative;
@@ -94,6 +96,86 @@ export default function Workspace({
     setChosenWorkplace(workplaces.find(e => e.id === workplaceId) || {})
   }
 
+  const content = (
+    <>
+      {workplaces.map(workplace => (
+        <Workplace
+          key={workplace.id}
+          isDesignMode={isDesignMode}
+          isDateChosen={isDateChosen}
+          isSelected={selectedWorkplace === workplace.id}
+          isBookedByMe={
+            bookings
+              ?.filter(booking => bookedByMe?.includes(booking.id))
+              .map(booking => booking.workplaceId)
+              .includes(workplace.id) || false
+          }
+          isOverlapBookings={!!bookedByMe?.length}
+          isLoading={isLoading}
+          isPastDateChosen={isPastDateChosen}
+          isInfoForBooked={isInfoForBooked}
+          setIsInfoForBooked={setIsInfoForBooked}
+          scale={spaceScale}
+          dateRange={dateRange}
+          workplace={workplace}
+          bookings={bookings?.filter(booking => booking.workplaceId === workplace.id)}
+          onSelect={onSelect}
+          onClone={onClone}
+          onDelete={onDelete}
+          onDrag={onDrag}
+          onStop={onStop}
+          onBook={onBook}
+          onBookCancel={onBookCancel}
+          onDesignModeClick={onDesignModeClick}
+        />
+      ))}
+
+      <div
+        className="workspace-area"
+        style={{
+          padding: '20px',
+          backgroundColor: 'white',
+          width: '100%',
+          border: isDesignMode ? '1px solid orange' : '',
+        }}
+      >
+        {workspace.drawing ? (
+          <Image
+            alt="drawing"
+            src={workspace.drawing}
+            style={{
+              filter: 'grayscale(0.8) opacity(0.5)',
+              userSelect: 'none',
+              position: 'relative',
+              zIndex: 0,
+            }}
+            draggable="false"
+          />
+        ) : (
+          <div>no drawing</div>
+        )}
+      </div>
+    </>
+  )
+
+  if (!isDesignMode) {
+    return (
+      <>
+        <MapInteractionCSS>{content}</MapInteractionCSS>
+        {!!bookings?.length && (
+          <Sider isOpen={isBookingListOpen} onOpen={() => setIsBookingListOpen(!isBookingListOpen)}>
+            <BookingList
+              bookings={bookings}
+              onBookCancel={onBookCancel}
+              onSelect={(id: string) => onSelect(id)}
+              setIsInfoForBooked={setIsInfoForBooked}
+            />
+          </Sider>
+        )}
+      </>
+    )
+  }
+
   return (
     <WorkspaceWrapper isDesignMode={isDesignMode}>
       {isDesignMode && (
@@ -137,77 +219,8 @@ export default function Workspace({
           debounceSetCoords({ coordX: e.positionX / e.scale, coordY: e.positionY / e.scale })
         }}
       >
-        <TransformComponent>
-          {workplaces.map(workplace => (
-            <Workplace
-              key={workplace.id}
-              isDesignMode={isDesignMode}
-              isDateChosen={isDateChosen}
-              isSelected={selectedWorkplace === workplace.id}
-              isBookedByMe={
-                bookings
-                  ?.filter(booking => bookedByMe?.includes(booking.id))
-                  .map(booking => booking.workplaceId)
-                  .includes(workplace.id) || false
-              }
-              isOverlapBookings={!!bookedByMe?.length}
-              isLoading={isLoading}
-              isPastDateChosen={isPastDateChosen}
-              isInfoForBooked={isInfoForBooked}
-              setIsInfoForBooked={setIsInfoForBooked}
-              scale={spaceScale}
-              dateRange={dateRange}
-              workplace={workplace}
-              bookings={bookings?.filter(booking => booking.workplaceId === workplace.id)}
-              onSelect={onSelect}
-              onClone={onClone}
-              onDelete={onDelete}
-              onDrag={onDrag}
-              onStop={onStop}
-              onBook={onBook}
-              onBookCancel={onBookCancel}
-              onDesignModeClick={onDesignModeClick}
-            />
-          ))}
-
-          <div
-            className="workspace-area"
-            style={{
-              padding: '20px',
-              backgroundColor: 'white',
-              width: '100%',
-              border: isDesignMode ? '1px solid orange' : '',
-            }}
-          >
-            {workspace.drawing ? (
-              <Image
-                alt="drawing"
-                src={workspace.drawing}
-                style={{
-                  filter: 'grayscale(0.8) opacity(0.5)',
-                  userSelect: 'none',
-                  position: 'relative',
-                  zIndex: 0,
-                }}
-                draggable="false"
-              />
-            ) : (
-              <div>no drawing</div>
-            )}
-          </div>
-        </TransformComponent>
+        <TransformComponent>{content}</TransformComponent>
       </TransformWrapper>
-
-      {!isDesignMode && !!bookings?.length && (
-        <Sider isOpen={isBookingListOpen} onOpen={() => setIsBookingListOpen(!isBookingListOpen)}>
-          <BookingList
-            bookings={bookings}
-            onBookCancel={onBookCancel}
-            onSelect={(id: string) => onSelect(id)}
-            setIsInfoForBooked={setIsInfoForBooked}
-          />
-        </Sider>
-      )}
 
       {isDesignMode && (
         <DesignModeSider
