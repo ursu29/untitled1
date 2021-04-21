@@ -6,7 +6,7 @@ import { useGetDevtoolsQuery } from '../../queries/devtools'
 
 const Wrapper = styled.div`
   position: fixed;
-  right: 20px;
+  left: 50px;
   bottom: 0;
   user-select: none;
   padding-bottom: 20px;
@@ -108,6 +108,14 @@ export default function DevTools({ children }: any) {
               user.setDevOnlyUserRole(value)
               localStorage.setItem('devOnlyUserRole', value)
               window.location.reload()
+            }}
+            dropdownAlign={{
+              points: ['bl', 'tl'],
+              offset: [0, -4],
+              overflow: {
+                adjustX: 0,
+                adjustY: 0,
+              },
             }}
           >
             <Option value="off">OFF</Option>
