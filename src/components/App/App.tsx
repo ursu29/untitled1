@@ -13,7 +13,7 @@ import { TokenProvider } from '../../utils/withToken'
 import { onError } from 'apollo-link-error'
 import { YMInitializer } from 'react-yandex-metrika'
 import Metrics from './Metrics'
-
+//
 const timezoneOffset = new Date().getTimezoneOffset()
 const timezoneOffsetKey = 'x-timezone-offset'
 
