@@ -16,13 +16,13 @@ query getDevrels($type: String!) {
   }
 }
 
-mutation createDevrel($input: CreateDevrelInput) {
+mutation createDevrel($input: CreateDevrelInput!) {
   createDevrel(input: $input) {
     id
   }
 }
 
-mutation updateDevrel($input: UpdateDevrelInput) {
+mutation updateDevrel($input: UpdateDevrelInput!) {
   updateDevrel(input: $input) {
     id
   }
@@ -34,7 +34,7 @@ mutation deleteDevrel($id: ID!) {
   }
 }
 
-mutation proposeDevrelEvent($input: ProposeDevrelEventInput) {
+mutation proposeDevrelEvent($input: ProposeDevrelEventInput!) {
   proposeDevrelEvent(input: $input)
 }
 

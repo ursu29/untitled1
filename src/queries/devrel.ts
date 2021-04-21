@@ -14,21 +14,19 @@ export type GetDevrelsQueryVariables = Types.Exact<{
 
 export type GetDevrelsQuery = { __typename?: 'Query' } & {
   devrels: Array<
-    Types.Maybe<
-      { __typename?: 'Devrel' } & Pick<
-        Types.Devrel,
-        'id' | 'type' | 'title' | 'link' | 'resource' | 'dateStart' | 'dateEnd' | 'isCompleted'
-      > & {
-          employee?: Types.Maybe<
-            { __typename?: 'Employee' } & Pick<Types.Employee, 'id' | 'email' | 'name'>
-          >
-        }
-    >
+    { __typename?: 'Devrel' } & Pick<
+      Types.Devrel,
+      'id' | 'type' | 'title' | 'link' | 'resource' | 'dateStart' | 'dateEnd' | 'isCompleted'
+    > & {
+        employee?: Types.Maybe<
+          { __typename?: 'Employee' } & Pick<Types.Employee, 'id' | 'email' | 'name'>
+        >
+      }
   >
 }
 
 export type CreateDevrelMutationVariables = Types.Exact<{
-  input?: Types.Maybe<Types.CreateDevrelInput>
+  input: Types.CreateDevrelInput
 }>
 
 export type CreateDevrelMutation = { __typename?: 'Mutation' } & {
@@ -36,7 +34,7 @@ export type CreateDevrelMutation = { __typename?: 'Mutation' } & {
 }
 
 export type UpdateDevrelMutationVariables = Types.Exact<{
-  input?: Types.Maybe<Types.UpdateDevrelInput>
+  input: Types.UpdateDevrelInput
 }>
 
 export type UpdateDevrelMutation = { __typename?: 'Mutation' } & {
@@ -52,7 +50,7 @@ export type DeleteDevrelMutation = { __typename?: 'Mutation' } & {
 }
 
 export type ProposeDevrelEventMutationVariables = Types.Exact<{
-  input?: Types.Maybe<Types.ProposeDevrelEventInput>
+  input: Types.ProposeDevrelEventInput
 }>
 
 export type ProposeDevrelEventMutation = { __typename?: 'Mutation' } & Pick<
@@ -128,7 +126,7 @@ export type GetDevrelsQueryResult = ApolloReactCommon.QueryResult<
   GetDevrelsQueryVariables
 >
 export const CreateDevrelDocument = gql`
-  mutation createDevrel($input: CreateDevrelInput) {
+  mutation createDevrel($input: CreateDevrelInput!) {
     createDevrel(input: $input) {
       id
     }
@@ -174,7 +172,7 @@ export type CreateDevrelMutationOptions = ApolloReactCommon.BaseMutationOptions<
   CreateDevrelMutationVariables
 >
 export const UpdateDevrelDocument = gql`
-  mutation updateDevrel($input: UpdateDevrelInput) {
+  mutation updateDevrel($input: UpdateDevrelInput!) {
     updateDevrel(input: $input) {
       id
     }
@@ -266,7 +264,7 @@ export type DeleteDevrelMutationOptions = ApolloReactCommon.BaseMutationOptions<
   DeleteDevrelMutationVariables
 >
 export const ProposeDevrelEventDocument = gql`
-  mutation proposeDevrelEvent($input: ProposeDevrelEventInput) {
+  mutation proposeDevrelEvent($input: ProposeDevrelEventInput!) {
     proposeDevrelEvent(input: $input)
   }
 `

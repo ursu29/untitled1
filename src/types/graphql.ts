@@ -825,7 +825,7 @@ export type Query = {
   clientDevToolsGitInfo?: Maybe<DevToolsGitInfo>
   curriculumVitaeAccess?: Maybe<Access>
   developmentPlans?: Maybe<DevelopmentPlan>
-  devrels: Array<Maybe<Devrel>>
+  devrels: Array<Devrel>
   developmentPlanLookReviewersAccess?: Maybe<Access>
   matricesLookReviewersAccess?: Maybe<Access>
   employee?: Maybe<Employee>
@@ -1225,15 +1225,15 @@ export type MutationUpdateDevelopmentPlanArgs = {
 }
 
 export type MutationCreateDevrelArgs = {
-  input?: Maybe<CreateDevrelInput>
+  input: CreateDevrelInput
 }
 
 export type MutationUpdateDevrelArgs = {
-  input?: Maybe<UpdateDevrelInput>
+  input: UpdateDevrelInput
 }
 
 export type MutationProposeDevrelEventArgs = {
-  input?: Maybe<ProposeDevrelEventInput>
+  input: ProposeDevrelEventInput
 }
 
 export type MutationParticipateDevrelEventArgs = {
@@ -1866,6 +1866,7 @@ export type ProcessStep = {
   responsibleUsers?: Maybe<Array<Employee>>
   sendToTeamlead?: Maybe<Scalars['Boolean']>
   send24hoursNotification?: Maybe<Scalars['Boolean']>
+  isAgileResponsible?: Maybe<Scalars['Boolean']>
   parentSteps?: Maybe<Array<Maybe<ProcessStep>>>
   process?: Maybe<Process>
   hasComment?: Maybe<Scalars['Boolean']>
@@ -1909,6 +1910,7 @@ export type UpdateProcessStepInput = {
   responsibleUsers?: Maybe<Array<Maybe<Scalars['ID']>>>
   sendToTeamlead?: Maybe<Scalars['Boolean']>
   send24hoursNotification?: Maybe<Scalars['Boolean']>
+  isAgileResponsible?: Maybe<Scalars['Boolean']>
   parentSteps?: Maybe<Array<Maybe<Scalars['ID']>>>
   hasComment?: Maybe<Scalars['Boolean']>
 }

@@ -769,7 +769,7 @@ type Query {
   clientDevToolsGitInfo: DevToolsGitInfo
   curriculumVitaeAccess(input: AccessInput): Access
   developmentPlans(input: DevelopmentPlansInput!): DevelopmentPlan
-  devrels(type: String!): [Devrel]!
+  devrels(type: String!): [Devrel!]!
   developmentPlanLookReviewersAccess(input: AccessInput): Access
   matricesLookReviewersAccess(input: AccessInput): Access
   employee(id: ID!): Employee
@@ -843,9 +843,9 @@ type Mutation {
   toggleBookmarklike(input: ToggleBookmarklikeInput!): Bookmarklike
   updateCurriculumVitae(input: UpdateCurriculumVitaeInput!): CurriculumVitae
   updateDevelopmentPlan(input: UpdateDevelopmentPlanInput!): DevelopmentPlan
-  createDevrel(input: CreateDevrelInput): Devrel
-  updateDevrel(input: UpdateDevrelInput): Devrel
-  proposeDevrelEvent(input: ProposeDevrelEventInput): Boolean
+  createDevrel(input: CreateDevrelInput!): Devrel
+  updateDevrel(input: UpdateDevrelInput!): Devrel
+  proposeDevrelEvent(input: ProposeDevrelEventInput!): Boolean
   participateDevrelEvent(id: ID!): Boolean
   deleteDevrel(id: ID!): Devrel
   updateDevelopmentPlanReviewers(input: ReviewerInput): [Employee!]
@@ -1211,6 +1211,7 @@ type ProcessStep {
   responsibleUsers: [Employee!]
   sendToTeamlead: Boolean
   send24hoursNotification: Boolean
+  isAgileResponsible: Boolean
   parentSteps: [ProcessStep]
   process: Process
   hasComment: Boolean
@@ -1253,6 +1254,7 @@ input UpdateProcessStepInput {
   responsibleUsers: [ID]
   sendToTeamlead: Boolean
   send24hoursNotification: Boolean
+  isAgileResponsible: Boolean
   parentSteps: [ID]
   hasComment: Boolean
 }
