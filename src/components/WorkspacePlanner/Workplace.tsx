@@ -321,10 +321,10 @@ export default function Workplace({
       bounds=".workspace-area"
     >
       <PlaceWrapper isDesignMode={isDesignMode} isSelected={isSelected}>
-        <DeleteIcon />
+        {isDesignMode && <DeleteIcon />}
         {isBookedByMe && !isDesignMode && !isLoading && <YouMark />}
         <PlaceExactly />
-        <AddIcon />
+        {isDesignMode && <AddIcon />}
         {!isDesignMode && (isInfoForBooked ? <InfoBookedPlace /> : <InfoFreePlace />)}
       </PlaceWrapper>
     </Draggable>
