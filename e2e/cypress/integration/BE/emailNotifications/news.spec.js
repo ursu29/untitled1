@@ -7,7 +7,7 @@ describe('Send News notification (emails)', () => {
 
     const message = {
         text: `some text: ${new Date().getTime()}`,
-        recipient: 'team.spb@syncretis.com',
+        recipient: 'Team.Spb@syncretis.com',
         body: 'Find more news at Syncretis Portal'
     }
 
