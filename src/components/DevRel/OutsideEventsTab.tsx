@@ -92,7 +92,11 @@ export default function OutsideEventsTab({
       render: (link: string) => {
         return link ? <a href={makeExternalUrl(link)}>{link}</a> : ''
       },
-      sorter: (a: any, b: any) => a.link.localeCompare(b.link),
+      sorter: (a: any, b: any) => {
+        if (!a.link && b.link) return -1
+        if (a.link && !b.link) return 1
+        return a.link.localeCompare(b.link)
+      },
     },
     {
       title: 'Date of event',

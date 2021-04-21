@@ -75,19 +75,27 @@ export default function ArticlesTab({
       render: (employee: any) => (
         <Link to={getEmployeeLink(employee?.email)}>{employee?.name}</Link>
       ),
-      sorter: (a: any, b: any) => a.employee?.name.localeCompare(b.employee?.name),
+      sorter: (a: any, b: any) => a.employee?.name?.localeCompare(b.employee?.name),
     },
     {
       title: 'Resource',
       dataIndex: 'resource',
       key: 'resource',
-      sorter: (a: any, b: any) => a.resource.localeCompare(b.resource),
+      sorter: (a: any, b: any) => {
+        if (!a.resource && b.resource) return -1
+        if (a.resource && !b.resource) return 1
+        return a.resource?.localeCompare(b.resource)
+      },
     },
     {
       title: 'Theme',
       dataIndex: 'title',
       key: 'title',
-      sorter: (a: any, b: any) => a.title.localeCompare(b.title),
+      sorter: (a: any, b: any) => {
+        if (!a.title && b.title) return -1
+        if (a.title && !b.title) return 1
+        return a.title?.localeCompare(b.title) || -1
+      },
     },
     {
       title: 'Status',
