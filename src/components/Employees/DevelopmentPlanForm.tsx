@@ -197,12 +197,6 @@ function DevelopmentPlanForm({ value, onChange, form, locked, resetFields }: Pro
               initialValue: value?.developmentRoles?.agileCoach,
             })(<Checkbox disabled={locked}>Agile Coach</Checkbox>)}
           </div>
-          <div>
-            {getFieldDecorator('developmentRoles.agileManager', {
-              valuePropName: 'checked',
-              initialValue: value?.developmentRoles?.agileCoach,
-            })(<Checkbox disabled={locked}>Agile Manager</Checkbox>)}
-          </div>
         </Row>
       </div>
       <div style={{ marginBottom: 20 }}>

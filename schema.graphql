@@ -329,6 +329,42 @@ type DevelopmentPlan {
   lastDiscussed: String
 }
 
+type Devrel {
+  id: ID!
+  type: String!
+  title: String
+  link: String
+  resource: String
+  dateStart: String
+  dateEnd: String
+  employee: Employee
+  isCompleted: Boolean
+}
+
+input CreateDevrelInput {
+  type: String!
+  title: String
+  link: String
+  resource: String
+  dateStart: String
+  dateEnd: String
+}
+
+input UpdateDevrelInput {
+  id: ID!
+  title: String
+  link: String
+  resource: String
+  isCompleted: Boolean
+}
+
+input ProposeDevrelEventInput {
+  title: String!
+  link: String
+  dateStart: String!
+  dateEnd: String!
+}
+
 input AccessInput {
   employeeEmail: String
 }
@@ -733,6 +769,7 @@ type Query {
   clientDevToolsGitInfo: DevToolsGitInfo
   curriculumVitaeAccess(input: AccessInput): Access
   developmentPlans(input: DevelopmentPlansInput!): DevelopmentPlan
+  devrels(type: String!): [Devrel!]!
   developmentPlanLookReviewersAccess(input: AccessInput): Access
   matricesLookReviewersAccess(input: AccessInput): Access
   employee(id: ID!): Employee
@@ -806,6 +843,11 @@ type Mutation {
   toggleBookmarklike(input: ToggleBookmarklikeInput!): Bookmarklike
   updateCurriculumVitae(input: UpdateCurriculumVitaeInput!): CurriculumVitae
   updateDevelopmentPlan(input: UpdateDevelopmentPlanInput!): DevelopmentPlan
+  createDevrel(input: CreateDevrelInput!): Devrel
+  updateDevrel(input: UpdateDevrelInput!): Devrel
+  proposeDevrelEvent(input: ProposeDevrelEventInput!): Boolean
+  participateDevrelEvent(id: ID!): Boolean
+  deleteDevrel(id: ID!): Devrel
   updateDevelopmentPlanReviewers(input: ReviewerInput): [Employee!]
   updateMatricesReviewers(input: ReviewerInput): [Employee!]
   updateEmployee(input: UpdateEmployeeInput!): Employee
@@ -1169,6 +1211,7 @@ type ProcessStep {
   responsibleUsers: [Employee!]
   sendToTeamlead: Boolean
   send24hoursNotification: Boolean
+  isAgileResponsible: Boolean
   parentSteps: [ProcessStep]
   process: Process
   hasComment: Boolean
@@ -1211,6 +1254,7 @@ input UpdateProcessStepInput {
   responsibleUsers: [ID]
   sendToTeamlead: Boolean
   send24hoursNotification: Boolean
+  isAgileResponsible: Boolean
   parentSteps: [ID]
   hasComment: Boolean
 }

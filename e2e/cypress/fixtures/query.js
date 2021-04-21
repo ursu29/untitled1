@@ -31,12 +31,14 @@ export const query = {
     'query getEmployeeExperiences($input: EmployeesInput) {employees(input: $input) { id name experiences { ...ExperienceDetails comment } access {read write}}}fragment ExperienceDetails on Experience {id level skill {id name description isMatrixOnly }updatedAt}',
   getEmployee:
     'query getEmployee($email: String!) {employeeByEmail(email: $email) { ...EmployeeDetails agileManager {...EmployeeDetails __typename} bonuses status  __typename}} fragment EmployeeDetails on Employee {id name location country position phoneNumber email isMe __typename}',
+  requestOnboardingTicket: 'mutation requestOnboardingTicket($id: ID!) {requestOnboardingTicket(id: $id)}',
   createTraining:
     'mutation createOnboardingTicket($input: CreateOnboardingTicketInput) {createOnboardingTicket(input: $input) {id __typename}}',
   createBookmark:
     'mutation createBookmark($input: CreateBookmarkInput!) {createBookmark(input: $input) {id  __typename}}',
+  cancelOnboardingTicket: 'mutation cancelOnboardingTicket($input: CompleteOnboardingTicketInput) {cancelOnboardingTicket(input: $input)}',
   completeTicket:
-    'mutation completeOnboardingTicket($input: CompleteOnboardingTicketInput) { completeOnboardingTicket(input: $input)}',
+    'mutation completeOnboardingTicket($input: CompleteOnboardingTicketInput) {completeOnboardingTicket(input: $input)}',
   toggleBookmarklike:
     'mutation toggleBookmarklike($input: ToggleBookmarklikeInput!) {toggleBookmarklike(input: $input) {id __typename}}',
   deleteBookmark:
@@ -44,6 +46,7 @@ export const query = {
   deleteSkill: 'mutation deleteSkill($input: DeleteSkillInput!) {deleteSkill(input: $input) { id __typename}}',
   deleteFeedback:
     'mutation deleteFeedback($input: DeleteFeedbackInput!) {deleteFeedback(input: $input) { id __typename}}',
+  addFeedback: 'mutation addFeedback($input: FeedbackInput!) {addFeedback(input: $input) {id __typename}}',
   deletePost: 'mutation deletePost($input: DeletePostInput!) {deletePost(input: $input) { id __typename}}',
   createPost: 'mutation createPost($input: CreatePostInput) {createPost(input: $input) {id __typename}}',
   getEmployees: 'query getEmployees($input: EmployeesInput) {employees(input: $input) {name }}',

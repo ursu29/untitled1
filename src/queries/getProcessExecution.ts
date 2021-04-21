@@ -39,6 +39,11 @@ export default gql`
       employee
       employeeRef {
         id
+        agileManager {
+          id
+          name
+          email
+        }
       }
       finishDate
       employeePhone
@@ -74,7 +79,7 @@ type ProcessExecutionPick = {
     step: Pick<ProcessStep, 'id' | 'type'>
   })[]
   employee: string
-  employeeRef: EmployeeDetails
+  employeeRef: EmployeeDetails & { agileManager: EmployeeDetails }
   finishDate: string
   employeePhone: string
   swissReOffboardingDate: string

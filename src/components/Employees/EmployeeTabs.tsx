@@ -125,6 +125,8 @@ function EmployeeTabs({ match, location, ...props }: Props) {
   const evaluationReviewersAccess = data?.evaluationReviewersAccess
   const isProfile = Boolean(matchPath(location.pathname, { path: paths.PROFILE }))
 
+  console.log(employee)
+
   let tabs: any = [
     {
       title: 'Skills',

@@ -292,6 +292,7 @@ export interface ProcessStep {
   title: string
   description: string
   sendToTeamlead: boolean
+  isAgileResponsible: boolean
   hasComment: boolean
   send24hoursNotification: boolean
 }
@@ -485,6 +486,7 @@ export enum StrapiGroups {
   SYS_ADMINS,
   HR_ADMINS,
   SUPER_USER,
+  DEVREL,
 }
 
 export interface Profile {

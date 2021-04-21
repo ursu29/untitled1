@@ -355,6 +355,43 @@ export type DevelopmentPlan = {
   lastDiscussed?: Maybe<Scalars['String']>
 }
 
+export type Devrel = {
+  __typename?: 'Devrel'
+  id: Scalars['ID']
+  type: Scalars['String']
+  title?: Maybe<Scalars['String']>
+  link?: Maybe<Scalars['String']>
+  resource?: Maybe<Scalars['String']>
+  dateStart?: Maybe<Scalars['String']>
+  dateEnd?: Maybe<Scalars['String']>
+  employee?: Maybe<Employee>
+  isCompleted?: Maybe<Scalars['Boolean']>
+}
+
+export type CreateDevrelInput = {
+  type: Scalars['String']
+  title?: Maybe<Scalars['String']>
+  link?: Maybe<Scalars['String']>
+  resource?: Maybe<Scalars['String']>
+  dateStart?: Maybe<Scalars['String']>
+  dateEnd?: Maybe<Scalars['String']>
+}
+
+export type UpdateDevrelInput = {
+  id: Scalars['ID']
+  title?: Maybe<Scalars['String']>
+  link?: Maybe<Scalars['String']>
+  resource?: Maybe<Scalars['String']>
+  isCompleted?: Maybe<Scalars['Boolean']>
+}
+
+export type ProposeDevrelEventInput = {
+  title: Scalars['String']
+  link?: Maybe<Scalars['String']>
+  dateStart: Scalars['String']
+  dateEnd: Scalars['String']
+}
+
 export type AccessInput = {
   employeeEmail?: Maybe<Scalars['String']>
 }
@@ -788,6 +825,7 @@ export type Query = {
   clientDevToolsGitInfo?: Maybe<DevToolsGitInfo>
   curriculumVitaeAccess?: Maybe<Access>
   developmentPlans?: Maybe<DevelopmentPlan>
+  devrels: Array<Devrel>
   developmentPlanLookReviewersAccess?: Maybe<Access>
   matricesLookReviewersAccess?: Maybe<Access>
   employee?: Maybe<Employee>
@@ -888,6 +926,10 @@ export type QueryCurriculumVitaeAccessArgs = {
 
 export type QueryDevelopmentPlansArgs = {
   input: DevelopmentPlansInput
+}
+
+export type QueryDevrelsArgs = {
+  type: Scalars['String']
 }
 
 export type QueryDevelopmentPlanLookReviewersAccessArgs = {
@@ -1049,6 +1091,11 @@ export type Mutation = {
   toggleBookmarklike?: Maybe<Bookmarklike>
   updateCurriculumVitae?: Maybe<CurriculumVitae>
   updateDevelopmentPlan?: Maybe<DevelopmentPlan>
+  createDevrel?: Maybe<Devrel>
+  updateDevrel?: Maybe<Devrel>
+  proposeDevrelEvent?: Maybe<Scalars['Boolean']>
+  participateDevrelEvent?: Maybe<Scalars['Boolean']>
+  deleteDevrel?: Maybe<Devrel>
   updateDevelopmentPlanReviewers?: Maybe<Array<Employee>>
   updateMatricesReviewers?: Maybe<Array<Employee>>
   updateEmployee?: Maybe<Employee>
@@ -1175,6 +1222,26 @@ export type MutationUpdateCurriculumVitaeArgs = {
 
 export type MutationUpdateDevelopmentPlanArgs = {
   input: UpdateDevelopmentPlanInput
+}
+
+export type MutationCreateDevrelArgs = {
+  input: CreateDevrelInput
+}
+
+export type MutationUpdateDevrelArgs = {
+  input: UpdateDevrelInput
+}
+
+export type MutationProposeDevrelEventArgs = {
+  input: ProposeDevrelEventInput
+}
+
+export type MutationParticipateDevrelEventArgs = {
+  id: Scalars['ID']
+}
+
+export type MutationDeleteDevrelArgs = {
+  id: Scalars['ID']
 }
 
 export type MutationUpdateDevelopmentPlanReviewersArgs = {
@@ -1799,6 +1866,7 @@ export type ProcessStep = {
   responsibleUsers?: Maybe<Array<Employee>>
   sendToTeamlead?: Maybe<Scalars['Boolean']>
   send24hoursNotification?: Maybe<Scalars['Boolean']>
+  isAgileResponsible?: Maybe<Scalars['Boolean']>
   parentSteps?: Maybe<Array<Maybe<ProcessStep>>>
   process?: Maybe<Process>
   hasComment?: Maybe<Scalars['Boolean']>
@@ -1842,6 +1910,7 @@ export type UpdateProcessStepInput = {
   responsibleUsers?: Maybe<Array<Maybe<Scalars['ID']>>>
   sendToTeamlead?: Maybe<Scalars['Boolean']>
   send24hoursNotification?: Maybe<Scalars['Boolean']>
+  isAgileResponsible?: Maybe<Scalars['Boolean']>
   parentSteps?: Maybe<Array<Maybe<Scalars['ID']>>>
   hasComment?: Maybe<Scalars['Boolean']>
 }
