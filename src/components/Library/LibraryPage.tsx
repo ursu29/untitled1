@@ -1,32 +1,19 @@
 import { PlusCircleFilled } from '@ant-design/icons'
 import { Typography } from 'antd'
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 // import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 import PageContent from '../UI/PageContent'
 import Skeleton from '../UI/Skeleton'
-import { BookModal } from './BookModal'
+import { AddBookModal } from './modal/CreateBookModal'
 import { LibraryFilters } from './LibraryFilters'
 import { LibraryList } from './LibraryList'
-import { Book, useLibraryApi } from './useLibraryApi'
+import { useLibraryApi } from './useLibraryApi'
 
 export const LibraryPage = () => {
-  const { data, dataLoading, dataUpdating, toggleStatus } = useLibraryApi()
-
+  const { data, dataLoading, dataUpdating } = useLibraryApi()
   const [filtered, setFiltered] = useState(data?.books)
-  const [isPopupVisible, setIsPopupVisible] = useState(true) // TODO: false by default
+  const [isPopupVisible, setIsPopupVisible] = useState(false)
   const canEdit = true // TODO useStrapiGroupCheck('HR_RU')
-
-  const editedBook = useRef<Book | null>(null)
-  // TODO: implement (editing a book)
-  // const openEditBookPopup = (book: Book) => {
-  //   editedBook.current = book
-  //   setIsPopupVisible(true)
-  // }
-
-  // const closeEditBookPopup = () => {
-  //   editedBook.current = null
-  //   setIsPopupVisible(false)
-  // }
 
   return (
     <Skeleton active loading={dataLoading} withOffset>
@@ -45,16 +32,14 @@ export const LibraryPage = () => {
       {data && (
         <LibraryList
           books={filtered}
-          onStatusToggle={toggleStatus}
           isFetching={dataUpdating}
           isAdmin={true} // TODO don't forget to change this
         />
       )}
-      <BookModal
+      <AddBookModal
         onClose={() => setIsPopupVisible(false)}
-        visible={isPopupVisible} // TODO: don't forget to change this
-        initialState={editedBook.current}
-      />
+        visible={isPopupVisible}
+      ></AddBookModal>
     </Skeleton>
   )
 }

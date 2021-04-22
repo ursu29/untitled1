@@ -1,18 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Badge, Table, Tag } from 'antd'
 import Button from '../UI/Button'
-import { Book, Books } from './useLibraryApi'
+import { Book, Books, useLibraryApi } from './useLibraryApi'
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { EditBookModal } from './modal/EditBookModal'
 
 type Props = {
   books?: Books
-  onStatusToggle: (book: Book) => void
   isAdmin?: boolean
   isFetching?: boolean
 }
 
 const isBooked = (book: Book) => !!book.holder?.id
 
-export const LibraryList: React.FC<Props> = ({ books, onStatusToggle, isFetching, isAdmin }) => {
+export const LibraryList: React.FC<Props> = ({ books, isFetching, isAdmin }) => {
+  const [bookToEdit, setBookToEdit] = useState<Book | null>(null)
+  const [isEditPopupVisible, setIsEditPopupVisible] = useState(false)
+  const { toggleStatus } = useLibraryApi()
+
+  useEffect(() => {
+    setIsEditPopupVisible(!!bookToEdit)
+  }, [bookToEdit])
+
+  // TODO: implement
+  const handleDelete = (book: Book) => {
+    console.log('handle delete')
+    console.log(book)
+  }
+
   const columns = [
     {
       title: 'Name',
@@ -58,25 +73,50 @@ export const LibraryList: React.FC<Props> = ({ books, onStatusToggle, isFetching
       width: '10%',
       render: (book: Book) => {
         const booked = isBooked(book)
-        if (!isAdmin && booked) return null
-        return (
-          <Button size="small" onClick={() => onStatusToggle(book)} disabled={isFetching}>
-            {booked ? 'Return' : 'Take'}
-          </Button>
+
+        const StatusSection = (book: Book) => {
+          if (!isAdmin && booked) return null
+          return (
+            <Button size="small" onClick={() => toggleStatus(book)} disabled={isFetching}>
+              {booked ? 'Return' : 'Take'}
+            </Button>
+          )
+        }
+
+        const EditSection = (book: Book) => (
+          <div style={{ display: 'flex' }}>
+            <EditOutlined
+              style={{ fontSize: 14, cursor: 'pointer' }}
+              onClick={() => setBookToEdit(book)}
+            />
+            <DeleteOutlined
+              style={{ fontSize: 14, cursor: 'pointer', marginLeft: 10 }}
+              onClick={() => handleDelete(book)}
+            />
+          </div>
         )
+
+        return isAdmin ? EditSection(book) : StatusSection(book)
       },
     },
   ]
 
   return (
-    <Table
-      data-cy="library_table"
-      tableLayout="fixed"
-      dataSource={books}
-      pagination={false}
-      columns={columns}
-      rowKey="id"
-      size="middle"
-    />
+    <>
+      <Table
+        data-cy="library_table"
+        tableLayout="fixed"
+        dataSource={books}
+        pagination={false}
+        columns={columns}
+        rowKey="id"
+        size="middle"
+      />
+      <EditBookModal
+        onClose={() => setBookToEdit(null)}
+        visible={isEditPopupVisible}
+        initialState={bookToEdit}
+      ></EditBookModal>
+    </>
   )
 }

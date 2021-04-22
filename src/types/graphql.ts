@@ -169,6 +169,12 @@ export type UpdateBookInput = {
   tags?: Maybe<Array<Maybe<Scalars['String']>>>
 }
 
+export type CreateBookInput = {
+  title?: Maybe<Scalars['String']>
+  author?: Maybe<Scalars['String']>
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>
+}
+
 export type DevToolsGitInfo = {
   __typename?: 'DevToolsGitInfo'
   repoName?: Maybe<Scalars['String']>
@@ -1107,6 +1113,7 @@ export type Mutation = {
   updateBookmark?: Maybe<Bookmark>
   deleteBookmark?: Maybe<Bookmark>
   toggleBookmarklike?: Maybe<Bookmarklike>
+  createBook?: Maybe<Book>
   updateBook?: Maybe<Book>
   updateCurriculumVitae?: Maybe<CurriculumVitae>
   updateDevelopmentPlan?: Maybe<DevelopmentPlan>
@@ -1233,6 +1240,10 @@ export type MutationDeleteBookmarkArgs = {
 
 export type MutationToggleBookmarklikeArgs = {
   input: ToggleBookmarklikeInput
+}
+
+export type MutationCreateBookArgs = {
+  input?: Maybe<CreateBookInput>
 }
 
 export type MutationUpdateBookArgs = {

@@ -151,6 +151,12 @@ input UpdateBookInput {
   tags: [String]
 }
 
+input CreateBookInput {
+  title: String
+  author: String
+  tags: [String]
+}
+
 type DevToolsGitInfo {
   repoName: String
   branchName: String
@@ -858,6 +864,7 @@ type Mutation {
   updateBookmark(input: UpdateBookmarkInput!): Bookmark
   deleteBookmark(input: DeleteBookmarkInput!): Bookmark
   toggleBookmarklike(input: ToggleBookmarklikeInput!): Bookmarklike
+  createBook(input: CreateBookInput): Book
   updateBook(input: UpdateBookInput): Book
   updateCurriculumVitae(input: UpdateCurriculumVitaeInput!): CurriculumVitae
   updateDevelopmentPlan(input: UpdateDevelopmentPlanInput!): DevelopmentPlan
