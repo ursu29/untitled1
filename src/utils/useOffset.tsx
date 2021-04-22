@@ -1,8 +1,8 @@
 import { useMediaQuery } from 'react-responsive'
 import { COLLAPSE_WIDTH } from '../config'
 
-const SMALL = 15
-const LARGE = 60
+const SMALL = 8
+const LARGE = 24
 
 const OFFSETS = { SMALL, LARGE }
 

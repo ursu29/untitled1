@@ -1,11 +1,11 @@
 import { BookOutlined, ContainerOutlined } from '@ant-design/icons'
-import { Typography } from 'antd'
 import React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import Bookmarks from '../Bookmarks/BookmarksPage'
 import Files from '../Files/FilesPage'
 import PageContent from '../UI/PageContent'
 import Tabs from '../UI/Tabs'
+import PageHeader from '../UI/PageHeader'
 
 const tabs = [
   {
@@ -28,10 +28,10 @@ export default function Knowledge({ match }: Props) {
   const { tab } = match.params
   return (
     <>
-      <PageContent noBottom>
-        <Typography.Title>Knowledge</Typography.Title>
+      <PageHeader title="Knowledge" />
+      <PageContent>
+        <Tabs controlled tabs={tabs} tab={tab} />
       </PageContent>
-      <Tabs controlled tabs={tabs} tab={tab} />
     </>
   )
 }

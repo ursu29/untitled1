@@ -2,14 +2,13 @@ import React from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { getWikiPage, WikiPageQueryType, updateWikiPage } from '../../queries/wiki'
 import { useLocation } from 'react-router-dom'
-import Controls from '../UI/Controls'
 import PageContent from '../UI/PageContent'
-import Back from '../UI/Back'
 import TitleEditable from '../UI/TitleEditable'
 import MarkdownEditable from '../UI/MarkdownEditable'
 import message from '../../message'
 import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 import Search from './Search'
+import PageHeader from '../UI/PageHeader'
 
 export default function Page() {
   const location = useLocation()
@@ -36,21 +35,20 @@ export default function Page() {
   }
 
   return (
-    <PageContent error={error} loading={loading} notFound={!data?.wikiPage}>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Controls back={<Back />} />
-        <Search />
-      </div>
-      <TitleEditable
-        data={data?.wikiPage?.title || ''}
-        editable={writeAccess}
-        handleSave={(data: string) => handleSave({ title: data })}
-      />
-      <MarkdownEditable
-        data={data?.wikiPage?.body || ''}
-        editable={writeAccess}
-        handleSave={(data: string) => handleSave({ body: data })}
-      />
-    </PageContent>
+    <>
+      <PageHeader title="Wiki" withBack extra={[<Search />]} />
+      <PageContent error={error} loading={loading} notFound={!data?.wikiPage}>
+        <TitleEditable
+          data={data?.wikiPage?.title || ''}
+          editable={writeAccess}
+          handleSave={(data: string) => handleSave({ title: data })}
+        />
+        <MarkdownEditable
+          data={data?.wikiPage?.body || ''}
+          editable={writeAccess}
+          handleSave={(data: string) => handleSave({ body: data })}
+        />
+      </PageContent>
+    </>
   )
 }

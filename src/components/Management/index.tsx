@@ -1,15 +1,15 @@
 import React from 'react'
 import EmployeesTable from './EmployeesTable'
 import PageContent from '../UI/PageContent'
-import { Typography } from 'antd'
+import PageHeader from '../UI/PageHeader'
 
 export default function Management() {
   return (
-    <PageContent style={{ paddingLeft: 0, paddingRight: 0 }}>
-      <Typography.Title style={{ paddingLeft: '60px', marginBottom: '20px' }}>
-        Management
-      </Typography.Title>
-      <EmployeesTable />
-    </PageContent>
+    <>
+      <PageHeader title="Management" />
+      <PageContent style={{ paddingLeft: 0, paddingRight: 0 }}>
+        <EmployeesTable />
+      </PageContent>
+    </>
   )
 }

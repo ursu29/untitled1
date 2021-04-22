@@ -1,7 +1,7 @@
 import React from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import { Typography, Row, Col } from 'antd'
+import { Row, Col } from 'antd'
 import GuildCard from './GuildCard'
 import PageContent from '../UI/PageContent'
 import { getGuilds, GuildsQueryType } from '../../queries/guilds'
@@ -11,6 +11,7 @@ import message from '../../message'
 import PageScheme from '../Wiki/PageScheme'
 import { getPaths } from '../../queries/wiki'
 import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
+import PageHeader from '../UI/PageHeader'
 
 export default function GuildsPage() {
   const isGridToSingleColumn = useMediaQuery({ maxWidth: 820 })
@@ -84,39 +85,41 @@ export default function GuildsPage() {
   const writeAccess = useStrapiGroupCheck('TECH_PORTAL')
 
   return (
-    <PageContent
-      error={error}
-      loading={loading}
-      notFound={!data?.guilds}
-      notFoundMessage="Sorry, guilds were not found"
-    >
-      <Typography.Title style={{ marginBottom: '40px' }}>Guilds</Typography.Title>
-      {writeAccess && (
-        <div style={{ maxWidth: '700px', marginBottom: '30px' }}>
-          <p style={{ marginBottom: '5px', fontStyle: 'italic' }}>
-            You have access to change the structure of guild pages
-          </p>
-          <PageScheme
-            paths={
-              guildsInfoPaths?.wikiPagesPaths.filter((path: string) =>
-                path.startsWith(guildsInfoSection),
-              ) || []
-            }
-            sectionPath={guildsInfoSection}
-            rootPath="/guilds-info"
+    <>
+      <PageHeader title="Guilds" />
+      <PageContent
+        error={error}
+        loading={loading}
+        notFound={!data?.guilds}
+        notFoundMessage="Sorry, guilds were not found"
+      >
+        {writeAccess && (
+          <div style={{ maxWidth: '700px', marginBottom: '30px' }}>
+            <p style={{ marginBottom: '5px', fontStyle: 'italic' }}>
+              You have access to change the structure of guild pages
+            </p>
+            <PageScheme
+              paths={
+                guildsInfoPaths?.wikiPagesPaths.filter((path: string) =>
+                  path.startsWith(guildsInfoSection),
+                ) || []
+              }
+              sectionPath={guildsInfoSection}
+              rootPath="/guilds-info"
+            />
+          </div>
+        )}
+
+        <div style={{ maxWidth: '600px' }}>
+          <MarkdownEditable
+            data={guildsInfo?.wikiPage?.body || ''}
+            editable={writeAccess}
+            handleSave={(data: string) => handleSave({ body: data })}
           />
         </div>
-      )}
 
-      <div style={{ maxWidth: '600px' }}>
-        <MarkdownEditable
-          data={guildsInfo?.wikiPage?.body || ''}
-          editable={writeAccess}
-          handleSave={(data: string) => handleSave({ body: data })}
-        />
-      </div>
-
-      <GuildsDisplay />
-    </PageContent>
+        <GuildsDisplay />
+      </PageContent>
+    </>
   )
 }

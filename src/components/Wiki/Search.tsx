@@ -100,20 +100,18 @@ export default function Search() {
   }
 
   return (
-    <div style={{ marginRight: '200px', alignSelf: 'center' }}>
-      <AutoComplete
-        dropdownClassName="certain-category-search-dropdown"
-        dropdownMatchSelectWidth={500}
-        style={{ width: 350 }}
-        options={options}
-        placeholder="Search"
-        allowClear
-        onSelect={onSelect}
-        onSearch={onSearch}
-        notFoundContent={!searchText ? '' : 'nothing was found'}
-        value={inputValue}
-        onChange={value => setInputValue(value)}
-      />
-    </div>
+    <AutoComplete
+      dropdownClassName="certain-category-search-dropdown"
+      dropdownMatchSelectWidth={500}
+      style={{ width: 450 }}
+      options={options}
+      placeholder="Search"
+      allowClear
+      onSelect={onSelect}
+      onSearch={onSearch}
+      notFoundContent={!searchText ? '' : 'nothing was found'}
+      value={inputValue}
+      onChange={value => setInputValue(value)}
+    />
   )
 }

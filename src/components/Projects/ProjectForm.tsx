@@ -2,10 +2,8 @@ import { Form } from '@ant-design/compatible'
 import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
 import { Button, Col, Row } from 'antd'
 import React from 'react'
-import { Project } from '../../types'
 import EmployeeSelect from '../Employees/EmployeeSelect'
-
-type ProjectPick = Partial<Project>
+import { ProjectPick } from '../../queries/getProjectByCode'
 
 export interface Props extends FormComponentProps {
   onSubmit: (skill: ProjectPick, reset?: () => void) => void
