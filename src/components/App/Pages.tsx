@@ -38,6 +38,7 @@ import Calendar from '../Calendar'
 import NotAllowed from '../UI/NotAllowed'
 import NotFound from '../UI/NotFound'
 import DevRel from '../DevRel'
+import Snake from '../Snake/SnakePage'
 // import WarningPage from '../UI/WarningPage'
 
 export default function Pages() {
@@ -88,6 +89,7 @@ export default function Pages() {
           <Route path={paths.WORKSPACE_PLANNER} component={WorkspacePlanner} />
           <Route path={paths.FEEDBACK} component={Feedback} />
           <Route path={paths.DEVREL} component={DevRel} />
+          <Route path={paths.GAMES} component={Snake} />
           <PrivateRoute path={paths.MANAGEMENT} component={Management} access={'SUPER_USER'} />
           <Route component={NotFound} />
         </Switch>

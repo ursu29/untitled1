@@ -779,6 +779,42 @@ export type SharedFilesInput = {
   skills?: Maybe<Array<Scalars['ID']>>
 }
 
+export enum GameType {
+  Snake = 'SNAKE',
+}
+
+export type GameScore = {
+  __typename?: 'GameScore'
+  id: Scalars['ID']
+  player: Employee
+  position: Scalars['Int']
+  score: Scalars['Int']
+  date: Scalars['String']
+}
+
+export type StartGame = {
+  __typename?: 'StartGame'
+  secret: Scalars['String']
+}
+
+export type GameLog = {
+  type: Scalars['String']
+  date: Scalars['String']
+}
+
+export type LeaderboardInput = {
+  game: GameType
+}
+
+export type StartGameInput = {
+  game: GameType
+}
+
+export type UpdateScoreInput = {
+  game: GameType
+  value: Scalars['String']
+}
+
 export type Guild = {
   __typename?: 'Guild'
   id?: Maybe<Scalars['ID']>
@@ -844,6 +880,7 @@ export type Query = {
   feedbacks?: Maybe<Array<Feedback>>
   feedbacksAccess?: Maybe<Access>
   sharedFiles: SharedFiles
+  gameLeaderboard: Array<GameScore>
   guild?: Maybe<Guild>
   guilds?: Maybe<Array<Maybe<Guild>>>
   levels?: Maybe<Array<Level>>
@@ -992,6 +1029,10 @@ export type QuerySharedFilesArgs = {
   input?: Maybe<SharedFilesInput>
 }
 
+export type QueryGameLeaderboardArgs = {
+  input: LeaderboardInput
+}
+
 export type QueryGuildArgs = {
   input?: Maybe<GuildInput>
 }
@@ -1117,6 +1158,8 @@ export type Mutation = {
   deleteFeedback?: Maybe<Feedback>
   replyFeedback?: Maybe<FeedbackComment>
   updateFileDetails?: Maybe<FileDetails>
+  startGame: StartGame
+  updateGameScore: GameScore
   updateGuild?: Maybe<Guild>
   attachMatrixToEmployee?: Maybe<Matrix>
   detachMatrixFromEmployee?: Maybe<Matrix>
@@ -1326,6 +1369,14 @@ export type MutationReplyFeedbackArgs = {
 
 export type MutationUpdateFileDetailsArgs = {
   input: UpdateFileDetailsInput
+}
+
+export type MutationStartGameArgs = {
+  input: StartGameInput
+}
+
+export type MutationUpdateGameScoreArgs = {
+  input: UpdateScoreInput
 }
 
 export type MutationUpdateGuildArgs = {

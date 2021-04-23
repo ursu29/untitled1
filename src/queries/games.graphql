@@ -1,0 +1,30 @@
+fragment GameScoreFragment on GameScore {
+  id
+  player {
+    id
+    name
+    email
+  }
+  position
+  score
+  date
+}
+
+query getGameLeaderboard($input: LeaderboardInput!) {
+  gameLeaderboard(input: $input) {
+    ...GameScoreFragment
+  }
+}
+
+mutation startGame($input: StartGameInput!) {
+  startGame(input: $input) {
+    secret
+  }
+}
+
+mutation updateGameScore($input: UpdateScoreInput!) {
+  updateGameScore(input: $input) {
+    id
+    score
+  }
+}
