@@ -23,6 +23,7 @@ import ActiveStepCard from './ExecutionStepCard'
 import ProcessExecutionBranch from './ProcessExecutionBranch'
 import ProcessExecutionRotation from './ProcessExecutionRotation'
 import ProcessExecutionStatusTag from './ProcessExecutionStatusTag'
+import UpdateProcessExecution from './UpdateProcessExecution'
 
 const mutation = gql`
   mutation completeProcessExecutionStep($input: CompleteProcessExecutionStepInput!) {
@@ -192,18 +193,16 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                 )
               }}
             </OnHoldProcessExecution>,
+            <UpdateProcessExecution
+              processExecution={processExecution}
+              refetchQueries={[{ query: getProcessExecution, variables }]}
+            />,
           ]}
         />
       </PageContent>
       {processExecution.process.type === 'ONBOARDING' && (
         <>
           <PageContent noBottom noTop>
-            {/* <Typography.Title style={{ display: 'flex', alignItems: 'center' }}>
-              <span style={{ marginRight: 8 }}>{processExecution.process.title}</span>
-              {processExecution.status === 'cancelled' && <Tag color="volcano">Cancelled</Tag>}
-              {processExecution.status === 'finished' && <Tag color="green">Completed</Tag>}
-            </Typography.Title> */}
-
             <ProcessExecutionRotation processExecution={processExecution} />
             <ActiveStepCard
               title="Open Vacancy"
