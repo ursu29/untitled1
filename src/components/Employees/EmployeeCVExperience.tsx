@@ -413,7 +413,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
       width: '20%',
       editable,
       render: (text: any, record: any) =>
-        text.length > 55 ? (
+        text?.length > 55 ? (
           showFullResponsibilities.includes(record.id) ? (
             <div
               onClick={() =>
