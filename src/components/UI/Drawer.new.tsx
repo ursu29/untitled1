@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react'
+import React from 'react'
 import { Drawer } from 'antd'
 import { useMediaQuery } from 'react-responsive'
 
@@ -6,17 +6,17 @@ export default function ({
   visible,
   onClose,
   size = 'default',
-  children,
+  ...props
 }: {
   visible: boolean
-  onClose: (e: any) => {}
-  size: 'large' | 'default'
-} & PropsWithChildren<any>) {
+  onClose: () => any
+  size?: 'large' | 'default'
+} & React.ComponentProps<typeof Drawer>) {
   const drawerWidth = size === 'large' ? 800 : 480
   const isLarge = useMediaQuery({ minWidth: drawerWidth })
   return (
-    <Drawer visible={visible} onClose={onClose} width={isLarge ? drawerWidth : '100%'}>
-      {children}
+    <Drawer visible={visible} onClose={onClose} width={isLarge ? drawerWidth : '100%'} {...props}>
+      {props.children}
     </Drawer>
   )
 }

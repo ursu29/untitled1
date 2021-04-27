@@ -59,6 +59,7 @@ function LocationSelect({ onChange, value, wide, size, mode, ...props }: Props, 
           value: getLocationName(i),
         }
       })}
+      selectProps={{ placeholder: 'Location' }}
     />
   )
 }
