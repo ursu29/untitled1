@@ -213,6 +213,7 @@ export default function ArticlesTab({
           </Form.Item>
           <Form.Item>
             <Button
+              data-cy="submit"
               type="primary"
               htmlType="submit"
               loading={isEditMode ? updateLoading : createLoading}
