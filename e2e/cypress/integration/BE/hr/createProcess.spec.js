@@ -88,7 +88,7 @@ describe('create new process', () => {
     })
   })
 
-  it.skip('delete process', () => {
+  it('delete process', () => {
     cy.post(deleteProcess(processId), 'superUser').then(res =>
       expect(res.body.data.deleteProcess.id).equal(processId),
     )

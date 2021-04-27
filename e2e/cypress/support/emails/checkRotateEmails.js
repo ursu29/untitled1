@@ -26,6 +26,7 @@ export const hrMessage = (reason, name, vacancyName) => ({
 export const checkRotationEmail = (emailData) => {
     const {name, email, firstVacancy, reasonText, toHrMessage} = emailData
 
+    // eslint-disable-next-line
     cy.wait(500)
     cy.getRequestData(EMAIL_URL).then(el => {
         const {bodyPreview} =  el.body.value[0]
