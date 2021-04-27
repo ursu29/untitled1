@@ -1,3 +1,0 @@
-mutation addMatrixFeedback($input: MatrixFeedbackInput!) {
-  addMatrixFeedback(input: $input)
-}

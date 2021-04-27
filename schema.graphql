@@ -920,7 +920,7 @@ type Mutation {
   createMatrixGrade(input: CreateMatrixGradeInput): Matrix
   deleteMatrixGrade(input: DeleteMatrixGradeInput): Matrix
   updateMatricesCustomFields(input: UpdateMatricesCustomFieldsInput): MatricesCustomFields
-  addMatrixFeedback(input: MatrixFeedbackInput!): Boolean!
+  proposeMatrixChanges(input: ProposeMatrixChangesInput!): Boolean
   createOfficeBooking(input: CreateOfficeBookingInput!): Boolean
   cancelOfficeBooking(input: CancelOfficeBookingInput!): Boolean
   updateOfficeDays(input: UpdateOfficeDaysInput!): Boolean
@@ -1103,10 +1103,10 @@ input UpdateMatricesCustomFieldsInput {
   lastDiscussed: String
 }
 
-input MatrixFeedbackInput {
+input ProposeMatrixChangesInput {
   matrix: ID!
   skill: ID!
-  feedback: String!
+  proposal: String!
 }
 
 type OfficeDay {

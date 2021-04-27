@@ -1,0 +1,3 @@
+mutation proposeMatrixChanges($input: ProposeMatrixChangesInput!) {
+  proposeMatrixChanges(input: $input)
+}

@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import message from '../../message'
 import getEmployeeExperiences from '../../queries/getEmployeeExperiences'
 import updateExperience from '../../queries/updateExperience'
-import { useAddMatrixFeedbackMutation } from '../../queries/addMatrixFeedback'
+import { useProposeMatrixChangesMutation } from '../../queries/proposeMatrixChanges'
 import { ArchivedMatrixRaw, Employee, Experience, Skill, Matrix } from '../../types'
 import MatrixExperience from '../Matrices/MatrixExperience'
 import { Level } from '../../types/graphql'
@@ -83,8 +83,8 @@ export default function EmployeeMatrixExperience({
     onCompleted,
     onError,
   })
-  const [addFeedback, { loading: feedbackLoading }] = useAddMatrixFeedbackMutation({
-    onCompleted: () => message.success('Feedback sended'),
+  const [proposeChanges, { loading: proposeChangesLoading }] = useProposeMatrixChangesMutation({
+    onCompleted: () => message.success('Proposal sent'),
     onError: message.error,
   })
 
@@ -126,13 +126,13 @@ export default function EmployeeMatrixExperience({
     }
   }
 
-  const onAddFeedback = (feedback: string) => {
-    addFeedback({
+  const onProposeChanges = (proposal: string) => {
+    proposeChanges({
       variables: {
         input: {
           matrix: matrix.id,
           skill: skill!.id,
-          feedback,
+          proposal,
         },
       },
     })
@@ -150,10 +150,10 @@ export default function EmployeeMatrixExperience({
       isArchivedChosen={isArchivedChosen}
       onUpdateExperience={onUpdateExperience}
       onDeselectLevel={onDeselectLevel}
-      onAddFeedback={onAddFeedback}
+      onProposeChanges={onProposeChanges}
       divClassName={divClassName}
       editable={editable && !isArchivedChosen}
-      loading={createLoading || updateLoading || deleteLoading || feedbackLoading}
+      loading={createLoading || updateLoading || deleteLoading || proposeChangesLoading}
     />
   )
 }

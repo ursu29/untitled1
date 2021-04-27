@@ -82,7 +82,7 @@ interface Props {
   isArchivedChosen?: boolean
   onUpdateExperience: (level: Level, comment?: string) => void
   onDeselectLevel: () => void
-  onAddFeedback: (feedback: string) => void
+  onProposeChanges: (proposal: string) => void
   divClassName?: string
   editable: boolean
   type?: string
@@ -96,7 +96,7 @@ function MatrixExperience({
   isArchivedChosen,
   onUpdateExperience,
   onDeselectLevel,
-  onAddFeedback,
+  onProposeChanges,
   divClassName,
   editable,
   type,
@@ -229,7 +229,7 @@ function MatrixExperience({
         onOk={comment => {
           if (!comment) return
 
-          onAddFeedback(comment)
+          onProposeChanges(comment)
           setAddFeedbackModal(false)
         }}
         onCancel={() => setAddFeedbackModal(false)}

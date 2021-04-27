@@ -1174,7 +1174,7 @@ export type Mutation = {
   createMatrixGrade?: Maybe<Matrix>
   deleteMatrixGrade?: Maybe<Matrix>
   updateMatricesCustomFields?: Maybe<MatricesCustomFields>
-  addMatrixFeedback: Scalars['Boolean']
+  proposeMatrixChanges?: Maybe<Scalars['Boolean']>
   createOfficeBooking?: Maybe<Scalars['Boolean']>
   cancelOfficeBooking?: Maybe<Scalars['Boolean']>
   updateOfficeDays?: Maybe<Scalars['Boolean']>
@@ -1436,8 +1436,8 @@ export type MutationUpdateMatricesCustomFieldsArgs = {
   input?: Maybe<UpdateMatricesCustomFieldsInput>
 }
 
-export type MutationAddMatrixFeedbackArgs = {
-  input: MatrixFeedbackInput
+export type MutationProposeMatrixChangesArgs = {
+  input: ProposeMatrixChangesInput
 }
 
 export type MutationCreateOfficeBookingArgs = {
@@ -1767,10 +1767,10 @@ export type UpdateMatricesCustomFieldsInput = {
   lastDiscussed?: Maybe<Scalars['String']>
 }
 
-export type MatrixFeedbackInput = {
+export type ProposeMatrixChangesInput = {
   matrix: Scalars['ID']
   skill: Scalars['ID']
-  feedback: Scalars['String']
+  proposal: Scalars['String']
 }
 
 export type OfficeDay = {
