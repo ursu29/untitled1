@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { LinkOutlined, MessageOutlined, InfoCircleOutlined } from '@ant-design/icons'
+import { LinkOutlined, MessageOutlined, BulbOutlined } from '@ant-design/icons'
 import { Tooltip, Spin } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -131,7 +131,7 @@ function MatrixExperience({
 
                 <CardButton type="button" onClick={() => setAddFeedbackModal(true)}>
                   <Tooltip title="Propose changes" placement="bottom">
-                    <InfoCircleOutlined />
+                    <BulbOutlined />
                   </Tooltip>
                 </CardButton>
 
@@ -224,7 +224,7 @@ function MatrixExperience({
       />
 
       <CommentModal
-        title="Matrix feedback"
+        title="Propose matrix changes"
         visible={addFeedbackModal}
         onOk={comment => {
           if (!comment) return
