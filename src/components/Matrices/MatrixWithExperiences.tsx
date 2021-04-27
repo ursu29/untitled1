@@ -164,6 +164,7 @@ export default function MatrixWithExperiences({
                       isArchivedChosen={isArchivedChosen}
                       key={skill.id}
                       skill={skill}
+                      matrix={matrix}
                       editable={employee?.access.write || false}
                       employee={employee}
                       divClassName={'matrix_exp-' + matrix.id + '-' + groupIndex + '-' + skillIndex}

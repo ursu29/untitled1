@@ -4,7 +4,8 @@ import React, { useState } from 'react'
 import message from '../../message'
 import getEmployeeExperiences from '../../queries/getEmployeeExperiences'
 import updateExperience from '../../queries/updateExperience'
-import { ArchivedMatrixRaw, Employee, Experience, Skill } from '../../types'
+import { useAddMatrixFeedbackMutation } from '../../queries/addMatrixFeedback'
+import { ArchivedMatrixRaw, Employee, Experience, Skill, Matrix } from '../../types'
 import MatrixExperience from '../Matrices/MatrixExperience'
 import { Level } from '../../types/graphql'
 
@@ -25,6 +26,7 @@ const deleteExperience = gql`
 `
 
 interface Props {
+  matrix: Matrix
   experience?: {
     id: Experience['id']
     level: Level
@@ -40,6 +42,7 @@ interface Props {
 }
 
 export default function EmployeeMatrixExperience({
+  matrix,
   experience,
   skill,
   employee,
@@ -80,6 +83,10 @@ export default function EmployeeMatrixExperience({
     onCompleted,
     onError,
   })
+  const [addFeedback, { loading: feedbackLoading }] = useAddMatrixFeedbackMutation({
+    onCompleted: () => message.success('Feedback sended'),
+    onError: message.error,
+  })
 
   const onUpdateExperience = (level: Level, comment?: string) => {
     //@ts-ignore
@@ -119,6 +126,18 @@ export default function EmployeeMatrixExperience({
     }
   }
 
+  const onAddFeedback = (feedback: string) => {
+    addFeedback({
+      variables: {
+        input: {
+          matrix: matrix.id,
+          skill: skill!.id,
+          feedback,
+        },
+      },
+    })
+  }
+
   if (!skill) return null
   if (!employee) return <div>Employee is not provided</div>
 
@@ -131,9 +150,10 @@ export default function EmployeeMatrixExperience({
       isArchivedChosen={isArchivedChosen}
       onUpdateExperience={onUpdateExperience}
       onDeselectLevel={onDeselectLevel}
+      onAddFeedback={onAddFeedback}
       divClassName={divClassName}
       editable={editable && !isArchivedChosen}
-      loading={createLoading || updateLoading || deleteLoading}
+      loading={createLoading || updateLoading || deleteLoading || feedbackLoading}
     />
   )
 }

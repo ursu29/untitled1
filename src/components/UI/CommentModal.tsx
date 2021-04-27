@@ -5,8 +5,8 @@ import './styles.css'
 interface Props {
   title: string
   visible: boolean
-  onOk: any
-  onCancel: any
+  onOk: (value?: string) => void
+  onCancel: () => void
   defaultComment: string
 }
 
@@ -16,7 +16,11 @@ export default function CommentModal({ title, visible, onOk, onCancel, defaultCo
       className="styled_modal_comment"
       title={title}
       visible={visible}
-      onOk={onOk}
+      onOk={() => {
+        // TODO: get rid of getElementById
+        const input = document.getElementById('comment_text_area') as HTMLInputElement
+        onOk(input?.value)
+      }}
       onCancel={onCancel}
       okText="Post"
       cancelText="Cancel"
