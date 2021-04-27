@@ -1,29 +1,15 @@
-import { useMutation } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import React, { useState } from 'react'
 import message from '../../message'
 import getEmployeeExperiences from '../../queries/getEmployeeExperiences'
-import updateExperience from '../../queries/updateExperience'
 import { useProposeMatrixChangesMutation } from '../../queries/proposeMatrixChanges'
+import {
+  useCreateExperienceMutation,
+  useDeleteExperienceMutation,
+  useUpdateExperienceMutation,
+} from '../../queries/experience'
 import { ArchivedMatrixRaw, Employee, Experience, Skill, Matrix } from '../../types'
 import MatrixExperience from '../Matrices/MatrixExperience'
 import { Level } from '../../types/graphql'
-
-const createExperience = gql`
-  mutation createExperience($input: CreateExperienceInput) {
-    createExperience(input: $input) {
-      id
-    }
-  }
-`
-
-const deleteExperience = gql`
-  mutation deleteExperience($input: DeleteExperienceInput) {
-    deleteExperience(input: $input) {
-      id
-    }
-  }
-`
 
 interface Props {
   matrix: Matrix
@@ -65,19 +51,19 @@ export default function EmployeeMatrixExperience({
     setExperienceUI(experience)
   }
 
-  const [create, { loading: createLoading }] = useMutation(createExperience, {
+  const [create, { loading: createLoading }] = useCreateExperienceMutation({
     refetchQueries,
     awaitRefetchQueries: true,
     onCompleted,
     onError,
   })
-  const [update, { loading: updateLoading }] = useMutation(updateExperience, {
+  const [update, { loading: updateLoading }] = useUpdateExperienceMutation({
     refetchQueries,
     awaitRefetchQueries: true,
     onCompleted,
     onError,
   })
-  const [remove, { loading: deleteLoading }] = useMutation(deleteExperience, {
+  const [remove, { loading: deleteLoading }] = useDeleteExperienceMutation({
     refetchQueries,
     awaitRefetchQueries: true,
     onCompleted,
@@ -97,7 +83,7 @@ export default function EmployeeMatrixExperience({
         variables: {
           input: {
             employee: employee?.id,
-            skill: skill?.id,
+            skill: skill!.id,
             level,
             comment,
           },
