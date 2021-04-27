@@ -14,10 +14,6 @@ describe('Check statistic page', () => {
         })
     })
 
-    it('check page name', () => {
-        cy.getElement('statTitle').contains('Skills Statistics')
-    })
-
     it(`check number of employees who knows ${skillName}`, () => {
         const {experiences} = gitData[0]
 
