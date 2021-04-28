@@ -121,7 +121,7 @@ export const menuEl = {
   subMenu: '[id="tools$Menu"]',
   subMenuItem: '[id="tools$Menu"] > .ant-menu-item',
   title: '.ant-typography',
-  back: 'back-button'
+  back: 'arrow-left'
 }
 
 export const postEl = {

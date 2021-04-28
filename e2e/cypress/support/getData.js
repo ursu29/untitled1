@@ -95,6 +95,12 @@ export const cancelEvent = (id, comment) => ({
   query: query.cancelEvent,
 })
 
+export const createEvent = (obj) => ({
+  operationName: 'createEvent',
+  variables: {input:{...obj}},
+  query: query.createEvent,
+})
+
 export const getClient = () => ({
   operationName: null,
   variables: {},
