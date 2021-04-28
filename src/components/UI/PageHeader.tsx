@@ -16,7 +16,10 @@ export default function ({
 
   const customProps = {} as React.ComponentProps<typeof PageHeader>
 
-  if (withBack) customProps.onBack = () => history.goBack()
+  if (withBack)
+    customProps.onBack = () => {
+      history.push(history.location.pathname.split('/').slice(0, -1).join('/'))
+    }
 
   return (
     <>

@@ -1,9 +1,8 @@
 import { Tabs } from 'antd'
 import React from 'react'
 import { useMediaQuery } from 'react-responsive'
-import { matchPath, RouteComponentProps, withRouter } from 'react-router-dom'
 import { COLLAPSE_WIDTH } from '../../config'
-import paths, { getEmployeeLink, getGuildLink, getProjectLink, getSkillLink } from '../../paths'
+import URLAction from '../../utils/URLAction'
 
 const { TabPane } = Tabs
 
@@ -16,7 +15,7 @@ interface Tab {
   noPadding?: boolean
 }
 
-interface Props extends RouteComponentProps {
+interface Props {
   tab?: string
   tabs: Tab[]
   controlled?: boolean
@@ -24,12 +23,13 @@ interface Props extends RouteComponentProps {
   tabsProps?: React.ComponentProps<typeof Tabs>
 }
 
-function PortalTabs({ location, history, noPadding, controlled, tabs, tab, tabsProps }: Props) {
+export default function PortalTabs({ noPadding, controlled, tabs, tab, tabsProps }: Props) {
+  const urlAction = new URLAction()
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   const padding = isLarge ? 60 : 15
-  const addditionalProps = controlled
+  const additionalProps = controlled
     ? {
-        activeKey: tab || tabs[0].key,
+        activeKey: tab || urlAction.paramsGet('tab'),
       }
     : {}
 
@@ -37,34 +37,11 @@ function PortalTabs({ location, history, noPadding, controlled, tabs, tab, tabsP
     <Tabs
       animated={false}
       tabBarStyle={{ paddingLeft: padding, paddingRight: padding, marginBottom: 0 }}
-      defaultActiveKey={tab || tabs[0].key}
-      {...addditionalProps}
-      // activeKey={controlled ? tab || tabs[0].key : undefined}
+      defaultActiveKey={urlAction.paramsGet('tab') || tabs[0].key}
+      {...additionalProps}
       tabBarGutter={0}
       onTabClick={(tab: string) => {
-        // const { pathname } = location
-        // const url = pathname.substr(0, pathname.lastIndexOf('/')) + '/' + tab
-        // history.push(url)
-        // setKey(Math.random())
-        const employees: any = matchPath(location.pathname, { path: paths.EMPLOYEES + '/:email' })
-        const profile: any = matchPath(location.pathname, { path: paths.PROFILE })
-        const projects: any = matchPath(location.pathname, { path: paths.PROJECTS + '/:code' })
-        const skills: any = matchPath(location.pathname, { path: paths.SKILLS + '/:id' })
-        const knowledge: any = matchPath(location.pathname, { path: paths.KNOWLEDGE })
-        const guilds: any = matchPath(location.pathname, { path: paths.GUILDS + '/:code' })
-        if (profile) {
-          history.push(paths.PROFILE + '/' + tab)
-        } else if (employees) {
-          history.push(getEmployeeLink(employees.params.email) + tab)
-        } else if (projects) {
-          history.push(getProjectLink(projects.params.code) + tab)
-        } else if (skills) {
-          history.push(getSkillLink(skills.params.id) + tab)
-        } else if (guilds) {
-          history.push(getGuildLink(guilds.params.code) + tab)
-        } else if (knowledge) {
-          history.push(paths.KNOWLEDGE + '/' + tab)
-        }
+        urlAction.paramsClear().paramsSet('tab', tab)
       }}
       {...tabsProps}
     >
@@ -92,4 +69,4 @@ function PortalTabs({ location, history, noPadding, controlled, tabs, tab, tabsP
   )
 }
 
-export default withRouter(PortalTabs)
+// export default withRouter(PortalTabs)

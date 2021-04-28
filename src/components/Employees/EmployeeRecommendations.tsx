@@ -1,11 +1,10 @@
 import { BookOutlined, ContainerOutlined } from '@ant-design/icons'
 import React from 'react'
-import { useHistory, useParams } from 'react-router-dom'
-import paths from '../../paths'
 import { Skill } from '../../types'
 import Tabs from '../UI/Tabs'
 import EmployeeRecommendationBookmarks from './EmployeeRecommendationBookmarks'
 import EmployeeRecommendationFiles from './EmployeeRecommendationFiles'
+import URLAction from '../../utils/URLAction'
 
 type SkillPick = Pick<Skill, 'id'>
 
@@ -14,10 +13,9 @@ interface Props {
 }
 
 const EmployeeRecommendations = ({ skills }: Props) => {
-  const history = useHistory()
-  const { subTab } = useParams<{ subTab: string }>()
+  const urlAction = new URLAction()
   const handleTabChange = (nextTab: string) => {
-    history.push(`${paths.PROFILE}/skills/${nextTab}`)
+    urlAction.paramsSet('recommendation', nextTab)
   }
 
   const tabs = [
@@ -38,7 +36,7 @@ const EmployeeRecommendations = ({ skills }: Props) => {
   return (
     <Tabs
       tabs={tabs}
-      tab={subTab}
+      tab={urlAction.paramsGet('recommendation') || tabs[0].key}
       controlled
       noPadding
       tabsProps={{
