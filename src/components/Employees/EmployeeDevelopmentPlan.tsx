@@ -86,6 +86,8 @@ export default function EmployeeDevelopmentPlan(props: Props) {
     skip: !props.employee,
   })
 
+  console.log(data)
+
   const [update, { loading: mutateLoading }] = useMutation(mutation, {
     onCompleted: () => message.success('Plan has been updated'),
     refetchQueries: [{ query: getDevelopmentPlans, variables }],
@@ -174,9 +176,10 @@ export default function EmployeeDevelopmentPlan(props: Props) {
 
             <DevelopmentPlanForm
               value={isArchivedChosen && archivedPlan ? archivedPlan : plan}
-              onChange={(value: any) =>
+              onChange={(value: any) => {
+                console.log(value)
                 debounced({ variables: { input: { ...value, lastUpdatedAt: plan?.updatedAt } } })
-              }
+              }}
               locked={isArchivedChosen}
               resetFields={resetFields}
             />

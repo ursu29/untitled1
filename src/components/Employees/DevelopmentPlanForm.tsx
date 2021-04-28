@@ -25,6 +25,7 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
   }, [resetFields, form])
 
   const handleSubmit = (values: any) => {
+    console.log(values)
     onChange({
       id: value?.id,
       ...values,
@@ -32,6 +33,8 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
       previousGoals: values.previousGoals?.map(({ __typename, ...i }: any) => i),
     })
   }
+
+  console.log(value)
 
   return (
     <Form
@@ -64,13 +67,13 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
           </Col>
         </Row>
       </div>
+      <Title level={3}>Look Forward</Title>
+      <Paragraph style={{ maxWidth: 550 }}>
+        Capture interest in the project and how the future is perceived from a project point of
+        view. I.e. would the employee like to stay in the project, is happy with current position in
+        the project, would like to change project, etc
+      </Paragraph>
       <Form.Item name="lookForward">
-        <Title level={3}>Look Forward</Title>
-        <Paragraph style={{ maxWidth: 550 }}>
-          Capture interest in the project and how the future is perceived from a project point of
-          view. I.e. would the employee like to stay in the project, is happy with current position
-          in the project, would like to change project, etc
-        </Paragraph>
         <Input.TextArea rows={4} onBlur={form.submit} disabled={locked} />
       </Form.Item>
 
@@ -176,7 +179,7 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
             </Form.Item>
           </div>
           <div>
-            <Form.Item name={['developmentRoles', 'agileCoach']} valuePropName="checked">
+            <Form.Item name={['developmentRoles', 'agileManager']} valuePropName="checked">
               <Checkbox disabled={locked}>Agile Manager</Checkbox>
             </Form.Item>
           </div>
@@ -210,17 +213,17 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
           </div>
         </Row>
       </div>
+      <Title level={3}>Long Term goals (more than a year)</Title>
+      <Paragraph style={{ maxWidth: 550 }}>
+        Capture what long term goals the employee has in this regards. As an example “I want to
+        become Senior Property Insurance Business Analyst in 2 years” would look fine in this
+        section, but format is not strict
+      </Paragraph>
       <Form.Item name="longTermGoals">
-        <Title level={3}>Long Term goals (more than a year)</Title>
-        <Paragraph style={{ maxWidth: 550 }}>
-          Capture what long term goals the employee has in this regards. As an example “I want to
-          become Senior Property Insurance Business Analyst in 2 years” would look fine in this
-          section, but format is not strict
-        </Paragraph>
         <Input.TextArea
           rows={4}
           placeholder={locked ? '' : 'Describe new goal'}
-          onBlur={handleSubmit}
+          onBlur={form.submit}
           disabled={locked}
         />
       </Form.Item>
@@ -237,7 +240,6 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
         <DevelopmentGoals
           showAchievedSwitch={false}
           onChange={values => {
-            console.log(values)
             form.setFieldsValue({
               actualGoals: values,
             })
@@ -281,19 +283,19 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
           </div>
         </Row>
       </div>
+      <Title level={3}>Amount of time</Title>
+      <Paragraph style={{ maxWidth: 550 }}>
+        Define here a rough plan how you will use guild for a half of a year or for a full year.
+        i.e. I will need 1 day per week to do guild work. Or I will need entire week to work on the
+        project \ prepare exams. Discuss the plan and agree on it with your Agile Manager. Scrum
+        Master and Agile Manager will help you to find good time slots from a project perspective
+        and will also help to communicate it to our clients and colleagues.
+      </Paragraph>
       <Form.Item name="amountOfTime">
-        <Title level={3}>Amount of time</Title>
-        <Paragraph style={{ maxWidth: 550 }}>
-          Define here a rough plan how you will use guild for a half of a year or for a full year.
-          i.e. I will need 1 day per week to do guild work. Or I will need entire week to work on
-          the project \ prepare exams. Discuss the plan and agree on it with your Agile Manager.
-          Scrum Master and Agile Manager will help you to find good time slots from a project
-          perspective and will also help to communicate it to our clients and colleagues.
-        </Paragraph>
         <Input.TextArea
           rows={4}
           placeholder={locked ? '' : 'Describe time needed for guild projects'}
-          onBlur={handleSubmit}
+          onBlur={form.submit}
           disabled={locked}
         />
       </Form.Item>
