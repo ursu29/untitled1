@@ -55,9 +55,7 @@ const App: React.FC = () => {
 
         const client = new ApolloClient({
           link: errorLink.concat(authLink).concat(httpLink),
-          cache: new InMemoryCache({
-            addTypename: false,
-          }),
+          cache: new InMemoryCache(),
         })
 
         return (
