@@ -29,7 +29,7 @@ describe('Update guilds title and leads', () => {
 
     it('change title and add leader to guild', () => {
 
-        cy.getElement(update).click()
+        cy.get('span').contains(update).click()
         cy.getId(title).type(todaysDate)
 
         //select value

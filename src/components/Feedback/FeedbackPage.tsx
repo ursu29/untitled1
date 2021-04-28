@@ -1,15 +1,17 @@
 import React from 'react'
-import { Typography } from 'antd'
 import PageContent from '../UI/PageContent'
 import AddFeedback from './AddFeedback'
 import FeedbacksList from './FeedbacksList'
+import PageHeader from '../UI/PageHeader'
 
 export default function FeedbackPage() {
   return (
-    <PageContent style={{ maxWidth: '600px' }}>
-      <Typography.Title style={{ marginBottom: '40px' }}>Feedback</Typography.Title>
-      <AddFeedback />
-      <FeedbacksList />
-    </PageContent>
+    <>
+      <PageHeader title="Feedback" />
+      <PageContent style={{ maxWidth: '600px' }}>
+        <AddFeedback />
+        <FeedbacksList />
+      </PageContent>
+    </>
   )
 }

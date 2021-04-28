@@ -17,7 +17,7 @@ const Container = styled.div<{
   height: ${props => props.style?.height || ''};
   padding: ${props => `${props.offset}px`};
   padding-bottom: ${props => (props.noBottom ? `${props.small}px` : `${props.offset}px`)};
-  padding-top: ${props => (props.noTop ? `${props.small}px` : `${(2 * props.offset) / 3}px`)};
+  padding-top: ${props => (props.noTop ? `${props.small}px` : `${props.offset}px`)};
 `
 
 interface Props {

@@ -12,7 +12,7 @@ describe('Send notification Feedback (emails)', () => {
 
     before(() => {
         cy.setToken('manager')
-        cy.get(EMAIL_URL).then(el => emailData =  el.body.value[0].bodyPreview)
+        cy.getRequestData(EMAIL_URL).then(el => emailData =  el.body.value[0].bodyPreview)
         cy.setToken('employee')
         cy.post(addFeedback(message.text))
             .then(req => feedbackId = req.body.data.addFeedback.id)

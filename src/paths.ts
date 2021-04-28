@@ -24,6 +24,8 @@ const PATHS = {
   WORKSPACE_PLANNER: '/workspace-planner',
   FEEDBACK: '/feedback',
   MANAGEMENT: '/management',
+  DEVREL: '/devrel',
+  GAMES: '/games',
 }
 
 export const getEmployeeLink = (email: Employee['email']) => PATHS.EMPLOYEES + '/' + email + '/'

@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import { DeleteOutlined } from '@ant-design/icons'
-import { Button, List, Popconfirm, Typography } from 'antd'
+import { Button, List, Popconfirm } from 'antd'
 import gql from 'graphql-tag'
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
@@ -13,6 +13,7 @@ import NotAllowed from '../UI/NotAllowed'
 import PageContent from '../UI/PageContent'
 import Skeleton from '../UI/Skeleton'
 import CreateProcess from './CreateProcess'
+import PageHeader from '../UI/PageHeader'
 
 const accessQuery = gql`
   query processPageAccess {
@@ -61,32 +62,31 @@ function ProcessesPage() {
   const loading = dataLoading || accessLoading
 
   return (
-    <PageContent>
-      <Skeleton active loading={loading}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography.Title>Processes</Typography.Title>
-          <CreateProcess />
-        </div>
-        {!data?.processes?.length && <div>No processes found</div>}
-        <List>
-          {data?.processes.map(i => {
-            return (
-              <List.Item key={i.id}>
-                <Link to={getProcessLink(i.id)}>{i.title}</Link>{' '}
-                <Popconfirm
-                  title="Sure to delete?"
-                  onConfirm={() => {
-                    deleteProcess({ variables: { id: i.id } })
-                  }}
-                >
-                  <Button type="link" icon={<DeleteOutlined />} />
-                </Popconfirm>
-              </List.Item>
-            )
-          })}
-        </List>
-      </Skeleton>
-    </PageContent>
+    <>
+      <PageHeader title="Processes" extra={[<CreateProcess />]} />
+      <PageContent>
+        <Skeleton active loading={loading}>
+          {!data?.processes?.length && <div>No processes found</div>}
+          <List>
+            {data?.processes.map(i => {
+              return (
+                <List.Item key={i.id}>
+                  <Link to={getProcessLink(i.id)}>{i.title}</Link>{' '}
+                  <Popconfirm
+                    title="Sure to delete?"
+                    onConfirm={() => {
+                      deleteProcess({ variables: { id: i.id } })
+                    }}
+                  >
+                    <Button type="link" icon={<DeleteOutlined />} />
+                  </Popconfirm>
+                </List.Item>
+              )
+            })}
+          </List>
+        </Skeleton>
+      </PageContent>
+    </>
   )
 }
 

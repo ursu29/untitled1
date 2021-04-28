@@ -17,7 +17,7 @@ export default gql`
 
 type EmployeePick = Pick<Employee, 'id' | 'email'>
 
-type ProjectPick = ProjectDetails & {
+export type ProjectPick = ProjectDetails & {
   scrumMasters: EmployeePick[]
 }
 

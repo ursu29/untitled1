@@ -178,11 +178,6 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
               <Checkbox disabled={locked}>Agile Coach</Checkbox>
             </Form.Item>
           </div>
-          <div>
-            <Form.Item name={['developmentRoles', 'agileManager']} valuePropName="checked">
-              <Checkbox disabled={locked}>Agile Manager</Checkbox>
-            </Form.Item>
-          </div>
         </Row>
       </div>
       <div style={{ marginBottom: 20 }}>

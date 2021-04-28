@@ -25,6 +25,7 @@ import Tabs from '../UI/Tabs'
 import DrawerForm from './DrawerForm'
 import MyTickets from './MyTickets'
 import Ticket from './Ticket'
+import PageHeader from '../UI/PageHeader'
 
 export default function Onboarding() {
   const user = useEmployee()
@@ -165,40 +166,72 @@ export default function Onboarding() {
     return <Skeleton withOffset active loading={loading} />
   }
 
-  return (
-    <PageContent
-      error={error}
-      loading={loading}
-      notFound={!ticketsData?.onboardingTickets && !isAccessWrite}
-      notFoundMessage="Sorry, onboarding tickets were not found"
-      style={{ paddingLeft: 0, paddingRight: 0 }}
-    >
-      {/* <Controls back={<Back />} style={{ padding: '20px 0 10px 30px' }} /> */}
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography.Title
-          style={{
-            display: 'flex',
-            alignItems: 'baseline',
-            marginBottom: '40px',
-            fontSize: '20px',
-            paddingLeft: '60px',
+  const headerExtra = (
+    <div style={{ display: 'flex' }}>
+      {!isMyTicketsView && (
+        <div style={{ fontSize: '14px', fontWeight: 'normal' }}>
+          Show SwissRe Trainings
+          <Switch
+            size="small"
+            checked={isSwissreVisible}
+            onChange={() => {
+              setisSwissreVisible(value => !value)
+            }}
+            style={{ marginLeft: '10px' }}
+          />
+        </div>
+      )}
+      {isAccessWrite && (
+        <Button
+          data-cy="create"
+          onClick={() => {
+            setChosenTicket('')
+            setDrawerVisibility(true)
           }}
+          style={{ marginLeft: '60px' }}
         >
-          Trainings
-          {isAccessWrite && (
-            <div
-              style={{
-                color: '#40A9FF',
-                fontSize: '20px',
-                fontStyle: 'italic',
-                marginLeft: '10px',
-              }}
-            >
-              editing
-            </div>
-          )}
-        </Typography.Title>
-        {!isMyTicketsView && (
+          Create New Ticket
+        </Button>
+      )}
+    </div>
+  )
+
+  return (
+    <>
+      <PageHeader title="Trainings" subTitle={isAccessWrite ? 'editing' : ''} extra={headerExtra} />
+      <PageContent
+        error={error}
+        loading={loading}
+        notFound={!ticketsData?.onboardingTickets && !isAccessWrite}
+        notFoundMessage="Sorry, onboarding tickets were not found"
+        style={{ paddingLeft: 0, paddingRight: 0 }}
+      >
+        {/* <Controls back={<Back />} style={{ padding: '20px 0 10px 30px' }} /> */}
+        {/* <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Typography.Title
+            style={{
+              display: 'flex',
+              alignItems: 'baseline',
+              marginBottom: '40px',
+              fontSize: '20px',
+              paddingLeft: '60px',
+            }}
+          >
+            Trainings
+            {isAccessWrite && (
+              <div
+                style={{
+                  color: '#40A9FF',
+                  fontSize: '20px',
+                  fontStyle: 'italic',
+                  marginLeft: '10px',
+                }}
+              >
+                editing
+              </div>
+            )}
+          </Typography.Title> */}
+        {/* {!isMyTicketsView && (
           <div style={{ fontSize: '14px', fontWeight: 'normal', marginRight: '30px' }}>
             Show SwissRe Trainings
             <Switch
@@ -210,12 +243,12 @@ export default function Onboarding() {
               style={{ marginLeft: '10px' }}
             />
           </div>
-        )}
-      </div>
+        )} */}
+        {/* </div> */}
 
-      {isAccessWrite && (
+        {/* {isAccessWrite && (
         <Button
-            data-cy="create"
+          data-cy="create"
           onClick={() => {
             setChosenTicket('')
             setDrawerVisibility(true)
@@ -224,57 +257,58 @@ export default function Onboarding() {
         >
           Create New Ticket
         </Button>
-      )}
+      )} */}
 
-      {!!myTickets?.length && (
-        <MyTicketTabs
-          type="card"
-          onTabClick={key => {
-            setIsMyTicketsView(key === 'mine')
-          }}
-          tabBarStyle={{ padding: '0 60px' }}
+        {!!myTickets?.length && (
+          <MyTicketTabs
+            type="card"
+            onTabClick={key => {
+              setIsMyTicketsView(key === 'mine')
+            }}
+            tabBarStyle={{ padding: '0 60px' }}
+          >
+            <MyTicketTabs.TabPane tab="All" key="all" />
+            <MyTicketTabs.TabPane tab="My Trainings" key="mine" />
+          </MyTicketTabs>
+        )}
+
+        {!isMyTicketsView && (
+          <>
+            <Typography.Title level={5} style={{ fontSize: '18px', paddingLeft: '60px' }}>
+              Optional
+            </Typography.Title>
+            <Tabs tabs={tabs({ isOptional: true })} />
+
+            <Typography.Title level={5} style={{ fontSize: '18px', paddingLeft: '60px' }}>
+              Mandatory
+            </Typography.Title>
+            <Tabs tabs={tabs({ isOptional: false })} />
+          </>
+        )}
+
+        {isMyTicketsView && myTickets && (
+          <MyTickets tickets={myTickets} withResponsible={withResponsible} />
+        )}
+
+        <Drawer
+          maskClosable={false}
+          title={!chosenTicket ? 'Create New Ticket' : 'Edit Ticket'}
+          width="400"
+          onClose={() => setDrawerVisibility(false)}
+          visible={drawerVisibility}
+          destroyOnClose
         >
-          <MyTicketTabs.TabPane tab="All" key="all" />
-          <MyTicketTabs.TabPane tab="My Trainings" key="mine" />
-        </MyTicketTabs>
-      )}
-
-      {!isMyTicketsView && (
-        <>
-          <Typography.Title level={5} style={{ fontSize: '18px', paddingLeft: '60px' }}>
-            Optional
-          </Typography.Title>
-          <Tabs tabs={tabs({ isOptional: true })} />
-
-          <Typography.Title level={5} style={{ fontSize: '18px', paddingLeft: '60px' }}>
-            Mandatory
-          </Typography.Title>
-          <Tabs tabs={tabs({ isOptional: false })} />
-        </>
-      )}
-
-      {isMyTicketsView && myTickets && (
-        <MyTickets tickets={myTickets} withResponsible={withResponsible} />
-      )}
-
-      <Drawer
-        maskClosable={false}
-        title={!chosenTicket ? 'Create New Ticket' : 'Edit Ticket'}
-        width="400"
-        onClose={() => setDrawerVisibility(false)}
-        visible={drawerVisibility}
-        destroyOnClose
-      >
-        <DrawerForm
-          ticket={
-            chosenTicket
-              ? ticketsData?.onboardingTickets.find(e => e.id === chosenTicket) || null
-              : null
-          }
-          handleClose={() => setDrawerVisibility(false)}
-          withResponsible={withResponsible}
-        />
-      </Drawer>
-    </PageContent>
+          <DrawerForm
+            ticket={
+              chosenTicket
+                ? ticketsData?.onboardingTickets.find(e => e.id === chosenTicket) || null
+                : null
+            }
+            handleClose={() => setDrawerVisibility(false)}
+            withResponsible={withResponsible}
+          />
+        </Drawer>
+      </PageContent>
+    </>
   )
 }

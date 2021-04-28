@@ -19,7 +19,7 @@ describe('Send notification when sing up for training (emails)', () => {
 
     before(() => {
         cy.setToken('manager')
-        cy.get(EMAIL_URL).then(el => emailData =  el.body.value[0].bodyPreview)
+        cy.getRequestData(EMAIL_URL).then(el => emailData =  el.body.value[0].bodyPreview)
         cy.post(getEmployee(email('employee'))).then(res => {
             employeeData = res.body.data.employeeByEmail
 

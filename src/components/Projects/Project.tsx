@@ -1,10 +1,7 @@
 import { Col, Row, Skeleton, Typography } from 'antd'
 import React from 'react'
 import { Project } from '../../types'
-import UpdateProject from './UpdateProject'
 import ProjectManagers from './ProjectManagers'
-
-const { Title } = Typography
 
 interface Props {
   loading: boolean
@@ -18,10 +15,6 @@ export default function EmployeeView({ loading, project }: Props) {
       {project && (
         <Row gutter={24}>
           <Col md={24} lg={14} style={{ marginBottom: 20 }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Title>{project.name}</Title>
-              <UpdateProject project={project} />
-            </div>
             <Typography.Paragraph>{project.description}</Typography.Paragraph>
           </Col>
           <Col md={24} lg={10}>

@@ -1,30 +1,30 @@
+import { DownOutlined } from '@ant-design/icons'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks'
-import { Tabs, Typography } from 'antd'
+import { Divider, Dropdown, Menu, PageHeader, Space, Spin } from 'antd'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import React, { useEffect, useState } from 'react'
 import message from '../../message'
-import getLocations, { QueryType as GetLocationQueryType } from '../../queries/getLocations'
 import {
   BOOKING,
   WORKPLACE,
   WORKSPACE,
+  workspaceDesignAccessQuery,
+  workspaceDesignAccessQueryType,
   workspacePoolQuery,
   WorkspacePoolQueryType,
   workspaceQuery,
   WorkspaceQueryType,
-  workspaceDesignAccessQuery,
-  workspaceDesignAccessQueryType,
 } from '../../queries/workspace'
-import { WorkplaceType, LOCATION } from '../../types'
+import { LOCATION, WorkplaceType } from '../../types'
+import getLocationName from '../../utils/getLocationName'
 import { useEmployee } from '../../utils/withEmployee'
 import PageContent from '../UI/PageContent'
 import BookTools from './BookTools'
 import DesignModeSwitch from './DesignModeSwitch'
+import './styles.css'
 import Workspace from './Workspace'
 import WorkspaceSelector from './WorkspaceSelector'
-import './styles.css'
-import getLocationName from '../../utils/getLocationName'
 
 dayjs.extend(customParseFormat)
 
@@ -49,17 +49,6 @@ export default function WorkspacePlanner() {
     if (isDesignMode) return
     setSelectedWorkplace('')
   }, [dateRange, workplaces, currentLocation, isDesignMode, selectedWorkspace])
-
-  // Get locations
-  const { data: dataLocations, loading: loadingLocations } = useQuery<GetLocationQueryType>(
-    getLocations,
-    {
-      onCompleted: dataLocations => {
-        setCurrentLocation(dataLocations.locations[0])
-      },
-    },
-  )
-  const locations = dataLocations?.locations
 
   /**
    *  CHECK ACCESS TO DESIGN MODE
@@ -329,7 +318,6 @@ export default function WorkspacePlanner() {
   }
 
   const loading =
-    loadingLocations ||
     loadingWorkspacePool ||
     loadingWorkspace ||
     loadingCreateWorkspace ||
@@ -338,103 +326,123 @@ export default function WorkspacePlanner() {
     loadingCreateWorkplaceBooking ||
     loadingDeleteWorkplaceBooking
 
-  if (loading) message.loading('Loading...')
+  const locationsMenu = (
+    <Menu
+      onClick={({ key }) => {
+        setCurrentLocation(key as LOCATION)
+      }}
+    >
+      {[LOCATION.SAINT_PETERSBURG, LOCATION.TOMSK, LOCATION.KALININGRAD].map(i => {
+        return <Menu.Item key={i}>{getLocationName(i as LOCATION)}</Menu.Item>
+      })}
+    </Menu>
+  )
 
   return (
     <PageContent style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <Typography.Title level={1} style={{ marginBottom: '40px' }}>
-        Workspace Planner
-      </Typography.Title>
-      <Tabs
-        animated={false}
-        type="card"
-        activeKey={currentLocation}
-        onChange={location => {
-          setCurrentLocation(location as LOCATION)
-        }}
+      <PageHeader
+        className="site-page-header"
+        title="Workspace Planner"
+        extra={
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              height: '100%',
+            }}
+          >
+            <Space size={16}>
+              <Dropdown overlay={locationsMenu} placement="bottomRight">
+                <a
+                  className="ant-dropdown-link"
+                  href={`/office-planner`}
+                  onClick={e => e.preventDefault()}
+                >
+                  {getLocationName(currentLocation)} <DownOutlined />
+                </a>
+              </Dropdown>
+            </Space>
+          </div>
+        }
+        style={{ paddingLeft: 0, paddingRight: 0 }}
       >
-        {locations
-          ?.filter(i => i !== LOCATION.ZURICH)
-          .map(location => (
-            <Tabs.TabPane
-              key={location}
-              tab={getLocationName(location)}
-              style={{ display: 'flex', flexDirection: 'column' }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px' }}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <WorkspaceSelector
-                    isDesignMode={isDesignMode}
-                    pool={workspacePool}
-                    selectedWorkspace={selectedWorkspace}
-                    workspace={workspace}
-                    disabled={!workspacePool?.workspaces.length}
-                    onSelect={(id: string) => {
-                      setSelectedWorkspace(id)
-                      getWorkspace({ variables: { id } })
-                    }}
-                    onCreate={(value: any) =>
-                      createWorkspace({
-                        variables: { input: { ...value, location } },
-                      })
-                    }
-                    onDelete={(id: string) => deleteWorkspace({ variables: { id } })}
-                    onEdit={(value: any) =>
-                      updateWorkspace({
-                        variables: { input: { id: workspace?.id, ...value } },
-                      })
-                    }
-                    refetchGetWorkspace={refetchGetWorkspace}
-                  />
+        <Divider style={{ margin: '0' }} />
+      </PageHeader>
 
-                  {!isDesignMode && (
-                    <BookTools
-                      dateRange={dateRange}
-                      setDateRange={setDateRange}
-                      disabled={!workspacePool?.workspaces.length}
-                    />
-                  )}
-                </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <WorkspaceSelector
+            isDesignMode={isDesignMode}
+            pool={workspacePool}
+            selectedWorkspace={selectedWorkspace}
+            workspace={workspace}
+            disabled={!workspacePool?.workspaces.length}
+            onSelect={(id: string) => {
+              setSelectedWorkspace(id)
+              getWorkspace({ variables: { id } })
+            }}
+            onCreate={(value: any) =>
+              createWorkspace({
+                variables: { input: { ...value, location: currentLocation } },
+              })
+            }
+            onDelete={(id: string) => deleteWorkspace({ variables: { id } })}
+            onEdit={(value: any) =>
+              updateWorkspace({
+                variables: { input: { id: workspace?.id, ...value } },
+              })
+            }
+            refetchGetWorkspace={refetchGetWorkspace}
+          />
 
-                {isDesignModeAccess && (
-                  <DesignModeSwitch
-                    isDesignMode={isDesignMode}
-                    toggleDesignMode={toggleDesignMode}
-                  />
-                )}
-              </div>
+          {!isDesignMode && (
+            <BookTools
+              dateRange={dateRange}
+              setDateRange={setDateRange}
+              disabled={!workspacePool?.workspaces.length}
+            />
+          )}
+        </div>
 
-              {workspace && (
-                <Workspace
-                  isDesignMode={isDesignMode}
-                  isDateChosen={!!dateRange.startDate}
-                  isLoading={loading}
-                  isPastDateChosen={isPastDateChosen}
-                  isBookingListOpen={isBookingListOpen}
-                  selectedWorkplace={selectedWorkplace}
-                  dateRange={dateRange}
-                  workspace={workspace}
-                  workplaces={workplaces}
-                  bookings={bookingList}
-                  bookedByMe={bookedByMe}
-                  onSelect={(id: string) =>
-                    selectedWorkplace === id ? setSelectedWorkplace('') : setSelectedWorkplace(id)
-                  }
-                  onClone={addWorkplace}
-                  onDelete={(id: string) => deleteWorkplace({ variables: { id } })}
-                  onDrag={handleDrag}
-                  onStop={handleStopDrag}
-                  onBook={handleCreateWorkplaceBooking}
-                  onBookCancel={deleteWorkplaceBooking}
-                  isInfoForBooked={isInfoForBooked}
-                  setIsInfoForBooked={setIsInfoForBooked}
-                  setIsBookingListOpen={setIsBookingListOpen}
-                  updateWorkplace={updateWorkplace}
-                />
-              )}
-            </Tabs.TabPane>
-          ))}
-      </Tabs>
+        {isDesignModeAccess && (
+          <DesignModeSwitch isDesignMode={isDesignMode} toggleDesignMode={toggleDesignMode} />
+        )}
+      </div>
+
+      <Divider style={{ margin: 0 }} />
+
+      <Spin spinning={loading}>
+        {!workspace && <div style={{ height: 400 }}></div>}
+        {workspace && (
+          <Workspace
+            isDesignMode={isDesignMode}
+            isDateChosen={!!dateRange.startDate}
+            isLoading={loading}
+            isPastDateChosen={isPastDateChosen}
+            isBookingListOpen={isBookingListOpen}
+            selectedWorkplace={selectedWorkplace}
+            dateRange={dateRange}
+            workspace={workspace}
+            workplaces={workplaces}
+            bookings={bookingList}
+            bookedByMe={bookedByMe}
+            onSelect={(id: string) =>
+              selectedWorkplace === id ? setSelectedWorkplace('') : setSelectedWorkplace(id)
+            }
+            onClone={addWorkplace}
+            onDelete={(id: string) => deleteWorkplace({ variables: { id } })}
+            onDrag={handleDrag}
+            onStop={handleStopDrag}
+            onBook={handleCreateWorkplaceBooking}
+            onBookCancel={deleteWorkplaceBooking}
+            isInfoForBooked={isInfoForBooked}
+            setIsInfoForBooked={setIsInfoForBooked}
+            setIsBookingListOpen={setIsBookingListOpen}
+            updateWorkplace={updateWorkplace}
+          />
+        )}
+      </Spin>
     </PageContent>
   )
 }

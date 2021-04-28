@@ -1,6 +1,4 @@
 import { EditOutlined } from '@ant-design/icons'
-import gql from 'graphql-tag'
-import { useQuery } from '@apollo/react-hooks'
 import React from 'react'
 import { EmployeeDetails } from '../../fragments'
 import message from '../../message'
@@ -10,6 +8,8 @@ import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import { getEmployeeDetails } from './EmployeePage'
 import EmployeeForm from './EmployeeForm'
+import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
+import { useEmployee } from '../../utils/withEmployee'
 
 type EmployeePick = EmployeeDetails & {
   agileManager: EmployeeDetails | null
@@ -24,17 +24,10 @@ function UpdateProject({
   isOpen?: boolean
   onClose?: any
 }) {
-  const { data } = useQuery(
-    gql`
-      query getEmployee($email: String!) {
-        employeeByEmail(email: $email) {
-          id
-          accessEditGlobal
-        }
-      }
-    `,
-    { variables: { email: employee.email } },
-  )
+  const user = useEmployee()
+
+  const hasAccess = useStrapiGroupCheck(['SYS_ADMINS', 'SUPER_USER'])
+  const isMeAgile = employee.agileManager?.id === user.employee.id
 
   const [update, { loading }] = useUpdateEmployeeMutation({
     onCompleted: () => message.success('Employee is updated'),
@@ -58,7 +51,7 @@ function UpdateProject({
     },
   })
 
-  if (!data?.employeeByEmail?.accessEditGlobal) return null
+  if (!hasAccess && !isMeAgile) return null
 
   return (
     <Drawer
@@ -70,6 +63,7 @@ function UpdateProject({
         <EmployeeForm
           loading={loading}
           item={employee}
+          fullAccess={hasAccess}
           onSubmit={async (item: any, onDone: any) => {
             update({
               variables: {

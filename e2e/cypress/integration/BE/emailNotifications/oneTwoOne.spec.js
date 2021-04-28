@@ -12,7 +12,7 @@ describe('Send notification OneTwoOne (emails)', () => {
 
     before(() => {
         cy.setToken('manager')
-        cy.get(EMAIL_URL).then(el => emailData =  el.body.value[0].bodyPreview)
+        cy.getRequestData(EMAIL_URL).then(el => emailData =  el.body.value[0].bodyPreview)
 
         cy.setToken('employee')
         cy.post(getEmployee(email('employee'))).then(res => {

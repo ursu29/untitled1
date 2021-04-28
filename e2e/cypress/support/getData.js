@@ -22,7 +22,7 @@ Cypress.Commands.add('post', (body, superUser = null, methodName = 'POST') => {
   })
 })
 
-Cypress.Commands.add('get', URL => {
+Cypress.Commands.add('getRequestData', URL => {
   return cy.request({
     url: URL,
     method: 'GET',
@@ -41,10 +41,34 @@ export const getManager = id => ({
   query: query.getManager,
 })
 
-export const createEvent = (obj) => ({
-  operationName: 'createEvent',
+export const completeProcessExecutionStep = (execution, step) => ({
+  operationName: 'completeProcessExecutionStep',
+  variables: {input: { execution, step }},
+  query: query.completeProcessExecutionStep,
+})
+
+export const getProcesses = id => ({
+  operationName: 'getProcesses',
+  variables: { id },
+  query: query.getProcesses,
+})
+
+export const publishVacancy = (id) => ({
+  operationName: 'publishVacancy',
+  variables: {input: {id}},
+  query: query.publishVacancy,
+})
+
+export const updateOffBoardingProcess = (obj) => ({
+  operationName: 'updateProcessExecution',
   variables: {input:{...obj}},
-  query: query.createEvent,
+  query: query.updateProcessExecution,
+})
+
+export const getProjectManagers = (id) => ({
+  operationName: 'getProjectManagers',
+  variables: {id},
+  query: query.getProjectManagers,
 })
 
 export const getEvent = (id) => ({
@@ -53,10 +77,28 @@ export const getEvent = (id) => ({
   query: query.getEvent,
 })
 
+export const createProcessStep = (obj) => ({
+  operationName: 'createProcessStep',
+  variables: {input:{...obj}},
+  query: query.createProcessStep,
+})
+
+export const updateProcessStep = (obj) => ({
+  operationName: 'updateProcessStep',
+  variables: {input:{...obj}},
+  query: query.updateProcessStep,
+})
+
 export const cancelEvent = (id, comment) => ({
   operationName: 'cancelEvent',
   variables: {input:{id, comment}},
   query: query.cancelEvent,
+})
+
+export const createEvent = (obj) => ({
+  operationName: 'createEvent',
+  variables: {input:{...obj}},
+  query: query.createEvent,
 })
 
 export const getClient = () => ({
@@ -524,10 +566,28 @@ export const createProcess = (
   query: query.createProcessExecution,
 })
 
+export const createHrProcess = (createProcessObj) => ({
+  operationName: 'createProcessExecution',
+  variables: { input: {...createProcessObj} },
+  query: query.createProcessExecution,
+})
+
 export const createNewProcess = (title, type, customer) => ({
   operationName: 'createProcess',
   query: query.createNewProcess,
   variables: { input: { title, type, customer } },
+})
+
+export const getAllProjects = () => ({
+  operationName: 'getProjects',
+  query: query.getAllProjects,
+  variables: {},
+})
+
+export const updateVacancy = (obj) => ({
+  operationName: 'updateVacancy',
+  variables: {input: {...obj}},
+  query: query.updateVacancy,
 })
 
 export const toggleHoldProcess = id => ({

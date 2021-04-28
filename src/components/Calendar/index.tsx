@@ -1,4 +1,4 @@
-import { Button, Typography, Spin } from 'antd'
+import { Button } from 'antd'
 import moment from 'moment'
 import React, { useState } from 'react'
 import { useQuery } from '@apollo/react-hooks'
@@ -10,8 +10,8 @@ import ModalEventSignUp from './ModalEventSignUp'
 import { DateCellWrapper, EventWrapper, ToolbarWrapper } from './StyledCalendarComponents'
 import { getEvents, EventsQueryType } from '../../queries/events'
 import { filterEvents } from './utils'
-import { LoadingOutlined } from '@ant-design/icons'
 import { CalendarEvent } from '../../types'
+import PageHeader from '../UI/PageHeader'
 
 const TODAY = new Date()
 const YEAR = TODAY.getFullYear()
@@ -58,90 +58,74 @@ export default function Calendar() {
   )
 
   return (
-    <PageContent
-      loading={false}
-      notFound={false}
-      notFoundMessage="Sorry, the calendar was not found"
-      style={{ height: '100%', paddingLeft: 10, paddingRight: 10 }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          width: '100%',
-          justifyContent: 'space-between',
-          marginBottom: '16px',
-        }}
-      >
-        <Typography.Title
-          style={{
-            display: 'flex',
-            alignItems: 'baseline',
-            fontSize: '20px',
-            paddingLeft: '48px',
-          }}
-        >
-          Events
-          {loading && (
-            <Spin
-              style={{ marginLeft: '16px' }}
-              indicator={<LoadingOutlined style={{ fontSize: 20 }} spin />}
-            />
-          )}
-        </Typography.Title>
-
-        <Button type="primary" onClick={() => setModalAddEvent({ visible: true })} data-cy="addEvent">
-          Add Event
-        </Button>
-      </div>
-
-      <BigCalendar
-        formats={{
-          timeGutterFormat: 'HH:mm',
-        }}
-        localizer={momentLocalizer(moment)}
-        //@ts-expect-error
-        events={events}
-        style={{ height: '98%' }}
-        views={['month', 'week']}
-        showAllEvents={true}
-        onSelectEvent={(event: CalendarEvent) => {
-          setModalEventSignUp({ eventId: event.id, visible: true })
-        }}
-        onView={view => setView(view)}
-        onNavigate={newDate => setSelectedMonth(newDate.getMonth())}
-        components={{
-          dateCellWrapper: DateCellWrapper,
-          eventWrapper: props => EventWrapper({ view, ...props }),
-          toolbar: props =>
-            ToolbarWrapper({
-              ...props,
-              cities,
-              isFilterBarOpened,
-              setIsFilterBarOpened,
-              filters,
-              setFilters,
-            }),
-        }}
+    <>
+      <PageHeader
+        title="Events"
+        extra={[
+          <Button
+            type="primary"
+            onClick={() => setModalAddEvent({ visible: true })}
+            data-cy="addEvent"
+          >
+            Add Event
+          </Button>,
+        ]}
       />
+      <PageContent
+        loading={loading}
+        notFound={!data}
+        notFoundMessage="Sorry, the calendar was not found"
+        style={{ height: '90%', paddingLeft: 10, paddingRight: 10 }}
+      >
+        <BigCalendar
+          formats={{
+            timeGutterFormat: 'HH:mm',
+          }}
+          localizer={momentLocalizer(moment)}
+          //@ts-expect-error
+          events={events}
+          style={{ height: '100%' }}
+          views={['month', 'week']}
+          showAllEvents={true}
+          onSelectEvent={(event: CalendarEvent) => {
+            setModalEventSignUp({ eventId: event.id, visible: true })
+          }}
+          onView={view => setView(view)}
+          onNavigate={newDate => setSelectedMonth(newDate.getMonth())}
+          components={{
+            dateCellWrapper: DateCellWrapper,
+            eventWrapper: props => EventWrapper({ view, ...props }),
+            toolbar: props =>
+              ToolbarWrapper({
+                ...props,
+                cities,
+                isFilterBarOpened,
+                setIsFilterBarOpened,
+                filters,
+                setFilters,
+              }),
+          }}
+        />
 
-      {modalEventSignUp.eventId && (
-        <ModalEventSignUp
-          visible={modalEventSignUp.visible}
-          eventId={modalEventSignUp.eventId}
+        {modalEventSignUp.eventId && (
+          <ModalEventSignUp
+            visible={modalEventSignUp.visible}
+            eventId={modalEventSignUp.eventId}
+            handleClose={() => {
+              setModalEventSignUp({ eventId: '', visible: false })
+            }}
+            refetchQueries={[{ query: getEvents, variables }]}
+          />
+        )}
+
+        <ModalAddEvent
+          visible={modalAddEvent.visible}
           handleClose={() => {
-            setModalEventSignUp({ eventId: '', visible: false })
+            setModalAddEvent({ visible: false })
           }}
           refetchQueries={[{ query: getEvents, variables }]}
         />
-      )}
-
-      <ModalAddEvent
-        visible={modalAddEvent.visible}
-        handleClose={() => {
-          setModalAddEvent({ visible: false })
-        }}
-        refetchQueries={[{ query: getEvents, variables }]}
-      />
-    </PageContent>
+      </PageContent>
+    </>
   )
 }

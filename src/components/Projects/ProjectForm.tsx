@@ -1,9 +1,7 @@
 import { Button, Col, Form, Row } from 'antd'
 import React from 'react'
-import { Project } from '../../types'
 import EmployeeSelect from '../Employees/EmployeeSelect'
-
-type ProjectPick = Partial<Project>
+import { ProjectPick } from '../../queries/getProjectByCode'
 
 export interface Props {
   onSubmit: (skill: ProjectPick, reset?: () => void) => void

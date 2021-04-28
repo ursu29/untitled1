@@ -6,7 +6,7 @@ import { useGetDevtoolsQuery } from '../../queries/devtools'
 
 const Wrapper = styled.div`
   position: fixed;
-  right: 20px;
+  left: 50px;
   bottom: 0;
   user-select: none;
   padding-bottom: 20px;
@@ -74,13 +74,8 @@ export default function DevTools({ children }: any) {
   } = gatewayGitInfo
 
   // CLIENT Git Info
-  const clientGitInfo = {
-    repoName: process.env.REACT_APP_DT_REPO_NAME,
-    branchName: process.env.REACT_APP_DT_BRANCH_NAME,
-    commitId: process.env.REACT_APP_DT_SOURCE_VERSION,
-    commitMsg: process.env.REACT_APP_DT_SOURCE_VERSION_MSG,
-  }
-  const { repoName, branchName, commitId, commitMsg } = clientGitInfo
+  const buildMeta = process.env.REACT_APP_BUILD_META?.split('+++') || []
+  const [repoName, branchName, commitId, commitMsg] = buildMeta
 
   return (
     <>
@@ -109,6 +104,14 @@ export default function DevTools({ children }: any) {
               localStorage.setItem('devOnlyUserRole', value)
               window.location.reload()
             }}
+            dropdownAlign={{
+              points: ['bl', 'tl'],
+              offset: [0, -4],
+              overflow: {
+                adjustX: 0,
+                adjustY: 0,
+              },
+            }}
           >
             <Option value="off">OFF</Option>
             <Option value="user">USER</Option>
@@ -117,7 +120,7 @@ export default function DevTools({ children }: any) {
           </Select>
         </div>
 
-        {!!Object.values(clientGitInfo).join('') && (
+        {!!buildMeta.join('') && (
           <>
             <GitInfo>
               <Space>

@@ -15,18 +15,15 @@ variables:
   containerRegistry: ACR-syncretis
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)-$(Build.SourceBranchName)-$(Build.SourceVersion)'
-
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
-
+  reactAppBuildMeta: '$(Build.SourceBranchName)+++$(Build.Repository.Name)+++$(Build.SourceVersion)+++$(Build.SourceVersionMessage)'
+name: '$(Build.BuildId)-$(Build.SourceBranchName)-$(Build.SourceVersion)'
 stages:
   - stage: Build
     displayName: Build and push stage
     jobs:
       - job: Build
         displayName: Build and push an image to container registry
-        pool:
-          vmImage: $(vmImageName)
+        pool: Default
         steps:
           - task: Docker@2
             displayName: Build
@@ -35,10 +32,7 @@ stages:
               repository: $(imageRepository)
               dockerfile: $(dockerfilePath)
               containerRegistry: $(ContainerRegistry)
-              arguments: --build-arg REACT_APP_DT_BRANCH_NAME="$(Build.SourceBranchName)"
-                --build-arg REACT_APP_DT_REPO_NAME="$(Build.Repository.Name)"
-                --build-arg REACT_APP_DT_SOURCE_VERSION="$(Build.SourceVersion)"
-                --build-arg REACT_APP_DT_SOURCE_VERSION_MSG="$(Build.SourceVersionMessage)"
+              arguments: --build-arg REACT_APP_BUILD_META="$(reactAppBuildMeta)"
               tags: $(tag)
           - task: Docker@2
             displayName: Push

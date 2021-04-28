@@ -26,7 +26,7 @@ export const mainCity = 'SAINT_PETERSBURG'
 export const LOCATIONS = ['SAINT_PETERSBURG', 'KALININGRAD', 'TOMSK', 'ZURICH']
 
 export const guildElements = {
-  update: 'updateGuild',
+  update: 'Edit',
   title: 'guild_form_title',
   lead: 'leads',
   submit: 'submit',
@@ -121,7 +121,7 @@ export const menuEl = {
   subMenu: '[id="tools$Menu"]',
   subMenuItem: '[id="tools$Menu"] > .ant-menu-item',
   title: '.ant-typography',
-  back: 'back-button'
+  back: 'arrow-left'
 }
 
 export const postEl = {
