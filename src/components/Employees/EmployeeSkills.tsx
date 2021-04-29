@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { Employee } from '../../types'
+import { Level } from '../../types/graphql'
 import query, { QueryType } from '../../queries/getEmployeeExperiences'
 import { useGetLevelsQuery } from '../../queries/levels'
 import Skeleton from '../UI/Skeleton'
@@ -7,7 +8,7 @@ import { useQuery, useMutation } from '@apollo/react-hooks'
 import EmployeeSkillsDraggable from './EmployeeSkillsDraggable'
 import gql from 'graphql-tag'
 import message from '../../message'
-import updateExperience from '../../queries/updateExperience'
+import { useUpdateExperienceMutation } from '../../queries/experience'
 import EmployeeRecommendations from './EmployeeRecommendations'
 
 const updateExperiences = gql`
@@ -32,7 +33,7 @@ export default function EmployeeSkills({ employee, editable = false, showTabs = 
     skip: !id,
   })
   const { loading: lLoading, data: lData } = useGetLevelsQuery({ skip: !employee })
-  const [updateOne, { loading: updateOneLoading }] = useMutation(updateExperience, {
+  const [updateOne, { loading: updateOneLoading }] = useUpdateExperienceMutation({
     onCompleted: () => message.success('Skill level updated'),
     onError: message.error,
   })
@@ -62,7 +63,11 @@ export default function EmployeeSkills({ employee, editable = false, showTabs = 
             editable={editable}
             levels={levels}
             experiences={experiences.filter(e => !e.skill?.isMatrixOnly)}
-            onMoveSkill={(id, level) => updateOne({ variables: { input: { id, level } } })}
+            onMoveSkill={(id, level) =>
+              updateOne({
+                variables: { input: { id, level: level as Level } },
+              })
+            }
             onGroupUpdate={(skills, level) => {
               updateMany({
                 variables: { input: { skills, level, employee: employee.id } },

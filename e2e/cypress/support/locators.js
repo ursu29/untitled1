@@ -208,10 +208,24 @@ export const hrTool = {
   publishBtn: 'publish'
 }
 
+export const devRelFormEl = {
+  title: 'title',
+  date: 'date',
+  activeData: '.ant-picker-input-active',
+  link: 'link',
+  submit: 'submit',
+  article: 'addArticle',
+  articleTab: 'file-text',
+  resource: 'resource'
+}
+
 export const process = {
   title: 'process_form_title',
   type: 'process_form_type',
   customer: 'process_form_customer',
+  newEvent: 'proposeEvent',
+  participate: 'participate',
+  create: 'addNewEvent'
 }
 
 export const notificationEl = {

@@ -39,7 +39,7 @@ export default function DevRel() {
           />
           <Tabs.TabPane
             tab={
-              <span>
+              <span data-cy="articles">
                 <FileTextOutlined />
                 Articles
               </span>
@@ -70,6 +70,7 @@ export default function DevRel() {
           {view === 'outside' && (
             <div>
               <Button
+                data-cy="proposeEvent"
                 style={{ marginRight: '24px' }}
                 onClick={() => setModalOutsideEvent({ visible: true, modalMode: 'propose' })}
               >
@@ -77,6 +78,7 @@ export default function DevRel() {
               </Button>
               {writeAccess && (
                 <Button
+                  data-cy="addNewEvent"
                   onClick={() => setModalOutsideEvent({ visible: true, modalMode: 'create' })}
                 >
                   Add New
@@ -86,7 +88,7 @@ export default function DevRel() {
           )}
           {view === 'articles' && (
             <div>
-              <Button onClick={() => setModalArticle({ visible: true })}>Propose Article +</Button>
+              <Button onClick={() => setModalArticle({ visible: true })} data-cy="addArticle">Propose Article +</Button>
             </div>
           )}
         </div>
