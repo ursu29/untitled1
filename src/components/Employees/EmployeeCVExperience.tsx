@@ -207,7 +207,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
       width: editable ? '15%' : '10%',
       render: (_: any, record: any) => (
         <AutoComplete
-          // style={{ width: 200 }}
+          style={{ width: '100%' }}
           options={syncretisNames.map(value => ({ value }))}
           defaultValue={record.company ? record.company : undefined}
           onBlur={event =>
@@ -329,6 +329,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
           editable ? (
             <Select
               showSearch
+              style={{ width: '100%' }}
               placeholder="Select a project"
               optionFilterProp="children"
               disabled={!editable}
