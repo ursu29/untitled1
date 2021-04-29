@@ -21,10 +21,16 @@ interface Props {
   }
   skill?: ArrayElement<GetSkillsQuery['skills']>
   employee?: Pick<Employee, 'id'>
+  refetchQueries?: any[]
 }
 
-export default function EmployeeMatrixExperience({ experience, skill, employee }: Props) {
-  const refetchQueries = [
+export default function EmployeeMatrixExperience({
+  experience,
+  skill,
+  employee,
+  refetchQueries: additionRefetchQueries,
+}: Props) {
+  let refetchQueries = [
     { query: getEmployeeExperiences, variables: { input: { id: employee?.id } } },
     {
       query: getExperiences,
@@ -37,6 +43,10 @@ export default function EmployeeMatrixExperience({ experience, skill, employee }
       skip: !employee || !skill,
     },
   ]
+
+  if (additionRefetchQueries) {
+    refetchQueries = refetchQueries.concat(additionRefetchQueries)
+  }
 
   const onCompleted = () => message.success('Skill updated')
   const onError = message.error
