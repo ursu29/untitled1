@@ -116,7 +116,10 @@ function EmployeeCVExperience({
       {getFieldDecorator('cvForm')(
         <Form layout="vertical">
           <CurriculumVitaeTable
-            data={vitaes}
+            data={vitaes.sort(
+              (a, b) =>
+                new Date(b?.dateStart || 0).getTime() - new Date(a?.dateStart || 0).getTime(),
+            )}
             loading={mutateLoading}
             onChange={values => {
               form.setFieldsValue({

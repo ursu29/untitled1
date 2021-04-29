@@ -172,13 +172,15 @@ const EmployeeCVCertificates = ({ editable, employee, cv }: Props) => {
       <TableTitle title="Certificates & Awards" editable={editable} onCreate={handleCreate} />
       <EmployeeCVCertificatesTable
         editable={editable}
-        certificates={cvCertificates.map(record => ({
-          ...record,
-          date: record.date ? moment(record.date, DATE_API_FORMAT) : undefined,
-          expirationDate: record.expirationDate
-            ? moment(record.expirationDate, DATE_API_FORMAT)
-            : undefined,
-        }))}
+        certificates={cvCertificates
+          .sort((a, b) => new Date(b?.date || 0).getTime() - new Date(a?.date || 0).getTime())
+          .map(record => ({
+            ...record,
+            date: record.date ? moment(record.date, DATE_API_FORMAT) : undefined,
+            expirationDate: record.expirationDate
+              ? moment(record.expirationDate, DATE_API_FORMAT)
+              : undefined,
+          }))}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
         loading={loading}
