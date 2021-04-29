@@ -26,10 +26,11 @@ import DrawerForm from './DrawerForm'
 import MyTickets from './MyTickets'
 import Ticket from './Ticket'
 import PageHeader from '../UI/PageHeader'
+import URLAction from '../../utils/URLAction'
 
 export default function Onboarding() {
   const user = useEmployee()
-
+  const urlAction = new URLAction()
   const [drawerVisibility, setDrawerVisibility] = useState(false)
   const [isSwissreVisible, setisSwissreVisible] = useState(false)
   const [chosenTicket, setChosenTicket] = useState('')
@@ -206,64 +207,12 @@ export default function Onboarding() {
         notFoundMessage="Sorry, onboarding tickets were not found"
         style={{ paddingLeft: 0, paddingRight: 0 }}
       >
-        {/* <Controls back={<Back />} style={{ padding: '20px 0 10px 30px' }} /> */}
-        {/* <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography.Title
-            style={{
-              display: 'flex',
-              alignItems: 'baseline',
-              marginBottom: '40px',
-              fontSize: '20px',
-              paddingLeft: '60px',
-            }}
-          >
-            Trainings
-            {isAccessWrite && (
-              <div
-                style={{
-                  color: '#40A9FF',
-                  fontSize: '20px',
-                  fontStyle: 'italic',
-                  marginLeft: '10px',
-                }}
-              >
-                editing
-              </div>
-            )}
-          </Typography.Title> */}
-        {/* {!isMyTicketsView && (
-          <div style={{ fontSize: '14px', fontWeight: 'normal', marginRight: '30px' }}>
-            Show SwissRe Trainings
-            <Switch
-              size="small"
-              checked={isSwissreVisible}
-              onChange={() => {
-                setisSwissreVisible(value => !value)
-              }}
-              style={{ marginLeft: '10px' }}
-            />
-          </div>
-        )} */}
-        {/* </div> */}
-
-        {/* {isAccessWrite && (
-        <Button
-          data-cy="create"
-          onClick={() => {
-            setChosenTicket('')
-            setDrawerVisibility(true)
-          }}
-          style={{ marginBottom: '30px', marginLeft: '60px' }}
-        >
-          Create New Ticket
-        </Button>
-      )} */}
-
         {!!myTickets?.length && (
           <MyTicketTabs
             type="card"
             onTabClick={key => {
               setIsMyTicketsView(key === 'mine')
+              urlAction.paramsClear()
             }}
             tabBarStyle={{ padding: '0 60px' }}
           >
@@ -277,12 +226,26 @@ export default function Onboarding() {
             <Typography.Title level={5} style={{ fontSize: '18px', paddingLeft: '60px' }}>
               Optional
             </Typography.Title>
-            <Tabs tabs={tabs({ isOptional: true })} />
+            <Tabs
+              tabs={tabs({ isOptional: true })}
+              tab={urlAction.paramsGet('opt_tab') || tabs({ isOptional: true })[0].key}
+              controlled
+              tabsProps={{
+                onTabClick: key => urlAction.paramsSet('opt_tab', key),
+              }}
+            />
 
             <Typography.Title level={5} style={{ fontSize: '18px', paddingLeft: '60px' }}>
               Mandatory
             </Typography.Title>
-            <Tabs tabs={tabs({ isOptional: false })} />
+            <Tabs
+              tabs={tabs({ isOptional: false })}
+              tab={urlAction.paramsGet('man_tab') || tabs({ isOptional: false })[0].key}
+              controlled
+              tabsProps={{
+                onTabClick: key => urlAction.paramsSet('man_tab', key),
+              }}
+            />
           </>
         )}
 

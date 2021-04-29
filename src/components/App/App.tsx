@@ -5,7 +5,6 @@ import { setContext } from 'apollo-link-context'
 import { HttpLink } from 'apollo-link-http'
 import React, { useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { LastLocationProvider } from 'react-router-last-location'
 import { GATEWAY } from '../../config'
 import Oauth from './Oauth'
 import Root from './Root'
@@ -61,12 +60,10 @@ const App: React.FC = () => {
         return (
           <Router>
             <ApolloProvider client={client}>
-              <LastLocationProvider>
-                <TokenProvider token={token}>
-                  <Root tokenExpired={tokenExpired} />
-                  {process.env.REACT_APP_YANDEX_METRIKA && <Metrics />}
-                </TokenProvider>
-              </LastLocationProvider>
+              <TokenProvider token={token}>
+                <Root tokenExpired={tokenExpired} />
+                {process.env.REACT_APP_YANDEX_METRIKA && <Metrics />}
+              </TokenProvider>
             </ApolloProvider>
             {process.env.REACT_APP_YANDEX_METRIKA && (
               <YMInitializer

@@ -101,7 +101,9 @@ function EmployeeCVExperience({ employee, vitaes, curriculumVitaeID, editable }:
   return (
     <>
       <CurriculumVitaeTable
-        data={vitaes}
+        data={vitaes.sort(
+          (a, b) => new Date(b?.dateStart || 0).getTime() - new Date(a?.dateStart || 0).getTime(),
+        )}
         loading={mutateLoading}
         onChange={handleSubmit}
         editable={editable}
