@@ -1,6 +1,5 @@
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
-import paths from '../../paths'
 import Back from '../UI/Back'
 import Controls from '../UI/Controls'
 import PageContent from '../UI/PageContent'
@@ -17,7 +16,7 @@ function ProjectPage({ match }: Props) {
   return (
     <>
       <PageContent>
-        <Controls back={<Back goto={paths.SKILLS} />} />
+        <Controls back={<Back />} />
         <SkillDetails skill={{ id }} />
       </PageContent>
       <SkillTabs key={id} skill={{ id }} tab={urlAction.paramsGet('tab') || ''} />
