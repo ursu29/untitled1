@@ -1,0 +1,17 @@
+mutation createExperience($input: CreateExperienceInput) {
+  createExperience(input: $input) {
+    id
+  }
+}
+
+mutation updateExperience($input: UpdateExperienceInput) {
+  updateExperience(input: $input) {
+    id
+  }
+}
+
+mutation deleteExperience($input: DeleteExperienceInput) {
+  deleteExperience(input: $input) {
+    id
+  }
+}
