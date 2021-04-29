@@ -715,7 +715,7 @@ type FileDetails {
 
 type SharedFiles {
   hasMore: Boolean
-  files: [AzureFile]
+  files: [AzureFile!]!
 }
 
 input UpdateFileDetailsInput {
@@ -920,6 +920,7 @@ type Mutation {
   createMatrixGrade(input: CreateMatrixGradeInput): Matrix
   deleteMatrixGrade(input: DeleteMatrixGradeInput): Matrix
   updateMatricesCustomFields(input: UpdateMatricesCustomFieldsInput): MatricesCustomFields
+  proposeMatrixChanges(input: ProposeMatrixChangesInput!): Boolean
   createOfficeBooking(input: CreateOfficeBookingInput!): Boolean
   cancelOfficeBooking(input: CancelOfficeBookingInput!): Boolean
   updateOfficeDays(input: UpdateOfficeDaysInput!): Boolean
@@ -1100,6 +1101,12 @@ input MatricesCustomFieldsInput {
 input UpdateMatricesCustomFieldsInput {
   employee: ID!
   lastDiscussed: String
+}
+
+input ProposeMatrixChangesInput {
+  matrix: ID!
+  skill: ID!
+  proposal: String!
 }
 
 type OfficeDay {

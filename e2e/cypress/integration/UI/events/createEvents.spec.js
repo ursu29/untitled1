@@ -40,8 +40,8 @@ describe('Create new event (events)', () => {
             cy.get('td').contains(el).click()
             cy.get('button').contains('Ok').click()
         })
-        ;['skills', 'Agile']
-            .forEach(el => cy.get('span').contains(el).click())
+        cy.get(skillEl.skillsEvent).click()
+        cy.get('span').contains('Agile').click()
 
         cy.getResponse(['createEvent'], 'alias')
         cy.getElement('create').click({force: true})

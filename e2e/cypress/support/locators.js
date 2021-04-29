@@ -27,7 +27,7 @@ export const LOCATIONS = ['SAINT_PETERSBURG', 'KALININGRAD', 'TOMSK', 'ZURICH']
 
 export const guildElements = {
   update: 'Edit',
-  title: 'guild_form_title',
+  title: 'title',
   lead: 'leads',
   submit: 'submit',
   mainTitle: 'guildTitle',
@@ -61,10 +61,11 @@ export const skillEl = {
   titleTree: '.ant-tree-title',
   searchInput: 'search',
   name: 'skillName',
-  skillId: 'skill_form_name',
-  description: 'skill_form_description',
+  skillId: 'name',
+  description: 'description',
   submit: 'submit',
   selectSkill :'portal-select',
+  skillsEvent: '.ant-select-selection-overflow'
 }
 
 export const locations = [
@@ -190,10 +191,10 @@ export const paginationEl = {
 }
 
 export const hrTool = {
-  activeIdProcess: 'active_process_form_process',
+  activeIdProcess: 'process',
   create: 'create',
   abort: 'abort',
-  errorMess: '.ant-legacy-form-explain',
+  errorMess: '.ant-form-item-explain-error',
   processName: 'portal-select',
   selectItem: '.ant-legacy-form-item-children',
   position: 'position',
@@ -208,10 +209,24 @@ export const hrTool = {
   publishBtn: 'publish'
 }
 
+export const devRelFormEl = {
+  title: 'title',
+  date: 'date',
+  activeData: '.ant-picker-input-active',
+  link: 'link',
+  submit: 'submit',
+  article: 'addArticle',
+  articleTab: 'file-text',
+  resource: 'resource'
+}
+
 export const process = {
-  title: 'process_form_title',
-  type: 'process_form_type',
-  customer: 'process_form_customer',
+  title: 'title',
+  type: 'type',
+  customer: 'customer',
+  newEvent: 'proposeEvent',
+  participate: 'participate',
+  create: 'addNewEvent'
 }
 
 export const notificationEl = {
