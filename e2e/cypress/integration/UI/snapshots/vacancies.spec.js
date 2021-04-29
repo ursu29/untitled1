@@ -15,9 +15,7 @@ describe('vacancy tab looks god', () => {
     cy.mockResponse(['getVacancies', 'employeeExperience'], getMockVacancies())
 
     cy.get('.ant-btn-link').eq(0).click()
-
-    cy.get('.ant-skeleton').should('be.visible')
-    cy.get('.ant-skeleton').should('not.exist')
+    cy.getElement('vacancy').should('be.visible')
 
     cy.getElement('vacancy').matchImageSnapshot('vacancy')
   })
