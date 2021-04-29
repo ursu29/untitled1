@@ -17,7 +17,6 @@ const GuildForm = ({ onSubmit, item, loading }: Props) => {
     onSubmit({ azureDisplayName: item?.azureDisplayName, ...values })
   }
 
-  console.log(item)
   return (
     <Form
       layout="vertical"
