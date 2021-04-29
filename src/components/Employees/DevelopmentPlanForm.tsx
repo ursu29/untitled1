@@ -25,7 +25,6 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
   }, [resetFields, form])
 
   const handleSubmit = (values: any) => {
-    console.log(values)
     onChange({
       id: value?.id,
       ...values,
@@ -33,8 +32,6 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
       previousGoals: values.previousGoals?.map(({ __typename, ...i }: any) => i),
     })
   }
-
-  console.log(value)
 
   return (
     <Form
