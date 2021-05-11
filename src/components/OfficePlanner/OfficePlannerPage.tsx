@@ -215,11 +215,11 @@ function OfficePlannerPage() {
             <div key={date.toISOString()}>
               <div>{dayjs(date).format('ddd, DD MMM')}</div>
               {!daysQuery.loading && (
-                <>
+                <div data-cy="count">
                   <Typography.Text type="secondary">
                     <TeamOutlined /> {officeDay?.employees?.length || 0} of {employeeMaxCount}
                   </Typography.Text>
-                </>
+                </div>
               )}
             </div>
           )
@@ -336,8 +336,8 @@ function OfficePlannerPage() {
               setCurrentMode(e.target.value)
             }}
           >
-            <Radio.Button value={MODE_CREATE}>Create</Radio.Button>
-            <Radio.Button value={MODE_CANCEL}>Cancel</Radio.Button>
+            <Radio.Button value={MODE_CREATE} data-cy="create">Create</Radio.Button>
+            <Radio.Button value={MODE_CANCEL} data-cy="cancel">Cancel</Radio.Button>
           </Radio.Group>
           <RangePicker
             value={[moment(currentDateStart), moment(currentDateEnd)]}
@@ -347,10 +347,8 @@ function OfficePlannerPage() {
               if (date.isBefore(moment())) {
                 return true
               }
-              if (date.isAfter(moment().add(60, 'day'))) {
-                return true
-              }
-              return false
+              return !!date.isAfter(moment().add(60, 'day'));
+
             }}
             onChange={(value: any) => {
               if (value) {
@@ -361,6 +359,7 @@ function OfficePlannerPage() {
           />
           {currentMode === MODE_CREATE && (
             <Checkbox
+                data-cy="skipWeekend"
               onChange={value => {
                 setCurrentSkipWeekends(value.target.checked)
               }}
@@ -448,6 +447,7 @@ function OfficePlannerPage() {
                 </Space>
                 <Space>
                   <Button
+                    data-cy="rangeBtn"
                     disabled={actionsDisabled}
                     onClick={() => {
                       setCurrentDateStart(moment())

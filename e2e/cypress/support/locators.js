@@ -91,6 +91,7 @@ export const table = {
   inputSearch: 'search',
   searchBtn: 'btnSearch',
   picker: '.ant-picker-cell-inner',
+  range: 'rangeBtn'
 }
 
 export const hr = {
@@ -182,7 +183,11 @@ export const workspace = {
   activeTab: 'ant-tabs-tab-active',
   data: '.ant-picker-input',
   checkbox: '.ant-checkbox',
-  checked: '.ant-checkbox-checked'
+  checked: '.ant-checkbox-checked',
+  create: 'create',
+  cancel: 'cancel',
+  activePicker: '.ant-picker-input-active',
+  numberOfPeople: 'count'
 }
 
 export const paginationEl = {
