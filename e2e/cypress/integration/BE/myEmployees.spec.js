@@ -1,7 +1,7 @@
 import { email } from '../../support/client/employeeData'
 import { checkKeyValueExist } from '../../support/complexLocators'
 import { getEmployee } from '../../support/getData'
-import { checkTwoString } from '../../support/utils'
+import { checkTwoString, getProfileTabUrl } from '../../support/utils'
 import { query } from '../../fixtures/query'
 
 describe('Check manager employees', () => {
@@ -16,7 +16,7 @@ describe('Check manager employees', () => {
 
     cy.post(getEmployee(email('employee'))).then(res => employeeData = res.body.data.employeeByEmail)
     cy.getResponse([OPERATION_NAME], 'alias')
-    cy.visit('/profile/employees')
+    cy.visit(getProfileTabUrl('employees'))
     cy.wait(`@alias`).then(val => {
       response = val.response.body.data
       request = val.request.body
