@@ -24,21 +24,6 @@ Cypress.Commands.add('post', (body, superUser = null, baseUrl = URL, methodName 
   })
 })
 
-Cypress.Commands.add('post2', (body, superUser = null, url, methodName = 'POST') => {
-  return cy.request({
-    url,
-    method: methodName,
-    headers: {
-      authorization: `Bearer ${Cypress.env('accessToken')}`,
-      'content-type': 'application/json',
-      'dev-only-user-role': superUser,
-    },
-    body: body,
-  })
-})
-
-
-
 Cypress.Commands.add('getRequestData', URL => {
   return cy.request({
     url: URL,
