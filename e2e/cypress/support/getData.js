@@ -75,7 +75,7 @@ export const workspace = (
 })
 
 export const workspacePoolQuery = (
-    location = 'SAINT_PETERSBURG',
+    location = mainCity,
     startDate = todayOfficePlannerDate,
     finishDate = todayOfficePlannerDate
 ) => ({
