@@ -767,7 +767,7 @@ export type FileDetails = {
 export type SharedFiles = {
   __typename?: 'SharedFiles'
   hasMore?: Maybe<Scalars['Boolean']>
-  files?: Maybe<Array<Maybe<AzureFile>>>
+  files: Array<AzureFile>
 }
 
 export type UpdateFileDetailsInput = {
@@ -1174,6 +1174,7 @@ export type Mutation = {
   createMatrixGrade?: Maybe<Matrix>
   deleteMatrixGrade?: Maybe<Matrix>
   updateMatricesCustomFields?: Maybe<MatricesCustomFields>
+  proposeMatrixChanges?: Maybe<Scalars['Boolean']>
   createOfficeBooking?: Maybe<Scalars['Boolean']>
   cancelOfficeBooking?: Maybe<Scalars['Boolean']>
   updateOfficeDays?: Maybe<Scalars['Boolean']>
@@ -1433,6 +1434,10 @@ export type MutationDeleteMatrixGradeArgs = {
 
 export type MutationUpdateMatricesCustomFieldsArgs = {
   input?: Maybe<UpdateMatricesCustomFieldsInput>
+}
+
+export type MutationProposeMatrixChangesArgs = {
+  input: ProposeMatrixChangesInput
 }
 
 export type MutationCreateOfficeBookingArgs = {
@@ -1760,6 +1765,12 @@ export type MatricesCustomFieldsInput = {
 export type UpdateMatricesCustomFieldsInput = {
   employee: Scalars['ID']
   lastDiscussed?: Maybe<Scalars['String']>
+}
+
+export type ProposeMatrixChangesInput = {
+  matrix: Scalars['ID']
+  skill: Scalars['ID']
+  proposal: Scalars['String']
 }
 
 export type OfficeDay = {

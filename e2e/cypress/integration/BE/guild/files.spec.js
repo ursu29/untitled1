@@ -1,4 +1,4 @@
-import { checkTwoString } from '../../../support/utils'
+import { checkTwoString, getCommunityTabUrl } from '../../../support/utils'
 import { query } from '../../../fixtures/query'
 
 describe('Check files', () => {
@@ -9,7 +9,7 @@ describe('Check files', () => {
     cy.setToken('employee')
 
     cy.getResponse(['sharedFiles'], 'alias')
-    cy.visit('/guilds/community-frontend/files')
+    cy.visit(getCommunityTabUrl('files'))
     cy.wait(`@alias`).then(val => {
       response = val.response.body.data
       request = val.request.body

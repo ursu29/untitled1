@@ -1,32 +1,18 @@
 import React, { useEffect } from 'react'
 import { Experience, Employee } from '../../types'
-import gql from 'graphql-tag'
-import { useMutation } from '@apollo/react-hooks'
 import SkillLevelSelect from '../Skills/SkillLevelSelect'
 import MatrixLevelSelect from '../EmployeeMatrices/MatrixLevelSelect'
 import getEmployeeExperiences from '../../queries/getEmployeeExperiences'
 import getExperiences from '../../queries/getExperiences'
-import updateExperience from '../../queries/updateExperience'
 import { GetSkillsQuery } from '../../queries/skills'
+import {
+  useCreateExperienceMutation,
+  useUpdateExperienceMutation,
+  useDeleteExperienceMutation,
+} from '../../queries/experience'
 import { Level } from '../../types/graphql'
 import message from '../../message'
 import { ArrayElement } from '../../utils/types'
-
-const createExperience = gql`
-  mutation createExperience($input: CreateExperienceInput) {
-    createExperience(input: $input) {
-      id
-    }
-  }
-`
-
-const deleteExperience = gql`
-  mutation deleteExperience($input: DeleteExperienceInput) {
-    deleteExperience(input: $input) {
-      id
-    }
-  }
-`
 
 interface Props {
   experience?: {
@@ -35,10 +21,16 @@ interface Props {
   }
   skill?: ArrayElement<GetSkillsQuery['skills']>
   employee?: Pick<Employee, 'id'>
+  refetchQueries?: any[]
 }
 
-export default function EmployeeMatrixExperience({ experience, skill, employee }: Props) {
-  const refetchQueries = [
+export default function EmployeeMatrixExperience({
+  experience,
+  skill,
+  employee,
+  refetchQueries: additionRefetchQueries,
+}: Props) {
+  let refetchQueries = [
     { query: getEmployeeExperiences, variables: { input: { id: employee?.id } } },
     {
       query: getExperiences,
@@ -52,20 +44,24 @@ export default function EmployeeMatrixExperience({ experience, skill, employee }
     },
   ]
 
+  if (additionRefetchQueries) {
+    refetchQueries = refetchQueries.concat(additionRefetchQueries)
+  }
+
   const onCompleted = () => message.success('Skill updated')
   const onError = message.error
 
-  const [create, { loading: createLoading }] = useMutation(createExperience, {
+  const [create, { loading: createLoading }] = useCreateExperienceMutation({
     refetchQueries,
     onCompleted,
     onError,
   })
-  const [update, { loading: updateLoading }] = useMutation(updateExperience, {
+  const [update, { loading: updateLoading }] = useUpdateExperienceMutation({
     refetchQueries,
     onCompleted,
     onError,
   })
-  const [remove, { loading: deleteLoading }] = useMutation(deleteExperience, {
+  const [remove, { loading: deleteLoading }] = useDeleteExperienceMutation({
     refetchQueries,
     onCompleted,
     onError,

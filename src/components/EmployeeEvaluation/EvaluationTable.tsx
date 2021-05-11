@@ -525,12 +525,11 @@ export default function EvaluationTable({
       <CommentModal
         title={addCommentModal.title}
         visible={addCommentModal.visible}
-        onOk={() => {
+        onOk={comment => {
           onEvaluate({
             toWhom: employee.id,
             evaluation: addCommentModal.evaluation,
-            //@ts-ignore
-            comment: document.getElementById('comment_text_area').value,
+            comment,
             evaluationAttribute: addCommentModal.evaluationAttribute,
           })
           setAddCommentModal(initialCommentModal)

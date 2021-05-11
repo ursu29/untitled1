@@ -28,7 +28,7 @@ function PostPage({ match, history }: RouteComponentProps<{ id: string }>) {
 
   return (
     <PageContent>
-      <Controls back={<Back goto={paths.POSTS} />} />
+      <Controls back={<Back />} />
       <Skeleton active loading={preloading || loading}>
         {post && <Post post={post} />}
         {!post && <div>Post is not found</div>}

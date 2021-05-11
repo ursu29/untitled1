@@ -4,6 +4,7 @@ import { debounce } from 'throttle-debounce'
 import { MatrixGrade, MatrixGroup, MatrixRow } from './styled'
 import { ExperienceDetails } from '../../fragments'
 import { Employee, Matrix, ArchivedMatrixRaw } from '../../types'
+import URLAction from '../../utils/URLAction'
 
 interface Props {
   matrix: Matrix
@@ -24,6 +25,8 @@ export default function MatrixWithExperiences({
   archivedExperiences,
   isArchivedChosen,
 }: Props) {
+  const urlAction = new URLAction()
+
   const { groups, grades, skills } = matrix.body
 
   // List of generated card classNames
@@ -116,7 +119,7 @@ export default function MatrixWithExperiences({
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [clientWidth, isCurrentTab, matrix])
+  }, [clientWidth, isCurrentTab, matrix, urlAction.paramsGet('matrix'), urlAction.paramsGet('tab')])
 
   return (
     <div style={{ padding: '8px 0', marginBottom: '20px' }}>
@@ -164,6 +167,7 @@ export default function MatrixWithExperiences({
                       isArchivedChosen={isArchivedChosen}
                       key={skill.id}
                       skill={skill}
+                      matrix={matrix}
                       editable={employee?.access.write || false}
                       employee={employee}
                       divClassName={'matrix_exp-' + matrix.id + '-' + groupIndex + '-' + skillIndex}

@@ -159,13 +159,20 @@ const EmployeeCVEducation = ({ editable, employee, cv }: Props) => {
       <TableTitle title="Education" editable={editable} onCreate={handleCreate} />
       <EmployeeCVEducationTable
         editable={editable}
-        education={cvEducation.map(record => ({
-          ...record,
-          years: [
-            record.dateStart ? moment(record.dateStart, 'YYYY-MM-DD') : undefined,
-            record.dateEnd ? moment(record.dateEnd, 'YYYY-MM-DD') : undefined,
-          ],
-        }))}
+        education={cvEducation
+          .sort((a, b) => {
+            if (!a.dateStart && !a.dateEnd) return -1
+            if (!a.dateEnd && b.dateEnd) return -1
+            if (a.dateEnd && !b.dateEnd) return 1
+            return new Date(b?.dateEnd || 0).getTime() - new Date(a?.dateEnd || 0).getTime()
+          })
+          .map(record => ({
+            ...record,
+            years: [
+              record.dateStart ? moment(record.dateStart, 'YYYY-MM-DD') : undefined,
+              record.dateEnd ? moment(record.dateEnd, 'YYYY-MM-DD') : undefined,
+            ],
+          }))}
         handleDelete={handleDelete}
         onSubmit={handleEdit}
         loading={loading}

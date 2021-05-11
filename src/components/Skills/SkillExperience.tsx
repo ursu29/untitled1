@@ -4,7 +4,11 @@ import Skeleton from '../UI/Skeleton'
 import Section from '../UI/Section'
 import { Skill, Employee } from '../../types'
 import getExperiences, { QueryType } from '../../queries/getExperiences'
-import { useGetSkillsQuery, GetSkillsQuery } from '../../queries/skills'
+import {
+  useGetSkillsQuery,
+  GetSkillsQuery,
+  GetSkillExperiencesDocument,
+} from '../../queries/skills'
 import { ArrayElement } from '../../utils/types'
 import { useEmployee } from '../../utils/withEmployee'
 import UpdateSkillExperience from './UpdateSkillExperience'
@@ -30,7 +34,14 @@ function SkillExperience(props: SkillExperienceProps) {
 
   return (
     <Skeleton loading={loading} line={true}>
-      <UpdateSkillExperience experience={experience} skill={skill} employee={props.employee} />
+      <UpdateSkillExperience
+        experience={experience}
+        skill={skill}
+        employee={props.employee}
+        refetchQueries={[
+          { query: GetSkillExperiencesDocument, variables: { input: { id: props?.skill?.id } } },
+        ]}
+      />
     </Skeleton>
   )
 }
