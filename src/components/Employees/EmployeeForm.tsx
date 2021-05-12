@@ -105,12 +105,12 @@ export default function EmployeeForm({ onSubmit, fullAccess, item, loading }: Pr
               marginBottom: '10px',
             }}
           >
-            <InputNumber
+            <InputNumber<number>
               defaultValue={employeeProjects?.find(e => e.project.id === project.id)?.capacity}
               min={0}
               max={100}
               formatter={value => `${value}%`}
-              parser={value => value?.replace('%', '') || ''}
+              parser={value => (value ? Number(value?.replace('%', '')) : 0)}
               style={{ width: '70px', marginRight: '15px' }}
               onChange={value => {
                 setOccupancyField('capacity', value, project.id)

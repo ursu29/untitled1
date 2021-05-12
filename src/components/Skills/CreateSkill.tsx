@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react'
 import { PlusOutlined } from '@ant-design/icons'
+import React, { useEffect, useState } from 'react'
 import message from '../../message'
-import { useCreateSkillMutation, GetSkillsDocument } from '../../queries/skills'
+import { GetSkillsDocument, useCreateSkillMutation } from '../../queries/skills'
 import { CreateSkillInput } from '../../types/graphql'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import SkillForm from './SkillForm'
-import SkillSelect from './SkillSelect'
 
 export default function CreateSkill() {
   const [skill, setSkill] = useState<CreateSkillInput | null>(null)
@@ -24,11 +23,14 @@ export default function CreateSkill() {
 
   return (
     <Drawer
-      toggler={<Button icon={<PlusOutlined />} data-cy="addSkill">Add skill</Button>}
+      toggler={
+        <Button icon={<PlusOutlined />} data-cy="addSkill">
+          Add skill
+        </Button>
+      }
       drawerLabel="Create a new skill"
       content={
         <SkillForm
-          parentSkillSelect={<SkillSelect wide />}
           loading={loading}
           skill={skill}
           onSubmit={(skill, onDone) => {

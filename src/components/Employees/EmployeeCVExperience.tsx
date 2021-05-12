@@ -1,34 +1,33 @@
-import React, { useState, useRef } from 'react'
-import { useQuery } from '@apollo/react-hooks'
-import { useMediaQuery } from 'react-responsive'
-import moment from 'moment'
-import { debounce } from 'throttle-debounce'
 import { DeleteOutlined } from '@ant-design/icons'
-import { Form } from '@ant-design/compatible'
-import '@ant-design/compatible/assets/index.css'
+import { useQuery } from '@apollo/react-hooks'
 import {
-  Table,
+  AutoComplete,
   Button,
-  Popconfirm,
-  Input,
-  DatePicker,
   Checkbox,
+  DatePicker,
+  Form,
+  Input,
+  Popconfirm,
   Select,
+  Table,
   Tooltip,
   Typography,
-  AutoComplete,
 } from 'antd'
-import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
+import { FormInstance } from 'antd/lib/form'
+import moment from 'moment'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { useMediaQuery } from 'react-responsive'
 import styled from 'styled-components'
-import { Employee, Vitae, CurriculumVitae, Scalars } from '../../types/graphql'
-import queryProjects, { QueryType as ProjectsQueryType } from '../../queries/getProjects'
-import { useUpdateCvMutation } from '../../queries/cv'
+import { debounce } from 'throttle-debounce'
 import message from '../../message'
+import { useUpdateCvMutation } from '../../queries/cv'
+import queryProjects, { QueryType as ProjectsQueryType } from '../../queries/getProjects'
+import { CurriculumVitae, Employee, Scalars, Vitae } from '../../types/graphql'
 import './styles.css'
 
 const { Title } = Typography
 
-interface PropsGeneral extends FormComponentProps {
+interface PropsGeneral {
   editable: boolean
   vitaes: Vitae[]
   curriculumVitaeID: Scalars['ID']
@@ -56,15 +55,7 @@ const isWordSyncretis = (word: string) =>
  * Wrapper form
  *
  */
-function EmployeeCVExperience({
-  employee,
-  vitaes,
-  curriculumVitaeID,
-  editable,
-  form,
-}: PropsGeneral) {
-  const { getFieldDecorator } = form
-
+function EmployeeCVExperience({ employee, vitaes, curriculumVitaeID, editable }: PropsGeneral) {
   // Curriculum vitaes mutation
   const [update, { loading: mutateLoading }] = useUpdateCvMutation({
     onCompleted: () => message.success('Work experience has been updated'),
@@ -84,53 +75,39 @@ function EmployeeCVExperience({
   })
 
   // Call mutation
-  const handleSubmit = () => {
-    form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        const dateToISO = (date: any) => {
-          const dateObj = new Date(date)
+  const handleSubmit = (values: any) => {
+    const dateToISO = (date: any) => {
+      const dateObj = new Date(date)
 
-          return dateObj.toISOString()
-        }
+      return dateObj.toISOString()
+    }
 
-        onChange({
-          id: curriculumVitaeID,
-          employee: employee.id,
-          vitaes: values.cvForm.map((vitae: any) => ({
-            id: vitae.id,
-            position: vitae.position,
-            company: vitae.company.charAt(0).toUpperCase() + vitae.company.slice(1).trim(),
-            dateStart: vitae.dateStart ? dateToISO(vitae.dateStart) : null,
-            dateEnd: vitae.dateEnd ? dateToISO(vitae.dateEnd) : null,
-            project: isWordSyncretis(vitae.company) ? vitae.project : '',
-            responsibilities: vitae.responsibilities,
-            level: vitae.level,
-          })),
-        })
-      }
+    onChange({
+      id: curriculumVitaeID,
+      employee: employee.id,
+      vitaes: values.map((vitae: any) => ({
+        id: vitae.id,
+        position: vitae.position,
+        company: vitae.company.charAt(0).toUpperCase() + vitae.company.slice(1).trim(),
+        dateStart: vitae.dateStart ? dateToISO(vitae.dateStart) : null,
+        dateEnd: vitae.dateEnd ? dateToISO(vitae.dateEnd) : null,
+        project: isWordSyncretis(vitae.company) ? vitae.project : '',
+        responsibilities: vitae.responsibilities,
+        level: vitae.level,
+      })),
     })
   }
 
   return (
     <>
-      {getFieldDecorator('cvForm')(
-        <Form layout="vertical">
-          <CurriculumVitaeTable
-            data={vitaes.sort(
-              (a, b) =>
-                new Date(b?.dateStart || 0).getTime() - new Date(a?.dateStart || 0).getTime(),
-            )}
-            loading={mutateLoading}
-            onChange={values => {
-              form.setFieldsValue({
-                cvForm: values,
-              })
-              handleSubmit()
-            }}
-            editable={editable}
-          />
-        </Form>,
-      )}
+      <CurriculumVitaeTable
+        data={vitaes.sort(
+          (a, b) => new Date(b?.dateStart || 0).getTime() - new Date(a?.dateStart || 0).getTime(),
+        )}
+        loading={mutateLoading}
+        onChange={handleSubmit}
+        editable={editable}
+      />
     </>
   )
 }
@@ -230,9 +207,9 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
       title: 'Company',
       dataIndex: 'company',
       width: editable ? '15%' : '10%',
-      render: (text: any, record: any) => (
+      render: (_: any, record: any) => (
         <AutoComplete
-          // style={{ width: 200 }}
+          style={{ width: '100%' }}
           options={syncretisNames.map(value => ({ value }))}
           defaultValue={record.company ? record.company : undefined}
           onBlur={event =>
@@ -250,7 +227,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
       title: 'Time',
       dataIndex: 'time',
       width: '10%',
-      render: (text: any, record: any) => (
+      render: (_: any, record: any) => (
         <div
           style={{
             display: 'flex',
@@ -349,11 +326,12 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
       title: 'Project',
       dataIndex: 'project',
       width: '10%',
-      render: (text: any, record: any) =>
+      render: (_: any, record: any) =>
         isWordSyncretis(record.company) ? (
           editable ? (
             <Select
               showSearch
+              style={{ width: '100%' }}
               placeholder="Select a project"
               optionFilterProp="children"
               disabled={!editable}
@@ -547,15 +525,22 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
  * Editable cell in the table
  *
  */
-const EditableContext = React.createContext(null)
+const EditableContext = React.createContext<FormInstance<any> | null>(null)
 
-const EditableRow = ({ form, index, ...props }: any) => (
-  <EditableContext.Provider value={form}>
-    <tr {...props} />
-  </EditableContext.Provider>
-)
+interface EditableRowProps {
+  index: number
+}
 
-const EditableFormRow = Form.create()(EditableRow)
+const EditableRow: React.FC<EditableRowProps> = ({ index, ...props }) => {
+  const [form] = Form.useForm()
+  return (
+    <Form form={form} component={false}>
+      <EditableContext.Provider value={form}>
+        <tr {...props} />
+      </EditableContext.Provider>
+    </Form>
+  )
+}
 
 const EditableCellWrap = styled.div`
   border: 1px solid transparent;
@@ -567,95 +552,88 @@ const EditableCellWrap = styled.div`
     border-color: lightgray;
   }
 `
+type Item = Vitae
 
-class EditableCell extends React.Component<any> {
-  form: any
-  input: any
-  state = {
-    editing: false,
+interface EditableCellProps {
+  title: React.ReactNode
+  editable: boolean
+  children: React.ReactNode
+  dataIndex: keyof Item
+  record: Item
+  handleSave: (record: Item) => void
+}
+
+export const EditableCell: React.FC<EditableCellProps> = ({
+  title,
+  editable,
+  children,
+  dataIndex,
+  record,
+  handleSave,
+  ...restProps
+}) => {
+  const [editing, setEditing] = useState(false)
+  const inputRef = useRef<Input>(null)
+  const form = useContext(EditableContext)!
+
+  useEffect(() => {
+    if (editing) {
+      inputRef.current!.focus()
+    }
+  }, [editing])
+
+  const toggleEdit = () => {
+    setEditing(!editing)
+    form.setFieldsValue({ [dataIndex]: record[dataIndex] })
   }
 
-  toggleEdit = () => {
-    const editing = !this.state.editing
-    this.setState({ editing }, () => {
-      if (editing) {
-        this.input.focus()
-      }
-    })
-  }
+  const save = async () => {
+    try {
+      const values = await form.validateFields()
 
-  save = (e: any) => {
-    const { record, handleSave } = this.props
-    this.form.validateFields((error: any, values: any) => {
-      if (error && error[e.currentTarget.id]) {
-        return
-      }
-      this.toggleEdit()
+      toggleEdit()
       handleSave({ ...record, ...values })
-    })
+    } catch (errInfo) {
+      message.error('Some fields are not valid')
+      console.error('Save failed:', errInfo)
+    }
   }
 
-  renderCell = (form: any) => {
-    this.form = form
-    const { children, dataIndex, record } = this.props
-    const { editing } = this.state
+  let childNode = children
 
-    return editing ? (
-      <Form.Item style={{ margin: 0 }}>
-        {form.getFieldDecorator(dataIndex, {
-          initialValue: record[dataIndex],
-        })(
-          dataIndex === 'responsibilities' ? (
-            <Input.TextArea
-              ref={node => (this.input = node)}
-              onPressEnter={this.save}
-              onBlur={this.save}
-              autoSize
-            />
-          ) : (
-            <Input ref={node => (this.input = node)} onPressEnter={this.save} onBlur={this.save} />
-          ),
-        )}
+  if (editable) {
+    childNode = editing ? (
+      <Form.Item
+        style={{ margin: 0 }}
+        name={dataIndex as any}
+        rules={[
+          {
+            required: true,
+            message: `${title} is required.`,
+          },
+        ]}
+      >
+        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
       </Form.Item>
     ) : (
       <EditableCellWrap
         className="editable-cell-value-wrap"
         style={{ paddingRight: 24 }}
-        onClick={this.toggleEdit}
+        onClick={toggleEdit}
       >
         {children}
       </EditableCellWrap>
     )
   }
 
-  render() {
-    const {
-      editable,
-      dataIndex,
-      title,
-      record,
-      index,
-      handleSave,
-      children,
-      ...restProps
-    } = this.props
-    return (
-      <td {...restProps}>
-        {editable ? (
-          <EditableContext.Consumer>{this.renderCell}</EditableContext.Consumer>
-        ) : (
-          children
-        )}
-      </td>
-    )
-  }
+  return <td {...restProps}>{childNode}</td>
 }
 
 const components = {
   body: {
-    row: EditableFormRow,
+    row: EditableRow,
     cell: EditableCell,
   },
 }
 
-export default Form.create<PropsGeneral>({ name: 'cvForm' })(EmployeeCVExperience)
+export default EmployeeCVExperience
