@@ -13,7 +13,6 @@ describe('create new propose (devRel)', () => {
     before(() => {
         cy.setToken('manager')
         cy.getRequestData(EMAIL_URL).then(el => lastEmail = el.body.value[0].bodyPreview)
-
         cy.visit('/devrel')
     })
 
