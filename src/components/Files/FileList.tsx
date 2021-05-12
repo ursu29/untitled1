@@ -1,6 +1,6 @@
 import { List } from 'antd'
 import React from 'react'
-import { FilesPick } from '../../queries/getSharedFiles'
+import { SharedFileFragmentFragment } from '../../queries/getSharedFiles'
 import { SkillLink } from '../Skills/SkillLink'
 import { UpdateFileDetails } from './UpdateFileDetails'
 
@@ -13,7 +13,7 @@ const BulletDivider = () => (
 )
 
 interface Props {
-  files: FilesPick[]
+  files: SharedFileFragmentFragment[]
   detailed?: boolean
 }
 
@@ -53,9 +53,9 @@ export const FileList = ({ files, detailed }: Props) => (
                   <span>Created {file.createdBy && <span>by {file.createdBy.name} </span>}</span>
                   {file.createdAt}.
                 </div>
-                <div>Size: {(file.size / 1000).toFixed(0)} KB</div>
+                <div>Size: {((file.size || 0) / 1000).toFixed(0)} KB</div>
                 <div>
-                  {file.details?.skills.map(skill => (
+                  {file.skills?.map(skill => (
                     <SkillLink key={skill.id} skill={skill} />
                   ))}
                 </div>
@@ -74,7 +74,7 @@ export const FileList = ({ files, detailed }: Props) => (
                   MB
                 </div>
                 <div>
-                  {file.details?.skills.map(skill => (
+                  {file.skills?.map(skill => (
                     <SkillLink key={skill.id} skill={skill} />
                   ))}
                 </div>
