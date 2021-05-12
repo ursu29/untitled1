@@ -23,7 +23,6 @@ describe('create new propose (devRel)', () => {
         cy.getId(date).click().type(pastDay).type('{enter}')
         cy.get(activeData).type(todaysDate)
         cy.getId(title).click()
-        cy.getId(link).type(randomValues.link)
         cy.getElement(submit).click()
 
         cy.get(successMes).should('be.visible')

@@ -16,15 +16,15 @@ interface Props {
 }
 
 export default function CommentModal({ title, visible, onOk, onCancel, defaultComment }: Props) {
-  const inputRef = useRef<Input>(null)
+  const inputRef = useRef<{ resizableTextArea: Input }>(null)
   return (
     <Modal
       className="styled_modal_comment"
       title={title}
       visible={visible}
       onOk={() => {
-        const value = inputRef.current?.state.value || ''
-        onOk(value)
+        const value = inputRef.current?.resizableTextArea.props.value || ''
+        onOk(value.toString())
       }}
       onCancel={onCancel}
       okText="Post"

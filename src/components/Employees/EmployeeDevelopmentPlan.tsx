@@ -174,9 +174,9 @@ export default function EmployeeDevelopmentPlan(props: Props) {
 
             <DevelopmentPlanForm
               value={isArchivedChosen && archivedPlan ? archivedPlan : plan}
-              onChange={(value: any) =>
+              onChange={(value: any) => {
                 debounced({ variables: { input: { ...value, lastUpdatedAt: plan?.updatedAt } } })
-              }
+              }}
               locked={isArchivedChosen}
               resetFields={resetFields}
             />

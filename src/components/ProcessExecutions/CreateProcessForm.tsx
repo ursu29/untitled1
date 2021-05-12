@@ -1,7 +1,4 @@
-import { Form } from '@ant-design/compatible'
-import '@ant-design/compatible/assets/index.css'
-import { Button, Col, Row, Select } from 'antd'
-import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
+import { Button, Col, Row, Form, Select } from 'antd'
 import React, { useState } from 'react'
 import { ProcessExecution, ProcessType } from '../../types'
 import LocationSelect from '../Locations/LocationSelect'
@@ -10,95 +7,73 @@ import ProjectSelect from '../Projects/ProjectSelect'
 
 const typesWithProjects: ProcessType[] = ['ONBOARDING', 'OFFBOARDING']
 
-export interface Props extends FormComponentProps {
+export interface Props {
   onSubmit: (value: any, onDone?: () => void) => void
   loading?: boolean
   value?: Partial<ProcessExecution>
 }
 
-const CreateProcessForm = ({ form, onSubmit, value, loading }: Props) => {
+const CreateProcessForm = ({ onSubmit, value, loading }: Props) => {
+  const [form] = Form.useForm()
   const [type, setType] = useState<ProcessType | null>(null)
-  const { getFieldDecorator } = form
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault()
-    form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        onSubmit({
-          id: value?.id,
-          ...values,
-        })
-      }
+  const handleSubmit = (values: any) => {
+    onSubmit({
+      id: value?.id,
+      ...values,
     })
   }
 
   const showProjectSelector = type && typesWithProjects.includes(type)
 
   return (
-    <Form layout="vertical" onSubmit={handleSubmit}>
-      <Form.Item label="Process type">
-        {getFieldDecorator('process', {
-          initialValue: value?.process?.id,
-          rules: [{ required: true }],
-        })(
-          <ProcessSelect
-            onChange={(value, options) => {
-              //@ts-ignore
-              setType(options.props.title)
-            }}
-            style={{ width: '100%' }}
-          />,
-        )}
+    <Form
+      form={form}
+      layout="vertical"
+      onFinish={handleSubmit}
+      initialValues={{ ...value, project: value?.project?.id }}
+    >
+      <Form.Item label="Process type" name="process" rules={[{ required: true }]}>
+        <ProcessSelect
+          onChange={(value, options) => {
+            //@ts-ignore
+            setType(options.props.title)
+          }}
+          style={{ width: '100%' }}
+        />
       </Form.Item>
       {type && <div style={{ marginBottom: 16 }}>You're about to start {type} process</div>}
       {type === 'ROTATION' && (
         <>
-          <Form.Item label="From">
-            {getFieldDecorator('projectFrom', {
-              initialValue: value?.projectFrom?.id,
-              rules: [{ required: true }],
-            })(<ProjectSelect wide />)}
+          <Form.Item label="From" name="projectFrom" rules={[{ required: true }]}>
+            <ProjectSelect wide />
           </Form.Item>
-          <Form.Item label="To">
-            {getFieldDecorator('projectTo', {
-              initialValue: value?.projectTo?.id,
-              rules: [{ required: true }],
-            })(<ProjectSelect wide />)}
+          <Form.Item label="To" name="projectTo" rules={[{ required: true }]}>
+            <ProjectSelect wide />
           </Form.Item>
         </>
       )}
       {type && (
-        <Form.Item label="Locations">
-          {getFieldDecorator('locations', {
-            initialValue: value?.locations,
-            rules: [{ required: true }],
-          })(<LocationSelect mode="multiple" wide />)}
+        <Form.Item label="Locations" name="locations" rules={[{ required: true }]}>
+          <LocationSelect mode="multiple" wide />
         </Form.Item>
       )}
       {showProjectSelector && (
-        <Form.Item label="Project">
-          {getFieldDecorator('project', {
-            initialValue: value?.project?.id,
-            rules: [{ required: true }],
-          })(<ProjectSelect wide />)}
+        <Form.Item label="Project" name="project" rules={[{ required: true }]}>
+          <ProjectSelect wide />
         </Form.Item>
       )}
       {type && (
-        <Form.Item label="Priority">
-          {getFieldDecorator('prio', {
-            initialValue: 3,
-            rules: [{ required: true }],
-          })(
-            <Select>
-              {Array(3)
-                .fill(0)
-                .map((_, i) => (
-                  <Select.Option key={i} value={i + 1}>
-                    {i + 1}
-                  </Select.Option>
-                ))}
-            </Select>,
-          )}
+        <Form.Item label="Priority" name="prio" rules={[{ required: true }]}>
+          <Select>
+            {Array(3)
+              .fill(0)
+              .map((_, i) => (
+                <Select.Option key={i} value={i + 1}>
+                  {i + 1}
+                </Select.Option>
+              ))}
+          </Select>
         </Form.Item>
       )}
       <Row>
@@ -112,4 +87,4 @@ const CreateProcessForm = ({ form, onSubmit, value, loading }: Props) => {
   )
 }
 
-export default Form.create<Props>({ name: 'active_process_form' })(CreateProcessForm)
+export default CreateProcessForm
