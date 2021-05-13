@@ -24,6 +24,10 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
     }
   }, [resetFields, form])
 
+  useEffect(() => {
+    form.setFieldsValue(value)
+  }, [value, form])
+
   const handleSubmit = (values: any) => {
     onChange({
       id: value?.id,
@@ -39,8 +43,8 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
       data-cy="allEvaluation"
       layout="vertical"
       initialValues={value}
-      onChange={() => {
-        handleSubmit(form.getFieldsValue())
+      onFinish={values => {
+        handleSubmit(values)
       }}
       className="custom-disabled-input"
     >
