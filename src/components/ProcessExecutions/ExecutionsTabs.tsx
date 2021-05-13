@@ -2,6 +2,7 @@ import React from 'react'
 import { QueryType } from '../../queries/getProcessExecutions'
 import Tabs from '../UI/Tabs'
 import ProcessList from './ProcessExecutionList'
+import ProcessBoard from './ProcessExecutionBoard'
 
 interface Props {
   processExecutions: QueryType['processExecutions']
@@ -44,6 +45,15 @@ function ActiveProcesses({ processExecutions }: Props) {
           items={processExecutions.filter(
             i => i.status === 'RUNNING' && i.process.type === 'ROTATION',
           )}
+        />
+      ),
+    },
+    {
+      title: 'Board',
+      key: 'board',
+      body: (
+        <ProcessBoard
+          items={processExecutions.filter(i => i.status === 'RUNNING' || i.status === 'FINISHED')}
         />
       ),
     },
