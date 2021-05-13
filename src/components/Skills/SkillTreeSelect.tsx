@@ -42,7 +42,6 @@ function SkillTreeSelect(
 
   return (
     <TreeSelect
-      data-cy="selectSkills"
       ref={ref}
       loading={loading}
       multiple={true}

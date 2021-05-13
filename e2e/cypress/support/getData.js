@@ -1,6 +1,7 @@
 import { query } from '../fixtures/query'
 import { employeeData } from './client/employeeData'
 import { mainCity } from './locators'
+import {todayOfficePlannerDate} from "./officePlanner/officeDays";
 
 export const URL = 'https://portal.dev.syncretis.com/graphql'
 export const TIMEMASTER = 'https://timemaster.syncretis.com/'
@@ -45,6 +46,42 @@ export const completeProcessExecutionStep = (execution, step) => ({
   operationName: 'completeProcessExecutionStep',
   variables: {input: { execution, step }},
   query: query.completeProcessExecutionStep,
+})
+
+export const createWorkplaceBooking = (
+    workplace,
+    startDate = todayOfficePlannerDate,
+    finishDate = todayOfficePlannerDate
+) => ({
+  operationName: 'createWorkplaceBooking',
+  variables: {input: {workplace, startDate, finishDate}},
+  query: query.createWorkplaceBooking,
+})
+
+export const deleteWorkplaceBooking = (id) => ({
+  operationName: 'deleteWorkplaceBooking',
+  variables: {id},
+  query: query.deleteWorkplaceBooking,
+})
+
+export const workspace = (
+    id,
+    startDate = todayOfficePlannerDate,
+    finishDate = todayOfficePlannerDate
+) => ({
+  operationName: 'workspace',
+  variables: {bookingsInput: {startDate, finishDate}, id},
+  query: query.workspace,
+})
+
+export const workspacePoolQuery = (
+    location = mainCity,
+    startDate = todayOfficePlannerDate,
+    finishDate = todayOfficePlannerDate
+) => ({
+  operationName: 'workspacePoolQuery',
+  variables: {input:{location},bookingsInput:{startDate,finishDate}},
+  query: query.workspacePoolQuery,
 })
 
 export const getProcesses = id => ({

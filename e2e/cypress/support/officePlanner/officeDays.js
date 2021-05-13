@@ -47,5 +47,7 @@ export const employeeMaxCount = (allEmployees, count) =>
 export const employeeLimit = count => count || 15
 export const todaysDate = Cypress.moment().format('YYYY-MM-DD')
 export const tomorrow  = Cypress.moment().add(1,'days').format('DD');
+export const nextWeek  = Cypress.moment().add(6,'days').format('YYYY-MM-DD');
 export const pastDay = Cypress.moment().subtract(1, 'days').format('YYYY-MM-DD')
 export const getFirstDay = Cypress.moment().startOf('isoweek').format('YYYY-MM-DD')
+export const todayOfficePlannerDate = Cypress.moment().format('DD.MM.YYYY')

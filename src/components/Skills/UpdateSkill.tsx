@@ -6,7 +6,6 @@ import { UpdateSkillInput } from '../../types/graphql'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import SkillForm from './SkillForm'
-import SkillSelect from './SkillSelect'
 
 interface Props {
   skill?: UpdateSkillInput
@@ -35,7 +34,6 @@ export default function UpdateSkill({ refetchQueries, ...props }: Props) {
         <SkillForm
           loading={loading}
           skill={skill}
-          parentSkillSelect={<SkillSelect wide />}
           onSubmit={(skill, onDone) => {
             if ('id' in skill) {
               setSkill(skill)

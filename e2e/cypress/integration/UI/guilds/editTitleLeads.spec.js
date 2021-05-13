@@ -33,7 +33,7 @@ describe('Update guilds title and leads', () => {
         cy.getId(title).type(todaysDate)
 
         //select value
-        cy.get('span').contains('employee').click()
+        cy.getId(skillEl.selectSkill).click()
         cy.get(itemsSelect).eq(0).click()
         cy.get(edit).click()
 
