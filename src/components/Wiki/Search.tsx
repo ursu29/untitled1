@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client'
 import React, { useState, useEffect, useCallback } from 'react'
 import { getWikiRootSections, WikiRootSectionQueryType } from '../../queries/wiki'
 import { useHistory } from 'react-router-dom'
@@ -46,7 +46,7 @@ export default function Search() {
     ),
     path,
   })
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSearch = useCallback(
     debounce(600, (text: string) => {
       search({ variables: { input: { text } } })

@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client'
 import * as React from 'react'
 import query, { QueryType } from '../../queries/getProjectEmployeesExperiences'
 import { Project } from '../../types'
@@ -10,7 +10,7 @@ interface Props {
   project: Pick<Project, 'id'>
 }
 
-export default (props: Props) => {
+export default function ProjectSkills(props: Props) {
   const { data, loading } = useQuery<QueryType>(query, {
     variables: { id: props.project.id },
     onError: message.error,

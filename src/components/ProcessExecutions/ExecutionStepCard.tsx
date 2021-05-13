@@ -20,6 +20,7 @@ function ActiveStepCard({ title, description, status, employees, children }: Pro
     <div>
       {employees?.map(i => {
         if (i) return <Avatar key={i.id} employee={i} size="small" showTooltip />
+        return null
       })}
     </div>
   )

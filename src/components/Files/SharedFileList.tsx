@@ -12,7 +12,7 @@ interface Props {
   files?: FilesPick[]
 }
 
-export default function ({ files, loading, hasMore }: Props) {
+export default function SharedFileList({ files, loading, hasMore }: Props) {
   const [chosenFiles, setChosenFiles]: any = useState([])
   const [filter, setFilter] = useState('')
   const [type, setType] = useState<FilesPick['type'] | 'folders' | null>('folders')

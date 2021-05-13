@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client'
 import { DeleteOutlined } from '@ant-design/icons'
 import {
   AutoComplete,
@@ -62,6 +62,7 @@ function EmployeeCVExperience({ employee, vitaes, curriculumVitaeID, editable }:
     onError: message.error,
   })
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debounced = React.useCallback(debounce(500, update), [update])
 
   const onChange = (value: any) => {

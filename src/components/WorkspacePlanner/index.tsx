@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { DownOutlined } from '@ant-design/icons'
 import { Divider, Dropdown, Menu, PageHeader, Space, Spin } from 'antd'
 import dayjs from 'dayjs'
@@ -179,7 +179,7 @@ export default function WorkspacePlanner() {
     },
     onError: err => {
       message.error(err)
-      refetchGetWorkspace()
+      refetchGetWorkspace?.()
     },
   })
   const handleCreateWorkplace = (value: any) => {
@@ -195,7 +195,7 @@ export default function WorkspacePlanner() {
     },
     onError: err => {
       message.error(err)
-      refetchGetWorkspace()
+      refetchGetWorkspace?.()
     },
   })
 
@@ -205,7 +205,7 @@ export default function WorkspacePlanner() {
     },
     onError: err => {
       message.error(err)
-      refetchGetWorkspace()
+      refetchGetWorkspace?.()
     },
   })
 

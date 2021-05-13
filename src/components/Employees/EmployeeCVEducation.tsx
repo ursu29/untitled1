@@ -112,6 +112,7 @@ const EmployeeCVEducation = ({ editable, employee, cv }: Props) => {
 
   const cvEducation = cv?.education || []
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedUpdate = useCallback(
     debounce(500, (education?: (EducationInput & { __typename?: string })[]) =>
       update({

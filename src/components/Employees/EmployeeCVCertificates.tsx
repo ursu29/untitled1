@@ -124,6 +124,7 @@ const EmployeeCVCertificates = ({ editable, employee, cv }: Props) => {
 
   const cvCertificates = cv?.certificates || []
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedUpdate = useCallback(
     debounce(500, (certificates?: (CertificateInput & { __typename?: string })[]) =>
       update({
@@ -136,6 +137,7 @@ const EmployeeCVCertificates = ({ editable, employee, cv }: Props) => {
         },
       }),
     ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [update],
   )
 

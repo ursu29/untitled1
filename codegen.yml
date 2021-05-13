@@ -1,5 +1,6 @@
 overwrite: true
-schema: 'http://localhost:4000/graphql'
+schema:
+  - '${GENERATE_SCHEMA_URL}/graphql'
 documents: 'src/queries/**/*.graphql'
 generates:
   schema.graphql:
@@ -30,7 +31,7 @@ generates:
       - 'typescript-operations'
       - 'typescript-react-apollo'
     config:
-      reactApolloVersion: 2
+      reactApolloVersion: 3
 hooks:
   afterAllFileWrite:
     - prettier --write

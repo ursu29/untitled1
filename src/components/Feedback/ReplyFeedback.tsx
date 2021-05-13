@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 import React from 'react'
 import { Button, Form, Input } from 'antd'
 import { useReplyFeedbackMutation } from '../../queries/feedback'
@@ -37,10 +37,21 @@ export const FeedbackReplyForm = ({
       })
       if (data?.replyFeedback && currentFeedback) {
         const comments = (currentFeedback.comments || []).concat(data.replyFeedback)
-        cache.writeData({
-          id: cacheId,
-          data: { comments },
+        cache.writeFragment({
+          id: feedbackId,
+          fragment: gql`
+            fragment myFeedback on Feedback {
+              comments
+            }
+          `,
+          data: {
+            comments,
+          },
         })
+        // cache.writeData({
+        //   id: cacheId,
+        //   data: { comments },
+        // })
       }
     },
     onError: message.error,
