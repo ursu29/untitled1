@@ -1,5 +1,5 @@
+import { useQuery } from "@apollo/client";
 import React, { useState, useEffect, useCallback } from 'react'
-import { useQuery } from '@apollo/react-hooks'
 import { getWikiRootSections, WikiRootSectionQueryType } from '../../queries/wiki'
 import { useHistory } from 'react-router-dom'
 import { Spin, AutoComplete } from 'antd'

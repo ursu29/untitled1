@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/react-hooks'
+import { useMutation, useQuery } from "@apollo/client";
 import { Button, Drawer, Switch, Tabs as MyTicketTabs, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import message from '../../message'

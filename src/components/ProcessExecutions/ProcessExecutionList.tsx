@@ -1,9 +1,9 @@
+import { useMutation } from "@apollo/client";
 import { CheckOutlined, CloseOutlined, PauseOutlined, PlayCircleTwoTone } from '@ant-design/icons'
 import { Table, Badge, Tag, Tooltip, Select } from 'antd'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import React from 'react'
-import { useMutation } from '@apollo/react-hooks'
 import { Link } from 'react-router-dom'
 import { getProcessExecutionLink } from '../../paths'
 import { QueryType } from '../../queries/getProcessExecutions'

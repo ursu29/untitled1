@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery } from "@apollo/client";
 import React, { useEffect } from 'react'
 import getSharedFiles, { QueryType } from '../../queries/getSharedFiles'
 import PageContent from '../UI/PageContent'

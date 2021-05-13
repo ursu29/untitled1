@@ -1,7 +1,7 @@
+import { useQuery } from "@apollo/client";
 import { Button } from 'antd'
 import moment from 'moment'
 import React, { useState } from 'react'
-import { useQuery } from '@apollo/react-hooks'
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import PageContent from '../UI/PageContent'

@@ -1,5 +1,4 @@
-import gql from 'graphql-tag'
-import { useMutation, useQuery } from '@apollo/react-hooks'
+import { useMutation, useQuery, gql } from "@apollo/client";
 import React from 'react'
 import message from '../../message'
 import getProject from '../../queries/getProject'

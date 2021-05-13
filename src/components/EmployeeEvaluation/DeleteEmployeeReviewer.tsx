@@ -1,8 +1,7 @@
+import { useMutation, gql } from "@apollo/client";
 import React, { useEffect } from 'react'
 import { EvaluationReviewer, Employee } from '../../types'
 import Button from '../UI/Button'
-import gql from 'graphql-tag'
-import { useMutation } from '@apollo/react-hooks'
 import getEvaluationReviewers from '../../queries/getEvaluationReviewers'
 import message from '../../message'
 

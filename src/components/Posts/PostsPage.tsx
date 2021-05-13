@@ -1,9 +1,8 @@
+import { useQuery, gql } from "@apollo/client";
 import React, { useState } from 'react'
 import NewsFeed from './NewsFeed'
 import PageContent from '../UI/PageContent'
-import gql from 'graphql-tag'
 import { Access, Employee, LOCATION } from '../../types'
-import { useQuery } from '@apollo/react-hooks'
 import PageHeader from '../UI/PageHeader'
 import CreatePost from './CreatePost'
 

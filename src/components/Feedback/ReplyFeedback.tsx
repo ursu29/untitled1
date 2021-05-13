@@ -1,6 +1,6 @@
+import { gql } from "@apollo/client";
 import React from 'react'
 import { Button, Form, Input } from 'antd'
-import gql from 'graphql-tag'
 import { useReplyFeedbackMutation } from '../../queries/feedback'
 import { Feedback } from '../../types/graphql'
 import message from '../../message'

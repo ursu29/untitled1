@@ -1,9 +1,9 @@
+import { useMutation } from "@apollo/client";
 import React from 'react'
 import { FilesPick } from '../../queries/getSharedFiles'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import FileForm from './FileForm'
-import { useMutation } from '@apollo/react-hooks'
 import {
   updateFileDetails,
   UpdateFileDetailsMutation,

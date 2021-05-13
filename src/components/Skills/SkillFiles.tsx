@@ -1,5 +1,5 @@
+import { useQuery } from "@apollo/client";
 import React, { useEffect } from 'react'
-import { useQuery } from '@apollo/react-hooks'
 import { Skill } from '../../types'
 import getSharedFiles, { QueryType } from '../../queries/getSharedFiles'
 import SharedFileList from '../Files/SharedFileList'

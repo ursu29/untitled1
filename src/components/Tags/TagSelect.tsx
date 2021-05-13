@@ -1,9 +1,8 @@
+import { useQuery, useMutation, gql } from "@apollo/client";
 import React, { useEffect } from 'react'
 import Select from '../UI/Select'
-import { useQuery, useMutation } from '@apollo/react-hooks'
 import { Tag } from '../../types'
 import query, { QueryType } from '../../queries/getTags'
-import gql from 'graphql-tag'
 import message from '../../message'
 
 const mutation = gql`

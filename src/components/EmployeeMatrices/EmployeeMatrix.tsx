@@ -1,4 +1,4 @@
-import { useQuery, useLazyQuery } from '@apollo/react-hooks'
+import { useQuery, useLazyQuery } from "@apollo/client";
 import React, { useState } from 'react'
 import { Input } from 'antd'
 import ArchiveMatrix from './ArchiveMatrix'

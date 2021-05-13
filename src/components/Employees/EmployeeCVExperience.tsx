@@ -1,5 +1,5 @@
+import { useQuery } from "@apollo/client";
 import { DeleteOutlined } from '@ant-design/icons'
-import { useQuery } from '@apollo/react-hooks'
 import {
   AutoComplete,
   Button,

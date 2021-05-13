@@ -1,7 +1,7 @@
+import { useQuery } from "@apollo/client";
 import React from 'react'
 import { Select } from 'antd'
 import { SelectProps } from 'antd/es/select'
-import { useQuery } from '@apollo/react-hooks'
 import getProcesses, { QueryType } from '../../queries/getProcesses'
 
 interface Props extends Exclude<SelectProps<any>, 'loading'> {}

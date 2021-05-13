@@ -1,5 +1,5 @@
+import { useMutation, useQuery, gql } from "@apollo/client";
 import { CheckOutlined, CloseOutlined, DownOutlined, TeamOutlined } from '@ant-design/icons'
-import { useMutation, useQuery } from '@apollo/react-hooks'
 import {
   Button,
   Checkbox,
@@ -16,7 +16,6 @@ import {
   Typography,
 } from 'antd'
 import dayjs from 'dayjs'
-import gql from 'graphql-tag'
 import moment, { Moment } from 'moment'
 import React, { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'

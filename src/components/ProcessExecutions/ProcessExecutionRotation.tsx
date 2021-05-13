@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/react-hooks'
+import { useMutation } from "@apollo/client";
 import { Button, Typography } from 'antd'
 import React, { useState } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'

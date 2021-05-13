@@ -1,5 +1,4 @@
-import { useMutation, useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
+import { useMutation, useQuery, gql } from "@apollo/client";
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import getProcess, { QueryType } from '../../queries/getProcess'

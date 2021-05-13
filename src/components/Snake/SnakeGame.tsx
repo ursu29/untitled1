@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 import { Stage, Text, Container } from '@inlet/react-pixi'
 import { TextStyle } from '@pixi/text'
-import { PureQueryOptions } from 'apollo-client'
+import { PureQueryOptions } from "@apollo/client"
 import styled from 'styled-components'
 import { Spin } from 'antd'
 import message from '../../message'

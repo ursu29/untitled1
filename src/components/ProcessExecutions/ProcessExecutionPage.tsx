@@ -1,6 +1,5 @@
-import { useMutation, useQuery } from '@apollo/react-hooks'
+import { useMutation, useQuery, gql } from "@apollo/client";
 import { Button, Divider, PageHeader, Popconfirm } from 'antd'
-import gql from 'graphql-tag'
 import React, { useEffect } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { debounce } from 'throttle-debounce'

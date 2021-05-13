@@ -1,6 +1,5 @@
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import { useQuery, useMutation, gql } from "@apollo/client";
 import { Checkbox, Table, Switch } from 'antd'
-import gql from 'graphql-tag'
 import React, { useState } from 'react'
 import fragments, { EmployeeDetails } from '../../fragments'
 import { Employee, LOCATION } from '../../types'

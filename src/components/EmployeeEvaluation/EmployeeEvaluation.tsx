@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks'
+import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import React, { useState } from 'react'
 import {
   archivedSEFVersions,

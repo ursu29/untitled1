@@ -1,10 +1,10 @@
+import { useQuery } from "@apollo/client";
 import React, { useState } from 'react'
 import { Table, DatePicker, Tooltip, Popconfirm, Modal, Typography } from 'antd'
 import { Link } from 'react-router-dom'
 import { getEmployeeLink } from '../../paths'
 import { Project, OnboardingTicket } from '../../types'
 import { query, QueryType, Subordinate } from '../../queries/getSubordinates'
-import { useQuery } from '@apollo/react-hooks'
 import { useUpdateEmployeeMutation } from '../../queries/employees'
 import { Employee } from '../../types/graphql'
 import ProjectTagList from '../Projects/ProjectTagList'

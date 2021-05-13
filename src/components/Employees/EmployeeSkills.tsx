@@ -1,12 +1,11 @@
+import { useQuery, useMutation, gql } from "@apollo/client";
 import React, { useEffect } from 'react'
 import { Employee } from '../../types'
 import { Level } from '../../types/graphql'
 import query, { QueryType } from '../../queries/getEmployeeExperiences'
 import { useGetLevelsQuery } from '../../queries/levels'
 import Skeleton from '../UI/Skeleton'
-import { useQuery, useMutation } from '@apollo/react-hooks'
 import EmployeeSkillsDraggable from './EmployeeSkillsDraggable'
-import gql from 'graphql-tag'
 import message from '../../message'
 import { useUpdateExperienceMutation } from '../../queries/experience'
 import EmployeeRecommendations from './EmployeeRecommendations'

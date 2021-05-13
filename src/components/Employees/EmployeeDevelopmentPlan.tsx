@@ -1,5 +1,4 @@
-import { useMutation, useQuery, useLazyQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
+import { useMutation, useQuery, useLazyQuery, gql } from "@apollo/client";
 import React, { useState, useCallback, useEffect } from 'react'
 import { debounce } from 'throttle-debounce'
 import getDevelopmentPlans, { QueryType } from '../../queries/getDevelopmentPlans'
