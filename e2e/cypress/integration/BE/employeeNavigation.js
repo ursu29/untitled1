@@ -30,7 +30,7 @@ describe(`Check employee matrices`, () => {
       employeeData = { ...data.employeeByEmail }
     })
     cy.getResponse([OPERATION_NAME], 'alias')
-    cy.visit('/profile/matrices')
+    cy.visit('/profile/matrices?tab=matrices')
     cy.wait(`@alias`).then(val => {
       response = val.response.body.data
       request = val.request.body
