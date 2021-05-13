@@ -5,7 +5,7 @@ import {checkNewEmail, EMAIL_URL} from "../../../support/emails/checkNewEmails";
 
 describe('create new propose (devRel)', () => {
     const {successMes} = skillEl
-    const {title, link, submit, activeData, date} = devRelFormEl
+    const {title, submit, activeData, date} = devRelFormEl
 
     let emailRecipients = ['Ekaterina.Sogonova@syncretis.com', 'Julia.Korobkina@syncretis.com']
     let lastEmail
@@ -13,7 +13,6 @@ describe('create new propose (devRel)', () => {
     before(() => {
         cy.setToken('manager')
         cy.getRequestData(EMAIL_URL).then(el => lastEmail = el.body.value[0].bodyPreview)
-
         cy.visit('/devrel')
     })
 
@@ -21,8 +20,7 @@ describe('create new propose (devRel)', () => {
         cy.getElement(process.newEvent).click()
         cy.getId(title).type(randomValues.title)
         cy.getId(date).click().type(pastDay).type('{enter}')
-        cy.get(activeData).type(todaysDate)
-        cy.getId(title).click()
+        cy.get(activeData).type(todaysDate).type('{enter}')
         cy.getElement(submit).click()
 
         cy.get(successMes).should('be.visible')
