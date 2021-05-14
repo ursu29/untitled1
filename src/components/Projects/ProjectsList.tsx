@@ -44,9 +44,9 @@ interface Props {
 }
 
 export default function ProjectsList({ loading, projects }: Props) {
-  const projectsSorted = projects?.sort((a: any, b: any) =>
-    a.name?.toLowerCase() > b.name?.toLowerCase() ? 1 : -1,
-  )
+  const projectsSorted = projects
+    ?.slice()
+    .sort((a: any, b: any) => (a.name?.toLowerCase() > b.name?.toLowerCase() ? 1 : -1))
   return (
     <>
       <PageHeader title="Projects" />

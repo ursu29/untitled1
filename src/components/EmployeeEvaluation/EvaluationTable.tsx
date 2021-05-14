@@ -126,6 +126,7 @@ export default function EvaluationTable({
       const attributes = (evaluationAttributes || [])
         .filter(attribute => attribute.group === i.key)
         .map(i => ({ ...i, key: i.id }))
+        .slice()
         .sort((a, b) => a.index - b.index)
       return {
         ...i,

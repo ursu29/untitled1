@@ -1,4 +1,4 @@
-import { useMutation } from "@apollo/client";
+import { useMutation } from '@apollo/client'
 import { CheckOutlined, CloseOutlined, PauseOutlined, PlayCircleTwoTone } from '@ant-design/icons'
 import { Table, Badge, Tag, Tooltip, Select } from 'antd'
 import dayjs from 'dayjs'
@@ -211,7 +211,7 @@ function ProcessList({ items, tabName }: Props) {
       ].map(e => ({ text: getLocationName(e), value: e })),
       onFilter: (value: any, record: any) => record.locations && record.locations.includes(value),
       sorter: (a: any, b: any) =>
-        a.locations.sort().join('').localeCompare(b.locations.sort().join('')),
+        a.locations.slice().sort().join('').localeCompare(b.locations.slice().sort().join('')),
     },
     {
       key: 'position',
@@ -284,9 +284,11 @@ function ProcessList({ items, tabName }: Props) {
           const responsibleList = [
             //@ts-ignore
             ...new Set(
-              process.activeStepEmployees?.sort((a: any, b: any) =>
-                a?.email.toLowerCase() === user.employee?.email.toLowerCase() ? -1 : 1,
-              ),
+              process.activeStepEmployees
+                ?.slice()
+                .sort((a: any, b: any) =>
+                  a?.email.toLowerCase() === user.employee?.email.toLowerCase() ? -1 : 1,
+                ),
             ),
           ]
           return (
@@ -344,11 +346,13 @@ function ProcessList({ items, tabName }: Props) {
         sorter: (a: any, b: any) =>
           a.activeStepEmployees
             ?.map((e: any) => e?.name)
+            .slice()
             .sort()
             .join('')
             .localeCompare(
               b.activeStepEmployees
                 ?.map((e: any) => e?.name)
+                .slice()
                 .sort()
                 .join(''),
             ),
@@ -382,7 +386,7 @@ function ProcessList({ items, tabName }: Props) {
     ])
   }
 
-  const sortedItems = items.sort((a: any, b: any) => {
+  const sortedItems = items.slice().sort((a: any, b: any) => {
     if (tabName === 'archived') return 1
 
     const includesUserEmail = (e: any) =>

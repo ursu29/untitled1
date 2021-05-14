@@ -102,6 +102,7 @@ export default function WorkspacePlanner() {
       workplace.bookings?.map(booking => ({ workplaceId: workplace.id, ...booking })),
     )
     .filter(e => !!e)
+    .slice()
     .sort((a, b) => {
       if (dayjs(a.startDate).isBefore(dayjs(b.startDate), 'day')) {
         return -1

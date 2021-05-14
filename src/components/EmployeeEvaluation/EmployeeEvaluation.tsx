@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
+import { useQuery, useMutation, useLazyQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import {
   archivedSEFVersions,
@@ -106,6 +106,7 @@ function EmployeeEvaluation({ employee, editable }: Props) {
             })
           }
           versionsList={dataVersions?.archivedSEFVersions
+            .slice()
             .sort((a, b) => (new Date(a.createdAt) < new Date(b.createdAt) ? 1 : -1))
             .map(e => ({
               id: e.id,

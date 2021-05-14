@@ -65,6 +65,7 @@ export default function SharedFileList({ files, loading, hasMore }: Props) {
 
     const treeFromList = (list: any, isLeaf = false) =>
       list
+        .slice()
         .sort((a: any, b: any) => (a > b ? 1 : -1))
         .map((key: any) => ({
           title: decodeURI(key),

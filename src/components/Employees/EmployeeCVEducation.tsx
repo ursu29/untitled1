@@ -161,6 +161,7 @@ const EmployeeCVEducation = ({ editable, employee, cv }: Props) => {
       <EmployeeCVEducationTable
         editable={editable}
         education={cvEducation
+          .slice()
           .sort((a, b) => {
             if (!a.dateStart && !a.dateEnd) return -1
             if (!a.dateEnd && b.dateEnd) return -1

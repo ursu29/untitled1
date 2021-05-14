@@ -102,9 +102,11 @@ function EmployeeCVExperience({ employee, vitaes, curriculumVitaeID, editable }:
   return (
     <>
       <CurriculumVitaeTable
-        data={vitaes.sort(
-          (a, b) => new Date(b?.dateStart || 0).getTime() - new Date(a?.dateStart || 0).getTime(),
-        )}
+        data={vitaes
+          .slice()
+          .sort(
+            (a, b) => new Date(b?.dateStart || 0).getTime() - new Date(a?.dateStart || 0).getTime(),
+          )}
         loading={mutateLoading}
         onChange={handleSubmit}
         editable={editable}
@@ -357,6 +359,7 @@ function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTa
               }}
             >
               {allProjectsList
+                .slice()
                 .sort((a, b) => (a.name > b.name ? 1 : -1))
                 .map(project => (
                   <Option key={project.id} value={project.id} style={{ overflow: 'visible' }}>

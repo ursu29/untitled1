@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client'
 import { Button } from 'antd'
 import moment from 'moment'
 import React, { useState } from 'react'
@@ -53,6 +53,7 @@ export default function Calendar() {
       data?.events
         .map(e => e.city)
         .filter(e => e)
+        .slice()
         .sort() || [],
     ),
   )

@@ -1,4 +1,4 @@
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation, gql } from '@apollo/client'
 import { Checkbox, Table, Switch } from 'antd'
 import React, { useState } from 'react'
 import fragments, { EmployeeDetails } from '../../fragments'
@@ -41,7 +41,9 @@ export default function EmployeesTable() {
 
   // Get all employees
   const { data, loading } = useQuery<QueryType>(getEmployees)
-  const employees = data?.employees.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
+  const employees = data?.employees
+    .slice()
+    .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
 
   // Get management group
   const { data: accessGroup } = useQuery<GetMembersOfAccessGroupType>(getMembersOfAccessGroup, {
