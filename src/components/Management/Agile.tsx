@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/react-hooks'
-import { Collapse, Table } from 'antd'
+import { Collapse, Table, Spin } from 'antd'
 import gql from 'graphql-tag'
 import React from 'react'
 import { Link } from 'react-router-dom'
@@ -136,6 +136,11 @@ export default function Agile() {
 
   return (
     <div style={{ paddingTop: '16px' }}>
+      {loading && (
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <Spin />
+        </div>
+      )}
       {agileManagers?.map(manager => (
         <Collapse key={manager.id} bordered={false} ghost={true}>
           <Collapse.Panel
@@ -146,7 +151,6 @@ export default function Agile() {
             <Table
               dataSource={manager.subordinate}
               columns={columns}
-              loading={loading}
               tableLayout="fixed"
               pagination={false}
               rowKey="id"

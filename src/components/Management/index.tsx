@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Employees from './Employees'
 import Agile from './Agile'
+import Scrum from './Scrum'
 import PageContent from '../UI/PageContent'
 import PageHeader from '../UI/PageHeader'
 import { Tabs } from 'antd'
@@ -29,6 +30,7 @@ export default function Management() {
 
         {view === 'employees' && <Employees />}
         {view === 'agile' && <Agile />}
+        {view === 'scrum' && <Scrum />}
       </PageContent>
     </>
   )
