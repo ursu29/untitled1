@@ -48,9 +48,6 @@ export default function Scrum() {
       }
     })
 
-  console.log(projects)
-  console.log(scrumMasters)
-
   type TableRecord = EmployeeDetails & {
     projects: (ProjectDetails & { employees: { id: string }[]; scrumMasters: EmployeeDetails[] })[]
     projectsNamesString: string
@@ -78,9 +75,23 @@ export default function Scrum() {
       key: 'project',
       ...TableSearch('projectsNamesString'),
       render: (record: TableRecord) => {
-        return record.projects?.map(e => (
-          <ProjectTag small project={e} employeesCount={e.employees.length} />
-        ))
+        return (
+          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+            {record.projects?.map(e => (
+              <ProjectTag
+                small
+                project={e}
+                employeesCount={e.employees.length}
+                style={{
+                  display: 'flex',
+                  width: 'fit-content',
+                  marginBottom: '4px',
+                  marginTop: '4px',
+                }}
+              />
+            ))}
+          </div>
+        )
       },
     },
     {

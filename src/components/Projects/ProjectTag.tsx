@@ -71,12 +71,12 @@ export default function ProjectTag({
           >
             {name} {!!capacity && capacity + '%'}
             {!!isExtraCapacity && ' !'}
-            {!!employeesCount && (
-              <div>
-                <TeamOutlined /> {employeesCount}
-              </div>
-            )}
           </div>
+          {!!employeesCount && (
+            <div style={{ marginLeft: '8px' }}>
+              <TeamOutlined /> {employeesCount}
+            </div>
+          )}
         </Tag>
       </Link>
       {isLarge && (
