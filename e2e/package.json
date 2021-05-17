@@ -16,11 +16,11 @@
     "e2e:run:firefox": "cypress run --browser firefox",
     "cy:run:smoke": "cypress run --env grep=\\\"smoke\\\"",
     "cy:run:e2e": "cypress run --env grep=\\\"e2e\\\"",
-    "clean:reports": "del -f mochawesome-report",
+    "clean:reports": "if exist TestReport rmdir /s/q TestReport && rmdir /s/q mochawesome-report",
     "merge:reports": "mochawesome-merge mochawesome-report/*.json > cypress-tests-report.json",
     "create:html:report": "marge --reportDir TestReport cypress-tests-report.json",
     "posttest": "yarn run merge:reports && yarn run create:html:report",
-    "test": "yarn run cy:run || yarn run posttest",
+    "test": "yarn run clean:reports && yarn run cy:run || yarn run posttest",
     "updateScrenshot": "docker run -it -e CYPRESS_updateSnapshots=$CYPRESS_updateSnapshots --ipc=host -v %cd%:/e2e -w /e2e cypress/included:6.0.1"
   },
   "devDependencies": {
