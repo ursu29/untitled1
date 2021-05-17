@@ -74,6 +74,18 @@ jobs:
           pathToPublish: '$(Build.ArtifactStagingDirectory)'
           artifactName: ScreenShots
         displayName: Publish Screenshots
+              - task: CopyFolder@1
+          condition: always()
+          inputs:
+            sourceFolder: '$(Build.SourcesDirectory)/e2e/TestReport'
+            contents: '**/*'
+            targetFolder: '$(Build.ArtifactStagingDirectory)'
+          displayName: Copy TestReport
+      - task: Publish folder
+          condition: always()
+          pathToPublish: '$(Build.ArtifactStagingDirectory)'
+            artifactName: folderReport
+            displayName: Publish folder
 
 # jobs:
 #   - job: E2E_Tests
