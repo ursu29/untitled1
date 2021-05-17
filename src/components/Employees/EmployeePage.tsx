@@ -8,7 +8,6 @@ import Employee from './Employee'
 import EmployeeTabs from '../Employees/EmployeeTabs'
 import Controls from '../UI/Controls'
 import Back from '../UI/Back'
-import paths from '../../paths'
 import PageContent from '../UI/PageContent'
 import NotFound from '../UI/NotFound'
 import fragments, { EmployeeDetails } from '../../fragments'
@@ -58,10 +57,10 @@ function EmployeePage({
       {employee && (
         <>
           <PageContent noBottom>
-            <Controls back={!hideNavigation && <Back goto={paths.EMPLOYEES} />} />
+            <Controls back={!hideNavigation && <Back />} />
             <Employee employee={employee} />
           </PageContent>
-          <EmployeeTabs employee={employee} tab={tab} />
+          <EmployeeTabs key={employee.id} employee={employee} tab={tab} />
         </>
       )}
     </Skeleton>

@@ -1,16 +1,15 @@
-import { EditOutlined } from '@ant-design/icons'
 import gql from 'graphql-tag'
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import React from 'react'
 import message from '../../message'
 import getProject from '../../queries/getProject'
 import updateProject from '../../queries/updateProject'
-import { Project } from '../../types'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import ProjectForm from './ProjectForm'
+import { ProjectPick } from '../../queries/getProjectByCode'
 
-function UpdateProject({ project }: { project: Partial<Project> }) {
+function UpdateProject({ project }: { project: ProjectPick }) {
   const { data } = useQuery(
     gql`
       query getProject($id: ID!) {
@@ -32,13 +31,13 @@ function UpdateProject({ project }: { project: Partial<Project> }) {
   if (!data?.project?.accessEditGlobal) return null
   return (
     <Drawer
-      toggler={<Button size="small" icon={<EditOutlined />} type="link"></Button>}
+      toggler={<Button type="link">Edit</Button>}
       drawerLabel={'Edit project ' + project?.name}
       content={
         <ProjectForm
           loading={loading}
           item={project}
-          onSubmit={async (project: Partial<Project>, onDone: any) => {
+          onSubmit={async (project: ProjectPick, onDone: any) => {
             update({
               variables: {
                 input: {

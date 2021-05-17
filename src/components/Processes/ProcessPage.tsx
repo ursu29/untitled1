@@ -5,11 +5,11 @@ import { RouteComponentProps, withRouter } from 'react-router-dom'
 import getProcess, { QueryType } from '../../queries/getProcess'
 import { Access } from '../../types'
 import PageContent from '../UI/PageContent'
-import Skeleton from '../UI/Skeleton'
 import Branch from './ProcessBranch'
-import { Divider, Typography } from 'antd'
+import { Divider } from 'antd'
 import NotAllowed from '../UI/NotAllowed'
 import isForbidden from '../../utils/isForbidden'
+import PageHeader from '../UI/PageHeader'
 
 const accessQuery = gql`
   query processPageAccess {
@@ -57,11 +57,11 @@ function ProcessPage({ match }: RouteComponentProps<{ id: string }>) {
   const branches = process?.steps.filter(i => !i.parentSteps?.length)
 
   return (
-    <PageContent style={{ overflow: 'auto', width: '100%', height: '100%', flexGrow: 1 }}>
-      <Skeleton active loading={loading}>
+    <>
+      <PageHeader title={process?.title} />
+      <PageContent loading={loading}>
         {process && (
           <div>
-            <Typography.Title>{process.title}</Typography.Title>
             {branches?.map((i, index) => {
               return (
                 <div key={i.id}>
@@ -83,8 +83,8 @@ function ProcessPage({ match }: RouteComponentProps<{ id: string }>) {
             })}
           </div>
         )}
-      </Skeleton>
-    </PageContent>
+      </PageContent>
+    </>
   )
 }
 

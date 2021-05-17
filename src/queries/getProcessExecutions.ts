@@ -22,6 +22,7 @@ export default gql`
         type
       }
       status
+      substatus
       vacancy {
         id
         position
@@ -55,6 +56,7 @@ export default gql`
         email
       }
       prio
+      updatedAt
     }
   }
 `
@@ -66,8 +68,11 @@ type ProcessExecutionPick = {
   }
   vacancy: Pick<Vacancy, 'id' | 'position' | 'employeeComment'>
   project: Pick<Project, 'id' | 'name' | 'code'>
+  projectFrom: Pick<Project, 'id' | 'name' | 'code'>
+  projectTo: Pick<Project, 'id' | 'name' | 'code'>
   locations: LOCATION[]
   status: ProcessExecution['status']
+  substatus: ProcessExecution['substatus']
   employee: ProcessExecution['employee']
   employeeRef: ProcessExecution['employeeRef']
   finishDate: ProcessExecution['finishDate']
@@ -76,6 +81,7 @@ type ProcessExecutionPick = {
   })[]
   activeStepEmployees?: Employee[]
   prio: ProcessExecution['prio']
+  updatedAt: ProcessExecution['updatedAt']
 }
 
 export type QueryType = {

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
-import { Button, Divider, PageHeader, Popconfirm } from 'antd'
+import { Button, Divider, PageHeader, Popconfirm, Select } from 'antd'
 import gql from 'graphql-tag'
 import React, { useEffect } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
@@ -9,6 +9,7 @@ import message from '../../message'
 import getActiveProcessExecutions from '../../queries/getEmployeeActiveProcessExecutions'
 import getProcessExecution, { QueryType } from '../../queries/getProcessExecution'
 import getProcessExecutions from '../../queries/getProcessExecutions'
+import updateProcessExecution from '../../queries/updateProcessExecution'
 import isForbidden from '../../utils/isForbidden'
 import { useEmployee } from '../../utils/withEmployee'
 import { getProcessName } from '../../utils/getProcessName'
@@ -23,6 +24,7 @@ import ActiveStepCard from './ExecutionStepCard'
 import ProcessExecutionBranch from './ProcessExecutionBranch'
 import ProcessExecutionRotation from './ProcessExecutionRotation'
 import ProcessExecutionStatusTag from './ProcessExecutionStatusTag'
+import UpdateProcessExecution from './UpdateProcessExecution'
 
 const mutation = gql`
   mutation completeProcessExecutionStep($input: CompleteProcessExecutionStepInput!) {
@@ -68,6 +70,16 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
     onCompleted: () => message.success('Step is done'),
   })
 
+  const [changeSubstatus, { loading: changeSubstatusLoading }] = useMutation(
+    updateProcessExecution,
+    {
+      refetchQueries: [{ query: getProcessExecution, variables }],
+      awaitRefetchQueries: true,
+      onError: message.error,
+      onCompleted: () => message.success('Updated'),
+    },
+  )
+
   const commentDebounced = debounce(1000, comment)
 
   useEffect(() => {
@@ -96,6 +108,8 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
   if (!processExecution) {
     return <PageContent>Process is not found</PageContent>
   }
+
+  if (changeSubstatusLoading) message.loading('Updating')
 
   const branches = processExecution.process?.steps.filter(i => !i.parentSteps?.length)
 
@@ -146,10 +160,26 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
         <PageHeader
           title={processExecution.process.title}
           subTitle={getProcessName(processExecution.process.type)}
-          // onBack={() => window.history.back()}
           tags={<ProcessExecutionStatusTag processExecution={processExecution} />}
           style={{ padding: 0 }}
           extra={[
+            <span>
+              Status:{' '}
+              <Select
+                bordered={false}
+                style={{ minWidth: '100px', fontWeight: 500 }}
+                defaultValue={processExecution.substatus}
+                onChange={substatus =>
+                  changeSubstatus({ variables: { input: { id: processExecution.id, substatus } } })
+                }
+              >
+                <Select.Option value="NEW">New</Select.Option>
+                <Select.Option value="ON_REVIEW">On Review</Select.Option>
+                <Select.Option value="SOURCING">Sourcing</Select.Option>
+                <Select.Option value="OFFER_SENT">Offer Sent</Select.Option>
+                <Select.Option value="IN_PROGRESS">In Progress</Select.Option>
+              </Select>
+            </span>,
             <AbortProcessExecution id={processExecution?.id} key={processExecution?.id}>
               {(abort: any) => {
                 if (processExecution.status !== 'RUNNING') return null
@@ -192,18 +222,16 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                 )
               }}
             </OnHoldProcessExecution>,
+            <UpdateProcessExecution
+              processExecution={processExecution}
+              refetchQueries={[{ query: getProcessExecution, variables }]}
+            />,
           ]}
         />
       </PageContent>
       {processExecution.process.type === 'ONBOARDING' && (
         <>
           <PageContent noBottom noTop>
-            {/* <Typography.Title style={{ display: 'flex', alignItems: 'center' }}>
-              <span style={{ marginRight: 8 }}>{processExecution.process.title}</span>
-              {processExecution.status === 'cancelled' && <Tag color="volcano">Cancelled</Tag>}
-              {processExecution.status === 'finished' && <Tag color="green">Completed</Tag>}
-            </Typography.Title> */}
-
             <ProcessExecutionRotation processExecution={processExecution} />
             <ActiveStepCard
               title="Open Vacancy"

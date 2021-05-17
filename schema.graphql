@@ -737,7 +737,7 @@ type FileDetails {
 
 type SharedFiles {
   hasMore: Boolean
-  files: [AzureFile]
+  files: [AzureFile!]!
 }
 
 input UpdateFileDetailsInput {
@@ -747,6 +747,40 @@ input UpdateFileDetailsInput {
 
 input SharedFilesInput {
   skills: [ID!]
+}
+
+enum GameType {
+  SNAKE
+}
+
+type GameScore {
+  id: ID!
+  player: Employee!
+  position: Int!
+  score: Int!
+  date: String!
+}
+
+type StartGame {
+  secret: String!
+}
+
+input GameLog {
+  type: String!
+  date: String!
+}
+
+input LeaderboardInput {
+  game: GameType!
+}
+
+input StartGameInput {
+  game: GameType!
+}
+
+input UpdateScoreInput {
+  game: GameType!
+  value: String!
 }
 
 type Guild {
@@ -811,6 +845,7 @@ type Query {
   feedbacks(input: FeedbacksInput!): [Feedback!]
   feedbacksAccess: Access
   sharedFiles(input: SharedFilesInput): SharedFiles!
+  gameLeaderboard(input: LeaderboardInput!): [GameScore!]!
   guild(input: GuildInput): Guild
   guilds: [Guild]
   levels: [LEVEL!]
@@ -894,6 +929,8 @@ type Mutation {
   deleteFeedback(input: DeleteFeedbackInput!): Feedback
   replyFeedback(input: FeedbackReplyInput!): FeedbackComment
   updateFileDetails(input: UpdateFileDetailsInput!): FileDetails
+  startGame(input: StartGameInput!): StartGame!
+  updateGameScore(input: UpdateScoreInput!): GameScore!
   updateGuild(input: UpdateGuildInput): Guild
   attachMatrixToEmployee(input: AttachMatrixToEmployeeInput): Matrix
   detachMatrixFromEmployee(input: DetachMatrixFromEmployeeInput): Matrix
@@ -908,6 +945,7 @@ type Mutation {
   createMatrixGrade(input: CreateMatrixGradeInput): Matrix
   deleteMatrixGrade(input: DeleteMatrixGradeInput): Matrix
   updateMatricesCustomFields(input: UpdateMatricesCustomFieldsInput): MatricesCustomFields
+  proposeMatrixChanges(input: ProposeMatrixChangesInput!): Boolean
   createOfficeBooking(input: CreateOfficeBookingInput!): Boolean
   cancelOfficeBooking(input: CancelOfficeBookingInput!): Boolean
   updateOfficeDays(input: UpdateOfficeDaysInput!): Boolean
@@ -1088,6 +1126,12 @@ input MatricesCustomFieldsInput {
 input UpdateMatricesCustomFieldsInput {
   employee: ID!
   lastDiscussed: String
+}
+
+input ProposeMatrixChangesInput {
+  matrix: ID!
+  skill: ID!
+  proposal: String!
 }
 
 type OfficeDay {

@@ -1,4 +1,15 @@
 export const query = {
+  deleteWorkplaceBooking: 'mutation deleteWorkplaceBooking($id: ID!) {deleteWorkplaceBooking(id: $id) { id startDate finishDate __typename}}',
+  workspacePoolQuery: 'query workspacePoolQuery($input: WorkspacesInput) {workspaces(input: $input) { id name __typename}}',
+  workspace: 'query workspace($id: ID!, $bookingsInput: BookingsInput) {workspace(id: $id) {id drawing workplaces {id coordX coordY number bookings(input: $bookingsInput) {id employeeId startDate finishDate __typename} __typename} __typename}}',
+  createWorkplaceBooking: 'mutation createWorkplaceBooking($input: CreateWorkplaceBookingInput) {createWorkplaceBooking(input: $input) { id workplace { id __typename} startDate finishDate __typename}}',
+  updateProcessExecution: 'mutation updateProcessExecution($input: UpdateProcessExecutionInput) {updateProcessExecution(input: $input) {id __typename}}',
+  publishVacancy: 'mutation publishVacancy($input: PublishVacancyInput) {publishVacancy(input: $input) { id __typename}}',
+  completeProcessExecutionStep: 'mutation completeProcessExecutionStep($input: CompleteProcessExecutionStepInput!) {completeProcessExecutionStep(input: $input) {id __typename}}',
+  getProcesses: 'query getProcesses($id: ID!) { process(id: $id) { id title customer type steps { ...ProcessStepDetails __typename } __typename }}fragment ProcessStepDetails on ProcessStep { id title description type responsibleUsers { id name email isMe __typename } sendToTeamlead hasComment send24hoursNotification isAgileResponsible parentSteps { id __typename } process { id type __typename } __typename}',
+  createProcessStep: 'mutation createProcessStep($input: CreateProcessStepInput) {createProcessStep(input: $input) { id __typename}}',
+  updateProcessStep: 'mutation updateProcessStep($input: UpdateProcessStepInput) {updateProcessStep(input: $input) { id  __typename}}',
+  getProjectManagers: 'query getProjectManagers($id: ID!) {project(id: $id) {id scrumMasters { ...EmployeeDetails __typename} employees {id agileManager { ...EmployeeDetails __typename} __typename} __typename}}fragment EmployeeDetails on Employee {id name location country position phoneNumber email isMe startDate birthday __typename}',
   createEvent: 'mutation createEvent($input: CreateEventInput!) {createEvent(input: $input) {id __typename}}',
   cancelEvent: 'mutation cancelEvent($input: CancelEventInput!) {cancelEvent(input: $input)}',
   getEvent: 'query getEvent($id: ID!) { event(id: $id) { id title description link start end importance isOnline isExternal city location skills { id name description __typename } attendees { employee { id name email position __typename } status __typename } createdBy { id __typename } __typename }}',
@@ -76,14 +87,18 @@ export const query = {
     'mutation deleteOnboardingTicket($input: DeleteOnboardingTicketInput) {deleteOnboardingTicket(input: $input) { id __typename}}',
   deleteProcess:
     'mutation deleteProcess($id:ID!) {deleteProcess(id: $id) {id}}',
+  deleteHrProcess: 'mutation deleteHrProcess($input: DeleteHrProcessInput!) {deleteHrProcess(input: $input) { id __typename}}',
   updateGuild: 'mutation updateGuild($input: UpdateGuildInput) {updateGuild(input: $input) {azureDisplayName __typename}}',
   closeVacancy: 'mutation closeVacancy($input: CloseVacancyInput) {closeVacancy(input: $input) {id __typename}}',
   updateEmp:
     'mutation updateEmployee($input: UpdateEmployeeInput!) {updateEmployee(input: $input) {id __typename}}',
   createNewProcess:
     'mutation createProcess($input: CreateProcessInput!) {createProcess(input: $input) {id __typename}}',
+  updateVacancy: 'mutation updateVacancy($input: UpdateVacancyInput) {updateVacancy(input: $input) {id __typename}}',
   createProcess:
     'mutation createProcess($input: CreateProcessInput!) {createProcess(input: $input) {id __typename}}',
+  getAllProjects:
+      'query getProjects {projects {...ProjectDetails __typename}}fragment ProjectDetails on Project {id name code description __typename}',
   createProcessExecution:
     'mutation createProcessExecution($input: CreateProcessExecutionInput) {createProcessExecution(input: $input) {id __typename}}',
   holdProcess:

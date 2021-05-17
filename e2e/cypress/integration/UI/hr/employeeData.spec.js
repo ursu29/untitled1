@@ -21,15 +21,6 @@ describe('Check employee data', () => {
     })
   })
 
-  it('Check default data', () => {
-    const { id } = runningProcess[0]
-
-    cy.get('div > a')
-      .eq(1)
-      .should('have.attr', 'href')
-      .then(href => expect(href).equal(`/hr/${id}/`))
-  })
-
   it('check process data', () => {
     const { name } = employeeData
     const firstProcess = runningProcess[1]

@@ -1,14 +1,21 @@
 export const EMAIL_URL = 'https://graph.microsoft.com/v1.0/me/messages?$top=1'
 
-export const checkNewEmail = (emailData, obj, URL = EMAIL_URL) => {
-    cy.wait(500)
-    cy.getRequestData(URL).then(el => {
-        const {bodyPreview} =  el.body.value[0]
+export const checkNewEmail = (lastEmail, obj, isCompare, text = ' ', maxNumber = 10) => {
+    let nextNumber = maxNumber - 1;
 
-        if(emailData !== bodyPreview) {
-            Object.values(obj).forEach(el => expect(bodyPreview).contain(el))
-            return;
-        }
-        checkNewEmail(emailData, obj, URL)
-    })
+    // eslint-disable-next-line
+    cy.wait(500)
+    if(nextNumber) {
+        cy.getRequestData(EMAIL_URL).then(el => {
+            const {bodyPreview} =  el.body.value[0]
+            const {content} = el.body.value[0].body
+            const compareText = isCompare ? content : bodyPreview
+
+            if(lastEmail !== bodyPreview && lastEmail.includes(text)) {
+                Object.values(obj).forEach(el => expect(compareText).contain(el))
+                return;
+            }
+            checkNewEmail(lastEmail, obj, isCompare, text, nextNumber)
+        })
+    }
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { LinkOutlined, MessageOutlined } from '@ant-design/icons'
+import { LinkOutlined, MessageOutlined, BulbOutlined } from '@ant-design/icons'
 import { Tooltip, Spin } from 'antd'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { Level } from '../../types/graphql'
 import { MatrixCell } from './styled'
@@ -9,6 +9,23 @@ import { Skill, Experience, ArchivedMatrixRaw } from '../../types'
 import { CircleButton, circleButtonsPallette } from './CircleButton'
 import { getSkillLink } from '../../paths'
 import CommentModal from '../UI/CommentModal'
+
+const CardButton = styled.button`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: lightgray;
+  filter: opacity(0);
+  visibility: hidden;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  transition: 0.3s visibility, 0.2s filter;
+  :hover {
+    color: gray;
+  }
+`
 
 const Card = styled.div<{ backgroundColor: string }>`
   background-color: ${props => props.backgroundColor};
@@ -21,36 +38,24 @@ const Card = styled.div<{ backgroundColor: string }>`
   padding: 14px;
   margin: 0 0 16px 0;
   &:hover {
-    .card_button {
+    ${CardButton} {
       filter: opacity(1);
       visibility: visible;
     }
   }
 `
 
-const Link = styled.div`
+const CardActions = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: flex-end;
-  cursor: pointer;
-  color: lightgray;
-  filter: opacity(0);
-  visibility: hidden;
-  transition: 0.3s visibility, 0.2s filter;
-  :hover {
-    color: gray;
-  }
+  margin-top: 14px;
 `
 
-const Comment = styled.div<{ active: boolean }>`
-  margin-bottom: -5px;
-  cursor: pointer;
+const Comment = styled(CardButton)<{ active: boolean }>`
   color: ${props => (props.active ? 'gray' : 'lightgray')};
   filter: ${props => (props.active ? 'opacity(1)' : 'opacity(0)')};
   visibility: ${props => (props.active ? 'visible' : 'hidden')};
-  transition: 0.3s visibility, 0.2s filter;
-  :hover {
-    color: gray;
-  }
 `
 
 const getBGColorByLevel = (level?: Level) => {
@@ -77,6 +82,7 @@ interface Props {
   isArchivedChosen?: boolean
   onUpdateExperience: (level: Level, comment?: string) => void
   onDeselectLevel: () => void
+  onProposeChanges: (proposal: string) => void
   divClassName?: string
   editable: boolean
   type?: string
@@ -90,17 +96,18 @@ function MatrixExperience({
   isArchivedChosen,
   onUpdateExperience,
   onDeselectLevel,
+  onProposeChanges,
   divClassName,
   editable,
-  history,
   type,
   loading,
-}: Props & RouteComponentProps) {
+}: Props) {
   const initialCommentModal = {
     visible: false,
     comment: '',
   }
   const [addCommentModal, setAddCommentModal] = useState(initialCommentModal)
+  const [addFeedbackModal, setAddFeedbackModal] = useState(false)
 
   const currentLevel = isArchivedChosen ? archivedExperience?.level : experience?.level
   const backgroundColor = getBGColorByLevel(currentLevel)
@@ -115,23 +122,22 @@ function MatrixExperience({
           {type !== 'space_boilerplate' ? (
             <>
               <MatrixCell>{skill.name}</MatrixCell>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-end',
-                  marginTop: '14px',
-                }}
-              >
-                <Link className="card_button" onClick={() => history.push(getSkillLink(skill.id))}>
-                  <Tooltip title={'Link'} placement="bottom">
+              <CardActions>
+                <CardButton as={Link} to={getSkillLink(skill.id)}>
+                  <Tooltip title="Link" placement="bottom">
                     <LinkOutlined />
                   </Tooltip>
-                </Link>
+                </CardButton>
+
+                <CardButton type="button" onClick={() => setAddFeedbackModal(true)}>
+                  <Tooltip title="Propose changes" placement="bottom">
+                    <BulbOutlined />
+                  </Tooltip>
+                </CardButton>
 
                 <Comment
+                  type="button"
                   active={isArchivedChosen ? !!archivedExperience?.comment : !!experience?.comment}
-                  className="card_button"
                   onClick={() => {
                     if (isArchivedChosen) return
                     setAddCommentModal({
@@ -196,7 +202,7 @@ function MatrixExperience({
                     </div>
                   )}
                 </div>
-              </div>
+              </CardActions>
             </>
           ) : (
             <div />
@@ -207,10 +213,7 @@ function MatrixExperience({
       <CommentModal
         title="Comment"
         visible={addCommentModal.visible}
-        onOk={() => {
-          //@ts-ignore
-          const comment = document.getElementById('comment_text_area')?.value
-
+        onOk={comment => {
           if (!comment && !addCommentModal.comment) return
 
           onUpdateExperience(experience?.level || Level.Wanted, comment || '')
@@ -219,8 +222,21 @@ function MatrixExperience({
         onCancel={() => setAddCommentModal(initialCommentModal)}
         defaultComment={addCommentModal.comment}
       />
+
+      <CommentModal
+        title="Propose matrix changes"
+        visible={addFeedbackModal}
+        onOk={comment => {
+          if (!comment) return
+
+          onProposeChanges(comment)
+          setAddFeedbackModal(false)
+        }}
+        onCancel={() => setAddFeedbackModal(false)}
+        defaultComment=""
+      />
     </>
   )
 }
 
-export default withRouter(MatrixExperience)
+export default MatrixExperience

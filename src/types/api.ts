@@ -308,6 +308,7 @@ export interface ProcessStep {
 export interface ProcessExecution {
   id: string
   status: 'RUNNING' | 'FINISHED' | 'CANCELLED' | 'HOLDING'
+  substatus: 'NEW' | 'ON_REVIEW' | 'SOURCING' | 'OFFER_SENT' | 'IN_PROGRESS' | 'FINISHED'
   process: Process
   vacancy: Vacancy
   locations: LOCATION[]
@@ -318,6 +319,7 @@ export interface ProcessExecution {
   employeeRef: Employee
   finishDate: string
   prio: number
+  updatedAt: string
 }
 
 export interface ProcessExecutionStep {

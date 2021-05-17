@@ -8,7 +8,7 @@ describe('Visual regression employees page', () => {
     const title = `title ${todaysDate}`
 
     before(() => {
-        cy.setToken('employee')
+        cy.setToken('manager')
         cy.post(createEvent(eventData(title, todaysDate, pastDay))).then(res => {
             eventId = res.body.data.createEvent.id
             expect(eventId.length).to.be.greaterThan(0)
@@ -18,7 +18,7 @@ describe('Visual regression employees page', () => {
         cy.mockResponse(['getEvent', 'attendees'], bookPeople())
 
         cy.get(eventsEl.event).contains(title).click()
-        cy.getElement(eventsEl.user).find('img').should('be.visible')
+        //cy.getElement(eventsEl.user).find('img').should('be.visible')
     })
 
     after('delete event', () => {
@@ -27,7 +27,8 @@ describe('Visual regression employees page', () => {
     })
 
     it(`Should match previous screenshot employees Page`, () => {
-        cy.wait(500) // need to look more clear solution
+
+        cy.wait(500) //TODO: need to look more clear solution
         cy.get(eventsEl.modal).matchImageSnapshot('eventModal')
     })
 });

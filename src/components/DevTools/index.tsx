@@ -74,13 +74,8 @@ export default function DevTools({ children }: any) {
   } = gatewayGitInfo
 
   // CLIENT Git Info
-  const clientGitInfo = {
-    repoName: process.env.REACT_APP_DT_REPO_NAME,
-    branchName: process.env.REACT_APP_DT_BRANCH_NAME,
-    commitId: process.env.REACT_APP_DT_SOURCE_VERSION,
-    commitMsg: process.env.REACT_APP_DT_SOURCE_VERSION_MSG,
-  }
-  const { repoName, branchName, commitId, commitMsg } = clientGitInfo
+  const buildMeta = process.env.REACT_APP_BUILD_META?.split('+++') || []
+  const [repoName, branchName, commitId, commitMsg] = buildMeta
 
   return (
     <>
@@ -125,7 +120,7 @@ export default function DevTools({ children }: any) {
           </Select>
         </div>
 
-        {!!Object.values(clientGitInfo).join('') && (
+        {!!buildMeta.join('') && (
           <>
             <GitInfo>
               <Space>

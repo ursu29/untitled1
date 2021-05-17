@@ -110,6 +110,7 @@ export default function OutsideEventsTab({
       render: (_: any, record: any) => {
         return (
           <Button
+            data-cy="participate"
             type="primary"
             size="small"
             onClick={() => participateDevrelEvent({ variables: { id: record.id } })}
@@ -206,6 +207,7 @@ export default function OutsideEventsTab({
           </Form.Item>
           <Form.Item>
             <Button
+              data-cy="submit"
               type="primary"
               htmlType="submit"
               loading={createDevrelEventLoading}

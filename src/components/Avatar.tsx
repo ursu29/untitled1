@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { useAccessToken } from '../utils/useToken'
 import { Employee } from '../types'
 import { UserOutlined } from '@ant-design/icons'
+import { EmployeeIDB } from '../utils/IndexedDB'
 
 const options = {
   root: null,
@@ -34,6 +35,7 @@ export default function ({ size, shape, employee, showTooltip, highResolution, w
   const observer = useRef<IntersectionObserver>()
 
   useEffect(() => {
+    const employeeIDB = new EmployeeIDB()
     if (!token) return
     if (storedAvatar) {
       // fix for cases when email was changed
@@ -50,10 +52,23 @@ export default function ({ size, shape, employee, showTooltip, highResolution, w
 
     const url = `https://graph.microsoft.com/v1.0/${path}`
 
-    observer.current = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
+    observer.current = new IntersectionObserver(async (entries, observer) => {
+      for (const entry of entries) {
         if (entry.isIntersecting) {
           observer.unobserve(entry.target)
+
+          // Check saved avatar in indexedDB
+          const blobFromIDB = (await employeeIDB.get(employee.email))?.avatar?.[resolution]
+          if (blobFromIDB) {
+            const src = URL.createObjectURL(blobFromIDB)
+            setSrc(src)
+            avatars[resolution][employee.email] = src
+            return
+          } else if (blobFromIDB === null) {
+            setShowPlaceholder(true)
+            return
+          }
+
           if (requests[url]) {
             requests[url].then(src => {
               if (src) {
@@ -77,15 +92,19 @@ export default function ({ size, shape, employee, showTooltip, highResolution, w
                   avatars[resolution][employee?.email] = src
                   setSrc(src)
                   resolve(src)
+                  // Save avatar to indexedDB
+                  employeeIDB.put({ mail: employee.email, avatar: { [resolution]: blob } })
                 })
                 .catch(() => {
+                  // Save avatar = null to indexedDB
+                  employeeIDB.put({ mail: employee.email, avatar: { [resolution]: null } })
                   setShowPlaceholder(true)
                   resolve(null)
                 })
             })
           }
         }
-      })
+      }
     }, options)
 
     if (node.current) observer.current?.observe(node.current)

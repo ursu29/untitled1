@@ -4,9 +4,7 @@ import { QueryType as ExecutionQueryType } from '../../queries/getProcessExecuti
 import { ColumnWrapper, RowWrapper, ProcessStepWrapper } from '../Processes/ProcessPage.styles'
 import ActiveStepCard from './ExecutionStepCard'
 import Controls from '../UI/Controls'
-import { Form } from '@ant-design/compatible'
-import '@ant-design/compatible/assets/index.css'
-import { Button, Input, Tag, Tooltip } from 'antd'
+import { Button, Input, Form, Tag, Tooltip } from 'antd'
 import { Employee } from '../../types'
 import { useEmployee } from '../../utils/withEmployee'
 

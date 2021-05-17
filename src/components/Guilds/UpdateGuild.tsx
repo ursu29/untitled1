@@ -1,4 +1,3 @@
-import { EditOutlined } from '@ant-design/icons'
 import { useMutation } from '@apollo/react-hooks'
 import React from 'react'
 import message from '../../message'
@@ -20,7 +19,7 @@ function UpdateGuild({ guild }: { guild: Partial<Guild> }) {
 
   return (
     <Drawer
-      toggler={<Button size="small" icon={<EditOutlined />} type="link"></Button>}
+      toggler={<Button type="link">Edit</Button>}
       drawerLabel={'Edit guild ' + guild?.title}
       content={
         <GuildForm

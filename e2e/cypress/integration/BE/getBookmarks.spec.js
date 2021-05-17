@@ -3,7 +3,7 @@ import { email } from '../../support/client/employeeData'
 import { bookmark, bookmarkAccess } from '../../support/client/userMenu'
 import { checkKeyValueExist } from '../../support/complexLocators'
 import { randomValues } from '../../support/knowledge/bookmark'
-import { checkTwoString } from '../../support/utils'
+import { checkTwoString, getProfileTabUrl } from '../../support/utils'
 import { query } from '../../fixtures/query'
 
 describe(`Check employee getBookmarks`, () => {
@@ -30,7 +30,7 @@ describe(`Check employee getBookmarks`, () => {
     })
 
     cy.getResponse(['getBookmarks'], 'alias')
-    cy.visit('/profile/bookmarks')
+    cy.visit(getProfileTabUrl('bookmarks'))
 
     cy.wait(`@alias`).then(val => {
       response = val.response.body.data

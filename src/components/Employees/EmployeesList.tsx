@@ -251,7 +251,7 @@ export default function EmployeesList({
 
   if (showCapacity) {
     columns.push({
-      title: 'Occupancy',
+      title: 'Allocation',
       key: 'occupancy',
       width: 100,
       render: (employee: Employee & { employeeProjects: EmployeeProject[] }) => {

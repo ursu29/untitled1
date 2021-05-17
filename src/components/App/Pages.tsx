@@ -39,6 +39,7 @@ import NotAllowed from '../UI/NotAllowed'
 import NotFound from '../UI/NotFound'
 import { LibraryPage } from '../Library/LibraryPage'
 import DevRel from '../DevRel'
+import Snake from '../Snake/SnakePage'
 // import WarningPage from '../UI/WarningPage'
 
 export default function Pages() {
@@ -51,21 +52,15 @@ export default function Pages() {
           <Redirect from="/client/*" to="/*" />
           <Redirect from="/client" to="/" />
           <Redirect exact from="/" to="/profile" />
-          <Route path={paths.PROFILE + '/:tab/:subTab'} component={Profile} />
-          <Route path={paths.PROFILE + '/:tab'} component={Profile} />
           <Route path={paths.PROFILE} component={Profile} />
           <Route path={paths.CALENDAR} component={Calendar} />
           <Route path={paths.ONBOARDING} component={Onboarding} />
-          <Route path={paths.EMPLOYEES + '/:email/:tab'} component={Employee} />
           <Route path={paths.EMPLOYEES + '/:email'} component={Employee} />
           <Route path={paths.EMPLOYEES} component={Employees} />
-          <Route path={paths.PROJECTS + '/:code/:tab'} component={Project} />
           <Route path={paths.PROJECTS + '/:code'} component={Project} />
           <Route path={paths.PROJECTS} component={Projects} />
-          <Route path={paths.GUILDS + '/:code/:tab'} component={Guild} />
           <Route path={paths.GUILDS + '/:code'} component={Guild} />
           <Route path={paths.GUILDS} component={Guilds} />
-          <Route path={paths.SKILLS + '/:id/:tab'} component={Skill} />
           <Route path={paths.SKILLS + '/:id'} component={Skill} />
           <Route path={paths.SKILLS} component={Skills} />
           <Route path={paths.STATISTICS} component={Statistics} />
@@ -75,7 +70,6 @@ export default function Pages() {
           <Route path={paths.POSTS} component={News} />
           <Route path={paths.PROCESSES + '/:id'} component={Process} />
           <Route path={paths.PROCESSES} component={Processes} />
-          <Route path={paths.KNOWLEDGE + '/:tab'} component={Knowledge} />
           <Route path={paths.KNOWLEDGE} component={Knowledge} />
           <Route path={paths.VACANCIES + '/:id'} component={Vacancy} />
           <Route path={paths.VACANCIES} component={Vacancies} />
@@ -90,6 +84,7 @@ export default function Pages() {
           <Route path={paths.FEEDBACK} component={Feedback} />
           <Route path={paths.LIBRARY} component={LibraryPage} />
           <Route path={paths.DEVREL} component={DevRel} />
+          <Route path={paths.GAMES} component={Snake} />
           <PrivateRoute path={paths.MANAGEMENT} component={Management} access={'SUPER_USER'} />
           <Route component={NotFound} />
         </Switch>

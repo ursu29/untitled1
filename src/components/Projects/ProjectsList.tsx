@@ -1,11 +1,10 @@
-import { Skeleton, Typography, Tooltip } from 'antd'
+import { Typography, Tooltip } from 'antd'
 import React from 'react'
 import { Project } from '../../types'
 import PageContent from '../UI/PageContent'
 import ProjectTagList from './ProjectTagList'
 import Section from '../UI/Section'
-
-const { Title } = Typography
+import PageHeader from '../UI/PageHeader'
 
 interface ProjectGroupProps {
   title: string
@@ -49,14 +48,14 @@ export default function ProjectsList({ loading, projects }: Props) {
     a.name?.toLowerCase() > b.name?.toLowerCase() ? 1 : -1,
   )
   return (
-    <PageContent>
-      <Skeleton active loading={loading}>
-        <Title>Projects</Title>
+    <>
+      <PageHeader title="Projects" />
+      <PageContent loading={loading}>
         <ProjectGroup projects={projectsSorted} code="sr-" title="SwissRe" />
         <ProjectGroup projects={projectsSorted} code="is-" title="Internal Syncretis" />
         <ProjectGroup projects={projectsSorted} code="guild-" title="Guild" />
         <ProjectGroup projects={projectsSorted} code="az-" title="Allianz" />
-      </Skeleton>
-    </PageContent>
+      </PageContent>
+    </>
   )
 }

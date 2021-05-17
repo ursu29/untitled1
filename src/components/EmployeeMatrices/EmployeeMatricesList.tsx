@@ -1,7 +1,8 @@
 import { Skeleton, Tabs } from 'antd'
-import React, { useState } from 'react'
+import React from 'react'
 import { Employee, Matrix } from '../../types'
 import EmployeeMatrix from './EmployeeMatrix'
+import URLAction from '../../utils/URLAction'
 
 interface Props {
   loading: boolean
@@ -11,10 +12,10 @@ interface Props {
 }
 
 export default function EmployeeMatricesList({ matrices, loading, employee, onComment }: Props) {
-  const defaultActiveKey = matrices?.[0]?.id
-  const [tabKey, setTabKey] = useState(defaultActiveKey)
-
+  const urlAction = new URLAction()
   if (!loading && !matrices) return <div data-cy="no-matrices">No matrices yet</div>
+
+  const currentTab = urlAction.paramsGet('matrix')
 
   return (
     <Skeleton active loading={loading}>
@@ -22,18 +23,21 @@ export default function EmployeeMatricesList({ matrices, loading, employee, onCo
       {employee && (
         <div data-cy="matrix-tabs">
           <Tabs
-            defaultActiveKey={defaultActiveKey}
+            defaultActiveKey={matrices?.[0]?.id}
+            activeKey={currentTab || matrices?.[0]?.id}
             animated={false}
             type="card"
             tabPosition="top"
-            onTabClick={(key: string) => setTabKey(key)}
+            onTabClick={(key: string) => urlAction.paramsSet('matrix', key)}
           >
             {matrices?.map(matrix => (
               <Tabs.TabPane tab={matrix.title} key={matrix.id}>
                 <EmployeeMatrix
                   matrix={matrix}
                   employee={employee}
-                  isCurrentTab={tabKey === matrix.id}
+                  isCurrentTab={
+                    currentTab ? currentTab === matrix.id : matrices?.[0]?.id === matrix.id
+                  }
                   onComment={onComment}
                 />
               </Tabs.TabPane>

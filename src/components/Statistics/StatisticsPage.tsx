@@ -10,6 +10,7 @@ import SkillStatistic from './SkillStatistic'
 import { useGetSkillExperiencesQuery, GetSkillExperiencesQuery } from '../../queries/skills'
 import { useGetLevelsQuery } from '../../queries/levels'
 import { ArrayElement } from '../../utils/types'
+import PageHeader from '../UI/PageHeader'
 
 type SkillPick = ArrayElement<GetSkillExperiencesQuery['skills']>
 
@@ -138,40 +139,46 @@ export default function StatisticsPage() {
   }
 
   return (
-    <PageContent>
-      <Title level={1} data-cy="statTitle">Skills Statistics</Title>
-      {isSkillChosen ? (
-        <>
-          <Button
-            icon={<ArrowLeftOutlined />}
-            size="small"
-            style={{ borderColor: 'transparent', paddingLeft: 0, marginBottom: 4 }}
-            type="ghost"
-            onClick={() => setIsSkillChosen(false)}
-          >
-            Back
-          </Button>
-          <SkillStatistic items={skillChosen} title={skillChosenTitle} itemsSliceCount={1000} />
-        </>
-      ) : (
-        <>
-          <Row data-cy="topSkills">
-            <Col span={24}>{barChartContainer(0)}</Col>
-          </Row>
-          <Row>
-            <Col span={10} data-cy="wanted">{barChartContainer(1)}</Col>
-            <Col span={10} offset={2} data-cy="learning">
-              {barChartContainer(2)}
-            </Col>
-          </Row>
-          <Row>
-            <Col span={10} data-cy="experienced">{barChartContainer(3)}</Col>
-            <Col span={10} offset={2} data-cy="confident">
-              {barChartContainer(4)}
-            </Col>
-          </Row>
-        </>
-      )}
-    </PageContent>
+    <>
+      <PageHeader title=" Skills Statistics" withBack />
+      <PageContent>
+        {isSkillChosen ? (
+          <>
+            <Button
+              icon={<ArrowLeftOutlined />}
+              size="small"
+              style={{ borderColor: 'transparent', paddingLeft: 0, marginBottom: 4 }}
+              type="ghost"
+              onClick={() => setIsSkillChosen(false)}
+            >
+              Back
+            </Button>
+            <SkillStatistic items={skillChosen} title={skillChosenTitle} itemsSliceCount={1000} />
+          </>
+        ) : (
+          <>
+            <Row data-cy="topSkills">
+              <Col span={24}>{barChartContainer(0)}</Col>
+            </Row>
+            <Row>
+              <Col span={10} data-cy="wanted">
+                {barChartContainer(1)}
+              </Col>
+              <Col span={10} offset={2} data-cy="learning">
+                {barChartContainer(2)}
+              </Col>
+            </Row>
+            <Row>
+              <Col span={10} data-cy="experienced">
+                {barChartContainer(3)}
+              </Col>
+              <Col span={10} offset={2} data-cy="confident">
+                {barChartContainer(4)}
+              </Col>
+            </Row>
+          </>
+        )}
+      </PageContent>
+    </>
   )
 }

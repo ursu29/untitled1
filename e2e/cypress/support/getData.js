@@ -1,17 +1,19 @@
 import { query } from '../fixtures/query'
 import { employeeData } from './client/employeeData'
 import { mainCity } from './locators'
+import {todayOfficePlannerDate} from "./officePlanner/officeDays";
 
 export const URL = 'https://portal.dev.syncretis.com/graphql'
+export const exportUrl = name  => `https://portal.syncretis.com/${name}`
 export const TIMEMASTER = 'https://timemaster.syncretis.com/'
 export const LOCATIONS = ['Saint Petersburg', 'Tomsk', 'Kaliningrad', 'Zürich']
 export const TAGS = ['6030dd7ef84074001c07ebb5', '6030dd7ef84074001c07ebb6']
 
 const { email } = employeeData.employee
 
-Cypress.Commands.add('post', (body, superUser = null, methodName = 'POST') => {
+Cypress.Commands.add('post', (body, superUser = null, baseUrl = URL, methodName = 'POST') => {
   return cy.request({
-    url: URL,
+    url: baseUrl,
     method: methodName,
     headers: {
       authorization: `Bearer ${Cypress.env('accessToken')}`,
@@ -41,10 +43,70 @@ export const getManager = id => ({
   query: query.getManager,
 })
 
-export const createEvent = (obj) => ({
-  operationName: 'createEvent',
+export const completeProcessExecutionStep = (execution, step) => ({
+  operationName: 'completeProcessExecutionStep',
+  variables: {input: { execution, step }},
+  query: query.completeProcessExecutionStep,
+})
+
+export const createWorkplaceBooking = (
+    workplace,
+    startDate = todayOfficePlannerDate,
+    finishDate = todayOfficePlannerDate
+) => ({
+  operationName: 'createWorkplaceBooking',
+  variables: {input: {workplace, startDate, finishDate}},
+  query: query.createWorkplaceBooking,
+})
+
+export const deleteWorkplaceBooking = (id) => ({
+  operationName: 'deleteWorkplaceBooking',
+  variables: {id},
+  query: query.deleteWorkplaceBooking,
+})
+
+export const workspace = (
+    id,
+    startDate = todayOfficePlannerDate,
+    finishDate = todayOfficePlannerDate
+) => ({
+  operationName: 'workspace',
+  variables: {bookingsInput: {startDate, finishDate}, id},
+  query: query.workspace,
+})
+
+export const workspacePoolQuery = (
+    location = mainCity,
+    startDate = todayOfficePlannerDate,
+    finishDate = todayOfficePlannerDate
+) => ({
+  operationName: 'workspacePoolQuery',
+  variables: {input:{location},bookingsInput:{startDate,finishDate}},
+  query: query.workspacePoolQuery,
+})
+
+export const getProcesses = id => ({
+  operationName: 'getProcesses',
+  variables: { id },
+  query: query.getProcesses,
+})
+
+export const publishVacancy = (id) => ({
+  operationName: 'publishVacancy',
+  variables: {input: {id}},
+  query: query.publishVacancy,
+})
+
+export const updateOffBoardingProcess = (obj) => ({
+  operationName: 'updateProcessExecution',
   variables: {input:{...obj}},
-  query: query.createEvent,
+  query: query.updateProcessExecution,
+})
+
+export const getProjectManagers = (id) => ({
+  operationName: 'getProjectManagers',
+  variables: {id},
+  query: query.getProjectManagers,
 })
 
 export const getEvent = (id) => ({
@@ -53,10 +115,28 @@ export const getEvent = (id) => ({
   query: query.getEvent,
 })
 
+export const createProcessStep = (obj) => ({
+  operationName: 'createProcessStep',
+  variables: {input:{...obj}},
+  query: query.createProcessStep,
+})
+
+export const updateProcessStep = (obj) => ({
+  operationName: 'updateProcessStep',
+  variables: {input:{...obj}},
+  query: query.updateProcessStep,
+})
+
 export const cancelEvent = (id, comment) => ({
   operationName: 'cancelEvent',
   variables: {input:{id, comment}},
   query: query.cancelEvent,
+})
+
+export const createEvent = (obj) => ({
+  operationName: 'createEvent',
+  variables: {input:{...obj}},
+  query: query.createEvent,
 })
 
 export const getClient = () => ({
@@ -524,10 +604,28 @@ export const createProcess = (
   query: query.createProcessExecution,
 })
 
+export const createHrProcess = (createProcessObj) => ({
+  operationName: 'createProcessExecution',
+  variables: { input: {...createProcessObj} },
+  query: query.createProcessExecution,
+})
+
 export const createNewProcess = (title, type, customer) => ({
   operationName: 'createProcess',
   query: query.createNewProcess,
   variables: { input: { title, type, customer } },
+})
+
+export const getAllProjects = () => ({
+  operationName: 'getProjects',
+  query: query.getAllProjects,
+  variables: {},
+})
+
+export const updateVacancy = (obj) => ({
+  operationName: 'updateVacancy',
+  variables: {input: {...obj}},
+  query: query.updateVacancy,
 })
 
 export const toggleHoldProcess = id => ({

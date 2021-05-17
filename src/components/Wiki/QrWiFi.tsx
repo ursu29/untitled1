@@ -10,7 +10,7 @@ export default function QrWiFi() {
       style={{
         maxWidth: 100,
         position: isMobileView ? 'inherit' : 'absolute',
-        top: '52px',
+        top: '120px',
         right: '35px',
       }}
     >

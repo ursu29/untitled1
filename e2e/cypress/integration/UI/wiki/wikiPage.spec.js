@@ -32,7 +32,7 @@ describe('Check all wiki pages (wiki)', () => {
             if(!el.path.includes('http')) {
                 cy.get('div').contains(el.title).click()
                 cy.getElement('title').should('contain.text', el.title)
-                cy.getId(menuEl.back).click()
+                cy.getIcon(menuEl.back).click()
 
             }
         })

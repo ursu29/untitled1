@@ -1,7 +1,4 @@
-import { Form } from '@ant-design/compatible'
-import '@ant-design/compatible/assets/index.css'
-import { Button, Col, Radio, Row, Select, Input } from 'antd'
-import { FormComponentProps } from '@ant-design/compatible/lib/form/Form'
+import { Button, Col, Radio, Row, Form, Select, Input } from 'antd'
 import React from 'react'
 import { Process } from '../../types'
 import { processList, getProcessName } from '../../utils/getProcessName'
@@ -14,80 +11,76 @@ const CustomerSelect = React.forwardRef((props, ref) => (
   </Select>
 ))
 
-export interface Props extends FormComponentProps {
+export interface Props {
   onSubmit: (process: Process, onDone?: () => void) => void
   loading?: boolean
   data?: Process
 }
 
-function ProcessForm({ form, onSubmit, data, loading }: Props) {
-  const { getFieldDecorator, getFieldValue } = form
+function ProcessForm({ onSubmit, data, loading }: Props) {
+  const [form] = Form.useForm()
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault()
-    form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        onSubmit({ id: data?.id, ...values })
-      }
-    })
+  const handleSubmit = (values: any) => {
+    onSubmit({ id: data?.id, ...values })
   }
 
   return (
-    <Form layout="vertical" onSubmit={handleSubmit}>
+    <Form form={form} layout="vertical" onFinish={handleSubmit}>
       <Row>
-        <Form.Item label="Title">
-          {getFieldDecorator('title', {
-            initialValue: data?.title,
-            rules: [
+        <Form.Item
+          label="Title"
+          name="title"
+          rules={[
+            {
+              required: true,
+              message: 'please type title',
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Type"
+          name="type"
+          rules={[
+            {
+              required: true,
+              message: 'Please choose process type',
+            },
+          ]}
+        >
+          <Radio.Group>
+            {processList.map(process => (
+              <Radio key={process} value={process}>
+                {getProcessName(process)}
+              </Radio>
+            ))}
+          </Radio.Group>
+        </Form.Item>
+        <Form.Item
+          label="Customer"
+          name="customer"
+          rules={[
+            {
+              required: true,
+              message: 'Please choose customer',
+            },
+          ]}
+        >
+          <CustomerSelect />
+        </Form.Item>
+        {form.getFieldValue('type') === 'ROTATION' && (
+          <Form.Item
+            label="Next Customer"
+            name="nextCustomer"
+            rules={[
               {
                 required: true,
-                message: 'please type title',
+                message: 'Please choose customer',
               },
-            ],
-          })(<Input />)}
-        </Form.Item>
-        <Form.Item label="Type">
-          {getFieldDecorator('type', {
-            valuePropName: 'checked',
-            initialValue: data?.type,
-            rules: [
-              {
-                required: true,
-                message: 'please choose process type',
-              },
-            ],
-          })(
-            <Radio.Group>
-              {processList.map(process => (
-                <Radio key={process} value={process}>
-                  {getProcessName(process)}
-                </Radio>
-              ))}
-            </Radio.Group>,
-          )}
-        </Form.Item>
-        <Form.Item label="Customer">
-          {getFieldDecorator('customer', {
-            rules: [
-              {
-                required: true,
-                message: 'please choose customer',
-              },
-            ],
-            initialValue: data?.customer,
-          })(<CustomerSelect />)}
-        </Form.Item>
-        {getFieldValue('type') === 'ROTATION' && (
-          <Form.Item label="Next Customer">
-            {getFieldDecorator('nextCustomer', {
-              rules: [
-                {
-                  required: true,
-                  message: 'please choose customer',
-                },
-              ],
-              initialValue: data?.nextCustomer,
-            })(<CustomerSelect />)}
+            ]}
+          >
+            <CustomerSelect />
           </Form.Item>
         )}
       </Row>
@@ -102,4 +95,4 @@ function ProcessForm({ form, onSubmit, data, loading }: Props) {
   )
 }
 
-export default Form.create<Props>({ name: 'process_form' })(ProcessForm)
+export default ProcessForm

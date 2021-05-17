@@ -133,7 +133,7 @@ export default function Workspace({
       <div
         className="workspace-area"
         style={{
-          padding: '20px',
+          padding: isDesignMode ? '20px' : '20px 0',
           backgroundColor: 'white',
           width: '100%',
           border: isDesignMode ? '1px solid orange' : '',
