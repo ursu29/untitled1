@@ -1,0 +1,23 @@
+fragment HobbyFragment on Hobby {
+  id
+  name
+  description
+}
+
+query getHobbies {
+  hobbies {
+    ...HobbyFragment
+  }
+}
+
+mutation createHobby($Input: CreateHobbyInput!) {
+  createHobby(input: $Input) {
+    ...HobbyFragment
+  }
+}
+
+mutation updateHobby($Input: UpdateHobbyInput!) {
+  updateHobby(input: $Input) {
+    ...HobbyFragment
+  }
+}

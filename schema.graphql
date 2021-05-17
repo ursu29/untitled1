@@ -743,11 +743,6 @@ type StartGame {
   secret: String!
 }
 
-input GameLog {
-  type: String!
-  date: String!
-}
-
 input LeaderboardInput {
   game: GameType!
 }
@@ -825,6 +820,7 @@ type Query {
   gameLeaderboard(input: LeaderboardInput!): [GameScore!]!
   guild(input: GuildInput): Guild
   guilds: [Guild]
+  hobbies: [Hobby!]!
   levels: [LEVEL!]
   locations: [LOCATION!]
   matrices(input: MatricesInput): [Matrix]
@@ -907,6 +903,8 @@ type Mutation {
   startGame(input: StartGameInput!): StartGame!
   updateGameScore(input: UpdateScoreInput!): GameScore!
   updateGuild(input: UpdateGuildInput): Guild
+  createHobby(input: CreateHobbyInput!): Hobby
+  updateHobby(input: UpdateHobbyInput!): Hobby
   attachMatrixToEmployee(input: AttachMatrixToEmployeeInput): Matrix
   detachMatrixFromEmployee(input: DetachMatrixFromEmployeeInput): Matrix
   createMatrix(input: CreateMatrixInput): Matrix
@@ -968,6 +966,23 @@ type Mutation {
   deleteWorkplace(id: ID!): Workplace
   createWorkplaceBooking(input: CreateWorkplaceBookingInput): WorkplaceBooking
   deleteWorkplaceBooking(id: ID!): WorkplaceBooking
+}
+
+type Hobby {
+  id: ID!
+  name: String!
+  description: String
+}
+
+input CreateHobbyInput {
+  name: String!
+  description: String
+}
+
+input UpdateHobbyInput {
+  id: ID!
+  name: String
+  description: String
 }
 
 type MatrixGrade {
@@ -1335,6 +1350,7 @@ type ProcessExecution {
   projectFrom: Project
   projectTo: Project
   status: String
+  substatus: String
   executionSteps: [ProcessExecutionStep]
   employee: String
   employeeRef: Employee
@@ -1344,6 +1360,7 @@ type ProcessExecution {
   swissReOffboardingDate: String
   isIndependentStepsActive: Boolean
   prio: Int
+  updatedAt: String
 }
 
 input ProcessExecutionsInput {
@@ -1367,6 +1384,11 @@ input UpdateProcessExecutionInput {
   employeeRef: String
   employeePhone: String
   prio: Int
+  locations: [ID]
+  project: ID
+  projectFrom: ID
+  projectTo: ID
+  substatus: String
 }
 
 input AbortProcessExecutionInput {
