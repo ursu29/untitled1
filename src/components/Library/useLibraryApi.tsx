@@ -5,22 +5,28 @@ import {
   useCreateBookMutation,
   useGetBooksQuery,
   useUpdateBookMutation,
+  useRemoveBookMutation,
+  useTakeBookMutation,
 } from '../../queries/books'
 import { CreateBookInput, UpdateBookInput } from '../../types/graphql'
 import { ArrayElement } from '../../utils/types'
-import { useEmployee } from '../../utils/withEmployee'
 
 export type Books = GetBooksQuery['books']
 export type Book = ArrayElement<Books>
 
 export const useLibraryApi = () => {
-  const user = useEmployee()
   const { data, loading: dataLoading } = useGetBooksQuery()
   const [updateBook, { loading: updatingInProgress }] = useUpdateBookMutation({
     onError: message.error,
   })
+  const [removeBook] = useRemoveBookMutation({
+    onError: message.error,
+  })
   const [createBook, { loading: creatingInProgress }] = useCreateBookMutation({
     refetchQueries: [{ query: GetBooksDocument }],
+    onError: message.error,
+  })
+  const [takeBook] = useTakeBookMutation({
     onError: message.error,
   })
 
@@ -34,10 +40,18 @@ export const useLibraryApi = () => {
     return updateBook({ variables: { input } })
   }
 
-  const toggleStatus = (book: Book) => {
+  const remove = (id: string) => {
+    return removeBook({ variables: { id } })
+  }
+
+  const take = (id: string) => {
+    return takeBook({ variables: { id } })
+  }
+
+  const returnBook = (id: string) => {
     const input = {
-      id: book.id,
-      holder: book.holder ? null : user.employee.id,
+      id,
+      holder: null,
     }
     return update(input)
   }
@@ -48,6 +62,8 @@ export const useLibraryApi = () => {
     dataUpdating,
     create,
     update,
-    toggleStatus,
+    remove,
+    take,
+    returnBook,
   }
 }

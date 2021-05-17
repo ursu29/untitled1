@@ -765,11 +765,6 @@ type StartGame {
   secret: String!
 }
 
-input GameLog {
-  type: String!
-  date: String!
-}
-
 input LeaderboardInput {
   game: GameType!
 }
@@ -901,6 +896,8 @@ type Mutation {
   toggleBookmarklike(input: ToggleBookmarklikeInput!): Bookmarklike
   createBook(input: CreateBookInput): Book
   updateBook(input: UpdateBookInput): Book
+  removeBook(id: ID!): Book
+  takeBook(id: ID!): Book
   updateCurriculumVitae(input: UpdateCurriculumVitaeInput!): CurriculumVitae
   updateDevelopmentPlan(input: UpdateDevelopmentPlanInput!): DevelopmentPlan
   createDevrel(input: CreateDevrelInput!): Devrel
@@ -1360,6 +1357,7 @@ type ProcessExecution {
   projectFrom: Project
   projectTo: Project
   status: String
+  substatus: String
   executionSteps: [ProcessExecutionStep]
   employee: String
   employeeRef: Employee
@@ -1369,6 +1367,7 @@ type ProcessExecution {
   swissReOffboardingDate: String
   isIndependentStepsActive: Boolean
   prio: Int
+  updatedAt: String
 }
 
 input ProcessExecutionsInput {
@@ -1392,6 +1391,11 @@ input UpdateProcessExecutionInput {
   employeeRef: String
   employeePhone: String
   prio: Int
+  locations: [ID]
+  project: ID
+  projectFrom: ID
+  projectTo: ID
+  substatus: String
 }
 
 input AbortProcessExecutionInput {

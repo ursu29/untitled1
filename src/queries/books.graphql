@@ -29,3 +29,15 @@ mutation updateBook($input: UpdateBookInput) {
     ...BookResponse
   }
 }
+
+mutation removeBook($id: ID!) {
+  removeBook(id: $id) {
+    ...BookResponse
+  }
+}
+
+mutation takeBook($id: ID!) {
+  takeBook(id: $id) {
+    ...BookResponse
+  }
+}

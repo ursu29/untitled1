@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Badge, Table, Tag } from 'antd'
+import { Badge, Table, Tag, Popconfirm } from 'antd'
 import Button from '../UI/Button'
 import { Book, Books, useLibraryApi } from './useLibraryApi'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
@@ -16,16 +16,14 @@ const isBooked = (book: Book) => !!book.holder?.id
 export const LibraryList: React.FC<Props> = ({ books, isFetching, isAdmin }) => {
   const [bookToEdit, setBookToEdit] = useState<Book | null>(null)
   const [isEditPopupVisible, setIsEditPopupVisible] = useState(false)
-  const { toggleStatus } = useLibraryApi()
+  const { returnBook, remove, take } = useLibraryApi()
 
   useEffect(() => {
     setIsEditPopupVisible(!!bookToEdit)
   }, [bookToEdit])
 
-  // TODO: implement
   const handleDelete = (book: Book) => {
-    console.log('handle delete')
-    console.log(book)
+    remove(book.id)
   }
 
   const columns = [
@@ -70,33 +68,43 @@ export const LibraryList: React.FC<Props> = ({ books, isFetching, isAdmin }) => 
     {
       title: '',
       key: 'buttons',
-      width: '10%',
+      width: '15%',
       render: (book: Book) => {
         const booked = isBooked(book)
-
-        const StatusSection = (book: Book) => {
-          if (!isAdmin && booked) return null
-          return (
-            <Button size="small" onClick={() => toggleStatus(book)} disabled={isFetching}>
-              {booked ? 'Return' : 'Take'}
-            </Button>
-          )
-        }
-
-        const EditSection = (book: Book) => (
-          <div style={{ display: 'flex' }}>
-            <EditOutlined
-              style={{ fontSize: 14, cursor: 'pointer' }}
-              onClick={() => setBookToEdit(book)}
-            />
-            <DeleteOutlined
-              style={{ fontSize: 14, cursor: 'pointer', marginLeft: 10 }}
-              onClick={() => handleDelete(book)}
-            />
+        return (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {(isAdmin || (!isAdmin && !booked)) && (
+              <Popconfirm
+                placement="top"
+                title={'Are you sure?'}
+                onConfirm={() => (booked ? returnBook(book.id) : take(book.id))}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button size="small" disabled={isFetching}>
+                  {booked ? 'Return' : 'Take'}
+                </Button>
+              </Popconfirm>
+            )}
+            {isAdmin && (
+              <div style={{ display: 'flex', marginLeft: '16px' }}>
+                <EditOutlined
+                  style={{ fontSize: 14, cursor: 'pointer' }}
+                  onClick={() => setBookToEdit(book)}
+                />
+                <Popconfirm
+                  placement="top"
+                  title={'Are you sure?'}
+                  onConfirm={() => handleDelete(book)}
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  <DeleteOutlined style={{ fontSize: 14, cursor: 'pointer', marginLeft: 10 }} />
+                </Popconfirm>
+              </div>
+            )}
           </div>
         )
-
-        return isAdmin ? EditSection(book) : StatusSection(book)
       },
     },
   ]
@@ -116,7 +124,7 @@ export const LibraryList: React.FC<Props> = ({ books, isFetching, isAdmin }) => 
         onClose={() => setBookToEdit(null)}
         visible={isEditPopupVisible}
         initialState={bookToEdit}
-      ></EditBookModal>
+      />
     </>
   )
 }

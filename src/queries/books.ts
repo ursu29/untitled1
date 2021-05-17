@@ -38,6 +38,22 @@ export type UpdateBookMutation = { __typename?: 'Mutation' } & {
   updateBook?: Types.Maybe<{ __typename?: 'Book' } & BookResponseFragment>
 }
 
+export type RemoveBookMutationVariables = Types.Exact<{
+  id: Types.Scalars['ID']
+}>
+
+export type RemoveBookMutation = { __typename?: 'Mutation' } & {
+  removeBook?: Types.Maybe<{ __typename?: 'Book' } & BookResponseFragment>
+}
+
+export type TakeBookMutationVariables = Types.Exact<{
+  id: Types.Scalars['ID']
+}>
+
+export type TakeBookMutation = { __typename?: 'Mutation' } & {
+  takeBook?: Types.Maybe<{ __typename?: 'Book' } & BookResponseFragment>
+}
+
 export const BookResponseFragmentDoc = gql`
   fragment BookResponse on Book {
     id
@@ -192,4 +208,95 @@ export type UpdateBookMutationResult = ApolloReactCommon.MutationResult<UpdateBo
 export type UpdateBookMutationOptions = ApolloReactCommon.BaseMutationOptions<
   UpdateBookMutation,
   UpdateBookMutationVariables
+>
+export const RemoveBookDocument = gql`
+  mutation removeBook($id: ID!) {
+    removeBook(id: $id) {
+      ...BookResponse
+    }
+  }
+  ${BookResponseFragmentDoc}
+`
+export type RemoveBookMutationFn = ApolloReactCommon.MutationFunction<
+  RemoveBookMutation,
+  RemoveBookMutationVariables
+>
+
+/**
+ * __useRemoveBookMutation__
+ *
+ * To run a mutation, you first call `useRemoveBookMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveBookMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeBookMutation, { data, loading, error }] = useRemoveBookMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRemoveBookMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    RemoveBookMutation,
+    RemoveBookMutationVariables
+  >,
+) {
+  return ApolloReactHooks.useMutation<RemoveBookMutation, RemoveBookMutationVariables>(
+    RemoveBookDocument,
+    baseOptions,
+  )
+}
+export type RemoveBookMutationHookResult = ReturnType<typeof useRemoveBookMutation>
+export type RemoveBookMutationResult = ApolloReactCommon.MutationResult<RemoveBookMutation>
+export type RemoveBookMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  RemoveBookMutation,
+  RemoveBookMutationVariables
+>
+export const TakeBookDocument = gql`
+  mutation takeBook($id: ID!) {
+    takeBook(id: $id) {
+      ...BookResponse
+    }
+  }
+  ${BookResponseFragmentDoc}
+`
+export type TakeBookMutationFn = ApolloReactCommon.MutationFunction<
+  TakeBookMutation,
+  TakeBookMutationVariables
+>
+
+/**
+ * __useTakeBookMutation__
+ *
+ * To run a mutation, you first call `useTakeBookMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTakeBookMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [takeBookMutation, { data, loading, error }] = useTakeBookMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useTakeBookMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<TakeBookMutation, TakeBookMutationVariables>,
+) {
+  return ApolloReactHooks.useMutation<TakeBookMutation, TakeBookMutationVariables>(
+    TakeBookDocument,
+    baseOptions,
+  )
+}
+export type TakeBookMutationHookResult = ReturnType<typeof useTakeBookMutation>
+export type TakeBookMutationResult = ApolloReactCommon.MutationResult<TakeBookMutation>
+export type TakeBookMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  TakeBookMutation,
+  TakeBookMutationVariables
 >

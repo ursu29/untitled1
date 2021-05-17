@@ -66,7 +66,6 @@ export const BookModal: React.FC<BookModalProps> = props => {
         <Form.Item label="Author" name="author" rules={rules}>
           <Input />
         </Form.Item>
-        {/* TODO: fix warningsb after opening */}
         <Form.Item label="Tags" name="tags">
           <SkillTreeSelect searchPlaceholder="" />
         </Form.Item>

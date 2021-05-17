@@ -820,11 +820,6 @@ export type StartGame = {
   secret: Scalars['String']
 }
 
-export type GameLog = {
-  type: Scalars['String']
-  date: Scalars['String']
-}
-
 export type LeaderboardInput = {
   game: GameType
 }
@@ -1156,6 +1151,8 @@ export type Mutation = {
   toggleBookmarklike?: Maybe<Bookmarklike>
   createBook?: Maybe<Book>
   updateBook?: Maybe<Book>
+  removeBook?: Maybe<Book>
+  takeBook?: Maybe<Book>
   updateCurriculumVitae?: Maybe<CurriculumVitae>
   updateDevelopmentPlan?: Maybe<DevelopmentPlan>
   createDevrel?: Maybe<Devrel>
@@ -1292,6 +1289,14 @@ export type MutationCreateBookArgs = {
 
 export type MutationUpdateBookArgs = {
   input?: Maybe<UpdateBookInput>
+}
+
+export type MutationRemoveBookArgs = {
+  id: Scalars['ID']
+}
+
+export type MutationTakeBookArgs = {
+  id: Scalars['ID']
 }
 
 export type MutationUpdateCurriculumVitaeArgs = {
@@ -2046,6 +2051,7 @@ export type ProcessExecution = {
   projectFrom?: Maybe<Project>
   projectTo?: Maybe<Project>
   status?: Maybe<Scalars['String']>
+  substatus?: Maybe<Scalars['String']>
   executionSteps?: Maybe<Array<Maybe<ProcessExecutionStep>>>
   employee?: Maybe<Scalars['String']>
   employeeRef?: Maybe<Employee>
@@ -2055,6 +2061,7 @@ export type ProcessExecution = {
   swissReOffboardingDate?: Maybe<Scalars['String']>
   isIndependentStepsActive?: Maybe<Scalars['Boolean']>
   prio?: Maybe<Scalars['Int']>
+  updatedAt?: Maybe<Scalars['String']>
 }
 
 export type ProcessExecutionsInput = {
@@ -2078,6 +2085,11 @@ export type UpdateProcessExecutionInput = {
   employeeRef?: Maybe<Scalars['String']>
   employeePhone?: Maybe<Scalars['String']>
   prio?: Maybe<Scalars['Int']>
+  locations?: Maybe<Array<Maybe<Scalars['ID']>>>
+  project?: Maybe<Scalars['ID']>
+  projectFrom?: Maybe<Scalars['ID']>
+  projectTo?: Maybe<Scalars['ID']>
+  substatus?: Maybe<Scalars['String']>
 }
 
 export type AbortProcessExecutionInput = {

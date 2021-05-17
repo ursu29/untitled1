@@ -1,9 +1,8 @@
-import { PlusCircleFilled } from '@ant-design/icons'
-import { Typography } from 'antd'
+import { Button } from 'antd'
 import React, { useState } from 'react'
-// import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
+import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 import PageContent from '../UI/PageContent'
-import Skeleton from '../UI/Skeleton'
+import PageHeader from '../UI/PageHeader'
 import { AddBookModal } from './modal/CreateBookModal'
 import { LibraryFilters } from './LibraryFilters'
 import { LibraryList } from './LibraryList'
@@ -13,33 +12,19 @@ export const LibraryPage = () => {
   const { data, dataLoading, dataUpdating } = useLibraryApi()
   const [filtered, setFiltered] = useState(data?.books)
   const [isPopupVisible, setIsPopupVisible] = useState(false)
-  const canEdit = true // TODO useStrapiGroupCheck('HR_RU')
+  const canEdit = useStrapiGroupCheck('HR_RU')
 
   return (
-    <Skeleton active loading={dataLoading} withOffset>
-      <PageContent noBottom>
-        <Typography.Title>
-          Library
-          {canEdit && (
-            <PlusCircleFilled
-              style={{ color: '#1890FF', fontSize: 34, cursor: 'pointer', marginLeft: 20 }}
-              onClick={() => setIsPopupVisible(true)}
-            />
-          )}
-        </Typography.Title>
+    <>
+      <PageHeader
+        title="Library"
+        extra={[canEdit ? <Button onClick={() => setIsPopupVisible(true)}>Add Book</Button> : null]}
+      />
+      <PageContent loading={dataLoading} style={{ paddingLeft: 0, paddingRight: 0 }}>
         <LibraryFilters books={data?.books} onFilterChange={setFiltered} />
+        {data && <LibraryList books={filtered} isFetching={dataUpdating} isAdmin={canEdit} />}
+        <AddBookModal onClose={() => setIsPopupVisible(false)} visible={isPopupVisible} />
       </PageContent>
-      {data && (
-        <LibraryList
-          books={filtered}
-          isFetching={dataUpdating}
-          isAdmin={true} // TODO don't forget to change this
-        />
-      )}
-      <AddBookModal
-        onClose={() => setIsPopupVisible(false)}
-        visible={isPopupVisible}
-      ></AddBookModal>
-    </Skeleton>
+    </>
   )
 }

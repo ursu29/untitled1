@@ -56,8 +56,8 @@ export const LibraryFilters = ({ books, onFilterChange }: Props) => {
           onChange={(e: RadioChangeEvent) => setStatusFilter(e.target.value)}
         >
           <Radio value="all">All</Radio>
-          <Radio value="taken">Taken</Radio>
           <Radio value="free">Free</Radio>
+          <Radio value="taken">Taken</Radio>
         </Radio.Group>
       </div>
     </div>

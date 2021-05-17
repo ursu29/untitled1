@@ -18,6 +18,7 @@ import {
   MehOutlined,
   CalendarOutlined,
   RocketOutlined,
+  BookOutlined,
 } from '@ant-design/icons'
 import { useQuery } from '@apollo/react-hooks'
 import { Badge, Menu } from 'antd'
@@ -143,6 +144,11 @@ function PortalMenu(props: Props) {
       route: paths.WIKI,
       icon: <GlobalOutlined />,
       title: 'WIKI',
+    },
+    {
+      route: paths.LIBRARY,
+      icon: <BookOutlined />,
+      title: 'Library',
     },
     {
       route: paths.GAMES,
