@@ -1,0 +1,24 @@
+fragment SharedFileFragment on SharedFile {
+  id
+  url
+  fileName
+  createdAt
+  createdBy {
+    id
+    name
+    email
+  }
+  size
+  type
+  id
+  skills {
+    id
+    name
+  }
+}
+
+query sharedFiles($input: SharedFilesInput) {
+  sharedFiles(input: $input) {
+    ...SharedFileFragment
+  }
+}

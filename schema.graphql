@@ -694,32 +694,21 @@ type File {
   fileName: String
 }
 
-type AzureFile {
+type SharedFile {
   id: ID!
-  url: String
-  fileName: String
+  url: String!
+  fileName: String!
   createdAt: String
   createdBy: Employee
   updatedBy: Employee
   updatedAt: String
   size: Float
   type: String
-  details: FileDetails
-}
-
-type FileDetails {
-  id: ID!
-  azureId: ID!
   skills: [Skill!]
 }
 
-type SharedFiles {
-  hasMore: Boolean
-  files: [AzureFile!]!
-}
-
-input UpdateFileDetailsInput {
-  azureId: ID!
+input UpdateSharedFileInput {
+  id: ID!
   skills: [ID!]
 }
 
@@ -741,11 +730,6 @@ type GameScore {
 
 type StartGame {
   secret: String!
-}
-
-input GameLog {
-  type: String!
-  date: String!
 }
 
 input LeaderboardInput {
@@ -821,7 +805,7 @@ type Query {
   experiences(input: ExperiencesInput): [Experience]
   feedbacks(input: FeedbacksInput!): [Feedback!]
   feedbacksAccess: Access
-  sharedFiles(input: SharedFilesInput): SharedFiles!
+  sharedFiles(input: SharedFilesInput): [SharedFile!]
   gameLeaderboard(input: LeaderboardInput!): [GameScore!]!
   guild(input: GuildInput): Guild
   guilds: [Guild]
@@ -903,7 +887,7 @@ type Mutation {
   addFeedback(input: FeedbackInput!): Feedback
   deleteFeedback(input: DeleteFeedbackInput!): Feedback
   replyFeedback(input: FeedbackReplyInput!): FeedbackComment
-  updateFileDetails(input: UpdateFileDetailsInput!): FileDetails
+  updateSharedFile(input: UpdateSharedFileInput!): SharedFile
   startGame(input: StartGameInput!): StartGame!
   updateGameScore(input: UpdateScoreInput!): GameScore!
   updateGuild(input: UpdateGuildInput): Guild
@@ -1367,6 +1351,10 @@ input UpdateProcessExecutionInput {
   employeeRef: String
   employeePhone: String
   prio: Int
+  locations: [ID]
+  project: ID
+  projectFrom: ID
+  projectTo: ID
 }
 
 input AbortProcessExecutionInput {
