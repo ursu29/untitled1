@@ -45,15 +45,15 @@ jobs:
           targetType: 'inline'
           script: |
             yarn run test --browser chrome --headless \
-            --env client_id=$(cypress_client_id),\
-            scope=$(cypress_scope),\
-            client_secret=$(cypress_client_secret),\
-            employee_password=$(cypress_employee_password),\
-            manager_password=$(cypress_manager_password),\
-            manager_username=$(cypress_manager_username),\
-            employee_username=$(cypress_employee_username),\
-            img_scope=$(cypress_img_scope),\
-            grant_type=$(cypress_grant_type)
+            --env export client_id=$(cypress_client_id),\
+            export scope=$(cypress_scope),\
+            export client_secret=$(cypress_client_secret),\
+            export employee_password=$(cypress_employee_password),\
+            export manager_password=$(cypress_manager_password),\
+            export manager_username=$(cypress_manager_username),\
+            export employee_username=$(cypress_employee_username),\
+            export img_scope=$(cypress_img_scope),\
+            export grant_type=$(cypress_grant_type)
       - task: PublishTestResults@2
         condition: succeededOrFailed()
         inputs:
