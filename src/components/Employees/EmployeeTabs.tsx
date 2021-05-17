@@ -46,6 +46,7 @@ const query = gql`
       agileManager {
         id
         name
+        email
         isMe
       }
       access {
@@ -123,6 +124,8 @@ function EmployeeTabs({ match, location, ...props }: Props) {
   const developmentPlanLookReviewersAccess = data?.developmentPlanLookReviewersAccess
   const evaluationReviewersAccess = data?.evaluationReviewersAccess
   const isProfile = Boolean(matchPath(location.pathname, { path: paths.PROFILE }))
+
+  console.log(employee)
 
   let tabs: any = [
     {
@@ -236,7 +239,12 @@ function EmployeeTabs({ match, location, ...props }: Props) {
       body: (
         <EmployeeCV
           editable={curriculumVitaeAccess?.write}
-          employee={{ id: employee?.id || '', email: employee?.email || '' }}
+          employee={{
+            id: employee?.id || '',
+            email: employee?.email || '',
+            name: employee?.name || '',
+            isMe: employee?.isMe || false,
+          }}
         />
       ),
     })

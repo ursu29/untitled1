@@ -16,8 +16,8 @@ type Props = {
   employee: Pick<Employee, 'name'>
   reviewers?: {
     id: EvaluationReviewer['id']
-    fromWho: Pick<Employee, 'id' | 'name' | 'isMe'>
-    toWhom: Pick<Employee, 'id' | 'name'>
+    fromWho: Pick<Employee, 'id' | 'name' | 'email' | 'isMe'>
+    toWhom: Pick<Employee, 'id' | 'name' | 'email'>
   }[]
 }
 

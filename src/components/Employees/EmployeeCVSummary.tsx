@@ -6,7 +6,7 @@ import { useUpdateCvMutation } from '../../queries/cv'
 import SkillsCollapsed from '../UI/SkillsCollapsed'
 
 type EmployeePick = Pick<Employee, 'id'>
-type CVPick = Pick<CurriculumVitae, 'id' | 'summary'>
+type CVPick = Pick<CurriculumVitae, 'id' | 'summary' | 'languages'>
 type SkillPick = Pick<Skill, 'id' | 'name' | 'description'>
 
 type FormValues = {
@@ -67,16 +67,61 @@ type Props = {
   skills?: SkillPick[] | null
 }
 
-const EmployeeCVSummary = ({ editable, employee, cv, skills }: Props) => (
-  <Row gutter={16}>
-    <Col sm={12}>
-      <CVForm editable={editable} employee={employee} cv={cv} />
-    </Col>
-    <Col sm={12}>
-      <div style={{ height: 32, display: 'inline-flex', alignItems: 'center' }}>Major skills</div>
-      <SkillsCollapsed skills={skills || []} amount={15} />
-    </Col>
-  </Row>
-)
+const EmployeeCVSummary = ({ editable, employee, cv, skills }: Props) => {
+  const [update, { loading }] = useUpdateCvMutation({
+    onCompleted: () => message.success('Languages have been updated'),
+    onError: message.error,
+  })
+  useEffect(() => {
+    if (loading) {
+      message.loading('Updating languages')
+    }
+  })
+  return (
+    <>
+      <Row gutter={16}>
+        <Col sm={12}>
+          <CVForm editable={editable} employee={employee} cv={cv} />
+        </Col>
+        <Col sm={12}>
+          <div style={{ height: 32, display: 'inline-flex', alignItems: 'center' }}>
+            Major skills
+          </div>
+          <SkillsCollapsed skills={skills || []} amount={15} />
+        </Col>
+      </Row>
+      <Row gutter={16} style={{ marginTop: '-8px', marginBottom: '16px' }}>
+        <Col sm={12}>
+          <div
+            style={{
+              height: 32,
+              marginBottom: '6px',
+            }}
+          >
+            Languages
+          </div>
+          {editable ? (
+            <Input
+              defaultValue={cv?.languages || ''}
+              onBlur={event =>
+                update({
+                  variables: {
+                    input: {
+                      id: cv?.id,
+                      employee: employee.id,
+                      languages: event.target.value,
+                    },
+                  },
+                })
+              }
+            />
+          ) : (
+            <Typography.Text>{cv?.languages}</Typography.Text>
+          )}
+        </Col>
+      </Row>
+    </>
+  )
+}
 
 export default EmployeeCVSummary

@@ -10,7 +10,7 @@ import {
   filterEmployeesCount,
 } from '../../support/officePlanner/officeDays'
 
-describe('Office planner', () => {
+xdescribe('Office planner', () => {
   context('Check default values', () => {
     const count = 5
     let allEmployees = 0

@@ -36,7 +36,7 @@ export default function BookingList({
       render: (_: any, record: WorkplaceBookingType & { workplaceId: string }) => {
         return (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <BookingEmployee employeeId={record.employeeId} />
+            <BookingEmployee employeeId={record.employeeId} narrow />
             {record.employeeId === employee.employee.id &&
               dayjs().isSameOrBefore(dayjs(record.finishDate), 'day') && (
                 <div
@@ -53,7 +53,7 @@ export default function BookingList({
                       </p>
                     )}
                     onConfirm={() => {
-                      onBookCancel({ variables: { input: { id: record.id } } })
+                      onBookCancel({ variables: { id: record.id } })
                     }}
                     okText="Yes"
                     cancelText="No"

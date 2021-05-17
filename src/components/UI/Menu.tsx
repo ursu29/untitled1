@@ -34,6 +34,7 @@ import { Access } from '../../types'
 import { useEmployee } from '../../utils/withEmployee'
 import Skeleton from '../UI/Skeleton'
 import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
+import { ReactComponent as MicSmallIcon } from '../../svg/mic-small.svg'
 
 const Width = styled.div<{ isLarge: boolean }>`
   .ant-menu-inline-collapsed > .ant-menu-item,
@@ -193,6 +194,12 @@ function PortalMenu(props: Props) {
           subMenu: 'tools',
         }
       : null,
+    {
+      route: paths.DEVREL,
+      icon: <MicSmallIcon style={{ marginRight: '10px', height: '14px', width: '14px' }} />,
+      title: 'DevRel',
+      subMenu: 'tools',
+    },
     {
       route: paths.FEEDBACK,
       icon: <NotificationOutlined />,

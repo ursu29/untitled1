@@ -98,6 +98,7 @@ const fragments = {
         sendToTeamlead
         hasComment
         send24hoursNotification
+        isAgileResponsible
         parentSteps {
           id
         }
@@ -120,7 +121,7 @@ const fragments = {
         email
       }
       isOptional
-      isSwissRe
+      isSwissre
       isRequestedByMe
     }
   `,
@@ -165,6 +166,7 @@ export type ProcessStepDetails = Pick<
   | 'description'
   | 'type'
   | 'sendToTeamlead'
+  | 'isAgileResponsible'
   | 'hasComment'
   | 'send24hoursNotification'
 > & {

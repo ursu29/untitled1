@@ -44,6 +44,10 @@ export default gql`
       }
       locations
       employee
+      employeeRef {
+        id
+        name
+      }
       finishDate
       activeStepEmployees {
         id
@@ -65,6 +69,7 @@ type ProcessExecutionPick = {
   locations: LOCATION[]
   status: ProcessExecution['status']
   employee: ProcessExecution['employee']
+  employeeRef: ProcessExecution['employeeRef']
   finishDate: ProcessExecution['finishDate']
   executionSteps: (Pick<ProcessExecutionStep, 'id' | 'isDone'> & {
     step: Pick<ProcessStep, 'id'>

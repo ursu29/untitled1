@@ -13,21 +13,19 @@ export const planner = {
 
 export const day = firstDay => ({
   date: firstDay,
-  employeeCount: 1,
   employeeLimit: 15,
   id: '5f684b5d72c130001ced0482',
   location: 'saint_petersburg',
   __typename: 'OfficeDay',
 })
 
-export const officeDays = (employeeLimit, employeeCount, date) => ({
+export const officeDays = (employeeLimit, date) => ({
   data: {
     officeDays: [
       {
         id: '5f684b5d72c130001ced0482',
         date,
         employeeLimit,
-        employeeCount,
         employees: [
           {
             id: '60267b07c099cf001c7d6e34',

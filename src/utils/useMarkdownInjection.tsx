@@ -143,7 +143,7 @@ export default function useMarkdownInjection(trigger?: any, delay?: number) {
       /**
        * IMAGE FROM STORAGE
        */
-      const images = document.getElementsByTagName('img')
+      const images = document.getElementById('markdown_editable')?.getElementsByTagName('img')
       if (images) {
         Array.from(images).forEach(image => {
           if (image.className.includes('gallery-image')) return

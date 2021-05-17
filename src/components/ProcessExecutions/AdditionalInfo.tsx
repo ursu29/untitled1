@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { Input, DatePicker, Button, Tooltip } from 'antd'
 import styled from 'styled-components'
@@ -7,6 +7,9 @@ import PageContent from '../UI/PageContent'
 import updateProcessExecution from '../../queries/updateProcessExecution'
 import message from '../../message'
 import EmployeeSelect from '../Employees/EmployeeSelect'
+import { CopyOutlined } from '@ant-design/icons'
+import copyToClipboard from '../../utils/copyToClipboard'
+import ProjectTag from '../Projects/ProjectTag'
 
 const MainWrapper = styled.div`
   display: flex;
@@ -29,6 +32,9 @@ export default function AdditionalInfo({
   refetchQueries,
   isNotOnboarding,
   isSwissRe,
+  projectFrom,
+  projectTo,
+  type,
 }: {
   processId: string
   employee: string
@@ -39,6 +45,17 @@ export default function AdditionalInfo({
   refetchQueries: any
   isNotOnboarding: boolean
   isSwissRe: boolean
+  projectFrom?: {
+    id: string
+    name: string
+    code: string
+  }
+  projectTo?: {
+    id: string
+    name: string
+    code: string
+  }
+  type: 'ONBOARDING' | 'ROTATION' | 'OFFBOARDING'
 }) {
   const [update] = useMutation(updateProcessExecution, {
     refetchQueries,
@@ -57,27 +74,89 @@ export default function AdditionalInfo({
   const [finishDateField, setFinishDateField] = useState(
     finishDate ? moment(moment(finishDate), ['DD.MM.YYYY']) : null,
   )
+  const employeeSelectRef = useRef()
 
   return (
     <PageContent noTop noBottom>
+      {type === 'ROTATION' && (
+        <MainWrapper>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              fontStyle: 'italic',
+              marginBottom: '16px',
+            }}
+          >
+            Rotation from
+            {projectFrom ? (
+              <ProjectTag
+                small
+                project={projectFrom}
+                style={{ fontSize: '11px', padding: '2px 5px', margin: '0 8px 0 8px' }}
+              />
+            ) : (
+              ' - '
+            )}
+            to
+            {projectTo ? (
+              <ProjectTag
+                small
+                project={projectTo}
+                style={{ fontSize: '11px', padding: '2px 5px', margin: '0 8px 0 8px' }}
+              />
+            ) : (
+              ' - '
+            )}
+          </div>
+        </MainWrapper>
+      )}
       <MainWrapper>
         <BlockWrapper style={{ width: '30%', minWidth: '175px' }}>
           <span style={{ paddingBottom: '8px' }}>* Employee</span>
           {isNotOnboarding ? (
-            <EmployeeSelect
-              wide
-              keyName="id"
-              //@ts-expect-error
-              onChange={e => setEmployeeRefField(e)}
-              value={employeeRefField}
-            />
+            <Input.Group compact style={{ display: 'flex' }}>
+              <EmployeeSelect
+                wide
+                keyName="id"
+                //@ts-expect-error
+                onChange={e => setEmployeeRefField(e)}
+                value={employeeRefField}
+                ref={employeeSelectRef}
+              />
+              <Tooltip title="Copy to clipboard">
+                <Button
+                  onClick={() => {
+                    //@ts-ignore
+                    copyToClipboard(employeeSelectRef.current?.props.value.value)
+                    message.success('Copied !')
+                  }}
+                  icon={<CopyOutlined style={{ color: 'lightgray', cursor: 'pointer' }} />}
+                ></Button>
+              </Tooltip>
+            </Input.Group>
           ) : (
-            <Input
-              data-cy="name"
-              placeholder="Enter employee name"
-              defaultValue={employee}
-              onChange={e => setEmployeeField(e.target.value)}
-            />
+            <Input.Group compact style={{ display: 'flex' }}>
+              <Input
+                id="hr-tool-employee-input"
+                data-cy="name"
+                placeholder="Enter employee name"
+                defaultValue={employee}
+                onChange={e => setEmployeeField(e.target.value)}
+              />
+              <Tooltip title="Copy to clipboard">
+                <Button
+                  onClick={() => {
+                    const text = (document.querySelector(
+                      '#hr-tool-employee-input',
+                    ) as HTMLInputElement).value
+                    copyToClipboard(text)
+                    message.success('Copied !')
+                  }}
+                  icon={<CopyOutlined style={{ color: 'lightgray', cursor: 'pointer' }} />}
+                ></Button>
+              </Tooltip>
+            </Input.Group>
           )}
           <BlockWrapper style={{ marginTop: '10px', fontStyle: 'italic', fontSize: '12px' }}>
             * fill in these fields to open 'independent' steps

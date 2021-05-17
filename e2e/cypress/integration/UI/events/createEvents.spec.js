@@ -1,11 +1,12 @@
 import {eventData, eventsEl} from "../../../support/client/events";
-import {pastDay, todaysDate, tomorrow} from "../../../support/officePlanner/officeDays";
+import {pastDay, todaysDate} from "../../../support/officePlanner/officeDays";
 import {matrix, skillEl} from "../../../support/locators";
 import {cancelEvent} from "../../../support/getData";
 
 describe('Create new event (events)', () => {
     let eventId, allEventData
     const today = new Date().getDate()
+    const testDates = ['10', '11']
     const title = `title ${today}`
 
     before(() => {
@@ -35,7 +36,7 @@ describe('Create new event (events)', () => {
         })
 
         cy.getId('date').click()
-        ;[today, tomorrow].forEach(el => {
+        testDates.forEach(el => {
             cy.get('td').contains(el).click()
             cy.get('button').contains('Ok').click()
         })

@@ -39,11 +39,26 @@ export default gql`
       employee
       employeeRef {
         id
+        agileManager {
+          id
+          name
+          email
+        }
       }
       finishDate
       employeePhone
       swissReOffboardingDate
       isIndependentStepsActive
+      projectFrom {
+        id
+        name
+        code
+      }
+      projectTo {
+        id
+        name
+        code
+      }
     }
   }
   ${fragments.Employee.Details}
@@ -64,11 +79,21 @@ type ProcessExecutionPick = {
     step: Pick<ProcessStep, 'id' | 'type'>
   })[]
   employee: string
-  employeeRef: EmployeeDetails
+  employeeRef: EmployeeDetails & { agileManager: EmployeeDetails }
   finishDate: string
   employeePhone: string
   swissReOffboardingDate: string
   isIndependentStepsActive: boolean
+  projectFrom: {
+    id: string
+    name: string
+    code: string
+  }
+  projectTo: {
+    id: string
+    name: string
+    code: string
+  }
 }
 
 export type QueryType = {

@@ -18,6 +18,12 @@ query getBooks {
   }
 }
 
+mutation createBook($input: CreateBookInput) {
+  createBook(input: $input) {
+    ...BookResponse
+  }
+}
+
 mutation updateBook($input: UpdateBookInput) {
   updateBook(input: $input) {
     ...BookResponse

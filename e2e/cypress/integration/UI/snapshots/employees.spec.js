@@ -5,16 +5,15 @@ describe('Visual regression employees page', () => {
         cy.setToken('employee')
         cy.setImgToken('employee')
 
+        cy.mockResponse(['location', 'country', 'id', 'name'], employees())
         cy.visit('/employees')
-
-        cy.mockResponse(['location', 'country'], employees())
     })
 
 
         it(`Should match previous screenshot employees Page`, () => {
-            cy.get('.ant-skeleton').should('be.visible')
             cy.get('.ant-skeleton').should('not.exist')
             cy.get('.ant-avatar-image').eq(0).should('be.exist')
+            cy.wait(500) // need to fined a new solution
 
             cy.matchImageSnapshot();
         });

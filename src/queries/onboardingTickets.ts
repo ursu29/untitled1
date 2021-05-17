@@ -57,6 +57,12 @@ export const completeOnboardingTicket = gql`
   }
 `
 
+export const cancelOnboardingTicket = gql`
+  mutation cancelOnboardingTicket($input: CompleteOnboardingTicketInput) {
+    cancelOnboardingTicket(input: $input)
+  }
+`
+
 export const requestOnboardingTicket = gql`
   mutation requestOnboardingTicket($id: ID!) {
     requestOnboardingTicket(id: $id)

@@ -25,6 +25,18 @@ function HRPage() {
           <Typography.Title>Open processes</Typography.Title>
           <CreateProcessExecution />
         </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', width: 'fit-content' }}>
+          <div style={{ marginRight: '24px' }}>
+            Rotation: <span style={{ color: '#00000073' }}>Agile manager</span>
+          </div>
+          <div style={{ marginRight: '24px' }}>
+            Onboarding: <span style={{ color: '#00000073' }}>HR</span>
+          </div>
+          <div>
+            Offboarding:{' '}
+            <span style={{ color: '#00000073' }}>Ekaterina Makova, Irina Zaloznykh</span>
+          </div>
+        </div>
       </PageContent>
       <ActiveProcesses processExecutions={data?.processExecutions || []} />
     </Skeleton>

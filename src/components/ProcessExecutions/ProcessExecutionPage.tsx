@@ -79,6 +79,8 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
     }
   }, [completeArgs.loading, commentArgs.loading])
 
+  const processExecution = data?.processExecutions?.[0]
+
   if (isForbidden(error)) {
     return (
       <PageContent>
@@ -86,8 +88,6 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
       </PageContent>
     )
   }
-
-  const processExecution = data?.processExecutions?.[0]
 
   if (loading) {
     return <Skeleton active loading={loading} withOffset />
@@ -237,6 +237,9 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
         ]}
         isNotOnboarding={['OFFBOARDING', 'ROTATION'].includes(processExecution.process.type)}
         isSwissRe={processExecution.process.customer === 'SWISSRE'}
+        projectFrom={processExecution.projectFrom}
+        projectTo={processExecution.projectTo}
+        type={processExecution.process.type}
       />
       <div style={{ overflow: 'auto', width: '100%', height: '100%' }}>
         <PageContent noTop>
@@ -275,6 +278,12 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                   }}
                   isProcessRunning={processExecution.status === 'RUNNING'}
                   isIndependentStepsActive={processExecution.isIndependentStepsActive}
+                  isLocked={
+                    (processExecution.process.type === 'OFFBOARDING' ||
+                      processExecution.process.type === 'ROTATION') &&
+                    !processExecution.employeeRef
+                  }
+                  agileManager={processExecution.employeeRef?.agileManager}
                 />
                 {index < branches.length - 1 && <Divider />}
               </div>

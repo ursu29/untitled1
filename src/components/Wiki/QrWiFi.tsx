@@ -1,5 +1,5 @@
 import React from 'react'
-import GuestWiFi from '../../svg/guestWiFi.svg'
+import GuestWiFi from '../../svg/guestWiFi.png'
 import { useMediaQuery } from 'react-responsive'
 
 export default function QrWiFi() {
@@ -15,7 +15,7 @@ export default function QrWiFi() {
       }}
     >
       <div style={{ width: 100, height: 100 }}>
-        <img src={GuestWiFi} alt="qr-code" />
+        <img style={{ width: 100, height: 100 }} src={GuestWiFi} alt="qr-code" />
       </div>
       <span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>Syncretis Guest WiFi QR</span>
     </div>

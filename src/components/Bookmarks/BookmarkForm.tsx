@@ -7,6 +7,7 @@ import React from 'react'
 import getBookmarkByLink, { QueryType } from '../../queries/getBookmarkByLink'
 import { Access, Bookmark, Employee } from '../../types'
 import SkillTreeSelect from '../Skills/SkillTreeSelect'
+import { LINK_REGEXP } from '../../utils/links'
 
 type BookmarkPick = Pick<Bookmark, 'id' | 'title' | 'link' | 'skills'> & {
   employee: Pick<Employee, 'id' | 'name' | 'email'>
@@ -61,7 +62,7 @@ const BookmarkForm = ({ form, onSubmit, bookmark, loading }: Props) => {
               rules: [
                 {
                   required: true,
-                  pattern: /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi,
+                  pattern: LINK_REGEXP,
                   message: 'Please enter correct link',
                 },
                 {

@@ -13,7 +13,7 @@ const options = {
 
 interface Props {
   employee: Pick<Employee, 'email' | 'name'>
-  size: AvatarProps['size']
+  size?: AvatarProps['size']
   shape?: AvatarProps['shape']
   showTooltip?: boolean
   highResolution?: boolean
@@ -100,7 +100,7 @@ export default function ({ size, shape, employee, showTooltip, highResolution, w
       ref={node}
       data-cy="avatar"
       src={src}
-      size={size}
+      size={size || 'default'}
       shape={shape}
       alt={`${employee?.name}'s avatar`}
       icon={showPlaceholder && <UserOutlined />}

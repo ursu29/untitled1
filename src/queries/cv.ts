@@ -10,7 +10,7 @@ import * as ApolloReactCommon from '@apollo/react-common'
 import * as ApolloReactHooks from '@apollo/react-hooks'
 export type CvFragment = { __typename?: 'CurriculumVitae' } & Pick<
   Types.CurriculumVitae,
-  'id' | 'summary'
+  'id' | 'summary' | 'languages'
 > & {
     vitaes?: Types.Maybe<
       Array<
@@ -69,6 +69,7 @@ export const CvFragmentDoc = gql`
   fragment CV on CurriculumVitae {
     id
     summary
+    languages
     vitaes {
       id
       company
