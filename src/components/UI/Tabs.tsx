@@ -49,9 +49,9 @@ export default function PortalTabs({ noPadding, controlled, tabs, tab, tabsProps
         return (
           <TabPane
             tab={
-              <div style={{ padding: '0 16px' }}>
+              <>
                 {tab.icon && tab.icon} {tab.title}
-              </div>
+              </>
             }
             key={tab.key}
           >
