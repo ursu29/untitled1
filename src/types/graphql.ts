@@ -766,35 +766,22 @@ export type File = {
   fileName?: Maybe<Scalars['String']>
 }
 
-export type AzureFile = {
-  __typename?: 'AzureFile'
+export type SharedFile = {
+  __typename?: 'SharedFile'
   id: Scalars['ID']
-  url?: Maybe<Scalars['String']>
-  fileName?: Maybe<Scalars['String']>
+  url: Scalars['String']
+  fileName: Scalars['String']
   createdAt?: Maybe<Scalars['String']>
   createdBy?: Maybe<Employee>
   updatedBy?: Maybe<Employee>
   updatedAt?: Maybe<Scalars['String']>
   size?: Maybe<Scalars['Float']>
   type?: Maybe<Scalars['String']>
-  details?: Maybe<FileDetails>
-}
-
-export type FileDetails = {
-  __typename?: 'FileDetails'
-  id: Scalars['ID']
-  azureId: Scalars['ID']
   skills?: Maybe<Array<Skill>>
 }
 
-export type SharedFiles = {
-  __typename?: 'SharedFiles'
-  hasMore?: Maybe<Scalars['Boolean']>
-  files: Array<AzureFile>
-}
-
-export type UpdateFileDetailsInput = {
-  azureId: Scalars['ID']
+export type UpdateSharedFileInput = {
+  id: Scalars['ID']
   skills?: Maybe<Array<Scalars['ID']>>
 }
 
@@ -898,7 +885,7 @@ export type Query = {
   experiences?: Maybe<Array<Maybe<Experience>>>
   feedbacks?: Maybe<Array<Feedback>>
   feedbacksAccess?: Maybe<Access>
-  sharedFiles: SharedFiles
+  sharedFiles?: Maybe<Array<SharedFile>>
   gameLeaderboard: Array<GameScore>
   guild?: Maybe<Guild>
   guilds?: Maybe<Array<Maybe<Guild>>>
@@ -1180,7 +1167,7 @@ export type Mutation = {
   addFeedback?: Maybe<Feedback>
   deleteFeedback?: Maybe<Feedback>
   replyFeedback?: Maybe<FeedbackComment>
-  updateFileDetails?: Maybe<FileDetails>
+  updateSharedFile?: Maybe<SharedFile>
   startGame: StartGame
   updateGameScore: GameScore
   updateGuild?: Maybe<Guild>
@@ -1407,8 +1394,8 @@ export type MutationReplyFeedbackArgs = {
   input: FeedbackReplyInput
 }
 
-export type MutationUpdateFileDetailsArgs = {
-  input: UpdateFileDetailsInput
+export type MutationUpdateSharedFileArgs = {
+  input: UpdateSharedFileInput
 }
 
 export type MutationStartGameArgs = {

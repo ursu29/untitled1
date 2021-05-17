@@ -1,0 +1,13 @@
+fragment FileDetailsFragment on SharedFile {
+  id
+  skills {
+    id
+    name
+  }
+}
+
+mutation updateFileDetails($input: UpdateSharedFileInput!) {
+  updateSharedFile(input: $input) {
+    ...FileDetailsFragment
+  }
+}
