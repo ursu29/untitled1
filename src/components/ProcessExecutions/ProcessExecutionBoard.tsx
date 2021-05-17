@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
-import { Select } from 'antd'
+import { Select, Tooltip } from 'antd'
 import React, { useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { Link } from 'react-router-dom'
@@ -11,6 +11,7 @@ import getLocationName from '../../utils/getLocationName'
 import { getProcessName } from '../../utils/getProcessName'
 import Avatar from '../Avatar'
 import ProjectTag from '../Projects/ProjectTag'
+import { useEmployee } from '../../utils/withEmployee'
 
 //@ts-ignore
 const onDragEnd = (result, columns, setColumns) => {
@@ -58,26 +59,42 @@ const onDragEnd = (result, columns, setColumns) => {
 }
 
 export default function ProcessBoard({ items }: { items?: QueryType['processExecutions'] }) {
+  const user = useEmployee()
+
+  const isListIncludesUser = (
+    employeesList: QueryType['processExecutions'][0]['activeStepEmployees'],
+  ) => employeesList?.map(e => e.id).includes(user.employee.id)
+
   const initialColumns = {
     NEW: {
       name: 'New',
-      items: items?.filter(e => e.status === 'RUNNING' && (e.substatus === 'NEW' || !e.substatus)),
+      items: items
+        ?.filter(e => e.status === 'RUNNING' && (e.substatus === 'NEW' || !e.substatus))
+        .sort((a, b) => (isListIncludesUser(a.activeStepEmployees) ? -1 : 1)),
     },
     ON_REVIEW: {
       name: 'On Review',
-      items: items?.filter(e => e.status === 'RUNNING' && e.substatus === 'ON_REVIEW'),
+      items: items
+        ?.filter(e => e.status === 'RUNNING' && e.substatus === 'ON_REVIEW')
+        .sort((a, b) => (isListIncludesUser(a.activeStepEmployees) ? -1 : 1)),
     },
     SOURCING: {
       name: 'Sourcing',
-      items: items?.filter(e => e.status === 'RUNNING' && e.substatus === 'SOURCING'),
+      items: items
+        ?.filter(e => e.status === 'RUNNING' && e.substatus === 'SOURCING')
+        .sort((a, b) => (isListIncludesUser(a.activeStepEmployees) ? -1 : 1)),
     },
     OFFER_SENT: {
       name: 'Offer Sent',
-      items: items?.filter(e => e.status === 'RUNNING' && e.substatus === 'OFFER_SENT'),
+      items: items
+        ?.filter(e => e.status === 'RUNNING' && e.substatus === 'OFFER_SENT')
+        .sort((a, b) => (isListIncludesUser(a.activeStepEmployees) ? -1 : 1)),
     },
     IN_PROGRESS: {
       name: 'In Progress',
-      items: items?.filter(e => e.status === 'RUNNING' && e.substatus === 'IN_PROGRESS'),
+      items: items
+        ?.filter(e => e.status === 'RUNNING' && e.substatus === 'IN_PROGRESS')
+        .sort((a, b) => (isListIncludesUser(a.activeStepEmployees) ? -1 : 1)),
     },
     FINISHED: {
       name: 'Finished',
@@ -91,11 +108,11 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
   const [columns, setColumns] = useState(initialColumns)
   const [columnsPrev, setColumnsPrev] = useState(initialColumns)
 
-  const [update] = useMutation(updateProcessExecution, {
+  const [update, { loading }] = useMutation(updateProcessExecution, {
     refetchQueries: [{ query: getProcessExecutions }],
     awaitRefetchQueries: true,
     onCompleted: () => {
-      message.success('Updated')
+      setTimeout(() => message.success('Updated'), 500)
       setColumnsPrev(columns)
     },
     onError: err => {
@@ -103,6 +120,8 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
       setColumns(columnsPrev)
     },
   })
+
+  if (loading) message.loading('Updating')
 
   const makeUpdate = async ({ id, ...body }: any) =>
     update({ variables: { input: { id, ...body } } })
@@ -210,7 +229,11 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
                                         <div style={{ display: 'flex', alignItems: 'center' }}>
                                           {!!item.activeStepEmployees?.[0] && (
                                             <Avatar
-                                              employee={item.activeStepEmployees[0]}
+                                              employee={
+                                                item.activeStepEmployees.find(
+                                                  e => e.id === user.employee.id,
+                                                ) || item.activeStepEmployees[0]
+                                              }
                                               size="small"
                                               showTooltip
                                             />
@@ -309,47 +332,48 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
                                           margin: '-24px -16px -16px 0',
                                         }}
                                       >
-                                        <Select
-                                          defaultValue={item.prio}
-                                          onChange={async prio => {
-                                            const res = await makeUpdate({ id: item.id, prio })
-                                            if (res.data.updateProcessExecution.id === item.id) {
-                                              //@ts-ignore
-                                              const columnChanged = columns[columnId]
-                                              setColumns({
-                                                ...columns,
-                                                [columnId]: {
-                                                  ...columnChanged,
-                                                  items: [
-                                                    ...columnChanged.items.filter(
-                                                      (e: any) => e.id !== item.id,
-                                                    ),
-                                                    {
-                                                      ...columnChanged.items.find(
-                                                        (e: any) => e.id === item.id,
+                                        <Tooltip placement="top" title="Prio">
+                                          <Select
+                                            defaultValue={item.prio}
+                                            onChange={async prio => {
+                                              const res = await makeUpdate({ id: item.id, prio })
+                                              if (res.data.updateProcessExecution.id === item.id) {
+                                                //@ts-ignore
+                                                const columnChanged = columns[columnId]
+                                                setColumns({
+                                                  ...columns,
+                                                  [columnId]: {
+                                                    ...columnChanged,
+                                                    items: [
+                                                      ...columnChanged.items.map((e: any) =>
+                                                        e.id === item.id
+                                                          ? {
+                                                              ...e,
+                                                              prio,
+                                                            }
+                                                          : e,
                                                       ),
-                                                      prio,
-                                                    },
-                                                  ],
-                                                },
-                                              })
-                                            }
-                                          }}
-                                          bordered={false}
-                                          showArrow={false}
-                                          style={{
-                                            fontSize: '12px',
-                                            color: 'rgba(0, 0, 0, 0.45)',
-                                          }}
-                                        >
-                                          {Array(3)
-                                            .fill(0)
-                                            .map((_, i) => (
-                                              <Select.Option key={i} value={i + 1}>
-                                                {i + 1}
-                                              </Select.Option>
-                                            ))}
-                                        </Select>
+                                                    ],
+                                                  },
+                                                })
+                                              }
+                                            }}
+                                            bordered={false}
+                                            showArrow={false}
+                                            style={{
+                                              fontSize: '12px',
+                                              color: 'rgba(0, 0, 0, 0.45)',
+                                            }}
+                                          >
+                                            {Array(3)
+                                              .fill(0)
+                                              .map((_, i) => (
+                                                <Select.Option key={i} value={i + 1}>
+                                                  {i + 1}
+                                                </Select.Option>
+                                              ))}
+                                          </Select>
+                                        </Tooltip>
                                       </div>
                                     </div>
                                   )
