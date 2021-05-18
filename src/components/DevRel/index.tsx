@@ -26,7 +26,7 @@ export default function DevRel() {
           onTabClick={key => {
             setView(key)
           }}
-          tabBarStyle={{ paddingLeft: '24px' }}
+          tabBarStyle={{ padding: '0 0 0 24px' }}
         >
           <Tabs.TabPane
             tab={
