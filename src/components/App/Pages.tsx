@@ -39,6 +39,8 @@ import NotAllowed from '../UI/NotAllowed'
 import NotFound from '../UI/NotFound'
 import DevRel from '../DevRel'
 import Snake from '../Snake/SnakePage'
+import HobbiesPage from '../hobbies/HobbiesPage'
+import HobbyPage from '../hobbies/HobbyPage'
 // import WarningPage from '../UI/WarningPage'
 
 export default function Pages() {
@@ -62,6 +64,8 @@ export default function Pages() {
           <Route path={paths.GUILDS} component={Guilds} />
           <Route path={paths.SKILLS + '/:id'} component={Skill} />
           <Route path={paths.SKILLS} component={Skills} />
+          <Route path={paths.HOBBIES + '/:id'} component={HobbyPage} />
+          <Route path={paths.HOBBIES} component={HobbiesPage} />
           <Route path={paths.STATISTICS} component={Statistics} />
           <Route path={paths.MATRICES + '/:id'} component={Matrix} />
           <Route path={paths.MATRICES} component={Matrices} />

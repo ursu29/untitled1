@@ -20,7 +20,7 @@ export type GetHobbiesQuery = { __typename?: 'Query' } & {
 }
 
 export type CreateHobbyMutationVariables = Types.Exact<{
-  Input: Types.CreateHobbyInput
+  input: Types.CreateHobbyInput
 }>
 
 export type CreateHobbyMutation = { __typename?: 'Mutation' } & {
@@ -28,7 +28,7 @@ export type CreateHobbyMutation = { __typename?: 'Mutation' } & {
 }
 
 export type UpdateHobbyMutationVariables = Types.Exact<{
-  Input: Types.UpdateHobbyInput
+  input: Types.UpdateHobbyInput
 }>
 
 export type UpdateHobbyMutation = { __typename?: 'Mutation' } & {
@@ -89,8 +89,8 @@ export type GetHobbiesQueryResult = ApolloReactCommon.QueryResult<
   GetHobbiesQueryVariables
 >
 export const CreateHobbyDocument = gql`
-  mutation createHobby($Input: CreateHobbyInput!) {
-    createHobby(input: $Input) {
+  mutation createHobby($input: CreateHobbyInput!) {
+    createHobby(input: $input) {
       ...HobbyFragment
     }
   }
@@ -114,7 +114,7 @@ export type CreateHobbyMutationFn = ApolloReactCommon.MutationFunction<
  * @example
  * const [createHobbyMutation, { data, loading, error }] = useCreateHobbyMutation({
  *   variables: {
- *      Input: // value for 'Input'
+ *      input: // value for 'input'
  *   },
  * });
  */
@@ -136,8 +136,8 @@ export type CreateHobbyMutationOptions = ApolloReactCommon.BaseMutationOptions<
   CreateHobbyMutationVariables
 >
 export const UpdateHobbyDocument = gql`
-  mutation updateHobby($Input: UpdateHobbyInput!) {
-    updateHobby(input: $Input) {
+  mutation updateHobby($input: UpdateHobbyInput!) {
+    updateHobby(input: $input) {
       ...HobbyFragment
     }
   }
@@ -161,7 +161,7 @@ export type UpdateHobbyMutationFn = ApolloReactCommon.MutationFunction<
  * @example
  * const [updateHobbyMutation, { data, loading, error }] = useUpdateHobbyMutation({
  *   variables: {
- *      Input: // value for 'Input'
+ *      input: // value for 'input'
  *   },
  * });
  */

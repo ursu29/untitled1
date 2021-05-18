@@ -10,14 +10,14 @@ query getHobbies {
   }
 }
 
-mutation createHobby($Input: CreateHobbyInput!) {
-  createHobby(input: $Input) {
+mutation createHobby($input: CreateHobbyInput!) {
+  createHobby(input: $input) {
     ...HobbyFragment
   }
 }
 
-mutation updateHobby($Input: UpdateHobbyInput!) {
-  updateHobby(input: $Input) {
+mutation updateHobby($input: UpdateHobbyInput!) {
+  updateHobby(input: $input) {
     ...HobbyFragment
   }
 }
