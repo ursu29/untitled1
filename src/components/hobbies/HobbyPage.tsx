@@ -1,29 +1,33 @@
 import React from 'react'
 import PageContent from '../UI/PageContent'
 import PageHeader from '../UI/PageHeader'
-import { useGetHobbiesQuery } from '../../queries/hobbies'
+import { useGetHobbyQuery } from '../../queries/hobbies'
 import { useParams } from 'react-router-dom'
+import { EditHobbyModal } from './EditHobbyModal'
+import { HobbyInfo } from './HobbyInfo'
 
 export default function HobbyPage() {
-  // TODO: get by id
-  const { id } = useParams()
-  const { data, loading, error } = useGetHobbiesQuery()
+  const { id } = useParams<{ id: string }>()
+  const { data, loading, error } = useGetHobbyQuery({
+    variables: { id },
+  })
 
-  const hobbies = data?.hobbies
+  const hobby = data?.hobby
 
   return (
     <>
-      <PageHeader title="Hobbies" />
+      <PageHeader
+        title={hobby?.name}
+        withBack
+        extra={hobby ? [<EditHobbyModal hobby={hobby} />] : null}
+      />
       <PageContent
         error={error}
         loading={loading}
-        notFound={!hobbies}
-        notFoundMessage="Sorry, guilds were not found"
+        notFound={!hobby}
+        notFoundMessage="Sorry, hobby was not found"
       >
-        {id}
-        {hobbies?.map(hobby => (
-          <div key={hobby.id}>{hobby.name}</div>
-        ))}
+        {hobby && <HobbyInfo hobby={hobby} />}
       </PageContent>
     </>
   )

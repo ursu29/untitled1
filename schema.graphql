@@ -821,6 +821,7 @@ type Query {
   guild(input: GuildInput): Guild
   guilds: [Guild]
   hobbies: [Hobby!]!
+  hobby(id: ID!): Hobby
   levels: [LEVEL!]
   locations: [LOCATION!]
   matrices(input: MatricesInput): [Matrix]

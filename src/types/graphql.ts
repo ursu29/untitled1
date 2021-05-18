@@ -879,6 +879,7 @@ export type Query = {
   guild?: Maybe<Guild>
   guilds?: Maybe<Array<Maybe<Guild>>>
   hobbies: Array<Hobby>
+  hobby?: Maybe<Hobby>
   levels?: Maybe<Array<Level>>
   locations?: Maybe<Array<Location>>
   matrices?: Maybe<Array<Maybe<Matrix>>>
@@ -1031,6 +1032,10 @@ export type QueryGameLeaderboardArgs = {
 
 export type QueryGuildArgs = {
   input?: Maybe<GuildInput>
+}
+
+export type QueryHobbyArgs = {
+  id: Scalars['ID']
 }
 
 export type QueryMatricesArgs = {

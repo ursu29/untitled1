@@ -10,6 +10,13 @@ query getHobbies {
   }
 }
 
+query getHobby($id: ID!) {
+  hobby(id: $id) {
+    ...HobbyFragment
+    # TODO: employees
+  }
+}
+
 mutation createHobby($input: CreateHobbyInput!) {
   createHobby(input: $input) {
     ...HobbyFragment
