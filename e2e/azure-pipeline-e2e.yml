@@ -87,6 +87,10 @@ jobs:
           pathToPublish: '$(Build.ArtifactStagingDirectory)'
           artifactName: folderReport
         displayName: Publish folder
+      - task: publishhtmlreport@1
+        inputs:
+          htmlType: 'genericHTML'
+          htmlPath: '$(Build.SourcesDirectory)/e2e/TestReport/cypress-tests-report.html'
 
 # jobs:
 #   - job: E2E_Tests
