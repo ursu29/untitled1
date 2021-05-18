@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { getProjectLink } from '../../paths'
 import { COLLAPSE_WIDTH } from '../../config'
 import { useMediaQuery } from 'react-responsive'
+import { TeamOutlined } from '@ant-design/icons'
 
 const { Text } = Typography
 
@@ -13,6 +14,7 @@ interface Props {
   project: Pick<Project, 'id' | 'name' | 'code'>
   capacity?: number
   isExtraCapacity?: boolean
+  employeesCount?: number
   style?: React.CSSProperties
 }
 
@@ -31,6 +33,7 @@ export default function ProjectTag({
   style = {},
   capacity,
   isExtraCapacity,
+  employeesCount,
 }: Props) {
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH }) && !small
   if (!project) return null
@@ -69,6 +72,11 @@ export default function ProjectTag({
             {name} {!!capacity && capacity + '%'}
             {!!isExtraCapacity && ' !'}
           </div>
+          {!!employeesCount && (
+            <div style={{ marginLeft: '8px' }}>
+              <TeamOutlined /> {employeesCount}
+            </div>
+          )}
         </Tag>
       </Link>
       {isLarge && (

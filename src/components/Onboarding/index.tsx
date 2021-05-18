@@ -214,7 +214,7 @@ export default function Onboarding() {
               setIsMyTicketsView(key === 'mine')
               urlAction.paramsClear()
             }}
-            tabBarStyle={{ padding: '0 60px' }}
+            tabBarStyle={{ padding: '0 24px' }}
           >
             <MyTicketTabs.TabPane tab="All" key="all" />
             <MyTicketTabs.TabPane tab="My Trainings" key="mine" />
