@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Badge, Table, Tag, Popconfirm } from 'antd'
+import { Badge, Table, Popconfirm } from 'antd'
 import Button from '../UI/Button'
 import { Book, Books, useLibraryApi } from './useLibraryApi'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { EditBookModal } from './modal/EditBookModal'
+import { getEmployeeLink } from '../../paths'
+import { Link } from 'react-router-dom'
+import { SkillLink } from '../Skills/SkillLink'
 
 type Props = {
   books?: Books
@@ -32,12 +35,14 @@ export const LibraryList: React.FC<Props> = ({ books, isFetching, isAdmin }) => 
       key: 'title',
       width: '35%',
       render: (book: Book) => <div>{book.title}</div>,
+      sorter: (a: Book, b: Book) => a.title?.localeCompare(b.title),
     },
     {
       title: 'Author',
       key: 'author',
       width: '15%',
       render: (book: Book) => <div>{book.author}</div>,
+      sorter: (a: Book, b: Book) => a.author?.localeCompare(b.author),
     },
     {
       title: 'Status',
@@ -45,16 +50,20 @@ export const LibraryList: React.FC<Props> = ({ books, isFetching, isAdmin }) => 
       width: '10%',
       render: (book: Book) =>
         book.holder?.id ? (
-          <Badge status="warning" text="Taken" />
+          <Badge status="warning" text="Taken" color="red" />
         ) : (
           <Badge status="success" text="Free" />
         ),
+      sorter: (a: Book, b: Book) => a.holder?.id?.localeCompare(b.holder?.id || '') || 1,
     },
     {
       title: 'Taken By',
       key: 'takenBy',
       width: '15%',
-      render: (book: Book) => <div>{book.holder?.name || '–'}</div>,
+      render: (book: Book) => (
+        <Link to={getEmployeeLink(book.holder?.email || '')}>{book.holder?.name}</Link>
+      ),
+      sorter: (a: Book, b: Book) => a.holder?.name?.localeCompare(b.holder?.name || '') || 1,
     },
     {
       title: 'Tags',
@@ -62,7 +71,7 @@ export const LibraryList: React.FC<Props> = ({ books, isFetching, isAdmin }) => 
       width: '15%',
       render: (book: Book) => {
         const { tags } = book
-        return tags.map(tag => <Tag key={tag.id}>{tag.name}</Tag>)
+        return tags.map(tag => <SkillLink key={tag.id} skill={tag} />)
       },
     },
     {
@@ -72,7 +81,7 @@ export const LibraryList: React.FC<Props> = ({ books, isFetching, isAdmin }) => 
       render: (book: Book) => {
         const booked = isBooked(book)
         return (
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             {(isAdmin || (!isAdmin && !booked)) && (
               <Popconfirm
                 placement="top"
@@ -81,9 +90,7 @@ export const LibraryList: React.FC<Props> = ({ books, isFetching, isAdmin }) => 
                 okText="Yes"
                 cancelText="No"
               >
-                <Button size="small" disabled={isFetching}>
-                  {booked ? 'Return' : 'Take'}
-                </Button>
+                <Button disabled={isFetching}>{booked ? 'Return' : 'Take'}</Button>
               </Popconfirm>
             )}
             {isAdmin && (
@@ -119,6 +126,7 @@ export const LibraryList: React.FC<Props> = ({ books, isFetching, isAdmin }) => 
         columns={columns}
         rowKey="id"
         size="middle"
+        style={{ padding: '0 24px' }}
       />
       <EditBookModal
         onClose={() => setBookToEdit(null)}

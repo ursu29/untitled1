@@ -13,7 +13,9 @@ export type BookResponseFragment = { __typename?: 'Book' } & Pick<
   'id' | 'title' | 'author'
 > & {
     tags: Array<{ __typename?: 'Skill' } & Pick<Types.Skill, 'id' | 'name'>>
-    holder?: Types.Maybe<{ __typename?: 'Employee' } & Pick<Types.Employee, 'id' | 'name'>>
+    holder?: Types.Maybe<
+      { __typename?: 'Employee' } & Pick<Types.Employee, 'id' | 'name' | 'email'>
+    >
   }
 
 export type GetBooksQueryVariables = Types.Exact<{ [key: string]: never }>
@@ -66,6 +68,7 @@ export const BookResponseFragmentDoc = gql`
     holder {
       id
       name
+      email
     }
   }
 `

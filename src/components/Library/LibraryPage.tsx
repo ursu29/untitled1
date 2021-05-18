@@ -1,5 +1,5 @@
-import { Button } from 'antd'
-import React, { useState } from 'react'
+import { Button, Tabs } from 'antd'
+import React, { useState, useEffect } from 'react'
 import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 import PageContent from '../UI/PageContent'
 import PageHeader from '../UI/PageHeader'
@@ -14,14 +14,63 @@ export const LibraryPage = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false)
   const canEdit = useStrapiGroupCheck('HR_RU')
 
+  const [searchFilter, setSearchFilter] = useState('')
+  const [statusFilter, setStatusFilter] = useState('all')
+
+  const books = data?.books || []
+
+  useEffect(() => {
+    const filterBySearch = (book: typeof books[0]) => {
+      if (!searchFilter) return true
+      return `${book.title} ${book.author}`.toLowerCase().includes(searchFilter.toLowerCase())
+    }
+
+    const filterByStatus = (book: typeof books[0]) => {
+      const taken = !!book.holder?.id
+      switch (statusFilter) {
+        case 'taken':
+          return taken
+        case 'free':
+          return !taken
+        default:
+          return true
+      }
+    }
+
+    const filterBooks = (book: typeof books[0]) => {
+      return filterBySearch(book) && filterByStatus(book)
+    }
+    books && setFiltered(books.filter(filterBooks))
+  }, [searchFilter, statusFilter, books])
+
   return (
     <>
       <PageHeader
         title="Library"
-        extra={[canEdit ? <Button onClick={() => setIsPopupVisible(true)}>Add Book</Button> : null]}
+        extra={[
+          canEdit ? (
+            <Button type="primary" onClick={() => setIsPopupVisible(true)}>
+              Add Book
+            </Button>
+          ) : null,
+        ]}
+        withoutDivider
       />
-      <PageContent loading={dataLoading} style={{ paddingLeft: 0, paddingRight: 0 }}>
-        <LibraryFilters books={data?.books} onFilterChange={setFiltered} />
+      <PageContent
+        loading={dataLoading}
+        style={{ paddingLeft: 0, paddingRight: 0, marginTop: '-32px' }}
+      >
+        <Tabs
+          onTabClick={key => {
+            setStatusFilter(key)
+          }}
+          tabBarStyle={{ paddingLeft: '24px' }}
+        >
+          <Tabs.TabPane tab="All" key="all" />
+          <Tabs.TabPane tab="Free" key="free" />
+          <Tabs.TabPane tab="Taken" key="taken" />
+        </Tabs>
+        <LibraryFilters onSearch={setSearchFilter} searchFilter={searchFilter} />
         {data && <LibraryList books={filtered} isFetching={dataUpdating} isAdmin={canEdit} />}
         <AddBookModal onClose={() => setIsPopupVisible(false)} visible={isPopupVisible} />
       </PageContent>

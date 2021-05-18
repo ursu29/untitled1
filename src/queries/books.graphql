@@ -9,6 +9,7 @@ fragment BookResponse on Book {
   holder {
     id
     name
+    email
   }
 }
 
