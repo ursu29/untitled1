@@ -43,6 +43,12 @@ export const getManager = id => ({
   query: query.getManager,
 })
 
+export const deleteVacancy = id => ({
+  operationName: 'deleteHrVacancy',
+  variables: { id },
+  query: query.deleteHrVacancy,
+})
+
 export const completeProcessExecutionStep = (execution, step) => ({
   operationName: 'completeProcessExecutionStep',
   variables: {input: { execution, step }},

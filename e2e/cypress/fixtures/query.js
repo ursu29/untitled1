@@ -1,4 +1,5 @@
 export const query = {
+  deleteHrVacancy: 'mutation deleteHrVacancy($id: ID!) {deleteHrVacancy(id: $id) { id }}',
   deleteWorkplaceBooking: 'mutation deleteWorkplaceBooking($id: ID!) {deleteWorkplaceBooking(id: $id) { id startDate finishDate __typename}}',
   workspacePoolQuery: 'query workspacePoolQuery($input: WorkspacesInput) {workspaces(input: $input) { id name __typename}}',
   workspace: 'query workspace($id: ID!, $bookingsInput: BookingsInput) {workspace(id: $id) {id drawing workplaces {id coordX coordY number bookings(input: $bookingsInput) {id employeeId startDate finishDate __typename} __typename} __typename}}',

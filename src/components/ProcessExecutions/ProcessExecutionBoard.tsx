@@ -173,6 +173,7 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
                   {(provided, snapshot) => {
                     return (
                       <div
+                        data-cy="columnRef"
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                         style={{
@@ -189,7 +190,8 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
                                 {(provided, snapshot) => {
                                   return (
                                     <div
-                                      ref={provided.innerRef}
+                                        data-cy="refId"
+                                        ref={provided.innerRef}
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}
                                       style={{
