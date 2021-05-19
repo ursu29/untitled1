@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import SkillTreeSelect from '../../Skills/SkillTreeSelect'
 import { Book } from '../useLibraryApi'
 import { useLibraryApi } from '../useLibraryApi'
+import EmployeeSelect from '../../Employees/EmployeeSelect'
 
 const StyledForm = styled(Form)`
   .ant-form-item {
@@ -18,7 +19,7 @@ const rules = [{ required: true, message: 'This is required field!' }]
 export interface BookModalProps {
   visible: boolean
   onClose: () => void
-  onSubmit?: (book: Partial<Book>) => void
+  onSubmit?: (book: Partial<Book> & { holder: string }) => void
   initialState?: Partial<Book> | null
 }
 
@@ -33,11 +34,12 @@ export const BookModal: React.FC<BookModalProps> = props => {
         throw new Error('No "onSubmit" prop for BookModal component!')
       }
       onSubmit(values)
+      form.resetFields()
     })
   }
 
   useEffect(() => {
-    visible && form.setFieldsValue(initialState)
+    visible && form.setFieldsValue({ ...initialState, holder: initialState?.holder?.id })
   }, [form, visible, initialState])
 
   return (
@@ -53,6 +55,7 @@ export const BookModal: React.FC<BookModalProps> = props => {
       }}
       destroyOnClose={true}
       footer={null}
+      maskClosable={false}
     >
       <StyledForm
         form={form}
@@ -69,7 +72,10 @@ export const BookModal: React.FC<BookModalProps> = props => {
         <Form.Item label="Tags" name="tags">
           <SkillTreeSelect searchPlaceholder="" />
         </Form.Item>
-        <Form.Item style={{ textAlign: 'right' }}>
+        <Form.Item label="Taken By" name="holder">
+          <EmployeeSelect defaultOpen autoFocus style={{ width: '100%' }} />
+        </Form.Item>
+        <Form.Item style={{ textAlign: 'right', paddingTop: '8px' }}>
           <Button
             type="default"
             style={{ marginRight: 6 }}

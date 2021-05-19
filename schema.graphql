@@ -147,7 +147,7 @@ input UpdateBookInput {
   id: ID!
   title: String
   author: String
-  holder: String
+  holder: ID
   tags: [String]
 }
 
@@ -155,6 +155,7 @@ input CreateBookInput {
   title: String
   author: String
   tags: [String]
+  holder: ID
 }
 
 type DevToolsGitInfo {

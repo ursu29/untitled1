@@ -8,12 +8,14 @@ interface CreateBookModalProps extends BookModalProps {}
 export const AddBookModal: React.FC<CreateBookModalProps> = props => {
   const { create } = useLibraryApi()
 
-  const handleSubmit = (book: SubmitBook) => {
+  const handleSubmit = (book: SubmitBook & { holder: string }) => {
     const input = {
       title: book.title,
       author: book.author,
       tags: book.tags?.map(tag => tag.id),
+      holder: book.holder,
     }
+
     create(input).then(() => {
       props.onClose()
       message.success('Book was updated')

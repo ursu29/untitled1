@@ -20,6 +20,7 @@ export const useLibraryApi = () => {
     onError: message.error,
   })
   const [removeBook] = useRemoveBookMutation({
+    refetchQueries: [{ query: GetBooksDocument }],
     onError: message.error,
   })
   const [createBook, { loading: creatingInProgress }] = useCreateBookMutation({
@@ -33,6 +34,7 @@ export const useLibraryApi = () => {
   const dataUpdating = updatingInProgress || creatingInProgress
 
   const create = (input: CreateBookInput) => {
+    console.log({ input })
     return createBook({ variables: { input } })
   }
 

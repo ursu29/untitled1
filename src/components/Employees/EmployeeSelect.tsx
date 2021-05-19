@@ -60,7 +60,7 @@ function EmployeeSelect(
       onBlur={props.onBlur}
       onSelect={(value: any) => {
         if (!mode || mode === null) {
-          const employee = data!.employees?.find(employee => employee.name === value.key)
+          const employee = data!.employees?.find(employee => employee.name === value?.key)
           if (employee) {
             onChange && onChange(employee[key])
           }

@@ -17,7 +17,7 @@ export const LibraryPage = () => {
   const [searchFilter, setSearchFilter] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
 
-  const books = data?.books || []
+  const books = data?.books.sort((a, b) => (a.holder?.id ? 1 : -1)) || []
 
   useEffect(() => {
     const filterBySearch = (book: typeof books[0]) => {

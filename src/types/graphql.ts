@@ -165,7 +165,7 @@ export type UpdateBookInput = {
   id: Scalars['ID']
   title?: Maybe<Scalars['String']>
   author?: Maybe<Scalars['String']>
-  holder?: Maybe<Scalars['String']>
+  holder?: Maybe<Scalars['ID']>
   tags?: Maybe<Array<Maybe<Scalars['String']>>>
 }
 
@@ -173,6 +173,7 @@ export type CreateBookInput = {
   title?: Maybe<Scalars['String']>
   author?: Maybe<Scalars['String']>
   tags?: Maybe<Array<Maybe<Scalars['String']>>>
+  holder?: Maybe<Scalars['ID']>
 }
 
 export type DevToolsGitInfo = {
