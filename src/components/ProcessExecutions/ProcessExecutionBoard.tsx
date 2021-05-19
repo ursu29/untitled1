@@ -332,7 +332,7 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
                                           margin: '-24px -16px -16px 0',
                                         }}
                                       >
-                                        <Tooltip placement="top" title="Prio">
+                                        <Tooltip placement="right" title="Prio">
                                           <Select
                                             defaultValue={item.prio}
                                             onChange={async prio => {
