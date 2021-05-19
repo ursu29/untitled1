@@ -140,9 +140,22 @@ function ProcessList({ items, tabName }: Props) {
       showSorterTooltip: false,
       filters: [
         //@ts-ignore
-        ...new Set(items.filter(e => e?.project && e?.project?.name).map(e => e?.project?.name)),
+        ...new Set(
+          items
+            .filter(e =>
+              e.process.type === 'ROTATION' ? !!e?.projectFrom : e?.project && e?.project?.name,
+            )
+            .flatMap(e =>
+              e.process.type === 'ROTATION'
+                ? [e.projectFrom?.name, e.projectTo?.name]
+                : [e?.project?.name],
+            ),
+        ),
       ].map(e => ({ text: e, value: e })),
-      onFilter: (value: any, record: any) => record.project?.name === value,
+      onFilter: (value: any, record: ProcessExecution) =>
+        record.process.type === 'ROTATION'
+          ? record.projectFrom?.name === value || record.projectTo?.name === value
+          : record.project?.name === value,
       render: (_: any, i: ProcessExecution) => {
         return i.process.type === 'ROTATION' ? (
           <div style={{ display: 'flex', marginLeft: '10px' }}>
