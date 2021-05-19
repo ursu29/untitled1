@@ -89,8 +89,8 @@ jobs:
         displayName: Publish folder
       - task: publishhtmlreport@1
         inputs:
-          htmlType: 'genericHTML'
-          htmlPath: '$(Build.ArtifactStagingDirectory)/e2e/TestReport/cypress-tests-report.html'
+          htmlType: 'OtherComplexReport'
+          JmeterReportsPath: '$(Build.SourcesDirectory)/e2e/TestReport'
 
 # jobs:
 #   - job: E2E_Tests
