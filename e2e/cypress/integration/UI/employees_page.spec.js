@@ -21,9 +21,9 @@ describe('Employees', () => {
   })
 
   it('Filter the employees table by name', () => {
-    cy.getElement('find_employee').type(text)
+    cy.getElement('search').type(text)
     cy.getElement('employee_table').contains('td', selectProfileName)
-    cy.getElement('find_employee').clear()
+    cy.getElement('search').clear()
   })
 
   it('Filter the employees table by position', () => {
