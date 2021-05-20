@@ -152,6 +152,30 @@ export type ToggleBookmarklikeInput = {
   bookmark?: Maybe<Scalars['ID']>
 }
 
+export type Book = {
+  __typename?: 'Book'
+  id: Scalars['ID']
+  title: Scalars['String']
+  author: Scalars['String']
+  holder?: Maybe<Employee>
+  tags: Array<Skill>
+}
+
+export type UpdateBookInput = {
+  id: Scalars['ID']
+  title?: Maybe<Scalars['String']>
+  author?: Maybe<Scalars['String']>
+  holder?: Maybe<Scalars['ID']>
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>
+}
+
+export type CreateBookInput = {
+  title?: Maybe<Scalars['String']>
+  author?: Maybe<Scalars['String']>
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>
+  holder?: Maybe<Scalars['ID']>
+}
+
 export type DevToolsGitInfo = {
   __typename?: 'DevToolsGitInfo'
   repoName?: Maybe<Scalars['String']>
@@ -839,6 +863,7 @@ export type Query = {
   archivedMatrix?: Maybe<ArchiveMatrix>
   bookmarks?: Maybe<Array<Maybe<Bookmark>>>
   bookmarkByLink?: Maybe<Bookmark>
+  books: Array<Book>
   clientDevToolsAccess?: Maybe<Scalars['Boolean']>
   clientDevToolsGitInfo?: Maybe<DevToolsGitInfo>
   curriculumVitaeAccess?: Maybe<Access>
@@ -1112,6 +1137,10 @@ export type Mutation = {
   updateBookmark?: Maybe<Bookmark>
   deleteBookmark?: Maybe<Bookmark>
   toggleBookmarklike?: Maybe<Bookmarklike>
+  createBook?: Maybe<Book>
+  updateBook?: Maybe<Book>
+  removeBook?: Maybe<Book>
+  takeBook?: Maybe<Book>
   updateCurriculumVitae?: Maybe<CurriculumVitae>
   updateDevelopmentPlan?: Maybe<DevelopmentPlan>
   createDevrel?: Maybe<Devrel>
@@ -1240,6 +1269,22 @@ export type MutationDeleteBookmarkArgs = {
 
 export type MutationToggleBookmarklikeArgs = {
   input: ToggleBookmarklikeInput
+}
+
+export type MutationCreateBookArgs = {
+  input?: Maybe<CreateBookInput>
+}
+
+export type MutationUpdateBookArgs = {
+  input?: Maybe<UpdateBookInput>
+}
+
+export type MutationRemoveBookArgs = {
+  id: Scalars['ID']
+}
+
+export type MutationTakeBookArgs = {
+  id: Scalars['ID']
 }
 
 export type MutationUpdateCurriculumVitaeArgs = {
@@ -1994,6 +2039,7 @@ export type ProcessExecution = {
   projectFrom?: Maybe<Project>
   projectTo?: Maybe<Project>
   status?: Maybe<Scalars['String']>
+  substatus?: Maybe<Scalars['String']>
   executionSteps?: Maybe<Array<Maybe<ProcessExecutionStep>>>
   employee?: Maybe<Scalars['String']>
   employeeRef?: Maybe<Employee>
@@ -2003,6 +2049,7 @@ export type ProcessExecution = {
   swissReOffboardingDate?: Maybe<Scalars['String']>
   isIndependentStepsActive?: Maybe<Scalars['Boolean']>
   prio?: Maybe<Scalars['Int']>
+  updatedAt?: Maybe<Scalars['String']>
 }
 
 export type ProcessExecutionsInput = {
@@ -2030,6 +2077,7 @@ export type UpdateProcessExecutionInput = {
   project?: Maybe<Scalars['ID']>
   projectFrom?: Maybe<Scalars['ID']>
   projectTo?: Maybe<Scalars['ID']>
+  substatus?: Maybe<Scalars['String']>
 }
 
 export type AbortProcessExecutionInput = {

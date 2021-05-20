@@ -135,6 +135,29 @@ input ToggleBookmarklikeInput {
   bookmark: ID
 }
 
+type Book {
+  id: ID!
+  title: String!
+  author: String!
+  holder: Employee
+  tags: [Skill!]!
+}
+
+input UpdateBookInput {
+  id: ID!
+  title: String
+  author: String
+  holder: ID
+  tags: [String]
+}
+
+input CreateBookInput {
+  title: String
+  author: String
+  tags: [String]
+  holder: ID
+}
+
 type DevToolsGitInfo {
   repoName: String
   branchName: String
@@ -783,6 +806,7 @@ type Query {
   archivedMatrix(input: GetArchivedMatrixInput): ArchiveMatrix
   bookmarks(input: BookmarksInput): [Bookmark]
   bookmarkByLink(link: String!): Bookmark
+  books: [Book!]!
   clientDevToolsAccess: Boolean
   clientDevToolsGitInfo: DevToolsGitInfo
   curriculumVitaeAccess(input: AccessInput): Access
@@ -860,6 +884,10 @@ type Mutation {
   updateBookmark(input: UpdateBookmarkInput!): Bookmark
   deleteBookmark(input: DeleteBookmarkInput!): Bookmark
   toggleBookmarklike(input: ToggleBookmarklikeInput!): Bookmarklike
+  createBook(input: CreateBookInput): Book
+  updateBook(input: UpdateBookInput): Book
+  removeBook(id: ID!): Book
+  takeBook(id: ID!): Book
   updateCurriculumVitae(input: UpdateCurriculumVitaeInput!): CurriculumVitae
   updateDevelopmentPlan(input: UpdateDevelopmentPlanInput!): DevelopmentPlan
   createDevrel(input: CreateDevrelInput!): Devrel
@@ -1319,6 +1347,7 @@ type ProcessExecution {
   projectFrom: Project
   projectTo: Project
   status: String
+  substatus: String
   executionSteps: [ProcessExecutionStep]
   employee: String
   employeeRef: Employee
@@ -1328,6 +1357,7 @@ type ProcessExecution {
   swissReOffboardingDate: String
   isIndependentStepsActive: Boolean
   prio: Int
+  updatedAt: String
 }
 
 input ProcessExecutionsInput {
@@ -1355,6 +1385,7 @@ input UpdateProcessExecutionInput {
   project: ID
   projectFrom: ID
   projectTo: ID
+  substatus: String
 }
 
 input AbortProcessExecutionInput {

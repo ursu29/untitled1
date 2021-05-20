@@ -1,0 +1,44 @@
+fragment BookResponse on Book {
+  id
+  title
+  author
+  tags {
+    id
+    name
+  }
+  holder {
+    id
+    name
+    email
+  }
+}
+
+query getBooks {
+  books {
+    ...BookResponse
+  }
+}
+
+mutation createBook($input: CreateBookInput) {
+  createBook(input: $input) {
+    ...BookResponse
+  }
+}
+
+mutation updateBook($input: UpdateBookInput) {
+  updateBook(input: $input) {
+    ...BookResponse
+  }
+}
+
+mutation removeBook($id: ID!) {
+  removeBook(id: $id) {
+    ...BookResponse
+  }
+}
+
+mutation takeBook($id: ID!) {
+  takeBook(id: $id) {
+    ...BookResponse
+  }
+}

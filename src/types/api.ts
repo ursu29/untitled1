@@ -95,6 +95,14 @@ export interface FileDetails {
   skills: Skill[]
 }
 
+export interface Book {
+  id: string
+  title: string
+  author: string
+  tags: Skill[]
+  holder: Employee
+}
+
 export interface Bookmark {
   id: string
   title: string
