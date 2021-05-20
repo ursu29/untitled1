@@ -62,11 +62,7 @@ export default function Calendar() {
       <PageHeader
         title="Events"
         extra={[
-          <Button
-            type="primary"
-            onClick={() => setModalAddEvent({ visible: true })}
-            data-cy="addEvent"
-          >
+          <Button onClick={() => setModalAddEvent({ visible: true })} data-cy="addEvent">
             Add Event
           </Button>,
         ]}

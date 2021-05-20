@@ -2,6 +2,7 @@ import {eventData, eventsEl} from "../../../support/client/events";
 import {pastDay, todaysDate} from "../../../support/officePlanner/officeDays";
 import {matrix, skillEl} from "../../../support/locators";
 import {cancelEvent} from "../../../support/getData";
+import { inputSkill } from '../../../support/complexLocators'
 
 describe('Create new event (events)', () => {
     let eventId, allEventData
@@ -40,7 +41,7 @@ describe('Create new event (events)', () => {
             cy.get('td').contains(el).click()
             cy.get('button').contains('Ok').click()
         })
-        cy.get(skillEl.skillsEvent).click()
+        inputSkill(1).click()
         cy.get('span').contains('Agile').click()
 
         cy.getResponse(['createEvent'], 'alias')

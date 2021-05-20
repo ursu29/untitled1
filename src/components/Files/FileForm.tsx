@@ -1,23 +1,22 @@
 import { Button, Col, Form, Row } from 'antd'
 import React from 'react'
-import { FilesPick } from '../../queries/getSharedFiles'
-import { UpdateFileDetailsMutationInput } from '../../queries/updateFileDetails'
-import { FileDetails } from '../../types'
+import { SharedFileFragmentFragment } from '../../queries/getSharedFiles'
+import { UpdateSharedFileInput, SharedFile } from '../../types/graphql'
 import SkillTreeSelect from '../Skills/SkillTreeSelect'
 
 export interface Props {
-  file: FilesPick
-  onSubmit: (values: UpdateFileDetailsMutationInput['input'], reset?: () => void) => void
+  file: SharedFileFragmentFragment
+  onSubmit: (values: UpdateSharedFileInput, reset?: () => void) => void
   loading: boolean
 }
 
 const FileForm = ({ file, onSubmit, loading }: Props) => {
   const [form] = Form.useForm()
 
-  const onFinish = ({ skills }: Pick<FileDetails, 'skills'>) => {
+  const onFinish = ({ skills }: Pick<SharedFile, 'skills'>) => {
     onSubmit({
-      azureId: file.id,
-      skills: skills.map(i => i.id),
+      id: file.id,
+      skills: skills?.map(i => i.id),
     })
   }
 
@@ -27,7 +26,7 @@ const FileForm = ({ file, onSubmit, loading }: Props) => {
       form={form}
       onFinish={onFinish}
       initialValues={{
-        skills: file.details?.skills || [],
+        skills: file.skills || [],
       }}
     >
       <Form.Item label="Skills" name="skills">

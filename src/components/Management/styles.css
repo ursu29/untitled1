@@ -1,0 +1,12 @@
+.collapse-full-width .ant-collapse-content-box {
+  padding: 0 0 32px 0 !important;
+}
+
+.collapse-full-width .ant-collapse-header {
+  padding: 0 0 8px 40px !important;
+  margin-left: 16px;
+}
+
+.collapse-full-width .ant-card-body {
+  margin-top: -8px;
+}
