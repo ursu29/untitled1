@@ -75,7 +75,7 @@ function ProcessList({ items = [], history }: Props & RouteComponentProps) {
           onFilter: (value: any, record: any) =>
             record.locations && record.locations.includes(value),
           sorter: (a: any, b: any) =>
-            a.locations.slice().sort().join('').localeCompare(b.locations.slice().sort().join('')),
+            a.locations.sort().join('').localeCompare(b.locations.sort().join('')),
         },
         {
           key: 'actions',

@@ -17,7 +17,7 @@ export const filterSkillsName = (name, arr) =>
   arr
     .filter(el => el.level.name === name && !el.skill.isMatrixOnly)
     .map(val => val.skill.name)
-    .slice().sort()
+    .sort()
 
 export const hasKeyAndValue = (obj, key, value) => {
   expect(obj.hasOwnProperty(key)).equal(true)
