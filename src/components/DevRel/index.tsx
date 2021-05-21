@@ -26,7 +26,7 @@ export default function DevRel() {
           onTabClick={key => {
             setView(key)
           }}
-          tabBarStyle={{ padding: '0 60px' }}
+          tabBarStyle={{ padding: '0 0 0 24px' }}
         >
           <Tabs.TabPane
             tab={
@@ -88,7 +88,9 @@ export default function DevRel() {
           )}
           {view === 'articles' && (
             <div>
-              <Button onClick={() => setModalArticle({ visible: true })} data-cy="addArticle">Propose Article +</Button>
+              <Button onClick={() => setModalArticle({ visible: true })} data-cy="addArticle">
+                Propose Article +
+              </Button>
             </div>
           )}
         </div>

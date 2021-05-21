@@ -192,6 +192,30 @@ export type ToggleBookmarklikeInput = {
   bookmark?: Maybe<Scalars['ID']>
 }
 
+export type Book = {
+  __typename?: 'Book'
+  id: Scalars['ID']
+  title: Scalars['String']
+  author: Scalars['String']
+  holder?: Maybe<Employee>
+  tags: Array<Skill>
+}
+
+export type UpdateBookInput = {
+  id: Scalars['ID']
+  title?: Maybe<Scalars['String']>
+  author?: Maybe<Scalars['String']>
+  holder?: Maybe<Scalars['ID']>
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>
+}
+
+export type CreateBookInput = {
+  title?: Maybe<Scalars['String']>
+  author?: Maybe<Scalars['String']>
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>
+  holder?: Maybe<Scalars['ID']>
+}
+
 export type DevToolsGitInfo = {
   __typename?: 'DevToolsGitInfo'
   repoName?: Maybe<Scalars['String']>
@@ -783,35 +807,22 @@ export type File = {
   fileName?: Maybe<Scalars['String']>
 }
 
-export type AzureFile = {
-  __typename?: 'AzureFile'
+export type SharedFile = {
+  __typename?: 'SharedFile'
   id: Scalars['ID']
-  url?: Maybe<Scalars['String']>
-  fileName?: Maybe<Scalars['String']>
+  url: Scalars['String']
+  fileName: Scalars['String']
   createdAt?: Maybe<Scalars['String']>
   createdBy?: Maybe<Employee>
   updatedBy?: Maybe<Employee>
   updatedAt?: Maybe<Scalars['String']>
   size?: Maybe<Scalars['Float']>
   type?: Maybe<Scalars['String']>
-  details?: Maybe<FileDetails>
-}
-
-export type FileDetails = {
-  __typename?: 'FileDetails'
-  id: Scalars['ID']
-  azureId: Scalars['ID']
   skills?: Maybe<Array<Skill>>
 }
 
-export type SharedFiles = {
-  __typename?: 'SharedFiles'
-  hasMore?: Maybe<Scalars['Boolean']>
-  files: Array<AzureFile>
-}
-
-export type UpdateFileDetailsInput = {
-  azureId: Scalars['ID']
+export type UpdateSharedFileInput = {
+  id: Scalars['ID']
   skills?: Maybe<Array<Scalars['ID']>>
 }
 
@@ -892,6 +903,7 @@ export type Query = {
   archivedMatrix?: Maybe<ArchiveMatrix>
   bookmarks?: Maybe<Array<Maybe<Bookmark>>>
   bookmarkByLink?: Maybe<Bookmark>
+  books: Array<Book>
   clientDevToolsAccess?: Maybe<Scalars['Boolean']>
   clientDevToolsGitInfo?: Maybe<DevToolsGitInfo>
   curriculumVitaeAccess?: Maybe<Access>
@@ -914,7 +926,7 @@ export type Query = {
   experiences?: Maybe<Array<Maybe<Experience>>>
   feedbacks?: Maybe<Array<Feedback>>
   feedbacksAccess?: Maybe<Access>
-  sharedFiles: SharedFiles
+  sharedFiles?: Maybe<Array<SharedFile>>
   gameLeaderboard: Array<GameScore>
   guild?: Maybe<Guild>
   guilds?: Maybe<Array<Maybe<Guild>>>
@@ -1165,6 +1177,10 @@ export type Mutation = {
   updateBookmark?: Maybe<Bookmark>
   deleteBookmark?: Maybe<Bookmark>
   toggleBookmarklike?: Maybe<Bookmarklike>
+  createBook?: Maybe<Book>
+  updateBook?: Maybe<Book>
+  removeBook?: Maybe<Book>
+  takeBook?: Maybe<Book>
   updateCurriculumVitae?: Maybe<CurriculumVitae>
   updateDevelopmentPlan?: Maybe<DevelopmentPlan>
   createDevrel?: Maybe<Devrel>
@@ -1192,7 +1208,7 @@ export type Mutation = {
   addFeedback?: Maybe<Feedback>
   deleteFeedback?: Maybe<Feedback>
   replyFeedback?: Maybe<FeedbackComment>
-  updateFileDetails?: Maybe<FileDetails>
+  updateSharedFile?: Maybe<SharedFile>
   startGame: StartGame
   updateGameScore: GameScore
   updateGuild?: Maybe<Guild>
@@ -1293,6 +1309,22 @@ export type MutationDeleteBookmarkArgs = {
 
 export type MutationToggleBookmarklikeArgs = {
   input: ToggleBookmarklikeInput
+}
+
+export type MutationCreateBookArgs = {
+  input?: Maybe<CreateBookInput>
+}
+
+export type MutationUpdateBookArgs = {
+  input?: Maybe<UpdateBookInput>
+}
+
+export type MutationRemoveBookArgs = {
+  id: Scalars['ID']
+}
+
+export type MutationTakeBookArgs = {
+  id: Scalars['ID']
 }
 
 export type MutationUpdateCurriculumVitaeArgs = {
@@ -1403,8 +1435,8 @@ export type MutationReplyFeedbackArgs = {
   input: FeedbackReplyInput
 }
 
-export type MutationUpdateFileDetailsArgs = {
-  input: UpdateFileDetailsInput
+export type MutationUpdateSharedFileArgs = {
+  input: UpdateSharedFileInput
 }
 
 export type MutationStartGameArgs = {
@@ -1977,6 +2009,7 @@ export type ProcessExecution = {
   projectFrom?: Maybe<Project>
   projectTo?: Maybe<Project>
   status?: Maybe<Scalars['String']>
+  substatus?: Maybe<Scalars['String']>
   executionSteps?: Maybe<Array<Maybe<ProcessExecutionStep>>>
   employee?: Maybe<Scalars['String']>
   employeeRef?: Maybe<Employee>
@@ -1986,6 +2019,7 @@ export type ProcessExecution = {
   swissReOffboardingDate?: Maybe<Scalars['String']>
   isIndependentStepsActive?: Maybe<Scalars['Boolean']>
   prio?: Maybe<Scalars['Int']>
+  updatedAt?: Maybe<Scalars['String']>
 }
 
 export type ProcessExecutionsInput = {
@@ -2013,6 +2047,7 @@ export type UpdateProcessExecutionInput = {
   project?: Maybe<Scalars['ID']>
   projectFrom?: Maybe<Scalars['ID']>
   projectTo?: Maybe<Scalars['ID']>
+  substatus?: Maybe<Scalars['String']>
 }
 
 export type AbortProcessExecutionInput = {

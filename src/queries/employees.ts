@@ -7,6 +7,7 @@ import * as Types from '../types/graphql'
 
 import { gql } from '@apollo/client'
 import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type EmployeeDetailsFragment = { __typename?: 'Employee' } & Pick<
   Types.Employee,
   | 'id'
@@ -85,17 +86,16 @@ export const GetEmployeeDocument = gql`
 export function useGetEmployeeQuery(
   baseOptions: Apollo.QueryHookOptions<GetEmployeeQuery, GetEmployeeQueryVariables>,
 ) {
-  return Apollo.useQuery<GetEmployeeQuery, GetEmployeeQueryVariables>(
-    GetEmployeeDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetEmployeeQuery, GetEmployeeQueryVariables>(GetEmployeeDocument, options)
 }
 export function useGetEmployeeLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<GetEmployeeQuery, GetEmployeeQueryVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useLazyQuery<GetEmployeeQuery, GetEmployeeQueryVariables>(
     GetEmployeeDocument,
-    baseOptions,
+    options,
   )
 }
 export type GetEmployeeQueryHookResult = ReturnType<typeof useGetEmployeeQuery>
@@ -128,17 +128,19 @@ export const GetEmployeesDocument = gql`
 export function useGetEmployeesQuery(
   baseOptions?: Apollo.QueryHookOptions<GetEmployeesQuery, GetEmployeesQueryVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useQuery<GetEmployeesQuery, GetEmployeesQueryVariables>(
     GetEmployeesDocument,
-    baseOptions,
+    options,
   )
 }
 export function useGetEmployeesLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<GetEmployeesQuery, GetEmployeesQueryVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useLazyQuery<GetEmployeesQuery, GetEmployeesQueryVariables>(
     GetEmployeesDocument,
-    baseOptions,
+    options,
   )
 }
 export type GetEmployeesQueryHookResult = ReturnType<typeof useGetEmployeesQuery>
@@ -179,9 +181,10 @@ export type UpdateEmployeeMutationFn = Apollo.MutationFunction<
 export function useUpdateEmployeeMutation(
   baseOptions?: Apollo.MutationHookOptions<UpdateEmployeeMutation, UpdateEmployeeMutationVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useMutation<UpdateEmployeeMutation, UpdateEmployeeMutationVariables>(
     UpdateEmployeeDocument,
-    baseOptions,
+    options,
   )
 }
 export type UpdateEmployeeMutationHookResult = ReturnType<typeof useUpdateEmployeeMutation>

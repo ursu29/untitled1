@@ -7,6 +7,7 @@ import * as Types from '../types/graphql'
 
 import { gql } from '@apollo/client'
 import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type CvFragment = { __typename?: 'CurriculumVitae' } & Pick<
   Types.CurriculumVitae,
   'id' | 'summary' | 'languages'
@@ -127,12 +128,14 @@ export const GetCvDocument = gql`
 export function useGetCvQuery(
   baseOptions: Apollo.QueryHookOptions<GetCvQuery, GetCvQueryVariables>,
 ) {
-  return Apollo.useQuery<GetCvQuery, GetCvQueryVariables>(GetCvDocument, baseOptions)
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetCvQuery, GetCvQueryVariables>(GetCvDocument, options)
 }
 export function useGetCvLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<GetCvQuery, GetCvQueryVariables>,
 ) {
-  return Apollo.useLazyQuery<GetCvQuery, GetCvQueryVariables>(GetCvDocument, baseOptions)
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetCvQuery, GetCvQueryVariables>(GetCvDocument, options)
 }
 export type GetCvQueryHookResult = ReturnType<typeof useGetCvQuery>
 export type GetCvLazyQueryHookResult = ReturnType<typeof useGetCvLazyQuery>
@@ -170,10 +173,8 @@ export type UpdateCvMutationFn = Apollo.MutationFunction<
 export function useUpdateCvMutation(
   baseOptions?: Apollo.MutationHookOptions<UpdateCvMutation, UpdateCvMutationVariables>,
 ) {
-  return Apollo.useMutation<UpdateCvMutation, UpdateCvMutationVariables>(
-    UpdateCvDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UpdateCvMutation, UpdateCvMutationVariables>(UpdateCvDocument, options)
 }
 export type UpdateCvMutationHookResult = ReturnType<typeof useUpdateCvMutation>
 export type UpdateCvMutationResult = Apollo.MutationResult<UpdateCvMutation>

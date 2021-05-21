@@ -175,6 +175,29 @@ input ToggleBookmarklikeInput {
   bookmark: ID
 }
 
+type Book {
+  id: ID!
+  title: String!
+  author: String!
+  holder: Employee
+  tags: [Skill!]!
+}
+
+input UpdateBookInput {
+  id: ID!
+  title: String
+  author: String
+  holder: ID
+  tags: [String]
+}
+
+input CreateBookInput {
+  title: String
+  author: String
+  tags: [String]
+  holder: ID
+}
+
 type DevToolsGitInfo {
   repoName: String
   branchName: String
@@ -734,32 +757,21 @@ type File {
   fileName: String
 }
 
-type AzureFile {
+type SharedFile {
   id: ID!
-  url: String
-  fileName: String
+  url: String!
+  fileName: String!
   createdAt: String
   createdBy: Employee
   updatedBy: Employee
   updatedAt: String
   size: Float
   type: String
-  details: FileDetails
-}
-
-type FileDetails {
-  id: ID!
-  azureId: ID!
   skills: [Skill!]
 }
 
-type SharedFiles {
-  hasMore: Boolean
-  files: [AzureFile!]!
-}
-
-input UpdateFileDetailsInput {
-  azureId: ID!
+input UpdateSharedFileInput {
+  id: ID!
   skills: [ID!]
 }
 
@@ -834,6 +846,7 @@ type Query {
   archivedMatrix(input: GetArchivedMatrixInput): ArchiveMatrix
   bookmarks(input: BookmarksInput): [Bookmark]
   bookmarkByLink(link: String!): Bookmark
+  books: [Book!]!
   clientDevToolsAccess: Boolean
   clientDevToolsGitInfo: DevToolsGitInfo
   curriculumVitaeAccess(input: AccessInput): Access
@@ -856,7 +869,7 @@ type Query {
   experiences(input: ExperiencesInput): [Experience]
   feedbacks(input: FeedbacksInput!): [Feedback!]
   feedbacksAccess: Access
-  sharedFiles(input: SharedFilesInput): SharedFiles!
+  sharedFiles(input: SharedFilesInput): [SharedFile!]
   gameLeaderboard(input: LeaderboardInput!): [GameScore!]!
   guild(input: GuildInput): Guild
   guilds: [Guild]
@@ -911,6 +924,10 @@ type Mutation {
   updateBookmark(input: UpdateBookmarkInput!): Bookmark
   deleteBookmark(input: DeleteBookmarkInput!): Bookmark
   toggleBookmarklike(input: ToggleBookmarklikeInput!): Bookmarklike
+  createBook(input: CreateBookInput): Book
+  updateBook(input: UpdateBookInput): Book
+  removeBook(id: ID!): Book
+  takeBook(id: ID!): Book
   updateCurriculumVitae(input: UpdateCurriculumVitaeInput!): CurriculumVitae
   updateDevelopmentPlan(input: UpdateDevelopmentPlanInput!): DevelopmentPlan
   createDevrel(input: CreateDevrelInput!): Devrel
@@ -938,7 +955,7 @@ type Mutation {
   addFeedback(input: FeedbackInput!): Feedback
   deleteFeedback(input: DeleteFeedbackInput!): Feedback
   replyFeedback(input: FeedbackReplyInput!): FeedbackComment
-  updateFileDetails(input: UpdateFileDetailsInput!): FileDetails
+  updateSharedFile(input: UpdateSharedFileInput!): SharedFile
   startGame(input: StartGameInput!): StartGame!
   updateGameScore(input: UpdateScoreInput!): GameScore!
   updateGuild(input: UpdateGuildInput): Guild
@@ -1302,6 +1319,7 @@ type ProcessExecution {
   projectFrom: Project
   projectTo: Project
   status: String
+  substatus: String
   executionSteps: [ProcessExecutionStep]
   employee: String
   employeeRef: Employee
@@ -1311,6 +1329,7 @@ type ProcessExecution {
   swissReOffboardingDate: String
   isIndependentStepsActive: Boolean
   prio: Int
+  updatedAt: String
 }
 
 input ProcessExecutionsInput {
@@ -1338,6 +1357,7 @@ input UpdateProcessExecutionInput {
   project: ID
   projectFrom: ID
   projectTo: ID
+  substatus: String
 }
 
 input AbortProcessExecutionInput {

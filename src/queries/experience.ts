@@ -7,6 +7,7 @@ import * as Types from '../types/graphql'
 
 import { gql } from '@apollo/client'
 import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type CreateExperienceMutationVariables = Types.Exact<{
   input?: Types.Maybe<Types.CreateExperienceInput>
 }>
@@ -66,9 +67,10 @@ export function useCreateExperienceMutation(
     CreateExperienceMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useMutation<CreateExperienceMutation, CreateExperienceMutationVariables>(
     CreateExperienceDocument,
-    baseOptions,
+    options,
   )
 }
 export type CreateExperienceMutationHookResult = ReturnType<typeof useCreateExperienceMutation>
@@ -112,9 +114,10 @@ export function useUpdateExperienceMutation(
     UpdateExperienceMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useMutation<UpdateExperienceMutation, UpdateExperienceMutationVariables>(
     UpdateExperienceDocument,
-    baseOptions,
+    options,
   )
 }
 export type UpdateExperienceMutationHookResult = ReturnType<typeof useUpdateExperienceMutation>
@@ -158,9 +161,10 @@ export function useDeleteExperienceMutation(
     DeleteExperienceMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useMutation<DeleteExperienceMutation, DeleteExperienceMutationVariables>(
     DeleteExperienceDocument,
-    baseOptions,
+    options,
   )
 }
 export type DeleteExperienceMutationHookResult = ReturnType<typeof useDeleteExperienceMutation>

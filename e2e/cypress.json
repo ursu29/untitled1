@@ -7,11 +7,13 @@
   "requestTimeout": 15000,
   "chromeWebSecurity": false,
   "defaultCommandTimeout": 10000,
-  "reporter": "mocha-multi-reporters",
+  "reporter": "../node_modules/mochawesome/src/mochawesome.js",
   "reporterOptions": {
-    "configFile": "cypress-reporters.json",
-    "toConsole": true
+    "overwrite": false,
+    "html": false,
+    "json": true
   },
+  "screenshotsFolder": "TestReport/assets",
   "env": {
     "grant_type": "password",
     "employee_username": "#{employee_username}#",

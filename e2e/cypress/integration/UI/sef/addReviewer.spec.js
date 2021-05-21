@@ -29,7 +29,7 @@ describe('add reviewer to SEF (sef)', () => {
     })
 
     it('successfully added new reviewer', () => {
-        cy.visit(`/employees/${employeeEmail}/evaluation`)
+        cy.visit(`/employees/${employeeEmail}/evaluation?tab=evaluation`)
         cy.addRole()
 
         cy.getResponse(['getEmployees'], 'alias')

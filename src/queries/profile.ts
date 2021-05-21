@@ -7,6 +7,7 @@ import * as Types from '../types/graphql'
 
 import { gql } from '@apollo/client'
 import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type GetProfileQueryVariables = Types.Exact<{ [key: string]: never }>
 
 export type GetProfileQuery = { __typename?: 'Query' } & Pick<Types.Query, 'isAuthenticated'> & {
@@ -59,15 +60,14 @@ export const GetProfileDocument = gql`
 export function useGetProfileQuery(
   baseOptions?: Apollo.QueryHookOptions<GetProfileQuery, GetProfileQueryVariables>,
 ) {
-  return Apollo.useQuery<GetProfileQuery, GetProfileQueryVariables>(GetProfileDocument, baseOptions)
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetProfileQuery, GetProfileQueryVariables>(GetProfileDocument, options)
 }
 export function useGetProfileLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<GetProfileQuery, GetProfileQueryVariables>,
 ) {
-  return Apollo.useLazyQuery<GetProfileQuery, GetProfileQueryVariables>(
-    GetProfileDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetProfileQuery, GetProfileQueryVariables>(GetProfileDocument, options)
 }
 export type GetProfileQueryHookResult = ReturnType<typeof useGetProfileQuery>
 export type GetProfileLazyQueryHookResult = ReturnType<typeof useGetProfileLazyQuery>

@@ -7,6 +7,7 @@ import * as Types from '../types/graphql'
 
 import { gql } from '@apollo/client'
 import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type WikiSearchTextQueryVariables = Types.Exact<{
   input?: Types.Maybe<Types.WikiSearchTextInput>
 }>
@@ -54,17 +55,19 @@ export const WikiSearchTextDocument = gql`
 export function useWikiSearchTextQuery(
   baseOptions?: Apollo.QueryHookOptions<WikiSearchTextQuery, WikiSearchTextQueryVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useQuery<WikiSearchTextQuery, WikiSearchTextQueryVariables>(
     WikiSearchTextDocument,
-    baseOptions,
+    options,
   )
 }
 export function useWikiSearchTextLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<WikiSearchTextQuery, WikiSearchTextQueryVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useLazyQuery<WikiSearchTextQuery, WikiSearchTextQueryVariables>(
     WikiSearchTextDocument,
-    baseOptions,
+    options,
   )
 }
 export type WikiSearchTextQueryHookResult = ReturnType<typeof useWikiSearchTextQuery>

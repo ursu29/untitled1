@@ -1,5 +1,5 @@
-import { useMutation, useQuery, gql } from "@apollo/client";
-import { Button, Divider, PageHeader, Popconfirm } from 'antd'
+import { gql, useMutation, useQuery } from '@apollo/client'
+import { Button, Divider, PageHeader, Popconfirm, Select } from 'antd'
 import React, { useEffect } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { debounce } from 'throttle-debounce'
@@ -8,17 +8,18 @@ import message from '../../message'
 import getActiveProcessExecutions from '../../queries/getEmployeeActiveProcessExecutions'
 import getProcessExecution, { QueryType } from '../../queries/getProcessExecution'
 import getProcessExecutions from '../../queries/getProcessExecutions'
+import updateProcessExecution from '../../queries/updateProcessExecution'
+import { getProcessName } from '../../utils/getProcessName'
 import isForbidden from '../../utils/isForbidden'
 import { useEmployee } from '../../utils/withEmployee'
-import { getProcessName } from '../../utils/getProcessName'
 import NotAllowed from '../UI/NotAllowed'
 import PageContent from '../UI/PageContent'
 import Skeleton from '../UI/Skeleton'
 import Vacancy from '../Vacancies/Vacancy'
 import AbortProcessExecution from './AbortProcessExecution'
-import OnHoldProcessExecution from './OnHoldProcessExecution'
 import AdditionalInfo from './AdditionalInfo'
 import ActiveStepCard from './ExecutionStepCard'
+import OnHoldProcessExecution from './OnHoldProcessExecution'
 import ProcessExecutionBranch from './ProcessExecutionBranch'
 import ProcessExecutionRotation from './ProcessExecutionRotation'
 import ProcessExecutionStatusTag from './ProcessExecutionStatusTag'
@@ -68,6 +69,16 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
     onCompleted: () => message.success('Step is done'),
   })
 
+  const [changeSubstatus, { loading: changeSubstatusLoading }] = useMutation(
+    updateProcessExecution,
+    {
+      refetchQueries: [{ query: getProcessExecution, variables }],
+      awaitRefetchQueries: true,
+      onError: message.error,
+      onCompleted: () => message.success('Updated'),
+    },
+  )
+
   const commentDebounced = debounce(1000, comment)
 
   useEffect(() => {
@@ -96,6 +107,8 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
   if (!processExecution) {
     return <PageContent>Process is not found</PageContent>
   }
+
+  if (changeSubstatusLoading) message.loading('Updating')
 
   const branches = processExecution.process?.steps.filter(i => !i.parentSteps?.length)
 
@@ -146,10 +159,26 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
         <PageHeader
           title={processExecution.process.title}
           subTitle={getProcessName(processExecution.process.type)}
-          // onBack={() => window.history.back()}
           tags={<ProcessExecutionStatusTag processExecution={processExecution} />}
           style={{ padding: 0 }}
           extra={[
+            <span>
+              Status:{' '}
+              <Select
+                bordered={false}
+                style={{ minWidth: '100px', fontWeight: 500 }}
+                defaultValue={processExecution.substatus}
+                onChange={substatus =>
+                  changeSubstatus({ variables: { input: { id: processExecution.id, substatus } } })
+                }
+              >
+                <Select.Option value="NEW">New</Select.Option>
+                <Select.Option value="ON_REVIEW">On Review</Select.Option>
+                <Select.Option value="SOURCING">Sourcing</Select.Option>
+                <Select.Option value="OFFER_SENT">Offer Sent</Select.Option>
+                <Select.Option value="IN_PROGRESS">In Progress</Select.Option>
+              </Select>
+            </span>,
             <AbortProcessExecution id={processExecution?.id} key={processExecution?.id}>
               {(abort: any) => {
                 if (processExecution.status !== 'RUNNING') return null

@@ -7,6 +7,7 @@ import * as Types from '../types/graphql'
 
 import { gql } from '@apollo/client'
 import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type GetLevelsQueryVariables = Types.Exact<{ [key: string]: never }>
 
 export type GetLevelsQuery = { __typename?: 'Query' } & Pick<Types.Query, 'levels'>
@@ -35,15 +36,14 @@ export const GetLevelsDocument = gql`
 export function useGetLevelsQuery(
   baseOptions?: Apollo.QueryHookOptions<GetLevelsQuery, GetLevelsQueryVariables>,
 ) {
-  return Apollo.useQuery<GetLevelsQuery, GetLevelsQueryVariables>(GetLevelsDocument, baseOptions)
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetLevelsQuery, GetLevelsQueryVariables>(GetLevelsDocument, options)
 }
 export function useGetLevelsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<GetLevelsQuery, GetLevelsQueryVariables>,
 ) {
-  return Apollo.useLazyQuery<GetLevelsQuery, GetLevelsQueryVariables>(
-    GetLevelsDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetLevelsQuery, GetLevelsQueryVariables>(GetLevelsDocument, options)
 }
 export type GetLevelsQueryHookResult = ReturnType<typeof useGetLevelsQuery>
 export type GetLevelsLazyQueryHookResult = ReturnType<typeof useGetLevelsLazyQuery>

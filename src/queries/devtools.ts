@@ -7,6 +7,7 @@ import * as Types from '../types/graphql'
 
 import { gql } from '@apollo/client'
 import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type GetDevtoolsQueryVariables = Types.Exact<{ [key: string]: never }>
 
 export type GetDevtoolsQuery = { __typename?: 'Query' } & {
@@ -54,17 +55,16 @@ export const GetDevtoolsDocument = gql`
 export function useGetDevtoolsQuery(
   baseOptions?: Apollo.QueryHookOptions<GetDevtoolsQuery, GetDevtoolsQueryVariables>,
 ) {
-  return Apollo.useQuery<GetDevtoolsQuery, GetDevtoolsQueryVariables>(
-    GetDevtoolsDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetDevtoolsQuery, GetDevtoolsQueryVariables>(GetDevtoolsDocument, options)
 }
 export function useGetDevtoolsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<GetDevtoolsQuery, GetDevtoolsQueryVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useLazyQuery<GetDevtoolsQuery, GetDevtoolsQueryVariables>(
     GetDevtoolsDocument,
-    baseOptions,
+    options,
   )
 }
 export type GetDevtoolsQueryHookResult = ReturnType<typeof useGetDevtoolsQuery>
@@ -94,9 +94,10 @@ export const GetDevToolsAccessDocument = gql`
 export function useGetDevToolsAccessQuery(
   baseOptions?: Apollo.QueryHookOptions<GetDevToolsAccessQuery, GetDevToolsAccessQueryVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useQuery<GetDevToolsAccessQuery, GetDevToolsAccessQueryVariables>(
     GetDevToolsAccessDocument,
-    baseOptions,
+    options,
   )
 }
 export function useGetDevToolsAccessLazyQuery(
@@ -105,9 +106,10 @@ export function useGetDevToolsAccessLazyQuery(
     GetDevToolsAccessQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useLazyQuery<GetDevToolsAccessQuery, GetDevToolsAccessQueryVariables>(
     GetDevToolsAccessDocument,
-    baseOptions,
+    options,
   )
 }
 export type GetDevToolsAccessQueryHookResult = ReturnType<typeof useGetDevToolsAccessQuery>

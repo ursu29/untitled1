@@ -1,21 +1,21 @@
-import { Alert, Input, Skeleton, Tag, Tree } from 'antd'
-import { LoadingOutlined } from '@ant-design/icons'
+import { Input, Skeleton, Tag, Tree } from 'antd'
 import React, { useState } from 'react'
-import { FilesPick } from '../../queries/getSharedFiles'
+import { SharedFileFragmentFragment } from '../../queries/getSharedFiles'
 import { FileList } from './FileList'
 
 const { CheckableTag } = Tag
 
+type Files = SharedFileFragmentFragment[]
+
 interface Props {
   loading: boolean
-  hasMore: boolean
-  files?: FilesPick[]
+  files?: Files
 }
 
-export default function SharedFileList({ files, loading, hasMore }: Props) {
+export default function SharedFileList({ files, loading }: Props) {
   const [chosenFiles, setChosenFiles]: any = useState([])
   const [filter, setFilter] = useState('')
-  const [type, setType] = useState<FilesPick['type'] | 'folders' | null>('folders')
+  const [type, setType] = useState<string | 'folders' | null>('folders')
 
   if (!loading && !files) return null
 
@@ -24,7 +24,7 @@ export default function SharedFileList({ files, loading, hasMore }: Props) {
     return item.type === type
   })
 
-  const filteredFiles: FilesPick[] = (filteredByTypeFiles || []).filter(file => {
+  const filteredFiles = (filteredByTypeFiles || []).filter(file => {
     return file.fileName?.toLowerCase().includes(filter.trim().toLowerCase())
   })
 
@@ -35,7 +35,7 @@ export default function SharedFileList({ files, loading, hasMore }: Props) {
   // Parse files paths to define folders
   filteredFiles.forEach(file => {
     const path = file.url
-      .match(/shared%20documents\/Guilds\/.*/i)?.[0]
+      ?.match(/shared%20documents\/Guilds\/.*/i)?.[0]
       .replace(/shared%20documents\/Guilds\//i, '')
     if (path) flatPathsList.push(`Guilds/${path}`)
   })
@@ -120,10 +120,6 @@ export default function SharedFileList({ files, loading, hasMore }: Props) {
         </CheckableTag>
       </div>
 
-      {hasMore && (
-        <Alert type="info" showIcon icon={<LoadingOutlined spin />} message="Synchronizing files" />
-      )}
-
       {type === 'folders' ? (
         <div style={{ display: 'flex', marginTop: '20px' }}>
           <div
@@ -150,7 +146,7 @@ export default function SharedFileList({ files, loading, hasMore }: Props) {
           >
             <FileList
               files={filteredByTypeFiles.filter(e =>
-                chosenFiles.some((chosenFile: any) => e.url.includes(chosenFile.key)),
+                chosenFiles.some((chosenFile: any) => e.url?.includes(chosenFile.key)),
               )}
             />
           </div>

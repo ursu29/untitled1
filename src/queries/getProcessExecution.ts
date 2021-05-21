@@ -14,6 +14,7 @@ export default gql`
     processExecutions(input: $input) {
       id
       status
+      substatus
       locations
       process {
         id
@@ -81,6 +82,7 @@ export default gql`
 type ProcessExecutionPick = {
   id: string
   status: ProcessExecution['status']
+  substatus: ProcessExecution['substatus']
   locations: LOCATION[]
   process: Pick<Process, 'id' | 'type' | 'title' | 'customer'> & {
     steps: ProcessStepDetails[]

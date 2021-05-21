@@ -7,6 +7,7 @@ import * as Types from '../types/graphql'
 
 import { gql } from '@apollo/client'
 import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type GameScoreFragmentFragment = { __typename?: 'GameScore' } & Pick<
   Types.GameScore,
   'id' | 'position' | 'score' | 'date'
@@ -77,9 +78,10 @@ export const GetGameLeaderboardDocument = gql`
 export function useGetGameLeaderboardQuery(
   baseOptions: Apollo.QueryHookOptions<GetGameLeaderboardQuery, GetGameLeaderboardQueryVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useQuery<GetGameLeaderboardQuery, GetGameLeaderboardQueryVariables>(
     GetGameLeaderboardDocument,
-    baseOptions,
+    options,
   )
 }
 export function useGetGameLeaderboardLazyQuery(
@@ -88,9 +90,10 @@ export function useGetGameLeaderboardLazyQuery(
     GetGameLeaderboardQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useLazyQuery<GetGameLeaderboardQuery, GetGameLeaderboardQueryVariables>(
     GetGameLeaderboardDocument,
-    baseOptions,
+    options,
   )
 }
 export type GetGameLeaderboardQueryHookResult = ReturnType<typeof useGetGameLeaderboardQuery>
@@ -133,9 +136,10 @@ export type StartGameMutationFn = Apollo.MutationFunction<
 export function useStartGameMutation(
   baseOptions?: Apollo.MutationHookOptions<StartGameMutation, StartGameMutationVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useMutation<StartGameMutation, StartGameMutationVariables>(
     StartGameDocument,
-    baseOptions,
+    options,
   )
 }
 export type StartGameMutationHookResult = ReturnType<typeof useStartGameMutation>
@@ -180,9 +184,10 @@ export function useUpdateGameScoreMutation(
     UpdateGameScoreMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useMutation<UpdateGameScoreMutation, UpdateGameScoreMutationVariables>(
     UpdateGameScoreDocument,
-    baseOptions,
+    options,
   )
 }
 export type UpdateGameScoreMutationHookResult = ReturnType<typeof useUpdateGameScoreMutation>

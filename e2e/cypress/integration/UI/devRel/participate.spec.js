@@ -36,8 +36,7 @@ describe('participate to event (devRel)', () => {
         cy.getElement(process.create).click()
         cy.getId(title).type(randomValues.title)
         cy.getId(date).click().type(pastDay).type('{enter}')
-        cy.get(activeData).type(todaysDate)
-        cy.getId(title).click()
+        cy.get(activeData).type(todaysDate).type('{enter}')
         cy.getId(link).type(randomValues.link)
         cy.getElement(submit).click()
 

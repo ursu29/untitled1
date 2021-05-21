@@ -7,6 +7,7 @@ import * as Types from '../types/graphql'
 
 import { gql } from '@apollo/client'
 import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type ProposeMatrixChangesMutationVariables = Types.Exact<{
   input: Types.ProposeMatrixChangesInput
 }>
@@ -49,9 +50,10 @@ export function useProposeMatrixChangesMutation(
     ProposeMatrixChangesMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useMutation<ProposeMatrixChangesMutation, ProposeMatrixChangesMutationVariables>(
     ProposeMatrixChangesDocument,
-    baseOptions,
+    options,
   )
 }
 export type ProposeMatrixChangesMutationHookResult = ReturnType<

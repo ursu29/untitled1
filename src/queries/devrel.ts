@@ -7,6 +7,7 @@ import * as Types from '../types/graphql'
 
 import { gql } from '@apollo/client'
 import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type GetDevrelsQueryVariables = Types.Exact<{
   type: Types.Scalars['String']
 }>
@@ -105,15 +106,14 @@ export const GetDevrelsDocument = gql`
 export function useGetDevrelsQuery(
   baseOptions: Apollo.QueryHookOptions<GetDevrelsQuery, GetDevrelsQueryVariables>,
 ) {
-  return Apollo.useQuery<GetDevrelsQuery, GetDevrelsQueryVariables>(GetDevrelsDocument, baseOptions)
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetDevrelsQuery, GetDevrelsQueryVariables>(GetDevrelsDocument, options)
 }
 export function useGetDevrelsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<GetDevrelsQuery, GetDevrelsQueryVariables>,
 ) {
-  return Apollo.useLazyQuery<GetDevrelsQuery, GetDevrelsQueryVariables>(
-    GetDevrelsDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetDevrelsQuery, GetDevrelsQueryVariables>(GetDevrelsDocument, options)
 }
 export type GetDevrelsQueryHookResult = ReturnType<typeof useGetDevrelsQuery>
 export type GetDevrelsLazyQueryHookResult = ReturnType<typeof useGetDevrelsLazyQuery>
@@ -150,9 +150,10 @@ export type CreateDevrelMutationFn = Apollo.MutationFunction<
 export function useCreateDevrelMutation(
   baseOptions?: Apollo.MutationHookOptions<CreateDevrelMutation, CreateDevrelMutationVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useMutation<CreateDevrelMutation, CreateDevrelMutationVariables>(
     CreateDevrelDocument,
-    baseOptions,
+    options,
   )
 }
 export type CreateDevrelMutationHookResult = ReturnType<typeof useCreateDevrelMutation>
@@ -193,9 +194,10 @@ export type UpdateDevrelMutationFn = Apollo.MutationFunction<
 export function useUpdateDevrelMutation(
   baseOptions?: Apollo.MutationHookOptions<UpdateDevrelMutation, UpdateDevrelMutationVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useMutation<UpdateDevrelMutation, UpdateDevrelMutationVariables>(
     UpdateDevrelDocument,
-    baseOptions,
+    options,
   )
 }
 export type UpdateDevrelMutationHookResult = ReturnType<typeof useUpdateDevrelMutation>
@@ -236,9 +238,10 @@ export type DeleteDevrelMutationFn = Apollo.MutationFunction<
 export function useDeleteDevrelMutation(
   baseOptions?: Apollo.MutationHookOptions<DeleteDevrelMutation, DeleteDevrelMutationVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useMutation<DeleteDevrelMutation, DeleteDevrelMutationVariables>(
     DeleteDevrelDocument,
-    baseOptions,
+    options,
   )
 }
 export type DeleteDevrelMutationHookResult = ReturnType<typeof useDeleteDevrelMutation>
@@ -280,9 +283,10 @@ export function useProposeDevrelEventMutation(
     ProposeDevrelEventMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useMutation<ProposeDevrelEventMutation, ProposeDevrelEventMutationVariables>(
     ProposeDevrelEventDocument,
-    baseOptions,
+    options,
   )
 }
 export type ProposeDevrelEventMutationHookResult = ReturnType<typeof useProposeDevrelEventMutation>
@@ -324,17 +328,17 @@ export function useParticipateDevrelEventMutation(
     ParticipateDevrelEventMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useMutation<
     ParticipateDevrelEventMutation,
     ParticipateDevrelEventMutationVariables
-  >(ParticipateDevrelEventDocument, baseOptions)
+  >(ParticipateDevrelEventDocument, options)
 }
 export type ParticipateDevrelEventMutationHookResult = ReturnType<
   typeof useParticipateDevrelEventMutation
 >
-export type ParticipateDevrelEventMutationResult = Apollo.MutationResult<
-  ParticipateDevrelEventMutation
->
+export type ParticipateDevrelEventMutationResult =
+  Apollo.MutationResult<ParticipateDevrelEventMutation>
 export type ParticipateDevrelEventMutationOptions = Apollo.BaseMutationOptions<
   ParticipateDevrelEventMutation,
   ParticipateDevrelEventMutationVariables

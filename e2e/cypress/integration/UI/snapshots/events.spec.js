@@ -8,7 +8,7 @@ describe('Visual regression employees page', () => {
     const title = `title ${todaysDate}`
 
     before(() => {
-        cy.setToken('employee')
+        cy.setToken('manager')
         cy.post(createEvent(eventData(title, todaysDate, pastDay))).then(res => {
             eventId = res.body.data.createEvent.id
             expect(eventId.length).to.be.greaterThan(0)
@@ -27,6 +27,7 @@ describe('Visual regression employees page', () => {
     })
 
     it(`Should match previous screenshot employees Page`, () => {
+
         cy.wait(500) //TODO: need to look more clear solution
         cy.get(eventsEl.modal).matchImageSnapshot('eventModal')
     })

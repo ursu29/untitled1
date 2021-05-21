@@ -7,6 +7,7 @@ import * as Types from '../types/graphql'
 
 import { gql } from '@apollo/client'
 import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type GetFeedbacksQueryVariables = Types.Exact<{
   input: Types.FeedbacksInput
 }>
@@ -95,17 +96,19 @@ export const GetFeedbacksDocument = gql`
 export function useGetFeedbacksQuery(
   baseOptions: Apollo.QueryHookOptions<GetFeedbacksQuery, GetFeedbacksQueryVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useQuery<GetFeedbacksQuery, GetFeedbacksQueryVariables>(
     GetFeedbacksDocument,
-    baseOptions,
+    options,
   )
 }
 export function useGetFeedbacksLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<GetFeedbacksQuery, GetFeedbacksQueryVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useLazyQuery<GetFeedbacksQuery, GetFeedbacksQueryVariables>(
     GetFeedbacksDocument,
-    baseOptions,
+    options,
   )
 }
 export type GetFeedbacksQueryHookResult = ReturnType<typeof useGetFeedbacksQuery>
@@ -146,9 +149,10 @@ export type AddFeedbackMutationFn = Apollo.MutationFunction<
 export function useAddFeedbackMutation(
   baseOptions?: Apollo.MutationHookOptions<AddFeedbackMutation, AddFeedbackMutationVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useMutation<AddFeedbackMutation, AddFeedbackMutationVariables>(
     AddFeedbackDocument,
-    baseOptions,
+    options,
   )
 }
 export type AddFeedbackMutationHookResult = ReturnType<typeof useAddFeedbackMutation>
@@ -191,9 +195,10 @@ export type ReplyFeedbackMutationFn = Apollo.MutationFunction<
 export function useReplyFeedbackMutation(
   baseOptions?: Apollo.MutationHookOptions<ReplyFeedbackMutation, ReplyFeedbackMutationVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useMutation<ReplyFeedbackMutation, ReplyFeedbackMutationVariables>(
     ReplyFeedbackDocument,
-    baseOptions,
+    options,
   )
 }
 export type ReplyFeedbackMutationHookResult = ReturnType<typeof useReplyFeedbackMutation>
@@ -228,9 +233,10 @@ export const GetFeedbackAccessDocument = gql`
 export function useGetFeedbackAccessQuery(
   baseOptions?: Apollo.QueryHookOptions<GetFeedbackAccessQuery, GetFeedbackAccessQueryVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useQuery<GetFeedbackAccessQuery, GetFeedbackAccessQueryVariables>(
     GetFeedbackAccessDocument,
-    baseOptions,
+    options,
   )
 }
 export function useGetFeedbackAccessLazyQuery(
@@ -239,9 +245,10 @@ export function useGetFeedbackAccessLazyQuery(
     GetFeedbackAccessQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useLazyQuery<GetFeedbackAccessQuery, GetFeedbackAccessQueryVariables>(
     GetFeedbackAccessDocument,
-    baseOptions,
+    options,
   )
 }
 export type GetFeedbackAccessQueryHookResult = ReturnType<typeof useGetFeedbackAccessQuery>
