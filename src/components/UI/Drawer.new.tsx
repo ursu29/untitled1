@@ -2,7 +2,7 @@ import React from 'react'
 import { Drawer } from 'antd'
 import { useMediaQuery } from 'react-responsive'
 
-export default function ({
+export default function PortalDrawerNew({
   visible,
   onClose,
   size = 'default',

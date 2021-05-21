@@ -5,9 +5,9 @@
  */
 import * as Types from '../types/graphql'
 
-import gql from 'graphql-tag'
-import * as ApolloReactCommon from '@apollo/react-common'
-import * as ApolloReactHooks from '@apollo/react-hooks'
+import { gql } from '@apollo/client'
+import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type SharedFileFragmentFragment = { __typename?: 'SharedFile' } & Pick<
   Types.SharedFile,
   'id' | 'url' | 'fileName' | 'createdAt' | 'size' | 'type'
@@ -72,24 +72,20 @@ export const SharedFilesDocument = gql`
  * });
  */
 export function useSharedFilesQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<SharedFilesQuery, SharedFilesQueryVariables>,
+  baseOptions?: Apollo.QueryHookOptions<SharedFilesQuery, SharedFilesQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<SharedFilesQuery, SharedFilesQueryVariables>(
-    SharedFilesDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<SharedFilesQuery, SharedFilesQueryVariables>(SharedFilesDocument, options)
 }
 export function useSharedFilesLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SharedFilesQuery, SharedFilesQueryVariables>,
+  baseOptions?: Apollo.LazyQueryHookOptions<SharedFilesQuery, SharedFilesQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<SharedFilesQuery, SharedFilesQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<SharedFilesQuery, SharedFilesQueryVariables>(
     SharedFilesDocument,
-    baseOptions,
+    options,
   )
 }
 export type SharedFilesQueryHookResult = ReturnType<typeof useSharedFilesQuery>
 export type SharedFilesLazyQueryHookResult = ReturnType<typeof useSharedFilesLazyQuery>
-export type SharedFilesQueryResult = ApolloReactCommon.QueryResult<
-  SharedFilesQuery,
-  SharedFilesQueryVariables
->
+export type SharedFilesQueryResult = Apollo.QueryResult<SharedFilesQuery, SharedFilesQueryVariables>

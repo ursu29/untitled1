@@ -167,7 +167,7 @@ interface Props {
   itemsSliceCount?: number
 }
 
-export default ({ items, title = '', itemsSliceCount = 30 }: Props) => {
+export default function SkillStatistic({ items, title = '', itemsSliceCount = 30 }: Props) {
   const highestValue = items[0].rate
 
   if (highestValue === 0 || !items.length)

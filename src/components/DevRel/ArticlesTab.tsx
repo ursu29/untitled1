@@ -58,7 +58,7 @@ export default function ArticlesTab({
     onError: message.error,
   })
 
-  const articles = data?.devrels.sort((a, b) => (a?.isCompleted ? 1 : -1)) || []
+  const articles = data?.devrels.slice().sort((a, b) => (a?.isCompleted ? 1 : -1)) || []
 
   const columns = [
     {

@@ -1,6 +1,6 @@
+import { useQuery, gql } from "@apollo/client";
 import React from 'react'
 import { RouteComponentProps, withRouter, matchPath } from 'react-router-dom'
-import gql from 'graphql-tag'
 import {
   SolutionOutlined,
   FormOutlined,
@@ -10,7 +10,6 @@ import {
   CrownOutlined,
   StarOutlined,
 } from '@ant-design/icons'
-import { useQuery } from '@apollo/react-hooks'
 import paths from '../../paths'
 import { Employee, Access } from '../../types'
 import Skeleton from '../UI/Skeleton'

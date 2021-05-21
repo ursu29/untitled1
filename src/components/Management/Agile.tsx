@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/client'
 import { Collapse, Table, Spin } from 'antd'
 import gql from 'graphql-tag'
 import React from 'react'
@@ -46,9 +46,10 @@ export default function Agile() {
   const employees = data?.employees
 
   // Get all projects
-  const { data: projectsData } = useQuery<{
-    projects: (ProjectDetails & { employees: { id: string }[] })[]
-  }>(getProjects)
+  const { data: projectsData } =
+    useQuery<{
+      projects: (ProjectDetails & { employees: { id: string }[] })[]
+    }>(getProjects)
 
   // Parse agile managers from employees
   const agileManagers = employees

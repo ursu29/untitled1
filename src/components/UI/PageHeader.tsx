@@ -7,7 +7,7 @@ interface CustomProps {
   withoutDivider?: boolean
 }
 
-export default function ({
+export default function PortalPageHeader({
   withBack,
   withoutDivider,
   ...props

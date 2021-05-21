@@ -1,6 +1,6 @@
+import { useQuery } from "@apollo/client";
 import { Button, Form, InputNumber, Checkbox } from 'antd'
 import React, { useState, useEffect } from 'react'
-import { useQuery } from '@apollo/react-hooks'
 import getEmployeeProjects, {
   GetEmployeeProjectsQuery,
   GetEmployeeProjectsVariables,

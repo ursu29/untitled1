@@ -17,6 +17,7 @@ export const LibraryPage = () => {
   const [searchFilter, setSearchFilter] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const books = data?.books.sort((a, b) => (a.holder?.id ? 1 : -1)) || []
 
   useEffect(() => {

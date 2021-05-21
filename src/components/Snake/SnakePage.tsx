@@ -20,10 +20,12 @@ const SnakePage = () => {
   })
   const refetchLeaderboardQuery = { query: GetGameLeaderboardDocument, variables }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const leaderboards = data?.gameLeaderboard || []
-  const highScore = useMemo(() => Math.max(...leaderboards.map(({ score }) => score)), [
-    leaderboards,
-  ])
+  const highScore = useMemo(
+    () => Math.max(...leaderboards.map(({ score }) => score)),
+    [leaderboards],
+  )
 
   return (
     <>

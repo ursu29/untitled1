@@ -1,18 +1,18 @@
+import { useQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import { Modal, Button, Space, Alert, Typography, Popconfirm, Input, Form } from 'antd'
-import { useQuery } from '@apollo/react-hooks'
 import dayjs from 'dayjs'
 import Technologies from '../UI/Technologies'
 import { getEvent, attendEvent, attendEventEveryone, cancelEvent } from '../../queries/events'
 import { CalendarEvent } from '../../types'
 import ExternalLinkIcon from '../../svg/external-link.svg'
 import Avatar from '../Avatar'
-import { useMutation } from '@apollo/react-hooks'
 import message from '../../message'
 import EmployeeCard from '../Employees/EmployeeCard.new'
 import { useEmployee } from '../../utils/withEmployee'
 import { QuestionCircleOutlined } from '@ant-design/icons'
 import { makeExternalUrl } from '../../utils/links'
+import { useMutation } from '@apollo/client'
 
 export default function ModalEventSignUp({
   visible,

@@ -5,9 +5,9 @@
  */
 import * as Types from '../types/graphql'
 
-import gql from 'graphql-tag'
-import * as ApolloReactCommon from '@apollo/react-common'
-import * as ApolloReactHooks from '@apollo/react-hooks'
+import { gql } from '@apollo/client'
+import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type BookResponseFragment = { __typename?: 'Book' } & Pick<
   Types.Book,
   'id' | 'title' | 'author'
@@ -97,27 +97,20 @@ export const GetBooksDocument = gql`
  * });
  */
 export function useGetBooksQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<GetBooksQuery, GetBooksQueryVariables>,
+  baseOptions?: Apollo.QueryHookOptions<GetBooksQuery, GetBooksQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<GetBooksQuery, GetBooksQueryVariables>(
-    GetBooksDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetBooksQuery, GetBooksQueryVariables>(GetBooksDocument, options)
 }
 export function useGetBooksLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetBooksQuery, GetBooksQueryVariables>,
+  baseOptions?: Apollo.LazyQueryHookOptions<GetBooksQuery, GetBooksQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<GetBooksQuery, GetBooksQueryVariables>(
-    GetBooksDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetBooksQuery, GetBooksQueryVariables>(GetBooksDocument, options)
 }
 export type GetBooksQueryHookResult = ReturnType<typeof useGetBooksQuery>
 export type GetBooksLazyQueryHookResult = ReturnType<typeof useGetBooksLazyQuery>
-export type GetBooksQueryResult = ApolloReactCommon.QueryResult<
-  GetBooksQuery,
-  GetBooksQueryVariables
->
+export type GetBooksQueryResult = Apollo.QueryResult<GetBooksQuery, GetBooksQueryVariables>
 export const CreateBookDocument = gql`
   mutation createBook($input: CreateBookInput) {
     createBook(input: $input) {
@@ -126,7 +119,7 @@ export const CreateBookDocument = gql`
   }
   ${BookResponseFragmentDoc}
 `
-export type CreateBookMutationFn = ApolloReactCommon.MutationFunction<
+export type CreateBookMutationFn = Apollo.MutationFunction<
   CreateBookMutation,
   CreateBookMutationVariables
 >
@@ -149,19 +142,17 @@ export type CreateBookMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useCreateBookMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    CreateBookMutation,
-    CreateBookMutationVariables
-  >,
+  baseOptions?: Apollo.MutationHookOptions<CreateBookMutation, CreateBookMutationVariables>,
 ) {
-  return ApolloReactHooks.useMutation<CreateBookMutation, CreateBookMutationVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<CreateBookMutation, CreateBookMutationVariables>(
     CreateBookDocument,
-    baseOptions,
+    options,
   )
 }
 export type CreateBookMutationHookResult = ReturnType<typeof useCreateBookMutation>
-export type CreateBookMutationResult = ApolloReactCommon.MutationResult<CreateBookMutation>
-export type CreateBookMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type CreateBookMutationResult = Apollo.MutationResult<CreateBookMutation>
+export type CreateBookMutationOptions = Apollo.BaseMutationOptions<
   CreateBookMutation,
   CreateBookMutationVariables
 >
@@ -173,7 +164,7 @@ export const UpdateBookDocument = gql`
   }
   ${BookResponseFragmentDoc}
 `
-export type UpdateBookMutationFn = ApolloReactCommon.MutationFunction<
+export type UpdateBookMutationFn = Apollo.MutationFunction<
   UpdateBookMutation,
   UpdateBookMutationVariables
 >
@@ -196,19 +187,17 @@ export type UpdateBookMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useUpdateBookMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    UpdateBookMutation,
-    UpdateBookMutationVariables
-  >,
+  baseOptions?: Apollo.MutationHookOptions<UpdateBookMutation, UpdateBookMutationVariables>,
 ) {
-  return ApolloReactHooks.useMutation<UpdateBookMutation, UpdateBookMutationVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UpdateBookMutation, UpdateBookMutationVariables>(
     UpdateBookDocument,
-    baseOptions,
+    options,
   )
 }
 export type UpdateBookMutationHookResult = ReturnType<typeof useUpdateBookMutation>
-export type UpdateBookMutationResult = ApolloReactCommon.MutationResult<UpdateBookMutation>
-export type UpdateBookMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type UpdateBookMutationResult = Apollo.MutationResult<UpdateBookMutation>
+export type UpdateBookMutationOptions = Apollo.BaseMutationOptions<
   UpdateBookMutation,
   UpdateBookMutationVariables
 >
@@ -220,7 +209,7 @@ export const RemoveBookDocument = gql`
   }
   ${BookResponseFragmentDoc}
 `
-export type RemoveBookMutationFn = ApolloReactCommon.MutationFunction<
+export type RemoveBookMutationFn = Apollo.MutationFunction<
   RemoveBookMutation,
   RemoveBookMutationVariables
 >
@@ -243,19 +232,17 @@ export type RemoveBookMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useRemoveBookMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    RemoveBookMutation,
-    RemoveBookMutationVariables
-  >,
+  baseOptions?: Apollo.MutationHookOptions<RemoveBookMutation, RemoveBookMutationVariables>,
 ) {
-  return ApolloReactHooks.useMutation<RemoveBookMutation, RemoveBookMutationVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<RemoveBookMutation, RemoveBookMutationVariables>(
     RemoveBookDocument,
-    baseOptions,
+    options,
   )
 }
 export type RemoveBookMutationHookResult = ReturnType<typeof useRemoveBookMutation>
-export type RemoveBookMutationResult = ApolloReactCommon.MutationResult<RemoveBookMutation>
-export type RemoveBookMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type RemoveBookMutationResult = Apollo.MutationResult<RemoveBookMutation>
+export type RemoveBookMutationOptions = Apollo.BaseMutationOptions<
   RemoveBookMutation,
   RemoveBookMutationVariables
 >
@@ -267,7 +254,7 @@ export const TakeBookDocument = gql`
   }
   ${BookResponseFragmentDoc}
 `
-export type TakeBookMutationFn = ApolloReactCommon.MutationFunction<
+export type TakeBookMutationFn = Apollo.MutationFunction<
   TakeBookMutation,
   TakeBookMutationVariables
 >
@@ -290,16 +277,14 @@ export type TakeBookMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useTakeBookMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<TakeBookMutation, TakeBookMutationVariables>,
+  baseOptions?: Apollo.MutationHookOptions<TakeBookMutation, TakeBookMutationVariables>,
 ) {
-  return ApolloReactHooks.useMutation<TakeBookMutation, TakeBookMutationVariables>(
-    TakeBookDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<TakeBookMutation, TakeBookMutationVariables>(TakeBookDocument, options)
 }
 export type TakeBookMutationHookResult = ReturnType<typeof useTakeBookMutation>
-export type TakeBookMutationResult = ApolloReactCommon.MutationResult<TakeBookMutation>
-export type TakeBookMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type TakeBookMutationResult = Apollo.MutationResult<TakeBookMutation>
+export type TakeBookMutationOptions = Apollo.BaseMutationOptions<
   TakeBookMutation,
   TakeBookMutationVariables
 >

@@ -1,6 +1,6 @@
+import { useQuery } from "@apollo/client";
 import React from 'react'
 import query, { QueryType } from '../../queries/getEmployees'
-import { useQuery } from '@apollo/react-hooks'
 import EmployeesList from './EmployeesList'
 import Skeleton from '../UI/Skeleton'
 

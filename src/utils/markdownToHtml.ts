@@ -97,7 +97,7 @@ const converter = new Showdown.Converter({
   extensions: ['injectExtensions'],
 })
 
-export default function (body: string) {
+export default function markdownToHtml(body: string) {
   // sanitize body - replace dangerous words with the same with cyrillic letters
   const sanBody = body?.replace(/localStorage/g, 'lоcalStоrage')
   return converter.makeHtml(sanBody)

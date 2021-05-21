@@ -5,9 +5,9 @@
  */
 import * as Types from '../types/graphql'
 
-import gql from 'graphql-tag'
-import * as ApolloReactCommon from '@apollo/react-common'
-import * as ApolloReactHooks from '@apollo/react-hooks'
+import { gql } from '@apollo/client'
+import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type FileDetailsFragmentFragment = { __typename?: 'SharedFile' } & Pick<
   Types.SharedFile,
   'id'
@@ -38,7 +38,7 @@ export const UpdateFileDetailsDocument = gql`
   }
   ${FileDetailsFragmentFragmentDoc}
 `
-export type UpdateFileDetailsMutationFn = ApolloReactCommon.MutationFunction<
+export type UpdateFileDetailsMutationFn = Apollo.MutationFunction<
   UpdateFileDetailsMutation,
   UpdateFileDetailsMutationVariables
 >
@@ -61,21 +61,20 @@ export type UpdateFileDetailsMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useUpdateFileDetailsMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
+  baseOptions?: Apollo.MutationHookOptions<
     UpdateFileDetailsMutation,
     UpdateFileDetailsMutationVariables
   >,
 ) {
-  return ApolloReactHooks.useMutation<
-    UpdateFileDetailsMutation,
-    UpdateFileDetailsMutationVariables
-  >(UpdateFileDetailsDocument, baseOptions)
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UpdateFileDetailsMutation, UpdateFileDetailsMutationVariables>(
+    UpdateFileDetailsDocument,
+    options,
+  )
 }
 export type UpdateFileDetailsMutationHookResult = ReturnType<typeof useUpdateFileDetailsMutation>
-export type UpdateFileDetailsMutationResult = ApolloReactCommon.MutationResult<
-  UpdateFileDetailsMutation
->
-export type UpdateFileDetailsMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type UpdateFileDetailsMutationResult = Apollo.MutationResult<UpdateFileDetailsMutation>
+export type UpdateFileDetailsMutationOptions = Apollo.BaseMutationOptions<
   UpdateFileDetailsMutation,
   UpdateFileDetailsMutationVariables
 >

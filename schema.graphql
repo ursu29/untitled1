@@ -9,6 +9,46 @@ directive @cacheControl(
   scope: CacheControlScope
 ) on FIELD_DEFINITION | OBJECT | INTERFACE
 
+enum LANGUAGE {
+  RU
+  EN
+}
+
+enum LEVEL {
+  WANTED
+  LEARNING
+  EXPERIENCED
+  CONFIDENT
+}
+
+enum LOCATION {
+  SAINT_PETERSBURG
+  KALININGRAD
+  TOMSK
+  ZURICH
+}
+
+enum CUSTOMER {
+  INTERNAL
+  SWISSRE
+  ALLIANZ
+}
+
+enum ACCESS_GROUP {
+  REVIEWERS
+  FEEDBACK
+  HR_RU
+  HR_EDITORS
+  NEWS_EDITORS
+  TECH_PORTAL
+  DEV_PORTAL
+  WORKSPACE_PLANNER
+  SYS_ADMINS
+  HR_ADMINS
+  SUPER_USER
+  WIKI_EDITORS
+}
+
 enum AllowedGroups {
   GENERAL
   GENERAL_EXC_ME
@@ -848,12 +888,12 @@ type Query {
   postBySlug(slug: String!): Post
   posts(first: Int, after: ID, filter: PostsFilter): [Post]
   postsEditor: Access @deprecated(reason: "will be moved to employee.access.posts")
-  processesAccess: Access
-  process(id: ID!): Process
-  processes: [Process]
   processExecutionsAccess: Access
   processExecution(id: ID!): ProcessExecution
   processExecutions(input: ProcessExecutionsInput): [ProcessExecution]
+  processesAccess: Access
+  process(id: ID!): Process
+  processes: [Process]
   project(id: ID!): Project
   projectByCode(code: String!): Project
   projects: [Project]
@@ -945,12 +985,6 @@ type Mutation {
   createPost(input: CreatePostInput): Post
   updatePost(input: UpdatePostInput): Post
   deletePost(input: DeletePostInput): Post
-  createProcess(input: CreateProcessInput): Process
-  updateProcess(input: UpdateProcessInput): Process
-  deleteProcess(id: ID!): Process
-  createProcessStep(input: CreateProcessStepInput): ProcessStep
-  updateProcessStep(input: UpdateProcessStepInput): ProcessStep
-  deleteProcessStep(id: ID!): ProcessStep
   createProcessExecution(input: CreateProcessExecutionInput): ProcessExecution
   updateProcessExecution(input: UpdateProcessExecutionInput): ProcessExecution
   abortProcessExecution(input: AbortProcessExecutionInput!): ProcessExecution
@@ -958,6 +992,12 @@ type Mutation {
   rotateEmployee(input: RotateEmployeeInput!): ProcessExecution
   completeProcessExecutionStep(input: CompleteProcessExecutionStepInput!): ProcessExecutionStep
   commentProcessExecutionStep(input: CommentProcessExecutionStepInput!): ProcessExecutionStep
+  createProcess(input: CreateProcessInput): Process
+  updateProcess(input: UpdateProcessInput): Process
+  deleteProcess(id: ID!): Process
+  createProcessStep(input: CreateProcessStepInput): ProcessStep
+  updateProcessStep(input: UpdateProcessStepInput): ProcessStep
+  deleteProcessStep(id: ID!): ProcessStep
   updateProject(input: UpdateProjectInput!): Project
   updateProjectSkills(input: UpdateProjectSkillsInput!): Project
   createSkill(input: CreateSkillInput): Skill
@@ -1247,74 +1287,6 @@ input PostsFilter {
   text: String
 }
 
-enum PROCESS_TYPE {
-  ROTATION
-  ONBOARDING
-  OFFBOARDING
-}
-
-enum PROCESS_STEP_TYPE {
-  APPROVE
-  NOTIFY
-  INDEPENDENT
-}
-
-type ProcessStep {
-  id: ID!
-  title: String
-  description: String
-  type: PROCESS_STEP_TYPE
-  responsibleUsers: [Employee!]
-  sendToTeamlead: Boolean
-  send24hoursNotification: Boolean
-  isAgileResponsible: Boolean
-  parentSteps: [ProcessStep]
-  process: Process
-  hasComment: Boolean
-}
-
-type Process {
-  id: ID!
-  title: String
-  customer: CUSTOMER
-  nextCustomer: CUSTOMER
-  type: PROCESS_TYPE
-  isRotation: Boolean
-  steps: [ProcessStep]
-}
-
-input CreateProcessInput {
-  title: String
-  customer: CUSTOMER
-  nextCustomer: CUSTOMER
-  type: PROCESS_TYPE
-}
-
-input UpdateProcessInput {
-  id: ID!
-  customer: CUSTOMER
-  type: PROCESS_TYPE
-  isRotation: Boolean
-}
-
-input CreateProcessStepInput {
-  parentSteps: [ID]
-  process: ID!
-}
-
-input UpdateProcessStepInput {
-  id: ID!
-  title: String
-  description: String
-  type: PROCESS_STEP_TYPE
-  responsibleUsers: [ID]
-  sendToTeamlead: Boolean
-  send24hoursNotification: Boolean
-  isAgileResponsible: Boolean
-  parentSteps: [ID]
-  hasComment: Boolean
-}
-
 type ProcessExecutionComment {
   id: ID!
   body: String
@@ -1408,6 +1380,74 @@ input RotateEmployeeInput {
   process: ID!
   locations: [ID]
   employee: ID!
+}
+
+enum PROCESS_TYPE {
+  ROTATION
+  ONBOARDING
+  OFFBOARDING
+}
+
+enum PROCESS_STEP_TYPE {
+  APPROVE
+  NOTIFY
+  INDEPENDENT
+}
+
+type ProcessStep {
+  id: ID!
+  title: String
+  description: String
+  type: PROCESS_STEP_TYPE
+  responsibleUsers: [Employee!]
+  sendToTeamlead: Boolean
+  send24hoursNotification: Boolean
+  isAgileResponsible: Boolean
+  parentSteps: [ProcessStep]
+  process: Process
+  hasComment: Boolean
+}
+
+type Process {
+  id: ID!
+  title: String
+  customer: CUSTOMER
+  nextCustomer: CUSTOMER
+  type: PROCESS_TYPE
+  isRotation: Boolean
+  steps: [ProcessStep]
+}
+
+input CreateProcessInput {
+  title: String
+  customer: CUSTOMER
+  nextCustomer: CUSTOMER
+  type: PROCESS_TYPE
+}
+
+input UpdateProcessInput {
+  id: ID!
+  customer: CUSTOMER
+  type: PROCESS_TYPE
+  isRotation: Boolean
+}
+
+input CreateProcessStepInput {
+  parentSteps: [ID]
+  process: ID!
+}
+
+input UpdateProcessStepInput {
+  id: ID!
+  title: String
+  description: String
+  type: PROCESS_STEP_TYPE
+  responsibleUsers: [ID]
+  sendToTeamlead: Boolean
+  send24hoursNotification: Boolean
+  isAgileResponsible: Boolean
+  parentSteps: [ID]
+  hasComment: Boolean
 }
 
 type Project {
@@ -1648,46 +1688,6 @@ input CreateWorkplaceBookingInput {
 
 input WorkspacesInput {
   location: LOCATION
-}
-
-enum LANGUAGE {
-  RU
-  EN
-}
-
-enum LEVEL {
-  WANTED
-  LEARNING
-  EXPERIENCED
-  CONFIDENT
-}
-
-enum LOCATION {
-  SAINT_PETERSBURG
-  KALININGRAD
-  TOMSK
-  ZURICH
-}
-
-enum CUSTOMER {
-  INTERNAL
-  SWISSRE
-  ALLIANZ
-}
-
-enum ACCESS_GROUP {
-  REVIEWERS
-  FEEDBACK
-  HR_RU
-  HR_EDITORS
-  NEWS_EDITORS
-  TECH_PORTAL
-  DEV_PORTAL
-  WORKSPACE_PLANNER
-  SYS_ADMINS
-  HR_ADMINS
-  SUPER_USER
-  WIKI_EDITORS
 }
 
 enum CacheControlScope {

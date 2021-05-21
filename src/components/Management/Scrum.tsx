@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/client'
 import { Table } from 'antd'
 import gql from 'graphql-tag'
 import React from 'react'
@@ -29,9 +29,13 @@ const getProjects = gql`
 
 export default function Scrum() {
   // Get all projects
-  const { data, loading } = useQuery<{
-    projects: (ProjectDetails & { employees: { id: string }[]; scrumMasters: EmployeeDetails[] })[]
-  }>(getProjects)
+  const { data, loading } =
+    useQuery<{
+      projects: (ProjectDetails & {
+        employees: { id: string }[]
+        scrumMasters: EmployeeDetails[]
+      })[]
+    }>(getProjects)
   const projects = data?.projects
 
   // Parse scrum masters from projects

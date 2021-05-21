@@ -34,6 +34,7 @@ const getListStyle = (isDraggingOver: boolean): any => ({
 
 const sortMapStringify = (items: ExperiencePick[]) =>
   items
+    .slice()
     .sort((one, two) => (one > two ? -1 : 1))
     .map(i => i.id)
     .toString()
@@ -100,6 +101,7 @@ function LevelSection({ level, experiences, editable, onGroupUpdate }: LevelSect
                 <div data-cy={`no${getFirstWord(level)}`}>No skills yet</div>
               )}
               {filteredExperiences
+                .slice()
                 .sort((one, two) => (one.skill.name > two.skill.name ? 1 : -1))
                 .map((item, index) => (
                   <Draggable

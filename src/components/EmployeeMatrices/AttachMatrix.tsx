@@ -1,5 +1,4 @@
-import { useMutation } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
+import { useMutation, gql } from "@apollo/client";
 import React, { useEffect, useState } from 'react'
 import message from '../../message'
 import getEmployeeMatrices from '../../queries/getEmployeeMatrices'

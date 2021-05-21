@@ -24,7 +24,14 @@ interface Props {
 const avatars: Record<string, Record<string, string>> = { high: {}, low: {} }
 const requests: Record<string, Promise<string | null>> = {}
 
-export default function ({ size, shape, employee, showTooltip, highResolution, withHat }: Props) {
+export default function PortalAvatar({
+  size,
+  shape,
+  employee,
+  showTooltip,
+  highResolution,
+  withHat,
+}: Props) {
   const resolution = highResolution ? 'high' : 'low'
   const storedAvatar = avatars[resolution]?.[employee?.email]
   const { token } = useAccessToken()

@@ -42,10 +42,12 @@ export default function Technologies({
           handleSave &&
           technologies
             .map(e => e.id)
+            .slice()
             .sort()
             .join('') !==
             selectedTechnologies
               .map(e => e.id)
+              .slice()
               .sort()
               .join('')
         ) {

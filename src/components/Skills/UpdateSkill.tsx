@@ -1,4 +1,4 @@
-import { RefetchQueryDescription } from 'apollo-client/core/watchQueryOptions'
+import { RefetchQueryDescription } from '@apollo/client/core/watchQueryOptions'
 import React, { useEffect, useState } from 'react'
 import message from '../../message'
 import { GetSkillsDocument, useUpdateSkillMutation } from '../../queries/skills'

@@ -112,6 +112,7 @@ const EmployeeCVEducation = ({ editable, employee, cv }: Props) => {
 
   const cvEducation = cv?.education || []
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedUpdate = useCallback(
     debounce(500, (education?: (EducationInput & { __typename?: string })[]) =>
       update({
@@ -160,6 +161,7 @@ const EmployeeCVEducation = ({ editable, employee, cv }: Props) => {
       <EmployeeCVEducationTable
         editable={editable}
         education={cvEducation
+          .slice()
           .sort((a, b) => {
             if (!a.dateStart && !a.dateEnd) return -1
             if (!a.dateEnd && b.dateEnd) return -1

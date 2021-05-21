@@ -12,7 +12,7 @@ interface Props {
   files?: Files
 }
 
-export default function ({ files, loading }: Props) {
+export default function SharedFileList({ files, loading }: Props) {
   const [chosenFiles, setChosenFiles]: any = useState([])
   const [filter, setFilter] = useState('')
   const [type, setType] = useState<string | 'folders' | null>('folders')
@@ -65,6 +65,7 @@ export default function ({ files, loading }: Props) {
 
     const treeFromList = (list: any, isLeaf = false) =>
       list
+        .slice()
         .sort((a: any, b: any) => (a > b ? 1 : -1))
         .map((key: any) => ({
           title: decodeURI(key),

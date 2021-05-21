@@ -5,6 +5,14 @@ export default class URLAction {
   history: RouteComponentProps['history']
 
   constructor() {
+    /*
+      TODO:
+      src/utils/URLAction.ts
+      Line 8:21:  React Hook "useHistory" cannot be called in a class component. 
+      React Hooks must be called in a React function component or a custom React Hook function  
+      react-hooks/rules-of-hooks
+    */
+    //  eslint-disable-next-line
     const history = useHistory()
     this.params = new URLSearchParams(history.location.search)
     this.history = history

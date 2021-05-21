@@ -1,5 +1,5 @@
+import { useQuery } from "@apollo/client";
 import React from 'react'
-import { useQuery } from '@apollo/react-hooks'
 import { Employee, Level } from '../../types/graphql'
 import { useGetCvQuery } from '../../queries/cv'
 import Skeleton from '../UI/Skeleton'
