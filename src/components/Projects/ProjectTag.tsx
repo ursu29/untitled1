@@ -23,6 +23,7 @@ const COLORS: any = {
   guild: '#27AE60',
   az: '#F2994A',
   sr: '#8C94AF',
+  academy: '#be84be',
 }
 
 const SWISSRE_PREFIX = 'swissre '

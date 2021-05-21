@@ -55,6 +55,7 @@ export default function ProjectsList({ loading, projects }: Props) {
         <ProjectGroup projects={projectsSorted} code="is-" title="Internal Syncretis" />
         <ProjectGroup projects={projectsSorted} code="guild-" title="Guild" />
         <ProjectGroup projects={projectsSorted} code="az-" title="Allianz" />
+        <ProjectGroup projects={projectsSorted} code="academy-" title="Academy" />
       </PageContent>
     </>
   )
