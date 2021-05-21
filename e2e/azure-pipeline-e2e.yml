@@ -44,7 +44,7 @@ jobs:
           workingDirectory: '$(Build.SourcesDirectory)/e2e'
           targetType: 'inline'
           script: |
-            yarn cypress run --browser chrome --headless \
+            yarn run cypress run --browser chrome --headless \
             --env client_id=$(cypress_client_id),\
             scope=$(cypress_scope),\
             client_secret=$(cypress_client_secret),\
