@@ -49,7 +49,7 @@ export const LibraryPage = () => {
         title="Library"
         extra={[
           canEdit ? (
-            <Button type="primary" onClick={() => setIsPopupVisible(true)}>
+            <Button type="primary" onClick={() => setIsPopupVisible(true)} data-cy="addBook">
               Add Book
             </Button>
           ) : null,
