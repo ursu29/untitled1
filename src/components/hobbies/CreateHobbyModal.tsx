@@ -1,6 +1,6 @@
 import React from 'react'
 import { PlusOutlined } from '@ant-design/icons'
-import { RefetchQueryDescription } from 'apollo-client/core/watchQueryOptions'
+import { RefetchQueryDescription } from '@apollo/client/core/watchQueryOptions'
 import message from '../../message'
 import Drawer from '../UI/Drawer'
 import Button from '../UI/Button'

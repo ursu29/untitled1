@@ -5,9 +5,9 @@
  */
 import * as Types from '../types/graphql'
 
-import gql from 'graphql-tag'
-import * as ApolloReactCommon from '@apollo/react-common'
-import * as ApolloReactHooks from '@apollo/react-hooks'
+import { gql } from '@apollo/client'
+import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type HobbyFragmentFragment = { __typename?: 'Hobby' } & Pick<
   Types.Hobby,
   'id' | 'name' | 'description'
@@ -75,27 +75,20 @@ export const GetHobbiesDocument = gql`
  * });
  */
 export function useGetHobbiesQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<GetHobbiesQuery, GetHobbiesQueryVariables>,
+  baseOptions?: Apollo.QueryHookOptions<GetHobbiesQuery, GetHobbiesQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<GetHobbiesQuery, GetHobbiesQueryVariables>(
-    GetHobbiesDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetHobbiesQuery, GetHobbiesQueryVariables>(GetHobbiesDocument, options)
 }
 export function useGetHobbiesLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetHobbiesQuery, GetHobbiesQueryVariables>,
+  baseOptions?: Apollo.LazyQueryHookOptions<GetHobbiesQuery, GetHobbiesQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<GetHobbiesQuery, GetHobbiesQueryVariables>(
-    GetHobbiesDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetHobbiesQuery, GetHobbiesQueryVariables>(GetHobbiesDocument, options)
 }
 export type GetHobbiesQueryHookResult = ReturnType<typeof useGetHobbiesQuery>
 export type GetHobbiesLazyQueryHookResult = ReturnType<typeof useGetHobbiesLazyQuery>
-export type GetHobbiesQueryResult = ApolloReactCommon.QueryResult<
-  GetHobbiesQuery,
-  GetHobbiesQueryVariables
->
+export type GetHobbiesQueryResult = Apollo.QueryResult<GetHobbiesQuery, GetHobbiesQueryVariables>
 export const GetHobbyDocument = gql`
   query getHobby($id: ID!) {
     hobby(id: $id) {
@@ -122,27 +115,20 @@ export const GetHobbyDocument = gql`
  * });
  */
 export function useGetHobbyQuery(
-  baseOptions: ApolloReactHooks.QueryHookOptions<GetHobbyQuery, GetHobbyQueryVariables>,
+  baseOptions: Apollo.QueryHookOptions<GetHobbyQuery, GetHobbyQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<GetHobbyQuery, GetHobbyQueryVariables>(
-    GetHobbyDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetHobbyQuery, GetHobbyQueryVariables>(GetHobbyDocument, options)
 }
 export function useGetHobbyLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetHobbyQuery, GetHobbyQueryVariables>,
+  baseOptions?: Apollo.LazyQueryHookOptions<GetHobbyQuery, GetHobbyQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<GetHobbyQuery, GetHobbyQueryVariables>(
-    GetHobbyDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetHobbyQuery, GetHobbyQueryVariables>(GetHobbyDocument, options)
 }
 export type GetHobbyQueryHookResult = ReturnType<typeof useGetHobbyQuery>
 export type GetHobbyLazyQueryHookResult = ReturnType<typeof useGetHobbyLazyQuery>
-export type GetHobbyQueryResult = ApolloReactCommon.QueryResult<
-  GetHobbyQuery,
-  GetHobbyQueryVariables
->
+export type GetHobbyQueryResult = Apollo.QueryResult<GetHobbyQuery, GetHobbyQueryVariables>
 export const CreateHobbyDocument = gql`
   mutation createHobby($input: CreateHobbyInput!) {
     createHobby(input: $input) {
@@ -151,7 +137,7 @@ export const CreateHobbyDocument = gql`
   }
   ${HobbyFragmentFragmentDoc}
 `
-export type CreateHobbyMutationFn = ApolloReactCommon.MutationFunction<
+export type CreateHobbyMutationFn = Apollo.MutationFunction<
   CreateHobbyMutation,
   CreateHobbyMutationVariables
 >
@@ -174,19 +160,17 @@ export type CreateHobbyMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useCreateHobbyMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    CreateHobbyMutation,
-    CreateHobbyMutationVariables
-  >,
+  baseOptions?: Apollo.MutationHookOptions<CreateHobbyMutation, CreateHobbyMutationVariables>,
 ) {
-  return ApolloReactHooks.useMutation<CreateHobbyMutation, CreateHobbyMutationVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<CreateHobbyMutation, CreateHobbyMutationVariables>(
     CreateHobbyDocument,
-    baseOptions,
+    options,
   )
 }
 export type CreateHobbyMutationHookResult = ReturnType<typeof useCreateHobbyMutation>
-export type CreateHobbyMutationResult = ApolloReactCommon.MutationResult<CreateHobbyMutation>
-export type CreateHobbyMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type CreateHobbyMutationResult = Apollo.MutationResult<CreateHobbyMutation>
+export type CreateHobbyMutationOptions = Apollo.BaseMutationOptions<
   CreateHobbyMutation,
   CreateHobbyMutationVariables
 >
@@ -198,7 +182,7 @@ export const UpdateHobbyDocument = gql`
   }
   ${HobbyFragmentFragmentDoc}
 `
-export type UpdateHobbyMutationFn = ApolloReactCommon.MutationFunction<
+export type UpdateHobbyMutationFn = Apollo.MutationFunction<
   UpdateHobbyMutation,
   UpdateHobbyMutationVariables
 >
@@ -221,19 +205,17 @@ export type UpdateHobbyMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useUpdateHobbyMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    UpdateHobbyMutation,
-    UpdateHobbyMutationVariables
-  >,
+  baseOptions?: Apollo.MutationHookOptions<UpdateHobbyMutation, UpdateHobbyMutationVariables>,
 ) {
-  return ApolloReactHooks.useMutation<UpdateHobbyMutation, UpdateHobbyMutationVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UpdateHobbyMutation, UpdateHobbyMutationVariables>(
     UpdateHobbyDocument,
-    baseOptions,
+    options,
   )
 }
 export type UpdateHobbyMutationHookResult = ReturnType<typeof useUpdateHobbyMutation>
-export type UpdateHobbyMutationResult = ApolloReactCommon.MutationResult<UpdateHobbyMutation>
-export type UpdateHobbyMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type UpdateHobbyMutationResult = Apollo.MutationResult<UpdateHobbyMutation>
+export type UpdateHobbyMutationOptions = Apollo.BaseMutationOptions<
   UpdateHobbyMutation,
   UpdateHobbyMutationVariables
 >
