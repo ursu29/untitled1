@@ -8,15 +8,32 @@ import * as Types from '../types/graphql'
 import { gql } from '@apollo/client'
 import * as Apollo from '@apollo/client'
 const defaultOptions = {}
-export type HobbyFragmentFragment = { __typename?: 'Hobby' } & Pick<
+export type HobbyBaseFragment = { __typename?: 'Hobby' } & Pick<
   Types.Hobby,
   'id' | 'name' | 'description'
 >
 
+export type EmployeeInfoFragment = { __typename?: 'Employee' } & Pick<
+  Types.Employee,
+  | 'id'
+  | 'name'
+  | 'email'
+  | 'location'
+  | 'country'
+  | 'position'
+  | 'phoneNumber'
+  | 'startDate'
+  | 'birthday'
+>
+
+export type HobbyFullFragment = { __typename?: 'Hobby' } & Pick<Types.Hobby, 'isMember'> & {
+    members: Array<{ __typename?: 'Employee' } & EmployeeInfoFragment>
+  } & HobbyBaseFragment
+
 export type GetHobbiesQueryVariables = Types.Exact<{ [key: string]: never }>
 
 export type GetHobbiesQuery = { __typename?: 'Query' } & {
-  hobbies: Array<{ __typename?: 'Hobby' } & HobbyFragmentFragment>
+  hobbies: Array<{ __typename?: 'Hobby' } & HobbyBaseFragment>
 }
 
 export type GetHobbyQueryVariables = Types.Exact<{
@@ -24,7 +41,7 @@ export type GetHobbyQueryVariables = Types.Exact<{
 }>
 
 export type GetHobbyQuery = { __typename?: 'Query' } & {
-  hobby?: Types.Maybe<{ __typename?: 'Hobby' } & HobbyFragmentFragment>
+  hobby?: Types.Maybe<{ __typename?: 'Hobby' } & HobbyFullFragment>
 }
 
 export type CreateHobbyMutationVariables = Types.Exact<{
@@ -32,7 +49,7 @@ export type CreateHobbyMutationVariables = Types.Exact<{
 }>
 
 export type CreateHobbyMutation = { __typename?: 'Mutation' } & {
-  createHobby?: Types.Maybe<{ __typename?: 'Hobby' } & HobbyFragmentFragment>
+  createHobby?: Types.Maybe<{ __typename?: 'Hobby' } & HobbyBaseFragment>
 }
 
 export type UpdateHobbyMutationVariables = Types.Exact<{
@@ -40,23 +57,55 @@ export type UpdateHobbyMutationVariables = Types.Exact<{
 }>
 
 export type UpdateHobbyMutation = { __typename?: 'Mutation' } & {
-  updateHobby?: Types.Maybe<{ __typename?: 'Hobby' } & HobbyFragmentFragment>
+  updateHobby?: Types.Maybe<{ __typename?: 'Hobby' } & HobbyBaseFragment>
 }
 
-export const HobbyFragmentFragmentDoc = gql`
-  fragment HobbyFragment on Hobby {
+export type JoinHobbyMutationVariables = Types.Exact<{
+  input: Types.JoinHobbyInput
+}>
+
+export type JoinHobbyMutation = { __typename?: 'Mutation' } & {
+  joinHobby?: Types.Maybe<{ __typename?: 'Hobby' } & HobbyFullFragment>
+}
+
+export const HobbyBaseFragmentDoc = gql`
+  fragment HobbyBase on Hobby {
     id
     name
     description
   }
 `
+export const EmployeeInfoFragmentDoc = gql`
+  fragment EmployeeInfo on Employee {
+    id
+    name
+    email
+    location
+    country
+    position
+    phoneNumber
+    startDate
+    birthday
+  }
+`
+export const HobbyFullFragmentDoc = gql`
+  fragment HobbyFull on Hobby {
+    ...HobbyBase
+    isMember
+    members {
+      ...EmployeeInfo
+    }
+  }
+  ${HobbyBaseFragmentDoc}
+  ${EmployeeInfoFragmentDoc}
+`
 export const GetHobbiesDocument = gql`
   query getHobbies {
     hobbies {
-      ...HobbyFragment
+      ...HobbyBase
     }
   }
-  ${HobbyFragmentFragmentDoc}
+  ${HobbyBaseFragmentDoc}
 `
 
 /**
@@ -92,10 +141,10 @@ export type GetHobbiesQueryResult = Apollo.QueryResult<GetHobbiesQuery, GetHobbi
 export const GetHobbyDocument = gql`
   query getHobby($id: ID!) {
     hobby(id: $id) {
-      ...HobbyFragment
+      ...HobbyFull
     }
   }
-  ${HobbyFragmentFragmentDoc}
+  ${HobbyFullFragmentDoc}
 `
 
 /**
@@ -132,10 +181,10 @@ export type GetHobbyQueryResult = Apollo.QueryResult<GetHobbyQuery, GetHobbyQuer
 export const CreateHobbyDocument = gql`
   mutation createHobby($input: CreateHobbyInput!) {
     createHobby(input: $input) {
-      ...HobbyFragment
+      ...HobbyBase
     }
   }
-  ${HobbyFragmentFragmentDoc}
+  ${HobbyBaseFragmentDoc}
 `
 export type CreateHobbyMutationFn = Apollo.MutationFunction<
   CreateHobbyMutation,
@@ -177,10 +226,10 @@ export type CreateHobbyMutationOptions = Apollo.BaseMutationOptions<
 export const UpdateHobbyDocument = gql`
   mutation updateHobby($input: UpdateHobbyInput!) {
     updateHobby(input: $input) {
-      ...HobbyFragment
+      ...HobbyBase
     }
   }
-  ${HobbyFragmentFragmentDoc}
+  ${HobbyBaseFragmentDoc}
 `
 export type UpdateHobbyMutationFn = Apollo.MutationFunction<
   UpdateHobbyMutation,
@@ -218,4 +267,49 @@ export type UpdateHobbyMutationResult = Apollo.MutationResult<UpdateHobbyMutatio
 export type UpdateHobbyMutationOptions = Apollo.BaseMutationOptions<
   UpdateHobbyMutation,
   UpdateHobbyMutationVariables
+>
+export const JoinHobbyDocument = gql`
+  mutation joinHobby($input: JoinHobbyInput!) {
+    joinHobby(input: $input) {
+      ...HobbyFull
+    }
+  }
+  ${HobbyFullFragmentDoc}
+`
+export type JoinHobbyMutationFn = Apollo.MutationFunction<
+  JoinHobbyMutation,
+  JoinHobbyMutationVariables
+>
+
+/**
+ * __useJoinHobbyMutation__
+ *
+ * To run a mutation, you first call `useJoinHobbyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useJoinHobbyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [joinHobbyMutation, { data, loading, error }] = useJoinHobbyMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useJoinHobbyMutation(
+  baseOptions?: Apollo.MutationHookOptions<JoinHobbyMutation, JoinHobbyMutationVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<JoinHobbyMutation, JoinHobbyMutationVariables>(
+    JoinHobbyDocument,
+    options,
+  )
+}
+export type JoinHobbyMutationHookResult = ReturnType<typeof useJoinHobbyMutation>
+export type JoinHobbyMutationResult = Apollo.MutationResult<JoinHobbyMutation>
+export type JoinHobbyMutationOptions = Apollo.BaseMutationOptions<
+  JoinHobbyMutation,
+  JoinHobbyMutationVariables
 >

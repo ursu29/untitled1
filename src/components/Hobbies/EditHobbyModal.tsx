@@ -1,13 +1,12 @@
 import React from 'react'
 import message from '../../message'
+import { useUpdateHobbyMutation, HobbyBaseFragment } from '../../queries/hobbies'
 import Drawer from '../UI/Drawer'
 import Button from '../UI/Button'
 import { HobbyForm } from './HobbyForm'
-import { useUpdateHobbyMutation } from '../../queries/hobbies'
-import { Hobby } from '../../types/graphql'
 
 type Props = {
-  hobby: Hobby
+  hobby: HobbyBaseFragment
 }
 
 export const EditHobbyModal: React.FC<Props> = ({ hobby }) => {

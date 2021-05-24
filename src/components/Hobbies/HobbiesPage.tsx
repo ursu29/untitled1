@@ -25,7 +25,7 @@ export default function HobbiesPage() {
       >
         <Row gutter={[16, 16]}>
           {hobbies?.map(hobby => (
-            <Col key={hobby.id} xs={24} md={12} lg={8}>
+            <Col key={hobby.id} xs={24} md={12}>
               <HobbyCard hobby={hobby} />
             </Col>
           ))}

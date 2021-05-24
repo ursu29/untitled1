@@ -1180,6 +1180,7 @@ export type Mutation = {
   updateGuild?: Maybe<Guild>
   createHobby?: Maybe<Hobby>
   updateHobby?: Maybe<Hobby>
+  joinHobby?: Maybe<Hobby>
   attachMatrixToEmployee?: Maybe<Matrix>
   detachMatrixFromEmployee?: Maybe<Matrix>
   createMatrix?: Maybe<Matrix>
@@ -1425,6 +1426,10 @@ export type MutationCreateHobbyArgs = {
 
 export type MutationUpdateHobbyArgs = {
   input: UpdateHobbyInput
+}
+
+export type MutationJoinHobbyArgs = {
+  input: JoinHobbyInput
 }
 
 export type MutationAttachMatrixToEmployeeArgs = {
@@ -1676,6 +1681,8 @@ export type Hobby = {
   id: Scalars['ID']
   name: Scalars['String']
   description?: Maybe<Scalars['String']>
+  isMember: Scalars['Boolean']
+  members: Array<Employee>
 }
 
 export type CreateHobbyInput = {
@@ -1687,6 +1694,11 @@ export type UpdateHobbyInput = {
   id: Scalars['ID']
   name?: Maybe<Scalars['String']>
   description?: Maybe<Scalars['String']>
+}
+
+export type JoinHobbyInput = {
+  id: Scalars['ID']
+  join: Scalars['Boolean']
 }
 
 export type MatrixGrade = {

@@ -1,9 +1,9 @@
 import React from 'react'
-import { getHobbyLink } from '../../paths'
 import { Typography } from 'antd'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { Hobby } from '../../types/graphql'
+import { getHobbyLink } from '../../paths'
+import { HobbyBaseFragment } from '../../queries/hobbies'
 
 const HobbyWrapper = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.09);
@@ -25,7 +25,7 @@ const HobbyDescription = styled(Typography.Paragraph)`
 `
 
 type Props = {
-  hobby: Hobby
+  hobby: HobbyBaseFragment
 }
 
 export const HobbyCard: React.FC<Props> = ({ hobby }) => {

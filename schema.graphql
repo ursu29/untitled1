@@ -923,6 +923,7 @@ type Mutation {
   updateGuild(input: UpdateGuildInput): Guild
   createHobby(input: CreateHobbyInput!): Hobby
   updateHobby(input: UpdateHobbyInput!): Hobby
+  joinHobby(input: JoinHobbyInput!): Hobby
   attachMatrixToEmployee(input: AttachMatrixToEmployeeInput): Matrix
   detachMatrixFromEmployee(input: DetachMatrixFromEmployeeInput): Matrix
   createMatrix(input: CreateMatrixInput): Matrix
@@ -990,6 +991,8 @@ type Hobby {
   id: ID!
   name: String!
   description: String
+  isMember: Boolean!
+  members: [Employee!]!
 }
 
 input CreateHobbyInput {
@@ -1001,6 +1004,11 @@ input UpdateHobbyInput {
   id: ID!
   name: String
   description: String
+}
+
+input JoinHobbyInput {
+  id: ID!
+  join: Boolean!
 }
 
 type MatrixGrade {
