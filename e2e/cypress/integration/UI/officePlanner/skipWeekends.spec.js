@@ -9,9 +9,6 @@ describe('book range days and skip weekends (office-planner)', () => {
         cy.setToken('employee')
         cy.visit('/office-planner')
 
-        cy.get(spinner.active).should('be.visible')
-        cy.get(spinner.active).should('not.exist')
-
         cy.getElement(numberOfPeople).eq(5).then(el =>  secondToLastText = el.text())
         cy.getElement(numberOfPeople).eq(6).then(el => lastText = el.text())
     })
