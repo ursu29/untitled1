@@ -8,7 +8,8 @@ import { HobbyBaseFragment } from '../../queries/hobbies'
 const HobbyWrapper = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.09);
   border-radius: 2px;
-  padding: 20px;
+  padding: 16px;
+  height: 100%;
 `
 
 const HobbyTitle = styled(Link)`
@@ -32,7 +33,9 @@ export const HobbyCard: React.FC<Props> = ({ hobby }) => {
   return (
     <HobbyWrapper>
       <HobbyTitle to={getHobbyLink(hobby.id)}>{hobby.name}</HobbyTitle>
-      <HobbyDescription ellipsis={{ rows: 4 }}>{hobby.description}</HobbyDescription>
+      {hobby.description && (
+        <HobbyDescription ellipsis={{ rows: 4 }}>{hobby.description}</HobbyDescription>
+      )}
     </HobbyWrapper>
   )
 }

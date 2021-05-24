@@ -33,7 +33,7 @@ export const HobbyForm: React.FC<Props> = ({ onSubmit, loading, hobby }) => {
       </Form.Item>
       <Form.Item style={{ textAlign: 'right' }}>
         <Button type="primary" htmlType="submit" loading={loading}>
-          {hobby ? 'Edit' : 'Add'}
+          {hobby ? 'Save' : 'Create'}
         </Button>
       </Form.Item>
     </Form>
