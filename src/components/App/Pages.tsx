@@ -40,8 +40,8 @@ import NotFound from '../UI/NotFound'
 import { LibraryPage } from '../Library/LibraryPage'
 import DevRel from '../DevRel'
 import Snake from '../Snake/SnakePage'
-import HobbiesPage from '../hobbies/HobbiesPage'
-import HobbyPage from '../hobbies/HobbyPage'
+import HobbiesPage from '../Hobbies/HobbiesPage'
+import HobbyPage from '../Hobbies/HobbyPage'
 // import WarningPage from '../UI/WarningPage'
 
 export default function Pages() {
