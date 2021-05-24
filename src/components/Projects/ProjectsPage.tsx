@@ -1,6 +1,6 @@
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import query, { QueryType } from '../../queries/getProjects'
-import { useQuery } from '@apollo/react-hooks'
 import ProjectsList from '../Projects/ProjectsList'
 
 export default function EmployeesPage() {

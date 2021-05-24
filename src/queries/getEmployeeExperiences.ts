@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { Employee } from '../types'
 import fragments, { ExperienceDetails } from '../fragments'
 

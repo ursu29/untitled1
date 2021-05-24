@@ -5,9 +5,9 @@
  */
 import * as Types from '../types/graphql'
 
-import gql from 'graphql-tag'
-import * as ApolloReactCommon from '@apollo/react-common'
-import * as ApolloReactHooks from '@apollo/react-hooks'
+import { gql } from '@apollo/client'
+import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type EmployeeDetailsFragment = { __typename?: 'Employee' } & Pick<
   Types.Employee,
   | 'id'
@@ -84,27 +84,23 @@ export const GetEmployeeDocument = gql`
  * });
  */
 export function useGetEmployeeQuery(
-  baseOptions: ApolloReactHooks.QueryHookOptions<GetEmployeeQuery, GetEmployeeQueryVariables>,
+  baseOptions: Apollo.QueryHookOptions<GetEmployeeQuery, GetEmployeeQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<GetEmployeeQuery, GetEmployeeQueryVariables>(
-    GetEmployeeDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetEmployeeQuery, GetEmployeeQueryVariables>(GetEmployeeDocument, options)
 }
 export function useGetEmployeeLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetEmployeeQuery, GetEmployeeQueryVariables>,
+  baseOptions?: Apollo.LazyQueryHookOptions<GetEmployeeQuery, GetEmployeeQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<GetEmployeeQuery, GetEmployeeQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetEmployeeQuery, GetEmployeeQueryVariables>(
     GetEmployeeDocument,
-    baseOptions,
+    options,
   )
 }
 export type GetEmployeeQueryHookResult = ReturnType<typeof useGetEmployeeQuery>
 export type GetEmployeeLazyQueryHookResult = ReturnType<typeof useGetEmployeeLazyQuery>
-export type GetEmployeeQueryResult = ApolloReactCommon.QueryResult<
-  GetEmployeeQuery,
-  GetEmployeeQueryVariables
->
+export type GetEmployeeQueryResult = Apollo.QueryResult<GetEmployeeQuery, GetEmployeeQueryVariables>
 export const GetEmployeesDocument = gql`
   query getEmployees {
     employees {
@@ -130,27 +126,26 @@ export const GetEmployeesDocument = gql`
  * });
  */
 export function useGetEmployeesQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<GetEmployeesQuery, GetEmployeesQueryVariables>,
+  baseOptions?: Apollo.QueryHookOptions<GetEmployeesQuery, GetEmployeesQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<GetEmployeesQuery, GetEmployeesQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetEmployeesQuery, GetEmployeesQueryVariables>(
     GetEmployeesDocument,
-    baseOptions,
+    options,
   )
 }
 export function useGetEmployeesLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
-    GetEmployeesQuery,
-    GetEmployeesQueryVariables
-  >,
+  baseOptions?: Apollo.LazyQueryHookOptions<GetEmployeesQuery, GetEmployeesQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<GetEmployeesQuery, GetEmployeesQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetEmployeesQuery, GetEmployeesQueryVariables>(
     GetEmployeesDocument,
-    baseOptions,
+    options,
   )
 }
 export type GetEmployeesQueryHookResult = ReturnType<typeof useGetEmployeesQuery>
 export type GetEmployeesLazyQueryHookResult = ReturnType<typeof useGetEmployeesLazyQuery>
-export type GetEmployeesQueryResult = ApolloReactCommon.QueryResult<
+export type GetEmployeesQueryResult = Apollo.QueryResult<
   GetEmployeesQuery,
   GetEmployeesQueryVariables
 >
@@ -161,7 +156,7 @@ export const UpdateEmployeeDocument = gql`
     }
   }
 `
-export type UpdateEmployeeMutationFn = ApolloReactCommon.MutationFunction<
+export type UpdateEmployeeMutationFn = Apollo.MutationFunction<
   UpdateEmployeeMutation,
   UpdateEmployeeMutationVariables
 >
@@ -184,19 +179,17 @@ export type UpdateEmployeeMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useUpdateEmployeeMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    UpdateEmployeeMutation,
-    UpdateEmployeeMutationVariables
-  >,
+  baseOptions?: Apollo.MutationHookOptions<UpdateEmployeeMutation, UpdateEmployeeMutationVariables>,
 ) {
-  return ApolloReactHooks.useMutation<UpdateEmployeeMutation, UpdateEmployeeMutationVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UpdateEmployeeMutation, UpdateEmployeeMutationVariables>(
     UpdateEmployeeDocument,
-    baseOptions,
+    options,
   )
 }
 export type UpdateEmployeeMutationHookResult = ReturnType<typeof useUpdateEmployeeMutation>
-export type UpdateEmployeeMutationResult = ApolloReactCommon.MutationResult<UpdateEmployeeMutation>
-export type UpdateEmployeeMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type UpdateEmployeeMutationResult = Apollo.MutationResult<UpdateEmployeeMutation>
+export type UpdateEmployeeMutationOptions = Apollo.BaseMutationOptions<
   UpdateEmployeeMutation,
   UpdateEmployeeMutationVariables
 >

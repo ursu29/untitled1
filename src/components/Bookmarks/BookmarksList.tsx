@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import BookmarkItem from './Bookmark'
 import { Employee, Access, Bookmark } from '../../types'
 import { List, Input, Skeleton } from 'antd'
-import { PureQueryOptions } from 'apollo-client'
+import { PureQueryOptions } from '@apollo/client'
 
 type BookmarkPick = Pick<Bookmark, 'id' | 'title' | 'link'> & {
   employee: Pick<Employee, 'id' | 'name' | 'email'>

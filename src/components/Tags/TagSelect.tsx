@@ -1,9 +1,8 @@
+import { useQuery, useMutation, gql } from '@apollo/client'
 import React, { useEffect } from 'react'
 import Select from '../UI/Select'
-import { useQuery, useMutation } from '@apollo/react-hooks'
 import { Tag } from '../../types'
 import query, { QueryType } from '../../queries/getTags'
-import gql from 'graphql-tag'
 import message from '../../message'
 
 const mutation = gql`
@@ -60,7 +59,9 @@ function TagSelect({ value, allowAddNew, multiple, onChange }: Props, ref: any) 
         }))}
         onSelect={values => {
           const tagIds = data?.tags.map(i => i.name)
-          const newTag = values.find((v: { key: string; value: string }) => !tagIds?.includes(v.key))
+          const newTag = values.find(
+            (v: { key: string; value: string }) => !tagIds?.includes(v.key),
+          )
           if (newTag) {
             mutate({
               variables: { input: { name: newTag.key } },

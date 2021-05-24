@@ -1,7 +1,6 @@
+import { useQuery, gql } from '@apollo/client'
 import React from 'react'
-import gql from 'graphql-tag'
 import { Employee } from '../../types'
-import { useQuery } from '@apollo/react-hooks'
 import Avatar from '../Avatar'
 
 interface Props {

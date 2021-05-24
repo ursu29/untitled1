@@ -1,6 +1,6 @@
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
-import { useQuery } from '@apollo/react-hooks'
 import PageContent from '../UI/PageContent'
 import { getGuild, GuildQueryType } from '../../queries/guilds'
 import GuildTabs from './GuildTabs'

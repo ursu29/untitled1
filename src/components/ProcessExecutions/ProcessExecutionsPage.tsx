@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import getProcessExecutions, { QueryType } from '../../queries/getProcessExecutions'
 import Skeleton from '../UI/Skeleton'

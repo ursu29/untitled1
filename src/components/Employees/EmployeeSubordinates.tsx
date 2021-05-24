@@ -1,10 +1,10 @@
+import { useQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import { Table, DatePicker, Tooltip, Popconfirm, Modal, Typography } from 'antd'
 import { Link } from 'react-router-dom'
 import { getEmployeeLink } from '../../paths'
 import { Project, OnboardingTicket } from '../../types'
 import { query, QueryType, Subordinate } from '../../queries/getSubordinates'
-import { useQuery } from '@apollo/react-hooks'
 import { useUpdateEmployeeMutation } from '../../queries/employees'
 import { Employee } from '../../types/graphql'
 import ProjectTagList from '../Projects/ProjectTagList'
@@ -68,6 +68,7 @@ export default function EmployeeSubordinates({ employee }: Props) {
 
   const subordinateUsers = data?.employeeByEmail?.subordinateUsers
     ?.filter(e => !!e)
+    .slice()
     .sort((a, b) => (moment(a.lastManagerMeeting).isBefore(moment(b.lastManagerMeeting)) ? -1 : 1))
 
   const dateFormat = (value: any) =>
@@ -124,6 +125,7 @@ export default function EmployeeSubordinates({ employee }: Props) {
             .flatMap(e => e.projects?.map((e: ProjectPick) => e.name)),
         ),
       ]
+        .slice()
         .sort((a, b) => (a > b ? 1 : -1))
         .map(e => ({ text: e, value: e })),
       onFilter: (value: any, record: any) =>
@@ -132,11 +134,13 @@ export default function EmployeeSubordinates({ employee }: Props) {
       sorter: (a: any, b: any) =>
         a.projects
           .map((e: any) => e.name)
+          .slice()
           .sort((a: string, b: string) => a.localeCompare(b))
           .join('')
           .localeCompare(
             b.projects
               .map((e: any) => e.name)
+              .slice()
               .sort((a: string, b: string) => a.localeCompare(b))
               .join(''),
           ),

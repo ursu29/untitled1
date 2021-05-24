@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { CalendarEvent } from '../types'
 
 export const getEvents = gql`

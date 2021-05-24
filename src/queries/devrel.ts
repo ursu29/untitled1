@@ -5,9 +5,9 @@
  */
 import * as Types from '../types/graphql'
 
-import gql from 'graphql-tag'
-import * as ApolloReactCommon from '@apollo/react-common'
-import * as ApolloReactHooks from '@apollo/react-hooks'
+import { gql } from '@apollo/client'
+import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type GetDevrelsQueryVariables = Types.Exact<{
   type: Types.Scalars['String']
 }>
@@ -104,27 +104,20 @@ export const GetDevrelsDocument = gql`
  * });
  */
 export function useGetDevrelsQuery(
-  baseOptions: ApolloReactHooks.QueryHookOptions<GetDevrelsQuery, GetDevrelsQueryVariables>,
+  baseOptions: Apollo.QueryHookOptions<GetDevrelsQuery, GetDevrelsQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<GetDevrelsQuery, GetDevrelsQueryVariables>(
-    GetDevrelsDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetDevrelsQuery, GetDevrelsQueryVariables>(GetDevrelsDocument, options)
 }
 export function useGetDevrelsLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetDevrelsQuery, GetDevrelsQueryVariables>,
+  baseOptions?: Apollo.LazyQueryHookOptions<GetDevrelsQuery, GetDevrelsQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<GetDevrelsQuery, GetDevrelsQueryVariables>(
-    GetDevrelsDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetDevrelsQuery, GetDevrelsQueryVariables>(GetDevrelsDocument, options)
 }
 export type GetDevrelsQueryHookResult = ReturnType<typeof useGetDevrelsQuery>
 export type GetDevrelsLazyQueryHookResult = ReturnType<typeof useGetDevrelsLazyQuery>
-export type GetDevrelsQueryResult = ApolloReactCommon.QueryResult<
-  GetDevrelsQuery,
-  GetDevrelsQueryVariables
->
+export type GetDevrelsQueryResult = Apollo.QueryResult<GetDevrelsQuery, GetDevrelsQueryVariables>
 export const CreateDevrelDocument = gql`
   mutation createDevrel($input: CreateDevrelInput!) {
     createDevrel(input: $input) {
@@ -132,7 +125,7 @@ export const CreateDevrelDocument = gql`
     }
   }
 `
-export type CreateDevrelMutationFn = ApolloReactCommon.MutationFunction<
+export type CreateDevrelMutationFn = Apollo.MutationFunction<
   CreateDevrelMutation,
   CreateDevrelMutationVariables
 >
@@ -155,19 +148,17 @@ export type CreateDevrelMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useCreateDevrelMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    CreateDevrelMutation,
-    CreateDevrelMutationVariables
-  >,
+  baseOptions?: Apollo.MutationHookOptions<CreateDevrelMutation, CreateDevrelMutationVariables>,
 ) {
-  return ApolloReactHooks.useMutation<CreateDevrelMutation, CreateDevrelMutationVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<CreateDevrelMutation, CreateDevrelMutationVariables>(
     CreateDevrelDocument,
-    baseOptions,
+    options,
   )
 }
 export type CreateDevrelMutationHookResult = ReturnType<typeof useCreateDevrelMutation>
-export type CreateDevrelMutationResult = ApolloReactCommon.MutationResult<CreateDevrelMutation>
-export type CreateDevrelMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type CreateDevrelMutationResult = Apollo.MutationResult<CreateDevrelMutation>
+export type CreateDevrelMutationOptions = Apollo.BaseMutationOptions<
   CreateDevrelMutation,
   CreateDevrelMutationVariables
 >
@@ -178,7 +169,7 @@ export const UpdateDevrelDocument = gql`
     }
   }
 `
-export type UpdateDevrelMutationFn = ApolloReactCommon.MutationFunction<
+export type UpdateDevrelMutationFn = Apollo.MutationFunction<
   UpdateDevrelMutation,
   UpdateDevrelMutationVariables
 >
@@ -201,19 +192,17 @@ export type UpdateDevrelMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useUpdateDevrelMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    UpdateDevrelMutation,
-    UpdateDevrelMutationVariables
-  >,
+  baseOptions?: Apollo.MutationHookOptions<UpdateDevrelMutation, UpdateDevrelMutationVariables>,
 ) {
-  return ApolloReactHooks.useMutation<UpdateDevrelMutation, UpdateDevrelMutationVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UpdateDevrelMutation, UpdateDevrelMutationVariables>(
     UpdateDevrelDocument,
-    baseOptions,
+    options,
   )
 }
 export type UpdateDevrelMutationHookResult = ReturnType<typeof useUpdateDevrelMutation>
-export type UpdateDevrelMutationResult = ApolloReactCommon.MutationResult<UpdateDevrelMutation>
-export type UpdateDevrelMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type UpdateDevrelMutationResult = Apollo.MutationResult<UpdateDevrelMutation>
+export type UpdateDevrelMutationOptions = Apollo.BaseMutationOptions<
   UpdateDevrelMutation,
   UpdateDevrelMutationVariables
 >
@@ -224,7 +213,7 @@ export const DeleteDevrelDocument = gql`
     }
   }
 `
-export type DeleteDevrelMutationFn = ApolloReactCommon.MutationFunction<
+export type DeleteDevrelMutationFn = Apollo.MutationFunction<
   DeleteDevrelMutation,
   DeleteDevrelMutationVariables
 >
@@ -247,19 +236,17 @@ export type DeleteDevrelMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useDeleteDevrelMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    DeleteDevrelMutation,
-    DeleteDevrelMutationVariables
-  >,
+  baseOptions?: Apollo.MutationHookOptions<DeleteDevrelMutation, DeleteDevrelMutationVariables>,
 ) {
-  return ApolloReactHooks.useMutation<DeleteDevrelMutation, DeleteDevrelMutationVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<DeleteDevrelMutation, DeleteDevrelMutationVariables>(
     DeleteDevrelDocument,
-    baseOptions,
+    options,
   )
 }
 export type DeleteDevrelMutationHookResult = ReturnType<typeof useDeleteDevrelMutation>
-export type DeleteDevrelMutationResult = ApolloReactCommon.MutationResult<DeleteDevrelMutation>
-export type DeleteDevrelMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type DeleteDevrelMutationResult = Apollo.MutationResult<DeleteDevrelMutation>
+export type DeleteDevrelMutationOptions = Apollo.BaseMutationOptions<
   DeleteDevrelMutation,
   DeleteDevrelMutationVariables
 >
@@ -268,7 +255,7 @@ export const ProposeDevrelEventDocument = gql`
     proposeDevrelEvent(input: $input)
   }
 `
-export type ProposeDevrelEventMutationFn = ApolloReactCommon.MutationFunction<
+export type ProposeDevrelEventMutationFn = Apollo.MutationFunction<
   ProposeDevrelEventMutation,
   ProposeDevrelEventMutationVariables
 >
@@ -291,21 +278,20 @@ export type ProposeDevrelEventMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useProposeDevrelEventMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
+  baseOptions?: Apollo.MutationHookOptions<
     ProposeDevrelEventMutation,
     ProposeDevrelEventMutationVariables
   >,
 ) {
-  return ApolloReactHooks.useMutation<
-    ProposeDevrelEventMutation,
-    ProposeDevrelEventMutationVariables
-  >(ProposeDevrelEventDocument, baseOptions)
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<ProposeDevrelEventMutation, ProposeDevrelEventMutationVariables>(
+    ProposeDevrelEventDocument,
+    options,
+  )
 }
 export type ProposeDevrelEventMutationHookResult = ReturnType<typeof useProposeDevrelEventMutation>
-export type ProposeDevrelEventMutationResult = ApolloReactCommon.MutationResult<
-  ProposeDevrelEventMutation
->
-export type ProposeDevrelEventMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type ProposeDevrelEventMutationResult = Apollo.MutationResult<ProposeDevrelEventMutation>
+export type ProposeDevrelEventMutationOptions = Apollo.BaseMutationOptions<
   ProposeDevrelEventMutation,
   ProposeDevrelEventMutationVariables
 >
@@ -314,7 +300,7 @@ export const ParticipateDevrelEventDocument = gql`
     participateDevrelEvent(id: $id)
   }
 `
-export type ParticipateDevrelEventMutationFn = ApolloReactCommon.MutationFunction<
+export type ParticipateDevrelEventMutationFn = Apollo.MutationFunction<
   ParticipateDevrelEventMutation,
   ParticipateDevrelEventMutationVariables
 >
@@ -337,23 +323,23 @@ export type ParticipateDevrelEventMutationFn = ApolloReactCommon.MutationFunctio
  * });
  */
 export function useParticipateDevrelEventMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
+  baseOptions?: Apollo.MutationHookOptions<
     ParticipateDevrelEventMutation,
     ParticipateDevrelEventMutationVariables
   >,
 ) {
-  return ApolloReactHooks.useMutation<
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
     ParticipateDevrelEventMutation,
     ParticipateDevrelEventMutationVariables
-  >(ParticipateDevrelEventDocument, baseOptions)
+  >(ParticipateDevrelEventDocument, options)
 }
 export type ParticipateDevrelEventMutationHookResult = ReturnType<
   typeof useParticipateDevrelEventMutation
 >
-export type ParticipateDevrelEventMutationResult = ApolloReactCommon.MutationResult<
-  ParticipateDevrelEventMutation
->
-export type ParticipateDevrelEventMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type ParticipateDevrelEventMutationResult =
+  Apollo.MutationResult<ParticipateDevrelEventMutation>
+export type ParticipateDevrelEventMutationOptions = Apollo.BaseMutationOptions<
   ParticipateDevrelEventMutation,
   ParticipateDevrelEventMutationVariables
 >

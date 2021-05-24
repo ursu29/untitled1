@@ -1,5 +1,5 @@
+import { useQuery } from '@apollo/client'
 import React from 'react'
-import { useQuery } from '@apollo/react-hooks'
 import { getPaths, getWikiRootSections, WikiRootSectionQueryType } from '../../queries/wiki'
 import PageContent from '../UI/PageContent'
 import MainMenuItem from './MainMenuItem'

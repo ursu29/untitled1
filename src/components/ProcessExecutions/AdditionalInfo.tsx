@@ -1,5 +1,5 @@
+import { useMutation } from '@apollo/client'
 import React, { useState, useRef } from 'react'
-import { useMutation } from '@apollo/react-hooks'
 import { Input, DatePicker, Button, Tooltip } from 'antd'
 import styled from 'styled-components'
 import moment from 'moment'
@@ -147,9 +147,9 @@ export default function AdditionalInfo({
               <Tooltip title="Copy to clipboard">
                 <Button
                   onClick={() => {
-                    const text = (document.querySelector(
-                      '#hr-tool-employee-input',
-                    ) as HTMLInputElement).value
+                    const text = (
+                      document.querySelector('#hr-tool-employee-input') as HTMLInputElement
+                    ).value
                     copyToClipboard(text)
                     message.success('Copied !')
                   }}

@@ -11,7 +11,14 @@ interface Props {
   onClose?: any
 }
 
-export default function ({ drawerLabel, toggler, isOpen, content, size, onClose }: Props) {
+export default function PortalDrawer({
+  drawerLabel,
+  toggler,
+  isOpen,
+  content,
+  size,
+  onClose,
+}: Props) {
   const [visible, toggleVisibility] = useState(false || isOpen)
   const drawerWidth = size === 'large' ? 800 : 480
   const isLarge = useMediaQuery({ minWidth: drawerWidth })

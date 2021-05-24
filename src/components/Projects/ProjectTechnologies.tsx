@@ -1,5 +1,4 @@
-import { useMutation, useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
+import { useMutation, useQuery, gql } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { CheckOutlined, EditOutlined } from '@ant-design/icons'
 import message from '../../message'

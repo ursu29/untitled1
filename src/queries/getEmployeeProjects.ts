@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { Employee, Project, ID, EmployeeProject } from '../types'
 
 type ProjectPick = Pick<Project, 'id' | 'name' | 'code'>

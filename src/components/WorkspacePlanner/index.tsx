@@ -1,5 +1,5 @@
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { DownOutlined } from '@ant-design/icons'
-import { useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks'
 import { Divider, Dropdown, Menu, PageHeader, Space, Spin } from 'antd'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
@@ -67,11 +67,10 @@ export default function WorkspacePlanner() {
     bookingsInput: { startDate: dateRange.startDate, finishDate: dateRange.finishDate },
   }
 
-  const { data: dataWorkspacePool, loading: loadingWorkspacePool } = useQuery<
-    WorkspacePoolQueryType
-  >(workspacePoolQuery, {
-    variables: workspacePoolQueryVariables,
-  })
+  const { data: dataWorkspacePool, loading: loadingWorkspacePool } =
+    useQuery<WorkspacePoolQueryType>(workspacePoolQuery, {
+      variables: workspacePoolQueryVariables,
+    })
   const workspacePool = dataWorkspacePool
 
   /**
@@ -102,6 +101,7 @@ export default function WorkspacePlanner() {
       workplace.bookings?.map(booking => ({ workplaceId: workplace.id, ...booking })),
     )
     .filter(e => !!e)
+    .slice()
     .sort((a, b) => {
       if (dayjs(a.startDate).isBefore(dayjs(b.startDate), 'day')) {
         return -1
@@ -179,7 +179,7 @@ export default function WorkspacePlanner() {
     },
     onError: err => {
       message.error(err)
-      refetchGetWorkspace()
+      refetchGetWorkspace?.()
     },
   })
   const handleCreateWorkplace = (value: any) => {
@@ -195,7 +195,7 @@ export default function WorkspacePlanner() {
     },
     onError: err => {
       message.error(err)
-      refetchGetWorkspace()
+      refetchGetWorkspace?.()
     },
   })
 
@@ -205,7 +205,7 @@ export default function WorkspacePlanner() {
     },
     onError: err => {
       message.error(err)
-      refetchGetWorkspace()
+      refetchGetWorkspace?.()
     },
   })
 

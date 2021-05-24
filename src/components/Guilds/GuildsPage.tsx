@@ -1,6 +1,6 @@
+import { useQuery, useMutation } from '@apollo/client'
 import React from 'react'
 import { useMediaQuery } from 'react-responsive'
-import { useQuery, useMutation } from '@apollo/react-hooks'
 import { Row, Col } from 'antd'
 import GuildCard from './GuildCard'
 import PageContent from '../UI/PageContent'

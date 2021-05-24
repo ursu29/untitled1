@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/react-hooks'
+import { useMutation, useQuery } from '@apollo/client'
 import { Button, Drawer, Switch, Tabs as MyTicketTabs, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import message from '../../message'
@@ -37,13 +37,16 @@ export default function Onboarding() {
   const [isMyTicketsView, setIsMyTicketsView] = useState(false)
 
   // Get all onboarding tickets
-  const { data: ticketsData, loading: ticketsLoading, error: ticketsError } = useQuery<
-    OnboardingTicketsQueryType
-  >(getOnboardingTickets)
-  const { data: projectsData, loading: projectsLoading, error: projectsError } = useQuery<
-    GetEmployeeProjectsQuery,
-    GetEmployeeProjectsVariables
-  >(getEmployeeProjects, {
+  const {
+    data: ticketsData,
+    loading: ticketsLoading,
+    error: ticketsError,
+  } = useQuery<OnboardingTicketsQueryType>(getOnboardingTickets)
+  const {
+    data: projectsData,
+    loading: projectsLoading,
+    error: projectsError,
+  } = useQuery<GetEmployeeProjectsQuery, GetEmployeeProjectsVariables>(getEmployeeProjects, {
     variables: { id: user.employee.id },
   })
 
@@ -74,9 +77,8 @@ export default function Onboarding() {
   const isAccessWrite = onboardingAccessData?.onboardingAccess?.write || false
 
   // Get completed tickets
-  const { data: employeeOnboardingTicketsData } = useQuery<EmployeeOnboardingTicketsQueryType>(
-    employeeOnboardingTickets,
-  )
+  const { data: employeeOnboardingTicketsData } =
+    useQuery<EmployeeOnboardingTicketsQueryType>(employeeOnboardingTickets)
   const completedTickets = employeeOnboardingTicketsData?.employeeOnboardingTickets.map(
     ticket => ticket.id,
   )
@@ -122,6 +124,7 @@ export default function Onboarding() {
           ? completedTickets?.includes(ticket.id)
           : !completedTickets?.includes(ticket.id),
       )
+      .slice()
       .sort((a, b) => (completedTickets?.includes(a.id) ? 1 : -1))
 
     return (
@@ -214,7 +217,7 @@ export default function Onboarding() {
               setIsMyTicketsView(key === 'mine')
               urlAction.paramsClear()
             }}
-            tabBarStyle={{ padding: '0 60px' }}
+            tabBarStyle={{ padding: '0 24px' }}
           >
             <MyTicketTabs.TabPane tab="All" key="all" />
             <MyTicketTabs.TabPane tab="My Trainings" key="mine" />

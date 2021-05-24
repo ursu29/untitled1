@@ -1,7 +1,7 @@
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import query, { QueryType } from '../../queries/getBookmarks'
 import { Guild } from '../../types'
-import { useQuery } from '@apollo/react-hooks'
 import Bookmarks from '../Bookmarks/Bookmarks'
 import message from '../../message'
 

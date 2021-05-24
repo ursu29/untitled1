@@ -5,9 +5,9 @@
  */
 import * as Types from '../types/graphql'
 
-import gql from 'graphql-tag'
-import * as ApolloReactCommon from '@apollo/react-common'
-import * as ApolloReactHooks from '@apollo/react-hooks'
+import { gql } from '@apollo/client'
+import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type ProposeMatrixChangesMutationVariables = Types.Exact<{
   input: Types.ProposeMatrixChangesInput
 }>
@@ -22,7 +22,7 @@ export const ProposeMatrixChangesDocument = gql`
     proposeMatrixChanges(input: $input)
   }
 `
-export type ProposeMatrixChangesMutationFn = ApolloReactCommon.MutationFunction<
+export type ProposeMatrixChangesMutationFn = Apollo.MutationFunction<
   ProposeMatrixChangesMutation,
   ProposeMatrixChangesMutationVariables
 >
@@ -45,23 +45,22 @@ export type ProposeMatrixChangesMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useProposeMatrixChangesMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
+  baseOptions?: Apollo.MutationHookOptions<
     ProposeMatrixChangesMutation,
     ProposeMatrixChangesMutationVariables
   >,
 ) {
-  return ApolloReactHooks.useMutation<
-    ProposeMatrixChangesMutation,
-    ProposeMatrixChangesMutationVariables
-  >(ProposeMatrixChangesDocument, baseOptions)
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<ProposeMatrixChangesMutation, ProposeMatrixChangesMutationVariables>(
+    ProposeMatrixChangesDocument,
+    options,
+  )
 }
 export type ProposeMatrixChangesMutationHookResult = ReturnType<
   typeof useProposeMatrixChangesMutation
 >
-export type ProposeMatrixChangesMutationResult = ApolloReactCommon.MutationResult<
-  ProposeMatrixChangesMutation
->
-export type ProposeMatrixChangesMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type ProposeMatrixChangesMutationResult = Apollo.MutationResult<ProposeMatrixChangesMutation>
+export type ProposeMatrixChangesMutationOptions = Apollo.BaseMutationOptions<
   ProposeMatrixChangesMutation,
   ProposeMatrixChangesMutationVariables
 >

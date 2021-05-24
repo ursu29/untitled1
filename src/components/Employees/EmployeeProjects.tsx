@@ -1,6 +1,6 @@
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import { Employee } from '../../types'
-import { useQuery } from '@apollo/react-hooks'
 import getEmployeeProjects, {
   GetEmployeeProjectsQuery,
   GetEmployeeProjectsVariables,

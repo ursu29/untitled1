@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/react-hooks'
+import { useMutation } from '@apollo/client'
 import { Button, Form } from 'antd'
 import React, { useState } from 'react'
 import message from '../../message'

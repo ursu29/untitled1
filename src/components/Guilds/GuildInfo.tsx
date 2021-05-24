@@ -1,5 +1,5 @@
+import { useMutation } from '@apollo/client'
 import React from 'react'
-import { useMutation } from '@apollo/react-hooks'
 import { useMediaQuery } from 'react-responsive'
 import message from '../../message'
 import { getGuild, updateGuild } from '../../queries/guilds'

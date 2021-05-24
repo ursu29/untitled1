@@ -1,5 +1,4 @@
-import { useMutation } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
+import { useMutation, gql } from '@apollo/client'
 import React from 'react'
 import getMatrix from '../../../queries/getMatrix'
 import { Matrix, Skill } from '../../../types'

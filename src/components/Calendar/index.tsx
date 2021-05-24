@@ -1,7 +1,7 @@
+import { useQuery } from '@apollo/client'
 import { Button } from 'antd'
 import moment from 'moment'
 import React, { useState } from 'react'
-import { useQuery } from '@apollo/react-hooks'
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import PageContent from '../UI/PageContent'
@@ -53,6 +53,7 @@ export default function Calendar() {
       data?.events
         .map(e => e.city)
         .filter(e => e)
+        .slice()
         .sort() || [],
     ),
   )
@@ -62,11 +63,7 @@ export default function Calendar() {
       <PageHeader
         title="Events"
         extra={[
-          <Button
-            type="primary"
-            onClick={() => setModalAddEvent({ visible: true })}
-            data-cy="addEvent"
-          >
+          <Button onClick={() => setModalAddEvent({ visible: true })} data-cy="addEvent">
             Add Event
           </Button>,
         ]}

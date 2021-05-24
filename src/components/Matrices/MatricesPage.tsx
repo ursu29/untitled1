@@ -1,6 +1,6 @@
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import query, { QueryType } from '../../queries/getMatrices'
-import { useQuery } from '@apollo/react-hooks'
 import MatricesList from './MatricesList'
 import CreateMatrix from './CreateMatrix'
 import PageContent from '../UI/PageContent'

@@ -5,9 +5,9 @@
  */
 import * as Types from '../types/graphql'
 
-import gql from 'graphql-tag'
-import * as ApolloReactCommon from '@apollo/react-common'
-import * as ApolloReactHooks from '@apollo/react-hooks'
+import { gql } from '@apollo/client'
+import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type CreateExperienceMutationVariables = Types.Exact<{
   input?: Types.Maybe<Types.CreateExperienceInput>
 }>
@@ -39,7 +39,7 @@ export const CreateExperienceDocument = gql`
     }
   }
 `
-export type CreateExperienceMutationFn = ApolloReactCommon.MutationFunction<
+export type CreateExperienceMutationFn = Apollo.MutationFunction<
   CreateExperienceMutation,
   CreateExperienceMutationVariables
 >
@@ -62,21 +62,20 @@ export type CreateExperienceMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useCreateExperienceMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
+  baseOptions?: Apollo.MutationHookOptions<
     CreateExperienceMutation,
     CreateExperienceMutationVariables
   >,
 ) {
-  return ApolloReactHooks.useMutation<CreateExperienceMutation, CreateExperienceMutationVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<CreateExperienceMutation, CreateExperienceMutationVariables>(
     CreateExperienceDocument,
-    baseOptions,
+    options,
   )
 }
 export type CreateExperienceMutationHookResult = ReturnType<typeof useCreateExperienceMutation>
-export type CreateExperienceMutationResult = ApolloReactCommon.MutationResult<
-  CreateExperienceMutation
->
-export type CreateExperienceMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type CreateExperienceMutationResult = Apollo.MutationResult<CreateExperienceMutation>
+export type CreateExperienceMutationOptions = Apollo.BaseMutationOptions<
   CreateExperienceMutation,
   CreateExperienceMutationVariables
 >
@@ -87,7 +86,7 @@ export const UpdateExperienceDocument = gql`
     }
   }
 `
-export type UpdateExperienceMutationFn = ApolloReactCommon.MutationFunction<
+export type UpdateExperienceMutationFn = Apollo.MutationFunction<
   UpdateExperienceMutation,
   UpdateExperienceMutationVariables
 >
@@ -110,21 +109,20 @@ export type UpdateExperienceMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useUpdateExperienceMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
+  baseOptions?: Apollo.MutationHookOptions<
     UpdateExperienceMutation,
     UpdateExperienceMutationVariables
   >,
 ) {
-  return ApolloReactHooks.useMutation<UpdateExperienceMutation, UpdateExperienceMutationVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UpdateExperienceMutation, UpdateExperienceMutationVariables>(
     UpdateExperienceDocument,
-    baseOptions,
+    options,
   )
 }
 export type UpdateExperienceMutationHookResult = ReturnType<typeof useUpdateExperienceMutation>
-export type UpdateExperienceMutationResult = ApolloReactCommon.MutationResult<
-  UpdateExperienceMutation
->
-export type UpdateExperienceMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type UpdateExperienceMutationResult = Apollo.MutationResult<UpdateExperienceMutation>
+export type UpdateExperienceMutationOptions = Apollo.BaseMutationOptions<
   UpdateExperienceMutation,
   UpdateExperienceMutationVariables
 >
@@ -135,7 +133,7 @@ export const DeleteExperienceDocument = gql`
     }
   }
 `
-export type DeleteExperienceMutationFn = ApolloReactCommon.MutationFunction<
+export type DeleteExperienceMutationFn = Apollo.MutationFunction<
   DeleteExperienceMutation,
   DeleteExperienceMutationVariables
 >
@@ -158,21 +156,20 @@ export type DeleteExperienceMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useDeleteExperienceMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
+  baseOptions?: Apollo.MutationHookOptions<
     DeleteExperienceMutation,
     DeleteExperienceMutationVariables
   >,
 ) {
-  return ApolloReactHooks.useMutation<DeleteExperienceMutation, DeleteExperienceMutationVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<DeleteExperienceMutation, DeleteExperienceMutationVariables>(
     DeleteExperienceDocument,
-    baseOptions,
+    options,
   )
 }
 export type DeleteExperienceMutationHookResult = ReturnType<typeof useDeleteExperienceMutation>
-export type DeleteExperienceMutationResult = ApolloReactCommon.MutationResult<
-  DeleteExperienceMutation
->
-export type DeleteExperienceMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type DeleteExperienceMutationResult = Apollo.MutationResult<DeleteExperienceMutation>
+export type DeleteExperienceMutationOptions = Apollo.BaseMutationOptions<
   DeleteExperienceMutation,
   DeleteExperienceMutationVariables
 >

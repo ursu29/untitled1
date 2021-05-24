@@ -1,5 +1,5 @@
+import { useQuery } from '@apollo/client'
 import React from 'react'
-import { useQuery } from '@apollo/react-hooks'
 import Skeleton from '../UI/Skeleton'
 import Section from '../UI/Section'
 import { Skill, Employee } from '../../types'
@@ -52,7 +52,11 @@ interface Props {
 
 export default function PreloadDetails({ skill }: Props) {
   const { employee } = useEmployee()
-  const { data: skillData, loading: skillLoading, error: skillLoadingError } = useGetSkillsQuery({
+  const {
+    data: skillData,
+    loading: skillLoading,
+    error: skillLoadingError,
+  } = useGetSkillsQuery({
     variables: { input: { id: skill.id } },
   })
 

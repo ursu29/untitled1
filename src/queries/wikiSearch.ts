@@ -5,9 +5,9 @@
  */
 import * as Types from '../types/graphql'
 
-import gql from 'graphql-tag'
-import * as ApolloReactCommon from '@apollo/react-common'
-import * as ApolloReactHooks from '@apollo/react-hooks'
+import { gql } from '@apollo/client'
+import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type WikiSearchTextQueryVariables = Types.Exact<{
   input?: Types.Maybe<Types.WikiSearchTextInput>
 }>
@@ -53,30 +53,26 @@ export const WikiSearchTextDocument = gql`
  * });
  */
 export function useWikiSearchTextQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<
-    WikiSearchTextQuery,
-    WikiSearchTextQueryVariables
-  >,
+  baseOptions?: Apollo.QueryHookOptions<WikiSearchTextQuery, WikiSearchTextQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<WikiSearchTextQuery, WikiSearchTextQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<WikiSearchTextQuery, WikiSearchTextQueryVariables>(
     WikiSearchTextDocument,
-    baseOptions,
+    options,
   )
 }
 export function useWikiSearchTextLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
-    WikiSearchTextQuery,
-    WikiSearchTextQueryVariables
-  >,
+  baseOptions?: Apollo.LazyQueryHookOptions<WikiSearchTextQuery, WikiSearchTextQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<WikiSearchTextQuery, WikiSearchTextQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<WikiSearchTextQuery, WikiSearchTextQueryVariables>(
     WikiSearchTextDocument,
-    baseOptions,
+    options,
   )
 }
 export type WikiSearchTextQueryHookResult = ReturnType<typeof useWikiSearchTextQuery>
 export type WikiSearchTextLazyQueryHookResult = ReturnType<typeof useWikiSearchTextLazyQuery>
-export type WikiSearchTextQueryResult = ApolloReactCommon.QueryResult<
+export type WikiSearchTextQueryResult = Apollo.QueryResult<
   WikiSearchTextQuery,
   WikiSearchTextQueryVariables
 >

@@ -1,7 +1,6 @@
-import { useMutation, useQuery } from '@apollo/react-hooks'
+import { useMutation, useQuery, gql } from '@apollo/client'
 import { DeleteOutlined } from '@ant-design/icons'
 import { Button, List, Popconfirm } from 'antd'
-import gql from 'graphql-tag'
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import message from '../../message'

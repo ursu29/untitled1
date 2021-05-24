@@ -1,6 +1,5 @@
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import { useQuery, useMutation, gql } from '@apollo/client'
 import { Checkbox, Table, Switch } from 'antd'
-import gql from 'graphql-tag'
 import React, { useState } from 'react'
 import fragments, { EmployeeDetails } from '../../fragments'
 import { Employee, LOCATION } from '../../types'
@@ -35,14 +34,16 @@ const WITHOUT_MANAGER = 'Without manager only'
 const NOT_MANAGEMENT = 'Exclude exceptions'
 const checkers = [WITHOUT_MANAGER, NOT_MANAGEMENT]
 
-export default function EmployeesTable() {
+export default function Employees() {
   const [filters, setFilters] = useState(checkers)
   const [chosenUser, setChosenUser] = useState<QueryType['employees'][0] | null>(null)
   const [exceptionsModifying, setExceptionsModifying] = useState(false)
 
   // Get all employees
   const { data, loading } = useQuery<QueryType>(getEmployees)
-  const employees = data?.employees.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
+  const employees = data?.employees
+    .slice()
+    .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
 
   // Get management group
   const { data: accessGroup } = useQuery<GetMembersOfAccessGroupType>(getMembersOfAccessGroup, {

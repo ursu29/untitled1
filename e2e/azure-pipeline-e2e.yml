@@ -44,7 +44,7 @@ jobs:
           workingDirectory: '$(Build.SourcesDirectory)/e2e'
           targetType: 'inline'
           script: |
-            yarn cypress run --browser chrome --headless \
+            yarn run cypress run --browser chrome --headless \
             --env client_id=$(cypress_client_id),\
             scope=$(cypress_scope),\
             client_secret=$(cypress_client_secret),\
@@ -53,7 +53,7 @@ jobs:
             manager_username=$(cypress_manager_username),\
             employee_username=$(cypress_employee_username),\
             img_scope=$(cypress_img_scope),\
-            grant_type=$(cypress_grant_type)
+            grant_type=$(cypress_grant_type) || yarn run posttest
       - task: PublishTestResults@2
         condition: succeededOrFailed()
         inputs:
@@ -74,6 +74,23 @@ jobs:
           pathToPublish: '$(Build.ArtifactStagingDirectory)'
           artifactName: ScreenShots
         displayName: Publish Screenshots
+      - task: CopyFiles@2
+        condition: always()
+        inputs:
+          sourceFolder: '$(Build.SourcesDirectory)/e2e/TestReport'
+          contents: '**/*'
+          targetFolder: '$(Build.ArtifactStagingDirectory)'
+        displayName: Copy TestReport
+      - task: PublishBuildArtifacts@1
+        condition: always()
+        inputs:
+          pathToPublish: '$(Build.ArtifactStagingDirectory)'
+          artifactName: folderReport
+        displayName: Publish folder
+      - task: publishhtmlreport@1
+        inputs:
+          htmlType: 'OtherComplexReport'
+          JmeterReportsPath: '$(Build.SourcesDirectory)/e2e/TestReport'
 
 # jobs:
 #   - job: E2E_Tests

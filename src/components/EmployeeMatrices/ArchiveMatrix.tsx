@@ -1,5 +1,5 @@
+import { useQuery, useMutation } from '@apollo/client'
 import React from 'react'
-import { useQuery, useMutation } from '@apollo/react-hooks'
 import VersionSnapshot from '../UI/VersionSnapshot'
 import {
   archivedMatrixVersions,

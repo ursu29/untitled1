@@ -1,5 +1,5 @@
+import { useQuery } from '@apollo/client'
 import { CrownOutlined, TeamOutlined } from '@ant-design/icons'
-import { useQuery } from '@apollo/react-hooks'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import query, { QueryType } from '../../queries/getProjectByCode'

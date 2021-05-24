@@ -23,9 +23,8 @@ describe('Check files', () => {
 
   it('Check files data', () => {
     cy.get('.ant-tabs-tab').eq(2).should('have.class', 'ant-tabs-tab-active')
+    const files = response.sharedFiles[0]
 
-    const { sharedFiles } = response
-
-    expect(sharedFiles.__typename).equal('SharedFiles')
+    expect(files.__typename).equal('SharedFile')
   })
 })

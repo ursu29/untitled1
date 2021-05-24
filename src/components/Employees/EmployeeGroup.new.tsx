@@ -1,12 +1,11 @@
+import { useQuery, gql } from '@apollo/client'
 import React, { useState } from 'react'
 import { EmployeeDetails } from '../../fragments'
 import { Typography, Button, Tooltip, Popconfirm } from 'antd'
 import EmployeeCard from './EmployeeCard.new'
-import { useQuery } from '@apollo/react-hooks'
 import { useUpdateEmployeeMutation } from '../../queries/employees'
 import message from '../../message'
 import { useEmployee } from '../../utils/withEmployee'
-import gql from 'graphql-tag'
 
 const queryOne2oneRequest = gql`
   {

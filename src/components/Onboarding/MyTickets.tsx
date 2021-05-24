@@ -1,7 +1,7 @@
+import { useQuery } from '@apollo/client'
 import { Button, Typography, Spin, Modal } from 'antd'
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useQuery } from '@apollo/react-hooks'
 import { OnboardingTicket } from '../../types'
 import EmployeesList from '../Employees/EmployeesList'
 import {

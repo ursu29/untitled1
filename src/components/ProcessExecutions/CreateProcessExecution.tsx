@@ -1,6 +1,5 @@
-import { useMutation } from '@apollo/react-hooks'
+import { useMutation, gql } from '@apollo/client'
 import { Button } from 'antd'
-import gql from 'graphql-tag'
 import React, { useEffect } from 'react'
 import message from '../../message'
 import getProcessExecutions from '../../queries/getProcessExecutions'

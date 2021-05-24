@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { Guild } from '../types'
 import fragments from '../fragments'
 

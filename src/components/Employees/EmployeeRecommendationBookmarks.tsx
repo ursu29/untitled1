@@ -1,5 +1,5 @@
+import { useQuery } from '@apollo/client'
 import React from 'react'
-import { useQuery } from '@apollo/react-hooks'
 import { Skill } from '../../types'
 import message from '../../message'
 import query, { QueryType } from '../../queries/getBookmarks'

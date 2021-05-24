@@ -20,9 +20,11 @@ const warning = (error: any) => message.warning({ content: trimError(error), key
 const error = (error: any) => message.error({ content: trimError(error), key })
 const loading = (content: string) => message.loading({ content, key })
 
-export default {
+const messages = {
   success,
   warning,
   error,
   loading,
 }
+
+export default messages

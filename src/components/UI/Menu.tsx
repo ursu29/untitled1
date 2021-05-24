@@ -1,3 +1,4 @@
+import { useQuery, gql } from '@apollo/client'
 import {
   ClockCircleOutlined,
   CoffeeOutlined,
@@ -18,11 +19,10 @@ import {
   MehOutlined,
   CalendarOutlined,
   RocketOutlined,
+  BookOutlined,
   SmileOutlined,
 } from '@ant-design/icons'
-import { useQuery } from '@apollo/react-hooks'
 import { Badge, Menu } from 'antd'
-import gql from 'graphql-tag'
 import React from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { Link } from 'react-router-dom'
@@ -144,6 +144,11 @@ function PortalMenu(props: Props) {
       route: paths.WIKI,
       icon: <GlobalOutlined />,
       title: 'WIKI',
+    },
+    {
+      route: paths.LIBRARY,
+      icon: <BookOutlined />,
+      title: 'Library',
     },
     {
       route: paths.HOBBIES,

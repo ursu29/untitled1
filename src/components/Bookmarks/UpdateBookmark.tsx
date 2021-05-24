@@ -1,6 +1,4 @@
-import { useMutation } from '@apollo/react-hooks'
-import { PureQueryOptions } from 'apollo-client'
-import gql from 'graphql-tag'
+import { PureQueryOptions, useMutation, gql } from '@apollo/client'
 import React from 'react'
 import message from '../../message'
 import getBookmarks from '../../queries/getBookmarks'

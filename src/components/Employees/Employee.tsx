@@ -32,7 +32,7 @@ interface Props {
   employee: EmployeePick
 }
 
-export default function ({ employee }: Props) {
+export default function PortalEmployee({ employee }: Props) {
   const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
   const mobile = !isLarge
 

@@ -1,9 +1,8 @@
+import { useMutation, gql } from '@apollo/client'
 import React, { useState, useCallback, useEffect } from 'react'
 import { Employee } from '../../types'
 import EmployeeSelect from '../Employees/EmployeeSelect'
 import Button from '../UI/Button'
-import { useMutation } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import getEvaluationReviewers from '../../queries/getEvaluationReviewers'
 import message from '../../message'
 
@@ -63,7 +62,11 @@ function AddEvaluationReviewer({ employee }: Props) {
         }}
       />
     )
-  return <Button onClick={setAddingTrue} data-cy="reviewer">Add reviewer</Button>
+  return (
+    <Button onClick={setAddingTrue} data-cy="reviewer">
+      Add reviewer
+    </Button>
+  )
 }
 
 export default AddEvaluationReviewer

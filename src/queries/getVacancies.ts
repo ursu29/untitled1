@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { Vacancy, Project, Employee, LOCATION } from '../types'
 
 export default gql`

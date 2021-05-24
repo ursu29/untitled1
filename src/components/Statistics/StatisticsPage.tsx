@@ -30,6 +30,7 @@ const getHighestSkills = (skills: SkillPick[], count: number, levelId?: string) 
           : skill.experiences?.length) || 0,
       link: getSkillLink(skill.id),
     }))
+    .slice()
     .sort((a, b) => b.rate - a.rate)
     .filter(skill => skill.rate > 0)
     .slice(0, count)

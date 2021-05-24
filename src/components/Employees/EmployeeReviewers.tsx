@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/react-hooks'
+import { useMutation, useQuery } from '@apollo/client'
 import React, { useEffect } from 'react'
 import Reviewers from './Reviewers'
 import { QueryType as QueryTypeEmployees } from '../../queries/getEmployees'

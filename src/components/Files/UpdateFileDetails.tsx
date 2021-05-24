@@ -1,25 +1,17 @@
 import React from 'react'
-import { FilesPick } from '../../queries/getSharedFiles'
+import message from '../../message'
+import { SharedFileFragmentFragment } from '../../queries/getSharedFiles'
+import { useUpdateFileDetailsMutation } from '../../queries/updateFileDetails'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import FileForm from './FileForm'
-import { useMutation } from '@apollo/react-hooks'
-import {
-  updateFileDetails,
-  UpdateFileDetailsMutation,
-  UpdateFileDetailsMutationInput,
-} from '../../queries/updateFileDetails'
-import message from '../../message'
 
 interface Props {
-  file: FilesPick
+  file: SharedFileFragmentFragment
 }
 
 export const UpdateFileDetails = ({ file }: Props) => {
-  const [updateFile, { loading }] = useMutation<
-    UpdateFileDetailsMutation,
-    UpdateFileDetailsMutationInput
-  >(updateFileDetails, {
+  const [updateFile, { loading }] = useUpdateFileDetailsMutation({
     onError: message.error,
     onCompleted: () => message.success('File is updated'),
   })
@@ -38,14 +30,7 @@ export const UpdateFileDetails = ({ file }: Props) => {
           onSubmit={(values, reset) => {
             updateFile({
               variables: { input: values },
-              update: (cache, { data }) => {
-                const cacheId = `AzureFile:${file.id}`
-                if (data) {
-                  cache.writeData({
-                    id: cacheId,
-                    data: { details: data.updateFileDetails },
-                  })
-                }
+              update: () => {
                 if (reset) {
                   reset()
                 }

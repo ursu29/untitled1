@@ -1,9 +1,9 @@
+import { useMutation } from '@apollo/client'
 import { CheckOutlined, CloseOutlined, PauseOutlined, PlayCircleTwoTone } from '@ant-design/icons'
 import { Table, Badge, Tag, Tooltip, Select } from 'antd'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import React from 'react'
-import { useMutation } from '@apollo/react-hooks'
 import { Link } from 'react-router-dom'
 import { getProcessExecutionLink } from '../../paths'
 import { QueryType } from '../../queries/getProcessExecutions'
@@ -140,9 +140,22 @@ function ProcessList({ items, tabName }: Props) {
       showSorterTooltip: false,
       filters: [
         //@ts-ignore
-        ...new Set(items.filter(e => e?.project && e?.project?.name).map(e => e?.project?.name)),
+        ...new Set(
+          items
+            .filter(e =>
+              e.process.type === 'ROTATION' ? !!e?.projectFrom : e?.project && e?.project?.name,
+            )
+            .flatMap(e =>
+              e.process.type === 'ROTATION'
+                ? [e.projectFrom?.name, e.projectTo?.name]
+                : [e?.project?.name],
+            ),
+        ),
       ].map(e => ({ text: e, value: e })),
-      onFilter: (value: any, record: any) => record.project?.name === value,
+      onFilter: (value: any, record: ProcessExecution) =>
+        record.process.type === 'ROTATION'
+          ? record.projectFrom?.name === value || record.projectTo?.name === value
+          : record.project?.name === value,
       render: (_: any, i: ProcessExecution) => {
         return i.process.type === 'ROTATION' ? (
           <div style={{ display: 'flex', marginLeft: '10px' }}>
@@ -284,9 +297,11 @@ function ProcessList({ items, tabName }: Props) {
           const responsibleList = [
             //@ts-ignore
             ...new Set(
-              process.activeStepEmployees?.sort((a: any, b: any) =>
-                a?.email.toLowerCase() === user.employee?.email.toLowerCase() ? -1 : 1,
-              ),
+              process.activeStepEmployees
+                ?.slice()
+                .sort((a: any, b: any) =>
+                  a?.email.toLowerCase() === user.employee?.email.toLowerCase() ? -1 : 1,
+                ),
             ),
           ]
           return (
@@ -344,11 +359,13 @@ function ProcessList({ items, tabName }: Props) {
         sorter: (a: any, b: any) =>
           a.activeStepEmployees
             ?.map((e: any) => e?.name)
+            .slice()
             .sort()
             .join('')
             .localeCompare(
               b.activeStepEmployees
                 ?.map((e: any) => e?.name)
+                .slice()
                 .sort()
                 .join(''),
             ),
@@ -382,7 +399,7 @@ function ProcessList({ items, tabName }: Props) {
     ])
   }
 
-  const sortedItems = items.sort((a: any, b: any) => {
+  const sortedItems = items.slice().sort((a: any, b: any) => {
     if (tabName === 'archived') return 1
 
     const includesUserEmail = (e: any) =>

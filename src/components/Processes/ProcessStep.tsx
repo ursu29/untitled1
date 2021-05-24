@@ -1,7 +1,6 @@
+import { useMutation, gql } from '@apollo/client'
 import { DeleteOutlined } from '@ant-design/icons'
-import { useMutation } from '@apollo/react-hooks'
 import { Button, Collapse, Popconfirm, Tag, Tooltip } from 'antd'
-import gql from 'graphql-tag'
 import React, { useEffect } from 'react'
 import { ProcessStepDetails } from '../../fragments'
 import message from '../../message'

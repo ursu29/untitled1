@@ -1,6 +1,5 @@
-import { useMutation } from '@apollo/react-hooks'
+import { useMutation, gql } from '@apollo/client'
 import { Button, DatePicker, Input, Modal, Select, Space } from 'antd'
-import gql from 'graphql-tag'
 import moment, { Moment } from 'moment'
 import React, { useState, useEffect } from 'react'
 import message from '../../message'

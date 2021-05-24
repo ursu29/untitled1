@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks'
+import { useQuery, useMutation, useLazyQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import {
   archivedSEFVersions,
@@ -55,9 +55,10 @@ function EmployeeEvaluation({ employee, editable }: Props) {
   })
 
   // Get archived SEF
-  const [getSEFVersion, { data: archivedSEFData }] = useLazyQuery<{
-    archivedSEF: ArchivedSEFData
-  }>(getArchivedSEF)
+  const [getSEFVersion, { data: archivedSEFData }] =
+    useLazyQuery<{
+      archivedSEF: ArchivedSEFData
+    }>(getArchivedSEF)
 
   // Select SEF version
   const onSelectVersion = (version: string) => {
@@ -106,6 +107,7 @@ function EmployeeEvaluation({ employee, editable }: Props) {
             })
           }
           versionsList={dataVersions?.archivedSEFVersions
+            .slice()
             .sort((a, b) => (new Date(a.createdAt) < new Date(b.createdAt) ? 1 : -1))
             .map(e => ({
               id: e.id,
