@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from '@apollo/client'
 import React, { useEffect } from 'react'
 import VacancyForm from './VacancyForm'
 import getVacancies, { QueryType } from '../../queries/getVacancies'
@@ -10,6 +10,7 @@ import message from '../../message'
 import { Typography, Tag } from 'antd'
 import markdownToHtml from '../../utils/markdownToHtml'
 import getLocationName from '../../utils/getLocationName'
+import Helmet from '../Helmet'
 
 function Vacancy({
   id,
@@ -105,6 +106,7 @@ function Vacancy({
   const handlePublish = save(() => publish({ variables: { input: { id: vacancy?.id } } }))
   return (
     <Skeleton active loading={loading}>
+      <Helmet title={vacancy?.position} />
       {!vacancy && <div>Vacancy is not found</div>}
       {vacancy && (
         <>

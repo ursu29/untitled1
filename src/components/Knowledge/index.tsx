@@ -6,6 +6,7 @@ import Files from '../Files/FilesPage'
 import PageContent from '../UI/PageContent'
 import Tabs from '../UI/Tabs'
 import PageHeader from '../UI/PageHeader'
+import Helmet from '../Helmet'
 
 const tabs = [
   {
@@ -28,6 +29,7 @@ export default function Knowledge({ match }: Props) {
   const { tab } = match.params
   return (
     <>
+      <Helmet title="Knowledge" />
       <PageHeader title="Knowledge" />
       <PageContent>
         <Tabs controlled tabs={tabs} tab={tab} />

@@ -1,4 +1,4 @@
-import { useMutation, useQuery, gql } from "@apollo/client";
+import { useMutation, useQuery, gql } from '@apollo/client'
 import { CheckOutlined, CloseOutlined, DownOutlined, TeamOutlined } from '@ant-design/icons'
 import {
   Button,
@@ -28,6 +28,7 @@ import getLocationName from '../../utils/getLocationName'
 import PageContent from '../UI/PageContent'
 import EditOfficeLimits from './EditOfficeLimits'
 import './OfficePlannerPage.css'
+import Helmet from '../Helmet'
 
 const { RangePicker } = DatePicker
 
@@ -295,6 +296,7 @@ function OfficePlannerPage() {
 
   return (
     <>
+      <Helmet title="Office Planner" />
       <Modal
         confirmLoading={actionsDisabled}
         cancelButtonProps={{ loading: actionsDisabled }}
@@ -335,8 +337,12 @@ function OfficePlannerPage() {
               setCurrentMode(e.target.value)
             }}
           >
-            <Radio.Button value={MODE_CREATE} data-cy="create">Create</Radio.Button>
-            <Radio.Button value={MODE_CANCEL} data-cy="cancel">Cancel</Radio.Button>
+            <Radio.Button value={MODE_CREATE} data-cy="create">
+              Create
+            </Radio.Button>
+            <Radio.Button value={MODE_CANCEL} data-cy="cancel">
+              Cancel
+            </Radio.Button>
           </Radio.Group>
           <RangePicker
             value={[moment(currentDateStart), moment(currentDateEnd)]}
@@ -346,8 +352,7 @@ function OfficePlannerPage() {
               if (date.isBefore(moment())) {
                 return true
               }
-              return !!date.isAfter(moment().add(60, 'day'));
-
+              return !!date.isAfter(moment().add(60, 'day'))
             }}
             onChange={(value: any) => {
               if (value) {
@@ -358,7 +363,7 @@ function OfficePlannerPage() {
           />
           {currentMode === MODE_CREATE && (
             <Checkbox
-                data-cy="skipWeekend"
+              data-cy="skipWeekend"
               onChange={value => {
                 setCurrentSkipWeekends(value.target.checked)
               }}

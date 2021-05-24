@@ -1,6 +1,7 @@
 import React from 'react'
 import { useGetProfileQuery } from '../../queries/profile'
 import EmployeePage from '../Employees/EmployeePage'
+import Helmet from '../Helmet'
 
 function ProfilePage() {
   const { data, error } = useGetProfileQuery()
@@ -9,7 +10,12 @@ function ProfilePage() {
 
   if (!data) return null
 
-  return <EmployeePage rewriteEmail={data.profile?.email} hideNavigation />
+  return (
+    <>
+      <Helmet title={data.profile?.name} />
+      <EmployeePage rewriteEmail={data.profile?.email} hideNavigation />
+    </>
+  )
 }
 
 export default ProfilePage

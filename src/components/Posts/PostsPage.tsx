@@ -1,10 +1,11 @@
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql } from '@apollo/client'
 import React, { useState } from 'react'
 import NewsFeed from './NewsFeed'
 import PageContent from '../UI/PageContent'
 import { Access, Employee, LOCATION } from '../../types'
 import PageHeader from '../UI/PageHeader'
 import CreatePost from './CreatePost'
+import Helmet from '../Helmet'
 
 const query = gql`
   {
@@ -36,6 +37,7 @@ export default function PostsPage() {
 
   return (
     <>
+      <Helmet title="News" />
       <PageHeader
         title="News"
         subTitle="Latest Syncretis posts"

@@ -1,4 +1,4 @@
-import { useMutation, useQuery, gql } from "@apollo/client";
+import { useMutation, useQuery, gql } from '@apollo/client'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import getProcess, { QueryType } from '../../queries/getProcess'
@@ -9,6 +9,7 @@ import { Divider } from 'antd'
 import NotAllowed from '../UI/NotAllowed'
 import isForbidden from '../../utils/isForbidden'
 import PageHeader from '../UI/PageHeader'
+import Helmet from '../Helmet'
 
 const accessQuery = gql`
   query processPageAccess {
@@ -32,7 +33,11 @@ const mutation = gql`
 
 function ProcessPage({ match }: RouteComponentProps<{ id: string }>) {
   const id = match.params.id
-  const { data, loading: dataLoading, error } = useQuery<QueryType>(getProcess, {
+  const {
+    data,
+    loading: dataLoading,
+    error,
+  } = useQuery<QueryType>(getProcess, {
     variables: { id },
   })
   const { data: access, loading: accessLoading } = useQuery<AccessQueryType>(accessQuery)
@@ -57,6 +62,7 @@ function ProcessPage({ match }: RouteComponentProps<{ id: string }>) {
 
   return (
     <>
+      <Helmet title={process?.title} />
       <PageHeader title={process?.title} />
       <PageContent loading={loading}>
         {process && (

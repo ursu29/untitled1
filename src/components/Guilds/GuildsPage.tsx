@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from '@apollo/client'
 import React from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { Row, Col } from 'antd'
@@ -12,6 +12,7 @@ import PageScheme from '../Wiki/PageScheme'
 import { getPaths } from '../../queries/wiki'
 import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 import PageHeader from '../UI/PageHeader'
+import Helmet from '../Helmet'
 
 export default function GuildsPage() {
   const isGridToSingleColumn = useMediaQuery({ maxWidth: 820 })
@@ -86,6 +87,7 @@ export default function GuildsPage() {
 
   return (
     <>
+      <Helmet title="Guilds" />
       <PageHeader title="Guilds" />
       <PageContent
         error={error}

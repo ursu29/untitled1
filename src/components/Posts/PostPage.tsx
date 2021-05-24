@@ -1,4 +1,4 @@
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from '@apollo/client'
 import React, { useEffect } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import query, { QueryType } from '../../queries/getPost'
@@ -8,6 +8,7 @@ import paths from '../../paths'
 import PageContent from '../UI/PageContent'
 import Post from './Post'
 import Skeleton from '../UI/Skeleton'
+import Helmet from '../Helmet'
 
 function PostPage({ match, history }: RouteComponentProps<{ id: string }>) {
   const { data: preData, loading: preloading } = useQuery<QueryType>(query)
@@ -28,6 +29,7 @@ function PostPage({ match, history }: RouteComponentProps<{ id: string }>) {
 
   return (
     <PageContent>
+      <Helmet title={post?.title} />
       <Controls back={<Back />} />
       <Skeleton active loading={preloading || loading}>
         {post && <Post post={post} />}

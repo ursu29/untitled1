@@ -11,6 +11,7 @@ import { useGetSkillExperiencesQuery, GetSkillExperiencesQuery } from '../../que
 import { useGetLevelsQuery } from '../../queries/levels'
 import { ArrayElement } from '../../utils/types'
 import PageHeader from '../UI/PageHeader'
+import Helmet from '../Helmet'
 
 type SkillPick = ArrayElement<GetSkillExperiencesQuery['skills']>
 
@@ -141,7 +142,8 @@ export default function StatisticsPage() {
 
   return (
     <>
-      <PageHeader title=" Skills Statistics" withBack />
+      <Helmet title="Skills Statistics" />
+      <PageHeader title="Skills Statistics" withBack />
       <PageContent>
         {isSkillChosen ? (
           <>

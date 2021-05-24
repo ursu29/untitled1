@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client'
 import { CrownOutlined, TeamOutlined } from '@ant-design/icons'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
@@ -11,6 +11,7 @@ import ProjectSkills from './ProjectSkills'
 import ProjectTechnologies from './ProjectTechnologies'
 import PageHeader from '../UI/PageHeader'
 import UpdateProject from './UpdateProject'
+import Helmet from '../Helmet'
 
 interface Props extends RouteComponentProps<{ code: string; tab: string }> {}
 
@@ -41,6 +42,7 @@ function ProjectPage({ match }: Props) {
 
   return (
     <>
+      <Helmet title={project.name} />
       <PageHeader title={project.name} withBack extra={[<UpdateProject project={project} />]} />
       <PageContent loading={loading || !data}>
         <Project loading={loading} project={project} />

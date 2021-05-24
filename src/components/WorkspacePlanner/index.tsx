@@ -25,6 +25,7 @@ import DesignModeSwitch from './DesignModeSwitch'
 import './styles.css'
 import Workspace from './Workspace'
 import WorkspaceSelector from './WorkspaceSelector'
+import Helmet from '../Helmet'
 
 dayjs.extend(customParseFormat)
 
@@ -67,11 +68,10 @@ export default function WorkspacePlanner() {
     bookingsInput: { startDate: dateRange.startDate, finishDate: dateRange.finishDate },
   }
 
-  const { data: dataWorkspacePool, loading: loadingWorkspacePool } = useQuery<
-    WorkspacePoolQueryType
-  >(workspacePoolQuery, {
-    variables: workspacePoolQueryVariables,
-  })
+  const { data: dataWorkspacePool, loading: loadingWorkspacePool } =
+    useQuery<WorkspacePoolQueryType>(workspacePoolQuery, {
+      variables: workspacePoolQueryVariables,
+    })
   const workspacePool = dataWorkspacePool
 
   /**
@@ -341,6 +341,7 @@ export default function WorkspacePlanner() {
 
   return (
     <PageContent style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+      <Helmet title="Workspace Planner" />
       <PageHeader
         className="site-page-header"
         title="Workspace Planner"

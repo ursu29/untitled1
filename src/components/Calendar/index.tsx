@@ -12,6 +12,7 @@ import { getEvents, EventsQueryType } from '../../queries/events'
 import { filterEvents } from './utils'
 import { CalendarEvent } from '../../types'
 import PageHeader from '../UI/PageHeader'
+import Helmet from '../Helmet'
 
 const TODAY = new Date()
 const YEAR = TODAY.getFullYear()
@@ -58,10 +59,13 @@ export default function Calendar() {
     ),
   )
 
+  const title = 'Events'
+
   return (
     <>
+      <Helmet title={title} />
       <PageHeader
-        title="Events"
+        title={title}
         extra={[
           <Button onClick={() => setModalAddEvent({ visible: true })} data-cy="addEvent">
             Add Event

@@ -27,6 +27,7 @@ import MyTickets from './MyTickets'
 import Ticket from './Ticket'
 import PageHeader from '../UI/PageHeader'
 import URLAction from '../../utils/URLAction'
+import Helmet from '../Helmet'
 
 export default function Onboarding() {
   const user = useEmployee()
@@ -37,13 +38,16 @@ export default function Onboarding() {
   const [isMyTicketsView, setIsMyTicketsView] = useState(false)
 
   // Get all onboarding tickets
-  const { data: ticketsData, loading: ticketsLoading, error: ticketsError } = useQuery<
-    OnboardingTicketsQueryType
-  >(getOnboardingTickets)
-  const { data: projectsData, loading: projectsLoading, error: projectsError } = useQuery<
-    GetEmployeeProjectsQuery,
-    GetEmployeeProjectsVariables
-  >(getEmployeeProjects, {
+  const {
+    data: ticketsData,
+    loading: ticketsLoading,
+    error: ticketsError,
+  } = useQuery<OnboardingTicketsQueryType>(getOnboardingTickets)
+  const {
+    data: projectsData,
+    loading: projectsLoading,
+    error: projectsError,
+  } = useQuery<GetEmployeeProjectsQuery, GetEmployeeProjectsVariables>(getEmployeeProjects, {
     variables: { id: user.employee.id },
   })
 
@@ -74,9 +78,8 @@ export default function Onboarding() {
   const isAccessWrite = onboardingAccessData?.onboardingAccess?.write || false
 
   // Get completed tickets
-  const { data: employeeOnboardingTicketsData } = useQuery<EmployeeOnboardingTicketsQueryType>(
-    employeeOnboardingTickets,
-  )
+  const { data: employeeOnboardingTicketsData } =
+    useQuery<EmployeeOnboardingTicketsQueryType>(employeeOnboardingTickets)
   const completedTickets = employeeOnboardingTicketsData?.employeeOnboardingTickets.map(
     ticket => ticket.id,
   )
@@ -200,6 +203,7 @@ export default function Onboarding() {
 
   return (
     <>
+      <Helmet title="Trainings" />
       <PageHeader title="Trainings" subTitle={isAccessWrite ? 'editing' : ''} extra={headerExtra} />
       <PageContent
         error={error}

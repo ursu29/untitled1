@@ -7,6 +7,7 @@ import { AddBookModal } from './modal/CreateBookModal'
 import { LibraryFilters } from './LibraryFilters'
 import { LibraryList } from './LibraryList'
 import { useLibraryApi } from './useLibraryApi'
+import Helmet from '../Helmet'
 
 export const LibraryPage = () => {
   const { data, dataLoading, dataUpdating } = useLibraryApi()
@@ -46,6 +47,7 @@ export const LibraryPage = () => {
 
   return (
     <>
+      <Helmet title="Library" />
       <PageHeader
         title="Library"
         extra={[
