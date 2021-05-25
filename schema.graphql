@@ -442,6 +442,7 @@ type Employee {
   accessEditGlobal: Boolean
   strapiGroupsMembership: [String!]
   requestedOnboardingTickets(withResponsible: String): [OnboardingTicket!]
+  about: String
   curriculumVitae: CurriculumVitae
   developmentPlanReviewers: [Employee!]
   matricesReviewers: [Employee!]
@@ -463,6 +464,7 @@ input EmployeeProjectInput {
 input UpdateEmployeeInput {
   id: ID!
   manager: ID
+  about: String
   agileManager: String
   lastManagerMeeting: String
   one2oneRequest: Boolean

@@ -44,18 +44,6 @@ export type GetHobbyQuery = { __typename?: 'Query' } & {
   hobby?: Types.Maybe<{ __typename?: 'Hobby' } & HobbyFullFragment>
 }
 
-export type GetEmployeeHobbiesQueryVariables = Types.Exact<{
-  id: Types.Scalars['ID']
-}>
-
-export type GetEmployeeHobbiesQuery = { __typename?: 'Query' } & {
-  employee?: Types.Maybe<
-    { __typename?: 'Employee' } & Pick<Types.Employee, 'id'> & {
-        hobbies: Array<{ __typename?: 'Hobby' } & HobbyBaseFragment>
-      }
-  >
-}
-
 export type CreateHobbyMutationVariables = Types.Exact<{
   input: Types.CreateHobbyInput
 }>
@@ -190,63 +178,6 @@ export function useGetHobbyLazyQuery(
 export type GetHobbyQueryHookResult = ReturnType<typeof useGetHobbyQuery>
 export type GetHobbyLazyQueryHookResult = ReturnType<typeof useGetHobbyLazyQuery>
 export type GetHobbyQueryResult = Apollo.QueryResult<GetHobbyQuery, GetHobbyQueryVariables>
-export const GetEmployeeHobbiesDocument = gql`
-  query getEmployeeHobbies($id: ID!) {
-    employee(id: $id) {
-      id
-      hobbies {
-        ...HobbyBase
-      }
-    }
-  }
-  ${HobbyBaseFragmentDoc}
-`
-
-/**
- * __useGetEmployeeHobbiesQuery__
- *
- * To run a query within a React component, call `useGetEmployeeHobbiesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetEmployeeHobbiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetEmployeeHobbiesQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useGetEmployeeHobbiesQuery(
-  baseOptions: Apollo.QueryHookOptions<GetEmployeeHobbiesQuery, GetEmployeeHobbiesQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<GetEmployeeHobbiesQuery, GetEmployeeHobbiesQueryVariables>(
-    GetEmployeeHobbiesDocument,
-    options,
-  )
-}
-export function useGetEmployeeHobbiesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetEmployeeHobbiesQuery,
-    GetEmployeeHobbiesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<GetEmployeeHobbiesQuery, GetEmployeeHobbiesQueryVariables>(
-    GetEmployeeHobbiesDocument,
-    options,
-  )
-}
-export type GetEmployeeHobbiesQueryHookResult = ReturnType<typeof useGetEmployeeHobbiesQuery>
-export type GetEmployeeHobbiesLazyQueryHookResult = ReturnType<
-  typeof useGetEmployeeHobbiesLazyQuery
->
-export type GetEmployeeHobbiesQueryResult = Apollo.QueryResult<
-  GetEmployeeHobbiesQuery,
-  GetEmployeeHobbiesQueryVariables
->
 export const CreateHobbyDocument = gql`
   mutation createHobby($input: CreateHobbyInput!) {
     createHobby(input: $input) {

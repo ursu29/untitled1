@@ -477,6 +477,7 @@ export type Employee = {
   accessEditGlobal?: Maybe<Scalars['Boolean']>
   strapiGroupsMembership?: Maybe<Array<Scalars['String']>>
   requestedOnboardingTickets?: Maybe<Array<OnboardingTicket>>
+  about?: Maybe<Scalars['String']>
   curriculumVitae?: Maybe<CurriculumVitae>
   developmentPlanReviewers?: Maybe<Array<Employee>>
   matricesReviewers?: Maybe<Array<Employee>>
@@ -502,6 +503,7 @@ export type EmployeeProjectInput = {
 export type UpdateEmployeeInput = {
   id: Scalars['ID']
   manager?: Maybe<Scalars['ID']>
+  about?: Maybe<Scalars['String']>
   agileManager?: Maybe<Scalars['String']>
   lastManagerMeeting?: Maybe<Scalars['String']>
   one2oneRequest?: Maybe<Scalars['Boolean']>

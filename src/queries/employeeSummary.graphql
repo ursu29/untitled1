@@ -1,0 +1,16 @@
+query getEmployeeSummary($id: ID!) {
+  employee(id: $id) {
+    id
+    about
+    hobbies {
+      ...HobbyBase
+    }
+  }
+}
+
+mutation updateEmployeeAbout($input: UpdateEmployeeInput!) {
+  updateEmployee(input: $input) {
+    id
+    about
+  }
+}

@@ -1,12 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Typography, Row, Col, Tag, Input, Card, Button } from 'antd'
+import { PlusOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { getHobbyLink } from '../../paths'
-import { useGetEmployeeHobbiesQuery } from '../../queries/hobbies'
+import {
+  useUpdateEmployeeAboutMutation,
+  useGetEmployeeSummaryQuery,
+} from '../../queries/employeeSummary'
 import { Employee } from '../../types/graphql'
+import message from '../../message'
 import Skeleton from '../UI/Skeleton'
-import { PlusOutlined } from '@ant-design/icons'
 
 const HobbyRow = styled(Row)`
   margin-top: 8px;
@@ -45,19 +49,29 @@ type Props = {
 export default function EmployeeSummary({ employee, editable }: Props) {
   const id = employee?.id || ''
 
-  const { data, loading } = useGetEmployeeHobbiesQuery({
+  const { data, loading } = useGetEmployeeSummaryQuery({
     variables: { id },
     skip: !id,
+  })
+  const [updateAbout] = useUpdateEmployeeAboutMutation({
+    onCompleted: () => message.success('About have been updated'),
+    onError: message.error,
   })
 
   if (!employee) return null
 
   const hobbies = data?.employee?.hobbies || []
-  const summary = 'Description'
+  const about = data?.employee?.about || ''
 
   const onSummaryUpdate = (text: string) => {
-    // TODO: send request
-    console.log(text)
+    updateAbout({
+      variables: {
+        input: {
+          id,
+          about: text,
+        },
+      },
+    })
   }
 
   return (
@@ -67,12 +81,12 @@ export default function EmployeeSummary({ employee, editable }: Props) {
           <Typography.Title level={4}>About</Typography.Title>
           {editable ? (
             <Input.TextArea
-              defaultValue={summary || ''}
+              defaultValue={about}
               onBlur={event => onSummaryUpdate(event.target.value)}
               autoSize={{ minRows: 4 }}
             />
           ) : (
-            <Typography.Text>{summary}</Typography.Text>
+            <Typography.Text>{about}</Typography.Text>
           )}
         </Col>
 
@@ -88,9 +102,11 @@ export default function EmployeeSummary({ employee, editable }: Props) {
             ) : (
               <HobbyEmpty>Employee has no hobbies</HobbyEmpty>
             )}
-            <NewHobbyButton icon={<PlusOutlined />} size="small">
-              Add New Hobby
-            </NewHobbyButton>
+            {editable && (
+              <NewHobbyButton icon={<PlusOutlined />} size="small">
+                Add New Hobby
+              </NewHobbyButton>
+            )}
           </Card>
         </Col>
       </HobbyRow>
