@@ -132,7 +132,7 @@ function EmployeeTabs({ match, location, ...props }: Props) {
       key: 'summary',
       icon: <InfoCircleOutlined />,
       noPadding: false,
-      body: <EmployeeSummary employee={employee} />,
+      body: <EmployeeSummary employee={employee} editable={employee?.access.write} />,
     },
     {
       title: 'Skills',
