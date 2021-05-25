@@ -480,6 +480,7 @@ export type Employee = {
   curriculumVitae?: Maybe<CurriculumVitae>
   developmentPlanReviewers?: Maybe<Array<Employee>>
   matricesReviewers?: Maybe<Array<Employee>>
+  hobbies: Array<Hobby>
 }
 
 export type EmployeeRequestedOnboardingTicketsArgs = {

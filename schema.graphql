@@ -445,6 +445,7 @@ type Employee {
   curriculumVitae: CurriculumVitae
   developmentPlanReviewers: [Employee!]
   matricesReviewers: [Employee!]
+  hobbies: [Hobby!]!
 }
 
 input EmployeesInput {

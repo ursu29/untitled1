@@ -9,6 +9,7 @@ import {
   BookOutlined,
   CrownOutlined,
   StarOutlined,
+  InfoCircleOutlined,
 } from '@ant-design/icons'
 import paths from '../../paths'
 import { Employee, Access } from '../../types'
@@ -22,6 +23,7 @@ import EmployeeCV from './EmployeeCV'
 import EmployeeSkills from './EmployeeSkills'
 import EmployeeDevelopmentPlan from './EmployeeDevelopmentPlan'
 import EmployeeSubordinates from './EmployeeSubordinates'
+import EmployeeSummary from './EmployeeSummary'
 
 interface Props extends RouteComponentProps {
   employee: Pick<Employee, 'id' | 'email'>
@@ -125,6 +127,13 @@ function EmployeeTabs({ match, location, ...props }: Props) {
   const isProfile = Boolean(matchPath(location.pathname, { path: paths.PROFILE }))
 
   let tabs: any = [
+    {
+      title: 'Summary',
+      key: 'summary',
+      icon: <InfoCircleOutlined />,
+      noPadding: false,
+      body: <EmployeeSummary employee={employee} />,
+    },
     {
       title: 'Skills',
       key: 'skills',

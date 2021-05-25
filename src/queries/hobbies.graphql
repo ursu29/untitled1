@@ -36,6 +36,15 @@ query getHobby($id: ID!) {
   }
 }
 
+query getEmployeeHobbies($id: ID!) {
+  employee(id: $id) {
+    id
+    hobbies {
+      ...HobbyBase
+    }
+  }
+}
+
 mutation createHobby($input: CreateHobbyInput!) {
   createHobby(input: $input) {
     ...HobbyBase
