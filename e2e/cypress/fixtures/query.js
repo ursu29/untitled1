@@ -1,5 +1,7 @@
 export const query = {
   deleteHrVacancy: 'mutation deleteHrVacancy($id: ID!) {deleteHrVacancy(id: $id) { id }}',
+  createBook: 'mutation createBook($input: CreateBookInput) {createBook(input: $input) {...BookResponse __typename}} fragment BookResponse on Book {id title author tags {id name __typename} holder {id name email __typename} __typename}',
+  removeBook: 'mutation removeBook($id: ID!) {removeBook(id: $id) {...BookResponse __typename}}fragment BookResponse on Book {id title author tags {id name __typename}holder {id name email __typename} __typename}',
   deleteWorkplaceBooking: 'mutation deleteWorkplaceBooking($id: ID!) {deleteWorkplaceBooking(id: $id) { id startDate finishDate __typename}}',
   workspacePoolQuery: 'query workspacePoolQuery($input: WorkspacesInput) {workspaces(input: $input) { id name __typename}}',
   workspace: 'query workspace($id: ID!, $bookingsInput: BookingsInput) {workspace(id: $id) {id drawing workplaces {id coordX coordY number bookings(input: $bookingsInput) {id employeeId startDate finishDate __typename} __typename} __typename}}',
@@ -132,7 +134,7 @@ export const query = {
   archivedDPVersions:
     'query archivedDPVersions($input: ArchiveDPInput) {archivedDPVersions(input: $input) { id createdAt __typename}}',
   sharedFiles:
-    'query sharedFiles($input:SharedFilesInput){ sharedFiles(input:$input){ hasMore files{ id url fileName createdAt createdBy{ id name email __typename } size type details{ id skills{ id name __typename } __typename } __typename } __typename } }',
+    'query sharedFiles($input:SharedFilesInput){sharedFiles(input:$input){...SharedFile Fragment __typename}}fragment SharedFile Fragment onSharedFile{id url fileName createdAt createdBy{id name email __typename}size type id skills{id name __typename} __typename}',
   getGuild:
     'query getGuild($input: GuildInput) { guild(input: $input) {id azureDisplayName azureId title description shortDescription skills {id name description __typename}leaders { ...EmployeeDetails __typename}accessWrite __typename}}fragment EmployeeDetails on Employee {  id  name  location  country  position  phoneNumber  email  isMe  startDate  birthday  __typename}',
   getStream:

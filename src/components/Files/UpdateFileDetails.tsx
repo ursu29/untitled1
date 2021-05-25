@@ -1,10 +1,10 @@
 import React from 'react'
+import message from '../../message'
 import { SharedFileFragmentFragment } from '../../queries/getSharedFiles'
+import { useUpdateFileDetailsMutation } from '../../queries/updateFileDetails'
 import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import FileForm from './FileForm'
-import { useUpdateFileDetailsMutation } from '../../queries/updateFileDetails'
-import message from '../../message'
 
 interface Props {
   file: SharedFileFragmentFragment
@@ -30,7 +30,7 @@ export const UpdateFileDetails = ({ file }: Props) => {
           onSubmit={(values, reset) => {
             updateFile({
               variables: { input: values },
-              update: (cache, { data }) => {
+              update: () => {
                 if (reset) {
                   reset()
                 }

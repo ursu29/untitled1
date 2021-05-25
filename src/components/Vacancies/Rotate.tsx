@@ -1,8 +1,7 @@
-import { useMutation } from '@apollo/react-hooks'
+import { useMutation, gql } from "@apollo/client";
 import { RetweetOutlined } from '@ant-design/icons'
 import { Button, Input, Modal } from 'antd'
 import Text from 'antd/lib/typography/Text'
-import gql from 'graphql-tag'
 import React, { useState } from 'react'
 import message from '../../message'
 import getVacancies, { QueryType } from '../../queries/getVacancies'

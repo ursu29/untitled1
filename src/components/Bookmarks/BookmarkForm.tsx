@@ -1,4 +1,4 @@
-import { useApolloClient } from '@apollo/react-hooks'
+import { useApolloClient } from "@apollo/client";
 import { Button, Col, Form, Input, Row } from 'antd'
 import React from 'react'
 import getBookmarkByLink, { QueryType } from '../../queries/getBookmarkByLink'

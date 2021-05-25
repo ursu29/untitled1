@@ -14,7 +14,7 @@ interface Props {
   editComponent: React.ReactNode
 }
 
-export default ({ loading, skill, projects, experience, editComponent }: Props) => {
+export default function Skill({ loading, skill, projects, experience, editComponent }: Props) {
   return (
     <Skeleton loading={loading} active>
       {skill && (

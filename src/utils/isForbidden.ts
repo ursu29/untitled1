@@ -1,5 +1,5 @@
-import { ApolloError } from 'apollo-client'
+import { ApolloError } from '@apollo/client'
 
-export default function (error: ApolloError | undefined) {
-  return error?.graphQLErrors.map((i) => i.extensions?.code).includes('FORBIDDEN')
+export default function isForbidden(error: ApolloError | undefined) {
+  return error?.graphQLErrors.map(i => i.extensions?.code).includes('FORBIDDEN')
 }

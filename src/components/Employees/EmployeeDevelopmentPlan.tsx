@@ -1,5 +1,4 @@
-import { useMutation, useQuery, useLazyQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
+import { useMutation, useQuery, useLazyQuery, gql } from '@apollo/client'
 import React, { useState, useCallback, useEffect } from 'react'
 import { debounce } from 'throttle-debounce'
 import getDevelopmentPlans, { QueryType } from '../../queries/getDevelopmentPlans'
@@ -92,6 +91,7 @@ export default function EmployeeDevelopmentPlan(props: Props) {
     onError: message.error,
   })
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debounced = useCallback(debounce(500, update), [update])
 
   const plan = data?.developmentPlans
@@ -162,6 +162,7 @@ export default function EmployeeDevelopmentPlan(props: Props) {
                 })
               }
               versionsList={dataVersions?.archivedDPVersions
+                .slice()
                 .sort((a, b) => (new Date(a.createdAt) < new Date(b.createdAt) ? 1 : -1))
                 .map(e => ({
                   id: e.id,

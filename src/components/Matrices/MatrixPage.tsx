@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery } from "@apollo/client";
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import getMatrix, { QueryType } from '../../queries/getMatrix'

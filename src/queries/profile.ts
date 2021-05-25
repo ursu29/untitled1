@@ -5,9 +5,9 @@
  */
 import * as Types from '../types/graphql'
 
-import gql from 'graphql-tag'
-import * as ApolloReactCommon from '@apollo/react-common'
-import * as ApolloReactHooks from '@apollo/react-hooks'
+import { gql } from '@apollo/client'
+import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type GetProfileQueryVariables = Types.Exact<{ [key: string]: never }>
 
 export type GetProfileQuery = { __typename?: 'Query' } & Pick<Types.Query, 'isAuthenticated'> & {
@@ -58,24 +58,17 @@ export const GetProfileDocument = gql`
  * });
  */
 export function useGetProfileQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<GetProfileQuery, GetProfileQueryVariables>,
+  baseOptions?: Apollo.QueryHookOptions<GetProfileQuery, GetProfileQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<GetProfileQuery, GetProfileQueryVariables>(
-    GetProfileDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetProfileQuery, GetProfileQueryVariables>(GetProfileDocument, options)
 }
 export function useGetProfileLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetProfileQuery, GetProfileQueryVariables>,
+  baseOptions?: Apollo.LazyQueryHookOptions<GetProfileQuery, GetProfileQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<GetProfileQuery, GetProfileQueryVariables>(
-    GetProfileDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetProfileQuery, GetProfileQueryVariables>(GetProfileDocument, options)
 }
 export type GetProfileQueryHookResult = ReturnType<typeof useGetProfileQuery>
 export type GetProfileLazyQueryHookResult = ReturnType<typeof useGetProfileLazyQuery>
-export type GetProfileQueryResult = ApolloReactCommon.QueryResult<
-  GetProfileQuery,
-  GetProfileQueryVariables
->
+export type GetProfileQueryResult = Apollo.QueryResult<GetProfileQuery, GetProfileQueryVariables>

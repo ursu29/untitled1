@@ -1,7 +1,7 @@
 import React from 'react'
-import { Guild } from '../../types'
-import { useSharedFilesQuery } from '../../queries/getSharedFiles'
 import message from '../../message'
+import { useSharedFilesQuery } from '../../queries/getSharedFiles'
+import { Guild } from '../../types'
 import SharedFileList from '../Files/SharedFileList'
 
 interface Props {

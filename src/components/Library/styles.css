@@ -1,0 +1,12 @@
+.library-filters {
+  display: flex;
+  margin: 0 24px 24px;
+}
+
+.radio-container {
+  display: flex;
+}
+
+.show {
+  margin-right: 10px;
+}

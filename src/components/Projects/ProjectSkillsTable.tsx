@@ -86,41 +86,44 @@ const EmployeeSkillMatrix: React.FC<EmployeeSkillMatrixProps> = ({ project }) =>
       defaultSortOrder: 'ascend',
     },
   ].concat(
-    project.skills?.sort(bySkillNameAZ).map(skill => {
-      const col: any = {
-        align: 'center',
-        key: skill.id,
-        ellipsis: true,
-        render: (_: any, record: Partial<Employee>) => {
-          const level = getEmployeeSkillLevel(record, skill)
-          if (!level) {
+    project.skills
+      ?.slice()
+      .sort(bySkillNameAZ)
+      .map(skill => {
+        const col: any = {
+          align: 'center',
+          key: skill.id,
+          ellipsis: true,
+          render: (_: any, record: Partial<Employee>) => {
+            const level = getEmployeeSkillLevel(record, skill)
+            if (!level) {
+              return (
+                <SkillIcon minor title={`Doesn't have this skill "${skill.name}"`}>
+                  ×
+                </SkillIcon>
+              )
+            }
             return (
-              <SkillIcon minor title={`Doesn't have this skill "${skill.name}"`}>
-                ×
-              </SkillIcon>
+              <div title={`${getLevelName(level)} ${skill.name}`}>
+                {levelIcons[levelList.indexOf(level)]}
+              </div>
             )
-          }
-          return (
-            <div title={`${getLevelName(level)} ${skill.name}`}>
-              {levelIcons[levelList.indexOf(level)]}
-            </div>
-          )
-        },
-        sortDirections: ['ascend', 'descend'],
-        sorter: (a: Partial<Employee>, b: Partial<Employee>) => {
-          const levelA = getEmployeeSkillLevel(a, skill) || { index: -Infinity }
-          const levelB = getEmployeeSkillLevel(b, skill) || { index: -Infinity }
-          return levelList.indexOf(levelB as Level) - levelList.indexOf(levelA as Level)
-        },
-        title: (
-          <Tooltip title={skill.name}>
-            <span>{skill.name}</span>
-          </Tooltip>
-        ),
-      }
+          },
+          sortDirections: ['ascend', 'descend'],
+          sorter: (a: Partial<Employee>, b: Partial<Employee>) => {
+            const levelA = getEmployeeSkillLevel(a, skill) || { index: -Infinity }
+            const levelB = getEmployeeSkillLevel(b, skill) || { index: -Infinity }
+            return levelList.indexOf(levelB as Level) - levelList.indexOf(levelA as Level)
+          },
+          title: (
+            <Tooltip title={skill.name}>
+              <span>{skill.name}</span>
+            </Tooltip>
+          ),
+        }
 
-      return col
-    }),
+        return col
+      }),
   )
 
   return (

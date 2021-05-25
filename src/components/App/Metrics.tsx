@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import ym from 'react-yandex-metrika'
 
-export default function () {
+export default function Metrics() {
   const location = useLocation()
 
   useEffect(() => {

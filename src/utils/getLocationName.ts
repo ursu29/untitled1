@@ -1,6 +1,6 @@
 import { LOCATION } from '../types'
 
-export default (location: LOCATION) => {
+export default function getLocationName(location: LOCATION) {
   switch (location) {
     case LOCATION.SAINT_PETERSBURG:
       return 'Saint Petersburg'

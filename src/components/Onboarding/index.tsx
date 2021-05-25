@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/react-hooks'
+import { useMutation, useQuery } from '@apollo/client'
 import { Button, Drawer, Switch, Tabs as MyTicketTabs, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import message from '../../message'
@@ -122,6 +122,7 @@ export default function Onboarding() {
           ? completedTickets?.includes(ticket.id)
           : !completedTickets?.includes(ticket.id),
       )
+      .slice()
       .sort((a, b) => (completedTickets?.includes(a.id) ? 1 : -1))
 
     return (

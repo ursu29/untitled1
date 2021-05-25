@@ -5,9 +5,9 @@
  */
 import * as Types from '../types/graphql'
 
-import gql from 'graphql-tag'
-import * as ApolloReactCommon from '@apollo/react-common'
-import * as ApolloReactHooks from '@apollo/react-hooks'
+import { gql } from '@apollo/client'
+import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type GameScoreFragmentFragment = { __typename?: 'GameScore' } & Pick<
   Types.GameScore,
   'id' | 'position' | 'score' | 'date'
@@ -76,32 +76,31 @@ export const GetGameLeaderboardDocument = gql`
  * });
  */
 export function useGetGameLeaderboardQuery(
-  baseOptions: ApolloReactHooks.QueryHookOptions<
-    GetGameLeaderboardQuery,
-    GetGameLeaderboardQueryVariables
-  >,
+  baseOptions: Apollo.QueryHookOptions<GetGameLeaderboardQuery, GetGameLeaderboardQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<GetGameLeaderboardQuery, GetGameLeaderboardQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetGameLeaderboardQuery, GetGameLeaderboardQueryVariables>(
     GetGameLeaderboardDocument,
-    baseOptions,
+    options,
   )
 }
 export function useGetGameLeaderboardLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+  baseOptions?: Apollo.LazyQueryHookOptions<
     GetGameLeaderboardQuery,
     GetGameLeaderboardQueryVariables
   >,
 ) {
-  return ApolloReactHooks.useLazyQuery<GetGameLeaderboardQuery, GetGameLeaderboardQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetGameLeaderboardQuery, GetGameLeaderboardQueryVariables>(
     GetGameLeaderboardDocument,
-    baseOptions,
+    options,
   )
 }
 export type GetGameLeaderboardQueryHookResult = ReturnType<typeof useGetGameLeaderboardQuery>
 export type GetGameLeaderboardLazyQueryHookResult = ReturnType<
   typeof useGetGameLeaderboardLazyQuery
 >
-export type GetGameLeaderboardQueryResult = ApolloReactCommon.QueryResult<
+export type GetGameLeaderboardQueryResult = Apollo.QueryResult<
   GetGameLeaderboardQuery,
   GetGameLeaderboardQueryVariables
 >
@@ -112,7 +111,7 @@ export const StartGameDocument = gql`
     }
   }
 `
-export type StartGameMutationFn = ApolloReactCommon.MutationFunction<
+export type StartGameMutationFn = Apollo.MutationFunction<
   StartGameMutation,
   StartGameMutationVariables
 >
@@ -135,16 +134,17 @@ export type StartGameMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useStartGameMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<StartGameMutation, StartGameMutationVariables>,
+  baseOptions?: Apollo.MutationHookOptions<StartGameMutation, StartGameMutationVariables>,
 ) {
-  return ApolloReactHooks.useMutation<StartGameMutation, StartGameMutationVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<StartGameMutation, StartGameMutationVariables>(
     StartGameDocument,
-    baseOptions,
+    options,
   )
 }
 export type StartGameMutationHookResult = ReturnType<typeof useStartGameMutation>
-export type StartGameMutationResult = ApolloReactCommon.MutationResult<StartGameMutation>
-export type StartGameMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type StartGameMutationResult = Apollo.MutationResult<StartGameMutation>
+export type StartGameMutationOptions = Apollo.BaseMutationOptions<
   StartGameMutation,
   StartGameMutationVariables
 >
@@ -156,7 +156,7 @@ export const UpdateGameScoreDocument = gql`
     }
   }
 `
-export type UpdateGameScoreMutationFn = ApolloReactCommon.MutationFunction<
+export type UpdateGameScoreMutationFn = Apollo.MutationFunction<
   UpdateGameScoreMutation,
   UpdateGameScoreMutationVariables
 >
@@ -179,21 +179,20 @@ export type UpdateGameScoreMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useUpdateGameScoreMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
+  baseOptions?: Apollo.MutationHookOptions<
     UpdateGameScoreMutation,
     UpdateGameScoreMutationVariables
   >,
 ) {
-  return ApolloReactHooks.useMutation<UpdateGameScoreMutation, UpdateGameScoreMutationVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UpdateGameScoreMutation, UpdateGameScoreMutationVariables>(
     UpdateGameScoreDocument,
-    baseOptions,
+    options,
   )
 }
 export type UpdateGameScoreMutationHookResult = ReturnType<typeof useUpdateGameScoreMutation>
-export type UpdateGameScoreMutationResult = ApolloReactCommon.MutationResult<
-  UpdateGameScoreMutation
->
-export type UpdateGameScoreMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type UpdateGameScoreMutationResult = Apollo.MutationResult<UpdateGameScoreMutation>
+export type UpdateGameScoreMutationOptions = Apollo.BaseMutationOptions<
   UpdateGameScoreMutation,
   UpdateGameScoreMutationVariables
 >

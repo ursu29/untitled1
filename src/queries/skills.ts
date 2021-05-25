@@ -5,9 +5,9 @@
  */
 import * as Types from '../types/graphql'
 
-import gql from 'graphql-tag'
-import * as ApolloReactCommon from '@apollo/react-common'
-import * as ApolloReactHooks from '@apollo/react-hooks'
+import { gql } from '@apollo/client'
+import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type GetSkillsQueryVariables = Types.Exact<{
   input?: Types.Maybe<Types.SkillsInput>
 }>
@@ -131,27 +131,20 @@ export const GetSkillsDocument = gql`
  * });
  */
 export function useGetSkillsQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<GetSkillsQuery, GetSkillsQueryVariables>,
+  baseOptions?: Apollo.QueryHookOptions<GetSkillsQuery, GetSkillsQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<GetSkillsQuery, GetSkillsQueryVariables>(
-    GetSkillsDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetSkillsQuery, GetSkillsQueryVariables>(GetSkillsDocument, options)
 }
 export function useGetSkillsLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetSkillsQuery, GetSkillsQueryVariables>,
+  baseOptions?: Apollo.LazyQueryHookOptions<GetSkillsQuery, GetSkillsQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<GetSkillsQuery, GetSkillsQueryVariables>(
-    GetSkillsDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetSkillsQuery, GetSkillsQueryVariables>(GetSkillsDocument, options)
 }
 export type GetSkillsQueryHookResult = ReturnType<typeof useGetSkillsQuery>
 export type GetSkillsLazyQueryHookResult = ReturnType<typeof useGetSkillsLazyQuery>
-export type GetSkillsQueryResult = ApolloReactCommon.QueryResult<
-  GetSkillsQuery,
-  GetSkillsQueryVariables
->
+export type GetSkillsQueryResult = Apollo.QueryResult<GetSkillsQuery, GetSkillsQueryVariables>
 export const GetSkillsDetailedDocument = gql`
   query getSkillsDetailed($input: SkillsInput) {
     skills(input: $input) {
@@ -194,30 +187,29 @@ export const GetSkillsDetailedDocument = gql`
  * });
  */
 export function useGetSkillsDetailedQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<
-    GetSkillsDetailedQuery,
-    GetSkillsDetailedQueryVariables
-  >,
+  baseOptions?: Apollo.QueryHookOptions<GetSkillsDetailedQuery, GetSkillsDetailedQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<GetSkillsDetailedQuery, GetSkillsDetailedQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetSkillsDetailedQuery, GetSkillsDetailedQueryVariables>(
     GetSkillsDetailedDocument,
-    baseOptions,
+    options,
   )
 }
 export function useGetSkillsDetailedLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+  baseOptions?: Apollo.LazyQueryHookOptions<
     GetSkillsDetailedQuery,
     GetSkillsDetailedQueryVariables
   >,
 ) {
-  return ApolloReactHooks.useLazyQuery<GetSkillsDetailedQuery, GetSkillsDetailedQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetSkillsDetailedQuery, GetSkillsDetailedQueryVariables>(
     GetSkillsDetailedDocument,
-    baseOptions,
+    options,
   )
 }
 export type GetSkillsDetailedQueryHookResult = ReturnType<typeof useGetSkillsDetailedQuery>
 export type GetSkillsDetailedLazyQueryHookResult = ReturnType<typeof useGetSkillsDetailedLazyQuery>
-export type GetSkillsDetailedQueryResult = ApolloReactCommon.QueryResult<
+export type GetSkillsDetailedQueryResult = Apollo.QueryResult<
   GetSkillsDetailedQuery,
   GetSkillsDetailedQueryVariables
 >
@@ -252,30 +244,26 @@ export const GetSkillProjectsDocument = gql`
  * });
  */
 export function useGetSkillProjectsQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<
-    GetSkillProjectsQuery,
-    GetSkillProjectsQueryVariables
-  >,
+  baseOptions?: Apollo.QueryHookOptions<GetSkillProjectsQuery, GetSkillProjectsQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<GetSkillProjectsQuery, GetSkillProjectsQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetSkillProjectsQuery, GetSkillProjectsQueryVariables>(
     GetSkillProjectsDocument,
-    baseOptions,
+    options,
   )
 }
 export function useGetSkillProjectsLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
-    GetSkillProjectsQuery,
-    GetSkillProjectsQueryVariables
-  >,
+  baseOptions?: Apollo.LazyQueryHookOptions<GetSkillProjectsQuery, GetSkillProjectsQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<GetSkillProjectsQuery, GetSkillProjectsQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetSkillProjectsQuery, GetSkillProjectsQueryVariables>(
     GetSkillProjectsDocument,
-    baseOptions,
+    options,
   )
 }
 export type GetSkillProjectsQueryHookResult = ReturnType<typeof useGetSkillProjectsQuery>
 export type GetSkillProjectsLazyQueryHookResult = ReturnType<typeof useGetSkillProjectsLazyQuery>
-export type GetSkillProjectsQueryResult = ApolloReactCommon.QueryResult<
+export type GetSkillProjectsQueryResult = Apollo.QueryResult<
   GetSkillProjectsQuery,
   GetSkillProjectsQueryVariables
 >
@@ -314,32 +302,34 @@ export const GetSkillExperiencesDocument = gql`
  * });
  */
 export function useGetSkillExperiencesQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<
+  baseOptions?: Apollo.QueryHookOptions<
     GetSkillExperiencesQuery,
     GetSkillExperiencesQueryVariables
   >,
 ) {
-  return ApolloReactHooks.useQuery<GetSkillExperiencesQuery, GetSkillExperiencesQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetSkillExperiencesQuery, GetSkillExperiencesQueryVariables>(
     GetSkillExperiencesDocument,
-    baseOptions,
+    options,
   )
 }
 export function useGetSkillExperiencesLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+  baseOptions?: Apollo.LazyQueryHookOptions<
     GetSkillExperiencesQuery,
     GetSkillExperiencesQueryVariables
   >,
 ) {
-  return ApolloReactHooks.useLazyQuery<GetSkillExperiencesQuery, GetSkillExperiencesQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetSkillExperiencesQuery, GetSkillExperiencesQueryVariables>(
     GetSkillExperiencesDocument,
-    baseOptions,
+    options,
   )
 }
 export type GetSkillExperiencesQueryHookResult = ReturnType<typeof useGetSkillExperiencesQuery>
 export type GetSkillExperiencesLazyQueryHookResult = ReturnType<
   typeof useGetSkillExperiencesLazyQuery
 >
-export type GetSkillExperiencesQueryResult = ApolloReactCommon.QueryResult<
+export type GetSkillExperiencesQueryResult = Apollo.QueryResult<
   GetSkillExperiencesQuery,
   GetSkillExperiencesQueryVariables
 >
@@ -350,7 +340,7 @@ export const CreateSkillDocument = gql`
     }
   }
 `
-export type CreateSkillMutationFn = ApolloReactCommon.MutationFunction<
+export type CreateSkillMutationFn = Apollo.MutationFunction<
   CreateSkillMutation,
   CreateSkillMutationVariables
 >
@@ -373,19 +363,17 @@ export type CreateSkillMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useCreateSkillMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    CreateSkillMutation,
-    CreateSkillMutationVariables
-  >,
+  baseOptions?: Apollo.MutationHookOptions<CreateSkillMutation, CreateSkillMutationVariables>,
 ) {
-  return ApolloReactHooks.useMutation<CreateSkillMutation, CreateSkillMutationVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<CreateSkillMutation, CreateSkillMutationVariables>(
     CreateSkillDocument,
-    baseOptions,
+    options,
   )
 }
 export type CreateSkillMutationHookResult = ReturnType<typeof useCreateSkillMutation>
-export type CreateSkillMutationResult = ApolloReactCommon.MutationResult<CreateSkillMutation>
-export type CreateSkillMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type CreateSkillMutationResult = Apollo.MutationResult<CreateSkillMutation>
+export type CreateSkillMutationOptions = Apollo.BaseMutationOptions<
   CreateSkillMutation,
   CreateSkillMutationVariables
 >
@@ -396,7 +384,7 @@ export const UpdateSkillDocument = gql`
     }
   }
 `
-export type UpdateSkillMutationFn = ApolloReactCommon.MutationFunction<
+export type UpdateSkillMutationFn = Apollo.MutationFunction<
   UpdateSkillMutation,
   UpdateSkillMutationVariables
 >
@@ -419,19 +407,17 @@ export type UpdateSkillMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useUpdateSkillMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    UpdateSkillMutation,
-    UpdateSkillMutationVariables
-  >,
+  baseOptions?: Apollo.MutationHookOptions<UpdateSkillMutation, UpdateSkillMutationVariables>,
 ) {
-  return ApolloReactHooks.useMutation<UpdateSkillMutation, UpdateSkillMutationVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UpdateSkillMutation, UpdateSkillMutationVariables>(
     UpdateSkillDocument,
-    baseOptions,
+    options,
   )
 }
 export type UpdateSkillMutationHookResult = ReturnType<typeof useUpdateSkillMutation>
-export type UpdateSkillMutationResult = ApolloReactCommon.MutationResult<UpdateSkillMutation>
-export type UpdateSkillMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type UpdateSkillMutationResult = Apollo.MutationResult<UpdateSkillMutation>
+export type UpdateSkillMutationOptions = Apollo.BaseMutationOptions<
   UpdateSkillMutation,
   UpdateSkillMutationVariables
 >

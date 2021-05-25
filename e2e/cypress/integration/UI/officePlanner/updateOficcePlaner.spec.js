@@ -10,9 +10,6 @@ describe('update Office planner day (office-planner)', () => {
 
         cy.visit('/office-planner')
 
-        cy.get(spinner.active).should('be.visible')
-        cy.get(spinner.active).should('not.exist')
-
         cy.get(table.activeTab).then(el => text = el.text())
     })
 

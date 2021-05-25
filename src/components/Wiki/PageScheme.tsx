@@ -1,6 +1,6 @@
+import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useMutation } from '@apollo/react-hooks'
 import { CloseOutlined } from '@ant-design/icons'
 import { Collapse, Input, Button, Popconfirm } from 'antd'
 import { useMediaQuery } from 'react-responsive'
@@ -56,31 +56,34 @@ export default function PageScheme({
         <div style={{ position: 'relative' }}>
           <VerticalLine></VerticalLine>
           <div style={{ marginLeft: '25px' }}>
-            {paths.sort().map(path => (
-              <div key={path} style={{ display: 'flex', alignItems: 'center' }}>
-                <div
-                  style={{
-                    maxWidth: '60%',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                  }}
-                >
-                  <Link to={path}>{path}</Link>
+            {paths
+              .slice()
+              .sort()
+              .map(path => (
+                <div key={path} style={{ display: 'flex', alignItems: 'center' }}>
+                  <div
+                    style={{
+                      maxWidth: '60%',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    <Link to={path}>{path}</Link>
+                  </div>
+                  <Popconfirm
+                    placement="right"
+                    title={'Are you sure you want to remove that page?'}
+                    onConfirm={() => remove({ variables: { input: { path } } })}
+                    okText="Yes"
+                    cancelText="No"
+                  >
+                    <CloseOutlined
+                      style={{ marginLeft: '10px', cursor: 'pointer', fontSize: '10px' }}
+                    />
+                  </Popconfirm>
                 </div>
-                <Popconfirm
-                  placement="right"
-                  title={'Are you sure you want to remove that page?'}
-                  onConfirm={() => remove({ variables: { input: { path } } })}
-                  okText="Yes"
-                  cancelText="No"
-                >
-                  <CloseOutlined
-                    style={{ marginLeft: '10px', cursor: 'pointer', fontSize: '10px' }}
-                  />
-                </Popconfirm>
-              </div>
-            ))}
+              ))}
           </div>
 
           <div

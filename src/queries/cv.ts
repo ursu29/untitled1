@@ -5,9 +5,9 @@
  */
 import * as Types from '../types/graphql'
 
-import gql from 'graphql-tag'
-import * as ApolloReactCommon from '@apollo/react-common'
-import * as ApolloReactHooks from '@apollo/react-hooks'
+import { gql } from '@apollo/client'
+import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type CvFragment = { __typename?: 'CurriculumVitae' } & Pick<
   Types.CurriculumVitae,
   'id' | 'summary' | 'languages'
@@ -126,18 +126,20 @@ export const GetCvDocument = gql`
  * });
  */
 export function useGetCvQuery(
-  baseOptions: ApolloReactHooks.QueryHookOptions<GetCvQuery, GetCvQueryVariables>,
+  baseOptions: Apollo.QueryHookOptions<GetCvQuery, GetCvQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<GetCvQuery, GetCvQueryVariables>(GetCvDocument, baseOptions)
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetCvQuery, GetCvQueryVariables>(GetCvDocument, options)
 }
 export function useGetCvLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetCvQuery, GetCvQueryVariables>,
+  baseOptions?: Apollo.LazyQueryHookOptions<GetCvQuery, GetCvQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<GetCvQuery, GetCvQueryVariables>(GetCvDocument, baseOptions)
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetCvQuery, GetCvQueryVariables>(GetCvDocument, options)
 }
 export type GetCvQueryHookResult = ReturnType<typeof useGetCvQuery>
 export type GetCvLazyQueryHookResult = ReturnType<typeof useGetCvLazyQuery>
-export type GetCvQueryResult = ApolloReactCommon.QueryResult<GetCvQuery, GetCvQueryVariables>
+export type GetCvQueryResult = Apollo.QueryResult<GetCvQuery, GetCvQueryVariables>
 export const UpdateCvDocument = gql`
   mutation updateCV($input: UpdateCurriculumVitaeInput!) {
     updateCurriculumVitae(input: $input) {
@@ -146,7 +148,7 @@ export const UpdateCvDocument = gql`
   }
   ${CvFragmentDoc}
 `
-export type UpdateCvMutationFn = ApolloReactCommon.MutationFunction<
+export type UpdateCvMutationFn = Apollo.MutationFunction<
   UpdateCvMutation,
   UpdateCvMutationVariables
 >
@@ -169,16 +171,14 @@ export type UpdateCvMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useUpdateCvMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateCvMutation, UpdateCvMutationVariables>,
+  baseOptions?: Apollo.MutationHookOptions<UpdateCvMutation, UpdateCvMutationVariables>,
 ) {
-  return ApolloReactHooks.useMutation<UpdateCvMutation, UpdateCvMutationVariables>(
-    UpdateCvDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UpdateCvMutation, UpdateCvMutationVariables>(UpdateCvDocument, options)
 }
 export type UpdateCvMutationHookResult = ReturnType<typeof useUpdateCvMutation>
-export type UpdateCvMutationResult = ApolloReactCommon.MutationResult<UpdateCvMutation>
-export type UpdateCvMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type UpdateCvMutationResult = Apollo.MutationResult<UpdateCvMutation>
+export type UpdateCvMutationOptions = Apollo.BaseMutationOptions<
   UpdateCvMutation,
   UpdateCvMutationVariables
 >

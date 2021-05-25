@@ -1,5 +1,5 @@
+import { useQuery } from "@apollo/client";
 import React from 'react'
-import { useQuery } from '@apollo/react-hooks'
 import getVacancies, { QueryType } from '../../queries/getVacancies'
 import VacanciesList from './VacanciesList'
 import PageContent from '../UI/PageContent'

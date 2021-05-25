@@ -5,9 +5,9 @@
  */
 import * as Types from '../types/graphql'
 
-import gql from 'graphql-tag'
-import * as ApolloReactCommon from '@apollo/react-common'
-import * as ApolloReactHooks from '@apollo/react-hooks'
+import { gql } from '@apollo/client'
+import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type GetDevtoolsQueryVariables = Types.Exact<{ [key: string]: never }>
 
 export type GetDevtoolsQuery = { __typename?: 'Query' } & {
@@ -53,27 +53,23 @@ export const GetDevtoolsDocument = gql`
  * });
  */
 export function useGetDevtoolsQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<GetDevtoolsQuery, GetDevtoolsQueryVariables>,
+  baseOptions?: Apollo.QueryHookOptions<GetDevtoolsQuery, GetDevtoolsQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<GetDevtoolsQuery, GetDevtoolsQueryVariables>(
-    GetDevtoolsDocument,
-    baseOptions,
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetDevtoolsQuery, GetDevtoolsQueryVariables>(GetDevtoolsDocument, options)
 }
 export function useGetDevtoolsLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetDevtoolsQuery, GetDevtoolsQueryVariables>,
+  baseOptions?: Apollo.LazyQueryHookOptions<GetDevtoolsQuery, GetDevtoolsQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<GetDevtoolsQuery, GetDevtoolsQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetDevtoolsQuery, GetDevtoolsQueryVariables>(
     GetDevtoolsDocument,
-    baseOptions,
+    options,
   )
 }
 export type GetDevtoolsQueryHookResult = ReturnType<typeof useGetDevtoolsQuery>
 export type GetDevtoolsLazyQueryHookResult = ReturnType<typeof useGetDevtoolsLazyQuery>
-export type GetDevtoolsQueryResult = ApolloReactCommon.QueryResult<
-  GetDevtoolsQuery,
-  GetDevtoolsQueryVariables
->
+export type GetDevtoolsQueryResult = Apollo.QueryResult<GetDevtoolsQuery, GetDevtoolsQueryVariables>
 export const GetDevToolsAccessDocument = gql`
   query getDevToolsAccess {
     clientDevToolsAccess
@@ -96,30 +92,29 @@ export const GetDevToolsAccessDocument = gql`
  * });
  */
 export function useGetDevToolsAccessQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<
-    GetDevToolsAccessQuery,
-    GetDevToolsAccessQueryVariables
-  >,
+  baseOptions?: Apollo.QueryHookOptions<GetDevToolsAccessQuery, GetDevToolsAccessQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<GetDevToolsAccessQuery, GetDevToolsAccessQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetDevToolsAccessQuery, GetDevToolsAccessQueryVariables>(
     GetDevToolsAccessDocument,
-    baseOptions,
+    options,
   )
 }
 export function useGetDevToolsAccessLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+  baseOptions?: Apollo.LazyQueryHookOptions<
     GetDevToolsAccessQuery,
     GetDevToolsAccessQueryVariables
   >,
 ) {
-  return ApolloReactHooks.useLazyQuery<GetDevToolsAccessQuery, GetDevToolsAccessQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetDevToolsAccessQuery, GetDevToolsAccessQueryVariables>(
     GetDevToolsAccessDocument,
-    baseOptions,
+    options,
   )
 }
 export type GetDevToolsAccessQueryHookResult = ReturnType<typeof useGetDevToolsAccessQuery>
 export type GetDevToolsAccessLazyQueryHookResult = ReturnType<typeof useGetDevToolsAccessLazyQuery>
-export type GetDevToolsAccessQueryResult = ApolloReactCommon.QueryResult<
+export type GetDevToolsAccessQueryResult = Apollo.QueryResult<
   GetDevToolsAccessQuery,
   GetDevToolsAccessQueryVariables
 >

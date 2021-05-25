@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/react-hooks'
+import { useMutation } from '@apollo/client'
 import { Select, Tooltip } from 'antd'
 import React, { useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
@@ -334,7 +334,7 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
                                           margin: '-24px -16px -16px 0',
                                         }}
                                       >
-                                        <Tooltip placement="top" title="Prio">
+                                        <Tooltip placement="right" title="Prio">
                                           <Select
                                             defaultValue={item.prio}
                                             onChange={async prio => {

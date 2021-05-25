@@ -1,6 +1,5 @@
+import { useMutation, gql } from "@apollo/client";
 import { EditOutlined } from '@ant-design/icons'
-import { useMutation } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import React from 'react'
 import message from '../../message'
 import getPost from '../../queries/getPost'

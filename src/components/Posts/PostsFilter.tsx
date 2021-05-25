@@ -36,6 +36,7 @@ function PostsFilter({
     }
   }, [setFilter, location, filter])
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const setParentFilterDebounced = useCallback(debounce(200, setParentFilter), [])
 
   useEffect(() => {
