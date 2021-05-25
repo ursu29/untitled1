@@ -9,6 +9,7 @@ import message from '../../message'
 import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 import Search from './Search'
 import PageHeader from '../UI/PageHeader'
+import Helmet from '../Helmet'
 
 export default function Page() {
   const location = useLocation()
@@ -37,6 +38,7 @@ export default function Page() {
   return (
     <>
       <PageHeader title="Wiki" withBack extra={[<Search />]} />
+      <Helmet title={data?.wikiPage.title} />
       <PageContent error={error} loading={loading} notFound={!data?.wikiPage}>
         <TitleEditable
           data={data?.wikiPage?.title || ''}
