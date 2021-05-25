@@ -6,7 +6,6 @@ import { getGuild, GuildQueryType } from '../../queries/guilds'
 import GuildTabs from './GuildTabs'
 import UpdateGuild from './UpdateGuild'
 import PageHeader from '../UI/PageHeader'
-import Helmet from '../Helmet'
 
 interface Props extends RouteComponentProps<{ code: string; tab?: string }> {}
 function GuildPage({ match }: Props) {
@@ -22,7 +21,6 @@ function GuildPage({ match }: Props) {
 
   return (
     <>
-      <Helmet title={guild?.title} />
       <PageHeader
         title={guild?.title}
         withBack

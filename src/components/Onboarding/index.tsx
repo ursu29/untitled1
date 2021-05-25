@@ -27,7 +27,6 @@ import MyTickets from './MyTickets'
 import Ticket from './Ticket'
 import PageHeader from '../UI/PageHeader'
 import URLAction from '../../utils/URLAction'
-import Helmet from '../Helmet'
 
 export default function Onboarding() {
   const user = useEmployee()
@@ -203,7 +202,6 @@ export default function Onboarding() {
 
   return (
     <>
-      <Helmet title="Trainings" />
       <PageHeader title="Trainings" subTitle={isAccessWrite ? 'editing' : ''} extra={headerExtra} />
       <PageContent
         error={error}

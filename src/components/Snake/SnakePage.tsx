@@ -7,7 +7,6 @@ import PageContent from '../UI/PageContent'
 import SnakeGame from './SnakeGame'
 import Leaderboard from './Leaderboard'
 import PageHeader from '../UI/PageHeader'
-import Helmet from '../Helmet'
 
 const { TabPane } = Tabs
 
@@ -30,7 +29,6 @@ const SnakePage = () => {
 
   return (
     <>
-      <Helmet title="Games" />
       <PageHeader title="Games" withoutDivider />
       <PageContent
         error={error}

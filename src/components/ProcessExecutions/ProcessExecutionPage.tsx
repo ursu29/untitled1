@@ -12,7 +12,6 @@ import updateProcessExecution from '../../queries/updateProcessExecution'
 import { getProcessName } from '../../utils/getProcessName'
 import isForbidden from '../../utils/isForbidden'
 import { useEmployee } from '../../utils/withEmployee'
-import Helmet from '../Helmet'
 import NotAllowed from '../UI/NotAllowed'
 import PageContent from '../UI/PageContent'
 import Skeleton from '../UI/Skeleton'
@@ -157,7 +156,6 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <PageContent noBottom>
-        <Helmet title={processExecution.process.title} />
         <PageHeader
           title={processExecution.process.title}
           subTitle={getProcessName(processExecution.process.type)}

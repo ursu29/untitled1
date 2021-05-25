@@ -6,7 +6,6 @@ import PageContent from '../UI/PageContent'
 import PageHeader from '../UI/PageHeader'
 import { Tabs } from 'antd'
 import URLAction from '../../utils/URLAction'
-import Helmet from '../Helmet'
 
 export default function Management() {
   const urlAction = new URLAction()
@@ -14,7 +13,6 @@ export default function Management() {
 
   return (
     <>
-      <Helmet title="Management" />
       <PageHeader title="Management" withoutDivider />
       <PageContent style={{ paddingLeft: 0, paddingRight: 0, marginTop: '-32px' }}>
         <Tabs

@@ -12,7 +12,6 @@ import { getEvents, EventsQueryType } from '../../queries/events'
 import { filterEvents } from './utils'
 import { CalendarEvent } from '../../types'
 import PageHeader from '../UI/PageHeader'
-import Helmet from '../Helmet'
 
 const TODAY = new Date()
 const YEAR = TODAY.getFullYear()
@@ -63,7 +62,6 @@ export default function Calendar() {
 
   return (
     <>
-      <Helmet title={title} />
       <PageHeader
         title={title}
         extra={[

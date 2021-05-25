@@ -9,7 +9,6 @@ import { Divider } from 'antd'
 import NotAllowed from '../UI/NotAllowed'
 import isForbidden from '../../utils/isForbidden'
 import PageHeader from '../UI/PageHeader'
-import Helmet from '../Helmet'
 
 const accessQuery = gql`
   query processPageAccess {
@@ -62,7 +61,6 @@ function ProcessPage({ match }: RouteComponentProps<{ id: string }>) {
 
   return (
     <>
-      <Helmet title={process?.title} />
       <PageHeader title={process?.title} />
       <PageContent loading={loading}>
         {process && (

@@ -13,7 +13,6 @@ import PageContent from '../UI/PageContent'
 import Skeleton from '../UI/Skeleton'
 import CreateProcess from './CreateProcess'
 import PageHeader from '../UI/PageHeader'
-import Helmet from '../Helmet'
 
 const accessQuery = gql`
   query processPageAccess {
@@ -63,7 +62,6 @@ function ProcessesPage() {
 
   return (
     <>
-      <Helmet title="Processes" />
       <PageHeader title="Processes" extra={[<CreateProcess />]} />
       <PageContent>
         <Skeleton active loading={loading}>

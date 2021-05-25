@@ -6,7 +6,6 @@ import OutsideEventsTab from './OutsideEventsTab'
 import { FireOutlined, FileTextOutlined } from '@ant-design/icons'
 import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 import PageHeader from '../UI/PageHeader'
-import Helmet from '../Helmet'
 
 export default function DevRel() {
   const writeAccess = useStrapiGroupCheck('DEVREL')
@@ -21,7 +20,6 @@ export default function DevRel() {
 
   return (
     <>
-      <Helmet title="Development Relationship" />
       <PageHeader title="Development Relationship" withoutDivider />
       <PageContent style={{ paddingLeft: 0, paddingRight: 0, marginTop: '-32px' }}>
         <Tabs

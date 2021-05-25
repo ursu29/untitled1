@@ -8,7 +8,6 @@ import CreateProcessExecution from './CreateProcessExecution'
 import NotAllowed from '../UI/NotAllowed'
 import isForbidden from '../../utils/isForbidden'
 import PageHeader from '../UI/PageHeader'
-import Helmet from '../Helmet'
 
 function HRPage() {
   const { data, loading, error } = useQuery<QueryType>(getProcessExecutions)
@@ -21,7 +20,6 @@ function HRPage() {
   }
   return (
     <>
-      <Helmet title="Open processes" />
       <PageHeader title="Open processes" extra={[<CreateProcessExecution />]} />
       <Skeleton active loading={loading} withOffset>
         <PageContent noBottom>

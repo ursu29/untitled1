@@ -28,7 +28,6 @@ import getLocationName from '../../utils/getLocationName'
 import PageContent from '../UI/PageContent'
 import EditOfficeLimits from './EditOfficeLimits'
 import './OfficePlannerPage.css'
-import Helmet from '../Helmet'
 
 const { RangePicker } = DatePicker
 
@@ -296,7 +295,6 @@ function OfficePlannerPage() {
 
   return (
     <>
-      <Helmet title="Office Planner" />
       <Modal
         confirmLoading={actionsDisabled}
         cancelButtonProps={{ loading: actionsDisabled }}
