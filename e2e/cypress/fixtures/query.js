@@ -1,4 +1,6 @@
 export const query = {
+  createBook: 'mutation createBook($input: CreateBookInput) {createBook(input: $input) {...BookResponse __typename}} fragment BookResponse on Book {id title author tags {id name __typename} holder {id name email __typename} __typename}',
+  removeBook: 'mutation removeBook($id: ID!) {removeBook(id: $id) {...BookResponse __typename}}fragment BookResponse on Book {id title author tags {id name __typename}holder {id name email __typename} __typename}',
   deleteWorkplaceBooking: 'mutation deleteWorkplaceBooking($id: ID!) {deleteWorkplaceBooking(id: $id) { id startDate finishDate __typename}}',
   workspacePoolQuery: 'query workspacePoolQuery($input: WorkspacesInput) {workspaces(input: $input) { id name __typename}}',
   workspace: 'query workspace($id: ID!, $bookingsInput: BookingsInput) {workspace(id: $id) {id drawing workplaces {id coordX coordY number bookings(input: $bookingsInput) {id employeeId startDate finishDate __typename} __typename} __typename}}',

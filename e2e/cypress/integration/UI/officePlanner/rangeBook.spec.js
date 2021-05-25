@@ -27,6 +27,7 @@ describe('Office planner book range days (office-planner)', () => {
 
         cy.get(spinner.active).should('be.visible')
         cy.get(spinner.active).should('not.exist')
-        cy.getElement('count').then(el => expect(el.text()).not.equal(text))
+
+        cy.getElement('count').should('not.contain.text', text)
     })
 })
