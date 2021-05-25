@@ -1,4 +1,5 @@
 export const query = {
+  deleteHrVacancy: 'mutation deleteHrVacancy($id: ID!) {deleteHrVacancy(id: $id) { id }}',
   createBook: 'mutation createBook($input: CreateBookInput) {createBook(input: $input) {...BookResponse __typename}} fragment BookResponse on Book {id title author tags {id name __typename} holder {id name email __typename} __typename}',
   removeBook: 'mutation removeBook($id: ID!) {removeBook(id: $id) {...BookResponse __typename}}fragment BookResponse on Book {id title author tags {id name __typename}holder {id name email __typename} __typename}',
   deleteWorkplaceBooking: 'mutation deleteWorkplaceBooking($id: ID!) {deleteWorkplaceBooking(id: $id) { id startDate finishDate __typename}}',

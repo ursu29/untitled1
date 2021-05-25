@@ -55,7 +55,7 @@ const CreateProcessForm = ({ onSubmit, value, loading }: Props) => {
       )}
       {type && (
         <Form.Item label="Locations" name="locations" rules={[{ required: true }]}>
-          <LocationSelect mode="multiple" wide />
+          <LocationSelect mode="multiple" wide data-cy="location"/>
         </Form.Item>
       )}
       {showProjectSelector && (
