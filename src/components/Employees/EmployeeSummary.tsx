@@ -1,16 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Typography, Row, Col, Tag, Input, Card, Button } from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
+import { Typography, Row, Col, Tag, Card } from 'antd'
 import styled from 'styled-components'
 import { getHobbyLink } from '../../paths'
-import {
-  useUpdateEmployeeAboutMutation,
-  useGetEmployeeSummaryQuery,
-} from '../../queries/employeeSummary'
+import { useGetEmployeeSummaryQuery } from '../../queries/employeeSummary'
 import { Employee } from '../../types/graphql'
-import message from '../../message'
 import Skeleton from '../UI/Skeleton'
+import { AboutForm, HobbiesForm } from './EmployeeSummaryForms'
 
 const HobbyRow = styled(Row)`
   margin-top: 8px;
@@ -37,10 +33,6 @@ const HobbyEmpty = styled(Typography.Paragraph)`
   font-style: italic;
 `
 
-const NewHobbyButton = styled(Button)`
-  font-size: 12px;
-`
-
 type Props = {
   employee?: Pick<Employee, 'id'>
   editable?: boolean
@@ -53,26 +45,11 @@ export default function EmployeeSummary({ employee, editable }: Props) {
     variables: { id },
     skip: !id,
   })
-  const [updateAbout] = useUpdateEmployeeAboutMutation({
-    onCompleted: () => message.success('About have been updated'),
-    onError: message.error,
-  })
 
   if (!employee) return null
 
   const hobbies = data?.employee?.hobbies || []
   const about = data?.employee?.about || ''
-
-  const onSummaryUpdate = (text: string) => {
-    updateAbout({
-      variables: {
-        input: {
-          id,
-          about: text,
-        },
-      },
-    })
-  }
 
   return (
     <Skeleton loading={loading} active>
@@ -80,11 +57,7 @@ export default function EmployeeSummary({ employee, editable }: Props) {
         <Col span={24} md={12}>
           <Typography.Title level={4}>About</Typography.Title>
           {editable ? (
-            <Input.TextArea
-              defaultValue={about}
-              onBlur={event => onSummaryUpdate(event.target.value)}
-              autoSize={{ minRows: 4 }}
-            />
+            <AboutForm employeeId={id} about={about} />
           ) : (
             <Typography.Text>{about}</Typography.Text>
           )}
@@ -93,7 +66,9 @@ export default function EmployeeSummary({ employee, editable }: Props) {
         <Col span={24} md={12}>
           <Card>
             <Typography.Title level={5}>Hobbies</Typography.Title>
-            {hobbies.length > 0 ? (
+            {editable ? (
+              <HobbiesForm employeeId={id} hobbies={hobbies} />
+            ) : hobbies.length > 0 ? (
               hobbies.map(hobby => (
                 <HobbyTag key={hobby.id}>
                   <HobbyItem to={getHobbyLink(hobby.id)}>{hobby.name}</HobbyItem>
@@ -101,11 +76,6 @@ export default function EmployeeSummary({ employee, editable }: Props) {
               ))
             ) : (
               <HobbyEmpty>Employee has no hobbies</HobbyEmpty>
-            )}
-            {editable && (
-              <NewHobbyButton icon={<PlusOutlined />} size="small">
-                Add New Hobby
-              </NewHobbyButton>
             )}
           </Card>
         </Col>

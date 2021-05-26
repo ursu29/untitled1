@@ -30,6 +30,18 @@ export type UpdateEmployeeAboutMutation = { __typename?: 'Mutation' } & {
   updateEmployee?: Types.Maybe<{ __typename?: 'Employee' } & Pick<Types.Employee, 'id' | 'about'>>
 }
 
+export type UpdateEmployeeHobbiesMutationVariables = Types.Exact<{
+  input: Types.UpdateEmployeeHobbiesInput
+}>
+
+export type UpdateEmployeeHobbiesMutation = { __typename?: 'Mutation' } & {
+  updateEmployeeHobbies?: Types.Maybe<
+    { __typename?: 'Employee' } & Pick<Types.Employee, 'id'> & {
+        hobbies: Array<{ __typename?: 'Hobby' } & HobbyBaseFragment>
+      }
+  >
+}
+
 export const GetEmployeeSummaryDocument = gql`
   query getEmployeeSummary($id: ID!) {
     employee(id: $id) {
@@ -137,4 +149,58 @@ export type UpdateEmployeeAboutMutationResult = Apollo.MutationResult<UpdateEmpl
 export type UpdateEmployeeAboutMutationOptions = Apollo.BaseMutationOptions<
   UpdateEmployeeAboutMutation,
   UpdateEmployeeAboutMutationVariables
+>
+export const UpdateEmployeeHobbiesDocument = gql`
+  mutation updateEmployeeHobbies($input: UpdateEmployeeHobbiesInput!) {
+    updateEmployeeHobbies(input: $input) {
+      id
+      hobbies {
+        ...HobbyBase
+      }
+    }
+  }
+  ${HobbyBaseFragmentDoc}
+`
+export type UpdateEmployeeHobbiesMutationFn = Apollo.MutationFunction<
+  UpdateEmployeeHobbiesMutation,
+  UpdateEmployeeHobbiesMutationVariables
+>
+
+/**
+ * __useUpdateEmployeeHobbiesMutation__
+ *
+ * To run a mutation, you first call `useUpdateEmployeeHobbiesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEmployeeHobbiesMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEmployeeHobbiesMutation, { data, loading, error }] = useUpdateEmployeeHobbiesMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateEmployeeHobbiesMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateEmployeeHobbiesMutation,
+    UpdateEmployeeHobbiesMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UpdateEmployeeHobbiesMutation, UpdateEmployeeHobbiesMutationVariables>(
+    UpdateEmployeeHobbiesDocument,
+    options,
+  )
+}
+export type UpdateEmployeeHobbiesMutationHookResult = ReturnType<
+  typeof useUpdateEmployeeHobbiesMutation
+>
+export type UpdateEmployeeHobbiesMutationResult =
+  Apollo.MutationResult<UpdateEmployeeHobbiesMutation>
+export type UpdateEmployeeHobbiesMutationOptions = Apollo.BaseMutationOptions<
+  UpdateEmployeeHobbiesMutation,
+  UpdateEmployeeHobbiesMutationVariables
 >

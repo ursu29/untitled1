@@ -14,3 +14,12 @@ mutation updateEmployeeAbout($input: UpdateEmployeeInput!) {
     about
   }
 }
+
+mutation updateEmployeeHobbies($input: UpdateEmployeeHobbiesInput!) {
+  updateEmployeeHobbies(input: $input) {
+    id
+    hobbies {
+      ...HobbyBase
+    }
+  }
+}

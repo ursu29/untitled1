@@ -13,7 +13,7 @@ type Props = {
 
 export const CreateHobbyModal: React.FC<Props> = ({ refetchQueries }) => {
   const [createHobby, { loading }] = useCreateHobbyMutation({
-    onCompleted: () => message.success('New hobby have been created'),
+    onCompleted: () => message.success('New hobby has been created'),
     onError: message.error,
     refetchQueries,
   })
