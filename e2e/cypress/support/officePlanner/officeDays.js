@@ -44,10 +44,13 @@ export const filterEmployeesCount = (data, compareDate) =>
 
 export const employeeMaxCount = (allEmployees, count) =>
   Math.ceil((allEmployees * employeeLimit(count)) / 100)
+
+const dayjs = require('dayjs')
+
 export const employeeLimit = count => count || 15
-export const todaysDate = Cypress.moment().format('YYYY-MM-DD')
-export const tomorrow  = Cypress.moment().add(1,'days').format('DD');
-export const nextWeek  = Cypress.moment().add(6,'days').format('YYYY-MM-DD');
-export const pastDay = Cypress.moment().subtract(1, 'days').format('YYYY-MM-DD')
-export const getFirstDay = Cypress.moment().startOf('isoweek').format('YYYY-MM-DD')
-export const todayOfficePlannerDate = Cypress.moment().format('DD.MM.YYYY')
+export const todaysDate = dayjs().format('YYYY-MM-DD')
+export const tomorrow  = dayjs().add(1,'days').format('DD');
+export const nextWeek  = dayjs().add(6,'days').format('YYYY-MM-DD');
+export const pastDay = dayjs().subtract(1, 'days').format('YYYY-MM-DD')
+export const getFirstDay = dayjs().startOf('isoweek').format('YYYY-MM-DD')
+export const todayOfficePlannerDate = dayjs().format('DD.MM.YYYY')
