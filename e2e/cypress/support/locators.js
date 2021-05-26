@@ -196,6 +196,7 @@ export const paginationEl = {
 }
 
 export const hrTool = {
+  prio: 'prio',
   activeIdProcess: 'process',
   create: 'create',
   abort: 'abort',

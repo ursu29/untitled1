@@ -5,9 +5,8 @@ describe('Visual regression guilds page', () => {
         cy.setToken('employee')
         cy.setImgToken('employee')
 
-        cy.visit('/guilds')
-
         cy.mockResponse(['getGuilds'], getGuilds())
+        cy.visit('/guilds')
     })
 
 

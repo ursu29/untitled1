@@ -23,6 +23,7 @@ describe('Office planner book one day (office-planner)', () => {
 
     cy.get(spinner.active).should('be.visible')
     cy.get(spinner.active).should('not.exist')
-    cy.get(table.activeTab).then(el => expect(el.text()).not.equal(text))
+
+    cy.get(table.activeTab).should('not.contain.text', text)
   })
 })

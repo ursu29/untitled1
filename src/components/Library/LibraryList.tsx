@@ -90,7 +90,7 @@ export const LibraryList: React.FC<Props> = ({ books, isFetching, isAdmin }) => 
                 okText="Yes"
                 cancelText="No"
               >
-                <Button disabled={isFetching} style={{ width: '75px' }}>
+                <Button disabled={isFetching} style={{ width: '75px' }} data-cy='takeButton'>
                   {booked ? 'Return' : 'Take'}
                 </Button>
               </Popconfirm>

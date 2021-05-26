@@ -37,10 +37,28 @@ Cypress.Commands.add('getRequestData', URL => {
 
 export const getEmployeesData = () => cy.readFile('cypress/fixtures/employees.json')
 // need to simplify all this request body
+export const removeBook = id => ({
+  operationName: 'removeBook',
+  variables: { id },
+  query: query.removeBook,
+})
+
+export const createBook = obj => ({
+  operationName: 'createBook',
+  variables: { input:{ ...obj }},
+  query: query.createBook,
+})
+
 export const getManager = id => ({
   operationName: 'GetEmployeeManager',
   variables: { input: { id: id } },
   query: query.getManager,
+})
+
+export const deleteVacancy = id => ({
+  operationName: 'deleteHrVacancy',
+  variables: { id },
+  query: query.deleteHrVacancy,
 })
 
 export const completeProcessExecutionStep = (execution, step) => ({

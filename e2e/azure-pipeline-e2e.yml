@@ -91,7 +91,6 @@ jobs:
         inputs:
           htmlType: 'OtherComplexReport'
           JmeterReportsPath: '$(Build.SourcesDirectory)/e2e/TestReport'
-
 # jobs:
 #   - job: E2E_Tests
 #     workspace:
