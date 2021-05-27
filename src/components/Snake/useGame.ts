@@ -130,7 +130,7 @@ export const useGame = () => {
   )
 
   useTick((delta = 0) => {
-    if (lastUpdate.current < Math.max(4, 16 - gameState.speed)) {
+    if (lastUpdate.current < Math.max(3, 13 - gameState.speed / 2)) {
       lastUpdate.current += delta
       return
     }
@@ -157,7 +157,7 @@ export const useGame = () => {
           .filter(fruit => fruit !== eatenFruit)
           .concat(newFood)
         const nextScore = prev.score + 1
-        const nextSpeed = nextScore % 10 === 0 ? prev.speed + 1 : prev.speed
+        const nextSpeed = nextScore % 5 === 0 ? prev.speed + 1 : prev.speed
         return {
           ...prev,
           direction: nextDirection,
