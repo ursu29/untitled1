@@ -4,8 +4,8 @@ import { Collapse, Table } from 'antd'
 import markdownToHtml from './markdownToHtml'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import Image from '../components/Image'
-import 'swiper/swiper.scss'
-import 'swiper/components/pagination/pagination.scss'
+import 'swiper/swiper.min.css'
+import 'swiper/components/pagination/pagination.min.css'
 
 export default function useMarkdownInjection(trigger?: any, delay?: number) {
   useEffect(() => {

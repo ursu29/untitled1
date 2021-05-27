@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { notification, Button } from 'antd'
+import Helmet from '../Helmet'
 
 const openNotification = () => {
   notification.open({
@@ -23,6 +24,7 @@ function TimemasterPage() {
   }, [])
   return (
     <div style={{ height: '100vh', width: '100%' }}>
+      <Helmet title="Timemaster" />
       <iframe
         data-cy="tm_iframe"
         id="tm_iframe"

@@ -58,10 +58,12 @@ export default function Calendar() {
     ),
   )
 
+  const title = 'Events'
+
   return (
     <>
       <PageHeader
-        title="Events"
+        title={title}
         extra={[
           <Button onClick={() => setModalAddEvent({ visible: true })} data-cy="addEvent">
             Add Event

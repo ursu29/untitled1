@@ -8,6 +8,7 @@ import CreateMatrixGrade from './EditMatrix/CreateMatrixGrade'
 import CreateMatrixGroup from './EditMatrix/CreateMatrixGroup'
 import CreateMatrixSkill from './EditMatrix/CreateMatrixSkill'
 import DeleteMatrixSkill from './EditMatrix/DeleteMatrixSkill'
+import Helmet from '../Helmet'
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -22,6 +23,7 @@ function MatrixPage({ match }: Props) {
 
   return (
     <PageContent>
+      <Helmet title={data?.matrices?.[0]?.title} />
       <MatrixView
         matrix={data?.matrices?.[0]}
         loading={loading}

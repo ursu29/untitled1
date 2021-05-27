@@ -3,6 +3,7 @@ import React from 'react'
 import { GetSkillsDetailedQuery } from '../../queries/skills'
 import { ArrayElement } from '../../utils/types'
 import EmployeeLink from '../Employees/EmployeeLink'
+import Helmet from '../Helmet'
 
 const { Text, Title, Paragraph } = Typography
 
@@ -19,6 +20,7 @@ export default function Skill({ loading, skill, projects, experience, editCompon
     <Skeleton loading={loading} active>
       {skill && (
         <div>
+          <Helmet title={skill.name} />
           <Row>
             <Col md={24} lg={14} style={{ marginBottom: 20 }}>
               <Title level={1} data-cy="skillName">

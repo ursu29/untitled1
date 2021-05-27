@@ -5,6 +5,7 @@ import MatricesList from './MatricesList'
 import CreateMatrix from './CreateMatrix'
 import PageContent from '../UI/PageContent'
 import NotAllowed from '../UI/NotAllowed'
+import Helmet from '../Helmet'
 
 export default function EmployeesPage() {
   const { data, loading } = useQuery<QueryType>(query, { fetchPolicy: 'cache-first' })
@@ -13,6 +14,7 @@ export default function EmployeesPage() {
 
   return (
     <PageContent>
+      <Helmet title="Matrices" />
       <CreateMatrix />
       <MatricesList loading={loading} matrices={data?.matrices} />
     </PageContent>

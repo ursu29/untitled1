@@ -141,7 +141,7 @@ export default function StatisticsPage() {
 
   return (
     <>
-      <PageHeader title=" Skills Statistics" withBack />
+      <PageHeader title="Skills Statistics" withBack />
       <PageContent>
         {isSkillChosen ? (
           <>
