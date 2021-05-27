@@ -17,8 +17,12 @@ export const LibraryPage = () => {
   const [searchFilter, setSearchFilter] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const books = data?.books.sort((a, b) => (a.holder?.id ? 1 : -1)) || []
+  const books = data?.books.slice().sort((a, b) => (a.holder?.id ? 1 : -1)) || []
+
+  useEffect(() => {
+    setFiltered(books)
+    //eslint-disable-next-line
+  }, [dataLoading])
 
   useEffect(() => {
     const filterBySearch = (book: typeof books[0]) => {
@@ -41,8 +45,10 @@ export const LibraryPage = () => {
     const filterBooks = (book: typeof books[0]) => {
       return filterBySearch(book) && filterByStatus(book)
     }
+
     books && setFiltered(books.filter(filterBooks))
-  }, [searchFilter, statusFilter, books])
+    //eslint-disable-next-line
+  }, [searchFilter, statusFilter])
 
   return (
     <>
