@@ -10,6 +10,7 @@ import Back from '../UI/Back'
 import PageContent from '../UI/PageContent'
 import NotFound from '../UI/NotFound'
 import fragments, { EmployeeDetails } from '../../fragments'
+import Helmet from '../Helmet'
 
 export const getEmployeeDetails = gql`
   query getEmployee($email: String!) {
@@ -55,6 +56,7 @@ function EmployeePage({
     <Skeleton loading={loading || !data} avatar withOffset>
       {employee && (
         <>
+          <Helmet title={employee.name} />
           <PageContent noBottom>
             <Controls back={!hideNavigation && <Back />} />
             <Employee employee={employee} />

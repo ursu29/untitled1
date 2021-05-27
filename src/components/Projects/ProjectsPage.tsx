@@ -5,5 +5,9 @@ import ProjectsList from '../Projects/ProjectsList'
 
 export default function EmployeesPage() {
   const { data, loading } = useQuery<QueryType>(query, { fetchPolicy: 'cache-first' })
-  return <ProjectsList loading={loading} projects={data?.projects} />
+  return (
+    <>
+      <ProjectsList loading={loading} projects={data?.projects} />
+    </>
+  )
 }

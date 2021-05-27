@@ -1,6 +1,7 @@
 import React from 'react'
 import { PageHeader, Divider } from 'antd'
 import { useHistory } from 'react-router-dom'
+import Helmet from '../Helmet'
 
 interface CustomProps {
   withBack?: boolean
@@ -23,6 +24,7 @@ export default function PortalPageHeader({
 
   return (
     <>
+      <Helmet title={props.title?.toString()} />
       <PageHeader
         {...customProps}
         {...props}
