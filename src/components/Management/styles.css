@@ -3,8 +3,9 @@
 }
 
 .collapse-full-width .ant-collapse-header {
+  display: flex;
+  align-items: center;
   padding: 0 0 8px 40px !important;
-  margin-left: 16px;
 }
 
 .collapse-full-width .ant-card-body {
