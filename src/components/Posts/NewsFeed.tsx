@@ -4,7 +4,7 @@ import { Employee } from '../../types'
 import Posts from './Posts'
 import { Row, Col } from 'antd'
 import PostsFilter from './PostsFilter'
-import { NetworkStatus, useQuery } from "@apollo/client";
+import { NetworkStatus, useQuery } from '@apollo/client'
 
 interface Props {
   editable?: boolean

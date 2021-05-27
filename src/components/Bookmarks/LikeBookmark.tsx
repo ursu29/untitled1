@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import getBookmarks from '../../queries/getBookmarks'
 import { Bookmark } from '../../types'
 import message from '../../message'
-import { PureQueryOptions, useMutation, gql } from "@apollo/client";
+import { PureQueryOptions, useMutation, gql } from '@apollo/client'
 
 const StyledControl = styled.span<{ active: Boolean }>`
   text-align: baseline;

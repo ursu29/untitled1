@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 import { ArchivedSEFVersion } from '../types'
 
 export const archiveSEF = gql`

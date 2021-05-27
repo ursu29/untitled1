@@ -59,9 +59,10 @@ export default function EmployeeDevelopmentPlan(props: Props) {
   })
 
   // Get archived DP
-  const [getDPVersion, { data: archivedDPData }] = useLazyQuery<{
-    archivedDP: ArchivedDPData
-  }>(getArchivedDP)
+  const [getDPVersion, { data: archivedDPData }] =
+    useLazyQuery<{
+      archivedDP: ArchivedDPData
+    }>(getArchivedDP)
 
   // Select DP version
   const onSelectVersion = (version: string) => {

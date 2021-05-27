@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client'
 import { Button, Typography, Spin, Modal } from 'antd'
 import React, { useState } from 'react'
 import styled from 'styled-components'

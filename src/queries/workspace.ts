@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 import { WorkspaceType } from '../types'
 
 export const workspacePoolQuery = gql`

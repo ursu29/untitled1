@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import PageContent from '../UI/PageContent'
 import query, { QueryType } from '../../queries/getBookmarks'

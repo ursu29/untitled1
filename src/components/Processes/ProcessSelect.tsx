@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import { Select } from 'antd'
 import { SelectProps } from 'antd/es/select'

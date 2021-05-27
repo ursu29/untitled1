@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client'
 import { PropsWithChildren } from 'react'
 import getEvaluationReviewers, { QueryType } from '../../queries/getEvaluationReviewers'
 import { Employee } from '../../types'

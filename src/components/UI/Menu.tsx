@@ -1,4 +1,4 @@
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql } from '@apollo/client'
 import {
   ClockCircleOutlined,
   CoffeeOutlined,
@@ -20,6 +20,7 @@ import {
   CalendarOutlined,
   RocketOutlined,
   BookOutlined,
+  SmileOutlined,
 } from '@ant-design/icons'
 import { Badge, Menu } from 'antd'
 import React from 'react'
@@ -148,6 +149,11 @@ function PortalMenu(props: Props) {
       route: paths.LIBRARY,
       icon: <BookOutlined />,
       title: 'Library',
+    },
+    {
+      route: paths.HOBBIES,
+      icon: <SmileOutlined />,
+      title: 'Hobbies',
     },
     {
       route: paths.GAMES,

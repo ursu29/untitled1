@@ -1,4 +1,4 @@
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql } from '@apollo/client'
 import { PropsWithChildren, useEffect } from 'react'
 import message from '../../message'
 import getProcessExecutions from '../../queries/getProcessExecutions'

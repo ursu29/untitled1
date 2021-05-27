@@ -1,4 +1,4 @@
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql } from '@apollo/client'
 import React, { useState } from 'react'
 import NewsFeed from './NewsFeed'
 import PageContent from '../UI/PageContent'

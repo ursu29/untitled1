@@ -1,0 +1,55 @@
+fragment HobbyBase on Hobby {
+  id
+  name
+  description
+}
+
+fragment EmployeeInfo on Employee {
+  id
+  name
+  email
+  location
+  country
+  position
+  phoneNumber
+  startDate
+  birthday
+}
+
+fragment HobbyFull on Hobby {
+  ...HobbyBase
+  isMember
+  members {
+    ...EmployeeInfo
+  }
+}
+
+query getHobbies {
+  hobbies {
+    ...HobbyBase
+  }
+}
+
+query getHobby($id: ID!) {
+  hobby(id: $id) {
+    ...HobbyFull
+  }
+}
+
+mutation createHobby($input: CreateHobbyInput!) {
+  createHobby(input: $input) {
+    ...HobbyBase
+  }
+}
+
+mutation updateHobby($input: UpdateHobbyInput!) {
+  updateHobby(input: $input) {
+    ...HobbyBase
+  }
+}
+
+mutation joinHobby($input: JoinHobbyInput!) {
+  joinHobby(input: $input) {
+    ...HobbyFull
+  }
+}

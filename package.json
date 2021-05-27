@@ -50,7 +50,7 @@
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "codegen": "graphql-codegen --require dotenv/config",
-    "codegen:watch": "graphql-codegen --watch src/queries/**/*.graphql"
+    "codegen:watch": "graphql-codegen --require dotenv/config --watch src/queries/**/*.graphql"
   },
   "eslintConfig": {
     "extends": "react-app"

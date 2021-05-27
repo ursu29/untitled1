@@ -5,7 +5,7 @@ import DeleteBookmark from './DeleteBookmark'
 import LikeBookmark from './LikeBookmark'
 import BookmarksList from './BookmarksList'
 import CreateBookmark from './CreateBookmark'
-import { PureQueryOptions } from "@apollo/client"
+import { PureQueryOptions } from '@apollo/client'
 
 interface Props {
   loading: boolean

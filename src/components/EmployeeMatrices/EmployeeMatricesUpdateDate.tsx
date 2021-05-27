@@ -1,4 +1,4 @@
-import { useMutation, useQuery, gql } from "@apollo/client";
+import { useMutation, useQuery, gql } from '@apollo/client'
 import { Typography, DatePicker, Space } from 'antd'
 import dayjs from 'dayjs'
 import React from 'react'

@@ -1,4 +1,4 @@
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql } from '@apollo/client'
 import React, { useState, useEffect } from 'react'
 import { DropResult } from 'react-beautiful-dnd'
 import GroupTitle from './MatrixTableBodyComponents/GroupTitle'

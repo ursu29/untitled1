@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import { Skill } from '../../types'
 import message from '../../message'

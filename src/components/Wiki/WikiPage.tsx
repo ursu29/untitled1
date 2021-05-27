@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import { getPaths, getWikiRootSections, WikiRootSectionQueryType } from '../../queries/wiki'
 import PageContent from '../UI/PageContent'

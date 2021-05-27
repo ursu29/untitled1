@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 import { Employee, LOCATION, OfficeDay } from '../types'
 
 export const getOfficeDays = gql`

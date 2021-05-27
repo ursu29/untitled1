@@ -74,7 +74,7 @@ function PortalSelect(
         onSelect(value)
       }}
       filterOption={(input, option) =>
-        option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        option?.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
       }
       {...selectConditionalProps}
       {...selectProps}

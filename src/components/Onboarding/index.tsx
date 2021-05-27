@@ -37,13 +37,16 @@ export default function Onboarding() {
   const [isMyTicketsView, setIsMyTicketsView] = useState(false)
 
   // Get all onboarding tickets
-  const { data: ticketsData, loading: ticketsLoading, error: ticketsError } = useQuery<
-    OnboardingTicketsQueryType
-  >(getOnboardingTickets)
-  const { data: projectsData, loading: projectsLoading, error: projectsError } = useQuery<
-    GetEmployeeProjectsQuery,
-    GetEmployeeProjectsVariables
-  >(getEmployeeProjects, {
+  const {
+    data: ticketsData,
+    loading: ticketsLoading,
+    error: ticketsError,
+  } = useQuery<OnboardingTicketsQueryType>(getOnboardingTickets)
+  const {
+    data: projectsData,
+    loading: projectsLoading,
+    error: projectsError,
+  } = useQuery<GetEmployeeProjectsQuery, GetEmployeeProjectsVariables>(getEmployeeProjects, {
     variables: { id: user.employee.id },
   })
 
@@ -74,9 +77,8 @@ export default function Onboarding() {
   const isAccessWrite = onboardingAccessData?.onboardingAccess?.write || false
 
   // Get completed tickets
-  const { data: employeeOnboardingTicketsData } = useQuery<EmployeeOnboardingTicketsQueryType>(
-    employeeOnboardingTickets,
-  )
+  const { data: employeeOnboardingTicketsData } =
+    useQuery<EmployeeOnboardingTicketsQueryType>(employeeOnboardingTickets)
   const completedTickets = employeeOnboardingTicketsData?.employeeOnboardingTickets.map(
     ticket => ticket.id,
   )

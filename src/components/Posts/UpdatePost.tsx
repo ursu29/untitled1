@@ -1,4 +1,4 @@
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql } from '@apollo/client'
 import { EditOutlined } from '@ant-design/icons'
 import React from 'react'
 import message from '../../message'

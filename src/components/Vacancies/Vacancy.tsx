@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from '@apollo/client'
 import React, { useEffect } from 'react'
 import VacancyForm from './VacancyForm'
 import getVacancies, { QueryType } from '../../queries/getVacancies'

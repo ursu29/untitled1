@@ -1,4 +1,4 @@
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation, gql } from '@apollo/client'
 import React from 'react'
 import getEmployeeMatrices, { QueryType } from '../../queries/getEmployeeMatrices'
 import { Employee, Access } from '../../types'

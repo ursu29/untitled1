@@ -55,9 +55,10 @@ function EmployeeEvaluation({ employee, editable }: Props) {
   })
 
   // Get archived SEF
-  const [getSEFVersion, { data: archivedSEFData }] = useLazyQuery<{
-    archivedSEF: ArchivedSEFData
-  }>(getArchivedSEF)
+  const [getSEFVersion, { data: archivedSEFData }] =
+    useLazyQuery<{
+      archivedSEF: ArchivedSEFData
+    }>(getArchivedSEF)
 
   // Select SEF version
   const onSelectVersion = (version: string) => {

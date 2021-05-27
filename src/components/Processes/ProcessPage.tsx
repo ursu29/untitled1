@@ -1,4 +1,4 @@
-import { useMutation, useQuery, gql } from "@apollo/client";
+import { useMutation, useQuery, gql } from '@apollo/client'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import getProcess, { QueryType } from '../../queries/getProcess'
@@ -32,7 +32,11 @@ const mutation = gql`
 
 function ProcessPage({ match }: RouteComponentProps<{ id: string }>) {
   const id = match.params.id
-  const { data, loading: dataLoading, error } = useQuery<QueryType>(getProcess, {
+  const {
+    data,
+    loading: dataLoading,
+    error,
+  } = useQuery<QueryType>(getProcess, {
     variables: { id },
   })
   const { data: access, loading: accessLoading } = useQuery<AccessQueryType>(accessQuery)

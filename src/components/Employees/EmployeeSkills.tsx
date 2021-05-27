@@ -1,4 +1,4 @@
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation, gql } from '@apollo/client'
 import React, { useEffect } from 'react'
 import { Employee } from '../../types'
 import { Level } from '../../types/graphql'

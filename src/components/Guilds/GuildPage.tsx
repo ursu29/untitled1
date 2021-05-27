@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import PageContent from '../UI/PageContent'

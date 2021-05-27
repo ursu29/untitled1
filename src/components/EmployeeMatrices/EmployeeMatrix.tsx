@@ -1,4 +1,4 @@
-import { useQuery, useLazyQuery } from "@apollo/client";
+import { useQuery, useLazyQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import { Input } from 'antd'
 import ArchiveMatrix from './ArchiveMatrix'
@@ -27,9 +27,10 @@ export default function EmployeeMatrix({ employee, matrix, isCurrentTab, onComme
   })
 
   // Get archived matrix
-  const [getMatrixVersion, { data: archivedMatrixData, loading: archiveLoading }] = useLazyQuery<{
-    archivedMatrix: ArchivedMatrixData
-  }>(getArchivedMatrix)
+  const [getMatrixVersion, { data: archivedMatrixData, loading: archiveLoading }] =
+    useLazyQuery<{
+      archivedMatrix: ArchivedMatrixData
+    }>(getArchivedMatrix)
 
   // Select matrix version
   const onSelectVersion = (version: string) => {

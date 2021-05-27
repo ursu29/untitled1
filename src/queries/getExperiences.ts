@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 import fragments, { ExperienceDetails } from '../fragments'
 
 export default gql`

@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 export const cancelOfficeBooking = gql`
   mutation cancelOfficeBooking($input: CancelOfficeBookingInput!) {

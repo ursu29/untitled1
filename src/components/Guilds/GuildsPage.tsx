@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from '@apollo/client'
 import React from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { Row, Col } from 'antd'

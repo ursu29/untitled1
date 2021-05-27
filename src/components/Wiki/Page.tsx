@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from '@apollo/client'
 import React from 'react'
 import { getWikiPage, WikiPageQueryType, updateWikiPage } from '../../queries/wiki'
 import { useLocation } from 'react-router-dom'

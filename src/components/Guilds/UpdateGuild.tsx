@@ -1,4 +1,4 @@
-import { useMutation } from "@apollo/client";
+import { useMutation } from '@apollo/client'
 import React from 'react'
 import message from '../../message'
 import { Guild } from '../../types'

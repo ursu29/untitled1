@@ -1,4 +1,4 @@
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql } from '@apollo/client'
 import React from 'react'
 import { Employee } from '../../types'
 import Avatar from '../Avatar'

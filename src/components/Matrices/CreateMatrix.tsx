@@ -1,4 +1,4 @@
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql } from '@apollo/client'
 import React, { useState } from 'react'
 import message from '../../message'
 import getMatrices from '../../queries/getMatrices'

@@ -1,4 +1,4 @@
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql } from '@apollo/client'
 import { Button } from 'antd'
 import React, { useEffect } from 'react'
 import message from '../../message'

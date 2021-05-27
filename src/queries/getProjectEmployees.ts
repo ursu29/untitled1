@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 import { Project, EmployeeProject } from '../types'
 import fragments, { EmployeeDetails } from '../fragments'
 

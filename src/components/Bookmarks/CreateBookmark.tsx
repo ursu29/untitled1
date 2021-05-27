@@ -1,4 +1,4 @@
-import { PureQueryOptions, useMutation, gql } from "@apollo/client";
+import { PureQueryOptions, useMutation, gql } from '@apollo/client'
 import React, { useEffect } from 'react'
 import { PlusOutlined } from '@ant-design/icons'
 import message from '../../message'

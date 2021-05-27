@@ -1,4 +1,4 @@
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql } from '@apollo/client'
 import { RetweetOutlined } from '@ant-design/icons'
 import { Button, Input, Modal } from 'antd'
 import Text from 'antd/lib/typography/Text'

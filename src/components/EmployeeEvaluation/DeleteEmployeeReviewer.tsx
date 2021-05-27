@@ -1,4 +1,4 @@
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql } from '@apollo/client'
 import React, { useEffect } from 'react'
 import { EvaluationReviewer, Employee } from '../../types'
 import Button from '../UI/Button'

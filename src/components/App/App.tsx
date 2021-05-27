@@ -1,4 +1,10 @@
-import { ApolloClient, ApolloProvider, InMemoryCache, HttpLink } from '@apollo/client'
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  InMemoryCacheConfig,
+  HttpLink,
+} from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import React, { useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
@@ -16,6 +22,18 @@ const timezoneOffsetKey = 'x-timezone-offset'
 const httpLink = new HttpLink({
   uri: GATEWAY + '/graphql',
 })
+
+const cacheConfig: InMemoryCacheConfig = {
+  typePolicies: {
+    Employee: {
+      fields: {
+        hobbies: {
+          merge: false,
+        },
+      },
+    },
+  },
+}
 
 const App: React.FC = () => {
   const [tokenExpired, setTokenExpired] = useState(false)
@@ -51,7 +69,7 @@ const App: React.FC = () => {
 
         const client = new ApolloClient({
           link: errorLink.concat(authLink).concat(httpLink),
-          cache: new InMemoryCache(),
+          cache: new InMemoryCache(cacheConfig),
         })
 
         return (

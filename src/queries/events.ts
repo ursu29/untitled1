@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 import { CalendarEvent } from '../types'
 
 export const getEvents = gql`

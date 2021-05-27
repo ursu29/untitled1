@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 import { Employee, Matrix } from '../types'
 
 export default gql`

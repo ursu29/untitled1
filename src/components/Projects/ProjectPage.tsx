@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client'
 import { CrownOutlined, TeamOutlined } from '@ant-design/icons'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'

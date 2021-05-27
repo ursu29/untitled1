@@ -1,4 +1,4 @@
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql } from '@apollo/client'
 import React, { useState } from 'react'
 import { EmployeeDetails } from '../../fragments'
 import { Typography, Button, Tooltip, Popconfirm } from 'antd'

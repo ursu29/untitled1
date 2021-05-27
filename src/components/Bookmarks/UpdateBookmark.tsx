@@ -1,4 +1,4 @@
-import { PureQueryOptions, useMutation, gql } from "@apollo/client";
+import { PureQueryOptions, useMutation, gql } from '@apollo/client'
 import React from 'react'
 import message from '../../message'
 import getBookmarks from '../../queries/getBookmarks'

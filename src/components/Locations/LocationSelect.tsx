@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import getLocations, { QueryType } from '../../queries/getLocations'
 import { LOCATION } from '../../types'

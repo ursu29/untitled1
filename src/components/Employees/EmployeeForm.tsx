@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client'
 import { Button, Form, InputNumber, Checkbox } from 'antd'
 import React, { useState, useEffect } from 'react'
 import getEmployeeProjects, {
@@ -105,7 +105,7 @@ export default function EmployeeForm({ onSubmit, fullAccess, item, loading }: Pr
               marginBottom: '10px',
             }}
           >
-            <InputNumber<number>
+            <InputNumber
               defaultValue={employeeProjects?.find(e => e.project.id === project.id)?.capacity}
               min={0}
               max={100}

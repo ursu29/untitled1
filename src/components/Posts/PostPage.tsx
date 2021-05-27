@@ -1,4 +1,4 @@
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from '@apollo/client'
 import React, { useEffect } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import query, { QueryType } from '../../queries/getPost'

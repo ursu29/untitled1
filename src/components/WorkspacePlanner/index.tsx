@@ -67,11 +67,10 @@ export default function WorkspacePlanner() {
     bookingsInput: { startDate: dateRange.startDate, finishDate: dateRange.finishDate },
   }
 
-  const { data: dataWorkspacePool, loading: loadingWorkspacePool } = useQuery<
-    WorkspacePoolQueryType
-  >(workspacePoolQuery, {
-    variables: workspacePoolQueryVariables,
-  })
+  const { data: dataWorkspacePool, loading: loadingWorkspacePool } =
+    useQuery<WorkspacePoolQueryType>(workspacePoolQuery, {
+      variables: workspacePoolQueryVariables,
+    })
   const workspacePool = dataWorkspacePool
 
   /**

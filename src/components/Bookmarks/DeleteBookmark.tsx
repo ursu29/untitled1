@@ -4,7 +4,7 @@ import message from '../../message'
 import getBookmarks from '../../queries/getBookmarks'
 import { Bookmark } from '../../types'
 import Button from '../UI/Button'
-import { PureQueryOptions, useMutation, gql } from "@apollo/client";
+import { PureQueryOptions, useMutation, gql } from '@apollo/client'
 
 const mutation = gql`
   mutation deleteBookmark($input: DeleteBookmarkInput!) {

@@ -1,4 +1,4 @@
-import { useMutation } from "@apollo/client";
+import { useMutation } from '@apollo/client'
 import { Button, Form, Input, Popconfirm, Checkbox } from 'antd'
 import React from 'react'
 import message from '../../message'
@@ -100,7 +100,9 @@ export default function DrawerForm({
         initialValue={ticket?.isOptional || false}
         style={{ marginBottom: 0 }}
       >
-        <Checkbox defaultChecked={ticket?.isOptional || false} data-cy="optional">Ticket is optional</Checkbox>
+        <Checkbox defaultChecked={ticket?.isOptional || false} data-cy="optional">
+          Ticket is optional
+        </Checkbox>
       </Form.Item>
 
       <Form.Item
@@ -109,7 +111,9 @@ export default function DrawerForm({
         valuePropName="checked"
         initialValue={ticket?.isSwissre || false}
       >
-        <Checkbox defaultChecked={ticket?.isSwissre || false} data-cy="ticketSwissRe">Ticket is SwissRe only</Checkbox>
+        <Checkbox defaultChecked={ticket?.isSwissre || false} data-cy="ticketSwissRe">
+          Ticket is SwissRe only
+        </Checkbox>
       </Form.Item>
 
       <Form.Item {...tailLayout}>
@@ -127,7 +131,12 @@ export default function DrawerForm({
               </Button>
             </Popconfirm>
           )}
-          <Button type="primary" htmlType="submit" loading={createLoading || updateLoading} data-cy="saveTicket">
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={createLoading || updateLoading}
+            data-cy="saveTicket"
+          >
             Save
           </Button>
         </div>

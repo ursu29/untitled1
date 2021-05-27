@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 import fragments, { ProcessStepDetails } from '../fragments'
 import { Process } from '../types'
 

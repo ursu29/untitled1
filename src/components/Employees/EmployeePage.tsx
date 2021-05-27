@@ -1,4 +1,4 @@
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql } from '@apollo/client'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { Employee as EmployeeType } from '../../types'

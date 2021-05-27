@@ -1,4 +1,4 @@
-import { useMutation, useQuery, gql } from "@apollo/client";
+import { useMutation, useQuery, gql } from '@apollo/client'
 import React, { useEffect } from 'react'
 import { debounce } from 'throttle-debounce'
 import message from '../../message'

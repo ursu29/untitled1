@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 import { ArchivedDPVersion } from '../types'
 
 export const archiveDP = gql`

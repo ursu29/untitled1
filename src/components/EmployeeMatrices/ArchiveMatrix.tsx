@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from '@apollo/client'
 import React from 'react'
 import VersionSnapshot from '../UI/VersionSnapshot'
 import {

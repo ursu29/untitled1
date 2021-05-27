@@ -1,4 +1,4 @@
-import { useMutation, useQuery, gql } from "@apollo/client";
+import { useMutation, useQuery, gql } from '@apollo/client'
 import { DeleteOutlined } from '@ant-design/icons'
 import { Button, List, Popconfirm } from 'antd'
 import React, { useEffect } from 'react'
