@@ -5,9 +5,9 @@
  */
 import * as Types from '../types/graphql'
 
-import gql from 'graphql-tag'
-import * as ApolloReactCommon from '@apollo/react-common'
-import * as ApolloReactHooks from '@apollo/react-hooks'
+import { gql } from '@apollo/client'
+import * as Apollo from '@apollo/client'
+const defaultOptions = {}
 export type GetNotificationsQueryVariables = Types.Exact<{ [key: string]: never }>
 
 export type GetNotificationsQuery = { __typename?: 'Query' } & {
@@ -52,30 +52,26 @@ export const GetNotificationsDocument = gql`
  * });
  */
 export function useGetNotificationsQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<
-    GetNotificationsQuery,
-    GetNotificationsQueryVariables
-  >,
+  baseOptions?: Apollo.QueryHookOptions<GetNotificationsQuery, GetNotificationsQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<GetNotificationsQuery, GetNotificationsQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetNotificationsQuery, GetNotificationsQueryVariables>(
     GetNotificationsDocument,
-    baseOptions,
+    options,
   )
 }
 export function useGetNotificationsLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
-    GetNotificationsQuery,
-    GetNotificationsQueryVariables
-  >,
+  baseOptions?: Apollo.LazyQueryHookOptions<GetNotificationsQuery, GetNotificationsQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<GetNotificationsQuery, GetNotificationsQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetNotificationsQuery, GetNotificationsQueryVariables>(
     GetNotificationsDocument,
-    baseOptions,
+    options,
   )
 }
 export type GetNotificationsQueryHookResult = ReturnType<typeof useGetNotificationsQuery>
 export type GetNotificationsLazyQueryHookResult = ReturnType<typeof useGetNotificationsLazyQuery>
-export type GetNotificationsQueryResult = ApolloReactCommon.QueryResult<
+export type GetNotificationsQueryResult = Apollo.QueryResult<
   GetNotificationsQuery,
   GetNotificationsQueryVariables
 >
@@ -84,7 +80,7 @@ export const UnsubscribeNotificationDocument = gql`
     unsubscribeNotification(ids: $ids)
   }
 `
-export type UnsubscribeNotificationMutationFn = ApolloReactCommon.MutationFunction<
+export type UnsubscribeNotificationMutationFn = Apollo.MutationFunction<
   UnsubscribeNotificationMutation,
   UnsubscribeNotificationMutationVariables
 >
@@ -107,23 +103,23 @@ export type UnsubscribeNotificationMutationFn = ApolloReactCommon.MutationFuncti
  * });
  */
 export function useUnsubscribeNotificationMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
+  baseOptions?: Apollo.MutationHookOptions<
     UnsubscribeNotificationMutation,
     UnsubscribeNotificationMutationVariables
   >,
 ) {
-  return ApolloReactHooks.useMutation<
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
     UnsubscribeNotificationMutation,
     UnsubscribeNotificationMutationVariables
-  >(UnsubscribeNotificationDocument, baseOptions)
+  >(UnsubscribeNotificationDocument, options)
 }
 export type UnsubscribeNotificationMutationHookResult = ReturnType<
   typeof useUnsubscribeNotificationMutation
 >
-export type UnsubscribeNotificationMutationResult = ApolloReactCommon.MutationResult<
-  UnsubscribeNotificationMutation
->
-export type UnsubscribeNotificationMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type UnsubscribeNotificationMutationResult =
+  Apollo.MutationResult<UnsubscribeNotificationMutation>
+export type UnsubscribeNotificationMutationOptions = Apollo.BaseMutationOptions<
   UnsubscribeNotificationMutation,
   UnsubscribeNotificationMutationVariables
 >
