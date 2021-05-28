@@ -843,6 +843,7 @@ type Query {
   matrices(input: MatricesInput): [Matrix]
   matricesAccess: Access
   matricesCustomFields(input: MatricesCustomFieldsInput): MatricesCustomFields
+  notifications: [Notification!]!
   officeDays(input: OfficeDaysInput): [OfficeDay]
   officeAccess: Access
   onboardingTickets: [OnboardingTicket]
@@ -942,6 +943,7 @@ type Mutation {
   deleteMatrixGrade(input: DeleteMatrixGradeInput): Matrix
   updateMatricesCustomFields(input: UpdateMatricesCustomFieldsInput): MatricesCustomFields
   proposeMatrixChanges(input: ProposeMatrixChangesInput!): Boolean
+  unsubscribeNotification(ids: [ID!]!): [ID]
   createOfficeBooking(input: CreateOfficeBookingInput!): Boolean
   cancelOfficeBooking(input: CancelOfficeBookingInput!): Boolean
   updateOfficeDays(input: UpdateOfficeDaysInput!): Boolean
@@ -1157,6 +1159,13 @@ input ProposeMatrixChangesInput {
   matrix: ID!
   skill: ID!
   proposal: String!
+}
+
+type Notification {
+  id: ID!
+  link: String!
+  title: String!
+  type: String!
 }
 
 type OfficeDay {

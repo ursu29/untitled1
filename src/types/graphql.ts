@@ -900,6 +900,7 @@ export type Query = {
   matrices?: Maybe<Array<Maybe<Matrix>>>
   matricesAccess?: Maybe<Access>
   matricesCustomFields?: Maybe<MatricesCustomFields>
+  notifications: Array<Notification>
   officeDays?: Maybe<Array<Maybe<OfficeDay>>>
   officeAccess?: Maybe<Access>
   onboardingTickets?: Maybe<Array<Maybe<OnboardingTicket>>>
@@ -1199,6 +1200,7 @@ export type Mutation = {
   deleteMatrixGrade?: Maybe<Matrix>
   updateMatricesCustomFields?: Maybe<MatricesCustomFields>
   proposeMatrixChanges?: Maybe<Scalars['Boolean']>
+  unsubscribeNotification?: Maybe<Array<Maybe<Scalars['ID']>>>
   createOfficeBooking?: Maybe<Scalars['Boolean']>
   cancelOfficeBooking?: Maybe<Scalars['Boolean']>
   updateOfficeDays?: Maybe<Scalars['Boolean']>
@@ -1494,6 +1496,10 @@ export type MutationUpdateMatricesCustomFieldsArgs = {
 
 export type MutationProposeMatrixChangesArgs = {
   input: ProposeMatrixChangesInput
+}
+
+export type MutationUnsubscribeNotificationArgs = {
+  ids: Array<Scalars['ID']>
 }
 
 export type MutationCreateOfficeBookingArgs = {
@@ -1857,6 +1863,14 @@ export type ProposeMatrixChangesInput = {
   matrix: Scalars['ID']
   skill: Scalars['ID']
   proposal: Scalars['String']
+}
+
+export type Notification = {
+  __typename?: 'Notification'
+  id: Scalars['ID']
+  link: Scalars['String']
+  title: Scalars['String']
+  type: Scalars['String']
 }
 
 export type OfficeDay = {

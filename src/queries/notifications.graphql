@@ -1,0 +1,12 @@
+query getNotifications {
+  notifications {
+    id
+    link
+    title
+    type
+  }
+}
+
+mutation unsubscribeNotification($ids: [ID!]!) {
+  unsubscribeNotification(ids: $ids)
+}
