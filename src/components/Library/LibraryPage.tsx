@@ -12,7 +12,7 @@ export const LibraryPage = () => {
   const { data, dataLoading, dataUpdating } = useLibraryApi()
   const [filtered, setFiltered] = useState(data?.books)
   const [isPopupVisible, setIsPopupVisible] = useState(false)
-  const canEdit = useStrapiGroupCheck('HR_RU')
+  const canEdit = useStrapiGroupCheck('LIBRARIAN')
 
   const [searchFilter, setSearchFilter] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')

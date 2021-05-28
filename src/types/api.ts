@@ -497,6 +497,7 @@ export enum StrapiGroups {
   HR_ADMINS,
   SUPER_USER,
   DEVREL,
+  LIBRARIAN,
 }
 
 export interface Profile {
