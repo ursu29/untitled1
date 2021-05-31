@@ -3,8 +3,7 @@ import {getDayAndMonth} from "../../../support/officePlanner/officeDays";
 
 describe('get notification data', () => {
     const allData = []
-    const allDates = [getDayAndMonth(0), '1.05', getDayAndMonth(2)]
-    console.log(allDates)
+    const allDates = [getDayAndMonth(0), getDayAndMonth(1), getDayAndMonth(2)]
 
     before(() => {
         cy.setToken('employee')
@@ -14,8 +13,8 @@ describe('get notification data', () => {
         })
     })
 
-    it('successfully get notification data', () => {
-        cy.get('@notification').should(({data}) => {
+    it('get all notifications', () => {
+        cy.get('@notification').should(res => {
             expect(allData.length).equal(res.body.data.notifications.length)
         })
     })

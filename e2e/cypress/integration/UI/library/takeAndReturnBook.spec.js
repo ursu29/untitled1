@@ -23,7 +23,7 @@ describe('take return book', () => {
         })
     })
 
-    it('successfully take/return a book', () => {
+    it('successfully take/return a book', () => {takeButton
         cy.mockResponse(['getBooks'], {data: {books: [bookObj]}})
         cy.visit('/library')
         ;['Return', 'Take'].forEach(el => {

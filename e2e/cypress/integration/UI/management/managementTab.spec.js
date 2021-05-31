@@ -49,8 +49,9 @@ describe('Check management page', () => {
   })
 
   it('check reset', () => {
-    cy.get(table.filter).eq(0).click()
-    cy.getElement(table.resetBtn).click()
+    cy.get('.ant-dropdown-trigger').eq(1).click()
+
+    cy.get('span').contains('Reset').click()
 
     cy.get(table.tableRow).then(el =>
       expect(el.length).equal(cityFilter(mainCity, noManager).length),
