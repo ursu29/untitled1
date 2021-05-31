@@ -17,10 +17,10 @@ const MainTitle = styled.div`
 const SubTitle = styled.div`
   font-style: italic;
   opacity: 0.6;
-  padding-left: 8px;
 `
 
 const LinkText = styled.p`
+  margin: 0;
   cursor: pointer;
   :hover {
     text-decoration: underline;
@@ -68,7 +68,11 @@ export default function NotificationsBody({
   )
 
   return (
-    <div>
+    <div
+      style={{
+        userSelect: 'none',
+      }}
+    >
       {!notifications?.length && <div>nothing here</div>}
       {isBirthdays && (
         <div>
