@@ -48,6 +48,7 @@ export const employeeMaxCount = (allEmployees, count) =>
 const dayjs = require('dayjs')
 
 export const employeeLimit = count => count || 15
+export const getDayAndMonth = number => dayjs().add(number,'days').format('DD.MM')
 export const todaysDate = dayjs().format('YYYY-MM-DD')
 export const tomorrow  = dayjs().add(1,'days').format('DD');
 export const nextWeek  = dayjs().add(6,'days').format('YYYY-MM-DD');
