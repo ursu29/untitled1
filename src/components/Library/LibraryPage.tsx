@@ -48,7 +48,7 @@ export const LibraryPage = () => {
 
     books && setFiltered(books.filter(filterBooks))
     //eslint-disable-next-line
-  }, [searchFilter, statusFilter])
+  }, [searchFilter, statusFilter, data])
 
   return (
     <>
