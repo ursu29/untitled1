@@ -8,6 +8,12 @@ import {
 import HobbySelect from '../Hobbies/HobbySelect'
 import { useDebouncedCallback } from '../../utils/useDebounce'
 
+const arrayDiff = (a1: string[], a2: string[]) => {
+  const left = a2.filter(d => !a1.includes(d))
+  const right = a1.filter(d => !a2.includes(d))
+  return [...left, ...right]
+}
+
 type HobbiesFormValues = {
   hobbies: string[]
 }
@@ -39,8 +45,23 @@ export const HobbiesForm = ({ employeeId, hobbies }: HobbiesFormProps) => {
             hobbies: values.hobbies,
           },
         },
+        update: (cache, { data }) => {
+          const nextHobbies = data?.updateEmployeeHobbies?.hobbies
+          const prevIds = hobbies?.map(hobby => hobby.id) || []
+          const nextIds = nextHobbies?.map(hobby => hobby.id) || []
+          const changedIds = arrayDiff(prevIds, nextIds)
+
+          // invalidate members for changed hobbies
+          changedIds.forEach(id => {
+            cache.evict({
+              id: `Hobby:${id}`,
+              fieldName: 'members',
+            })
+          })
+          cache.gc()
+        },
       }),
-    [employeeId, updateHobbies],
+    [employeeId, hobbies, updateHobbies],
   )
   const handleSubmit = useDebouncedCallback(1000, handleHobbiesUpdate)
 
