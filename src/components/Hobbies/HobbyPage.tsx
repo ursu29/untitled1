@@ -1,5 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
+import { useEmployee } from '../../utils/withEmployee'
 import PageContent from '../UI/PageContent'
 import PageHeader from '../UI/PageHeader'
 import { useGetHobbyQuery } from '../../queries/hobbies'
@@ -9,6 +10,7 @@ import { JoinHobby } from './JoinHobby'
 
 export default function HobbyPage() {
   const { id } = useParams<{ id: string }>()
+  const { employee } = useEmployee()
   const { data, loading, error } = useGetHobbyQuery({
     variables: { id },
   })
@@ -20,7 +22,14 @@ export default function HobbyPage() {
       <PageHeader
         title={hobby?.name}
         withBack
-        extra={hobby ? [<EditHobbyModal hobby={hobby} />, <JoinHobby hobby={hobby} />] : null}
+        extra={
+          hobby
+            ? [
+                <EditHobbyModal hobby={hobby} />,
+                <JoinHobby hobby={hobby} employeeId={employee.id} />,
+              ]
+            : null
+        }
       />
       <PageContent
         error={error}
