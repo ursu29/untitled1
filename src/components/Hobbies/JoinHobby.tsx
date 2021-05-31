@@ -6,9 +6,10 @@ import { HobbyFullFragment, useJoinHobbyMutation } from '../../queries/hobbies'
 
 type Props = {
   hobby: HobbyFullFragment
+  employeeId: string
 }
 
-export const JoinHobby: React.FC<Props> = ({ hobby }) => {
+export const JoinHobby: React.FC<Props> = ({ hobby, employeeId }) => {
   const [joinHobby, { loading }] = useJoinHobbyMutation({
     onCompleted: data => {
       const name = data.joinHobby?.name || 'Unknown'
@@ -26,6 +27,14 @@ export const JoinHobby: React.FC<Props> = ({ hobby }) => {
           id: hobby.id,
           join: !hobby.isMember,
         },
+      },
+      update: cache => {
+        // invalidate hobbies for current user
+        cache.evict({
+          id: `Employee:${employeeId}`,
+          fieldName: 'hobbies',
+        })
+        cache.gc()
       },
     })
   }
