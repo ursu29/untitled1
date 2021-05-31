@@ -128,13 +128,6 @@ function EmployeeTabs({ match, location, ...props }: Props) {
 
   let tabs: any = [
     {
-      title: 'Summary',
-      key: 'summary',
-      icon: <InfoCircleOutlined />,
-      noPadding: false,
-      body: <EmployeeSummary employee={employee} editable={employee?.access.write} />,
-    },
-    {
       title: 'Skills',
       key: 'skills',
       icon: <CrownOutlined />,
@@ -146,6 +139,13 @@ function EmployeeTabs({ match, location, ...props }: Props) {
           showTabs={isProfile}
         />
       ),
+    },
+    {
+      title: 'Summary',
+      key: 'summary',
+      icon: <InfoCircleOutlined />,
+      noPadding: false,
+      body: <EmployeeSummary employee={employee} editable={employee?.access.write} />,
     },
     {
       title: 'Bookmarks',
