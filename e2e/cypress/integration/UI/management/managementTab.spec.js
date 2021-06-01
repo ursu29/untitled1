@@ -54,18 +54,15 @@ describe('Check management page', () => {
     cy.get('span').contains('Reset').click()
 
     cy.get(table.tableRow).then(el =>
-      expect(el.length).equal(cityFilter(mainCity, noManager).length),
+      expect(el.length).equal(noManager.length),
     )
-    cy.get(table.filter).eq(0).should('not.have.class', 'ant-dropdown-open')
   })
 
   it('manager search', () => {
     cy.get('.ant-checkbox-input').eq(0).click().should('not.be.checked')
 
-    cy.get(table.filter).eq(2).click()
-    cy.getElement(table.resetBtn).should('be.visible')
-    cy.getElement(table.inputSearch).eq(1).type(managerName)
-    cy.getElement(table.searchBtn).eq(1).click({ force: true })
+    cy.getIcon(table.inputSearch).eq(1).type(managerName)
+    cy.getElement(table.searchBtn).click({ force: true })
 
     cy.get(table.tableRow).then(el =>
       expect(el.length).equal(filterCityAndManager(mainCity, managerName, allManagers).length),

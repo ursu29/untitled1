@@ -2,7 +2,7 @@ import { skillEl, hrTool, postEl } from '../../../support/locators'
 import { popUp } from '../../../support/client/employeeData'
 import * as data from '../../../support/getData'
 
-xdescribe('start new process', () => {
+describe('start new process', () => {
   let newProcess
   let processId
 
