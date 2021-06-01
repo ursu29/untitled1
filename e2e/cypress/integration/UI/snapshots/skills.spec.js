@@ -1,11 +1,12 @@
 import { getEmployeeSkills } from '../../../fixtures/skills'
+import {getProfileTabUrl} from "../../../support/utils";
 
 describe('skills tab looks god', () => {
   before(() => {
     cy.setToken('employee')
     cy.setImgToken('employee')
 
-    cy.visit('/profile')
+    cy.visit(getProfileTabUrl('skills'))
 
     cy.mockResponse(['getEmployeeExperiences'], getEmployeeSkills())
   })

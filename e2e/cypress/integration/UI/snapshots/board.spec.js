@@ -8,7 +8,6 @@ describe('hr boards looks good', () => {
         cy.mockResponse(['processExecutions', 'id', 'process'], getBoardMock())
         cy.visit(getHrTabUrl('board'))
 
-        cy.get('.ant-skeleton').should('be.visible')
         cy.get('.ant-skeleton').should('not.exist')
     })
 

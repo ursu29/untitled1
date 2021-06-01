@@ -16,6 +16,6 @@ describe('Visual regression employees page', () => {
             // eslint-disable-next-line
             cy.wait(1000) // need to fined a new solution
 
-            cy.matchImageSnapshot();
+            cy.get('.ant-table-container').matchImageSnapshot('employees');
         });
 });

@@ -8,6 +8,8 @@ describe('change hr prio value', () => {
         cy.setToken('manager')
         cy.mockResponse(['processExecutions', 'id', 'process'], getBoardMock())
         cy.visit(getHrTabUrl('board'))
+        cy.get('.ant-skeleton').should('be.visible')
+        cy.get('.ant-skeleton').should('not.exist')
     })
 
     it('check boards card', () => {
