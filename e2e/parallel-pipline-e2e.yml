@@ -43,8 +43,7 @@ jobs:
           workingDirectory: '$(Build.SourcesDirectory)/e2e'
           targetType: 'inline'
           script: |
-            yarn run cypress run --browser chrome --headless \
-            --spec "cypress/integration/UI/**",\
+            yarn run cypress run --spec "cypress/integration/UI/**" --browser chrome --headless \
             --env client_id=$(cypress_client_id),\
             scope=$(cypress_scope),\
             client_secret=$(cypress_client_secret),\
@@ -124,8 +123,7 @@ jobs:
           workingDirectory: '$(Build.SourcesDirectory)/e2e'
           targetType: 'inline'
           script: |
-            yarn run cypress run --browser chrome --headless \
-            --spec "cypress/integration/BE/**",\
+            yarn run cypress run --spec "cypress/integration/BE/**" --browser chrome --headless \
             --env client_id=$(cypress_client_id),\
             scope=$(cypress_scope),\
             client_secret=$(cypress_client_secret),\
