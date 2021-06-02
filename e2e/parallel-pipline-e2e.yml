@@ -38,12 +38,12 @@ jobs:
           script: 'printenv'
 
       - task: Bash@3
-        displayName: 'Run UI tests'
+        displayName: 'Run be tests'
         inputs:
           workingDirectory: '$(Build.SourcesDirectory)/e2e'
           targetType: 'inline'
           script: |
-            yarn run cypress run --headless --spec "cypress/integration/UI/**" \
+            yarn run cypress run --headless --spec "cypress/integration/BE/**" \
             --env client_id=$(cypress_client_id),\
             scope=$(cypress_scope),\
             client_secret=$(cypress_client_secret),\
@@ -92,7 +92,7 @@ jobs:
           JmeterReportsPath: '$(Build.SourcesDirectory)/e2e/TestReport'
 
   - job: Tests_second_agent
-    pool: Sidenis_agent
+    pool: Default
     timeoutInMinutes: 30
     displayName: E2E_Tests_BE
     workspace:
@@ -123,7 +123,7 @@ jobs:
           workingDirectory: '$(Build.SourcesDirectory)/e2e'
           targetType: 'inline'
           script: |
-            yarn run cypress run --headless --spec "cypress/integration/BE/**" \
+            yarn run cypress run --headless --spec "cypress/integration/UI/capacity/**" \
             --env client_id=$(cypress_client_id),\
             scope=$(cypress_scope),\
             client_secret=$(cypress_client_secret),\
