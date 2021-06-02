@@ -1,4 +1,4 @@
-import { notificationEl } from '../../../support/locators'
+import { notificationEl } from '../../support/locators'
 
 describe('TimeMaster', () => {
   const message = "If timemaster is not available, probably you're not authorized"

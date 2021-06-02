@@ -1,6 +1,6 @@
-import {pastDay, todaysDate} from "../../../support/officePlanner/officeDays";
-import {devMenu, feedbackEl, menuEl, skillEl} from "../../../support/locators";
-import {deleteFeedback} from "../../../support/getData";
+import {pastDay, todaysDate} from "../../support/officePlanner/officeDays";
+import {devMenu, feedbackEl, menuEl, skillEl} from "../../support/locators";
+import {deleteFeedback} from "../../support/getData";
 
 describe('add new feedback', () => {
     const items =  ['Syncretis', 'Team', 'Event', 'Portal']

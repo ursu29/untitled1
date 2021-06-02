@@ -1,4 +1,4 @@
-import { todaysDate } from '../../../support/officePlanner/officeDays'
+import { todaysDate } from '../../support/officePlanner/officeDays'
 import {
   matrix,
   process,
@@ -6,7 +6,7 @@ import {
   table,
   notificationEl,
   collapseProcess,
-} from '../../../support/locators'
+} from '../../support/locators'
 
 describe('Check the process', () => {
   const data = {

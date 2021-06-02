@@ -1,6 +1,6 @@
-import {getClient, getManager, getProjects, getEmployeeExperiences, getEmployee} from '../../../support/getData'
-import { tabs, workspace } from '../../../support/locators'
-import {email} from '../../../support/client/employeeData'
+import {getClient, getManager, getProjects, getEmployeeExperiences, getEmployee} from '../../support/getData'
+import { tabs, workspace } from '../../support/locators'
+import {email} from '../../support/client/employeeData'
 
 describe('Checking default information', () => {
   let employeeData
