@@ -44,6 +44,7 @@ jobs:
           targetType: 'inline'
           script: |
             yarn run cypress run --browser chrome --headless \
+            --spec "cypress/integration/UI/**",\
             --env client_id=$(cypress_client_id),\
             scope=$(cypress_scope),\
             client_secret=$(cypress_client_secret),\
@@ -94,7 +95,7 @@ jobs:
   - job: Tests_second_agent
     pool: Sidenis_agent
     timeoutInMinutes: 30
-    displayName: E2E_Tests
+    displayName: E2E_Tests_BE
     workspace:
       clean: all
     container: cypress
@@ -124,6 +125,7 @@ jobs:
           targetType: 'inline'
           script: |
             yarn run cypress run --browser chrome --headless \
+            --spec "cypress/integration/BE/**",\
             --env client_id=$(cypress_client_id),\
             scope=$(cypress_scope),\
             client_secret=$(cypress_client_secret),\
