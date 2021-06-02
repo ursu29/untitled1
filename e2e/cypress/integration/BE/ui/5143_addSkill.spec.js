@@ -1,6 +1,6 @@
-import { getAllSkills } from '../../support/getData'
-import { getSelectItem, inputSkill, addSkill } from '../../support/complexLocators'
-import { workspace, tabs, skillEl } from '../../support/locators'
+import { getAllSkills } from '../../../support/getData'
+import { getSelectItem, inputSkill, addSkill } from '../../../support/complexLocators'
+import { workspace, tabs, skillEl } from '../../../support/locators'
 
 describe('Adding Skills in the Users Profile', () => {
   const skillName = 'Agile'

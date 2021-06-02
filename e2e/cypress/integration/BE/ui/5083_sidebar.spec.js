@@ -1,10 +1,9 @@
-import { menu, menuEl } from '../../support/locators'
+import { menu, menuEl } from '../../../support/locators'
 
 describe('Check Manager menu', () => {
   before(() => {
-    cy.setToken('manager')
+    cy.setToken('employee')
     cy.visit('/')
-    cy.addRole()
     cy.get(menuEl.allMenu).should('be.visible')
   })
 
@@ -14,8 +13,10 @@ describe('Check Manager menu', () => {
     )
 
     cy.get(menuEl.subItem).click()
-    menu.subMenu.forEach(val =>
-      cy.get(menuEl.subMenuItem).contains(val.name).should('contain.text', val.name),
-    )
+    menu.subMenu
+      .filter(el => el.show)
+      .forEach(val =>
+        cy.get(menuEl.subMenuItem).contains(val.name).should('contain.text', val.name),
+      )
   })
 })

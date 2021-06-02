@@ -1,5 +1,5 @@
-import {email} from '../../support/client/employeeData'
-import { tabs, workspace } from '../../support/locators'
+import {email} from '../../../support/client/employeeData'
+import { tabs, workspace } from '../../../support/locators'
 
 describe('Employee check manager page', () => {
   before(() => {

@@ -1,6 +1,6 @@
-import { locations, workspace, devMenu, matrix } from '../../support/locators'
-import * as auth from '../../support/authorize'
-import { addRole, getElement } from '../../support/mainCommands'
+import { locations, workspace, devMenu, matrix } from '../../../support/locators'
+import * as auth from '../../../support/authorize'
+import { addRole, getElement } from '../../../support/mainCommands'
 
 // workspace changed
 xdescribe('Workspace', () => {

@@ -1,6 +1,6 @@
-import { tabs, workspace } from '../../support/locators'
-import {email} from '../../support/client/employeeData'
-import {getClient, getEmployee, getEmployeeExperiences, getProjects} from "../../support/getData";
+import { tabs, workspace } from '../../../support/locators'
+import {email} from '../../../support/client/employeeData'
+import {getClient, getEmployee, getEmployeeExperiences, getProjects} from "../../../support/getData";
 
 describe('Checking default information (e2e)', () => {
   let userId
