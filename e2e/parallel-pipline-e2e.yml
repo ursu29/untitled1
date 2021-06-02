@@ -44,7 +44,6 @@ jobs:
           targetType: 'inline'
           script: |
             yarn run cypress run --browser chrome --headless \
-            --spec="cypress/integration/UI/**",\
             --env client_id=$(cypress_client_id),\
             scope=$(cypress_scope),\
             client_secret=$(cypress_client_secret),\
@@ -125,7 +124,6 @@ jobs:
           targetType: 'inline'
           script: |
             yarn run cypress run --browser chrome --headless \
-            --spec="cypress/integration/BE/**",\
             --env client_id=$(cypress_client_id),\
             scope=$(cypress_scope),\
             client_secret=$(cypress_client_secret),\
