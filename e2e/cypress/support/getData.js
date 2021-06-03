@@ -43,6 +43,36 @@ export const removeBook = id => ({
   query: query.removeBook,
 })
 
+export const createMatrixProposal = (cellId,matrix, proposal) => ({
+  operationName: 'createMatrixProposal',
+  variables: {input: {cellId,matrix,proposal}},
+  query: query.createMatrixProposal,
+})
+
+export const getAllEmployeeMatrices = (id) => ({
+  operationName: null,
+  variables: {input:{id}},
+  query: query.getEmployeeMatricesAndGrade,
+})
+
+export const getMatrixProposals = (matrix) => ({
+  operationName: 'getMatrixProposals',
+  variables: {matrix},
+  query: query.getMatrixProposals,
+})
+
+export const resolveMatrixProposal = (id) => ({
+  operationName: 'resolveMatrixProposal',
+  variables: {id},
+  query: query.resolveMatrixProposal,
+})
+
+export const deleteMatrixProposal = (id) => ({
+  operationName: 'deleteMatrixProposal',
+  variables: {id},
+  query: query.deleteMatrixProposal,
+})
+
 export const createBook = obj => ({
   operationName: 'createBook',
   variables: { input:{ ...obj }},
@@ -413,9 +443,9 @@ export const getFirstPosts = () => ({
   query: query.getFirstPost,
 })
 
-export const getEmployeeMatrices = () => ({
+export const getEmployeeMatrices = (id) => ({
   operationName: null,
-  variables: {},
+  variables: {input:{id}},
   query: query.getEmployeeMatrices,
 })
 

@@ -56,7 +56,7 @@ describe('Check employee api (smoke)', () => {
   })
 
   it('check employee access to hidden page', () => {
-    cy.post(getData.getEmployeeMatrices()).then(res => {
+    cy.post(getData.getEmployeeMatrices(employeeId)).then(res => {
       const { clientDevToolsAccess } = res.body.data
 
       expect(clientDevToolsAccess).equal(false)
