@@ -10,7 +10,6 @@ export default function AddFeedback() {
   const { Panel } = Collapse
   const { Option } = Select
   const [form] = Form.useForm()
-  const header = React.createElement('div', { style: { fontSize: '16px' } }, 'Add new')
 
   const [addNewFeedback, { loading }] = useAddFeedbackMutation({
     onCompleted: () => {
@@ -39,7 +38,7 @@ export default function AddFeedback() {
       style={{ marginBottom: '50px' }}
       expandIconPosition="right"
     >
-      <Panel header={header} key="1">
+      <Panel header="Add new" style={{ fontSize: '16px' }} key="1">
         <Form
           labelCol={{ span: 4 }}
           name="addFeedbackForm"
