@@ -34,6 +34,13 @@ describe('create proposal by employee', () => {
     })
   })
 
+  beforeEach(() => {
+    cy.restoreLocalStorage()
+  })
+  afterEach(() => {
+    cy.saveLocalStorage()
+  })
+
   it('attach matrix', function() {
     cy.post(attachMatrixToEmployee(matrixData.id, this.userId))
   })
