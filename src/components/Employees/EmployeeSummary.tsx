@@ -1,31 +1,14 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { Typography, Row, Col, Tag, Card } from 'antd'
+import { Typography, Row, Col, Card } from 'antd'
 import styled from 'styled-components'
-import { getHobbyLink } from '../../paths'
 import { useGetEmployeeSummaryQuery } from '../../queries/employeeSummary'
 import { Employee } from '../../types/graphql'
 import Skeleton from '../UI/Skeleton'
+import HobbyTag from '../Hobbies/HobbyTag'
 import { AboutForm, HobbiesForm } from './EmployeeSummaryForms'
 
 const HobbyRow = styled(Row)`
   margin-top: 8px;
-`
-
-const HobbyTag = styled(Tag)`
-  margin-right: 8px;
-  margin-bottom: 8px;
-`
-
-const HobbyItem = styled(Link)`
-  color: rgba(0, 0, 0, 0.85);
-  cursor: pointer;
-  &:last-child {
-    padding-right: 0;
-  }
-  &:hover {
-    color: #1890ff;
-  }
 `
 
 const HobbyEmpty = styled(Typography.Paragraph)`
@@ -69,11 +52,7 @@ export default function EmployeeSummary({ employee, editable }: Props) {
             {editable ? (
               <HobbiesForm employeeId={id} hobbies={hobbies} />
             ) : hobbies.length > 0 ? (
-              hobbies.map(hobby => (
-                <HobbyTag key={hobby.id}>
-                  <HobbyItem to={getHobbyLink(hobby.id)}>{hobby.name}</HobbyItem>
-                </HobbyTag>
-              ))
+              hobbies.map(hobby => <HobbyTag key={hobby.id} hobby={hobby} />)
             ) : (
               <HobbyEmpty>Employee has no hobbies</HobbyEmpty>
             )}
