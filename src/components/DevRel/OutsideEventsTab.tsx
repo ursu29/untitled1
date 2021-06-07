@@ -57,6 +57,8 @@ export default function OutsideEventsTab({
       form.resetFields()
       handleModalClose()
     },
+    refetchQueries: [{ query: GetDevrelsDocument, variables: { type: 'EVENT' } }],
+    awaitRefetchQueries: true,
     onError: message.error,
   })
   const [participateDevrelEvent] = useParticipateDevrelEventMutation({
@@ -67,11 +69,12 @@ export default function OutsideEventsTab({
   })
 
   const events =
-    //@ts-ignore
-    data?.devrels.map(({ dateStart, dateEnd, ...e }) => ({
-      ...e,
-      date: dateStart === dateEnd ? dateStart : dateStart + ' — ' + dateEnd,
-    })) || []
+    data?.devrels
+      .filter(e => !e.isDraft)
+      .map(({ dateStart, dateEnd, ...e }) => ({
+        ...e,
+        date: dateStart === dateEnd ? dateStart : dateStart + ' — ' + dateEnd,
+      })) || []
 
   const columns = [
     {

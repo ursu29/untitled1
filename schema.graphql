@@ -531,6 +531,7 @@ type Devrel {
   dateEnd: String
   employee: Employee
   isCompleted: Boolean
+  isDraft: Boolean
 }
 
 type Education {
@@ -971,6 +972,7 @@ type Mutation {
   updateDevrel(input: UpdateDevrelInput!): Devrel
   proposeDevrelEvent(input: ProposeDevrelEventInput!): Boolean
   participateDevrelEvent(id: ID!): Boolean
+  acceptDevrel(id: ID!): Devrel
   deleteDevrel(id: ID!): Devrel
   updateDevelopmentPlanReviewers(input: ReviewerInput): [Employee!]
   updateMatricesReviewers(input: ReviewerInput): [Employee!]

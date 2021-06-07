@@ -556,6 +556,7 @@ export type Devrel = {
   dateEnd?: Maybe<Scalars['String']>
   employee?: Maybe<Employee>
   isCompleted?: Maybe<Scalars['Boolean']>
+  isDraft?: Maybe<Scalars['Boolean']>
 }
 
 export type Education = {
@@ -1033,6 +1034,7 @@ export type Mutation = {
   updateDevrel?: Maybe<Devrel>
   proposeDevrelEvent?: Maybe<Scalars['Boolean']>
   participateDevrelEvent?: Maybe<Scalars['Boolean']>
+  acceptDevrel?: Maybe<Devrel>
   deleteDevrel?: Maybe<Devrel>
   updateDevelopmentPlanReviewers?: Maybe<Array<Employee>>
   updateMatricesReviewers?: Maybe<Array<Employee>>
@@ -1203,6 +1205,10 @@ export type MutationProposeDevrelEventArgs = {
 }
 
 export type MutationParticipateDevrelEventArgs = {
+  id: Scalars['ID']
+}
+
+export type MutationAcceptDevrelArgs = {
   id: Scalars['ID']
 }
 

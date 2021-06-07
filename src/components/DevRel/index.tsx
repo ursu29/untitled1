@@ -3,6 +3,7 @@ import PageContent from '../UI/PageContent'
 import { Tabs, Button } from 'antd'
 import ArticlesTab from './ArticlesTab'
 import OutsideEventsTab from './OutsideEventsTab'
+import ProposedEventsTable from './ProposedEventsTable'
 import { FireOutlined, FileTextOutlined } from '@ant-design/icons'
 import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 import PageHeader from '../UI/PageHeader'
@@ -94,6 +95,15 @@ export default function DevRel() {
             </div>
           )}
         </div>
+
+        {view === 'outside' && writeAccess && (
+          <div style={{ marginTop: '48px' }}>
+            <div style={{ fontSize: 16, fontWeight: 500, margin: '16px 24px' }}>
+              Proposed events
+            </div>
+            <ProposedEventsTable />
+          </div>
+        )}
       </PageContent>
     </>
   )
