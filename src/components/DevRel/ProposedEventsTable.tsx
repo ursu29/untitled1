@@ -1,6 +1,7 @@
 import React from 'react'
 import { Table, Button, Popconfirm } from 'antd'
 import { makeExternalUrl } from '../../utils/links'
+import parseStrapiDateFormat from '../../utils/parseStrapiDateFormat'
 import {
   GetDevrelsDocument,
   useGetDevrelsQuery,
@@ -33,7 +34,10 @@ export default function ProposedEventsTable() {
       .filter(e => e.isDraft)
       .map(({ dateStart, dateEnd, ...e }) => ({
         ...e,
-        date: dateStart === dateEnd ? dateStart : dateStart + ' — ' + dateEnd,
+        date:
+          dateStart === dateEnd
+            ? parseStrapiDateFormat(dateStart)
+            : parseStrapiDateFormat(dateStart) + ' — ' + parseStrapiDateFormat(dateEnd),
       })) || []
 
   const columns = [

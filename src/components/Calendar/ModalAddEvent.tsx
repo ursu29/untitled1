@@ -9,6 +9,8 @@ import dayjs from 'dayjs'
 import { createEvent } from '../../queries/events'
 import message from '../../message'
 import { LINK_REGEXP } from '../../utils/links'
+import AboutTooltip from '../UI/AboutTooltip'
+import { useProposeDevrelEventMutation } from '../../queries/devrel'
 
 const StyledForm = styled(Form)`
   .ant-form-item {
@@ -25,6 +27,7 @@ export default function ModalAddEvent({
   handleClose: any
   refetchQueries: { query: any; variables: any }[]
 }) {
+  const [proposeDevrelEvent] = useProposeDevrelEventMutation()
   const [form] = Form.useForm()
   const [citySuggestions, setCitySuggestions] = useState<string[]>([])
   const [isOnline, setIsOnline] = useState(false)
@@ -52,15 +55,32 @@ export default function ModalAddEvent({
     setCitySuggestions(suggestions)
   })
 
-  const handleFinish = ({ date, skills, ...values }: any) => {
+  const handleFinish = ({ date, skills, isProposeToDevRel, ...values }: any) => {
+    const start = dayjs(date[0]).toISOString()
+    const end = dayjs(date[1]).toISOString()
+
     const event = {
       ...values,
       importance: values.importance ? 'HIGH' : 'NORMAL',
       skills: skills?.map((e: any) => e.id) || undefined,
-      start: dayjs(date[0]).toISOString(),
-      end: dayjs(date[1]).toISOString(),
+      start,
+      end,
     }
     create({ variables: { input: event } })
+
+    if (isProposeToDevRel) {
+      proposeDevrelEvent({
+        variables: {
+          input: {
+            title: values.title,
+            link: values.link,
+            dateStart: start,
+            dateEnd: end,
+          },
+        },
+      })
+    }
+
     handleClose()
     form.resetFields()
     resetState()
@@ -163,6 +183,13 @@ export default function ModalAddEvent({
         </Form.Item>
         <Form.Item name="importance" valuePropName="checked">
           <Checkbox>Important</Checkbox>
+        </Form.Item>
+        <Form.Item name="isProposeToDevRel">
+          <AboutTooltip title="Event will be proposed for moderation as a DevRel Event">
+            <Checkbox onChange={value => form.setFieldsValue({ isProposeToDevRel: value })}>
+              Propose to DevRel
+            </Checkbox>
+          </AboutTooltip>
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" loading={loading} data-cy="create">
