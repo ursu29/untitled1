@@ -901,6 +901,7 @@ export type HobbyPost = {
   title: Scalars['String']
   body: Scalars['String']
   slug: Scalars['String']
+  createdAt?: Maybe<Scalars['String']>
   createdBy?: Maybe<Employee>
   hobbies: Array<Hobby>
 }

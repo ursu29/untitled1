@@ -2,6 +2,7 @@ fragment HobbyPostBase on HobbyPost {
   id
   title
   body
+  createdAt
   createdBy {
     id
     name

@@ -846,6 +846,7 @@ type HobbyPost {
   title: String!
   body: String!
   slug: String!
+  createdAt: String
   createdBy: Employee
   hobbies: [Hobby!]!
 }
