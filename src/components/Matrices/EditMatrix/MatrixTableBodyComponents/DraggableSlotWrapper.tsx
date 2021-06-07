@@ -12,6 +12,7 @@ interface Props {
   skill?: any
   matrix?: Matrix
   DeleteMatrixSkill?: any
+  withProposal?: boolean
 }
 
 export default function DraggableSlotWrapper({
@@ -22,6 +23,7 @@ export default function DraggableSlotWrapper({
   skill,
   matrix,
   DeleteMatrixSkill,
+  withProposal,
 }: Props) {
   return (
     <Draggable key={keyProp} draggableId={draggableId} index={index}>
@@ -44,6 +46,7 @@ export default function DraggableSlotWrapper({
               skill={skill}
               matrix={matrix}
               DeleteMatrixSkill={DeleteMatrixSkill}
+              withProposal={withProposal}
             />
           )}
         </div>

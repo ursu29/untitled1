@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import message from '../../message'
 import getEmployeeExperiences from '../../queries/getEmployeeExperiences'
-import { useProposeMatrixChangesMutation } from '../../queries/proposeMatrixChanges'
+// import { useProposeMatrixChangesMutation } from '../../queries/proposeMatrixChanges'
+import { useCreateMatrixProposalMutation } from '../../queries/matrixProposals'
 import {
   useCreateExperienceMutation,
   useDeleteExperienceMutation,
@@ -69,8 +70,8 @@ export default function EmployeeMatrixExperience({
     onCompleted,
     onError,
   })
-  const [proposeChanges, { loading: proposeChangesLoading }] = useProposeMatrixChangesMutation({
-    onCompleted: () => message.success('Proposal sent'),
+  const [proposeChanges, { loading: proposeChangesLoading }] = useCreateMatrixProposalMutation({
+    onCompleted: () => message.success('Proposal was sent to the matrix owner'),
     onError: message.error,
   })
 
@@ -113,12 +114,19 @@ export default function EmployeeMatrixExperience({
   }
 
   const onProposeChanges = (proposal: string) => {
+    const cellId = matrix.body?.skills?.find((e: any) => e?.skill?.id === skill?.id)?.id
+
+    if (!cellId) {
+      message.error('Cannot find cell id!')
+      return
+    }
+
     proposeChanges({
       variables: {
         input: {
-          matrix: matrix.id,
-          skill: skill!.id,
           proposal,
+          matrix: matrix.id,
+          cellId,
         },
       },
     })
