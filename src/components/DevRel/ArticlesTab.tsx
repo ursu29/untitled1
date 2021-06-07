@@ -114,8 +114,6 @@ export default function ArticlesTab({
                   message.error('Link can not be empty')
                   return
                 }
-                //@ts-ignore
-                article.isCompleted = value
                 updateArticle({ variables: { input: { id: record.id, isCompleted: value } } })
               }}
             />
