@@ -268,6 +268,12 @@ input CreateHobbyInput {
   description: String
 }
 
+input CreateHobbyPostInput {
+  title: String!
+  body: String!
+  hobbies: [ID!]!
+}
+
 input CreateMatrixGradeInput {
   matrixId: ID!
   title: String!
@@ -835,6 +841,15 @@ type Hobby {
   members: [Employee!]!
 }
 
+type HobbyPost {
+  id: ID!
+  title: String!
+  body: String!
+  slug: String!
+  createdBy: Employee
+  hobbies: [Hobby!]!
+}
+
 enum IMPORTANCE {
   HIGH
   NORMAL
@@ -982,6 +997,8 @@ type Mutation {
   updateHobby(input: UpdateHobbyInput!): Hobby
   joinHobby(input: JoinHobbyInput!): Hobby
   updateEmployeeHobbies(input: UpdateEmployeeHobbiesInput!): Employee
+  createHobbyPost(input: CreateHobbyPostInput!): HobbyPost
+  updateHobbyPost(input: UpdateHobbyPostInput!): HobbyPost
   attachMatrixToEmployee(input: AttachMatrixToEmployeeInput): Matrix
   detachMatrixFromEmployee(input: DetachMatrixFromEmployeeInput): Matrix
   createMatrix(input: CreateMatrixInput): Matrix
@@ -1009,6 +1026,12 @@ type Mutation {
   createPost(input: CreatePostInput): Post
   updatePost(input: UpdatePostInput): Post
   deletePost(input: DeletePostInput): Post
+  createProcess(input: CreateProcessInput): Process
+  updateProcess(input: UpdateProcessInput): Process
+  deleteProcess(id: ID!): Process
+  createProcessStep(input: CreateProcessStepInput): ProcessStep
+  updateProcessStep(input: UpdateProcessStepInput): ProcessStep
+  deleteProcessStep(id: ID!): ProcessStep
   createProcessExecution(input: CreateProcessExecutionInput): ProcessExecution
   updateProcessExecution(input: UpdateProcessExecutionInput): ProcessExecution
   abortProcessExecution(input: AbortProcessExecutionInput!): ProcessExecution
@@ -1017,12 +1040,6 @@ type Mutation {
   completeProcessExecutionStep(input: CompleteProcessExecutionStepInput!): ProcessExecutionStep
   commentProcessExecutionStep(input: CommentProcessExecutionStepInput!): ProcessExecutionStep
   deleteHrVacancy(id: ID!): ProcessExecution
-  createProcess(input: CreateProcessInput): Process
-  updateProcess(input: UpdateProcessInput): Process
-  deleteProcess(id: ID!): Process
-  createProcessStep(input: CreateProcessStepInput): ProcessStep
-  updateProcessStep(input: UpdateProcessStepInput): ProcessStep
-  deleteProcessStep(id: ID!): ProcessStep
   updateProject(input: UpdateProjectInput!): Project
   updateProjectSkills(input: UpdateProjectSkillsInput!): Project
   createSkill(input: CreateSkillInput): Skill
@@ -1266,6 +1283,8 @@ type Query {
   guilds: [Guild]
   hobbies: [Hobby!]!
   hobby(id: ID!): Hobby
+  hobbyPosts: [HobbyPost!]!
+  hobbyPost(id: ID!): HobbyPost
   levels: [LEVEL!]
   locations: [LOCATION!]
   matrices(input: MatricesInput): [Matrix]
@@ -1282,12 +1301,12 @@ type Query {
   postBySlug(slug: String!): Post
   posts(first: Int, after: ID, filter: PostsFilter): [Post]
   postsEditor: Access @deprecated(reason: "will be moved to employee.access.posts")
-  processExecutionsAccess: Access
-  processExecution(id: ID!): ProcessExecution
-  processExecutions(input: ProcessExecutionsInput): [ProcessExecution]
   processesAccess: Access
   process(id: ID!): Process
   processes: [Process]
+  processExecutionsAccess: Access
+  processExecution(id: ID!): ProcessExecution
+  processExecutions(input: ProcessExecutionsInput): [ProcessExecution]
   project(id: ID!): Project
   projectByCode(code: String!): Project
   projects: [Project]
@@ -1507,6 +1526,13 @@ input UpdateHobbyInput {
   id: ID!
   name: String
   description: String
+}
+
+input UpdateHobbyPostInput {
+  id: ID!
+  title: String
+  body: String
+  hobbies: [ID!]
 }
 
 input UpdateMatricesCustomFieldsInput {
