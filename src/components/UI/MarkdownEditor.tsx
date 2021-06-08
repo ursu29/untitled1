@@ -24,7 +24,7 @@ const Wrapper = styled.div<{ short?: boolean }>`
 
 interface Props {
   id: string
-  editorValue?: string
+  value?: string
   concatValue?: string
   short?: boolean
   onChange?: (value: any) => void
@@ -33,7 +33,7 @@ interface Props {
 export default class MarkdownEditor extends Component<Props> {
   simplemde: any
   componentDidMount() {
-    const { editorValue, onChange } = this.props
+    const { value, onChange } = this.props
     const element = document.getElementById(this.props.id)
     if (element) {
       this.simplemde = new SimpleMDE({
@@ -50,8 +50,8 @@ export default class MarkdownEditor extends Component<Props> {
         spellChecker: false,
       })
       let simplemde = this.simplemde
-      if (editorValue) {
-        simplemde.value(editorValue)
+      if (value) {
+        simplemde.value(value)
       }
       simplemde.codemirror.on('change', function () {
         onChange?.(simplemde.value())
@@ -61,9 +61,9 @@ export default class MarkdownEditor extends Component<Props> {
 
   componentDidUpdate(prevProps: any) {
     if (this.simplemde) {
-      if (this.props.editorValue) {
-        if (this.props.editorValue !== this.simplemde.value()) {
-          this.simplemde.value(this.props.editorValue)
+      if (this.props.value) {
+        if (this.props.value !== this.simplemde.value()) {
+          this.simplemde.value(this.props.value)
         }
       }
       if (this.props.concatValue && this.props.concatValue !== prevProps.concatValue) {
