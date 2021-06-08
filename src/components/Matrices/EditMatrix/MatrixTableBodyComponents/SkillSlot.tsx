@@ -1,5 +1,6 @@
 import React from 'react'
-import { MoreOutlined } from '@ant-design/icons'
+import { Tooltip } from 'antd'
+import { MoreOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { MatrixCell, DragMarker } from '../../styled'
 import { Matrix, MatrixSkill } from '../../../../types'
 
@@ -8,9 +9,16 @@ interface Props {
   skill: MatrixSkill
   matrix?: Matrix
   DeleteMatrixSkill: any
+  withProposal?: boolean
 }
 
-export default function SkillSlot({ dragProps, skill, matrix, DeleteMatrixSkill }: Props) {
+export default function SkillSlot({
+  dragProps,
+  skill,
+  matrix,
+  DeleteMatrixSkill,
+  withProposal,
+}: Props) {
   if (!matrix) return null
 
   const editable = matrix.access.write
@@ -37,6 +45,14 @@ export default function SkillSlot({ dragProps, skill, matrix, DeleteMatrixSkill 
       <MatrixCell key={skill.id}>
         <DeleteMatrixSkill skill={skill} matrix={matrix} editable={editable} />
       </MatrixCell>
+      {withProposal && (
+        <Tooltip placement="top" title="Has open proposals">
+          <ExclamationCircleOutlined
+            onClick={() => window.scrollTo(0, document.body.scrollHeight)}
+            style={{ marginLeft: '8px', color: '#ff6104', cursor: 'pointer' }}
+          />
+        </Tooltip>
+      )}
     </>
   )
 }

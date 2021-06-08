@@ -13,6 +13,7 @@ query getDevrels($type: String!) {
       name
     }
     isCompleted
+    isDraft
   }
 }
 
@@ -30,6 +31,12 @@ mutation updateDevrel($input: UpdateDevrelInput!) {
 
 mutation deleteDevrel($id: ID!) {
   deleteDevrel(id: $id) {
+    id
+  }
+}
+
+mutation acceptDevrel($id: ID!) {
+  acceptDevrel(id: $id) {
     id
   }
 }

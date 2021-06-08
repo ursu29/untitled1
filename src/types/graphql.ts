@@ -310,6 +310,12 @@ export type CreateMatrixInput = {
   description?: Maybe<Scalars['String']>
 }
 
+export type CreateMatrixProposalInput = {
+  proposal: Scalars['String']
+  matrix: Scalars['String']
+  cellId: Scalars['ID']
+}
+
 export type CreateMatrixSkillInput = {
   matrixId: Scalars['ID']
   skillId: Scalars['ID']
@@ -556,6 +562,7 @@ export type Devrel = {
   dateEnd?: Maybe<Scalars['String']>
   employee?: Maybe<Employee>
   isCompleted?: Maybe<Scalars['Boolean']>
+  isDraft?: Maybe<Scalars['Boolean']>
 }
 
 export type Education = {
@@ -997,6 +1004,19 @@ export type MatrixGroup = {
   description?: Maybe<Scalars['String']>
 }
 
+export type MatrixProposal = {
+  __typename?: 'MatrixProposal'
+  id: Scalars['ID']
+  isResolved: Scalars['Boolean']
+  proposal: Scalars['String']
+  author: Employee
+  matrix: Matrix
+  cellId: Scalars['ID']
+  group?: Maybe<Scalars['String']>
+  grade?: Maybe<Scalars['String']>
+  skill?: Maybe<Scalars['String']>
+}
+
 export type MatrixSkill = {
   __typename?: 'MatrixSkill'
   id?: Maybe<Scalars['ID']>
@@ -1031,6 +1051,7 @@ export type Mutation = {
   updateDevrel?: Maybe<Devrel>
   proposeDevrelEvent?: Maybe<Scalars['Boolean']>
   participateDevrelEvent?: Maybe<Scalars['Boolean']>
+  acceptDevrel?: Maybe<Devrel>
   deleteDevrel?: Maybe<Devrel>
   updateDevelopmentPlanReviewers?: Maybe<Array<Employee>>
   updateMatricesReviewers?: Maybe<Array<Employee>>
@@ -1076,6 +1097,9 @@ export type Mutation = {
   deleteMatrixGrade?: Maybe<Matrix>
   updateMatricesCustomFields?: Maybe<MatricesCustomFields>
   proposeMatrixChanges?: Maybe<Scalars['Boolean']>
+  createMatrixProposal: MatrixProposal
+  resolveMatrixProposal: MatrixProposal
+  deleteMatrixProposal: MatrixProposal
   unsubscribeNotification?: Maybe<Array<Scalars['ID']>>
   createOfficeBooking?: Maybe<Scalars['Boolean']>
   cancelOfficeBooking?: Maybe<Scalars['Boolean']>
@@ -1200,6 +1224,10 @@ export type MutationProposeDevrelEventArgs = {
 }
 
 export type MutationParticipateDevrelEventArgs = {
+  id: Scalars['ID']
+}
+
+export type MutationAcceptDevrelArgs = {
   id: Scalars['ID']
 }
 
@@ -1381,6 +1409,18 @@ export type MutationUpdateMatricesCustomFieldsArgs = {
 
 export type MutationProposeMatrixChangesArgs = {
   input: ProposeMatrixChangesInput
+}
+
+export type MutationCreateMatrixProposalArgs = {
+  input: CreateMatrixProposalInput
+}
+
+export type MutationResolveMatrixProposalArgs = {
+  id: Scalars['ID']
+}
+
+export type MutationDeleteMatrixProposalArgs = {
+  id: Scalars['ID']
 }
 
 export type MutationUnsubscribeNotificationArgs = {
@@ -1821,6 +1861,7 @@ export type Query = {
   matrices?: Maybe<Array<Maybe<Matrix>>>
   matricesAccess?: Maybe<Access>
   matricesCustomFields?: Maybe<MatricesCustomFields>
+  matrixProposals: Array<MatrixProposal>
   notifications: Array<Notification>
   officeDays?: Maybe<Array<Maybe<OfficeDay>>>
   officeAccess?: Maybe<Access>
@@ -1985,6 +2026,10 @@ export type QueryMatricesArgs = {
 
 export type QueryMatricesCustomFieldsArgs = {
   input?: Maybe<MatricesCustomFieldsInput>
+}
+
+export type QueryMatrixProposalsArgs = {
+  matrix: Scalars['ID']
 }
 
 export type QueryOfficeDaysArgs = {

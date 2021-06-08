@@ -4,6 +4,7 @@ import message from '../../message'
 import { CurriculumVitae, Employee, Skill } from '../../types/graphql'
 import { useUpdateCvMutation } from '../../queries/cv'
 import SkillsCollapsed from '../UI/SkillsCollapsed'
+import AboutTooltip from '../UI/AboutTooltip'
 
 type EmployeePick = Pick<Employee, 'id'>
 type CVPick = Pick<CurriculumVitae, 'id' | 'summary' | 'languages'>
@@ -84,9 +85,11 @@ const EmployeeCVSummary = ({ editable, employee, cv, skills }: Props) => {
           <CVForm editable={editable} employee={employee} cv={cv} />
         </Col>
         <Col sm={12}>
-          <div style={{ height: 32, display: 'inline-flex', alignItems: 'center' }}>
-            Major skills
-          </div>
+          <AboutTooltip title="Generated according Confident In and Experienced skills in your profile">
+            <div style={{ height: 32, display: 'inline-flex', alignItems: 'center' }}>
+              Major skills
+            </div>
+          </AboutTooltip>
           <SkillsCollapsed skills={skills || []} amount={15} />
         </Col>
       </Row>

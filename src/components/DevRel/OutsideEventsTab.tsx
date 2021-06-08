@@ -2,6 +2,7 @@ import React from 'react'
 import { Table, Button, Popconfirm, Form, Input, Modal, DatePicker } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
 import { makeExternalUrl } from '../../utils/links'
+import parseStrapiDateFormat from '../../utils/parseStrapiDateFormat'
 import styled from 'styled-components'
 import {
   GetDevrelsDocument,
@@ -12,7 +13,6 @@ import {
   useParticipateDevrelEventMutation,
 } from '../../queries/devrel'
 import message from '../../message'
-
 const StyledForm = styled(Form)`
   .ant-form-item {
     margin-bottom: 16px;
@@ -57,6 +57,8 @@ export default function OutsideEventsTab({
       form.resetFields()
       handleModalClose()
     },
+    refetchQueries: [{ query: GetDevrelsDocument, variables: { type: 'EVENT' } }],
+    awaitRefetchQueries: true,
     onError: message.error,
   })
   const [participateDevrelEvent] = useParticipateDevrelEventMutation({
@@ -67,11 +69,15 @@ export default function OutsideEventsTab({
   })
 
   const events =
-    //@ts-ignore
-    data?.devrels.map(({ dateStart, dateEnd, ...e }) => ({
-      ...e,
-      date: dateStart === dateEnd ? dateStart : dateStart + ' — ' + dateEnd,
-    })) || []
+    data?.devrels
+      .filter(e => !e.isDraft)
+      .map(({ dateStart, dateEnd, ...e }) => ({
+        ...e,
+        date:
+          dateStart === dateEnd
+            ? parseStrapiDateFormat(dateStart)
+            : parseStrapiDateFormat(dateStart) + ' — ' + parseStrapiDateFormat(dateEnd),
+      })) || []
 
   const columns = [
     {
@@ -99,13 +105,13 @@ export default function OutsideEventsTab({
       },
     },
     {
-      title: 'Date of event',
+      title: 'Date of the event',
       dataIndex: 'date',
       key: 'date',
       sorter: (a: any, b: any) => a.date.localeCompare(b.date),
     },
     {
-      title: 'Participate',
+      title: 'Participate as a speaker',
       key: 'participate',
       render: (_: any, record: any) => {
         return (
@@ -115,7 +121,7 @@ export default function OutsideEventsTab({
             size="small"
             onClick={() => participateDevrelEvent({ variables: { id: record.id } })}
           >
-            Participate as a Speaker
+            Participate
           </Button>
         )
       },

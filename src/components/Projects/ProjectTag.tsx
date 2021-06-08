@@ -65,7 +65,7 @@ export default function ProjectTag({
         >
           <div
             style={{
-              maxWidth: isLarge ? 'unset' : 180,
+              maxWidth: isLarge ? 'unset' : 110,
               overflow: isLarge ? 'unset' : 'hidden',
               textOverflow: isLarge ? 'unset' : 'ellipsis',
             }}

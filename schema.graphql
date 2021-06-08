@@ -291,6 +291,12 @@ input CreateMatrixInput {
   description: String
 }
 
+input CreateMatrixProposalInput {
+  proposal: String!
+  matrix: String!
+  cellId: ID!
+}
+
 input CreateMatrixSkillInput {
   matrixId: ID!
   skillId: ID!
@@ -531,6 +537,7 @@ type Devrel {
   dateEnd: String
   employee: Employee
   isCompleted: Boolean
+  isDraft: Boolean
 }
 
 type Education {
@@ -937,6 +944,18 @@ type MatrixGroup {
   description: String
 }
 
+type MatrixProposal {
+  id: ID!
+  isResolved: Boolean!
+  proposal: String!
+  author: Employee!
+  matrix: Matrix!
+  cellId: ID!
+  group: String
+  grade: String
+  skill: String
+}
+
 type MatrixSkill {
   id: ID
   type: String
@@ -969,6 +988,7 @@ type Mutation {
   updateDevrel(input: UpdateDevrelInput!): Devrel
   proposeDevrelEvent(input: ProposeDevrelEventInput!): Boolean
   participateDevrelEvent(id: ID!): Boolean
+  acceptDevrel(id: ID!): Devrel
   deleteDevrel(id: ID!): Devrel
   updateDevelopmentPlanReviewers(input: ReviewerInput): [Employee!]
   updateMatricesReviewers(input: ReviewerInput): [Employee!]
@@ -1014,6 +1034,9 @@ type Mutation {
   deleteMatrixGrade(input: DeleteMatrixGradeInput): Matrix
   updateMatricesCustomFields(input: UpdateMatricesCustomFieldsInput): MatricesCustomFields
   proposeMatrixChanges(input: ProposeMatrixChangesInput!): Boolean
+  createMatrixProposal(input: CreateMatrixProposalInput!): MatrixProposal!
+  resolveMatrixProposal(id: ID!): MatrixProposal!
+  deleteMatrixProposal(id: ID!): MatrixProposal!
   unsubscribeNotification(ids: [ID!]!): [ID!]
   createOfficeBooking(input: CreateOfficeBookingInput!): Boolean
   cancelOfficeBooking(input: CancelOfficeBookingInput!): Boolean
@@ -1291,6 +1314,7 @@ type Query {
   matrices(input: MatricesInput): [Matrix]
   matricesAccess: Access
   matricesCustomFields(input: MatricesCustomFieldsInput): MatricesCustomFields
+  matrixProposals(matrix: ID!): [MatrixProposal!]!
   notifications: [Notification!]!
   officeDays(input: OfficeDaysInput): [OfficeDay]
   officeAccess: Access

@@ -16,7 +16,15 @@ export type GetDevrelsQuery = { __typename?: 'Query' } & {
   devrels: Array<
     { __typename?: 'Devrel' } & Pick<
       Types.Devrel,
-      'id' | 'type' | 'title' | 'link' | 'resource' | 'dateStart' | 'dateEnd' | 'isCompleted'
+      | 'id'
+      | 'type'
+      | 'title'
+      | 'link'
+      | 'resource'
+      | 'dateStart'
+      | 'dateEnd'
+      | 'isCompleted'
+      | 'isDraft'
     > & {
         employee?: Types.Maybe<
           { __typename?: 'Employee' } & Pick<Types.Employee, 'id' | 'email' | 'name'>
@@ -47,6 +55,14 @@ export type DeleteDevrelMutationVariables = Types.Exact<{
 
 export type DeleteDevrelMutation = { __typename?: 'Mutation' } & {
   deleteDevrel?: Types.Maybe<{ __typename?: 'Devrel' } & Pick<Types.Devrel, 'id'>>
+}
+
+export type AcceptDevrelMutationVariables = Types.Exact<{
+  id: Types.Scalars['ID']
+}>
+
+export type AcceptDevrelMutation = { __typename?: 'Mutation' } & {
+  acceptDevrel?: Types.Maybe<{ __typename?: 'Devrel' } & Pick<Types.Devrel, 'id'>>
 }
 
 export type ProposeDevrelEventMutationVariables = Types.Exact<{
@@ -83,6 +99,7 @@ export const GetDevrelsDocument = gql`
         name
       }
       isCompleted
+      isDraft
     }
   }
 `
@@ -249,6 +266,50 @@ export type DeleteDevrelMutationResult = Apollo.MutationResult<DeleteDevrelMutat
 export type DeleteDevrelMutationOptions = Apollo.BaseMutationOptions<
   DeleteDevrelMutation,
   DeleteDevrelMutationVariables
+>
+export const AcceptDevrelDocument = gql`
+  mutation acceptDevrel($id: ID!) {
+    acceptDevrel(id: $id) {
+      id
+    }
+  }
+`
+export type AcceptDevrelMutationFn = Apollo.MutationFunction<
+  AcceptDevrelMutation,
+  AcceptDevrelMutationVariables
+>
+
+/**
+ * __useAcceptDevrelMutation__
+ *
+ * To run a mutation, you first call `useAcceptDevrelMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAcceptDevrelMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [acceptDevrelMutation, { data, loading, error }] = useAcceptDevrelMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useAcceptDevrelMutation(
+  baseOptions?: Apollo.MutationHookOptions<AcceptDevrelMutation, AcceptDevrelMutationVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<AcceptDevrelMutation, AcceptDevrelMutationVariables>(
+    AcceptDevrelDocument,
+    options,
+  )
+}
+export type AcceptDevrelMutationHookResult = ReturnType<typeof useAcceptDevrelMutation>
+export type AcceptDevrelMutationResult = Apollo.MutationResult<AcceptDevrelMutation>
+export type AcceptDevrelMutationOptions = Apollo.BaseMutationOptions<
+  AcceptDevrelMutation,
+  AcceptDevrelMutationVariables
 >
 export const ProposeDevrelEventDocument = gql`
   mutation proposeDevrelEvent($input: ProposeDevrelEventInput!) {

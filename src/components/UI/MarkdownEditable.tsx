@@ -45,7 +45,7 @@ function MarkdownEditable({ data, editable, handleSave, history }: Props & Route
     >
       <MarkdownEditor
         id="markdownEditor"
-        value={descriptionMarkdown}
+        editorValue={descriptionMarkdown}
         onChange={(value: any) => {
           setDescriptionMarkdown(value)
         }}
