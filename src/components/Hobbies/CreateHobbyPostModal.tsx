@@ -11,7 +11,7 @@ type Props = {
   refetchQueries: RefetchQueryDescription
 }
 
-const CreateHobbyPost = ({ refetchQueries }: Props) => {
+export const CreateHobbyPostModal = ({ refetchQueries }: Props) => {
   const [createPost, { loading }] = useCreateHobbyPostMutation({
     onCompleted: () => message.success('New post has been created'),
     onError: message.error,
@@ -38,5 +38,3 @@ const CreateHobbyPost = ({ refetchQueries }: Props) => {
     />
   )
 }
-
-export default CreateHobbyPost
