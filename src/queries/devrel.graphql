@@ -14,6 +14,10 @@ query getDevrels($type: String!) {
     }
     isCompleted
     isDraft
+    skills {
+      id
+      name
+    }
   }
 }
 

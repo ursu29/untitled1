@@ -233,6 +233,7 @@ input CreateDevrelInput {
   resource: String
   dateStart: String
   dateEnd: String
+  skills: [ID!]
 }
 
 input CreateEvaluationReviewerInput {
@@ -532,6 +533,7 @@ type Devrel {
   employee: Employee
   isCompleted: Boolean
   isDraft: Boolean
+  skills: [Skill]
 }
 
 type Education {
@@ -1015,7 +1017,6 @@ type Mutation {
   createMatrixGrade(input: CreateMatrixGradeInput): Matrix
   deleteMatrixGrade(input: DeleteMatrixGradeInput): Matrix
   updateMatricesCustomFields(input: UpdateMatricesCustomFieldsInput): MatricesCustomFields
-  proposeMatrixChanges(input: ProposeMatrixChangesInput!): Boolean
   createMatrixProposal(input: CreateMatrixProposalInput!): MatrixProposal!
   resolveMatrixProposal(id: ID!): MatrixProposal!
   deleteMatrixProposal(id: ID!): MatrixProposal!
@@ -1236,12 +1237,6 @@ input ProposeDevrelEventInput {
   link: String
   dateStart: String!
   dateEnd: String!
-}
-
-input ProposeMatrixChangesInput {
-  matrix: ID!
-  skill: ID!
-  proposal: String!
 }
 
 input PublishVacancyInput {
@@ -1474,6 +1469,7 @@ input UpdateDevrelInput {
   link: String
   resource: String
   isCompleted: Boolean
+  skills: [ID!]
 }
 
 input UpdateEmployeeHobbiesInput {

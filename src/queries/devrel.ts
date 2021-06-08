@@ -29,6 +29,9 @@ export type GetDevrelsQuery = { __typename?: 'Query' } & {
         employee?: Types.Maybe<
           { __typename?: 'Employee' } & Pick<Types.Employee, 'id' | 'email' | 'name'>
         >
+        skills?: Types.Maybe<
+          Array<Types.Maybe<{ __typename?: 'Skill' } & Pick<Types.Skill, 'id' | 'name'>>>
+        >
       }
   >
 }
@@ -100,6 +103,10 @@ export const GetDevrelsDocument = gql`
       }
       isCompleted
       isDraft
+      skills {
+        id
+        name
+      }
     }
   }
 `
