@@ -25,7 +25,7 @@ const StyledEmployeeLink2 = styled(EmployeeLink)`
 `
 
 type Props = {
-  post: HobbyPostBaseFragment
+  post: Omit<HobbyPostBaseFragment, 'id'>
 }
 
 const HobbyPost = ({ post }: Props) => (

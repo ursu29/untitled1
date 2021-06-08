@@ -2,7 +2,6 @@ import { Modal } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
 import { NEWS_FEED_WIDTH } from '../../config'
-import Post from './Post'
 
 const Wrapper = styled.div`
   img {
@@ -11,14 +10,13 @@ const Wrapper = styled.div`
   }
 `
 
-interface Props {
+type Props = React.PropsWithChildren<{
   handlePublish: () => void
   handleReturn: () => void
   visible: boolean
-  post: any
-}
+}>
 
-function PostPreview({ handlePublish, post, handleReturn, visible }: Props) {
+function PostPreview({ children, handlePublish, handleReturn, visible }: Props) {
   return (
     <Modal
       okText="Publish"
@@ -30,9 +28,7 @@ function PostPreview({ handlePublish, post, handleReturn, visible }: Props) {
       onOk={handlePublish}
       onCancel={handleReturn}
     >
-      <Wrapper>
-        <Post isPreview post={post} />
-      </Wrapper>
+      <Wrapper>{children}</Wrapper>
     </Modal>
   )
 }
