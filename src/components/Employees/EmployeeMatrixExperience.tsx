@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import message from '../../message'
 import getEmployeeExperiences from '../../queries/getEmployeeExperiences'
-// import { useProposeMatrixChangesMutation } from '../../queries/proposeMatrixChanges'
 import { useCreateMatrixProposalMutation } from '../../queries/matrixProposals'
 import {
   useCreateExperienceMutation,

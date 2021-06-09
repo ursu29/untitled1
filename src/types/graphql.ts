@@ -252,6 +252,7 @@ export type CreateDevrelInput = {
   resource?: Maybe<Scalars['String']>
   dateStart?: Maybe<Scalars['String']>
   dateEnd?: Maybe<Scalars['String']>
+  skills?: Maybe<Array<Scalars['ID']>>
 }
 
 export type CreateEvaluationReviewerInput = {
@@ -563,6 +564,7 @@ export type Devrel = {
   employee?: Maybe<Employee>
   isCompleted?: Maybe<Scalars['Boolean']>
   isDraft?: Maybe<Scalars['Boolean']>
+  skills?: Maybe<Array<Maybe<Skill>>>
 }
 
 export type Education = {
@@ -1096,7 +1098,6 @@ export type Mutation = {
   createMatrixGrade?: Maybe<Matrix>
   deleteMatrixGrade?: Maybe<Matrix>
   updateMatricesCustomFields?: Maybe<MatricesCustomFields>
-  proposeMatrixChanges?: Maybe<Scalars['Boolean']>
   createMatrixProposal: MatrixProposal
   resolveMatrixProposal: MatrixProposal
   deleteMatrixProposal: MatrixProposal
@@ -1405,10 +1406,6 @@ export type MutationDeleteMatrixGradeArgs = {
 
 export type MutationUpdateMatricesCustomFieldsArgs = {
   input?: Maybe<UpdateMatricesCustomFieldsInput>
-}
-
-export type MutationProposeMatrixChangesArgs = {
-  input: ProposeMatrixChangesInput
 }
 
 export type MutationCreateMatrixProposalArgs = {
@@ -1800,12 +1797,6 @@ export type ProposeDevrelEventInput = {
   link?: Maybe<Scalars['String']>
   dateStart: Scalars['String']
   dateEnd: Scalars['String']
-}
-
-export type ProposeMatrixChangesInput = {
-  matrix: Scalars['ID']
-  skill: Scalars['ID']
-  proposal: Scalars['String']
 }
 
 export type PublishVacancyInput = {
@@ -2258,6 +2249,7 @@ export type UpdateDevrelInput = {
   link?: Maybe<Scalars['String']>
   resource?: Maybe<Scalars['String']>
   isCompleted?: Maybe<Scalars['Boolean']>
+  skills?: Maybe<Array<Scalars['ID']>>
 }
 
 export type UpdateEmployeeHobbiesInput = {
