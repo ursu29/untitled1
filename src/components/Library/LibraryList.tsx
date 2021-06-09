@@ -7,16 +7,21 @@ import { EditBookModal } from './modal/EditBookModal'
 import { getEmployeeLink } from '../../paths'
 import { Link } from 'react-router-dom'
 import { SkillLink } from '../Skills/SkillLink'
+import { ID } from '../../types'
 
 type Props = {
   books?: Books
   isAdmin?: boolean
   isFetching?: boolean
+  skills?: ID[]
 }
 
 const isBooked = (book: Book) => !!book.holder?.id
 
-export const LibraryList: React.FC<Props> = ({ books, isFetching, isAdmin }) => {
+export const LibraryList: React.FC<Props> = ({ books, isFetching, isAdmin, skills }) => {
+  const { data } = useLibraryApi(skills)
+  const booksBySkills = data?.books
+
   const [bookToEdit, setBookToEdit] = useState<Book | null>(null)
   const [isEditPopupVisible, setIsEditPopupVisible] = useState(false)
   const { returnBook, remove, take } = useLibraryApi()
@@ -90,7 +95,7 @@ export const LibraryList: React.FC<Props> = ({ books, isFetching, isAdmin }) => 
                 okText="Yes"
                 cancelText="No"
               >
-                <Button id="action" disabled={isFetching} style={{ width: '75px' }}>
+                <Button disabled={isFetching} style={{ width: '75px' }} data-cy="takeButton">
                   {booked ? 'Return' : 'Take'}
                 </Button>
               </Popconfirm>
@@ -123,7 +128,7 @@ export const LibraryList: React.FC<Props> = ({ books, isFetching, isAdmin }) => 
       <Table
         data-cy="library_table"
         tableLayout="fixed"
-        dataSource={books}
+        dataSource={books || booksBySkills}
         pagination={false}
         columns={columns}
         rowKey="id"

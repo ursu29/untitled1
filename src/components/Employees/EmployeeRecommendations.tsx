@@ -4,6 +4,7 @@ import Tabs from '../UI/Tabs'
 import EmployeeRecommendationBookmarks from './EmployeeRecommendationBookmarks'
 import EmployeeRecommendationFiles from './EmployeeRecommendationFiles'
 import URLAction from '../../utils/URLAction'
+import { LibraryList } from '../Library/LibraryList'
 
 type SkillPick = Pick<Skill, 'id'>
 
@@ -27,6 +28,11 @@ const EmployeeRecommendations = ({ skills }: Props) => {
       title: 'Files',
       key: 'files',
       body: <EmployeeRecommendationFiles skills={skills} />,
+    },
+    {
+      title: 'Books',
+      key: 'books',
+      body: <LibraryList skills={skills?.map(e => e.id)} />,
     },
   ]
 

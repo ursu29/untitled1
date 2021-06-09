@@ -4,6 +4,7 @@ import Tabs from '../UI/Tabs'
 import SkillBookmarks from './SkillBookmarks'
 import SkillFiles from './SkillFiles'
 import SkillMentions from './SkillMentions'
+import { LibraryList } from '../Library/LibraryList'
 
 interface Props {
   tab: string
@@ -26,6 +27,11 @@ export default function SkillTabs({ skill, tab = 'mentions' }: Props) {
       title: 'Files',
       key: 'files',
       body: <SkillFiles skill={skill} />,
+    },
+    {
+      title: 'Books',
+      key: 'books',
+      body: <LibraryList skills={[skill.id]} />,
     },
   ]
   return <Tabs controlled tabs={tabs} tab={tab} />
