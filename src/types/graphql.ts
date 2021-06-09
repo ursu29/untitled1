@@ -292,6 +292,7 @@ export type CreateHobbyPostInput = {
   title: Scalars['String']
   body: Scalars['String']
   hobbies: Array<Scalars['ID']>
+  language: Language
 }
 
 export type CreateMatrixGradeInput = {
@@ -913,6 +914,15 @@ export type HobbyPost = {
   createdAt?: Maybe<Scalars['String']>
   createdBy?: Maybe<Employee>
   hobbies: Array<Hobby>
+  language: Language
+}
+
+export type HobbyPostFilterInput = {
+  first?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['ID']>
+  search?: Maybe<Scalars['String']>
+  hobbies?: Maybe<Array<Scalars['ID']>>
+  language: Language
 }
 
 export enum Importance {
@@ -2007,6 +2017,10 @@ export type QueryHobbyArgs = {
   id: Scalars['ID']
 }
 
+export type QueryHobbyPostsArgs = {
+  input?: Maybe<HobbyPostFilterInput>
+}
+
 export type QueryHobbyPostArgs = {
   id: Scalars['ID']
 }
@@ -2314,6 +2328,7 @@ export type UpdateHobbyPostInput = {
   title?: Maybe<Scalars['String']>
   body?: Maybe<Scalars['String']>
   hobbies?: Maybe<Array<Scalars['ID']>>
+  language: Language
 }
 
 export type UpdateMatricesCustomFieldsInput = {

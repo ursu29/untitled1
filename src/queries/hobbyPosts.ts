@@ -10,7 +10,7 @@ import * as Apollo from '@apollo/client'
 const defaultOptions = {}
 export type HobbyPostBaseFragment = { __typename?: 'HobbyPost' } & Pick<
   Types.HobbyPost,
-  'id' | 'title' | 'body' | 'createdAt'
+  'id' | 'title' | 'body' | 'createdAt' | 'language'
 > & {
     createdBy?: Types.Maybe<
       { __typename?: 'Employee' } & Pick<Types.Employee, 'id' | 'name' | 'email'>
@@ -63,6 +63,7 @@ export const HobbyPostBaseFragmentDoc = gql`
       id
       name
     }
+    language
   }
 `
 export const GetHobbyPostsDocument = gql`

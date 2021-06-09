@@ -151,7 +151,12 @@ const HobbyPostForm = ({ post, loading, onSubmit }: Props) => {
 
       <Row>
         <Col span={6}>
-          <Form.Item label="Post is translated" name="isTranslated" valuePropName="checked">
+          <Form.Item
+            label="Post is translated"
+            name="isTranslated"
+            valuePropName="checked"
+            initialValue={post?.language === Language.En}
+          >
             <Switch />
           </Form.Item>
         </Col>

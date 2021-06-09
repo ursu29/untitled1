@@ -273,6 +273,7 @@ input CreateHobbyPostInput {
   title: String!
   body: String!
   hobbies: [ID!]!
+  language: LANGUAGE!
 }
 
 input CreateMatrixGradeInput {
@@ -858,6 +859,15 @@ type HobbyPost {
   createdAt: String
   createdBy: Employee
   hobbies: [Hobby!]!
+  language: LANGUAGE!
+}
+
+input HobbyPostFilterInput {
+  first: Int
+  after: ID
+  search: String
+  hobbies: [ID!]
+  language: LANGUAGE!
 }
 
 enum IMPORTANCE {
@@ -1302,7 +1312,7 @@ type Query {
   guilds: [Guild]
   hobbies: [Hobby!]!
   hobby(id: ID!): Hobby
-  hobbyPosts: [HobbyPost!]!
+  hobbyPosts(input: HobbyPostFilterInput): [HobbyPost!]!
   hobbyPost(id: ID!): HobbyPost
   levels: [LEVEL!]
   locations: [LOCATION!]
@@ -1554,6 +1564,7 @@ input UpdateHobbyPostInput {
   title: String
   body: String
   hobbies: [ID!]
+  language: LANGUAGE!
 }
 
 input UpdateMatricesCustomFieldsInput {

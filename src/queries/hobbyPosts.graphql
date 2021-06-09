@@ -12,6 +12,7 @@ fragment HobbyPostBase on HobbyPost {
     id
     name
   }
+  language
 }
 
 query getHobbyPosts {

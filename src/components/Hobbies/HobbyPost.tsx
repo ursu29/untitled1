@@ -25,7 +25,7 @@ const StyledEmployeeLink2 = styled(EmployeeLink)`
 `
 
 type Props = {
-  post: Omit<HobbyPostBaseFragment, 'id'>
+  post: Pick<HobbyPostBaseFragment, 'title' | 'body' | 'createdAt' | 'createdBy' | 'hobbies'>
   edit?: React.ReactNode
 }
 
