@@ -3,6 +3,7 @@ import PageContent from '../UI/PageContent'
 import { Tabs, Button } from 'antd'
 import ArticlesTab from './ArticlesTab'
 import OutsideEventsTab from './OutsideEventsTab'
+import ProposedEventsTable from './ProposedEventsTable'
 import { FireOutlined, FileTextOutlined } from '@ant-design/icons'
 import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 import PageHeader from '../UI/PageHeader'
@@ -48,6 +49,39 @@ export default function DevRel() {
           />
         </Tabs>
 
+        <div style={{ margin: '0 24px 16px' }}>
+          {view === 'outside' && (
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              {writeAccess && (
+                <Button
+                  data-cy="addNewEvent"
+                  onClick={() => setModalOutsideEvent({ visible: true, modalMode: 'create' })}
+                >
+                  Add New
+                </Button>
+              )}
+              <Button
+                data-cy="proposeEvent"
+                type="primary"
+                onClick={() => setModalOutsideEvent({ visible: true, modalMode: 'propose' })}
+              >
+                Propose Event
+              </Button>
+            </div>
+          )}
+          {view === 'articles' && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Button
+                data-cy="addArticle"
+                type="primary"
+                onClick={() => setModalArticle({ visible: true })}
+              >
+                Propose Article
+              </Button>
+            </div>
+          )}
+        </div>
+
         {view === 'outside' && (
           <OutsideEventsTab
             isModalVisible={modalOutsideEvent.visible}
@@ -66,34 +100,14 @@ export default function DevRel() {
           />
         )}
 
-        <div style={{ marginTop: '24px', marginLeft: '60px' }}>
-          {view === 'outside' && (
-            <div>
-              <Button
-                data-cy="proposeEvent"
-                style={{ marginRight: '24px' }}
-                onClick={() => setModalOutsideEvent({ visible: true, modalMode: 'propose' })}
-              >
-                Propose Event +
-              </Button>
-              {writeAccess && (
-                <Button
-                  data-cy="addNewEvent"
-                  onClick={() => setModalOutsideEvent({ visible: true, modalMode: 'create' })}
-                >
-                  Add New
-                </Button>
-              )}
+        {view === 'outside' && writeAccess && (
+          <div style={{ marginTop: '32px' }}>
+            <div style={{ fontSize: 16, fontWeight: 500, margin: '16px 24px' }}>
+              Proposed events
             </div>
-          )}
-          {view === 'articles' && (
-            <div>
-              <Button onClick={() => setModalArticle({ visible: true })} data-cy="addArticle">
-                Propose Article +
-              </Button>
-            </div>
-          )}
-        </div>
+            <ProposedEventsTable />
+          </div>
+        )}
       </PageContent>
     </>
   )

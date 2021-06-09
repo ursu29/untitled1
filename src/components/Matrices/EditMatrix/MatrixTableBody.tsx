@@ -9,6 +9,8 @@ import { MatrixRow } from '../styled'
 import { Matrix, MatrixSkill } from '../../../types'
 import getMatrix from '../../../queries/getMatrix'
 import message from '../../../message'
+import { useGetMatrixProposalsQuery } from '../../../queries/matrixProposals'
+import MatrixProposalsTable from './MatrixProposalsTable'
 
 const mutation = gql`
   mutation ReorderMatrixSkills($input: ReorderMatrixSkillsInput) {
@@ -29,6 +31,10 @@ interface Props {
 }
 
 export default function MatrixTableBody({ matrix, CreateMatrixSkill, DeleteMatrixSkill }: Props) {
+  const { data } = useGetMatrixProposalsQuery({ variables: { matrix: matrix.id } })
+  const matrixProposals = data?.matrixProposals || []
+  const matrixProposalsOpenIds = matrixProposals.filter(e => !e.isResolved).map(e => e.cellId)
+
   const { groups, grades } = matrix.body
   const editable = matrix.access.write
 
@@ -246,7 +252,7 @@ export default function MatrixTableBody({ matrix, CreateMatrixSkill, DeleteMatri
             {grades.map(grade => {
               const content = skills
                 .filter(skill => skill.groupId === group.id && skill.gradeId === grade.id)
-                .map(({ skill, type }, index) => (
+                .map(({ id: cellId, skill, type }, index) => (
                   <DraggableSlotWrapper
                     key={skill.id}
                     isEmptySlot={type === 'space_boilerplate'}
@@ -256,6 +262,7 @@ export default function MatrixTableBody({ matrix, CreateMatrixSkill, DeleteMatri
                     skill={skill}
                     matrix={matrix}
                     DeleteMatrixSkill={DeleteMatrixSkill}
+                    withProposal={matrixProposalsOpenIds.includes(cellId)}
                   />
                 ))
 
@@ -290,6 +297,13 @@ export default function MatrixTableBody({ matrix, CreateMatrixSkill, DeleteMatri
           </MatrixRow>
         </div>
       ))}
+
+      {!!matrixProposals.length && (
+        <MatrixProposalsTable
+          proposals={matrixProposals.slice().sort((a, b) => (a.isResolved ? 1 : -1))}
+          matrixId={matrix.id}
+        />
+      )}
     </>
   )
 }

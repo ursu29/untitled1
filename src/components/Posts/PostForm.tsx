@@ -1,5 +1,5 @@
 import { UploadOutlined } from '@ant-design/icons'
-import { Button, Col, Form, Input, Row, Switch, Upload, Alert } from 'antd'
+import { Button, Col, Form, Input, Row, Switch, Upload } from 'antd'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { GATEWAY } from '../../config'
@@ -25,6 +25,8 @@ interface Props {
 export default function PostForm({ values: post, loading, onSubmit }: Props) {
   const [form] = Form.useForm()
   const [preview, setPreview] = useState(false)
+
+  const [uploadedImg, setUploadedImg] = useState<any>()
 
   useEffect(() => {
     if (!post) {
@@ -114,7 +116,14 @@ export default function PostForm({ values: post, loading, onSubmit }: Props) {
         <Input placeholder="Post title" />
       </Form.Item>
       <Form.Item label="Body" name="body" rules={[{ required: true, message: 'Please add body!' }]}>
-        <MarkdownEditor id="postBody" />
+        <MarkdownEditor
+          id="postBody"
+          concatValue={
+            uploadedImg?.name && uploadedImg?.url
+              ? `![${uploadedImg?.name?.split('.')[0]}](${uploadedImg?.url})`
+              : undefined
+          }
+        />
       </Form.Item>
       <Form.Item
         name="images"
@@ -135,27 +144,19 @@ export default function PostForm({ values: post, loading, onSubmit }: Props) {
           )
         }}
       >
-        <Alert
-          message="We do not save attached images anymore. Use this field to upload image to the azure file storage and then drag & drop it to the body to get link "
-          type="info"
-          style={{ marginBottom: 8 }}
-        />
         <Upload
           action={GATEWAY + '/upload'}
           name="files"
-          onPreview={file => {
-            const url = file?.url || file.response?.[0]?.url
-            if (url) {
-              window.open(url, '_blank')
-            }
-          }}
           multiple
+          listType="picture"
+          onChange={info => {
+            if (info?.file?.status === 'removed') return
+            setUploadedImg(info?.file?.response?.[0])
+          }}
         >
-          {/* {!form.getFieldValue('titleImage')?.length && ( */}
           <Button>
             <UploadOutlined /> Upload Photos
           </Button>
-          {/* )} */}
         </Upload>
       </Form.Item>
 

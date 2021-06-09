@@ -1,0 +1,32 @@
+query getMatrixProposals($matrix: ID!) {
+  matrixProposals(matrix: $matrix) {
+    id
+    isResolved
+    proposal
+    author {
+      ...EmployeeDetails
+    }
+    cellId
+    group
+    grade
+    skill
+  }
+}
+
+mutation createMatrixProposal($input: CreateMatrixProposalInput!) {
+  createMatrixProposal(input: $input) {
+    id
+  }
+}
+
+mutation resolveMatrixProposal($id: ID!) {
+  resolveMatrixProposal(id: $id) {
+    id
+  }
+}
+
+mutation deleteMatrixProposal($id: ID!) {
+  deleteMatrixProposal(id: $id) {
+    id
+  }
+}

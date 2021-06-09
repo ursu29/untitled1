@@ -233,6 +233,7 @@ input CreateDevrelInput {
   resource: String
   dateStart: String
   dateEnd: String
+  skills: [ID!]
 }
 
 input CreateEvaluationReviewerInput {
@@ -283,6 +284,12 @@ input CreateMatrixGroupInput {
 input CreateMatrixInput {
   title: String!
   description: String
+}
+
+input CreateMatrixProposalInput {
+  proposal: String!
+  matrix: String!
+  cellId: ID!
 }
 
 input CreateMatrixSkillInput {
@@ -525,6 +532,8 @@ type Devrel {
   dateEnd: String
   employee: Employee
   isCompleted: Boolean
+  isDraft: Boolean
+  skills: [Skill]
 }
 
 type Education {
@@ -921,6 +930,18 @@ type MatrixGroup {
   description: String
 }
 
+type MatrixProposal {
+  id: ID!
+  isResolved: Boolean!
+  proposal: String!
+  author: Employee!
+  matrix: Matrix!
+  cellId: ID!
+  group: String
+  grade: String
+  skill: String
+}
+
 type MatrixSkill {
   id: ID
   type: String
@@ -953,6 +974,7 @@ type Mutation {
   updateDevrel(input: UpdateDevrelInput!): Devrel
   proposeDevrelEvent(input: ProposeDevrelEventInput!): Boolean
   participateDevrelEvent(id: ID!): Boolean
+  acceptDevrel(id: ID!): Devrel
   deleteDevrel(id: ID!): Devrel
   updateDevelopmentPlanReviewers(input: ReviewerInput): [Employee!]
   updateMatricesReviewers(input: ReviewerInput): [Employee!]
@@ -995,7 +1017,9 @@ type Mutation {
   createMatrixGrade(input: CreateMatrixGradeInput): Matrix
   deleteMatrixGrade(input: DeleteMatrixGradeInput): Matrix
   updateMatricesCustomFields(input: UpdateMatricesCustomFieldsInput): MatricesCustomFields
-  proposeMatrixChanges(input: ProposeMatrixChangesInput!): Boolean
+  createMatrixProposal(input: CreateMatrixProposalInput!): MatrixProposal!
+  resolveMatrixProposal(id: ID!): MatrixProposal!
+  deleteMatrixProposal(id: ID!): MatrixProposal!
   unsubscribeNotification(ids: [ID!]!): [ID!]
   createOfficeBooking(input: CreateOfficeBookingInput!): Boolean
   cancelOfficeBooking(input: CancelOfficeBookingInput!): Boolean
@@ -1009,6 +1033,12 @@ type Mutation {
   createPost(input: CreatePostInput): Post
   updatePost(input: UpdatePostInput): Post
   deletePost(input: DeletePostInput): Post
+  createProcess(input: CreateProcessInput): Process
+  updateProcess(input: UpdateProcessInput): Process
+  deleteProcess(id: ID!): Process
+  createProcessStep(input: CreateProcessStepInput): ProcessStep
+  updateProcessStep(input: UpdateProcessStepInput): ProcessStep
+  deleteProcessStep(id: ID!): ProcessStep
   createProcessExecution(input: CreateProcessExecutionInput): ProcessExecution
   updateProcessExecution(input: UpdateProcessExecutionInput): ProcessExecution
   abortProcessExecution(input: AbortProcessExecutionInput!): ProcessExecution
@@ -1017,12 +1047,6 @@ type Mutation {
   completeProcessExecutionStep(input: CompleteProcessExecutionStepInput!): ProcessExecutionStep
   commentProcessExecutionStep(input: CommentProcessExecutionStepInput!): ProcessExecutionStep
   deleteHrVacancy(id: ID!): ProcessExecution
-  createProcess(input: CreateProcessInput): Process
-  updateProcess(input: UpdateProcessInput): Process
-  deleteProcess(id: ID!): Process
-  createProcessStep(input: CreateProcessStepInput): ProcessStep
-  updateProcessStep(input: UpdateProcessStepInput): ProcessStep
-  deleteProcessStep(id: ID!): ProcessStep
   updateProject(input: UpdateProjectInput!): Project
   updateProjectSkills(input: UpdateProjectSkillsInput!): Project
   createSkill(input: CreateSkillInput): Skill
@@ -1215,12 +1239,6 @@ input ProposeDevrelEventInput {
   dateEnd: String!
 }
 
-input ProposeMatrixChangesInput {
-  matrix: ID!
-  skill: ID!
-  proposal: String!
-}
-
 input PublishVacancyInput {
   id: ID!
 }
@@ -1271,6 +1289,7 @@ type Query {
   matrices(input: MatricesInput): [Matrix]
   matricesAccess: Access
   matricesCustomFields(input: MatricesCustomFieldsInput): MatricesCustomFields
+  matrixProposals(matrix: ID!): [MatrixProposal!]!
   notifications: [Notification!]!
   officeDays(input: OfficeDaysInput): [OfficeDay]
   officeAccess: Access
@@ -1282,12 +1301,12 @@ type Query {
   postBySlug(slug: String!): Post
   posts(first: Int, after: ID, filter: PostsFilter): [Post]
   postsEditor: Access @deprecated(reason: "will be moved to employee.access.posts")
-  processExecutionsAccess: Access
-  processExecution(id: ID!): ProcessExecution
-  processExecutions(input: ProcessExecutionsInput): [ProcessExecution]
   processesAccess: Access
   process(id: ID!): Process
   processes: [Process]
+  processExecutionsAccess: Access
+  processExecution(id: ID!): ProcessExecution
+  processExecutions(input: ProcessExecutionsInput): [ProcessExecution]
   project(id: ID!): Project
   projectByCode(code: String!): Project
   projects: [Project]
@@ -1450,6 +1469,7 @@ input UpdateDevrelInput {
   link: String
   resource: String
   isCompleted: Boolean
+  skills: [ID!]
 }
 
 input UpdateEmployeeHobbiesInput {

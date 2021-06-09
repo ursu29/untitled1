@@ -30,6 +30,7 @@ export default gql`
           }
           skills {
             type
+            id
             skill {
               id
               name

@@ -14,6 +14,7 @@ import {
 } from '../../queries/devrel'
 import message from '../../message'
 import { useEmployee } from '../../utils/withEmployee'
+import SkillTreeSelect from '../Skills/SkillTreeSelect'
 
 const StyledForm = styled(Form)`
   .ant-form-item {
@@ -114,8 +115,6 @@ export default function ArticlesTab({
                   message.error('Link can not be empty')
                   return
                 }
-                //@ts-ignore
-                article.isCompleted = value
                 updateArticle({ variables: { input: { id: record.id, isCompleted: value } } })
               }}
             />
@@ -191,13 +190,22 @@ export default function ArticlesTab({
                     input: {
                       type: 'ARTICLE',
                       ...values,
+                      skills: values.skills?.map((i: any) => i.id),
                     },
                   },
                 })
               }
               if (isEditMode) {
                 if (!form.isFieldsTouched()) return
-                updateArticle({ variables: { input: { id: editedId, ...values } } })
+                updateArticle({
+                  variables: {
+                    input: {
+                      id: editedId,
+                      ...values,
+                      skills: values.skills?.map((i: any) => i.id),
+                    },
+                  },
+                })
               }
             }
           }}
@@ -211,6 +219,9 @@ export default function ArticlesTab({
           <Form.Item label="Link" name="link">
             <Input />
           </Form.Item>
+          <Form.Item label="Skills" name="skills">
+            <SkillTreeSelect />
+          </Form.Item>
           <Form.Item>
             <Button
               data-cy="submit"
@@ -222,6 +233,10 @@ export default function ArticlesTab({
               {isEditMode ? 'Save' : 'Propose article'}
             </Button>
           </Form.Item>
+          <div style={{ fontStyle: 'italic' }}>
+            * fill in 'Theme' and 'Link' fields in order to create a bookmark after the article will
+            have been completed
+          </div>
         </StyledForm>
       </Modal>
     </>
