@@ -121,7 +121,7 @@ export const menuEl = {
   item: '.ant-menu-item',
   subItem: '.ant-menu-submenu-title',
   subMenu: '[id="tools$Menu"]',
-  subMenuItem: '[id="tools$Menu"] > .ant-menu-item',
+  subMenuItem: '.ant-menu-item-only-child',
   title: '.ant-typography',
   back: 'arrow-left'
 }

@@ -1,4 +1,6 @@
 export const query = {
+  getAllBirthdays: 'query {employees { ...EmployeeDetails __typename}}fragment EmployeeDetails on Employee {birthday}',
+  getNotifications: 'query getNotifications { notifications {id link title type __typename}}',
   resolveMatrixProposal: 'mutation resolveMatrixProposal($id: ID!) {resolveMatrixProposal(id: $id) {id __typename}}',
   getMatrixProposals: 'query getMatrixProposals($matrix: ID!) { matrixProposals(matrix: $matrix) { id isResolved proposal author { ...EmployeeDetails __typename } cellId group grade skill __typename }} fragment EmployeeDetails on Employee { id name location country position phoneNumber email isMe startDate birthday __typename}',
   deleteMatrixProposal: 'mutation deleteMatrixProposal($id: ID!) {deleteMatrixProposal(id: $id) {id __typename}}',

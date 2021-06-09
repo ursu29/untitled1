@@ -19,6 +19,11 @@ describe('start new process', () => {
     cy.saveLocalStorage()
   })
 
+  after(() => {
+    cy.post(data.deleteProcess(processId), 'superUser').then(res =>
+        expect(res.body.data.deleteProcess.id).equal(processId))
+  })
+
   it('create empty process', () => {
     cy.getId(hrTool.activeIdProcess).click()
     cy.getElement(hrTool.create).click()
@@ -55,7 +60,6 @@ describe('start new process', () => {
   })
 
   it('Abort new process', () => {
-    cy.setToken('manager')
     cy.visit(`hr/${newProcess}`)
 
     cy.getElement(hrTool.abort).click()
@@ -63,8 +67,4 @@ describe('start new process', () => {
     cy.get(skillEl.successMes).should('be.visible')
   })
 
-  it('delete process', () => {
-    cy.post(data.deleteProcess(processId), 'superUser').then(res =>
-        expect(res.body.data.deleteProcess.id).equal(processId))
-  })
 })

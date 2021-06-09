@@ -1,12 +1,19 @@
 import { checkTwoString, getCommunityTabUrl } from '../../../support/utils'
 import { query } from '../../../fixtures/query'
+import {getAllSkills, updateGuild} from "../../../support/getData";
 
 describe('Check files', () => {
   let response
   let request
 
   before(() => {
-    cy.setToken('employee')
+    cy.setToken('manager')
+    cy.post(getAllSkills()).then(res => {
+      const {skills} = res.body.data
+      const {id} = skills.filter(el => el.name === 'Frontend')[0]
+
+      cy.post(updateGuild('community-frontend', [id]), 'superUser')
+    })
 
     cy.getResponse(['sharedFiles'], 'alias')
     cy.visit(getCommunityTabUrl('files'))

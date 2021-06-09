@@ -26,14 +26,13 @@ describe('Employees', () => {
     cy.getElement('search').clear()
   })
 
-  it('Filter the employees table by position', () => {
-    cy.selectFilterValue('employee_table', 'Position', profileName)
-    cy.matchText('[data-row-key]', profileName)
-  })
-
-  it('Filter the employees table by level', () => {
-    cy.selectFilterValue('employee_table', 'Level', profileLevel)
-    cy.matchText('[data-row-key]', profileLevel)
+  it('Filter the employees table by position/level', () => {
+    ;[profileName, profileLevel].forEach((el, idx) => {
+      cy.getIcon('filter').eq(idx).click()
+      cy.clickElement(el)
+      cy.contains('OK').click({force: true})
+      cy.matchText('[data-row-key]', el)
+    })
   })
 
   it('Open a user profile from the table', () => {

@@ -49,7 +49,7 @@ Cypress.Commands.add(
 )
 
 Cypress.Commands.add('selectFilterValue', (id, thText, name) => {
-  cy.getElement(id).contains('th', thText).click('topRight')
+  cy.getElement(id).contains('th', thText).click('center')
   cy.clickElement(name)
   cy.contains('OK').click({ force: true })
 })

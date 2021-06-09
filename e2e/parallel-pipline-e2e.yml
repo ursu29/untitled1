@@ -4,7 +4,6 @@ name: $(Date:dd-MM-yyyy_HH-mm)
 
 # variables:
 # - group: test-credentials
-
 resources:
   containers:
     - container: cypress
