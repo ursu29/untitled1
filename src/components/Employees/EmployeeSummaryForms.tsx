@@ -7,6 +7,7 @@ import {
 } from '../../queries/employeeSummary'
 import HobbySelect from '../Hobbies/HobbySelect'
 import { useDebouncedCallback } from '../../utils/useDebounce'
+import { Hobby } from '../../types/graphql'
 
 const arrayDiff = (a1: string[], a2: string[]) => {
   const left = a2.filter(d => !a1.includes(d))
@@ -14,13 +15,15 @@ const arrayDiff = (a1: string[], a2: string[]) => {
   return [...left, ...right]
 }
 
+type HobbyPick = Pick<Hobby, 'id' | 'name'>
+
 type HobbiesFormValues = {
-  hobbies: string[]
+  hobbies: HobbyPick[]
 }
 
 type HobbiesFormProps = {
   employeeId: string
-  hobbies?: { id: string }[]
+  hobbies?: HobbyPick[]
 }
 
 export const HobbiesForm = ({ employeeId, hobbies }: HobbiesFormProps) => {
@@ -42,7 +45,7 @@ export const HobbiesForm = ({ employeeId, hobbies }: HobbiesFormProps) => {
         variables: {
           input: {
             id: employeeId,
-            hobbies: values.hobbies,
+            hobbies: values.hobbies.map(hobby => hobby.id),
           },
         },
         update: (cache, { data }) => {
@@ -72,7 +75,7 @@ export const HobbiesForm = ({ employeeId, hobbies }: HobbiesFormProps) => {
       labelCol={{ span: 24, offset: 0 }}
       onFinish={handleSubmit}
     >
-      <Form.Item name="hobbies" initialValue={hobbies?.map(hobby => hobby.id)}>
+      <Form.Item name="hobbies" initialValue={hobbies}>
         <HobbySelect wide onChange={form.submit} />
       </Form.Item>
     </Form>

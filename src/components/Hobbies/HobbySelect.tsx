@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import message from '../../message'
+import { Hobby } from '../../types/graphql'
 import {
   GetHobbiesDocument,
   useGetHobbiesQuery,
@@ -7,9 +8,11 @@ import {
 } from '../../queries/hobbies'
 import Select from '../UI/Select'
 
+type HobbyPick = Pick<Hobby, 'id' | 'name'>
+
 type Props = {
-  value?: string[]
-  onChange?: (values: string[]) => any
+  value?: HobbyPick[]
+  onChange?: (values: HobbyPick[]) => any
   onBlur?: () => any
   defaultOpen?: boolean
   autoFocus?: boolean
@@ -27,6 +30,7 @@ function HobbySelect({ onChange, value, wide, size, ...props }: Props, ref: any)
     refetchQueries: [{ query: GetHobbiesDocument }],
     awaitRefetchQueries: true,
   })
+  const hobbies = data?.hobbies || []
 
   useEffect(() => {
     if (addLoading) {
@@ -34,7 +38,7 @@ function HobbySelect({ onChange, value, wide, size, ...props }: Props, ref: any)
     }
   }, [addLoading])
 
-  const handleCreateHobby = (name: string, nextValues?: string[]) => {
+  const handleCreateHobby = (name: string, nextValues?: HobbyPick[]) => {
     createHobby({
       variables: {
         input: { name },
@@ -42,7 +46,7 @@ function HobbySelect({ onChange, value, wide, size, ...props }: Props, ref: any)
       update: (cache, { data }) => {
         const newHobby = data?.createHobby
         if (newHobby && nextValues && onChange) {
-          onChange(nextValues.map(id => (id === newHobby.name ? newHobby.id : id)))
+          onChange(nextValues.concat([newHobby]))
         }
       },
     })
@@ -57,9 +61,9 @@ function HobbySelect({ onChange, value, wide, size, ...props }: Props, ref: any)
       size={size}
       value={
         value &&
-        value.map(id => ({
-          key: id,
-          value: id,
+        value.map(hobby => ({
+          key: hobby.id,
+          value: hobby.id,
         }))
       }
       mode="tags"
@@ -68,11 +72,12 @@ function HobbySelect({ onChange, value, wide, size, ...props }: Props, ref: any)
         const ids = data?.hobbies.map(i => i.id)
         const newHobby = values?.find(v => !ids?.includes(v.key))
         const nextValues = values.map(v => v.key)
+        const res = hobbies.filter(h => nextValues.includes(h.id))
 
         if (newHobby) {
-          handleCreateHobby(newHobby.key, nextValues)
+          handleCreateHobby(newHobby.key, res)
         } else if (onChange) {
-          onChange(nextValues)
+          onChange(res)
         }
       }}
       items={data?.hobbies.map(hobby => ({

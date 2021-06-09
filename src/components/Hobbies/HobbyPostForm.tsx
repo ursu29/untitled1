@@ -3,6 +3,8 @@ import { UploadChangeParam } from 'antd/lib/upload/interface'
 import { Button, Col, Form, Input, Row, Switch, Upload } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { GATEWAY } from '../../config'
+import { Hobby, Language } from '../../types/graphql'
+import { HobbyPostBaseFragment } from '../../queries/hobbyPosts'
 import MarkdownEditor from '../UI/MarkdownEditor'
 import HobbySelect from './HobbySelect'
 import PostPreview from '../Posts/PostPreview'
@@ -11,8 +13,19 @@ import HobbyPost from './HobbyPost'
 type FormFields = {
   title: string
   body: string
-  hobbies: string[]
+  hobbies: Pick<Hobby, 'id' | 'name'>[]
   isTranslated: boolean
+  images?: any
+  titleImage?: any
+  backgroundImage?: any
+  foregroundImage?: any
+}
+
+type SubmitValues = {
+  title: string
+  body: string
+  hobbies: string[]
+  language: Language
   images?: any
   titleImage?: any
   backgroundImage?: any
@@ -21,11 +34,11 @@ type FormFields = {
 
 type Props = {
   loading: boolean
-  values?: FormFields
-  onSubmit: (values: FormFields, reset: () => void) => void
+  post?: HobbyPostBaseFragment
+  onSubmit: (values: SubmitValues, reset: () => void) => void
 }
 
-const HobbyPostForm = ({ values: post, loading, onSubmit }: Props) => {
+const HobbyPostForm = ({ post, loading, onSubmit }: Props) => {
   const [form] = Form.useForm<FormFields>()
   const [preview, setPreview] = useState(false)
   const [uploadedImg, setUploadedImg] = useState<any>()
@@ -47,14 +60,14 @@ const HobbyPostForm = ({ values: post, loading, onSubmit }: Props) => {
       {
         title: values.title,
         body: values.body,
-        isTranslated: values.isTranslated,
-        hobbies: values.hobbies,
+        hobbies: values.hobbies.map(h => h.id),
         titleImage: values.titleImage?.[0]?.id || values.titleImage?.[0]?.response?.[0]?.id,
         backgroundImage:
           values.backgroundImage?.[0]?.id || values.backgroundImage?.[0]?.response?.[0]?.id,
         foregroundImage:
           values.foregroundImage?.[0]?.id || values.foregroundImage?.[0]?.response?.[0]?.id,
         images: values.images?.map((i: any) => i?.id || i.response?.[0]?.id),
+        language: values.isTranslated ? Language.En : Language.Ru,
       },
       () => {
         localStorage.removeItem('hobbyPostValues')
@@ -80,10 +93,7 @@ const HobbyPostForm = ({ values: post, loading, onSubmit }: Props) => {
           handleReturn={() => setPreview(false)}
           visible={preview && !loading}
         >
-          <HobbyPost
-            // @ts-expect-error TODO: hobbies incompatible
-            post={form.getFieldsValue()}
-          />
+          <HobbyPost post={form.getFieldsValue()} />
         </PostPreview>
       </Form.Item>
       <Form.Item
@@ -95,7 +105,7 @@ const HobbyPostForm = ({ values: post, loading, onSubmit }: Props) => {
       </Form.Item>
       <Form.Item label="Body" name="body" rules={[{ required: true, message: 'Please add body!' }]}>
         <MarkdownEditor
-          id="postBody"
+          id="hobbyPostBody"
           concatValue={
             uploadedImg?.name && uploadedImg?.url
               ? `![${uploadedImg?.name?.split('.')[0]}](${uploadedImg?.url})`
