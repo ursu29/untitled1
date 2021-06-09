@@ -26,9 +26,10 @@ const StyledEmployeeLink2 = styled(EmployeeLink)`
 
 type Props = {
   post: Omit<HobbyPostBaseFragment, 'id'>
+  edit?: React.ReactNode
 }
 
-const HobbyPost = ({ post }: Props) => (
+const HobbyPost = ({ post, edit }: Props) => (
   <StyledWrapper>
     <StyledHeader>
       {post.createdAt && (
@@ -37,7 +38,9 @@ const HobbyPost = ({ post }: Props) => (
       {post.createdBy && <StyledEmployeeLink2 employee={post.createdBy} />}
     </StyledHeader>
 
-    <Title level={3}>{post.title}</Title>
+    <Title level={3}>
+      {post.title} {edit}
+    </Title>
     <RichText text={post.body} />
 
     {post.hobbies && (
