@@ -1,4 +1,5 @@
 import { devMenu, menuEl } from './locators'
+import { pastDay, todaysDate } from './officePlanner/officeDays'
 
 export const submitPost = '.ant-modal-footer > .ant-btn-primary'
 export const getSkill = name => `[data-cy=${name}] > [data-cy=skills_name] > .ant-tag`
@@ -22,6 +23,13 @@ export const filterSkillsName = (name, arr) =>
 export const hasKeyAndValue = (obj, key, value) => {
   expect(obj.hasOwnProperty(key)).equal(true)
   expect(obj[key]).equal(value[key])
+}
+
+export const proposalObj = {
+  dateStart: `${pastDay}T10:33:45.945Z`,
+  dateEnd: `${todaysDate}T10:33:45.945Z`,
+  link: `https://${todaysDate}/`,
+  title: `title: ${new Date().getTime().toString()}`
 }
 
 export const checkKeyValueExist = (obj, values) =>

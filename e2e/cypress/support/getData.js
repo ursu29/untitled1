@@ -37,6 +37,30 @@ Cypress.Commands.add('getRequestData', URL => {
 
 export const getEmployeesData = () => cy.readFile('cypress/fixtures/employees.json')
 
+export const proposeDevRelEvent = obj => ({
+  operationName: 'proposeDevrelEvent',
+  variables: {input: {...obj}},
+  query: query.proposeDevRelEvent,
+})
+
+export const acceptDevRel = id => ({
+  operationName: 'acceptDevrel',
+  variables: {id},
+  query: query.acceptDevRel,
+})
+
+export const deleteDevrel = id => ({
+  operationName: 'deleteDevrel',
+  variables: {id},
+  query: query.deleteDevrel,
+})
+
+export const getDevRels = (type = 'EVENT') => ({
+  operationName: 'getDevrels',
+  variables: {type},
+  query: query.getDevrels,
+})
+
 export const getNotifications = () => ({
   operationName: 'getNotifications',
   variables: {},
