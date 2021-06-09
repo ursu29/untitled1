@@ -51,7 +51,12 @@ export default function DevRel() {
 
         <div style={{ margin: '0 24px 16px' }}>
           {view === 'outside' && (
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: writeAccess ? 'space-between' : 'flex-end',
+              }}
+            >
               {writeAccess && (
                 <Button
                   data-cy="addNewEvent"
