@@ -1,5 +1,4 @@
 import { useQuery } from '@apollo/client'
-import { CrownOutlined, TeamOutlined } from '@ant-design/icons'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import query, { QueryType } from '../../queries/getProjectByCode'
@@ -27,13 +26,11 @@ function ProjectPage({ match }: Props) {
   let tabs = [
     {
       title: 'Employees',
-      icon: <TeamOutlined />,
       key: 'employees',
       body: <ProjectEmployees project={project} />,
     },
     {
       title: 'Skills',
-      icon: <CrownOutlined />,
       key: 'skills',
       body: <ProjectSkills project={project} />,
     },

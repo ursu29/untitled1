@@ -1,4 +1,3 @@
-import { BookOutlined, ContainerOutlined } from '@ant-design/icons'
 import React from 'react'
 import { Skill } from '../../types'
 import Tabs from '../UI/Tabs'
@@ -21,13 +20,11 @@ const EmployeeRecommendations = ({ skills }: Props) => {
   const tabs = [
     {
       title: 'Bookmarks',
-      icon: <BookOutlined />,
       key: 'bookmarks',
       body: <EmployeeRecommendationBookmarks skills={skills} />,
     },
     {
       title: 'Files',
-      icon: <ContainerOutlined />,
       key: 'files',
       body: <EmployeeRecommendationFiles skills={skills} />,
     },
