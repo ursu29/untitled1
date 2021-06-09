@@ -17,5 +17,8 @@ export const checkNewEmail = (lastEmail, obj, isCompare, text = ' ', maxNumber =
             }
             checkNewEmail(lastEmail, obj, isCompare, text, nextNumber)
         })
+    } else {
+        expect(true).equal(false)
+        cy.log('No get any messages')
     }
 }

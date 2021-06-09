@@ -1,4 +1,9 @@
 export const query = {
+  resolveMatrixProposal: 'mutation resolveMatrixProposal($id: ID!) {resolveMatrixProposal(id: $id) {id __typename}}',
+  getMatrixProposals: 'query getMatrixProposals($matrix: ID!) { matrixProposals(matrix: $matrix) { id isResolved proposal author { ...EmployeeDetails __typename } cellId group grade skill __typename }} fragment EmployeeDetails on Employee { id name location country position phoneNumber email isMe startDate birthday __typename}',
+  deleteMatrixProposal: 'mutation deleteMatrixProposal($id: ID!) {deleteMatrixProposal(id: $id) {id __typename}}',
+  getEmployeeMatricesAndGrade: 'query getEmployeeMatrices($input: EmployeesInput) { employees(input: $input) { id name isMe matrices { id title description comment employeeMatrixId access { read write __typename } body { groups { id title description __typename } grades { id title description __typename } skills { type id skill { id name description isMatrixOnly __typename } groupId gradeId __typename } __typename } __typename } __typename }}',
+  createMatrixProposal: 'mutation createMatrixProposal($input: CreateMatrixProposalInput!) {createMatrixProposal(input: $input) {id __typename}}',
   deleteHrVacancy: 'mutation deleteHrVacancy($id: ID!) {deleteHrVacancy(id: $id) { id }}',
   createBook: 'mutation createBook($input: CreateBookInput) {createBook(input: $input) {...BookResponse __typename}} fragment BookResponse on Book {id title author tags {id name __typename} holder {id name email __typename} __typename}',
   removeBook: 'mutation removeBook($id: ID!) {removeBook(id: $id) {...BookResponse __typename}}fragment BookResponse on Book {id title author tags {id name __typename}holder {id name email __typename} __typename}',
