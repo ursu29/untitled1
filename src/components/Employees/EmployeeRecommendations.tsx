@@ -1,10 +1,10 @@
-import { BookOutlined, ContainerOutlined } from '@ant-design/icons'
 import React from 'react'
 import { Skill } from '../../types'
 import Tabs from '../UI/Tabs'
 import EmployeeRecommendationBookmarks from './EmployeeRecommendationBookmarks'
 import EmployeeRecommendationFiles from './EmployeeRecommendationFiles'
 import URLAction from '../../utils/URLAction'
+import { LibraryList } from '../Library/LibraryList'
 
 type SkillPick = Pick<Skill, 'id'>
 
@@ -21,15 +21,18 @@ const EmployeeRecommendations = ({ skills }: Props) => {
   const tabs = [
     {
       title: 'Bookmarks',
-      icon: <BookOutlined />,
       key: 'bookmarks',
       body: <EmployeeRecommendationBookmarks skills={skills} />,
     },
     {
       title: 'Files',
-      icon: <ContainerOutlined />,
       key: 'files',
       body: <EmployeeRecommendationFiles skills={skills} />,
+    },
+    {
+      title: 'Books',
+      key: 'books',
+      body: <LibraryList skills={skills?.map(e => e.id)} />,
     },
   ]
 

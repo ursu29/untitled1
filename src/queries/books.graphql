@@ -13,8 +13,8 @@ fragment BookResponse on Book {
   }
 }
 
-query getBooks {
-  books {
+query getBooks($skills: [ID!]) {
+  books(skills: $skills) {
     ...BookResponse
   }
 }
