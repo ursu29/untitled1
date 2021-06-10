@@ -20,7 +20,11 @@ export const CreateHobbyModal: React.FC<Props> = ({ refetchQueries }) => {
 
   return (
     <Drawer
-      toggler={<Button icon={<PlusOutlined />}>Create hobby</Button>}
+      toggler={
+        <Button type="primary" icon={<PlusOutlined />}>
+          Create hobby
+        </Button>
+      }
       drawerLabel="Create a new hobby"
       content={
         <HobbyForm
