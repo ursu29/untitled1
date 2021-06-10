@@ -57,19 +57,6 @@ describe('Checking default information', () => {
     cy.getElement('avatar').should('be.visible')
   })
 
-  it('Check the Projects field', () => {
-    const { projects } = allData.projects.employee
-
-    if (projects.length) {
-      const projectNames = projects.map(obj => obj.name)
-      cy.checkLength('project_tab', projects.length)
-      cy.checkTextInArrayEl('project_tab', projectNames)
-
-      return
-    }
-    cy.getElement('project').should('not.exist')
-  })
-
   it('Check the Teams and Outlook buttons', () => {
     cy.getElement('mail_button').should('be.visible')
     cy.getElement('teams_button').should('be.visible')

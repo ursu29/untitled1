@@ -21,6 +21,8 @@ describe('under-menu looks good', () => {
       cy.visit(el)
 
       cy.get('.ant-skeleton').should('not.exist')
+      cy.get('.ant-tabs-tab').eq(0).click()
+      cy.get('.ant-tabs-tab').eq(0).should('have.class', 'ant-tabs-tab-active')
 
       cy.get('.ant-tabs-nav-wrap').last().matchImageSnapshot(`underMenu-${idx}`)
     })
