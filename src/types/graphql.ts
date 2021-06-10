@@ -922,7 +922,7 @@ export type HobbyPostFilterInput = {
   after?: Maybe<Scalars['ID']>
   search?: Maybe<Scalars['String']>
   hobbies?: Maybe<Array<Scalars['ID']>>
-  language: Language
+  language?: Maybe<Language>
 }
 
 export enum Importance {

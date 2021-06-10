@@ -867,7 +867,7 @@ input HobbyPostFilterInput {
   after: ID
   search: String
   hobbies: [ID!]
-  language: LANGUAGE!
+  language: LANGUAGE
 }
 
 enum IMPORTANCE {
