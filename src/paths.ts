@@ -28,7 +28,7 @@ const PATHS = {
   MANAGEMENT: '/management',
   DEVREL: '/devrel',
   GAMES: '/games',
-  HOBBIES: '/hobbies',
+  HOBBIES: '/hobby',
 }
 
 export const getEmployeeLink = (email: Employee['email']) => PATHS.EMPLOYEES + '/' + email

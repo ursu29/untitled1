@@ -1,6 +1,5 @@
 import { RefetchQueryDescription } from '@apollo/client/core/watchQueryOptions'
 import React from 'react'
-import { EditOutlined } from '@ant-design/icons'
 import message from '../../message'
 import { useCreateHobbyPostMutation } from '../../queries/hobbyPosts'
 import Button from '../UI/Button'
@@ -23,11 +22,7 @@ export const CreateHobbyPostModal = ({ refetchQueries }: Props) => {
     <Drawer
       size="large"
       drawerLabel="Create a new post"
-      toggler={
-        <Button type="primary" icon={<EditOutlined />}>
-          New post
-        </Button>
-      }
+      toggler={<Button type="primary">New post</Button>}
       content={
         <HobbyPostForm
           loading={loading}

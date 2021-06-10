@@ -1,5 +1,4 @@
 import React from 'react'
-import { PlusOutlined } from '@ant-design/icons'
 import { RefetchQueryDescription } from '@apollo/client/core/watchQueryOptions'
 import message from '../../message'
 import Drawer from '../UI/Drawer'
@@ -20,11 +19,7 @@ export const CreateHobbyModal: React.FC<Props> = ({ refetchQueries }) => {
 
   return (
     <Drawer
-      toggler={
-        <Button type="primary" icon={<PlusOutlined />}>
-          Create hobby
-        </Button>
-      }
+      toggler={<Button type="primary">Create hobby</Button>}
       drawerLabel="Create a new hobby"
       content={
         <HobbyForm
