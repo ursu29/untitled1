@@ -145,7 +145,7 @@ const HobbyPostForm = ({ post, loading, onSubmit }: Props) => {
         </Upload>
       </Form.Item>
 
-      <Form.Item label="Hobbies" name="hobbies">
+      <Form.Item label="Hobbies" name="hobbies" initialValue={[]}>
         <HobbySelect wide />
       </Form.Item>
 

@@ -9,6 +9,8 @@ import { CreateHobbyPostModal } from './CreateHobbyPostModal'
 import { HobbyCard } from './HobbyCard'
 import HobbiesFeed from './HobbiesFeed'
 
+const first = 5
+
 function HobbiesPage() {
   const { data, loading, error } = useGetHobbiesQuery()
 
@@ -22,7 +24,7 @@ function HobbiesPage() {
           <CreateHobbyModal key="CreateHobby" refetchQueries={[{ query: GetHobbiesDocument }]} />,
           <CreateHobbyPostModal
             key="CreateHobbyPost"
-            refetchQueries={[{ query: GetHobbyPostsDocument }]}
+            refetchQueries={[{ query: GetHobbyPostsDocument, variables: { input: { first } } }]}
           />,
         ]}
       />
@@ -32,7 +34,7 @@ function HobbiesPage() {
         notFound={!hobbies}
         notFoundMessage="Sorry, hobbies were not found"
       >
-        <HobbiesFeed />
+        <HobbiesFeed first={first} />
         <Row gutter={[16, 16]}>
           {hobbies?.map(hobby => (
             <Col key={hobby.id} xs={24} md={12}>

@@ -15,8 +15,8 @@ fragment HobbyPostBase on HobbyPost {
   language
 }
 
-query getHobbyPosts {
-  hobbyPosts {
+query getHobbyPosts($input: HobbyPostFilterInput) {
+  hobbyPosts(input: $input) {
     ...HobbyPostBase
   }
 }

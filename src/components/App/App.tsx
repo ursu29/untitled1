@@ -32,6 +32,21 @@ const cacheConfig: InMemoryCacheConfig = {
         },
       },
     },
+    Query: {
+      fields: {
+        hobbyPosts: {
+          keyArgs: ['first', 'after'],
+          merge(existing = [], incoming, { variables }) {
+            // fetchMore
+            if (variables?.input?.after) {
+              return [...existing, ...incoming]
+            }
+            // useQuery/refetch
+            return incoming
+          },
+        },
+      },
+    },
   },
 }
 

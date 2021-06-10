@@ -18,7 +18,9 @@ export type HobbyPostBaseFragment = { __typename?: 'HobbyPost' } & Pick<
     hobbies: Array<{ __typename?: 'Hobby' } & Pick<Types.Hobby, 'id' | 'name'>>
   }
 
-export type GetHobbyPostsQueryVariables = Types.Exact<{ [key: string]: never }>
+export type GetHobbyPostsQueryVariables = Types.Exact<{
+  input?: Types.Maybe<Types.HobbyPostFilterInput>
+}>
 
 export type GetHobbyPostsQuery = { __typename?: 'Query' } & {
   hobbyPosts: Array<{ __typename?: 'HobbyPost' } & HobbyPostBaseFragment>
@@ -67,8 +69,8 @@ export const HobbyPostBaseFragmentDoc = gql`
   }
 `
 export const GetHobbyPostsDocument = gql`
-  query getHobbyPosts {
-    hobbyPosts {
+  query getHobbyPosts($input: HobbyPostFilterInput) {
+    hobbyPosts(input: $input) {
       ...HobbyPostBase
     }
   }
@@ -87,6 +89,7 @@ export const GetHobbyPostsDocument = gql`
  * @example
  * const { data, loading, error } = useGetHobbyPostsQuery({
  *   variables: {
+ *      input: // value for 'input'
  *   },
  * });
  */
