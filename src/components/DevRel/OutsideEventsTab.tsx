@@ -219,7 +219,7 @@ export default function OutsideEventsTab({
               loading={createDevrelEventLoading}
               style={{ marginTop: '8px' }}
             >
-              {modalMode === 'propose' ? 'Propose Event +' : 'Add New'}
+              {modalMode === 'propose' ? 'Propose Event' : 'Add New'}
             </Button>
           </Form.Item>
         </StyledForm>
