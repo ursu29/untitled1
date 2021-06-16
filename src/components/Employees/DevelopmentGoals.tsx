@@ -162,6 +162,7 @@ function DevelopmentGoals({ onChange, disabled, ...props }: Props, ref: any) {
       dataIndex: 'isAchieved',
       render: (text: any, record: any) => (
         <Switch
+          data-cy="achieve"
           disabled={disabled}
           checked={record.isAchieved}
           onChange={() => {
@@ -239,6 +240,7 @@ function DevelopmentGoals({ onChange, disabled, ...props }: Props, ref: any) {
         })}
       />
       <Button
+        data-cy="addGoals"
         style={{ marginTop: 8 }}
         onClick={() => {
           if (onChange) {
