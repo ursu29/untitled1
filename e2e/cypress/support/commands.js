@@ -7,7 +7,7 @@ addMatchImageSnapshotCommand({
   failureThresholdType: 'percent', // percent of image or number of pixels
   customDiffConfig: { threshold: 0.0 },  // threshold for each pixel
   capture: 'viewport',  // capture viewport in screenshot
-  customDiffDir: './cypress/screenshots' // screenshotsFolder
+  customDiffDir: './TestReport/assets' // screenshotsFolder
 })
 
 let LOCAL_STORAGE_MEMORY = {}
