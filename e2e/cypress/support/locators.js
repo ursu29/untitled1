@@ -255,3 +255,11 @@ export const collapseProcess = {
 export const employeeAccess = {
   employeeUrl: '/employees/a.vygodchikov@syncretis.com/',
 }
+
+export const personalDevLocators = {
+  negative: 'lookBackNegative',
+  positive: 'lookBackPositive',
+  forward: 'lookForward',
+  deleteGoals: 'delete',
+  achieveBtn: 'achieve'
+}
