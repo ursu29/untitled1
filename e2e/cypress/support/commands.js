@@ -80,7 +80,10 @@ Cypress.Commands.add('openProfile', nameAndSurname => {
 })
 
 Cypress.Commands.add('compareObjectsKeys', (firstObj, secondObj) => {
-  Object.keys(firstObj).filter(el => expect(Object.keys(secondObj)).includes(el))
+  const compareKeys = (firstObj, secondObj) =>  Object.keys(firstObj).filter(el => expect(Object.keys(secondObj)).includes(el))
+
+  Object.keys(firstObj).filter(el =>
+      typeof el === 'object' ? compareKeys(firstObj, secondObj) : expect(Object.keys(secondObj)).includes(el))
 })
 
 Cypress.Commands.add('waitElDisappear', el => {

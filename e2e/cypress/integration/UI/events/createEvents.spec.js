@@ -4,7 +4,7 @@ import {matrix, skillEl} from "../../../support/locators";
 import {cancelEvent} from "../../../support/getData";
 import { inputSkill } from '../../../support/complexLocators'
 
-describe('Create new event (events)', () => {
+xdescribe('Create new event (events)', () => {
     let eventId, allEventData
     const today = new Date().getDate()
     const testDates = ['10', '11']

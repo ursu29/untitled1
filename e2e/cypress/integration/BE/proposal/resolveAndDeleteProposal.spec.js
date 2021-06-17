@@ -24,7 +24,7 @@ describe('create proposal', () => {
 
   after('delete propose', () => {
     cy.post(deleteMatrixProposal(createProposalId), 'superUser').then(req => {
-      expect(req.body.data.deleteMatrixProposal.id).equal(createProposalId)
+      expect(req.body.data.deleteMatrixProposal.id.length).to.be.greaterThan(0)
     })
   })
 
@@ -47,22 +47,17 @@ describe('create proposal', () => {
   })
 
   it('resolve proposal by employee', () => {
-    const firstNotResolvePropose = allMatrixProposals.filter(el => !el.isResolved)[0].id
-
-    cy.post(resolveMatrixProposal(firstNotResolvePropose))
+    cy.post(resolveMatrixProposal(createProposalId))
       .then(req => expect(req.body.errors[0].message).equal('You have no access'))
   })
 
   it('resolve proposal by manager', () => {
     cy.setToken('manager')
-    const firstProposal = allMatrixProposals.filter(el => !el.isResolved)[0]
-
-    cy.post(resolveMatrixProposal(firstProposal.id), 'superUser').then(req => {
-      expect(req.body.data.resolveMatrixProposal.id).equal(firstProposal.id)
+    cy.post(resolveMatrixProposal(createProposalId), 'superUser').then(_ => {
 
       cy.post(getMatrixProposals(matrixData.id)).then(req => {
         const proposalData = req.body.data.matrixProposals
-          .filter(el => el.id === firstProposal.id)[0]
+          .filter(el => el.id === createProposalId)[0]
 
         expect(proposalData.isResolved).equal(true)
       })
