@@ -84,7 +84,7 @@ export default function ProposedEventsTable() {
               okText="Yes"
               cancelText="No"
             >
-              <Button size="small" style={{ marginRight: '16px' }}>
+              <Button size="small" style={{ marginRight: '16px' }} id="accept">
                 Accept
               </Button>
             </Popconfirm>
@@ -95,7 +95,7 @@ export default function ProposedEventsTable() {
               okText="Yes"
               cancelText="No"
             >
-              <Button danger size="small">
+              <Button danger size="small" id="decline">
                 Decline
               </Button>
             </Popconfirm>

@@ -232,7 +232,9 @@ export const process = {
   customer: 'customer',
   newEvent: 'proposeEvent',
   participate: 'participate',
-  create: 'addNewEvent'
+  create: 'addNewEvent',
+  declineBtn: 'decline',
+  acceptBtn: 'accept'
 }
 
 export const notificationEl = {

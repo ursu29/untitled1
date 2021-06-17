@@ -1,4 +1,8 @@
 export const query = {
+  acceptDevRel: 'mutation acceptDevrel($id: ID!) {acceptDevrel(id: $id) {id __typename}}',
+  getDevrels: 'query getDevrels($type: String!) { devrels(type: $type) { id type title link resource dateStart dateEnd employee { id email name __typename } isCompleted isDraft skills { id name __typename } __typename }}',
+  deleteDevrel: 'mutation deleteDevrel($id: ID!) {deleteDevrel(id: $id) {id __typename}}',
+  proposeDevRelEvent: 'mutation proposeDevrelEvent($input: ProposeDevrelEventInput!) {proposeDevrelEvent(input: $input)}',
   getAllBirthdays: 'query {employees { ...EmployeeDetails __typename}}fragment EmployeeDetails on Employee {birthday}',
   getNotifications: 'query getNotifications { notifications {id link title type __typename}}',
   resolveMatrixProposal: 'mutation resolveMatrixProposal($id: ID!) {resolveMatrixProposal(id: $id) {id __typename}}',
