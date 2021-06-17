@@ -1,6 +1,10 @@
 import * as Msal from 'msal'
 import React, { useEffect, useState } from 'react'
 import SplashScreen from '../UI/SplashScreen'
+import { ImplicitMSALAuthenticationProvider } from '@microsoft/microsoft-graph-client/lib/src/ImplicitMSALAuthenticationProvider'
+import { MSALAuthenticationProviderOptions } from '@microsoft/microsoft-graph-client/lib/src/MSALAuthenticationProviderOptions'
+import * as MicrosoftGraph from '@microsoft/microsoft-graph-client'
+import jwt from 'jsonwebtoken'
 
 const msalConfig: Msal.Configuration = {
   auth: {
@@ -24,6 +28,26 @@ msalInstance.handleRedirectCallback((error: any, response: any) => {
 
 const MINUTE = 1000 * 60
 
+const scopes = [
+  'User.Read',
+  'Group.Read.All',
+  'Sites.Read.All',
+  'Member.Read.Hidden',
+  'Directory.Read.All',
+  'Contacts.Read',
+  'AccessReview.Read.All',
+  // 'Directory.ReadWrite.All',
+  // 'Application.ReadWrite.All',
+  // 'Directory.AccessAsUser.All',
+]
+
+// Azure client SDK for sending requests to Microsoft Graph API
+const options = new MSALAuthenticationProviderOptions(scopes)
+const authProvider = new ImplicitMSALAuthenticationProvider(msalInstance, options)
+export const azureClient = MicrosoftGraph.Client.initWithMiddleware({
+  authProvider,
+})
+
 function Oauth({ children }: any) {
   const [token, setToken] = useState(localStorage.getItem('access_token'))
 
@@ -32,17 +56,7 @@ function Oauth({ children }: any) {
     let timeout: ReturnType<typeof setTimeout>
     async function authorize() {
       var tokenRequest = {
-        scopes: [
-          'User.Read',
-          'Group.Read.All',
-          'Sites.Read.All',
-          'Member.Read.Hidden',
-          'Directory.Read.All',
-          'Contacts.Read',
-          'AccessReview.Read.All',
-          // 'Application.ReadWrite.All',
-          // 'Directory.AccessAsUser.All',
-        ],
+        scopes,
       }
       try {
         if (!msalInstance.getAccount()) {
@@ -56,6 +70,7 @@ function Oauth({ children }: any) {
           setToken(null)
           authorize()
         }, expiresIn - now - MINUTE)
+
         return response.accessToken
       } catch (e) {
         console.log('silent token acquisition fails.')
@@ -75,7 +90,10 @@ function Oauth({ children }: any) {
   }, [])
 
   if (!token) return <SplashScreen />
-  return children(token)
+
+  const decoded: any = jwt.decode(token)
+
+  return children(token, decoded?.oid)
 }
 
 export default Oauth

@@ -39,7 +39,7 @@ const App: React.FC = () => {
   const [tokenExpired, setTokenExpired] = useState(false)
   return (
     <Oauth>
-      {(token: string) => {
+      {(token: string, azureID: string) => {
         const authLink = setContext((_, { headers }) => {
           return {
             credentials: 'same-origin',
@@ -76,7 +76,7 @@ const App: React.FC = () => {
           <Router>
             <ApolloProvider client={client}>
               <TokenProvider token={token}>
-                <Root tokenExpired={tokenExpired} />
+                <Root tokenExpired={tokenExpired} azureID={azureID} />
                 {process.env.REACT_APP_YANDEX_METRIKA && <Metrics />}
               </TokenProvider>
             </ApolloProvider>

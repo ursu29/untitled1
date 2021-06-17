@@ -11,7 +11,13 @@ import { useGetProfileQuery } from '../../queries/profile'
 import { useGetDevToolsAccessQuery } from '../../queries/devtools'
 import SplashScreen from '../UI/SplashScreen'
 
-export default function Root({ tokenExpired }: { tokenExpired: boolean }) {
+export default function Root({
+  tokenExpired,
+  azureID,
+}: {
+  tokenExpired: boolean
+  azureID: string
+}) {
   const { data, loading, error } = useGetProfileQuery()
 
   // Check access to ClientDevTools
@@ -32,7 +38,7 @@ export default function Root({ tokenExpired }: { tokenExpired: boolean }) {
   if (data?.isAuthenticated) {
     return (
       <Layout>
-        <EmployeeProvider value={data?.profile}>
+        <EmployeeProvider value={{ ...data?.profile, azureID }}>
           <Sider />
           <Pages />
           {dataClientDevTools?.clientDevToolsAccess && <DevTools />}

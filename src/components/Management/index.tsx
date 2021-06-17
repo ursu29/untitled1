@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Employees from './Employees'
 import Agile from './Agile'
 import Scrum from './Scrum'
+import AAD from './AAD'
 import PageContent from '../UI/PageContent'
 import PageHeader from '../UI/PageHeader'
 import { Tabs } from 'antd'
@@ -26,8 +27,10 @@ export default function Management() {
           <Tabs.TabPane tab="Employees" key="employees" />
           <Tabs.TabPane tab="Agile Managers" key="agile" />
           <Tabs.TabPane tab="Scrum Masters" key="scrum" />
+          <Tabs.TabPane tab="Azure AD" key="aad" />
         </Tabs>
 
+        {view === 'aad' && <AAD />}
         {view === 'employees' && <Employees />}
         {view === 'agile' && <Agile />}
         {view === 'scrum' && <Scrum />}

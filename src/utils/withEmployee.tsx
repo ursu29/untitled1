@@ -22,7 +22,7 @@ function EmployeeProvider(props: { value: any } & PropsWithChildren<any>) {
 const EmployeeConsumer = EmployeeContext.Consumer
 
 function useEmployee(): {
-  employee: Profile
+  employee: Profile & { azureID: string | undefined }
   setEmployee: any
   devOnlyUserRole: string
   setDevOnlyUserRole: any
