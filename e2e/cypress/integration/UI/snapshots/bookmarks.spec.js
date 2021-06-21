@@ -1,5 +1,5 @@
 import { bookmarks } from '../../../fixtures/bookmarks'
-import {getProfileTabUrl } from '../../../support/utils'
+import {getTabUrl} from '../../../support/utils'
 
 describe('bookmark looks good', () => {
   before(() => {
@@ -7,7 +7,7 @@ describe('bookmark looks good', () => {
     cy.setImgToken('employee')
 
     cy.mockResponse(['getBookmarks'], bookmarks())
-    cy.visit(getProfileTabUrl('bookmarks'))
+    cy.visit(getTabUrl('bookmarks'))
   })
   it('check bookmarks', () => {
     cy.getElement('bookmarks').should('be.visible')

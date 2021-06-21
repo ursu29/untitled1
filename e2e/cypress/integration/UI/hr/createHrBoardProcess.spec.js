@@ -1,4 +1,4 @@
-import {getHrTabUrl} from "../../../support/utils";
+import {getTabUrl} from "../../../support/utils";
 import {hrTool, postEl, skillEl} from "../../../support/locators";
 import {deleteVacancy} from "../../../support/getData";
 
@@ -8,7 +8,7 @@ describe('create new process task', () => {
 
     before(() => {
         cy.setToken('manager')
-        cy.visit(getHrTabUrl('board'))
+        cy.visit(getTabUrl('board', 'hr'))
     })
 
     after(() => {

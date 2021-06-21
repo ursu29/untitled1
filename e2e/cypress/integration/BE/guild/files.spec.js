@@ -1,4 +1,4 @@
-import { checkTwoString, getCommunityTabUrl } from '../../../support/utils'
+import {checkTwoString, getTabUrl} from '../../../support/utils'
 import { query } from '../../../fixtures/query'
 import {getAllSkills, updateGuild} from "../../../support/getData";
 
@@ -16,7 +16,7 @@ describe('Check files', () => {
     })
 
     cy.getResponse(['sharedFiles'], 'alias')
-    cy.visit(getCommunityTabUrl('files'))
+    cy.visit(getTabUrl('files', '/guilds/community-frontend'))
     cy.wait(`@alias`).then(val => {
       response = val.response.body.data
       request = val.request.body
