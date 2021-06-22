@@ -35,7 +35,7 @@ const cacheConfig: InMemoryCacheConfig = {
     Query: {
       fields: {
         hobbyPosts: {
-          keyArgs: ['first', 'after'],
+          keyArgs: false,
           merge(existing = [], incoming, { variables }) {
             // fetchMore
             if (variables?.input?.after) {

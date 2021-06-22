@@ -18,11 +18,10 @@ type Props = {
   autoFocus?: boolean
   matrixSkillsOnly?: boolean
   allowAddNew?: boolean
-  wide?: boolean
   size?: 'large' | 'middle' | 'small'
 }
 
-function HobbySelect({ onChange, value, wide, size, ...props }: Props, ref: any) {
+function HobbySelect({ onChange, value, size, ...props }: Props, ref: any) {
   const { data, loading: dataLoading } = useGetHobbiesQuery()
   const [createHobby, { loading: addLoading }] = useCreateHobbyMutation({
     onCompleted: () => message.success('New hobby has been created'),
@@ -55,7 +54,7 @@ function HobbySelect({ onChange, value, wide, size, ...props }: Props, ref: any)
   return (
     <Select
       ref={ref}
-      style={{ width: wide ? '100%' : 150 }}
+      style={{ width: '100%' }}
       autoFocus={!dataLoading && props.autoFocus}
       loading={dataLoading || addLoading}
       size={size}
@@ -67,6 +66,7 @@ function HobbySelect({ onChange, value, wide, size, ...props }: Props, ref: any)
         }))
       }
       mode="tags"
+      placeholder="Select  hobby"
       onBlur={props.onBlur}
       onSelect={(values: { key: string }[]) => {
         const ids = data?.hobbies.map(i => i.id)

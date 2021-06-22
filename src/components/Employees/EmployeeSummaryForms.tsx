@@ -76,7 +76,7 @@ export const HobbiesForm = ({ employeeId, hobbies }: HobbiesFormProps) => {
       onFinish={handleSubmit}
     >
       <Form.Item name="hobbies" initialValue={hobbies}>
-        <HobbySelect wide onChange={form.submit} />
+        <HobbySelect onChange={form.submit} />
       </Form.Item>
     </Form>
   )
