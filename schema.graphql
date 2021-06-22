@@ -1283,7 +1283,7 @@ type Query {
   archivedMatrix(input: GetArchivedMatrixInput): ArchiveMatrix
   bookmarks(input: BookmarksInput): [Bookmark]
   bookmarkByLink(link: String!): Bookmark
-  books: [Book!]!
+  books(skills: [ID!]): [Book!]!
   clientDevToolsAccess: Boolean
   clientDevToolsGitInfo: DevToolsGitInfo
   curriculumVitaeAccess(input: AccessInput): Access

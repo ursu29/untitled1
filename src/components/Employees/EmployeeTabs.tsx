@@ -1,16 +1,6 @@
 import { useQuery, gql } from '@apollo/client'
 import React from 'react'
 import { RouteComponentProps, withRouter, matchPath } from 'react-router-dom'
-import {
-  SolutionOutlined,
-  FormOutlined,
-  RiseOutlined,
-  NumberOutlined,
-  BookOutlined,
-  CrownOutlined,
-  StarOutlined,
-  InfoCircleOutlined,
-} from '@ant-design/icons'
 import paths from '../../paths'
 import { Employee, Access } from '../../types'
 import Skeleton from '../UI/Skeleton'
@@ -130,7 +120,6 @@ function EmployeeTabs({ match, location, ...props }: Props) {
     {
       title: 'Skills',
       key: 'skills',
-      icon: <CrownOutlined />,
       noPadding: false,
       body: (
         <EmployeeSkills
@@ -143,13 +132,11 @@ function EmployeeTabs({ match, location, ...props }: Props) {
     {
       title: 'Summary',
       key: 'summary',
-      icon: <InfoCircleOutlined />,
       noPadding: false,
       body: <EmployeeSummary employee={employee} editable={employee?.access.write} />,
     },
     {
       title: 'Bookmarks',
-      icon: <BookOutlined />,
       key: 'bookmarks',
       noPadding: false,
       body: <EmployeeBookmarks employee={employee} />,
@@ -160,7 +147,6 @@ function EmployeeTabs({ match, location, ...props }: Props) {
     tabs.push({
       title: <div style={{ display: 'inline-flex', alignItems: 'center' }}>Matrices</div>,
       key: 'matrices',
-      icon: <NumberOutlined />,
       noPadding: false,
       body: (
         <EmployeeMatrices employee={employee} reviewersListAccess={matricesLookReviewersAccess} />
@@ -173,7 +159,6 @@ function EmployeeTabs({ match, location, ...props }: Props) {
         <div style={{ display: 'inline-flex', alignItems: 'center' }}>Personal development</div>
       ),
       key: 'development-plan',
-      icon: <RiseOutlined />,
       noPadding: false,
       body: (
         <EmployeeDevelopmentPlan
@@ -194,7 +179,6 @@ function EmployeeTabs({ match, location, ...props }: Props) {
         </div>
       ), */
       key: 'evaluation',
-      icon: <StarOutlined />,
       noPadding: false,
       body: <EmployeeEvaluation employee={employee} editable={evaluationReviewersAccess?.write} />,
     })
@@ -230,7 +214,6 @@ function EmployeeTabs({ match, location, ...props }: Props) {
         </TabTitleWithBadge>
       ),
       key: 'employees',
-      icon: <SolutionOutlined />,
       noPadding: true,
       body: <EmployeeSubordinates employee={employee} />,
     })
@@ -239,7 +222,6 @@ function EmployeeTabs({ match, location, ...props }: Props) {
   if (curriculumVitaeAccess?.read) {
     tabs.push({
       title: 'CV',
-      icon: <FormOutlined />,
       key: 'cv',
       noPadding: false,
       body: (

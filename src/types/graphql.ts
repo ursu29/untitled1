@@ -1933,6 +1933,10 @@ export type QueryBookmarkByLinkArgs = {
   link: Scalars['String']
 }
 
+export type QueryBooksArgs = {
+  skills?: Maybe<Array<Scalars['ID']>>
+}
+
 export type QueryCurriculumVitaeAccessArgs = {
   input?: Maybe<AccessInput>
 }

@@ -36,11 +36,76 @@ Cypress.Commands.add('getRequestData', URL => {
 })
 
 export const getEmployeesData = () => cy.readFile('cypress/fixtures/employees.json')
-// need to simplify all this request body
+
+export const proposeDevRelEvent = obj => ({
+  operationName: 'proposeDevrelEvent',
+  variables: {input: {...obj}},
+  query: query.proposeDevRelEvent,
+})
+
+export const acceptDevRel = id => ({
+  operationName: 'acceptDevrel',
+  variables: {id},
+  query: query.acceptDevRel,
+})
+
+export const deleteDevrel = id => ({
+  operationName: 'deleteDevrel',
+  variables: {id},
+  query: query.deleteDevrel,
+})
+
+export const getDevRels = (type = 'EVENT') => ({
+  operationName: 'getDevrels',
+  variables: {type},
+  query: query.getDevrels,
+})
+
+export const getNotifications = () => ({
+  operationName: 'getNotifications',
+  variables: {},
+  query: query.getNotifications,
+})
+
+export const getAllBirthdays = () => ({
+  variables: {},
+  query: query.getAllBirthdays,
+})
+
 export const removeBook = id => ({
   operationName: 'removeBook',
   variables: { id },
   query: query.removeBook,
+})
+
+export const createMatrixProposal = (cellId,matrix, proposal) => ({
+  operationName: 'createMatrixProposal',
+  variables: {input: {cellId,matrix,proposal}},
+  query: query.createMatrixProposal,
+})
+
+export const getAllEmployeeMatrices = (id) => ({
+  operationName: null,
+  variables: {input:{id}},
+  query: query.getEmployeeMatricesAndGrade,
+})
+
+export const getMatrixProposals = (matrix) => ({
+  operationName: 'getMatrixProposals',
+  variables: {matrix},
+  query: query.getMatrixProposals,
+})
+
+export const resolveMatrixProposal = (id) => ({
+  operationName: 'resolveMatrixProposal',
+  variables: {id},
+  query: query.resolveMatrixProposal,
+})
+
+export const deleteMatrixProposal = (id) => ({
+  operationName: 'deleteMatrixProposal',
+  variables: {id},
+  query: query.deleteMatrixProposal,
 })
 
 export const createBook = obj => ({
@@ -413,9 +478,9 @@ export const getFirstPosts = () => ({
   query: query.getFirstPost,
 })
 
-export const getEmployeeMatrices = () => ({
+export const getEmployeeMatrices = (id) => ({
   operationName: null,
-  variables: {},
+  variables: {input:{id}},
   query: query.getEmployeeMatrices,
 })
 

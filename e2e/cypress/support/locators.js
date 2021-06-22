@@ -121,7 +121,7 @@ export const menuEl = {
   item: '.ant-menu-item',
   subItem: '.ant-menu-submenu-title',
   subMenu: '[id="tools$Menu"]',
-  subMenuItem: '[id="tools$Menu"] > .ant-menu-item',
+  subMenuItem: '.ant-menu-item-only-child',
   title: '.ant-typography',
   back: 'arrow-left'
 }
@@ -232,7 +232,9 @@ export const process = {
   customer: 'customer',
   newEvent: 'proposeEvent',
   participate: 'participate',
-  create: 'addNewEvent'
+  create: 'addNewEvent',
+  declineBtn: 'decline',
+  acceptBtn: 'accept'
 }
 
 export const notificationEl = {
@@ -252,4 +254,12 @@ export const collapseProcess = {
 
 export const employeeAccess = {
   employeeUrl: '/employees/a.vygodchikov@syncretis.com/',
+}
+
+export const personalDevLocators = {
+  negative: 'lookBackNegative',
+  positive: 'lookBackPositive',
+  forward: 'lookForward',
+  deleteGoals: 'delete',
+  achieveBtn: 'achieve'
 }

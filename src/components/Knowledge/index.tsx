@@ -1,4 +1,3 @@
-import { BookOutlined, ContainerOutlined } from '@ant-design/icons'
 import React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import Bookmarks from '../Bookmarks/BookmarksPage'
@@ -10,13 +9,11 @@ import PageHeader from '../UI/PageHeader'
 const tabs = [
   {
     title: 'Bookmarks',
-    icon: <BookOutlined />,
     key: 'bookmarks',
     body: <Bookmarks />,
   },
   {
     title: 'Files',
-    icon: <ContainerOutlined />,
     key: 'files',
     body: <Files />,
   },

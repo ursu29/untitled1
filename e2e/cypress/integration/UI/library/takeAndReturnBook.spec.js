@@ -27,9 +27,9 @@ describe('take return book', () => {
         cy.mockResponse(['getBooks'], {data: {books: [bookObj]}})
         cy.visit('/library')
         ;['Return', 'Take'].forEach(el => {
-            cy.getElement('takeButton').click()
+            cy.getId('action').click()
             cy.get(popUp.button).contains('Yes').click()
-            cy.getElement('takeButton').should('have.text', el)
+            cy.getId('action').should('have.text', el)
         })
     })
 })

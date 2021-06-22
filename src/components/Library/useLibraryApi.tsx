@@ -8,14 +8,15 @@ import {
   useRemoveBookMutation,
   useTakeBookMutation,
 } from '../../queries/books'
+import { ID } from '../../types'
 import { CreateBookInput, UpdateBookInput } from '../../types/graphql'
 import { ArrayElement } from '../../utils/types'
 
 export type Books = GetBooksQuery['books']
 export type Book = ArrayElement<Books>
 
-export const useLibraryApi = () => {
-  const { data, loading: dataLoading } = useGetBooksQuery()
+export const useLibraryApi = (skills?: ID[]) => {
+  const { data, loading: dataLoading } = useGetBooksQuery({ variables: { skills } })
   const [updateBook, { loading: updatingInProgress }] = useUpdateBookMutation({
     onError: message.error,
   })

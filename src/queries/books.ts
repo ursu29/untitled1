@@ -18,7 +18,9 @@ export type BookResponseFragment = { __typename?: 'Book' } & Pick<
     >
   }
 
-export type GetBooksQueryVariables = Types.Exact<{ [key: string]: never }>
+export type GetBooksQueryVariables = Types.Exact<{
+  skills?: Types.Maybe<Array<Types.Scalars['ID']> | Types.Scalars['ID']>
+}>
 
 export type GetBooksQuery = { __typename?: 'Query' } & {
   books: Array<{ __typename?: 'Book' } & BookResponseFragment>
@@ -73,8 +75,8 @@ export const BookResponseFragmentDoc = gql`
   }
 `
 export const GetBooksDocument = gql`
-  query getBooks {
-    books {
+  query getBooks($skills: [ID!]) {
+    books(skills: $skills) {
       ...BookResponse
     }
   }
@@ -93,6 +95,7 @@ export const GetBooksDocument = gql`
  * @example
  * const { data, loading, error } = useGetBooksQuery({
  *   variables: {
+ *      skills: // value for 'skills'
  *   },
  * });
  */

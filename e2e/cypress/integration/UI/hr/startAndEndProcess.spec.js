@@ -2,7 +2,7 @@ import { skillEl, hrTool, postEl } from '../../../support/locators'
 import { popUp } from '../../../support/client/employeeData'
 import * as data from '../../../support/getData'
 
-describe('start new process', () => {
+xdescribe('start new process', () => {
   let newProcess
   let processId
 
@@ -17,6 +17,11 @@ describe('start new process', () => {
   })
   afterEach(() => {
     cy.saveLocalStorage()
+  })
+
+  after(() => {
+    cy.post(data.deleteProcess(processId), 'superUser').then(res =>
+        expect(res.body.data.deleteProcess.id).equal(processId))
   })
 
   it('create empty process', () => {
@@ -55,7 +60,6 @@ describe('start new process', () => {
   })
 
   it('Abort new process', () => {
-    cy.setToken('manager')
     cy.visit(`hr/${newProcess}`)
 
     cy.getElement(hrTool.abort).click()
@@ -63,8 +67,4 @@ describe('start new process', () => {
     cy.get(skillEl.successMes).should('be.visible')
   })
 
-  it('delete process', () => {
-    cy.post(data.deleteProcess(processId), 'superUser').then(res =>
-        expect(res.body.data.deleteProcess.id).equal(processId))
-  })
 })

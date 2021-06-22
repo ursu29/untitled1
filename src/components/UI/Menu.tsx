@@ -97,7 +97,7 @@ function PortalMenu(props: Props) {
       route: paths.CALENDAR,
       icon: <CalendarOutlined />,
       title: 'Events',
-      status: 'new',
+      // status: 'new',
     },
     {
       route: paths.ONBOARDING,
