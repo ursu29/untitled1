@@ -1,0 +1,177 @@
+export const getAgileManagers = () => ({
+  data: {
+    "employees": [
+      {
+        "id": "603f59277ae138001c21f5d6",
+        "name": "Alexander Vygodchikov",
+        "location": "TOMSK",
+        "country": null,
+        "position": "Frontend Developer",
+        "phoneNumber": "+7(999)515-99-00",
+        "email": "a.vygodchikov@syncretis.com",
+        "isMe": false,
+        "startDate": "2020-04-20",
+        "birthday": "22.06",
+        "__typename": "Employee",
+        "agileManager": {
+          "id": "603f59297ae138001c21f677",
+          "name": "Olga Zueva",
+          "location": "SAINT_PETERSBURG",
+          "country": null,
+          "position": "HR / Agile Manager",
+          "phoneNumber": "+7(905)232-28-20",
+          "email": "olga.zueva@syncretis.com",
+          "isMe": false,
+          "startDate": "2019-11-25",
+          "birthday": "24.11",
+          "__typename": "Employee"
+        }
+      },
+      {
+        "id": "603f59277ae138001c21f5d7",
+        "name": "Alan Tsagolti",
+        "location": "SAINT_PETERSBURG",
+        "country": null,
+        "position": "CEO",
+        "phoneNumber": "+7(921)999-72-79",
+        "email": "alan.tsagolti@syncretis.com",
+        "isMe": false,
+        "startDate": "2006-07-01",
+        "birthday": "24.09",
+        "__typename": "Employee",
+        "agileManager": null
+      },
+      {
+        "id": "603f59277ae138001c21f5da",
+        "name": "Alena Makrushina",
+        "location": "SAINT_PETERSBURG",
+        "country": null,
+        "position": "Head of Operations",
+        "phoneNumber": "+7(965)007-33-22",
+        "email": "alena.makrushina@syncretis.com",
+        "isMe": false,
+        "startDate": "2013-06-27",
+        "birthday": "18.04",
+        "__typename": "Employee",
+        "agileManager": {
+          "id": "603f59297ae138001c21f652",
+          "name": "Ksenia Ermolaeva",
+          "location": "TOMSK",
+          "country": null,
+          "position": "Middle UX/UI Designer",
+          "phoneNumber": "+7(952)154-08-97",
+          "email": "ksenia.ermolaeva@syncretis.com",
+          "isMe": false,
+          "startDate": "2018-09-10",
+          "birthday": "21.04",
+          "__typename": "Employee"
+        }
+      },
+      {
+        "id": "603f59277ae138001c21f5e1",
+        "name": "Alexander Kolesnikov",
+        "location": "SAINT_PETERSBURG",
+        "country": null,
+        "position": "Senior .NET Developer",
+        "phoneNumber": "+7(921)417-86-29",
+        "email": "alexander.kolesnikov@syncretis.com",
+        "isMe": false,
+        "startDate": "2013-03-22",
+        "birthday": "11.07",
+        "__typename": "Employee",
+        "agileManager": {
+          "id": "603f59277ae138001c21f5da",
+          "name": "Alena Makrushina",
+          "location": "SAINT_PETERSBURG",
+          "country": null,
+          "position": "Head of Operations",
+          "phoneNumber": "+7(965)007-33-22",
+          "email": "alena.makrushina@syncretis.com",
+          "isMe": false,
+          "startDate": "2013-06-27",
+          "birthday": "18.04",
+          "__typename": "Employee"
+        }
+      },
+      {
+        "id": "603f59277ae138001c21f5f2",
+        "name": "Alexey Osipov",
+        "location": "SAINT_PETERSBURG",
+        "country": null,
+        "position": "Senior Quantitative Mathematician \\ Scrum Master",
+        "phoneNumber": "+7(921)360-08-77",
+        "email": "alexey.osipov@syncretis.com",
+        "isMe": false,
+        "startDate": "2018-01-22",
+        "birthday": "11.10",
+        "__typename": "Employee",
+        "agileManager": {
+          "id": "603f59277ae138001c21f5da",
+          "name": "Alena Makrushina",
+          "location": "SAINT_PETERSBURG",
+          "country": null,
+          "position": "Head of Operations",
+          "phoneNumber": "+7(965)007-33-22",
+          "email": "alena.makrushina@syncretis.com",
+          "isMe": false,
+          "startDate": "2013-06-27",
+          "birthday": "18.04",
+          "__typename": "Employee"
+        }
+      },
+
+      {
+        "id": "603f59287ae138001c21f621",
+        "name": "Egor Maleev",
+        "location": "SAINT_PETERSBURG",
+        "country": null,
+        "position": "Scrum Master / Senior Java Developer",
+        "phoneNumber": "+7(904)600-20-34",
+        "email": "egor.maleev@syncretis.com",
+        "isMe": false,
+        "startDate": "2016-10-10",
+        "birthday": "21.06",
+        "__typename": "Employee",
+        "agileManager": {
+          "id": "603f59277ae138001c21f5da",
+          "name": "Alena Makrushina",
+          "location": "SAINT_PETERSBURG",
+          "country": null,
+          "position": "Head of Operations",
+          "phoneNumber": "+7(965)007-33-22",
+          "email": "alena.makrushina@syncretis.com",
+          "isMe": false,
+          "startDate": "2013-06-27",
+          "birthday": "18.04",
+          "__typename": "Employee"
+        }
+      },
+      {
+        "id": "603f59287ae138001c21f623",
+        "name": "Ekaterina Cherednik",
+        "location": "TOMSK",
+        "country": null,
+        "position": "Middle Manual QA",
+        "phoneNumber": "+7(923)404-16-84",
+        "email": "ekaterina.cherednik@syncretis.com",
+        "isMe": false,
+        "startDate": "2018-09-03",
+        "birthday": "06.07",
+        "__typename": "Employee",
+        "agileManager": {
+          "id": "603f59297ae138001c21f662",
+          "name": "Mikhail Mordvintsev",
+          "location": "SAINT_PETERSBURG",
+          "country": null,
+          "position": "Agile Manager",
+          "phoneNumber": "+7(982)570-51-22",
+          "email": "mikhail.mordvintsev@syncretis.com",
+          "isMe": false,
+          "startDate": "2015-11-23",
+          "birthday": "14.05",
+          "__typename": "Employee"
+        }
+      }
+    ]
+  }
+})

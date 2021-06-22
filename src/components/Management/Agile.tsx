@@ -46,10 +46,9 @@ export default function Agile() {
   const employees = data?.employees
 
   // Get all projects
-  const { data: projectsData } =
-    useQuery<{
-      projects: (ProjectDetails & { employees: { id: string }[] })[]
-    }>(getProjects)
+  const { data: projectsData } = useQuery<{
+    projects: (ProjectDetails & { employees: { id: string }[] })[]
+  }>(getProjects)
 
   // Parse agile managers from employees
   const agileManagers = employees
@@ -136,7 +135,7 @@ export default function Agile() {
   )
 
   return (
-    <div style={{ paddingTop: '16px' }}>
+    <div style={{ paddingTop: '16px' }} data-cy="agile">
       {loading && (
         <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
           <Spin />
