@@ -1,4 +1,7 @@
 export const query = {
+  updateHobbyPost: 'mutation updateHobbyPost($input: UpdateHobbyPostInput!) { updateHobbyPost(input: $input) { ...HobbyPostBase __typename }} fragment HobbyPostBase on HobbyPost { id title body createdAt createdBy { id name email __typename } hobbies { id name __typename } language __typename}',
+  createHobbyPost: 'mutation createHobbyPost($input: CreateHobbyPostInput!) { createHobbyPost(input: $input) { ...HobbyPostBase __typename }} fragment HobbyPostBase on HobbyPost { id title body createdAt createdBy { id name email __typename } hobbies { id name __typename } language __typename}',
+  getHobbyPosts: 'query getHobbyPosts($input: HobbyPostFilterInput) { hobbyPosts(input: $input) { ...HobbyPostBase __typename }} fragment HobbyPostBase on HobbyPost { id title body createdAt createdBy { id name email __typename } hobbies { id name __typename } language __typename}',
   acceptDevRel: 'mutation acceptDevrel($id: ID!) {acceptDevrel(id: $id) {id __typename}}',
   getDevrels: 'query getDevrels($type: String!) { devrels(type: $type) { id type title link resource dateStart dateEnd employee { id email name __typename } isCompleted isDraft skills { id name __typename } __typename }}',
   deleteDevrel: 'mutation deleteDevrel($id: ID!) {deleteDevrel(id: $id) {id __typename}}',

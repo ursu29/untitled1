@@ -22,7 +22,11 @@ export const CreateHobbyPostModal = ({ refetchQueries }: Props) => {
     <Drawer
       size="large"
       drawerLabel="Create a new post"
-      toggler={<Button type="primary">New post</Button>}
+      toggler={
+        <Button type="primary" dataCy="createPost">
+          New post
+        </Button>
+      }
       content={
         <HobbyPostForm
           loading={loading}

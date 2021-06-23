@@ -43,6 +43,24 @@ export const proposeDevRelEvent = obj => ({
   query: query.proposeDevRelEvent,
 })
 
+export const getHobbyPosts = obj => ({
+  operationName: 'getHobbyPosts',
+  variables: {input: {...obj}},
+  query: query.getHobbyPosts,
+})
+
+export const updateHobbyPost = obj => ({
+  operationName: 'updateHobbyPost',
+  variables: {input: {...obj}},
+  query: query.updateHobbyPost,
+})
+
+export const createHobbyPost = obj => ({
+  operationName: 'createHobbyPost',
+  variables: {input: {...obj}},
+  query: query.createHobbyPost,
+})
+
 export const acceptDevRel = id => ({
   operationName: 'acceptDevrel',
   variables: {id},
