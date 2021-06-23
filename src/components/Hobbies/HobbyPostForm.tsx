@@ -15,10 +15,6 @@ type FormFields = {
   body: string
   hobbies: Pick<Hobby, 'id' | 'name'>[]
   isTranslated: boolean
-  images?: any
-  titleImage?: any
-  backgroundImage?: any
-  foregroundImage?: any
 }
 
 type SubmitValues = {
@@ -26,10 +22,6 @@ type SubmitValues = {
   body: string
   hobbies: string[]
   language: Language
-  images?: any
-  titleImage?: any
-  backgroundImage?: any
-  foregroundImage?: any
 }
 
 type Props = {
@@ -61,12 +53,6 @@ const HobbyPostForm = ({ post, loading, onSubmit }: Props) => {
         title: values.title,
         body: values.body,
         hobbies: values.hobbies.map(h => h.id),
-        titleImage: values.titleImage?.[0]?.id || values.titleImage?.[0]?.response?.[0]?.id,
-        backgroundImage:
-          values.backgroundImage?.[0]?.id || values.backgroundImage?.[0]?.response?.[0]?.id,
-        foregroundImage:
-          values.foregroundImage?.[0]?.id || values.foregroundImage?.[0]?.response?.[0]?.id,
-        images: values.images?.map((i: any) => i?.id || i.response?.[0]?.id),
         language: values.isTranslated ? Language.En : Language.Ru,
       },
       () => {
