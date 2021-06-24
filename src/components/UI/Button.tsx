@@ -11,7 +11,6 @@ interface Props extends PropsWithChildren<any> {
   style?: any
   disabled?: boolean
   id?: string
-  dataCy?: string
 }
 
 export default function PortalButton({
@@ -24,7 +23,7 @@ export default function PortalButton({
   shape,
   disabled,
   id,
-  dataCy,
+  'data-cy': dataCy,
 }: Props) {
   return (
     <Button
