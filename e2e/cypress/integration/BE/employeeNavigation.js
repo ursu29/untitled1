@@ -115,7 +115,6 @@ describe(`Check employee matrices`, () => {
       const firstSkill = el.body.skills[0]
       const { skill } = firstSkill
 
-      cy.compareObjectsKeys(firstSkill, skills)
       cy.compareObjectsKeys(skill, skillData)
       expect(firstSkill.__typename).equal(skills.__typename)
       expect(skill.__typename).equal(skillData.__typename)
