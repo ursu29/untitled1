@@ -2,7 +2,7 @@ import {matrix, notificationsText, skillEl as feedbackEl} from '../../../support
 import {deleteReviewer, getEmployee} from "../../../support/getData";
 import {addNewReviewer} from "../../../support/complexLocators";
 import {email} from "../../../support/client/employeeData";
-import { getProfileTabUrl } from '../../../support/utils'
+import {getTabUrl} from '../../../support/utils'
 
 describe('add reviewer to SEF by yourself (sef)', () => {
     let employeeData
@@ -19,7 +19,7 @@ describe('add reviewer to SEF by yourself (sef)', () => {
     })
 
     it('cannot to add reviewer', () => {
-        cy.visit(getProfileTabUrl('evaluation'))
+        cy.visit(getTabUrl('evaluation'))
         cy.addRole()
 
         cy.getResponse(['getEmployees'], 'alias')

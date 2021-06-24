@@ -1,6 +1,6 @@
 import {email} from '../../support/client/employeeData'
 import { checkKeyValueExist } from '../../support/complexLocators'
-import { checkTwoString, getProfileTabUrl } from '../../support/utils'
+import {checkTwoString, getTabUrl} from '../../support/utils'
 import { query } from '../../fixtures/query'
 import {getEmployee} from "../../support/getData";
 
@@ -21,7 +21,7 @@ describe('Check EmployeeName response', () => {
 
   it('getEmployeeName response', () => {
     cy.getResponse([OPERATION_NAME], 'alias')
-    cy.visit(getProfileTabUrl('employees'))
+    cy.visit(getTabUrl('employees'))
 
     cy.wait(`@alias`).then(val => {
       request = val.request.body

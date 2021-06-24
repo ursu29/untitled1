@@ -1,6 +1,6 @@
 import { matrix } from '../../../fixtures/matrix'
 import { experiences } from '../../../fixtures/experience'
-import { getProfileTabUrl } from '../../../support/utils'
+import {getTabUrl} from '../../../support/utils'
 
 describe('general matrix looks good', () => {
   before(() => {
@@ -10,7 +10,7 @@ describe('general matrix looks good', () => {
     cy.mockResponse(['getEmployeeExperiences'], experiences())
     cy.mockResponse(['getEmployeeMatrices'], matrix())
 
-    cy.visit(getProfileTabUrl('matrices'))
+    cy.visit(getTabUrl('matrices'))
 
   })
   it('check all matrix', () => {

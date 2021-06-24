@@ -1,4 +1,4 @@
-import { getProfileTabUrl } from '../../../support/utils'
+import {getTabUrl} from '../../../support/utils'
 import {
   attachMatrixToEmployee,
   deleteMatrixProposal,
@@ -14,7 +14,7 @@ describe('create proposal by employee', () => {
 
   before(() => {
     cy.setToken('employee')
-    cy.visit(getProfileTabUrl('matrices'))
+    cy.visit(getTabUrl('matrices'))
 
     cy.post(getAllMatrices())
       .then(req => matrixData = req.body.data.matrices

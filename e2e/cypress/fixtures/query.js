@@ -1,4 +1,5 @@
 export const query = {
+  getScrumMasters: '{ projects { ...ProjectDetails scrumMasters { ...EmployeeDetails __typename } employees { id __typename } __typename }} fragment ProjectDetails on Project { id name code description __typename} fragment EmployeeDetails on Employee { id name location country position phoneNumber email isMe startDate birthday __typename}',
   acceptDevRel: 'mutation acceptDevrel($id: ID!) {acceptDevrel(id: $id) {id __typename}}',
   getDevrels: 'query getDevrels($type: String!) { devrels(type: $type) { id type title link resource dateStart dateEnd employee { id email name __typename } isCompleted isDraft skills { id name __typename } __typename }}',
   deleteDevrel: 'mutation deleteDevrel($id: ID!) {deleteDevrel(id: $id) {id __typename}}',

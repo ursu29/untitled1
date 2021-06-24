@@ -1,12 +1,11 @@
 import {getBoardMock} from "../../../fixtures/board";
-
-const {getHrTabUrl} = require("../../../support/utils");
+import {getTabUrl} from "../../../support/utils";
 
 describe('hr boards looks good', () => {
     before(() => {
         cy.setToken('manager')
         cy.mockResponse(['processExecutions', 'id', 'process'], getBoardMock())
-        cy.visit(getHrTabUrl('board'))
+        cy.visit(getTabUrl('board', 'hr'))
 
         cy.get('.ant-skeleton').should('not.exist')
     })

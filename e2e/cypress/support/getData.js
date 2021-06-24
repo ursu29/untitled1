@@ -43,6 +43,11 @@ export const proposeDevRelEvent = obj => ({
   query: query.proposeDevRelEvent,
 })
 
+export const getScrumMasters = () => ({
+  variables: {},
+  query: query.getScrumMasters,
+})
+
 export const acceptDevRel = id => ({
   operationName: 'acceptDevrel',
   variables: {id},

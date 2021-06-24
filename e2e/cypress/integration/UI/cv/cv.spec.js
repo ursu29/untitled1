@@ -1,7 +1,7 @@
 import {email} from '../../../support/client/employeeData'
 import {getCV, getEmployee, updateCV} from '../../../support/getData'
 import {skillEl} from "../../../support/locators";
-import { getProfileTabUrl } from '../../../support/utils'
+import {getTabUrl} from '../../../support/utils'
 
 const request = (id, jobId) => ({
     employee: id,
@@ -29,7 +29,7 @@ describe('create cv (cv)', () => {
                 jobs = val.body.data.employeeByEmail.curriculumVitae
                 cy.post(updateCV(request( employeeData.id, jobs.id)))
 
-                cy.visit(getProfileTabUrl('cv'))
+                cy.visit(getTabUrl('cv'))
             })
         })
     })
