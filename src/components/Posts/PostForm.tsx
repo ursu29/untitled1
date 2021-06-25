@@ -3,14 +3,15 @@ import { Button, Col, Form, Input, Row, Switch, Upload } from 'antd'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { GATEWAY } from '../../config'
-import { Post } from '../../types'
+import { Post as PostType } from '../../types'
 import TagSelect from '../Tags/TagSelect'
 import MarkdownEditor from '../UI/MarkdownEditor'
 import PostFormLocations from './PostFormLocations'
-import PostPrewiew from './PostPreview'
+import PostPreview from './PostPreview'
+import Post from './Post'
 
 type PostPick = Partial<
-  Pick<Post, 'title' | 'body' | 'isTranslated' | 'locations'> & {
+  Pick<PostType, 'title' | 'body' | 'isTranslated' | 'locations'> & {
     tags: any
     images: any
   }
@@ -101,12 +102,14 @@ export default function PostForm({ values: post, loading, onSubmit }: Props) {
       }}
     >
       <Form.Item shouldUpdate={preview} noStyle>
-        <PostPrewiew
-          post={form.getFieldsValue()}
+        <PostPreview
           handlePublish={handlePublish}
           handleReturn={() => setPreview(false)}
           visible={preview && !loading}
-        />
+        >
+          {' '}
+          <Post isPreview post={form.getFieldsValue()} />
+        </PostPreview>
       </Form.Item>
       <Form.Item
         label="Title"

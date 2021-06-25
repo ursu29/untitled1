@@ -288,6 +288,13 @@ export type CreateHobbyInput = {
   description?: Maybe<Scalars['String']>
 }
 
+export type CreateHobbyPostInput = {
+  title: Scalars['String']
+  body: Scalars['String']
+  hobbies: Array<Scalars['ID']>
+  language: Language
+}
+
 export type CreateMatrixGradeInput = {
   matrixId: Scalars['ID']
   title: Scalars['String']
@@ -898,6 +905,26 @@ export type Hobby = {
   members: Array<Employee>
 }
 
+export type HobbyPost = {
+  __typename?: 'HobbyPost'
+  id: Scalars['ID']
+  title: Scalars['String']
+  body: Scalars['String']
+  slug: Scalars['String']
+  createdAt?: Maybe<Scalars['String']>
+  createdBy?: Maybe<Employee>
+  hobbies: Array<Hobby>
+  language: Language
+}
+
+export type HobbyPostFilterInput = {
+  first?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['ID']>
+  search?: Maybe<Scalars['String']>
+  hobbies?: Maybe<Array<Scalars['ID']>>
+  language?: Maybe<Language>
+}
+
 export enum Importance {
   High = 'HIGH',
   Normal = 'NORMAL',
@@ -1066,6 +1093,8 @@ export type Mutation = {
   updateHobby?: Maybe<Hobby>
   joinHobby?: Maybe<Hobby>
   updateEmployeeHobbies?: Maybe<Employee>
+  createHobbyPost?: Maybe<HobbyPost>
+  updateHobbyPost?: Maybe<HobbyPost>
   attachMatrixToEmployee?: Maybe<Matrix>
   detachMatrixFromEmployee?: Maybe<Matrix>
   createMatrix?: Maybe<Matrix>
@@ -1327,6 +1356,14 @@ export type MutationJoinHobbyArgs = {
 
 export type MutationUpdateEmployeeHobbiesArgs = {
   input: UpdateEmployeeHobbiesInput
+}
+
+export type MutationCreateHobbyPostArgs = {
+  input: CreateHobbyPostInput
+}
+
+export type MutationUpdateHobbyPostArgs = {
+  input: UpdateHobbyPostInput
 }
 
 export type MutationAttachMatrixToEmployeeArgs = {
@@ -1818,6 +1855,8 @@ export type Query = {
   guilds?: Maybe<Array<Maybe<Guild>>>
   hobbies: Array<Hobby>
   hobby?: Maybe<Hobby>
+  hobbyPosts: Array<HobbyPost>
+  hobbyPost?: Maybe<HobbyPost>
   levels?: Maybe<Array<Level>>
   locations?: Maybe<Array<Location>>
   matrices?: Maybe<Array<Maybe<Matrix>>>
@@ -1979,6 +2018,14 @@ export type QueryGuildArgs = {
 }
 
 export type QueryHobbyArgs = {
+  id: Scalars['ID']
+}
+
+export type QueryHobbyPostsArgs = {
+  input?: Maybe<HobbyPostFilterInput>
+}
+
+export type QueryHobbyPostArgs = {
   id: Scalars['ID']
 }
 
@@ -2278,6 +2325,14 @@ export type UpdateHobbyInput = {
   id: Scalars['ID']
   name?: Maybe<Scalars['String']>
   description?: Maybe<Scalars['String']>
+}
+
+export type UpdateHobbyPostInput = {
+  id: Scalars['ID']
+  title?: Maybe<Scalars['String']>
+  body?: Maybe<Scalars['String']>
+  hobbies?: Maybe<Array<Scalars['ID']>>
+  language: Language
 }
 
 export type UpdateMatricesCustomFieldsInput = {

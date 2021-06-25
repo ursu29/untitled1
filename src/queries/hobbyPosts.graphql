@@ -1,0 +1,40 @@
+fragment HobbyPostBase on HobbyPost {
+  id
+  title
+  body
+  createdAt
+  createdBy {
+    id
+    name
+    email
+  }
+  hobbies {
+    id
+    name
+  }
+  language
+}
+
+query getHobbyPosts($input: HobbyPostFilterInput) {
+  hobbyPosts(input: $input) {
+    ...HobbyPostBase
+  }
+}
+
+query getHobbyPost($id: ID!) {
+  hobbyPost(id: $id) {
+    ...HobbyPostBase
+  }
+}
+
+mutation createHobbyPost($input: CreateHobbyPostInput!) {
+  createHobbyPost(input: $input) {
+    ...HobbyPostBase
+  }
+}
+
+mutation updateHobbyPost($input: UpdateHobbyPostInput!) {
+  updateHobbyPost(input: $input) {
+    ...HobbyPostBase
+  }
+}

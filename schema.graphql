@@ -269,6 +269,13 @@ input CreateHobbyInput {
   description: String
 }
 
+input CreateHobbyPostInput {
+  title: String!
+  body: String!
+  hobbies: [ID!]!
+  language: LANGUAGE!
+}
+
 input CreateMatrixGradeInput {
   matrixId: ID!
   title: String!
@@ -844,6 +851,25 @@ type Hobby {
   members: [Employee!]!
 }
 
+type HobbyPost {
+  id: ID!
+  title: String!
+  body: String!
+  slug: String!
+  createdAt: String
+  createdBy: Employee
+  hobbies: [Hobby!]!
+  language: LANGUAGE!
+}
+
+input HobbyPostFilterInput {
+  first: Int
+  after: ID
+  search: String
+  hobbies: [ID!]
+  language: LANGUAGE
+}
+
 enum IMPORTANCE {
   HIGH
   NORMAL
@@ -1004,6 +1030,8 @@ type Mutation {
   updateHobby(input: UpdateHobbyInput!): Hobby
   joinHobby(input: JoinHobbyInput!): Hobby
   updateEmployeeHobbies(input: UpdateEmployeeHobbiesInput!): Employee
+  createHobbyPost(input: CreateHobbyPostInput!): HobbyPost
+  updateHobbyPost(input: UpdateHobbyPostInput!): HobbyPost
   attachMatrixToEmployee(input: AttachMatrixToEmployeeInput): Matrix
   detachMatrixFromEmployee(input: DetachMatrixFromEmployeeInput): Matrix
   createMatrix(input: CreateMatrixInput): Matrix
@@ -1284,6 +1312,8 @@ type Query {
   guilds: [Guild]
   hobbies: [Hobby!]!
   hobby(id: ID!): Hobby
+  hobbyPosts(input: HobbyPostFilterInput): [HobbyPost!]!
+  hobbyPost(id: ID!): HobbyPost
   levels: [LEVEL!]
   locations: [LOCATION!]
   matrices(input: MatricesInput): [Matrix]
@@ -1527,6 +1557,14 @@ input UpdateHobbyInput {
   id: ID!
   name: String
   description: String
+}
+
+input UpdateHobbyPostInput {
+  id: ID!
+  title: String
+  body: String
+  hobbies: [ID!]
+  language: LANGUAGE!
 }
 
 input UpdateMatricesCustomFieldsInput {

@@ -28,14 +28,14 @@ const PATHS = {
   MANAGEMENT: '/management',
   DEVREL: '/devrel',
   GAMES: '/games',
-  HOBBIES: '/hobbies',
+  HOBBIES: '/hobby',
 }
 
 export const getEmployeeLink = (email: Employee['email']) => PATHS.EMPLOYEES + '/' + email
 export const getProjectLink = (code: Project['code']) => PATHS.PROJECTS + '/' + code
 export const getGuildLink = (code: Project['code']) => PATHS.GUILDS + '/' + code
 export const getSkillLink = (id: Skill['id']) => PATHS.SKILLS + '/' + id
-export const getHobbyLink = (id: Hobby['id']) => PATHS.HOBBIES + '/' + id
+export const getHobbyLink = (id: Hobby['id']) => PATHS.HOBBIES + '/list/' + id
 export const getMatrixLink = (id: Matrix['id']) => PATHS.MATRICES + '/' + id
 export const getPostLink = (id: Post['id']) => PATHS.POSTS + '/' + id
 export const getProcessLink = (id: Process['id']) => PATHS.PROCESSES + '/' + id
