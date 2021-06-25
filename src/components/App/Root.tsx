@@ -31,7 +31,7 @@ export default function Root() {
   }
 
   if (error) {
-    return <NotAnswering />
+    return <NotAnswering error={error} />
   }
 
   return <NotAuthorized />

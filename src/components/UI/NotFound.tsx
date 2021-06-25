@@ -7,10 +7,10 @@ function NotFound({ history, message }: RouteComponentProps & { message?: string
     <div
       style={{
         display: 'flex',
-        alignItems: 'center',
         justifyContent: 'center',
-        height: '100%',
-        padding: 16,
+        alignItems: 'center',
+        height: '100vh',
+        width: '100vw',
       }}
     >
       <Result

@@ -34,6 +34,7 @@ export default function App() {
   const [errorCode, setErrorCode] = useState<number>()
 
   const errorLink = onError(({ graphQLErrors, networkError }) => {
+    console.log({ graphQLErrors, networkError })
     if (graphQLErrors)
       graphQLErrors.forEach(error => {
         if (error.extensions?.code === 'UNAUTHENTICATED') {
