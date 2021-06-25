@@ -14,6 +14,7 @@ import EmployeeManager from './EmployeeManager'
 import EmployeeProjects from './EmployeeProjects'
 import UpdateEmployee from './UpdateEmployee'
 import getLocationName from '../../utils/getLocationName'
+import { GATEWAY } from '../../config'
 
 const { Text, Title } = Typography
 
@@ -82,6 +83,16 @@ export default function PortalEmployee({ employee }: Props) {
         </Card>
         {mobile && <Description style={{ marginBottom: 10 }}>{employeeDetails}</Description>}
         <div>
+          {employee?.isMe && (
+            <Button
+              onClick={() => {
+                window.location.href = `${GATEWAY}/logout`
+              }}
+              style={{ marginRight: '8px' }}
+            >
+              Sign out
+            </Button>
+          )}
           <a
             href={`https://outlook.office.com/owa/?path=/mail/action/compose&to=${employee.email}`}
             target="_blank"

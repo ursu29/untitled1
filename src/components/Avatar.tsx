@@ -1,10 +1,10 @@
 import { Avatar, Tooltip } from 'antd'
 import { AvatarProps } from 'antd/es/avatar'
 import React, { useEffect, useState, useRef } from 'react'
-import { useAccessToken } from '../utils/useToken'
 import { Employee } from '../types'
 import { UserOutlined } from '@ant-design/icons'
 import { EmployeeIDB } from '../utils/IndexedDB'
+import { GATEWAY } from '../config'
 
 const options = {
   root: null,
@@ -34,7 +34,6 @@ export default function PortalAvatar({
 }: Props) {
   const resolution = highResolution ? 'high' : 'low'
   const storedAvatar = avatars[resolution]?.[employee?.email]
-  const { token } = useAccessToken()
   const [src, setSrc] = useState<string>(storedAvatar)
   const [showPlaceholder, setShowPlaceholder] = useState(false)
 
@@ -43,7 +42,6 @@ export default function PortalAvatar({
 
   useEffect(() => {
     const employeeIDB = new EmployeeIDB()
-    if (!token) return
     if (storedAvatar) {
       // fix for cases when email was changed
       setSrc(storedAvatar)
@@ -57,7 +55,7 @@ export default function PortalAvatar({
         ? `users/${employee?.email}/photo/$value`
         : `users/${employee?.email}/photos/120x120/$value`
 
-    const url = `https://graph.microsoft.com/v1.0/${path}`
+    const url = `${GATEWAY}/msgraph?path=${path}&response_type=arraybuffer`
 
     observer.current = new IntersectionObserver(async (entries, observer) => {
       for (const entry of entries) {
@@ -88,12 +86,17 @@ export default function PortalAvatar({
             return
           } else {
             requests[url] = new Promise(resolve => {
-              fetch(url, { headers: { Authorization: `Bearer ${token}` } })
+              fetch(url, {
+                headers: {
+                  'Content-Type': 'arraybuffer',
+                },
+              })
                 .then(data => {
                   if (data.statusText === 'OK') {
-                    return data.blob()
-                  } else throw new Error('Catched error')
+                    return data.arrayBuffer()
+                  } else throw new Error('Image fetch error')
                 })
+                .then(data => new Blob([data]))
                 .then(blob => {
                   const src = URL.createObjectURL(blob)
                   avatars[resolution][employee?.email] = src
@@ -119,7 +122,7 @@ export default function PortalAvatar({
     return () => {
       observer.current?.disconnect()
     }
-  }, [token, resolution, employee, storedAvatar])
+  }, [resolution, employee, storedAvatar])
 
   const avatar = (
     <Avatar

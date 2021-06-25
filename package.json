@@ -15,9 +15,7 @@
     "graphql": "^15.5.0",
     "graphql-tag": "^2.12.4",
     "istanbul-lib-coverage": "^3.0.0",
-    "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
-    "msal": "^1.4.11",
     "nyc": "^15.1.0",
     "pixi.js": "^6.0.4",
     "query-string": "^6.9.0",
@@ -90,7 +88,6 @@
     "@types/file-saver": "^2.0.2",
     "@types/jest": "^26.0.23",
     "@types/jquery": "^3.5.5",
-    "@types/jsonwebtoken": "^8.5.1",
     "@types/node": "^14.11.8",
     "@types/react": "^17.0.5",
     "@types/react-beautiful-dnd": "^13.0.0",
@@ -128,5 +125,6 @@
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md,graphql}": [
       "prettier --write"
     ]
-  }
+  },
+  "proxy": "http://localhost:4000/"
 }
