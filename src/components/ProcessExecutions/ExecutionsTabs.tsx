@@ -53,7 +53,11 @@ function ActiveProcesses({ processExecutions }: Props) {
       key: 'board',
       body: (
         <ProcessBoard
-          items={processExecutions.filter(i => i.status === 'RUNNING' || i.status === 'FINISHED')}
+          items={processExecutions.filter(
+            i =>
+              (i.status === 'RUNNING' || i.status === 'FINISHED') &&
+              i.process.type === 'ONBOARDING',
+          )}
         />
       ),
     },
