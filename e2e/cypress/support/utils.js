@@ -1,6 +1,4 @@
-export const getProfileTabUrl = tabName => `/profile?tab=${tabName}`
-export const getCommunityTabUrl = tabName => `/guilds/community-frontend?tab=${tabName}`
-export const getHrTabUrl = tabName => `/hr?tab=${tabName}`
+export const getTabUrl = (tabName, urlName = '/profile') => `${urlName}?tab=${tabName}`
 
 export const codeOkAndBodyNotNull = response => {
   expect(response).property('status').to.equal(200)

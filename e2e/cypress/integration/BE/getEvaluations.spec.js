@@ -5,7 +5,7 @@ import {
   evaluation,
 } from '../../support/client/selfEvaluation'
 import {email} from '../../support/client/employeeData'
-import { checkTwoString, getProfileTabUrl } from '../../support/utils'
+import {checkTwoString, getTabUrl} from '../../support/utils'
 import { query } from '../../fixtures/query'
 import {evaluate, getEmployee, getEvaluations} from "../../support/getData";
 
@@ -30,7 +30,7 @@ describe('Check getEvaluations response', () => {
       })
     })
     cy.getResponse([OPERATION_NAME], 'alias')
-    cy.visit(getProfileTabUrl('evaluation'))
+    cy.visit(getTabUrl('evaluation'))
     cy.wait(`@alias`).then(val => {
       response = val.response.body.data
       request = val.request.body

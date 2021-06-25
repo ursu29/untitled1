@@ -7,15 +7,17 @@ describe('get notification data', () => {
 
     before(() => {
         cy.setToken('employee')
-        cy.post(getNotifications()).as('notification')
         cy.post(getAllBirthdays()).then(req => {
-            req.body.data.employees.map(el => allDates.includes(el.birthday) ? allData.push(el.birthday) : null)
+
+            req.body.data.employees.map(el => allDates.toString().includes(el.birthday) ? allData.push(el) : null)
         })
     })
 
     it('get all notifications', () => {
-        cy.get('@notification').should(res => {
-            expect(allData.length).equal(res.body.data.notifications.length)
+        cy.post(getNotifications()).then(res => {
+            const count = res.body.data.notifications.filter(el => el.link.includes('employees'))
+
+            expect(allData.length).equal(count.length)
         })
     })
 })

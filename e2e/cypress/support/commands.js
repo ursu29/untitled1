@@ -5,7 +5,7 @@ import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command'
 addMatchImageSnapshotCommand({
   failureThreshold: 0.00, // threshold for entire image
   failureThresholdType: 'percent', // percent of image or number of pixels
-  customDiffConfig: { threshold: 0.0 },  // threshold for each pixel
+  customDiffConfig: { threshold: 0.5 },  // threshold for each pixel
   capture: 'viewport',  // capture viewport in screenshot
   customDiffDir: './TestReport/assets' // screenshotsFolder
 })
@@ -80,7 +80,10 @@ Cypress.Commands.add('openProfile', nameAndSurname => {
 })
 
 Cypress.Commands.add('compareObjectsKeys', (firstObj, secondObj) => {
-  Object.keys(firstObj).filter(el => expect(Object.keys(secondObj)).includes(el))
+  const compareKeys = (firstObj, secondObj) =>  Object.keys(firstObj).filter(el => expect(Object.keys(secondObj)).includes(el))
+
+  Object.keys(firstObj).filter(el =>
+      typeof el === 'object' ? compareKeys(firstObj, secondObj) : expect(Object.keys(secondObj)).includes(el))
 })
 
 Cypress.Commands.add('waitElDisappear', el => {
