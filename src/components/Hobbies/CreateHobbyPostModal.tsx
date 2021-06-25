@@ -23,7 +23,7 @@ export const CreateHobbyPostModal = ({ refetchQueries }: Props) => {
       size="large"
       drawerLabel="Create a new post"
       toggler={
-        <Button type="primary" dataCy="createPost">
+        <Button type="primary" data-cy="createPost">
           New post
         </Button>
       }
