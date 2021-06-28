@@ -68,16 +68,19 @@ const icons = [
     key: 1,
     icon: <Rate1 />,
     description: 'Needs Improvement',
+    dataCy: 'needs',
   },
   {
     key: 2,
     icon: <Rate2 />,
     description: 'Meets requirements',
+    dataCy: 'meets',
   },
   {
     key: 3,
     icon: <Rate3 />,
     description: 'Exceeds requirements',
+    dataCy: 'exceeds',
   },
 ] as const
 
@@ -98,8 +101,9 @@ export const EvaluationRate = (props: {
 }) => {
   return (
     <div>
-      {icons.map(({ key, icon }) => (
+      {icons.map(({ key, icon, dataCy }) => (
         <RateButton
+          data-cy={dataCy}
           key={key}
           type="button"
           onClick={() => {
