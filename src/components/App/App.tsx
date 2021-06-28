@@ -10,7 +10,7 @@ import React, { useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { YMInitializer } from 'react-yandex-metrika'
 import { GATEWAY } from '../../config'
-import NotAuthorized from '../UI/NotAuthorized'
+import SplashScreen from '../UI/SplashScreen'
 import Metrics from './Metrics'
 import Root from './Root'
 
@@ -56,7 +56,8 @@ export default function App() {
   })
 
   if (errorCode === 401) {
-    return <NotAuthorized />
+    window.location.href = `${GATEWAY}/auth/microsoft`
+    return <SplashScreen />
   }
 
   return (
