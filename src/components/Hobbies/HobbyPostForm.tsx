@@ -8,7 +8,7 @@ import { HobbyPostBaseFragment } from '../../queries/hobbyPosts'
 import MarkdownEditor from '../UI/MarkdownEditor'
 import HobbySelect from './HobbySelect'
 import PostPreview from '../Posts/PostPreview'
-import HobbyPost from './HobbyPost'
+import { HobbyPostPreview } from './HobbyPost'
 
 type FormFields = {
   title: string
@@ -79,7 +79,7 @@ const HobbyPostForm = ({ post, loading, onSubmit }: Props) => {
           handleReturn={() => setPreview(false)}
           visible={preview && !loading}
         >
-          <HobbyPost post={form.getFieldsValue()} />
+          <HobbyPostPreview post={form.getFieldsValue()} />
         </PostPreview>
       </Form.Item>
       <Form.Item

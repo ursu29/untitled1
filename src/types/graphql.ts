@@ -915,6 +915,16 @@ export type HobbyPost = {
   createdBy?: Maybe<Employee>
   hobbies: Array<Hobby>
   language: Language
+  comments?: Maybe<Array<HobbyPostComment>>
+  editable: Scalars['Boolean']
+}
+
+export type HobbyPostComment = {
+  __typename?: 'HobbyPostComment'
+  id: Scalars['ID']
+  body?: Maybe<Scalars['String']>
+  createdAt?: Maybe<Scalars['String']>
+  createdBy?: Maybe<Employee>
 }
 
 export type HobbyPostFilterInput = {
@@ -923,6 +933,11 @@ export type HobbyPostFilterInput = {
   search?: Maybe<Scalars['String']>
   hobbies?: Maybe<Array<Scalars['ID']>>
   language?: Maybe<Language>
+}
+
+export type HobbyPostReplyInput = {
+  postId: Scalars['ID']
+  body: Scalars['String']
 }
 
 export enum Importance {
@@ -1095,6 +1110,7 @@ export type Mutation = {
   updateEmployeeHobbies?: Maybe<Employee>
   createHobbyPost?: Maybe<HobbyPost>
   updateHobbyPost?: Maybe<HobbyPost>
+  replyHobbyPost?: Maybe<HobbyPost>
   attachMatrixToEmployee?: Maybe<Matrix>
   detachMatrixFromEmployee?: Maybe<Matrix>
   createMatrix?: Maybe<Matrix>
@@ -1364,6 +1380,10 @@ export type MutationCreateHobbyPostArgs = {
 
 export type MutationUpdateHobbyPostArgs = {
   input: UpdateHobbyPostInput
+}
+
+export type MutationReplyHobbyPostArgs = {
+  input: HobbyPostReplyInput
 }
 
 export type MutationAttachMatrixToEmployeeArgs = {

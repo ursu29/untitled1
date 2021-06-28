@@ -8,15 +8,33 @@ import * as Types from '../types/graphql'
 import { gql } from '@apollo/client'
 import * as Apollo from '@apollo/client'
 const defaultOptions = {}
-export type HobbyPostBaseFragment = { __typename?: 'HobbyPost' } & Pick<
+export type HobbyPostCommentBaseFragment = { __typename?: 'HobbyPostComment' } & Pick<
+  Types.HobbyPostComment,
+  'id' | 'body' | 'createdAt'
+> & {
+    createdBy?: Types.Maybe<
+      { __typename?: 'Employee' } & Pick<Types.Employee, 'id' | 'name' | 'email'>
+    >
+  }
+
+export type HobbyPostPreviewFragment = { __typename?: 'HobbyPost' } & Pick<
   Types.HobbyPost,
-  'id' | 'title' | 'body' | 'createdAt' | 'language'
+  'title' | 'body' | 'createdAt'
 > & {
     createdBy?: Types.Maybe<
       { __typename?: 'Employee' } & Pick<Types.Employee, 'id' | 'name' | 'email'>
     >
     hobbies: Array<{ __typename?: 'Hobby' } & Pick<Types.Hobby, 'id' | 'name'>>
   }
+
+export type HobbyPostBaseFragment = { __typename?: 'HobbyPost' } & Pick<
+  Types.HobbyPost,
+  'id' | 'editable' | 'language'
+> & {
+    comments?: Types.Maybe<
+      Array<{ __typename?: 'HobbyPostComment' } & HobbyPostCommentBaseFragment>
+    >
+  } & HobbyPostPreviewFragment
 
 export type GetHobbyPostsQueryVariables = Types.Exact<{
   input?: Types.Maybe<Types.HobbyPostFilterInput>
@@ -50,9 +68,16 @@ export type UpdateHobbyPostMutation = { __typename?: 'Mutation' } & {
   updateHobbyPost?: Types.Maybe<{ __typename?: 'HobbyPost' } & HobbyPostBaseFragment>
 }
 
-export const HobbyPostBaseFragmentDoc = gql`
-  fragment HobbyPostBase on HobbyPost {
-    id
+export type ReplyHobbyPostMutationVariables = Types.Exact<{
+  input: Types.HobbyPostReplyInput
+}>
+
+export type ReplyHobbyPostMutation = { __typename?: 'Mutation' } & {
+  replyHobbyPost?: Types.Maybe<{ __typename?: 'HobbyPost' } & HobbyPostBaseFragment>
+}
+
+export const HobbyPostPreviewFragmentDoc = gql`
+  fragment HobbyPostPreview on HobbyPost {
     title
     body
     createdAt
@@ -65,8 +90,32 @@ export const HobbyPostBaseFragmentDoc = gql`
       id
       name
     }
-    language
   }
+`
+export const HobbyPostCommentBaseFragmentDoc = gql`
+  fragment HobbyPostCommentBase on HobbyPostComment {
+    id
+    body
+    createdAt
+    createdBy {
+      id
+      name
+      email
+    }
+  }
+`
+export const HobbyPostBaseFragmentDoc = gql`
+  fragment HobbyPostBase on HobbyPost {
+    id
+    ...HobbyPostPreview
+    editable
+    language
+    comments {
+      ...HobbyPostCommentBase
+    }
+  }
+  ${HobbyPostPreviewFragmentDoc}
+  ${HobbyPostCommentBaseFragmentDoc}
 `
 export const GetHobbyPostsDocument = gql`
   query getHobbyPosts($input: HobbyPostFilterInput) {
@@ -261,4 +310,49 @@ export type UpdateHobbyPostMutationResult = Apollo.MutationResult<UpdateHobbyPos
 export type UpdateHobbyPostMutationOptions = Apollo.BaseMutationOptions<
   UpdateHobbyPostMutation,
   UpdateHobbyPostMutationVariables
+>
+export const ReplyHobbyPostDocument = gql`
+  mutation replyHobbyPost($input: HobbyPostReplyInput!) {
+    replyHobbyPost(input: $input) {
+      ...HobbyPostBase
+    }
+  }
+  ${HobbyPostBaseFragmentDoc}
+`
+export type ReplyHobbyPostMutationFn = Apollo.MutationFunction<
+  ReplyHobbyPostMutation,
+  ReplyHobbyPostMutationVariables
+>
+
+/**
+ * __useReplyHobbyPostMutation__
+ *
+ * To run a mutation, you first call `useReplyHobbyPostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useReplyHobbyPostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [replyHobbyPostMutation, { data, loading, error }] = useReplyHobbyPostMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useReplyHobbyPostMutation(
+  baseOptions?: Apollo.MutationHookOptions<ReplyHobbyPostMutation, ReplyHobbyPostMutationVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<ReplyHobbyPostMutation, ReplyHobbyPostMutationVariables>(
+    ReplyHobbyPostDocument,
+    options,
+  )
+}
+export type ReplyHobbyPostMutationHookResult = ReturnType<typeof useReplyHobbyPostMutation>
+export type ReplyHobbyPostMutationResult = Apollo.MutationResult<ReplyHobbyPostMutation>
+export type ReplyHobbyPostMutationOptions = Apollo.BaseMutationOptions<
+  ReplyHobbyPostMutation,
+  ReplyHobbyPostMutationVariables
 >

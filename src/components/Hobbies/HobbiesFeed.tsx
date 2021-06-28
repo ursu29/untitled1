@@ -1,10 +1,19 @@
 import React, { useState } from 'react'
-import { Row, Col, Skeleton } from 'antd'
+import { Row, Col, Skeleton, Typography, Space } from 'antd'
+import styled from 'styled-components'
 import { useGetHobbyPostsQuery, GetHobbyPostsDocument } from '../../queries/hobbyPosts'
 import { CreateHobbyPostModal } from './CreateHobbyPostModal'
 import HobbiesFilter from './HobbiesFilter'
 import { Language } from '../../types/graphql'
 import HobbiesFeedPosts from './HobbiesPosts'
+
+const { Paragraph } = Typography
+
+const StyledHeader = styled(Space).attrs({ align: 'start' })`
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 16px;
+`
 
 const first = 5
 
@@ -35,12 +44,15 @@ const HobbiesFeed = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '0 0 16px' }}>
+      <StyledHeader>
+        <Paragraph>
+          Here is some news from our company. Please check it out ladies and gentlemen.
+        </Paragraph>
         <CreateHobbyPostModal
           key="CreateHobbyPost"
           refetchQueries={[{ query: GetHobbyPostsDocument, variables: { input: filters } }]}
         />
-      </div>
+      </StyledHeader>
       <Row gutter={24}>
         <Col xs={{ span: 24, order: 2 }} md={{ span: 17, order: 1 }}>
           <Skeleton active title paragraph={{ rows: 7 }} loading={!data?.hobbyPosts && loading}>
