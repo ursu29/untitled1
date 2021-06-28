@@ -46,9 +46,10 @@ export default function Agile() {
   const employees = data?.employees
 
   // Get all projects
-  const { data: projectsData } = useQuery<{
-    projects: (ProjectDetails & { employees: { id: string }[] })[]
-  }>(getProjects)
+  const { data: projectsData } =
+    useQuery<{
+      projects: (ProjectDetails & { employees: { id: string }[] })[]
+    }>(getProjects)
 
   // Parse agile managers from employees
   const agileManagers = employees
