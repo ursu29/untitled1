@@ -1,7 +1,8 @@
 import { UploadOutlined } from '@ant-design/icons'
 import { UploadChangeParam } from 'antd/lib/upload/interface'
-import { Button, Col, Form, Input, Row, Switch, Upload } from 'antd'
+import { Button, Col, Form, Input, Row, Switch, Upload, DatePicker } from 'antd'
 import React, { useEffect, useState } from 'react'
+import moment from 'moment'
 import { GATEWAY } from '../../config'
 import { Hobby, Language } from '../../types/graphql'
 import { HobbyPostBaseFragment } from '../../queries/hobbyPosts'
@@ -15,6 +16,8 @@ type FormFields = {
   body: string
   hobbies: Pick<Hobby, 'id' | 'name'>[]
   isTranslated: boolean
+  eventDate?: string
+  eventLocation?: string
 }
 
 type SubmitValues = {
@@ -22,6 +25,8 @@ type SubmitValues = {
   body: string
   hobbies: string[]
   language: Language
+  eventDate?: string
+  eventLocation?: string
 }
 
 type Props = {
@@ -54,6 +59,8 @@ const HobbyPostForm = ({ post, loading, onSubmit }: Props) => {
         body: values.body,
         hobbies: values.hobbies.map(h => h.id),
         language: values.isTranslated ? Language.En : Language.Ru,
+        eventDate: values.eventDate,
+        eventLocation: values.eventLocation,
       },
       () => {
         localStorage.removeItem('hobbyPostValues')
@@ -65,7 +72,10 @@ const HobbyPostForm = ({ post, loading, onSubmit }: Props) => {
     <Form
       layout="vertical"
       form={form}
-      initialValues={post}
+      initialValues={{
+        ...post,
+        eventDate: post?.eventDate ? moment(post?.eventDate, 'YYYY-MM-DD') : undefined,
+      }}
       onFinish={() => setPreview(true)}
       onValuesChange={() => {
         if (!post) {
@@ -134,6 +144,20 @@ const HobbyPostForm = ({ post, loading, onSubmit }: Props) => {
       <Form.Item label="Hobbies" name="hobbies" initialValue={[]}>
         <HobbySelect />
       </Form.Item>
+
+      <Row>
+        <Col span={12}>
+          <Form.Item label="Event date" name="eventDate">
+            <DatePicker format={['YYYY-MM-DD']} style={{ width: '100%' }} />
+          </Form.Item>
+        </Col>
+
+        <Col span={12}>
+          <Form.Item label="Event location" name="eventLocation">
+            <Input placeholder="Location" />
+          </Form.Item>
+        </Col>
+      </Row>
 
       <Row>
         <Col span={6}>

@@ -274,6 +274,8 @@ input CreateHobbyPostInput {
   body: String!
   hobbies: [ID!]!
   language: LANGUAGE!
+  eventDate: String
+  eventLocation: String
 }
 
 input CreateMatrixGradeInput {
@@ -862,6 +864,8 @@ type HobbyPost {
   language: LANGUAGE!
   comments: [HobbyPostComment!]
   editable: Boolean!
+  eventDate: String
+  eventLocation: String
 }
 
 type HobbyPostComment {
@@ -1580,6 +1584,8 @@ input UpdateHobbyPostInput {
   body: String
   hobbies: [ID!]
   language: LANGUAGE!
+  eventDate: String
+  eventLocation: String
 }
 
 input UpdateMatricesCustomFieldsInput {
