@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { Row, Col } from 'antd'
 import React from 'react'
 import { Employee, Level } from '../../types/graphql'
 import { useGetCvQuery } from '../../queries/cv'
@@ -12,6 +13,8 @@ import Button from '../UI/Button'
 import { GATEWAY } from '../../config'
 import { useGetEmployeeQuery } from '../../queries/employees'
 import getLocationName from '../../utils/getLocationName'
+import EmployeeCVSkills from './EmployeeCVSkills'
+import EmployeeCVLanguages from './EmployeeCVLanguages'
 
 type PropsGeneral = {
   editable: boolean
@@ -71,18 +74,28 @@ const EmployeeCV = ({ employee, editable }: PropsGeneral) => {
     <Skeleton loading={loading} active withOffset>
       {(editable || employee?.isMe) && (
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button onClick={handleExport}>Export</Button>
+          <Button type="primary" onClick={handleExport}>
+            Export
+          </Button>
         </div>
       )}
-      <EmployeeCVSummary editable={editable} employee={employee} cv={cv} skills={skills} />
-      <EmployeeCVExperience
-        employee={employee}
-        vitaes={vitaes}
-        curriculumVitaeID={curriculumVitaeID}
-        editable={editable}
-      />
-      <EmployeeCVCertificates editable={editable} employee={employee} cv={cv} />
-      <EmployeeCVEducation editable={editable} employee={employee} cv={cv} />
+      <Row gutter={16}>
+        <Col sm={8}>
+          <EmployeeCVSkills skills={skills} />
+          <EmployeeCVLanguages editable={editable} employee={employee} cv={cv} />
+        </Col>
+        <Col sm={16}>
+          <EmployeeCVSummary editable={editable} employee={employee} cv={cv} />
+          <EmployeeCVExperience
+            employee={employee}
+            vitaes={vitaes}
+            curriculumVitaeID={curriculumVitaeID}
+            editable={editable}
+          />
+          <EmployeeCVCertificates editable={editable} employee={employee} cv={cv} />
+          <EmployeeCVEducation editable={editable} employee={employee} cv={cv} />
+        </Col>
+      </Row>
     </Skeleton>
   )
 }
