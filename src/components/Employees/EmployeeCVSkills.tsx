@@ -1,18 +1,19 @@
 import { Typography } from 'antd'
 import React from 'react'
-import { Skill } from '../../types/graphql'
+import { Experience, Skill } from '../../types/graphql'
 import SkillsCollapsed from '../UI/SkillsCollapsed'
 import AboutTooltip from '../UI/AboutTooltip'
 
 const { Title } = Typography
 
 type SkillPick = Pick<Skill, 'id' | 'name' | 'description'>
+type ExperiencePick = Pick<Experience, 'id' | 'level'> & { skill: SkillPick }
 
 type Props = {
-  skills?: SkillPick[] | null
+  experiences?: ExperiencePick[] | null
 }
 
-const EmployeeCVSkills = ({ skills }: Props) => {
+const EmployeeCVSkills = ({ experiences }: Props) => {
   return (
     <>
       <Title level={5}>
@@ -20,7 +21,7 @@ const EmployeeCVSkills = ({ skills }: Props) => {
           Skills
         </AboutTooltip>
       </Title>
-      <SkillsCollapsed skills={skills || []} amount={15} />
+      <SkillsCollapsed experiences={experiences || []} amount={15} />
     </>
   )
 }

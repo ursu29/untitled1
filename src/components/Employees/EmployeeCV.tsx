@@ -34,11 +34,10 @@ const EmployeeCV = ({ employee, editable }: PropsGeneral) => {
   const cv = cvData?.employeeByEmail?.curriculumVitae
   const vitaes = cv?.vitaes || [] // full user's vitaes list
   const curriculumVitaeID = cv?.id || '' // list id
-  const experiences = experiencesData?.employees?.[0].experiences
-  const skills = experiences
-    ?.filter(exp => [Level.Experienced, Level.Confident].includes(exp.level))
-    .map(exp => exp.skill)
-    .filter(skill => !skill.isMatrixOnly)
+  const experiences = experiencesData?.employees?.[0]?.experiences?.filter(exp =>
+    [Level.Experienced, Level.Confident].includes(exp.level),
+  )
+  const skills = experiences?.map(exp => exp.skill).filter(skill => !skill.isMatrixOnly)
 
   const handleExport = () => {
     import('file-saver').then(({ saveAs }) => {
@@ -81,7 +80,7 @@ const EmployeeCV = ({ employee, editable }: PropsGeneral) => {
       )}
       <Row gutter={16}>
         <Col sm={8}>
-          <EmployeeCVSkills skills={skills} />
+          <EmployeeCVSkills experiences={experiences} />
           <EmployeeCVLanguages editable={editable} employee={employee} cv={cv} />
         </Col>
         <Col sm={16}>
