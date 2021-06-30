@@ -34,10 +34,9 @@ const EmployeeCV = ({ employee, editable }: PropsGeneral) => {
   const cv = cvData?.employeeByEmail?.curriculumVitae
   const vitaes = cv?.vitaes || [] // full user's vitaes list
   const curriculumVitaeID = cv?.id || '' // list id
-  const experiences = experiencesData?.employees?.[0]?.experiences?.filter(exp =>
-    [Level.Experienced, Level.Confident].includes(exp.level),
+  const experiences = experiencesData?.employees?.[0]?.experiences?.filter(
+    exp => !exp.skill.isMatrixOnly && [Level.Experienced, Level.Confident].includes(exp.level),
   )
-  const skills = experiences?.map(exp => exp.skill).filter(skill => !skill.isMatrixOnly)
 
   const handleExport = () => {
     import('file-saver').then(({ saveAs }) => {
@@ -48,7 +47,7 @@ const EmployeeCV = ({ employee, editable }: PropsGeneral) => {
         },
         body: JSON.stringify({
           cv,
-          skills,
+          skills: experiences?.map(exp => exp.skill),
           employee: {
             name: employeeFull?.employeeByEmail?.name,
             position: employeeFull?.employeeByEmail?.position,
