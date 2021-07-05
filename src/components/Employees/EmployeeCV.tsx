@@ -90,6 +90,8 @@ const EmployeeCV = ({ employee, editable }: PropsGeneral) => {
             curriculumVitaeID={curriculumVitaeID}
             editable={editable}
           />
+        </Col>
+        <Col sm={24}>
           <EmployeeCVCertificates editable={editable} employee={employee} cv={cv} />
           <EmployeeCVEducation editable={editable} employee={employee} cv={cv} />
         </Col>

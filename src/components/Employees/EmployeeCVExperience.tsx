@@ -1,5 +1,4 @@
 import { useQuery } from '@apollo/client'
-import { DeleteOutlined } from '@ant-design/icons'
 import {
   AutoComplete,
   Button,
@@ -9,15 +8,13 @@ import {
   Input,
   Popconfirm,
   Select,
-  Table,
-  Tooltip,
   Typography,
+  Card,
+  Tag,
+  Space,
 } from 'antd'
-import { FormInstance } from 'antd/lib/form'
 import moment from 'moment'
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { useMediaQuery } from 'react-responsive'
-import styled from 'styled-components'
+import React, { useState } from 'react'
 import { debounce } from 'throttle-debounce'
 import message from '../../message'
 import { useUpdateCvMutation } from '../../queries/cv'
@@ -26,6 +23,25 @@ import { CurriculumVitae, Employee, Scalars, Vitae } from '../../types/graphql'
 import './styles.css'
 
 const { Title } = Typography
+const { Option } = Select
+
+// Visual date format in picker
+const dateFormatList = ['DD.MM.YYYY']
+// Disable all dates for start - after end date; for end - before start date inclusive
+const disabledDate = (currentDate: any, limitDate: any, isStart: boolean) => {
+  return isStart
+    ? currentDate && currentDate > moment(limitDate).subtract(1, 'days')
+    : currentDate && currentDate < moment(limitDate).add(1, 'days')
+}
+const dateToISO = (date: any) => {
+  const dateObj = new Date(date)
+  return dateObj.toISOString()
+}
+
+// Condition checking the transmitted word - company field - allowed to change for future purposes
+const syncretisNames = ['Sidenis', 'Syncretis (ex Sidenis)', 'Syncretis']
+const isWordSyncretis = (word: string) =>
+  syncretisNames.map(e => e.toLowerCase()).includes(word.toLowerCase())
 
 interface PropsGeneral {
   editable: boolean
@@ -34,27 +50,6 @@ interface PropsGeneral {
   employee: Pick<Employee, 'id' | 'email'>
 }
 
-interface PropsTable {
-  data?: Vitae[]
-  loading?: boolean
-  onChange?: (items: Partial<CurriculumVitae>[]) => void
-  editable: boolean
-}
-
-/**
- * Service functions
- */
-
-// Condition checking the transmitted word - company field - allowed to change for future purposes
-const syncretisNames = ['Sidenis', 'Syncretis (ex Sidenis)', 'Syncretis']
-const isWordSyncretis = (word: string) =>
-  syncretisNames.map(e => e.toLowerCase()).includes(word.toLowerCase())
-
-/**
- *
- * Wrapper form
- *
- */
 function EmployeeCVExperience({ employee, vitaes, curriculumVitaeID, editable }: PropsGeneral) {
   // Curriculum vitaes mutation
   const [update, { loading: mutateLoading }] = useUpdateCvMutation({
@@ -73,16 +68,10 @@ function EmployeeCVExperience({ employee, vitaes, curriculumVitaeID, editable }:
     if (mutateLoading) {
       message.loading('Updating work experience')
     }
-  })
+  }, [mutateLoading])
 
   // Call mutation
   const handleSubmit = (values: any) => {
-    const dateToISO = (date: any) => {
-      const dateObj = new Date(date)
-
-      return dateObj.toISOString()
-    }
-
     onChange({
       id: curriculumVitaeID,
       employee: employee.id,
@@ -100,544 +89,336 @@ function EmployeeCVExperience({ employee, vitaes, curriculumVitaeID, editable }:
   }
 
   return (
-    <>
-      <CurriculumVitaeTable
-        data={vitaes
-          .slice()
-          .sort(
-            (a, b) => new Date(b?.dateStart || 0).getTime() - new Date(a?.dateStart || 0).getTime(),
-          )}
-        loading={mutateLoading}
-        onChange={handleSubmit}
-        editable={editable}
-      />
-    </>
+    <JobListView
+      data={vitaes}
+      loading={mutateLoading}
+      onChange={handleSubmit}
+      editable={editable}
+    />
   )
 }
 
-/**
- *
- * Table component
- *
- */
-function CurriculumVitaeTable({ onChange, editable, loading, ...props }: PropsTable) {
-  const [isNoTimeEndList, setIsNoTimeEndList] = useState(['']) // list with rows ids without any date end
+const JobListView = ({
+  data,
+  onChange,
+  loading,
+  editable,
+}: {
+  data: Vitae[]
+  onChange: (items: Partial<CurriculumVitae>[]) => void
+  loading: boolean
+  editable: boolean
+}) => {
+  const groupedByCompany = [...data]
+    .sort((a, b) => new Date(b?.dateStart || 0).getTime() - new Date(a?.dateStart || 0).getTime())
+    .reduce<Record<string, Vitae[]>>((res, p) => {
+      const company = p.company || ''
+      if (!res[company]) res[company] = []
+      res[company].push(p)
+      return res
+    }, {})
 
-  const [showFullResponsibilities, setShowFullResponsibilities] = useState(['']) // "collapsible" cell in the table
-  const [isResponsibilitiesUnderModifying, setIsResponsibilitiesUnderModifying] = useState(['']) // cell is currently modifying
-
-  const showFullResponsibilitiesRef = useRef(showFullResponsibilities) // ref for inserting to setTimeout for closing full height cell
-  showFullResponsibilitiesRef.current = showFullResponsibilities
-
-  const isRespUnderModifyingRef = useRef(isResponsibilitiesUnderModifying) // ref for inserting to setTimeout for list of under modifying cells
-  isRespUnderModifyingRef.current = isResponsibilitiesUnderModifying
-
-  const isDatePickersToColumn = useMediaQuery({ maxWidth: 1000 }) // date pickers to column direction
-
-  // Projects list query
-  const { data } = useQuery<ProjectsQueryType>(queryProjects)
-  const allProjectsList = data?.projects || []
-
-  // Curriculum vitaes list for table
-  const value = (props.data || []).map(({ __typename, ...i }: any) => i)
-
-  // Fill state-list with rows ids without any date end - for check on 'for the present' checkboxes
-  React.useEffect(() => {
-    const projectsWithoutDateEndList: string[] = []
-
-    props.data?.forEach(e => {
-      if (!e.dateEnd) projectsWithoutDateEndList.push(e.id)
-    })
-
-    setIsNoTimeEndList(projectsWithoutDateEndList)
-  }, [props.data])
-
-  const { Option } = Select // option component for antd selector
-
-  // Save table changing
-  const handleSave = ({ key, ...item }: any) => {
-    setShowFullResponsibilities([])
-    setIsResponsibilitiesUnderModifying([])
-
-    if (onChange) {
-      onChange(
-        value.map((i, index) => {
-          if ((i.id && i.id === item.id) || index === key) {
-            return {
-              ...item,
-            }
-          }
-          return i
-        }),
-      )
-    }
-  }
-
-  // Create new value-object clone for sending to onChange method
-  const immutableValueChange = (id: string, fieldName: string, fieldValue: any) =>
-    value.map(vitae =>
-      vitae.id === id
-        ? {
-            ...vitae,
-            [fieldName]: fieldValue,
-          }
-        : vitae,
+  const handleCreate = (company: string) => {
+    const value = data.map(({ __typename, ...i }: any) => i)
+    onChange(
+      value.concat({
+        company,
+        dateStart: '',
+        dateEnd: '',
+        position: '',
+        responsibilities: '',
+        level: '',
+      }),
     )
-
-  // Set null value to date picker in case of active checkbox 'for the present'
-  const getDateEndValue = (id: string) => {
-    const dateEndEmptyValue = {}
-    if (isNoTimeEndList.includes(id)) {
-      //@ts-ignore
-      dateEndEmptyValue.value = null
-    }
-    return dateEndEmptyValue
   }
 
-  // Disable all dates for start - after end date; for end - before start date inclusive
-  const disabledDate = (currentDate: any, limitDate: any, isStart: boolean) => {
-    return isStart
-      ? currentDate && currentDate > moment(limitDate).subtract(1, 'days')
-      : currentDate && currentDate < moment(limitDate).add(1, 'days')
+  const handleUpdate = (vitae: Vitae[]) => {
+    const value = data.map(({ __typename, ...i }: any) => i)
+    const vitaeToUpdate = vitae.map(p => p.id)
+    onChange(
+      value.map(p => {
+        if (vitaeToUpdate.includes(p.id)) {
+          return vitae.find(v => v.id === p.id) || p
+        } else {
+          return p
+        }
+      }),
+    )
   }
 
-  // Visual date format in picker
-  const dateFormatList = ['DD.MM.YYYY']
-
-  // Table columns
-  let columns: any = [
-    {
-      title: 'Company',
-      dataIndex: 'company',
-      width: editable ? '15%' : '10%',
-      render: (_: any, record: any) => (
-        <AutoComplete
-          style={{ width: '100%' }}
-          options={syncretisNames.map(value => ({ value }))}
-          defaultValue={record.company ? record.company : undefined}
-          onBlur={event =>
-            //@ts-ignore
-            onChange && onChange(immutableValueChange(record.id, 'company', event.target.value))
-          }
-          filterOption={(inputValue, option) =>
-            option!.value.toUpperCase().startsWith(inputValue.toUpperCase())
-          }
-          disabled={!editable}
-        />
-      ),
-    },
-    {
-      title: 'Time',
-      dataIndex: 'time',
-      width: '10%',
-      render: (_: any, record: any) => (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: isDatePickersToColumn ? 'column' : 'row',
-            // width: editable ? (isDatePickersToColumn ? '110px' : '260px') : '190px',
-            justifyContent: editable ? 'space-between' : 'start',
-            alignItems: 'center',
-          }}
-        >
-          {editable ? (
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div>
-                <DatePicker
-                  defaultValue={
-                    record.dateStart ? moment(moment(record.dateStart), dateFormatList) : undefined
-                  }
-                  disabledDate={current => disabledDate(current, record.dateEnd, true)}
-                  format={dateFormatList}
-                  onChange={date =>
-                    onChange && onChange(immutableValueChange(record.id, 'dateStart', date))
-                  }
-                  disabled={!editable}
-                  style={{
-                    width: '110px',
-                  }}
-                />
-              </div>
-              <div
-                style={{
-                  height: isDatePickersToColumn ? '5px' : '25px',
-                }}
-              ></div>
-            </div>
-          ) : (
-            <div style={{ display: 'flex' }}>
-              {record.dateStart ? moment(record.dateStart).format(dateFormatList[0]) : null}
-              <div style={{ marginLeft: '10px', marginRight: '10px' }}>-</div>
-            </div>
-          )}
-          {editable ? (
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div>
-                <DatePicker
-                  defaultValue={
-                    record.dateEnd ? moment(moment(record.dateEnd), dateFormatList) : undefined
-                  }
-                  disabledDate={current => disabledDate(current, record.dateStart, false)}
-                  format={dateFormatList}
-                  onChange={date =>
-                    onChange && onChange(immutableValueChange(record.id, 'dateEnd', date))
-                  }
-                  disabled={isNoTimeEndList.includes(record.key) || !editable}
-                  {...getDateEndValue(record.id)}
-                  style={{
-                    width: '110px',
-                  }}
-                />
-              </div>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'flex-end',
-                  justifyContent: 'right',
-                  height: '25px',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                <Checkbox
-                  checked={isNoTimeEndList.includes(record.key)}
-                  disabled={!editable}
-                  onChange={e => {
-                    isNoTimeEndList.includes(record.key)
-                      ? setIsNoTimeEndList(isNoTimeEndList.filter(key => key !== record.key))
-                      : setIsNoTimeEndList([...isNoTimeEndList, record.key])
-
-                    onChange &&
-                      e.target.checked &&
-                      onChange(immutableValueChange(record.id, 'dateEnd', null))
-                  }}
-                >
-                  for the present
-                </Checkbox>
-              </div>
-            </div>
-          ) : (
-            <div>
-              {record.dateEnd
-                ? moment(record.dateEnd).format(dateFormatList[0])
-                : 'for the present'}
-            </div>
-          )}
-        </div>
-      ),
-    },
-    {
-      title: 'Project',
-      dataIndex: 'project',
-      width: '10%',
-      render: (_: any, record: any) =>
-        isWordSyncretis(record.company) ? (
-          editable ? (
-            <Select
-              showSearch
-              style={{ width: '100%' }}
-              placeholder="Select a project"
-              optionFilterProp="children"
-              disabled={!editable}
-              // style={{ width: isDatePickersToColumn ? 80 : 150 }}
-              value={
-                allProjectsList
-                  ? allProjectsList.filter(project => project.code === record.project)[0]?.name
-                  : ''
-              }
-              filterOption={(input: any, option: any) =>
-                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
-              onChange={(projectId: any) => {
-                onChange &&
-                  onChange(
-                    immutableValueChange(
-                      record.id,
-                      'project',
-                      allProjectsList.find(project => project.id === projectId)?.code,
-                    ),
-                  )
-              }}
-            >
-              {allProjectsList
-                .slice()
-                .sort((a, b) => (a.name > b.name ? 1 : -1))
-                .map(project => (
-                  <Option key={project.id} value={project.id} style={{ overflow: 'visible' }}>
-                    {project.name}
-                  </Option>
-                ))}
-            </Select>
-          ) : (
-            <div>
-              {allProjectsList
-                ? allProjectsList.filter(project => project.id === record.project)[0]?.name
-                : ''}
-            </div>
-          )
-        ) : (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: editable ? 'center' : 'flex-start',
-              // width: isDatePickersToColumn ? 80 : 150,
-            }}
-          >
-            &#8212;
-          </div>
-        ),
-    },
-    {
-      title: 'Position',
-      dataIndex: 'position',
-      editable,
-      width: '12%',
-    },
-    {
-      title: 'Responsibilities',
-      dataIndex: 'responsibilities',
-      width: '20%',
-      editable,
-      render: (text: any, record: any) =>
-        text?.length > 55 ? (
-          showFullResponsibilities.includes(record.id) ? (
-            <div
-              onClick={() =>
-                setIsResponsibilitiesUnderModifying([
-                  ...isResponsibilitiesUnderModifying,
-                  record.id,
-                ])
-              }
-              style={{ maxWidth: '120px' }}
-            >
-              {text}
-            </div>
-          ) : (
-            <Tooltip title={text} mouseEnterDelay={1}>
-              <div
-                onClick={e => {
-                  e.stopPropagation()
-                  setShowFullResponsibilities([...showFullResponsibilities, record.id])
-                  setTimeout(() => {
-                    if (!isRespUnderModifyingRef.current.includes(record.id))
-                      setShowFullResponsibilities(
-                        showFullResponsibilitiesRef.current.filter(id => id !== record.id),
-                      )
-                  }, 5000)
-                }}
-                style={{ cursor: 'pointer', maxWidth: '120px' }}
-              >
-                {text.slice(0, 50) + '...'}
-              </div>
-            </Tooltip>
-          )
-        ) : (
-          text
-        ),
-    },
-    {
-      title: 'Level',
-      dataIndex: 'level',
-      editable,
-      width: '10%',
-    },
-    {
-      dataIndex: 'operation',
-      width: '1%',
-      render: (text: any, record: any) =>
-        editable ? (
-          <Popconfirm
-            title="Sure to delete?"
-            onConfirm={() => {
-              if (onChange) {
-                onChange(
-                  value.filter((i, index) => (i.id ? i.id !== record.id : index !== record.key)),
-                )
-              }
-            }}
-          >
-            <Button type="link" icon={<DeleteOutlined />} />
-          </Popconfirm>
-        ) : (
-          ''
-        ),
-    },
-  ]
+  const handleDelete = (vitaesToRemove: Vitae[]) => {
+    const value = data.map(({ __typename, ...i }: any) => i)
+    onChange(value.filter(p => !vitaesToRemove.map(v => v.id).includes(p.id)))
+  }
 
   return (
-    <div className="cv" data-cy="cvForm" style={{ marginBottom: 24 }}>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Title level={5}>Work experience</Title>
-        {editable && (
-          <Button
-            data-cy="addJob"
-            style={{ margin: '15px 0 20px 10px' }}
-            onClick={() => {
-              if (onChange) {
-                onChange(
-                  value.concat({
-                    company: '',
-                    dateStart: '',
-                    dateEnd: '',
-                    position: '',
-                    responsibilities: '',
-                    level: '',
-                  }),
-                )
-              }
-            }}
-          >
-            Add new
-          </Button>
-        )}
+        <Button disabled={loading} onClick={() => handleCreate('')}>
+          Add Company
+        </Button>
       </div>
-      <Table
-        dataSource={value.map((i, index) => ({
-          key: i.id || index,
-          ...i,
-        }))}
-        loading={loading}
-        components={components}
-        pagination={false}
-        rowClassName={() => 'tableRowTopAlign'}
-        style={{
-          width: '100%',
-          tableLayout: 'fixed',
-        }}
-        //@ts-ignore
-        columns={columns.map(col => {
-          if (!col.editable) {
-            return col
-          }
-          return {
-            ...col,
-            onCell: (record: any) => ({
-              record,
-              editable: col.editable,
-              dataIndex: col.dataIndex,
-              title: col.title,
-              handleSave: handleSave,
-            }),
-          }
-        })}
-      />
+      <div>
+        {Object.entries(groupedByCompany).map(([company, data]) => (
+          <JobView
+            key={company}
+            data={data}
+            company={company}
+            editable={editable}
+            onCreate={handleCreate}
+            onDelete={handleDelete}
+            onUpdate={handleUpdate}
+          />
+        ))}
+      </div>
     </div>
   )
 }
 
-/**
- *
- * Editable cell in the table
- *
- */
-const EditableContext = React.createContext<FormInstance<any> | null>(null)
+const JobView = ({
+  data,
+  company,
+  editable,
+  onUpdate,
+  onDelete,
+  onCreate,
+}: {
+  data: Vitae[]
+  company: string
+  editable: boolean
+  onUpdate: (vitae: Vitae[]) => void
+  onDelete: (vitae: Vitae[]) => void
+  onCreate: (company: string) => void
+}) => {
+  return (
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        {editable ? (
+          <>
+            <AutoComplete
+              style={{ width: '100%' }}
+              options={syncretisNames.map(value => ({ value }))}
+              defaultValue={company}
+              onBlur={event => {
+                // @ts-expect-error
+                const nextCompanyName = event.target.value || ''
+                onUpdate(data.map(p => ({ ...p, company: nextCompanyName })))
+              }}
+              filterOption={(inputValue, option) =>
+                option!.value.toUpperCase().startsWith(inputValue.toUpperCase())
+              }
+              // disabled={!editable}
+            />
 
-interface EditableRowProps {
-  index: number
+            <Space>
+              <Popconfirm title="Sure to delete?" onConfirm={() => onDelete(data)}>
+                <Button type="link" danger>
+                  Delete
+                </Button>
+              </Popconfirm>
+              <Button onClick={() => onCreate(company)}>Add Project</Button>
+            </Space>
+          </>
+        ) : (
+          <Title level={5}>{company || 'Unknown company'}</Title>
+        )}
+      </div>
+
+      <div>
+        {data.map(p => (
+          <ProjectView
+            key={p.id}
+            data={p}
+            onUpdate={vitae => onUpdate([vitae])}
+            onDelete={() => onDelete([p])}
+            editable={editable}
+          />
+        ))}
+      </div>
+    </div>
+  )
 }
 
-const EditableRow: React.FC<EditableRowProps> = ({ index, ...props }) => {
-  const [form] = Form.useForm()
+type ProjectBasicFormValues = {
+  project?: string
+  position?: string
+  level?: string
+}
+
+const ProjectBasicForm = ({
+  data,
+  editable,
+  onSubmit,
+}: {
+  data: Vitae
+  editable: boolean
+  onSubmit: (values: ProjectBasicFormValues) => void
+}) => {
+  const [form] = Form.useForm<ProjectBasicFormValues>()
+  const { data: data2 } = useQuery<ProjectsQueryType>(queryProjects)
+  const allProjectsList = data2?.projects?.slice().sort((a, b) => (a.name > b.name ? 1 : -1)) || []
+
+  if (!editable) {
+    if (!data.project && !data.position && !data.level)
+      return <span style={{ fontSize: 18 }}>Unknown project</span>
+    return (
+      <Space>
+        {data.project && <Tag style={{ fontSize: 14 }}>{data.project}</Tag>}
+        <span style={{ fontSize: 18 }}>{data.position}</span>
+        {data.level && <Tag>{data.level}</Tag>}
+      </Space>
+    )
+  }
+
   return (
-    <Form form={form} component={false}>
-      <EditableContext.Provider value={form}>
-        <tr {...props} />
-      </EditableContext.Provider>
+    <Form form={form} layout="inline" name={`cv-project-basic-${data.id}`} onFinish={onSubmit}>
+      <Form.Item name="project" label="Project" initialValue={data.project}>
+        <Select
+          showSearch
+          style={{ width: '100%' }}
+          placeholder="Select a project"
+          optionFilterProp="children"
+          disabled={!editable}
+          filterOption={(input, option) =>
+            option?.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+          }
+          onBlur={form.submit}
+        >
+          {allProjectsList.map(project => (
+            <Option key={project.id} value={project.code} style={{ overflow: 'visible' }}>
+              {project.name}
+            </Option>
+          ))}
+        </Select>
+      </Form.Item>
+      <Form.Item name="position" label="Position" initialValue={data.position}>
+        <Input onBlur={form.submit} />
+      </Form.Item>
+      <Form.Item name="level" label="Level" initialValue={data.level}>
+        <Input onBlur={form.submit} />
+      </Form.Item>
     </Form>
   )
 }
 
-const EditableCellWrap = styled.div`
-  border: 1px solid transparent;
-  border-radius: 2px;
-  padding: 4px 11px;
-  min-height: 30px;
-  cursor: pointer;
-  &:hover {
-    border-color: lightgray;
-  }
-`
-type Item = Vitae
-
-interface EditableCellProps {
-  title: React.ReactNode
-  editable: boolean
-  children: React.ReactNode
-  dataIndex: keyof Item
-  record: Item
-  handleSave: (record: Item) => void
+type ProjectDetailedFormValues = {
+  dateStart?: string | null
+  dateEnd?: string | null
+  responsibilities?: string | null
 }
 
-export const EditableCell: React.FC<EditableCellProps> = ({
-  title,
+const ProjectDetaledForm = ({
+  data,
   editable,
-  children,
-  dataIndex,
-  record,
-  handleSave,
-  ...restProps
+  onSubmit,
+}: {
+  data: Vitae
+  editable: boolean
+  onSubmit: (values: ProjectDetailedFormValues) => void
 }) => {
-  const [editing, setEditing] = useState(false)
-  const inputRef = useRef<Input>(null)
-  const form = useContext(EditableContext)!
+  const [form] = Form.useForm<ProjectDetailedFormValues>()
+  const [isPresent, setIsPresent] = useState(!data?.dateEnd)
 
-  useEffect(() => {
-    if (editing) {
-      inputRef.current!.focus()
-    }
-  }, [editing])
-
-  const toggleEdit = () => {
-    setEditing(!editing)
-    form.setFieldsValue({ [dataIndex]: record[dataIndex] })
-  }
-
-  const save = async () => {
-    try {
-      const values = await form.validateFields()
-
-      toggleEdit()
-      handleSave({ ...record, ...values })
-    } catch (errInfo) {
-      message.error('Some fields are not valid')
-      console.error('Save failed:', errInfo)
-    }
-  }
-
-  let childNode = children
-
-  if (editable) {
-    childNode = editing ? (
+  return (
+    <Form
+      form={form}
+      name={`cv-project-detailed-${data.id}`}
+      labelCol={{ span: 24, offset: 0 }}
+      onFinish={onSubmit}
+    >
       <Form.Item
-        style={{ margin: 0 }}
-        name={dataIndex as any}
-        rules={[
-          {
-            required: true,
-            message: `${title} is required.`,
-          },
-        ]}
+        name="dateStart"
+        label=""
+        initialValue={data.dateStart ? moment(moment(data.dateStart), dateFormatList) : undefined}
       >
-        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+        <DatePicker
+          placeholder="Start month"
+          disabledDate={current => disabledDate(current, data.dateEnd, true)}
+          disabled={!editable}
+          onBlur={form.submit}
+        />
       </Form.Item>
-    ) : (
-      <EditableCellWrap
-        className="editable-cell-value-wrap"
-        style={{ paddingRight: 24 }}
-        onClick={toggleEdit}
+      <Form.Item
+        name="dateEnd"
+        label=""
+        initialValue={data.dateEnd ? moment(moment(data.dateEnd), dateFormatList) : undefined}
       >
-        {children}
-      </EditableCellWrap>
-    )
-  }
-
-  return <td {...restProps}>{childNode}</td>
+        <DatePicker
+          placeholder="End month"
+          disabledDate={current => disabledDate(current, data.dateStart, true)}
+          disabled={!editable || isPresent}
+          onBlur={form.submit}
+        />
+      </Form.Item>
+      <Checkbox
+        disabled={!editable}
+        checked={isPresent}
+        onChange={() => {
+          if (isPresent) {
+            setIsPresent(false)
+          } else {
+            setIsPresent(true)
+            form.setFieldsValue({ dateEnd: null })
+            form.submit()
+          }
+        }}
+      >
+        for the present
+      </Checkbox>
+      <Form.Item
+        name="responsibilities"
+        label="Responsibilities"
+        initialValue={data?.responsibilities}
+      >
+        <Input.TextArea
+          placeholder="Enter something"
+          autoSize={{ minRows: 2 }}
+          disabled={!editable}
+          onBlur={form.submit}
+        />
+      </Form.Item>
+    </Form>
+  )
 }
 
-const components = {
-  body: {
-    row: EditableRow,
-    cell: EditableCell,
-  },
+const ProjectView = ({
+  data,
+  editable,
+  onUpdate,
+  onDelete,
+}: {
+  data: Vitae
+  editable: boolean
+  onUpdate: (vitae: Vitae) => void
+  onDelete: () => void
+}) => {
+  return (
+    <Card
+      title={
+        <ProjectBasicForm
+          data={data}
+          editable={editable}
+          onSubmit={values => onUpdate({ ...data, ...values })}
+        />
+      }
+      extra={
+        editable && (
+          <Popconfirm title="Sure to delete?" onConfirm={onDelete}>
+            <Button type="link" danger>
+              Delete
+            </Button>
+          </Popconfirm>
+        )
+      }
+    >
+      <ProjectDetaledForm
+        data={data}
+        editable={editable}
+        onSubmit={values => onUpdate({ ...data, ...values })}
+      />
+    </Card>
+  )
 }
 
 export default EmployeeCVExperience
