@@ -16,6 +16,8 @@ import getLocationName from '../../utils/getLocationName'
 import EmployeeCVSkills from './EmployeeCVSkills'
 import EmployeeCVLanguages from './EmployeeCVLanguages'
 
+const levelSorting = [Level.Confident, Level.Experienced, Level.Learning, Level.Wanted]
+
 type PropsGeneral = {
   editable: boolean
   employee: Pick<Employee, 'id' | 'email' | 'isMe' | 'name'>
@@ -34,9 +36,11 @@ const EmployeeCV = ({ employee, editable }: PropsGeneral) => {
   const cv = cvData?.employeeByEmail?.curriculumVitae
   const vitaes = cv?.vitaes || [] // full user's vitaes list
   const curriculumVitaeID = cv?.id || '' // list id
-  const experiences = experiencesData?.employees?.[0]?.experiences?.filter(
-    exp => !exp.skill.isMatrixOnly && [Level.Experienced, Level.Confident].includes(exp.level),
-  )
+  const experiences = experiencesData?.employees?.[0]?.experiences
+    ?.filter(
+      exp => !exp.skill.isMatrixOnly && [Level.Experienced, Level.Confident].includes(exp.level),
+    )
+    .sort((a, b) => levelSorting.indexOf(b.level) - levelSorting.indexOf(a.level))
 
   const handleExport = () => {
     import('file-saver').then(({ saveAs }) => {
