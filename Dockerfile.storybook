@@ -1,0 +1,29 @@
+# Stage 1 - the build process
+FROM node:14.16-alpine3.13 as build-deps
+LABEL stage=builder
+
+ARG REACT_APP_DT_BRANCH_NAME
+ENV REACT_APP_DT_BRANCH_NAME=$REACT_APP_DT_BRANCH_NAME
+ARG REACT_APP_DT_REPO_NAME
+ENV REACT_APP_DT_REPO_NAME=$REACT_APP_DT_REPO_NAME
+ARG REACT_APP_DT_SOURCE_VERSION
+ENV REACT_APP_DT_SOURCE_VERSION=$REACT_APP_DT_SOURCE_VERSION
+ARG REACT_APP_DT_SOURCE_VERSION_MSG
+ENV REACT_APP_DT_SOURCE_VERSION_MSG=$REACT_APP_DT_SOURCE_VERSION_MSG
+
+ENV PUBLIC_URL="/"
+ENV REACT_APP_AZURE_TENANT="5acc8b65-db91-44ea-8d28-20f9e45b432e"
+ENV REACT_APP_AZURE_CLIENT="42b2f986-390a-4b73-81a0-deb06f79a7f0"
+ARG GENERATE_SOURCEMAP=false
+WORKDIR /usr/src/app
+COPY package.json yarn.lock ./
+RUN yarn
+COPY . ./
+RUN yarn build-storybook
+
+# Stage 2 - the production environment
+FROM nginx:1.19-alpine
+COPY --from=build-deps /usr/src/app/storybook-static /usr/share/nginx/html
+COPY --from=build-deps /usr/src/app/default.conf /etc/nginx/conf.d
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
