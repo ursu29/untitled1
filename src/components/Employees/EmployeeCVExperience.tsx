@@ -410,7 +410,7 @@ const ProjectDetailedForm = ({
       >
         <DatePicker
           placeholder="End month"
-          disabledDate={current => disabledDate(current, data.dateStart, true)}
+          disabledDate={current => disabledDate(current, data.dateStart, false)}
           disabled={!editable || isPresent}
           onBlur={form.submit}
         />
@@ -452,11 +452,11 @@ const ProjectHeader = ({ data }: { data: Vitae }) => {
     return <StyledProjectName>Unknown project</StyledProjectName>
   }
   return (
-    <>
+    <Space>
       {data.project && <Tag style={{ fontSize: 14 }}>{data.project}</Tag>}
       <StyledProjectName>{data.position}</StyledProjectName>
       {data.level && <Tag>{data.level}</Tag>}
-    </>
+    </Space>
   )
 }
 
