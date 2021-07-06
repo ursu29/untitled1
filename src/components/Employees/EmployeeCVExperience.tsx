@@ -28,12 +28,6 @@ const { Option } = Select
 
 // Visual date format in picker
 const dateFormatList = ['DD.MM.YYYY']
-// Disable all dates for start - after end date; for end - before start date inclusive
-const disabledDate = (currentDate: any, limitDate: any, isStart: boolean) => {
-  return isStart
-    ? currentDate && currentDate > moment(limitDate).subtract(1, 'days')
-    : currentDate && currentDate < moment(limitDate).add(1, 'days')
-}
 const dateToISO = (date: any) => {
   const dateObj = new Date(date)
   return dateObj.toISOString()
@@ -367,6 +361,11 @@ const ProjectBasicForm = ({
 }
 
 type ProjectDetailedFormValues = {
+  date: [string | null, string | null]
+  responsibilities: string | null
+}
+
+type ProjectDetailedSubmitValues = {
   dateStart?: string | null
   dateEnd?: string | null
   responsibilities?: string | null
@@ -379,7 +378,7 @@ const ProjectDetailedForm = ({
 }: {
   data: Vitae
   editable: boolean
-  onSubmit: (values: ProjectDetailedFormValues) => void
+  onSubmit: (values: ProjectDetailedSubmitValues) => void
 }) => {
   const [form] = Form.useForm<ProjectDetailedFormValues>()
   const [isPresent, setIsPresent] = useState(!data?.dateEnd)
@@ -389,47 +388,46 @@ const ProjectDetailedForm = ({
       form={form}
       name={`cv-project-detailed-${data.id}`}
       labelCol={{ span: 24, offset: 0 }}
-      onFinish={onSubmit}
+      onFinish={values => {
+        const {
+          date: [dateStart, dateEnd],
+          responsibilities,
+        } = values
+        onSubmit({
+          dateStart,
+          dateEnd: isPresent ? null : dateEnd,
+          responsibilities,
+        })
+      }}
     >
-      <Form.Item
-        name="dateStart"
-        label=""
-        initialValue={data.dateStart ? moment(moment(data.dateStart), dateFormatList) : undefined}
-      >
-        <DatePicker
-          placeholder="Start month"
-          disabledDate={current => disabledDate(current, data.dateEnd, true)}
+      <Space>
+        <Form.Item
+          name="date"
+          label=""
+          initialValue={[
+            data.dateStart ? moment(moment(data.dateStart), dateFormatList) : undefined,
+            data.dateEnd ? moment(moment(data.dateEnd), dateFormatList) : undefined,
+          ]}
+          noStyle
+        >
+          <DatePicker.RangePicker
+            allowEmpty={[true, true]}
+            allowClear
+            disabled={editable ? [false, isPresent] : true}
+            onBlur={form.submit}
+          />
+        </Form.Item>
+        <Checkbox
           disabled={!editable}
-          onBlur={form.submit}
-        />
-      </Form.Item>
-      <Form.Item
-        name="dateEnd"
-        label=""
-        initialValue={data.dateEnd ? moment(moment(data.dateEnd), dateFormatList) : undefined}
-      >
-        <DatePicker
-          placeholder="End month"
-          disabledDate={current => disabledDate(current, data.dateStart, false)}
-          disabled={!editable || isPresent}
-          onBlur={form.submit}
-        />
-      </Form.Item>
-      <Checkbox
-        disabled={!editable}
-        checked={isPresent}
-        onChange={() => {
-          if (isPresent) {
-            setIsPresent(false)
-          } else {
-            setIsPresent(true)
-            form.setFieldsValue({ dateEnd: null })
+          checked={isPresent}
+          onChange={() => {
+            setIsPresent(prev => !prev)
             form.submit()
-          }
-        }}
-      >
-        for the present
-      </Checkbox>
+          }}
+        >
+          for the present
+        </Checkbox>
+      </Space>
       <Form.Item
         name="responsibilities"
         label="Responsibilities"
