@@ -159,8 +159,14 @@ const JobListView = ({
   loading: boolean
   editable: boolean
 }) => {
+  // remember sorting on mount
+  const [vitaesSortedByDate] = useState(() =>
+    [...data]
+      .sort((a, b) => new Date(a?.dateStart || 0).getTime() - new Date(b?.dateStart || 0).getTime())
+      .map(v => v.id),
+  )
   const groupedByCompany = [...data]
-    .sort((a, b) => new Date(b?.dateStart || 0).getTime() - new Date(a?.dateStart || 0).getTime())
+    .sort((a, b) => vitaesSortedByDate.indexOf(b.id) - vitaesSortedByDate.indexOf(a.id))
     .reduce<Record<string, Vitae[]>>((res, p) => {
       const company = p.company || ''
       if (!res[company]) res[company] = []
