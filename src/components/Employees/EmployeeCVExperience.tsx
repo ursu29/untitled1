@@ -447,7 +447,7 @@ const ProjectBasicForm = ({
 }
 
 type ProjectDetailedFormValues = {
-  date: [string | null, string | null]
+  date: [string | null, string | null] | null
   responsibilities: string | null
 }
 
@@ -506,14 +506,11 @@ const ProjectDetailedForm = ({
       name={`cv-project-detailed-${data.id}`}
       labelCol={{ span: 24, offset: 0 }}
       onFinish={values => {
-        const {
-          date: [start, end],
-          responsibilities,
-        } = values
+        const [start, end] = values.date || []
         onSubmit({
           dateStart: start,
           dateEnd: isPresent ? null : end,
-          responsibilities,
+          responsibilities: values.responsibilities,
         })
       }}
     >
@@ -525,6 +522,10 @@ const ProjectDetailedForm = ({
             allowEmpty={[true, true]}
             allowClear
             disabled={editable ? [false, isPresent] : true}
+            onChange={value => {
+              // fix for clear button
+              if (!value) form.submit()
+            }}
             onBlur={form.submit}
           />
         </Form.Item>
@@ -565,7 +566,7 @@ const ProjectHeader = ({ data, projectList }: { data: Vitae; projectList: Projec
     <Space>
       {data.project &&
         (project ? (
-          <ProjectTag project={project} />
+          <ProjectTag small project={project} />
         ) : (
           <Tag style={{ fontSize: 14 }}>{data.project}</Tag>
         ))}
