@@ -29,7 +29,7 @@ const EmployeeCVLanguages = ({ editable, employee, cv }: FormProps) => {
 
   return (
     <>
-      <Title level={5}>Languages</Title>
+      <Title level={4}>Languages</Title>
       {editable ? (
         <Input
           defaultValue={cv?.languages || ''}

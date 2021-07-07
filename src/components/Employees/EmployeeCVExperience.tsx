@@ -150,7 +150,7 @@ const JobListView = ({
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Title level={5}>Work experience</Title>
+        <Title level={4}>Work experience</Title>
         {editable && (
           <Button disabled={loading} onClick={() => handleCreate('')}>
             Add Company
@@ -196,7 +196,7 @@ const CardHeader = styled.div`
 `
 
 const StyledCompanyHead = styled(CardHeader)`
-  margin: 16px 0;
+  margin: 8px 0 16px;
 `
 
 const StyledProjectCard = styled.div`
@@ -275,9 +275,7 @@ const JobView = ({
             </>
           ) : (
             <>
-              <Title level={5} style={{ margin: 0 }}>
-                {company || 'Unknown company'}
-              </Title>
+              <div style={{ fontSize: 18 }}>{company || 'Unknown company'}</div>
               {editable && !isEditMode && (
                 <CardActions>
                   <Button type="link" icon={<EditOutlined />} onClick={() => setIsEditMode(true)} />

@@ -175,10 +175,10 @@ export const TableTitle = ({
   onCreate?: () => void
 }) => {
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <Typography.Title level={5}>{title}</Typography.Title>
+    <div>
+      <Typography.Title level={4}>{title}</Typography.Title>
       {editable && (
-        <Button data-cy="addJob" style={{ margin: '15px 0 20px 10px' }} onClick={onCreate}>
+        <Button data-cy="addJob" style={{ margin: '8px 0' }} onClick={onCreate}>
           Add new
         </Button>
       )}

@@ -16,7 +16,7 @@ type Props = {
 const EmployeeCVSkills = ({ experiences }: Props) => {
   return (
     <>
-      <Title level={5}>
+      <Title level={4}>
         <AboutTooltip title="Generated according Confident In and Experienced skills in your profile">
           Skills
         </AboutTooltip>

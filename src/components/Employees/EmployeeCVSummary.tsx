@@ -49,7 +49,7 @@ const EmployeeCVSummary = ({ editable, employee, cv }: FormProps) => {
         })
       }}
     >
-      <Title level={5}>Summary</Title>
+      <Title level={4}>Summary</Title>
       <Form.Item name="summary" label="" initialValue={cv?.summary}>
         {editable ? (
           <Input.TextArea autoSize={{ minRows: 4 }} onBlur={form.submit} />
