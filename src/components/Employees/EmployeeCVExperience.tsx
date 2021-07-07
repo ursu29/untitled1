@@ -21,13 +21,14 @@ import message from '../../message'
 import { useUpdateCvMutation } from '../../queries/cv'
 import queryProjects, { QueryType as ProjectsQueryType } from '../../queries/getProjects'
 import { CurriculumVitae, Employee, Scalars, Vitae } from '../../types/graphql'
-import './styles.css'
+import RichText from '../UI/RichText'
 
-const { Title } = Typography
+const { Title, Text, Paragraph } = Typography
 const { Option } = Select
 
 // Visual date format in picker
 const dateFormatList = ['DD.MM.YYYY']
+const DATE_MONTH_FORMAT = 'MMM YYYY'
 const dateToISO = (date: any) => {
   const dateObj = new Date(date)
   return dateObj.toISOString()
@@ -217,13 +218,22 @@ const StyledProjectName = styled.span`
 `
 const StyledProjectBody = styled.div`
   border-bottom: 1px solid #dedede;
-  padding: 8px 16px 16px;
+  padding: 8px 16px 0;
+  &:after {
+    // hack for fixing bottom offset
+    content: '';
+    display: block;
+    margin-top: 16px;
+  }
 `
 const StyledProjectForm = styled(Form)`
   width: 100%;
   .ant-form-item {
     flex: 1;
   }
+`
+const StyledProjectResponsibilities = styled(RichText)`
+  color: #595959;
 `
 
 const JobView = ({
@@ -382,6 +392,37 @@ const ProjectDetailedForm = ({
 }) => {
   const [form] = Form.useForm<ProjectDetailedFormValues>()
   const [isPresent, setIsPresent] = useState(!data?.dateEnd)
+  const dateStart = data.dateStart
+    ? moment(moment(data.dateStart), dateFormatList).locale('en')
+    : undefined
+  const dateEnd = data.dateEnd
+    ? moment(moment(data.dateEnd), dateFormatList).locale('en')
+    : undefined
+
+  if (!editable) {
+    return (
+      <div>
+        <div>
+          {[
+            dateStart?.format(DATE_MONTH_FORMAT),
+            dateEnd?.format(DATE_MONTH_FORMAT) || 'for the present',
+          ]
+            .filter(Boolean)
+            .join(' - ')}
+        </div>
+        <div>
+          <Text>Responsibilities:</Text>
+          <div>
+            {data.responsibilities ? (
+              <StyledProjectResponsibilities text={data.responsibilities} />
+            ) : (
+              <Paragraph type="secondary">No description</Paragraph>
+            )}
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <Form
@@ -390,27 +431,21 @@ const ProjectDetailedForm = ({
       labelCol={{ span: 24, offset: 0 }}
       onFinish={values => {
         const {
-          date: [dateStart, dateEnd],
+          date: [start, end],
           responsibilities,
         } = values
         onSubmit({
-          dateStart,
-          dateEnd: isPresent ? null : dateEnd,
+          dateStart: start,
+          dateEnd: isPresent ? null : end,
           responsibilities,
         })
       }}
     >
       <Space>
-        <Form.Item
-          name="date"
-          label=""
-          initialValue={[
-            data.dateStart ? moment(moment(data.dateStart), dateFormatList) : undefined,
-            data.dateEnd ? moment(moment(data.dateEnd), dateFormatList) : undefined,
-          ]}
-          noStyle
-        >
+        <Form.Item name="date" label="" initialValue={[dateStart, dateEnd]} noStyle>
           <DatePicker.RangePicker
+            format={DATE_MONTH_FORMAT}
+            picker="month"
             allowEmpty={[true, true]}
             allowClear
             disabled={editable ? [false, isPresent] : true}

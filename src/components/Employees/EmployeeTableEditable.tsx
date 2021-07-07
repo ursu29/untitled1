@@ -4,6 +4,7 @@ import { FormInstance } from 'antd/lib/form'
 import { Rule } from 'rc-field-form/lib/interface'
 import { ColumnType } from 'antd/lib/table/interface'
 import styled from 'styled-components'
+import './styles.css'
 
 type Data = Record<string, any>
 
