@@ -154,7 +154,7 @@ export const CellDateRangeYear = ({ onSave, children, ...props }: EditableCompon
       {...props}
       picker="year"
       format="YYYY"
-      allowEmpty={[false, true]}
+      allowEmpty={[true, true]}
       onChange={value => {
         props.onChange?.(value)
         setSaveTrigger(true)
