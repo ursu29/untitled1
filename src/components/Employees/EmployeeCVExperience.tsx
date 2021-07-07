@@ -21,6 +21,8 @@ import message from '../../message'
 import { useUpdateCvMutation } from '../../queries/cv'
 import queryProjects, { QueryType as ProjectsQueryType } from '../../queries/getProjects'
 import { CurriculumVitae, Employee, Scalars, Vitae } from '../../types/graphql'
+import { ProjectDetails } from '../../fragments'
+import ProjectTag from '../Projects/ProjectTag'
 import RichText from '../UI/RichText'
 
 const { Title, Text, Paragraph } = Typography
@@ -77,7 +79,7 @@ function EmployeeCVExperience({ employee, vitaes, curriculumVitaeID, editable }:
         company: vitae.company.charAt(0).toUpperCase() + vitae.company.slice(1).trim(),
         dateStart: vitae.dateStart ? dateToISO(vitae.dateStart) : null,
         dateEnd: vitae.dateEnd ? dateToISO(vitae.dateEnd) : null,
-        project: isWordSyncretis(vitae.company) ? vitae.project : '',
+        project: vitae.project,
         responsibilities: vitae.responsibilities,
         level: vitae.level,
       })),
@@ -323,14 +325,14 @@ type ProjectBasicFormValues = {
 
 const ProjectBasicForm = ({
   data,
+  projectList,
   onSubmit,
 }: {
   data: Vitae
+  projectList: ProjectDetails[]
   onSubmit: (values: ProjectBasicFormValues) => void
 }) => {
   const [form] = Form.useForm<ProjectBasicFormValues>()
-  const { data: data2 } = useQuery<ProjectsQueryType>(queryProjects)
-  const allProjectsList = data2?.projects?.slice().sort((a, b) => (a.name > b.name ? 1 : -1)) || []
 
   return (
     <StyledProjectForm
@@ -341,22 +343,26 @@ const ProjectBasicForm = ({
       onFinish={onSubmit}
     >
       <Form.Item name="project" label="Project" initialValue={data.project}>
-        <Select
-          showSearch
-          style={{ width: '100%' }}
-          placeholder="Select a project"
-          optionFilterProp="children"
-          filterOption={(input, option) =>
-            option?.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
-          onBlur={form.submit}
-        >
-          {allProjectsList.map(project => (
-            <Option key={project.id} value={project.code} style={{ overflow: 'visible' }}>
-              {project.name}
-            </Option>
-          ))}
-        </Select>
+        {data.company && isWordSyncretis(data.company) ? (
+          <Select
+            showSearch
+            style={{ width: '100%' }}
+            placeholder="Select a project"
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option?.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+            onBlur={form.submit}
+          >
+            {projectList.map(project => (
+              <Option key={project.id} value={project.code} style={{ overflow: 'visible' }}>
+                {project.name}
+              </Option>
+            ))}
+          </Select>
+        ) : (
+          <Input onBlur={form.submit} />
+        )}
       </Form.Item>
       <Form.Item name="position" label="Position" initialValue={data.position}>
         <Input onBlur={form.submit} />
@@ -478,13 +484,19 @@ const ProjectDetailedForm = ({
   )
 }
 
-const ProjectHeader = ({ data }: { data: Vitae }) => {
+const ProjectHeader = ({ data, projectList }: { data: Vitae; projectList: ProjectDetails[] }) => {
   if (!data.project && !data.position && !data.level) {
     return <StyledProjectName>Unknown project</StyledProjectName>
   }
+  const project = data.project && projectList.find(p => p.code === data.project)
   return (
     <Space>
-      {data.project && <Tag style={{ fontSize: 14 }}>{data.project}</Tag>}
+      {data.project &&
+        (project ? (
+          <ProjectTag project={project} />
+        ) : (
+          <Tag style={{ fontSize: 14 }}>{data.project}</Tag>
+        ))}
       <StyledProjectName>{data.position}</StyledProjectName>
       {data.level && <Tag>{data.level}</Tag>}
     </Space>
@@ -503,18 +515,25 @@ const ProjectView = ({
   onDelete: () => void
 }) => {
   const [isEditMode, setIsEditMode] = useState(false)
+  const { data: queryData } = useQuery<ProjectsQueryType>(queryProjects)
+  const projectList = queryData?.projects?.slice().sort((a, b) => (a.name > b.name ? 1 : -1)) || []
+
   return (
     <StyledProjectCard>
       <StyledProjectHead>
         <CardTitle>
           {editable && isEditMode ? (
             <StyledProjectTitle>
-              <ProjectBasicForm data={data} onSubmit={values => onUpdate({ ...data, ...values })} />
+              <ProjectBasicForm
+                data={data}
+                projectList={projectList}
+                onSubmit={values => onUpdate({ ...data, ...values })}
+              />
               <Button type="link" icon={<CheckOutlined />} onClick={() => setIsEditMode(false)} />
             </StyledProjectTitle>
           ) : (
             <Space>
-              <ProjectHeader data={data} />
+              <ProjectHeader data={data} projectList={projectList} />
               {editable && !isEditMode && (
                 <CardActions>
                   <Button type="link" icon={<EditOutlined />} onClick={() => setIsEditMode(true)} />
