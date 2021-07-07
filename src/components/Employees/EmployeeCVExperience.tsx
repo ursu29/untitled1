@@ -127,13 +127,13 @@ function EmployeeCVExperience({ employee, vitaes, curriculumVitaeID, editable }:
       employee: employee.id,
       vitaes: values.map((vitae: any) => ({
         id: vitae.id,
-        position: vitae.position,
+        position: vitae.position?.trim(),
         company: vitae.company.charAt(0).toUpperCase() + vitae.company.slice(1).trim(),
         dateStart: vitae.dateStart ? dateToISO(vitae.dateStart) : null,
         dateEnd: vitae.dateEnd ? dateToISO(vitae.dateEnd) : null,
-        project: vitae.project,
-        responsibilities: vitae.responsibilities,
-        level: vitae.level,
+        project: vitae.project?.trim(),
+        responsibilities: vitae.responsibilities?.trim(),
+        level: vitae.level?.trim(),
       })),
     })
   }
@@ -256,6 +256,7 @@ const CardHeader = styled.div`
 `
 
 const StyledCompanyHead = styled(CardHeader)`
+  align-items: flex-start;
   margin: 8px 0 16px;
 `
 
@@ -286,10 +287,13 @@ const StyledProjectBody = styled.div`
     margin-top: 16px;
   }
 `
-const StyledProjectForm = styled(Form)`
+const StyledInlineForm = styled(Form)`
   width: 100%;
   .ant-form-item {
     flex: 1;
+  }
+  .ant-form-item-with-help {
+    margin-bottom: 0;
   }
 `
 const StyledProjectResponsibilities = styled(RichText)`
@@ -317,22 +321,13 @@ const JobView = ({
       <StyledCompanyHead>
         <CardTitle>
           {editable && isEditMode ? (
-            <>
-              <AutoComplete
-                style={{ width: '100%' }}
-                options={syncretisNames.map(value => ({ value }))}
-                defaultValue={company}
-                onBlur={event => {
-                  // @ts-expect-error
-                  const nextCompanyName = event.target.value || ''
-                  onUpdate(data.map(p => ({ ...p, company: nextCompanyName })))
-                }}
-                filterOption={(inputValue, option) =>
-                  option!.value.toUpperCase().startsWith(inputValue.toUpperCase())
-                }
-              />
-              <Button type="link" icon={<CheckOutlined />} onClick={() => setIsEditMode(false)} />
-            </>
+            <CompanyNameForm
+              company={company}
+              onSubmit={values => {
+                onUpdate(data.map(p => ({ ...p, company: values.company })))
+                setIsEditMode(false)
+              }}
+            />
           ) : (
             <>
               <div style={{ fontSize: 18 }}>{company || 'Unknown company'}</div>
@@ -375,6 +370,53 @@ const JobView = ({
   )
 }
 
+type CompanyNameFormValues = {
+  company: string
+}
+
+const CompanyNameForm = ({
+  company,
+  onSubmit,
+}: {
+  company: string
+  onSubmit: (values: CompanyNameFormValues) => void
+}) => {
+  const [form] = Form.useForm<CompanyNameFormValues>()
+
+  return (
+    <StyledInlineForm
+      form={form}
+      layout="inline"
+      name={`cv-company-name-${company}`}
+      // @ts-expect-error
+      onFinish={onSubmit}
+    >
+      <Form.Item
+        name="company"
+        label=""
+        initialValue={company}
+        rules={[
+          {
+            required: true,
+            whitespace: true,
+            message: `Company name is required.`,
+          },
+        ]}
+      >
+        <AutoComplete
+          placeholder="Enter company name"
+          style={{ width: '100%' }}
+          options={syncretisNames.map(value => ({ value }))}
+          filterOption={(inputValue, option) =>
+            option!.value.toUpperCase().startsWith(inputValue.toUpperCase())
+          }
+        />
+      </Form.Item>
+      <Button htmlType="submit" type="link" icon={<CheckOutlined />} />
+    </StyledInlineForm>
+  )
+}
+
 type ProjectBasicFormValues = {
   project?: string
   position?: string
@@ -393,7 +435,7 @@ const ProjectBasicForm = ({
   const [form] = Form.useForm<ProjectBasicFormValues>()
 
   return (
-    <StyledProjectForm
+    <StyledInlineForm
       form={form}
       layout="inline"
       name={`cv-project-basic-${data.id}`}
@@ -405,12 +447,11 @@ const ProjectBasicForm = ({
           <Select
             showSearch
             style={{ width: '100%' }}
-            placeholder="Select a project"
+            placeholder="Select"
             optionFilterProp="children"
             filterOption={(input, option) =>
               option?.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
-            onBlur={form.submit}
           >
             {projectList.map(project => (
               <Option key={project.id} value={project.code} style={{ overflow: 'visible' }}>
@@ -419,30 +460,42 @@ const ProjectBasicForm = ({
             ))}
           </Select>
         ) : (
-          <Input onBlur={form.submit} />
+          <Input placeholder="Select" />
         )}
       </Form.Item>
-      <Form.Item name="position" label="Position" initialValue={data.position}>
+      <Form.Item
+        name="position"
+        label="Position"
+        initialValue={data.position}
+        rules={[
+          {
+            required: true,
+            whitespace: true,
+            message: `Position is required.`,
+          },
+        ]}
+      >
         <AutoComplete
+          placeholder="Select"
           style={{ width: '100%' }}
           options={positionValues}
           filterOption={(inputValue, option) =>
             option!.value.toUpperCase().startsWith(inputValue.toUpperCase())
           }
-          onBlur={form.submit}
         />
       </Form.Item>
       <Form.Item name="level" label="Level" initialValue={data.level}>
         <AutoComplete
+          placeholder="Select"
           style={{ width: '100%' }}
           options={levelValues}
           filterOption={(inputValue, option) =>
             option!.value.toUpperCase().startsWith(inputValue.toUpperCase())
           }
-          onBlur={form.submit}
         />
       </Form.Item>
-    </StyledProjectForm>
+      <Button htmlType="submit" type="link" icon={<CheckOutlined />} />
+    </StyledInlineForm>
   )
 }
 
@@ -600,9 +653,11 @@ const ProjectView = ({
               <ProjectBasicForm
                 data={data}
                 projectList={projectList}
-                onSubmit={values => onUpdate({ ...data, ...values })}
+                onSubmit={values => {
+                  onUpdate({ ...data, ...values })
+                  setIsEditMode(false)
+                }}
               />
-              <Button type="link" icon={<CheckOutlined />} onClick={() => setIsEditMode(false)} />
             </StyledProjectTitle>
           ) : (
             <Space>
