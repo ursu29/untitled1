@@ -41,6 +41,58 @@ const syncretisNames = ['Sidenis', 'Syncretis (ex Sidenis)', 'Syncretis']
 const isWordSyncretis = (word: string) =>
   syncretisNames.map(e => e.toLowerCase()).includes(word.toLowerCase())
 
+const positionValues = [
+  { value: 'Frontend Developer' },
+  { value: 'Backend Developer' },
+  { value: 'Manual QA' },
+  { value: 'Automation QA' },
+  { value: 'Software Engineer' },
+  { value: 'Data Engineer' },
+  { value: 'Data Scientist' },
+  { value: 'System Administrator' },
+  { value: 'DevOps Engineer' },
+  { value: 'Support Engineer' },
+  { value: 'Business Analyst' },
+  { value: 'System Analyst' },
+  { value: 'UX/UI Designer' },
+
+  { value: 'Team Lead' },
+  { value: 'Scrum Master' },
+  { value: 'Agile Manager' },
+  { value: 'Project Manager' },
+  { value: 'Marketing Manager' },
+  { value: 'HR Manager' },
+  { value: 'Office Manager' },
+
+  // ? tech names
+  { value: 'Java Developer' },
+  { value: '.NET Developer' },
+  { value: 'R Developer' },
+
+  // ? rare
+  { value: 'Mathematical Software Engineer' },
+  { value: 'Math Developer' },
+  { value: 'Machine Learning Engineer' },
+  { value: 'Mathematical Modeler' },
+  { value: 'Data Visualization Engineer' },
+  { value: 'CEO' },
+  { value: 'CCO' },
+  { value: 'CTO' },
+  { value: 'Head of the local office' },
+  { value: 'Head of IT Infrastructure' },
+  { value: 'Head of Security' },
+  { value: 'Head of Operation' },
+  { value: 'Actuarial Pricing Consultant' },
+  { value: 'Staff Record Specialist' },
+  { value: 'Online Advertising Specialist' },
+  { value: 'Accountant' },
+  { value: 'English Teacher' },
+  { value: 'Lawyer' },
+  // { value: 'Trainee' },
+  // { value: 'Intern' },
+]
+const levelValues = [{ value: 'Junior' }, { value: 'Middle' }, { value: 'Senior' }]
+
 interface PropsGeneral {
   editable: boolean
   vitaes: Vitae[]
@@ -365,10 +417,24 @@ const ProjectBasicForm = ({
         )}
       </Form.Item>
       <Form.Item name="position" label="Position" initialValue={data.position}>
-        <Input onBlur={form.submit} />
+        <AutoComplete
+          style={{ width: '100%' }}
+          options={positionValues}
+          filterOption={(inputValue, option) =>
+            option!.value.toUpperCase().startsWith(inputValue.toUpperCase())
+          }
+          onBlur={form.submit}
+        />
       </Form.Item>
       <Form.Item name="level" label="Level" initialValue={data.level}>
-        <Input onBlur={form.submit} />
+        <AutoComplete
+          style={{ width: '100%' }}
+          options={levelValues}
+          filterOption={(inputValue, option) =>
+            option!.value.toUpperCase().startsWith(inputValue.toUpperCase())
+          }
+          onBlur={form.submit}
+        />
       </Form.Item>
     </StyledProjectForm>
   )
