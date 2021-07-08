@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { Space } from 'antd'
 import React from 'react'
 import { EmployeeDetails } from '../../fragments'
 import message from '../../message'
@@ -37,8 +38,7 @@ function ProjectManagers({ project, title, managers }: Props) {
   return (
     <Skeleton active avatar loading={loading}>
       {!managers ? (
-        <>
-          {' '}
+        <Space direction="vertical">
           <EmployeeGroup
             title={scrumMasters.length > 1 ? 'Scrum masters' : 'Scrum master'}
             employees={scrumMasters}
@@ -47,7 +47,7 @@ function ProjectManagers({ project, title, managers }: Props) {
             title={agileManagers.length > 1 ? 'Agile managers' : 'Agile manager'}
             employees={agileManagers}
           />{' '}
-        </>
+        </Space>
       ) : (
         <EmployeeGroup title={title || ''} employees={managers} />
       )}

@@ -136,7 +136,7 @@ export default function Career({ employee, access }: Props) {
 
   return (
     <>
-      <Space direction="vertical" size="middle">
+      <Space direction="vertical" size="middle" style={{ width: '100%' }}>
         <Radio.Group
           value={activeTab}
           onChange={e => {

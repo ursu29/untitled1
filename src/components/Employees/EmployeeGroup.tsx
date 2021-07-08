@@ -1,5 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
-import { Button, Popconfirm, Tooltip, Typography } from 'antd'
+import { Button, Popconfirm, Space, Tooltip, Typography } from 'antd'
 import React, { useState } from 'react'
 import { EmployeeDetails } from '../../fragments'
 import message from '../../message'
@@ -108,11 +108,11 @@ function EmployeeGroup({ title, employees, one2one, isMe }: Props) {
           </div>
         )}
       </div>
-      <div>
+      <Space direction="vertical" size="middle">
         {employees.slice(0, showMore ? employees.length : 2).map(i => (
           <EmployeeCard email={i.email} employee={i} key={i?.id} />
         ))}
-      </div>
+      </Space>
     </div>
   )
 }
