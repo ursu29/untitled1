@@ -36,7 +36,7 @@ export default function EmployeeProjects(props: Props) {
           <Typography.Title level={4} data-cy="projects">
             Projects
           </Typography.Title>
-          <ProjectTagList small projects={projects} employeeProjects={employeeProjects} />
+          <ProjectTagList small projects={projects} employeeProjects={employeeProjects} oneRow />
         </>
       )}
     </Skeleton>

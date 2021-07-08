@@ -12,14 +12,22 @@ interface Props {
   small?: boolean
   projects?: ProjectPick[]
   employeeProjects?: EmployeeProject[]
+  oneRow?: boolean
 }
 
-export default function ProjectTagList({ loading, small, projects, employeeProjects }: Props) {
+export default function ProjectTagList({
+  loading,
+  small,
+  projects,
+  employeeProjects,
+  oneRow,
+}: Props) {
   const [showMoreVisible, setShowMoreVisible] = React.useState(false)
-  const [showMore, setShowMore] = React.useState(false)
+  const [showMore, setShowMore] = React.useState(!oneRow)
   const ref = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
+    if (!oneRow) return
     const handleResize = debounce(100, () => {
       if (ref.current) {
         if (ref.current.scrollHeight > ref.current.offsetHeight) {
