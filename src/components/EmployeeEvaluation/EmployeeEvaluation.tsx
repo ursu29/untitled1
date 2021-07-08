@@ -8,7 +8,8 @@ import {
 } from '../../queries/archiveSEF'
 import VersionSnapshot from '../UI/VersionSnapshot'
 import getEvaluations, { QueryType } from '../../queries/getEvaluations'
-import { Employee, ArchivedSEFData } from '../../types'
+import { ArchivedSEFData } from '../../types'
+import { Employee } from '../../types/graphql'
 import EvaluationAttributes from './EvaluationAttributes'
 import message from '../../message'
 
@@ -93,6 +94,7 @@ function EmployeeEvaluation({ employee, editable }: Props) {
         isArchivedChosen && archivedEvaluations
           ? [
               {
+                id: 'asdf',
                 body: archivedComment,
               },
             ]

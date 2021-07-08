@@ -19,8 +19,8 @@ interface Props {
 }
 
 const COLORS: any = {
-  is: '#2F80ED',
-  guild: '#27AE60',
+  is: '#1890FF',
+  guild: '#7CB305',
   az: '#F2994A',
   sr: '#8C94AF',
   academy: '#be84be',

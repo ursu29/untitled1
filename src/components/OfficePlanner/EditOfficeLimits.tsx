@@ -82,14 +82,14 @@ export default function EditOfficeLimits({
                 setLocation(value)
               }}
             >
-              <Select.Option value={LOCATION.SAINT_PETERSBURG}>
-                {getLocationName(LOCATION.SAINT_PETERSBURG)}
+              <Select.Option value={LOCATION.SaintPetersburg}>
+                {getLocationName(LOCATION.SaintPetersburg)}
               </Select.Option>
-              <Select.Option value={LOCATION.TOMSK}>
-                {getLocationName(LOCATION.TOMSK)}
+              <Select.Option value={LOCATION.Tomsk}>
+                {getLocationName(LOCATION.Tomsk)}
               </Select.Option>
-              <Select.Option value={LOCATION.KALININGRAD}>
-                {getLocationName(LOCATION.KALININGRAD)}
+              <Select.Option value={LOCATION.Kaliningrad}>
+                {getLocationName(LOCATION.Kaliningrad)}
               </Select.Option>
             </Select>
             <Input

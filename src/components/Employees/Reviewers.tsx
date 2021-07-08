@@ -7,8 +7,8 @@ import Avatar from '../Avatar'
 
 interface Props extends PropsWithChildren<any> {
   reviewers: Pick<Employee, 'id' | 'name' | 'email'>[] | null
-  isAvatarsShown: boolean
-  isAddButtonShown: boolean
+  isAvatarsShown?: boolean | null
+  isAddButtonShown?: boolean | null
   selectIsLoading: boolean
   onBlur: any
 }
@@ -77,7 +77,9 @@ export default function Reviewers(props: Props) {
               style={{ width: 200 }}
             />
           ) : (
-            <Button onClick={() => setIsAddReviewerSelectOpen(true)} data-cy="reviewer">Add reviewer</Button>
+            <Button onClick={() => setIsAddReviewerSelectOpen(true)} data-cy="reviewer">
+              Add reviewer
+            </Button>
           )}
         </div>
       )}

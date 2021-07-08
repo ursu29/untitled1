@@ -27,7 +27,7 @@ export default function PostsPage() {
   const employee = data?.profile
 
   const [filter, setFilter] = useState({
-    isTranslated: employee?.location === LOCATION.ZURICH ? true : false,
+    isTranslated: employee?.location === LOCATION.Zurich ? true : false,
     tags: null,
     text: null,
   })

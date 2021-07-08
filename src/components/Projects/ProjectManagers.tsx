@@ -4,7 +4,7 @@ import { EmployeeDetails } from '../../fragments'
 import message from '../../message'
 import query, { QueryType } from '../../queries/getProjectManagers'
 import { Project } from '../../types'
-import EmployeeGroup from '../Employees/EmployeeGroup.new'
+import EmployeeGroup from '../Employees/EmployeeGroup'
 import Skeleton from '../UI/Skeleton'
 
 interface Props {

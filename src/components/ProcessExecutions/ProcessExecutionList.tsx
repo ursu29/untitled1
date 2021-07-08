@@ -210,7 +210,7 @@ function ProcessList({ items, tabName }: Props) {
       render: (_: any, process: any) => {
         const locations =
           (process?.locations as LOCATION[])
-            ?.map((i: any) => (i === LOCATION.SAINT_PETERSBURG ? 'Saint-P' : getLocationName(i)))
+            ?.map((i: any) => (i === LOCATION.SaintPetersburg ? 'Saint-P' : getLocationName(i)))
             .join(', ') ?? '-'
         return (
           <span title={locations} style={{ whiteSpace: 'break-spaces' }}>

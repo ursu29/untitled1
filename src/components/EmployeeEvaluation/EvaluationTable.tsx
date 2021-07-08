@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { ExclamationOutlined } from '@ant-design/icons'
 import { Table, Input, Tooltip } from 'antd'
-import {
-  EvaluationAttribute,
-  EvaluationComment,
-  EvaluationReviewer,
-  Evaluation,
-  Employee,
-} from '../../types'
+import { Employee } from '../../types/graphql'
+import { EvaluationAttribute, EvaluationComment, EvaluationReviewer, Evaluation } from '../../types'
 import { CommentEmpty, CommentFill } from './Icons'
 import CommentModal from '../UI/CommentModal'
 import { EvaluationRate } from '../UI/EvaluationRate'

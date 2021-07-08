@@ -51,8 +51,7 @@ const EmployeeCV = ({ employee, editable }: PropsGeneral) => {
             name: employeeFull?.employeeByEmail?.name,
             position: employeeFull?.employeeByEmail?.position,
             location: employeeFull?.employeeByEmail?.location
-              ? //@ts-expect-error
-                getLocationName(employeeFull?.employeeByEmail?.location)
+              ? getLocationName(employeeFull?.employeeByEmail?.location)
               : '',
           },
         }),

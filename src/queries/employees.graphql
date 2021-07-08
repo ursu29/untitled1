@@ -2,7 +2,6 @@ fragment EmployeeDetails on Employee {
   id
   name
   location
-  country
   position
   phoneNumber
   email
@@ -14,6 +13,16 @@ fragment EmployeeDetails on Employee {
 query getEmployee($email: String!) {
   employeeByEmail(email: $email) {
     ...EmployeeDetails
+  }
+}
+
+query getEmployeeDetailed($email: String!) {
+   employeeByEmail(email: $email) {
+    ...EmployeeDetails
+    agileManager {
+      ...EmployeeDetails
+    }
+    bonuses
   }
 }
 

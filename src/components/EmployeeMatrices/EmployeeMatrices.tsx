@@ -1,7 +1,7 @@
 import { useQuery, useMutation, gql } from '@apollo/client'
 import React from 'react'
 import getEmployeeMatrices, { QueryType } from '../../queries/getEmployeeMatrices'
-import { Employee, Access } from '../../types'
+import { Employee, Access } from '../../types/graphql'
 import EmployeeReviewers, { ReviewersNames } from '../Employees/EmployeeReviewers'
 import Controls from '../UI/Controls'
 import AttachMatrix from './AttachMatrix'
@@ -12,7 +12,7 @@ import Legend from './Legend'
 import message from '../../message'
 
 interface Props {
-  employee?: Pick<Employee, 'id' | 'name' | 'email' | 'isMe'>
+  employee?: Pick<Employee, 'id' | 'email' | 'isMe'>
   reviewersListAccess: Access
 }
 
