@@ -8,7 +8,8 @@ import { FormInstance } from 'antd/lib/form'
 interface Props {
   value?: Partial<DevelopmentGoal>[]
   onChange?: (items: Partial<DevelopmentGoal>[]) => void
-  showAchievedSwitch: boolean
+  showAchievedSwitch?: boolean
+  withoutAbilityToDelete?: boolean
   disabled?: boolean
 }
 
@@ -186,13 +187,19 @@ function DevelopmentGoals({ onChange, disabled, ...props }: Props, ref: any) {
     })
   }
 
-  columns = columns.concat([
-    {
-      title: 'Comment',
-      dataIndex: 'comment',
-      editable: !disabled,
-    },
-    {
+  columns = [
+    ...columns,
+    ...[
+      {
+        title: 'Comment',
+        dataIndex: 'comment',
+        editable: !disabled,
+      },
+    ],
+  ]
+
+  if (!props.withoutAbilityToDelete) {
+    columns.push({
       width: '50px',
       dataIndex: 'operation',
       render: (text: any, { key, ...record }: any) => (
@@ -208,8 +215,8 @@ function DevelopmentGoals({ onChange, disabled, ...props }: Props, ref: any) {
           <Button type="link" disabled={disabled} icon={<DeleteOutlined />} />
         </Popconfirm>
       ),
-    },
-  ])
+    })
+  }
 
   return (
     <div>
