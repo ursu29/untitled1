@@ -4,11 +4,9 @@ import { Access, Employee } from '../../types/graphql'
 import URLAction from '../../utils/URLAction'
 import EmployeeEvaluation from '../EmployeeEvaluation/EmployeeEvaluation'
 import EmployeeMatrices from '../EmployeeMatrices/EmployeeMatrices'
-import { TabTitleWithBadge } from '../UI/TabTitleWithBadge'
 import EmployeeCV from './EmployeeCV'
 import EmployeeDevelopmentPlan from './EmployeeDevelopmentPlan'
 import EmployeeSkills from './EmployeeSkills'
-import EmployeeSubordinates from './EmployeeSubordinates'
 
 interface Props {
   employee: Pick<
@@ -79,40 +77,6 @@ export default function Career({ employee, access }: Props) {
           reviewersListAccess={access.developmentPlanLookReviewersAccess}
         />
       ),
-    })
-  }
-
-  if (employee?.subordinateUsersCount?.users) {
-    tabs.push({
-      title: (
-        <TabTitleWithBadge
-          title={`Total count: ${employee.subordinateUsersCount?.users} user(s)`}
-          count={employee.subordinateUsersCount?.users}
-          offset={[12, -6]}
-          overflowCount={999}
-          showZero
-          style={{
-            backgroundColor: '#fff',
-            color: '#999',
-            boxShadow: '0 0 0 1px #d9d9d9 inset',
-          }}
-        >
-          <TabTitleWithBadge
-            title={`One-2-one: ${employee.subordinateUsersCount?.one2oneRequests} request(s)`}
-            count={employee.subordinateUsersCount?.one2oneRequests ? '1-2-1' : null}
-            offset={[-25, -9]}
-            size="small"
-            style={{
-              backgroundColor: '#ffc400',
-              fontSize: '10px',
-            }}
-          >
-            My employees
-          </TabTitleWithBadge>
-        </TabTitleWithBadge>
-      ),
-      key: 'employees',
-      body: <EmployeeSubordinates employee={employee} />,
     })
   }
 

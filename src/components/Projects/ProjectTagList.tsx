@@ -42,7 +42,7 @@ export default function ProjectTagList({
     return () => {
       window.removeEventListener('resize', handleResize)
     }
-  }, [])
+  }, [oneRow])
 
   if (!projects?.length) {
     return <div data-cy="no_project">No projects</div>
