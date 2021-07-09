@@ -75,7 +75,6 @@ export default function EmployeeManager({ employee }: Props) {
                 </Button>
               </Popconfirm>
             </Tooltip>
-            <Button disabled>Salary Change Request</Button>
           </>
         )}
       </Space>
