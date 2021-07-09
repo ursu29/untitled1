@@ -189,13 +189,11 @@ function DevelopmentGoals({ onChange, disabled, ...props }: Props, ref: any) {
 
   columns = [
     ...columns,
-    ...[
-      {
-        title: 'Comment',
-        dataIndex: 'comment',
-        editable: !disabled,
-      },
-    ],
+    {
+      title: 'Comment',
+      dataIndex: 'comment',
+      editable: !disabled,
+    },
   ]
 
   if (!props.withoutAbilityToDelete) {
