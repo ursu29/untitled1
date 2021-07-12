@@ -94,12 +94,18 @@ export default function PortalAvatar({
                 },
               })
                 .then(data => {
+                  console.log({ data })
+                  console.log({ data1: data.statusText })
                   if (data.statusText === 'OK') {
                     return data.arrayBuffer()
                   } else throw new Error('Image fetch error')
                 })
-                .then(data => new Blob([data]))
+                .then(data => {
+                  console.log({ data2: data })
+                  return new Blob([data])
+                })
                 .then(blob => {
+                  console.log({ data3: blob })
                   const src = URL.createObjectURL(blob)
                   avatars[resolution][employee?.email] = src
                   setSrc(src)
@@ -107,7 +113,8 @@ export default function PortalAvatar({
                   // Save avatar to indexedDB
                   employeeIDB.put({ mail: employee.email, avatar: { [resolution]: blob } })
                 })
-                .catch(() => {
+                .catch(e => {
+                  console.error('Avatar fetch error: ', e)
                   // Save avatar = null to indexedDB
                   employeeIDB.put({ mail: employee.email, avatar: { [resolution]: null } })
                   setShowPlaceholder(true)
