@@ -23,6 +23,7 @@ export default function PortalButton({
   shape,
   disabled,
   id,
+  'data-cy': dataCy,
 }: Props) {
   return (
     <Button
@@ -34,6 +35,7 @@ export default function PortalButton({
       style={style}
       disabled={disabled}
       id={id}
+      data-cy={dataCy}
     >
       {children}
     </Button>

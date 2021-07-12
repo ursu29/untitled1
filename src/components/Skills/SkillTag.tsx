@@ -1,19 +1,47 @@
 import React, { useState } from 'react'
 import { Tag, Popconfirm, Tooltip } from 'antd'
-import { Skill } from '../../types/graphql'
+import { Skill, Level } from '../../types/graphql'
 import { withRouter, RouteComponentProps } from 'react-router'
 import { getSkillLink } from '../../paths'
+import styled, { css } from 'styled-components'
+
+const StyledTag = styled(Tag)<{ level?: Level | null }>`
+  margin-top: 6px;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  ${props => {
+    switch (props.level) {
+      case Level.Experienced:
+        return css`
+          background: #eafff5;
+          color: #237804;
+          border-color: #15e17f;
+        `
+      case Level.Confident:
+        return css`
+          background: #fffbe6;
+          color: #9b6803;
+          border-color: #ffcc24;
+        `
+      default:
+        return null
+    }
+  }}
+`
 
 type Props = {
   closable?: boolean
   clickable?: boolean
   skill: Pick<Skill, 'id' | 'name' | 'description'>
+  level?: Level | null
   onClose?: (skill: Pick<Skill, 'id' | 'name'>) => void
   style?: any
 } & RouteComponentProps
 
 export default withRouter(
-  ({ skill, closable, clickable = true, onClose, history, style }: Props) => {
+  ({ skill, level, closable, clickable = true, onClose, history, style }: Props) => {
     const [deleting, setDeleting] = useState(false)
     const toggleDeleting = () => setDeleting(!deleting)
     const handleClick = (e: any) => {
@@ -23,16 +51,10 @@ export default withRouter(
 
     return (
       <Tooltip placement="left" title={skill.description}>
-        <Tag
+        <StyledTag
           closable={closable}
-          style={{
-            marginTop: 6,
-            marginBottom: 6,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            ...style,
-          }}
+          level={level}
+          style={style}
           onClose={(e: any) => {
             e.preventDefault()
             setDeleting(true)
@@ -61,7 +83,7 @@ export default withRouter(
               cancelText="No"
             />
           )}
-        </Tag>
+        </StyledTag>
       </Tooltip>
     )
   },

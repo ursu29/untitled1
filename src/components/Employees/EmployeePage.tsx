@@ -1,36 +1,13 @@
-import { useQuery, gql } from '@apollo/client'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
-import { Employee as EmployeeType } from '../../types'
+import { useGetEmployeeDetailedQuery } from '../../queries/employees'
+import EmployeeTabs from '../Employees/EmployeeTabs'
+import Helmet from '../Helmet'
+import NotFound from '../UI/NotFound'
+import PageContent from '../UI/PageContent'
+import PageHeader from '../UI/PageHeader'
 import Skeleton from '../UI/Skeleton'
 import Employee from './Employee'
-import EmployeeTabs from '../Employees/EmployeeTabs'
-import Controls from '../UI/Controls'
-import Back from '../UI/Back'
-import PageContent from '../UI/PageContent'
-import NotFound from '../UI/NotFound'
-import fragments, { EmployeeDetails } from '../../fragments'
-import Helmet from '../Helmet'
-
-export const getEmployeeDetails = gql`
-  query getEmployee($email: String!) {
-    employeeByEmail(email: $email) {
-      ...EmployeeDetails
-      agileManager {
-        ...EmployeeDetails
-      }
-      bonuses
-      status
-    }
-  }
-  ${fragments.Employee.Details}
-`
-
-export type EmployeePick = EmployeeDetails & {
-  status: EmployeeType['status']
-  bonuses: EmployeeType['bonuses']
-  agileManager: EmployeeDetails | null
-}
 
 function EmployeePage({
   match,
@@ -42,7 +19,7 @@ function EmployeePage({
 }) {
   const { email, tab } = match.params
 
-  const { data, loading, error } = useQuery<{ employeeByEmail: EmployeePick }>(getEmployeeDetails, {
+  const { data, loading, error } = useGetEmployeeDetailedQuery({
     variables: { email: rewriteEmail ?? email },
   })
 
@@ -56,9 +33,9 @@ function EmployeePage({
     <Skeleton loading={loading || !data} avatar withOffset>
       {employee && (
         <>
+          {!hideNavigation && <PageHeader withBack title={`${employee.name}'s profile`} />}
           <Helmet title={employee.name} />
           <PageContent noBottom>
-            <Controls back={!hideNavigation && <Back />} />
             <Employee employee={employee} />
           </PageContent>
           <EmployeeTabs key={employee.id} employee={employee} tab={tab} />

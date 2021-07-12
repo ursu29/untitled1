@@ -19,7 +19,7 @@ describe('create new proposal (devRel)', () => {
   })
 
 
-  it.skip('decline proposal', () => {
+  it('decline proposal', () => {
     cy.post(getDevRels()).then(req => {
       allDevRealsProposals = req.body.data.devrels
       const ID = allDevRealsProposals.filter(el => el.title === proposalObj.title)[0].id

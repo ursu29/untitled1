@@ -2,7 +2,7 @@ import {getEmployee, updateOneTwoOne} from "../../../support/getData";
 import {email, oneTwoOne, popUp} from "../../../support/client/employeeData";
 import {matrix} from "../../../support/locators";
 import {oneTwoOneLocators} from "../../../support/client/oneTwoOne";
-import { getProfileTabUrl } from '../../../support/utils'
+import {getTabUrl} from '../../../support/utils'
 
 describe('Close oneTwoOne meeting (oneTwoOne)', () => {
     let employeeId
@@ -22,7 +22,7 @@ describe('Close oneTwoOne meeting (oneTwoOne)', () => {
     it('To accept a new meeting', () => {
         cy.setToken('manager')
         cy.setImgToken('manager')
-        cy.visit(getProfileTabUrl('employees'))
+        cy.visit(getTabUrl('employees'))
 
         cy.get(oneTwoOneLocators.closeOneTwoOne).eq(0).click()
         cy.get(popUp.title).should('contain.text', oneTwoOne.closeTitle)

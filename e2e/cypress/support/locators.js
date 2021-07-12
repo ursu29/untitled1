@@ -169,7 +169,8 @@ export const matrix = {
 export const notificationsText = {
   errorSef: 'You cannot change your own reviewers list',
   deleteReviewer:  'Reviewer removed',
-  addReviewer: 'Reviewer added'
+  addReviewer: 'Reviewer added',
+  updateSeF: 'Evaluation form is updated'
 }
 
 export const workspace = {
@@ -262,4 +263,12 @@ export const personalDevLocators = {
   forward: 'lookForward',
   deleteGoals: 'delete',
   achieveBtn: 'achieve'
+}
+
+export const selfEvalForm = {
+  needsBtn: 'needs',
+  meetsBtn: 'meets',
+  exceedsBtn: 'exceeds',
+  fillComment: 'fillComment',
+  comment: 'comment'
 }

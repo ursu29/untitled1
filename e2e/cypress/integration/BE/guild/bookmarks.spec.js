@@ -1,5 +1,5 @@
 import { matrixEl } from '../../../support/client/matrices'
-import { checkElementsInArray, checkTwoString, getCommunityTabUrl } from '../../../support/utils'
+import {checkElementsInArray, checkTwoString, getTabUrl} from '../../../support/utils'
 import {getAllSkills, getBookmarks, updateGuild} from '../../../support/getData'
 import { query } from '../../../fixtures/query'
 
@@ -19,7 +19,7 @@ describe('Check bookmarks', () => {
 
 
     cy.getResponse(['getBookmarks'], 'alias')
-    cy.visit(getCommunityTabUrl('bookmarks'))
+    cy.visit(getTabUrl('bookmarks', '/guilds/community-frontend'))
 
     cy.wait(`@alias`).then(req => {
       request = req.request.body

@@ -1,0 +1,65 @@
+fragment HobbyPostCommentBase on HobbyPostComment {
+  id
+  body
+  createdAt
+  createdBy {
+    id
+    name
+    email
+  }
+}
+
+fragment HobbyPostPreview on HobbyPost {
+  title
+  body
+  createdAt
+  createdBy {
+    id
+    name
+    email
+  }
+  hobbies {
+    id
+    name
+  }
+}
+
+fragment HobbyPostBase on HobbyPost {
+  id
+  ...HobbyPostPreview
+  editable
+  language
+  comments {
+    ...HobbyPostCommentBase
+  }
+}
+
+query getHobbyPosts($input: HobbyPostFilterInput) {
+  hobbyPosts(input: $input) {
+    ...HobbyPostBase
+  }
+}
+
+query getHobbyPost($id: ID!) {
+  hobbyPost(id: $id) {
+    ...HobbyPostBase
+  }
+}
+
+mutation createHobbyPost($input: CreateHobbyPostInput!) {
+  createHobbyPost(input: $input) {
+    ...HobbyPostBase
+  }
+}
+
+mutation updateHobbyPost($input: UpdateHobbyPostInput!) {
+  updateHobbyPost(input: $input) {
+    ...HobbyPostBase
+  }
+}
+
+mutation replyHobbyPost($input: HobbyPostReplyInput!) {
+  replyHobbyPost(input: $input) {
+    ...HobbyPostBase
+  }
+}

@@ -2,7 +2,7 @@ import { Tooltip } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import React, { useEffect, useRef, useState } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
-import styled, { keyframes } from 'styled-components/macro'
+import styled, { keyframes } from 'styled-components'
 
 const StyledContainer = styled.div`
   text-overflow: ellipsis;

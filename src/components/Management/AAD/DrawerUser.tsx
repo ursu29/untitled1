@@ -1,5 +1,4 @@
 import { CopyOutlined, LockOutlined, MinusCircleOutlined, UnlockOutlined } from '@ant-design/icons'
-import { useQuery } from '@apollo/client'
 import { Group, User } from '@microsoft/microsoft-graph-types'
 import { Button, DatePicker, Drawer, Form, Input, Select, Tabs, Tooltip } from 'antd'
 import MaskedInput from 'antd-mask-input'
@@ -15,12 +14,16 @@ import {
   PHONE_MASKS,
 } from '../../../constants'
 import message from '../../../message'
-import { useCreateEmployeeMutation, useUpdateEmployeeMutation } from '../../../queries/employees'
+import {
+  useCreateEmployeeMutation,
+  useGetEmployeeDetailedQuery,
+  useUpdateEmployeeMutation,
+  GetEmployeeDetailedDocument,
+} from '../../../queries/employees'
 import getEmployeeProjects from '../../../queries/getEmployeeProjects'
 import copyToClipboard from '../../../utils/copyToClipboard'
 import GraphAPI from '../../../utils/GraphAPI'
 import EmployeeForm from '../../Employees/EmployeeForm'
-import { EmployeePick, getEmployeeDetails } from '../../Employees/EmployeePage'
 import {
   changeCity,
   changeName,
@@ -73,9 +76,7 @@ export default function DrawerUser({
   const [initialProjectsOccupancy, setInitialProjectsOccupancy] = useState([])
 
   // Get employee for the 'additional' tab
-  const { data: employeeData, loading: employeeLoading } = useQuery<{
-    employeeByEmail: EmployeePick
-  }>(getEmployeeDetails, {
+  const { data: employeeData, loading: employeeLoading } = useGetEmployeeDetailedQuery({
     variables: { email: user?.userPrincipalName?.toLowerCase() || '' },
     fetchPolicy: 'network-only',
   })
@@ -118,7 +119,7 @@ export default function DrawerUser({
     onCompleted: () => message.success('Employee additional data has been updated'),
     refetchQueries: [
       {
-        query: getEmployeeDetails,
+        query: GetEmployeeDetailedDocument,
         variables: {
           email: user?.userPrincipalName?.toLowerCase(),
         },
@@ -198,7 +199,7 @@ export default function DrawerUser({
       mobilePhone =
         phonePrefix + ' ' + (document.querySelector('#aad-edit-user_mobilePhone') as any)?.value
       mobilePhone = mobilePhone === user?.mobilePhone ? undefined : mobilePhone
-      if (mobilePhone.length < 4) mobilePhone = undefined
+      if (mobilePhone?.length < 4) mobilePhone = undefined
 
       const restFields = {
         state,
@@ -268,7 +269,7 @@ export default function DrawerUser({
                 },
                 refetchQueries: [
                   {
-                    query: getEmployeeDetails,
+                    query: GetEmployeeDetailedDocument,
                     variables: {
                       email: updatedUser?.userPrincipalName?.toLowerCase(),
                     },
@@ -387,7 +388,7 @@ export default function DrawerUser({
             },
             refetchQueries: [
               {
-                query: getEmployeeDetails,
+                query: GetEmployeeDetailedDocument,
                 variables: {
                   email: updatedUser?.userPrincipalName?.toLowerCase(),
                 },

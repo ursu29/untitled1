@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import Reviewers from './Reviewers'
 import { QueryType as QueryTypeEmployees } from '../../queries/getEmployees'
 import { reviewersQuery } from '../../queries/employeeReviewers'
-import { Employee, Access } from '../../types'
+import { Employee, Access } from '../../types/graphql'
 import message from '../../message'
 
 type Props = {

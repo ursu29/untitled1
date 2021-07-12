@@ -21,3 +21,5 @@ cypress/videos/
 cypress/screenshots/
 cypress.env.json
 __diff_output__
+
+storybook-static

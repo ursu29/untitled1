@@ -19,8 +19,8 @@ const updateExperiences = gql`
 `
 
 interface Props {
-  editable?: boolean
-  showTabs?: boolean
+  editable?: boolean | null
+  showTabs?: boolean | null
   employee?: Pick<Employee, 'id'>
 }
 
@@ -59,7 +59,7 @@ export default function EmployeeSkills({ employee, editable = false, showTabs = 
       {levels && experiences && (
         <div data-cy="allSkills">
           <EmployeeSkillsDraggable
-            editable={editable}
+            editable={Boolean(editable)}
             levels={levels}
             experiences={experiences.filter(e => !e.skill?.isMatrixOnly)}
             onMoveSkill={(id, level) =>

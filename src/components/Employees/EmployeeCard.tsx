@@ -2,38 +2,54 @@ import { Card, Skeleton } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { getEmployeeLink } from '../../paths'
-import { useGetEmployeeQuery } from '../../queries/employees'
-import { Employee } from '../../types/graphql'
+import { GetEmployeeQuery } from '../../queries/employees'
 import Avatar from '../Avatar'
+import './EmployeeCard.css'
+import { useGetEmployeeQuery } from '../../queries/employees'
 
-interface Props {
+export interface Props {
   email: string
-  employee?: Pick<Employee, 'id' | 'name' | 'email' | 'position'>
+  employee?: GetEmployeeQuery['employeeByEmail']
+  noLink?: boolean
+  cardProps?: React.ComponentProps<typeof Card>
 }
 
-export default function EmployeeCard(props: Props) {
-  const { data, loading } = useGetEmployeeQuery({
-    variables: { email: props.email },
-    skip: Boolean(props.employee),
+export default function EmployeeCard({ email, employee, noLink, cardProps }: Props) {
+  const { data, loading, error } = useGetEmployeeQuery({
+    variables: { email },
+    skip: Boolean(employee),
   })
 
-  const employee = props.employee || data?.employeeByEmail
+  if (!employee) return null
+
+  if (loading) {
+    return <Skeleton avatar paragraph={false} active />
+  }
+
+  if (error) {
+    return <div>Error during loading :(</div>
+  }
 
   return (
-    <div style={{ marginBottom: 8 }}>
-      <Skeleton loading={loading} active avatar paragraph={false}>
-        {employee && (
-          <Link to={getEmployeeLink(employee.email)} data-cy="employee_email">
-            <Card hoverable bordered={true} bodyStyle={{ padding: 10, paddingRight: 16 }}>
-              <Card.Meta
-                title={employee.name}
-                description={employee.position}
-                avatar={<Avatar size={55} shape="circle" employee={employee} />}
-              />
-            </Card>
-          </Link>
-        )}
-      </Skeleton>
-    </div>
+    <Card
+      {...cardProps}
+      bordered={false}
+      bodyStyle={{ padding: 0, margin: 0 }}
+      className="employee-card"
+    >
+      <Card.Meta
+        avatar={<Avatar size={40} employee={data?.employeeByEmail ?? employee} />}
+        title={
+          noLink ? (
+            employee.name
+          ) : (
+            <Link data-cy="employee_email" to={getEmployeeLink(employee.email)}>
+              {employee.name}
+            </Link>
+          )
+        }
+        description={employee.position}
+      />
+    </Card>
   )
 }

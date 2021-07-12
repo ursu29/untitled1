@@ -1,27 +1,25 @@
-import { useQuery, gql } from '@apollo/client'
 import {
-  ClockCircleOutlined,
+  BookOutlined,
+  BranchesOutlined,
+  CalendarOutlined,
   CoffeeOutlined,
+  CrownOutlined,
   FireOutlined,
   FolderOpenOutlined,
   GlobalOutlined,
   IdcardOutlined,
-  BranchesOutlined,
-  ImportOutlined,
+  LikeOutlined,
+  MehOutlined,
   NotificationOutlined,
   ReadOutlined,
+  RocketOutlined,
+  SmileOutlined,
   TableOutlined,
   TeamOutlined,
   ToolOutlined,
   UserAddOutlined,
-  CrownOutlined,
-  LikeOutlined,
-  MehOutlined,
-  CalendarOutlined,
-  RocketOutlined,
-  BookOutlined,
-  SmileOutlined,
 } from '@ant-design/icons'
+import { gql, useQuery } from '@apollo/client'
 import { Badge, Menu } from 'antd'
 import React from 'react'
 import { useMediaQuery } from 'react-responsive'
@@ -32,11 +30,11 @@ import paths from '../../paths'
 import getActiveProcessExecutions, {
   ActiveProcessExecutionsQueryType,
 } from '../../queries/getEmployeeActiveProcessExecutions'
+import { ReactComponent as MicSmallIcon } from '../../svg/mic-small.svg'
 import { Access } from '../../types'
+import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 import { useEmployee } from '../../utils/withEmployee'
 import Skeleton from '../UI/Skeleton'
-import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
-import { ReactComponent as MicSmallIcon } from '../../svg/mic-small.svg'
 
 const Width = styled.div<{ isLarge: boolean }>`
   .ant-menu-inline-collapsed > .ant-menu-item,
@@ -160,24 +158,24 @@ function PortalMenu(props: Props) {
       icon: <RocketOutlined />,
       title: 'Games',
     },
-    {
-      route: paths.TIMEMASTER,
-      icon: <ClockCircleOutlined />,
-      title: 'Timemaster',
-      subMenu: 'tools',
-    },
-    {
-      route: paths.WORKSPACE_PLANNER,
-      icon: <ImportOutlined />,
-      title: 'Workspace',
-      subMenu: 'tools',
-    },
-    {
-      route: paths.OFFICE_PLANNER,
-      icon: <ImportOutlined />,
-      title: 'Office planner',
-      subMenu: 'tools',
-    },
+    // {
+    //   route: paths.TIMEMASTER,
+    //   icon: <ClockCircleOutlined />,
+    //   title: 'Timemaster',
+    //   subMenu: 'tools',
+    // },
+    // {
+    //   route: paths.WORKSPACE_PLANNER,
+    //   icon: <ImportOutlined />,
+    //   title: 'Workspace',
+    //   subMenu: 'tools',
+    // },
+    // {
+    //   route: paths.OFFICE_PLANNER,
+    //   icon: <ImportOutlined />,
+    //   title: 'Office planner',
+    //   subMenu: 'tools',
+    // },
     data?.processExecutionsAccess.read
       ? {
           route: paths.HR,

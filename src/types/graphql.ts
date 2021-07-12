@@ -295,6 +295,13 @@ export type CreateHobbyInput = {
   description?: Maybe<Scalars['String']>
 }
 
+export type CreateHobbyPostInput = {
+  title: Scalars['String']
+  body: Scalars['String']
+  hobbies: Array<Scalars['ID']>
+  language: Language
+}
+
 export type CreateMatrixGradeInput = {
   matrixId: Scalars['ID']
   title: Scalars['String']
@@ -905,6 +912,41 @@ export type Hobby = {
   members: Array<Employee>
 }
 
+export type HobbyPost = {
+  __typename?: 'HobbyPost'
+  id: Scalars['ID']
+  title: Scalars['String']
+  body: Scalars['String']
+  slug: Scalars['String']
+  createdAt?: Maybe<Scalars['String']>
+  createdBy?: Maybe<Employee>
+  hobbies: Array<Hobby>
+  language: Language
+  comments?: Maybe<Array<HobbyPostComment>>
+  editable: Scalars['Boolean']
+}
+
+export type HobbyPostComment = {
+  __typename?: 'HobbyPostComment'
+  id: Scalars['ID']
+  body?: Maybe<Scalars['String']>
+  createdAt?: Maybe<Scalars['String']>
+  createdBy?: Maybe<Employee>
+}
+
+export type HobbyPostFilterInput = {
+  first?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['ID']>
+  search?: Maybe<Scalars['String']>
+  hobbies?: Maybe<Array<Scalars['ID']>>
+  language?: Maybe<Language>
+}
+
+export type HobbyPostReplyInput = {
+  postId: Scalars['ID']
+  body: Scalars['String']
+}
+
 export enum Importance {
   High = 'HIGH',
   Normal = 'NORMAL',
@@ -1074,6 +1116,9 @@ export type Mutation = {
   updateHobby?: Maybe<Hobby>
   joinHobby?: Maybe<Hobby>
   updateEmployeeHobbies?: Maybe<Employee>
+  createHobbyPost?: Maybe<HobbyPost>
+  updateHobbyPost?: Maybe<HobbyPost>
+  replyHobbyPost?: Maybe<HobbyPost>
   attachMatrixToEmployee?: Maybe<Matrix>
   detachMatrixFromEmployee?: Maybe<Matrix>
   createMatrix?: Maybe<Matrix>
@@ -1103,12 +1148,6 @@ export type Mutation = {
   createPost?: Maybe<Post>
   updatePost?: Maybe<Post>
   deletePost?: Maybe<Post>
-  createProcess?: Maybe<Process>
-  updateProcess?: Maybe<Process>
-  deleteProcess?: Maybe<Process>
-  createProcessStep?: Maybe<ProcessStep>
-  updateProcessStep?: Maybe<ProcessStep>
-  deleteProcessStep?: Maybe<ProcessStep>
   createProcessExecution?: Maybe<ProcessExecution>
   updateProcessExecution?: Maybe<ProcessExecution>
   abortProcessExecution?: Maybe<ProcessExecution>
@@ -1117,6 +1156,12 @@ export type Mutation = {
   completeProcessExecutionStep?: Maybe<ProcessExecutionStep>
   commentProcessExecutionStep?: Maybe<ProcessExecutionStep>
   deleteHrVacancy?: Maybe<ProcessExecution>
+  createProcess?: Maybe<Process>
+  updateProcess?: Maybe<Process>
+  deleteProcess?: Maybe<Process>
+  createProcessStep?: Maybe<ProcessStep>
+  updateProcessStep?: Maybe<ProcessStep>
+  deleteProcessStep?: Maybe<ProcessStep>
   updateProject?: Maybe<Project>
   updateProjectSkills?: Maybe<Project>
   createSkill?: Maybe<Skill>
@@ -1341,6 +1386,18 @@ export type MutationUpdateEmployeeHobbiesArgs = {
   input: UpdateEmployeeHobbiesInput
 }
 
+export type MutationCreateHobbyPostArgs = {
+  input: CreateHobbyPostInput
+}
+
+export type MutationUpdateHobbyPostArgs = {
+  input: UpdateHobbyPostInput
+}
+
+export type MutationReplyHobbyPostArgs = {
+  input: HobbyPostReplyInput
+}
+
 export type MutationAttachMatrixToEmployeeArgs = {
   input?: Maybe<AttachMatrixToEmployeeInput>
 }
@@ -1457,30 +1514,6 @@ export type MutationDeletePostArgs = {
   input?: Maybe<DeletePostInput>
 }
 
-export type MutationCreateProcessArgs = {
-  input?: Maybe<CreateProcessInput>
-}
-
-export type MutationUpdateProcessArgs = {
-  input?: Maybe<UpdateProcessInput>
-}
-
-export type MutationDeleteProcessArgs = {
-  id: Scalars['ID']
-}
-
-export type MutationCreateProcessStepArgs = {
-  input?: Maybe<CreateProcessStepInput>
-}
-
-export type MutationUpdateProcessStepArgs = {
-  input?: Maybe<UpdateProcessStepInput>
-}
-
-export type MutationDeleteProcessStepArgs = {
-  id: Scalars['ID']
-}
-
 export type MutationCreateProcessExecutionArgs = {
   input?: Maybe<CreateProcessExecutionInput>
 }
@@ -1510,6 +1543,30 @@ export type MutationCommentProcessExecutionStepArgs = {
 }
 
 export type MutationDeleteHrVacancyArgs = {
+  id: Scalars['ID']
+}
+
+export type MutationCreateProcessArgs = {
+  input?: Maybe<CreateProcessInput>
+}
+
+export type MutationUpdateProcessArgs = {
+  input?: Maybe<UpdateProcessInput>
+}
+
+export type MutationDeleteProcessArgs = {
+  id: Scalars['ID']
+}
+
+export type MutationCreateProcessStepArgs = {
+  input?: Maybe<CreateProcessStepInput>
+}
+
+export type MutationUpdateProcessStepArgs = {
+  input?: Maybe<UpdateProcessStepInput>
+}
+
+export type MutationDeleteProcessStepArgs = {
   id: Scalars['ID']
 }
 
@@ -1830,6 +1887,8 @@ export type Query = {
   guilds?: Maybe<Array<Maybe<Guild>>>
   hobbies: Array<Hobby>
   hobby?: Maybe<Hobby>
+  hobbyPosts: Array<HobbyPost>
+  hobbyPost?: Maybe<HobbyPost>
   levels?: Maybe<Array<Level>>
   locations?: Maybe<Array<Location>>
   matrices?: Maybe<Array<Maybe<Matrix>>>
@@ -1848,12 +1907,12 @@ export type Query = {
   posts?: Maybe<Array<Maybe<Post>>>
   /** @deprecated will be moved to employee.access.posts */
   postsEditor?: Maybe<Access>
-  processesAccess?: Maybe<Access>
-  process?: Maybe<Process>
-  processes?: Maybe<Array<Maybe<Process>>>
   processExecutionsAccess?: Maybe<Access>
   processExecution?: Maybe<ProcessExecution>
   processExecutions?: Maybe<Array<Maybe<ProcessExecution>>>
+  processesAccess?: Maybe<Access>
+  process?: Maybe<Process>
+  processes?: Maybe<Array<Maybe<Process>>>
   project?: Maybe<Project>
   projectByCode?: Maybe<Project>
   projects?: Maybe<Array<Maybe<Project>>>
@@ -1994,6 +2053,14 @@ export type QueryHobbyArgs = {
   id: Scalars['ID']
 }
 
+export type QueryHobbyPostsArgs = {
+  input?: Maybe<HobbyPostFilterInput>
+}
+
+export type QueryHobbyPostArgs = {
+  id: Scalars['ID']
+}
+
 export type QueryMatricesArgs = {
   input?: Maybe<MatricesInput>
 }
@@ -2024,16 +2091,16 @@ export type QueryPostsArgs = {
   filter?: Maybe<PostsFilter>
 }
 
-export type QueryProcessArgs = {
-  id: Scalars['ID']
-}
-
 export type QueryProcessExecutionArgs = {
   id: Scalars['ID']
 }
 
 export type QueryProcessExecutionsArgs = {
   input?: Maybe<ProcessExecutionsInput>
+}
+
+export type QueryProcessArgs = {
+  id: Scalars['ID']
 }
 
 export type QueryProjectArgs = {
@@ -2296,6 +2363,14 @@ export type UpdateHobbyInput = {
   id: Scalars['ID']
   name?: Maybe<Scalars['String']>
   description?: Maybe<Scalars['String']>
+}
+
+export type UpdateHobbyPostInput = {
+  id: Scalars['ID']
+  title?: Maybe<Scalars['String']>
+  body?: Maybe<Scalars['String']>
+  hobbies?: Maybe<Array<Scalars['ID']>>
+  language: Language
 }
 
 export type UpdateMatricesCustomFieldsInput = {

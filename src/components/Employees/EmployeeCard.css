@@ -1,0 +1,13 @@
+.employee-card .ant-card-meta-title {
+  font-size: 14px;
+  margin-bottom: 0 !important;
+  font-weight: 400;
+}
+
+.employee-card .ant-card-meta-description {
+  font-size: 12px;
+}
+
+.employee-card .ant-card-meta-avatar {
+  padding-right: 8px;
+}

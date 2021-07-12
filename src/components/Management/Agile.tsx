@@ -8,7 +8,7 @@ import { getEmployeeLink } from '../../paths'
 import { LOCATION } from '../../types'
 import getLocationName from '../../utils/getLocationName'
 import Avatar from '../Avatar'
-import EmployeeCard from '../Employees/EmployeeCard.new'
+import EmployeeCard from '../Employees/EmployeeCard'
 import ProjectTag from '../Projects/ProjectTag'
 import TableSearch from '../UI/TableSearch'
 import './styles.css'
@@ -114,6 +114,7 @@ export default function Agile() {
   const collapseHeader = (manager: EmployeeDetails & { subordinate: EmployeeDetails[] }) => (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <EmployeeCard
+        email={manager.email}
         employee={manager}
         noLink
         cardProps={{
@@ -136,7 +137,7 @@ export default function Agile() {
   )
 
   return (
-    <div style={{ paddingTop: '16px' }}>
+    <div style={{ paddingTop: '16px' }} data-cy="agile">
       {loading && (
         <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
           <Spin />

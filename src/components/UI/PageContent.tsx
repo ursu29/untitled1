@@ -1,8 +1,8 @@
 import React, { PropsWithChildren } from 'react'
 import styled from 'styled-components'
-import NotFound from './NotFound'
-import Error from './Error'
 import useOffset from '../../utils/useOffset'
+import Error from './Error'
+import NotFound from './NotFound'
 import Skeleton from './Skeleton'
 
 const Container = styled.div<{

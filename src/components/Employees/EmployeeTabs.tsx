@@ -1,19 +1,14 @@
-import { useQuery, gql } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import React from 'react'
-import { RouteComponentProps, withRouter, matchPath } from 'react-router-dom'
-import paths from '../../paths'
-import { Employee, Access } from '../../types'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { Access, Employee } from '../../types/graphql'
 import Skeleton from '../UI/Skeleton'
-import EmployeeMatrices from '../EmployeeMatrices/EmployeeMatrices'
 import Tabs from '../UI/Tabs'
-import { TabTitleWithBadge } from '../UI/TabTitleWithBadge'
-import EmployeeEvaluation from '../EmployeeEvaluation/EmployeeEvaluation'
+import Career from './Career'
 import EmployeeBookmarks from './EmployeeBookmarks'
-import EmployeeCV from './EmployeeCV'
-import EmployeeSkills from './EmployeeSkills'
-import EmployeeDevelopmentPlan from './EmployeeDevelopmentPlan'
-import EmployeeSubordinates from './EmployeeSubordinates'
 import EmployeeSummary from './EmployeeSummary'
+import { TabTitleWithBadge } from '../UI/TabTitleWithBadge'
+import EmployeeSubordinates from './EmployeeSubordinates'
 
 interface Props extends RouteComponentProps {
   employee: Pick<Employee, 'id' | 'email'>
@@ -82,22 +77,6 @@ type QueryType = {
   evaluationReviewersAccess: Access
 }
 
-/* const UpdatedTag = () => (
-  <Tag
-    style={{
-      fontSize: 11,
-      marginLeft: 6,
-      padding: '0 4px',
-      textTransform: 'uppercase',
-      lineHeight: 1.3,
-      cursor: 'pointer',
-    }}
-    color="green"
-  >
-    Updated
-  </Tag>
-) */
-
 function EmployeeTabs({ match, location, ...props }: Props) {
   const { data, loading, error } = useQuery<QueryType>(query, {
     variables: {
@@ -110,79 +89,42 @@ function EmployeeTabs({ match, location, ...props }: Props) {
   if (error) return <div>Error :(</div>
 
   const employee = data?.employees?.[0]
+
   const curriculumVitaeAccess = data?.curriculumVitaeAccess
   const matricesLookReviewersAccess = data?.matricesLookReviewersAccess
   const developmentPlanLookReviewersAccess = data?.developmentPlanLookReviewersAccess
   const evaluationReviewersAccess = data?.evaluationReviewersAccess
-  const isProfile = Boolean(matchPath(location.pathname, { path: paths.PROFILE }))
+  const access = {
+    curriculumVitaeAccess,
+    matricesLookReviewersAccess,
+    developmentPlanLookReviewersAccess,
+    evaluationReviewersAccess,
+  }
+
+  if (!employee) return null
 
   let tabs: any = [
     {
-      title: 'Skills',
-      key: 'skills',
-      noPadding: false,
-      body: (
-        <EmployeeSkills
-          employee={employee}
-          editable={employee?.access.write}
-          showTabs={isProfile}
-        />
-      ),
+      title: 'Career',
+      key: 'career',
+      body: <Career employee={employee} access={access} />,
     },
     {
       title: 'Summary',
       key: 'summary',
-      noPadding: false,
-      body: <EmployeeSummary employee={employee} editable={employee?.access.write} />,
+      body: <EmployeeSummary employee={employee} editable={Boolean(employee?.access?.write)} />,
     },
     {
-      title: 'Bookmarks',
+      title: 'My bookmarks',
       key: 'bookmarks',
-      noPadding: false,
       body: <EmployeeBookmarks employee={employee} />,
     },
+    // {
+    //   title: 'Achievements',
+    //   key: 'achievements',
+    //   body: <div>Achievements</div>,
+    // },
   ]
-
-  if (matricesLookReviewersAccess?.read) {
-    tabs.push({
-      title: <div style={{ display: 'inline-flex', alignItems: 'center' }}>Matrices</div>,
-      key: 'matrices',
-      noPadding: false,
-      body: (
-        <EmployeeMatrices employee={employee} reviewersListAccess={matricesLookReviewersAccess} />
-      ),
-    })
-  }
-  if (developmentPlanLookReviewersAccess?.read) {
-    tabs.push({
-      title: (
-        <div style={{ display: 'inline-flex', alignItems: 'center' }}>Personal development</div>
-      ),
-      key: 'development-plan',
-      noPadding: false,
-      body: (
-        <EmployeeDevelopmentPlan
-          employee={employee}
-          reviewersListAccess={developmentPlanLookReviewersAccess}
-        />
-      ),
-    })
-  }
-
-  if (evaluationReviewersAccess?.read) {
-    tabs.push({
-      title: 'Self Evaluation Form',
-      /* (
-        <div style={{ display: 'inline-flex', alignItems: 'center' }}>
-          Self Evaluation Form
-           <UpdatedTag /> 
-        </div>
-      ), */
-      key: 'evaluation',
-      noPadding: false,
-      body: <EmployeeEvaluation employee={employee} editable={evaluationReviewersAccess?.write} />,
-    })
-  }
 
   if (employee?.subordinateUsersCount?.users) {
     tabs.push({
@@ -214,27 +156,7 @@ function EmployeeTabs({ match, location, ...props }: Props) {
         </TabTitleWithBadge>
       ),
       key: 'employees',
-      noPadding: true,
       body: <EmployeeSubordinates employee={employee} />,
-    })
-  }
-
-  if (curriculumVitaeAccess?.read) {
-    tabs.push({
-      title: 'CV',
-      key: 'cv',
-      noPadding: false,
-      body: (
-        <EmployeeCV
-          editable={curriculumVitaeAccess?.write}
-          employee={{
-            id: employee?.id || '',
-            email: employee?.email || '',
-            name: employee?.name || '',
-            isMe: employee?.isMe || false,
-          }}
-        />
-      ),
     })
   }
 

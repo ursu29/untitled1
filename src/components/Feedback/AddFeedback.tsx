@@ -6,9 +6,10 @@ import { Feedback_About as FeedbackAbout } from '../../types/graphql'
 import message from '../../message'
 import { aboutList } from './about'
 
+const { Panel } = Collapse
+const { Option } = Select
+
 export default function AddFeedback() {
-  const { Panel } = Collapse
-  const { Option } = Select
   const [form] = Form.useForm()
 
   const [addNewFeedback, { loading }] = useAddFeedbackMutation({

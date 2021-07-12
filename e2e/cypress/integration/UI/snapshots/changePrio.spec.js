@@ -1,4 +1,4 @@
-import {getHrTabUrl} from "../../../support/utils";
+import {getTabUrl} from "../../../support/utils";
 import {getBoardMock} from "../../../fixtures/board";
 import {hrTool, skillEl} from "../../../support/locators";
 import {inputSkill} from "../../../support/complexLocators";
@@ -7,7 +7,7 @@ describe('change hr prio value', () => {
     before(() => {
         cy.setToken('manager')
         cy.mockResponse(['processExecutions', 'id', 'process'], getBoardMock())
-        cy.visit(getHrTabUrl('board'))
+        cy.visit(getTabUrl('board', 'hr'))
         cy.get('.ant-skeleton').should('be.visible')
         cy.get('.ant-skeleton').should('not.exist')
     })
