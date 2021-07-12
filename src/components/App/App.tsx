@@ -30,6 +30,9 @@ const cacheConfig: InMemoryCacheConfig = {
         hobbies: {
           merge: false,
         },
+        curriculumVitae: {
+          merge: false,
+        },
       },
     },
     Query: {

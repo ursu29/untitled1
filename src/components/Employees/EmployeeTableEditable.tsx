@@ -4,6 +4,7 @@ import { FormInstance } from 'antd/lib/form'
 import { Rule } from 'rc-field-form/lib/interface'
 import { ColumnType } from 'antd/lib/table/interface'
 import styled from 'styled-components'
+import './styles.css'
 
 type Data = Record<string, any>
 
@@ -153,7 +154,7 @@ export const CellDateRangeYear = ({ onSave, children, ...props }: EditableCompon
       {...props}
       picker="year"
       format="YYYY"
-      allowEmpty={[false, true]}
+      allowEmpty={[true, true]}
       onChange={value => {
         props.onChange?.(value)
         setSaveTrigger(true)
@@ -174,10 +175,10 @@ export const TableTitle = ({
   onCreate?: () => void
 }) => {
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <Typography.Title level={5}>{title}</Typography.Title>
+    <div>
+      <Typography.Title level={4}>{title}</Typography.Title>
       {editable && (
-        <Button data-cy="addJob" style={{ margin: '15px 0 20px 10px' }} onClick={onCreate}>
+        <Button data-cy="addJob" style={{ margin: '8px 0' }} onClick={onCreate}>
           Add new
         </Button>
       )}
