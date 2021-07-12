@@ -26,7 +26,7 @@ function PortalImage({ src, ...props }: any) {
       },
     })
       .then(data => {
-        if (data.statusText === 'OK') {
+        if (data.ok) {
           return data.arrayBuffer()
         } else {
           console.log('Image fetch error')

@@ -94,18 +94,14 @@ export default function PortalAvatar({
                 },
               })
                 .then(data => {
-                  console.log({ data })
-                  console.log({ data1: data.statusText })
-                  if (data.statusText === 'OK') {
+                  if (data.ok) {
                     return data.arrayBuffer()
                   } else throw new Error('Image fetch error')
                 })
                 .then(data => {
-                  console.log({ data2: data })
                   return new Blob([data])
                 })
                 .then(blob => {
-                  console.log({ data3: blob })
                   const src = URL.createObjectURL(blob)
                   avatars[resolution][employee?.email] = src
                   setSrc(src)
