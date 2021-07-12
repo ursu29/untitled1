@@ -1,26 +1,49 @@
-import React, { useState } from 'react'
-import { azureClient } from '../../App/Oauth'
+import { PlusOutlined, TableOutlined } from '@ant-design/icons'
 import { User } from '@microsoft/microsoft-graph-types'
+import { Button, Divider, Table } from 'antd'
+import React, { useEffect, useState } from 'react'
 import usePromise from 'react-fetch-hook/usePromise'
-import { Table, Button, Divider } from 'antd'
-import { TableOutlined, PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
-import DrawerColumns from './DrawerColumns'
+import GraphAPI from '../../../utils/GraphAPI'
+import DrawerColumns, { allColumns } from './DrawerColumns'
 import DrawerUser from './DrawerUser'
-import { allColumns } from './DrawerColumns'
+
+const graphAPI = new GraphAPI()
 
 export default function Users() {
   const [drawer, setDrawer] = useState<{
     key?: 'columns' | 'newUser' | 'editUser'
     user?: User
   }>({})
+  const [users, setUsers] = useState<User[] | undefined>([])
   const [selectedColumns, setSelectedColumns] = useState([''])
   const [shownColumns, setShownColumns] = useState<typeof allColumns>(allColumns.slice(0, 2))
 
-  const { isLoading, data } = usePromise(() =>
-    // {isLoading, data, error}
-    azureClient.api(`/users?$top=600&$select=id,${allColumns.map(e => e.key).join(',')}`).get(),
+  const { isLoading, data } = usePromise(() => graphAPI.getUsers())
+  const { data: groupsData } = usePromise(() => graphAPI.getGroups())
+
+  useEffect(() => {
+    if (!isLoading && !!data) setUsers(data)
+  }, [isLoading, data])
+
+  const groups = groupsData?.sort((a, b) =>
+    (a?.description || '').localeCompare(b?.description || ''),
   )
-  const users: User[] = data?.value
+
+  const getUpdatedUsers = async (newUsersIds: string[]) => {
+    const updatedUsers = await graphAPI.getUsers(newUsersIds)
+    if (!!updatedUsers.length && !!users) {
+      setUsers(users.map(user => updatedUsers.find(e => e.id === user.id) || user))
+    }
+    return updatedUsers
+  }
+
+  const getCreatedUser = async (newUsersId: string) => {
+    const createdUser = (await graphAPI.getUsers([newUsersId]))[0]
+    if (!!createdUser && !!users) {
+      setUsers(users.concat([createdUser]))
+    }
+    return createdUser
+  }
 
   const tableMenuClick = (key: 'new' | 'edit' | 'delete' | 'columns') => {
     switch (key) {
@@ -48,24 +71,21 @@ export default function Users() {
     return
   }
 
-  const rowSelection = {
-    onChange: (selectedRowKeys: React.Key[], selectedRows: User[]) => {
-      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
-    },
-  }
+  // const rowSelection = {
+  //   onChange: (selectedRowKeys: React.Key[], selectedRows: User[]) => {
+  //     console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+  //   },
+  // }
 
   return (
     <>
-      <div>
+      <div style={{ margin: '-8px 0 8px 8px' }}>
         <Button type="text" icon={<PlusOutlined />} onClick={() => tableMenuClick('new')}>
           New user
         </Button>
-        <Button type="text" icon={<EditOutlined />} onClick={() => tableMenuClick('edit')}>
+        {/* <Button type="text" icon={<EditOutlined />} onClick={() => tableMenuClick('edit')}>
           Edit
-        </Button>
-        <Button type="text" icon={<DeleteOutlined />} onClick={() => tableMenuClick('delete')}>
-          Delete
-        </Button>
+        </Button> */}
         <Divider type="vertical" />
         <Button type="text" icon={<TableOutlined />} onClick={() => tableMenuClick('columns')}>
           Columns
@@ -80,10 +100,10 @@ export default function Users() {
         columns={shownColumns}
         rowKey="id"
         size="small"
-        rowSelection={{
+        /*         rowSelection={{
           type: 'checkbox',
           ...rowSelection,
-        }}
+        }} */
         onRow={record => ({
           onClick: () => {
             setDrawer({
@@ -97,11 +117,24 @@ export default function Users() {
 
       <DrawerUser
         user={drawer.user}
+        groups={groups}
         visible={drawer.key === 'editUser' || drawer.key === 'newUser'}
         type={drawer.key === 'newUser' ? 'new' : 'edit'}
         handleClose={() => {
           setDrawer({})
         }}
+        handleReopen={(user: User | undefined) => {
+          setDrawer({})
+          if (!user) return
+          setTimeout(() => {
+            setDrawer({
+              key: 'editUser',
+              user,
+            })
+          }, 700)
+        }}
+        getUpdatedUsers={getUpdatedUsers}
+        getCreatedUser={getCreatedUser}
       />
 
       <DrawerColumns

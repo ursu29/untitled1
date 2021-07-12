@@ -255,6 +255,13 @@ export type CreateDevrelInput = {
   skills?: Maybe<Array<Scalars['ID']>>
 }
 
+export type CreateEmployeeInput = {
+  email?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>
+  firstName?: Maybe<Scalars['String']>
+  lastName?: Maybe<Scalars['String']>
+}
+
 export type CreateEvaluationReviewerInput = {
   fromWho?: Maybe<Scalars['ID']>
   toWhom?: Maybe<Scalars['ID']>
@@ -1041,6 +1048,7 @@ export type Mutation = {
   updateDevelopmentPlanReviewers?: Maybe<Array<Employee>>
   updateMatricesReviewers?: Maybe<Array<Employee>>
   updateEmployee?: Maybe<Employee>
+  createEmployee?: Maybe<Employee>
   createEvaluationReviewer?: Maybe<Array<Maybe<EvaluationReviewer>>>
   deleteEvaluationReviewer?: Maybe<EvaluationReviewer>
   evaluate?: Maybe<Evaluation>
@@ -1227,6 +1235,10 @@ export type MutationUpdateMatricesReviewersArgs = {
 
 export type MutationUpdateEmployeeArgs = {
   input: UpdateEmployeeInput
+}
+
+export type MutationCreateEmployeeArgs = {
+  input: CreateEmployeeInput
 }
 
 export type MutationCreateEvaluationReviewerArgs = {
@@ -2236,6 +2248,12 @@ export type UpdateEmployeeInput = {
   lastManagerMeeting?: Maybe<Scalars['String']>
   one2oneRequest?: Maybe<Scalars['Boolean']>
   employeeProjects?: Maybe<Array<EmployeeProjectInput>>
+  addEmployeeProjects?: Maybe<Array<Scalars['ID']>>
+  removeEmployeeProjects?: Maybe<Array<Scalars['ID']>>
+  email?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>
+  firstName?: Maybe<Scalars['String']>
+  lastName?: Maybe<Scalars['String']>
 }
 
 export type UpdateEventInput = {

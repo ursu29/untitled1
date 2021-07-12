@@ -26,7 +26,7 @@ export const getEmployeeDetails = gql`
   ${fragments.Employee.Details}
 `
 
-type EmployeePick = EmployeeDetails & {
+export type EmployeePick = EmployeeDetails & {
   status: EmployeeType['status']
   bonuses: EmployeeType['bonuses']
   agileManager: EmployeeDetails | null

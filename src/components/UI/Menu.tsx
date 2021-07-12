@@ -203,7 +203,13 @@ function PortalMenu(props: Props) {
           subMenu: 'tools',
         }
       : null,
-    useStrapiGroupCheck('SUPER_USER')
+    {
+      route: paths.DEVREL,
+      icon: <MicSmallIcon style={{ marginRight: '10px', height: '14px', width: '14px' }} />,
+      title: 'DevRel',
+      subMenu: 'tools',
+    },
+    useStrapiGroupCheck(['SUPER_USER', 'AAD_EDITORS'])
       ? {
           route: paths.MANAGEMENT,
           icon: <MehOutlined />,
@@ -211,12 +217,6 @@ function PortalMenu(props: Props) {
           subMenu: 'tools',
         }
       : null,
-    {
-      route: paths.DEVREL,
-      icon: <MicSmallIcon style={{ marginRight: '10px', height: '14px', width: '14px' }} />,
-      title: 'DevRel',
-      subMenu: 'tools',
-    },
     {
       route: paths.FEEDBACK,
       icon: <NotificationOutlined />,

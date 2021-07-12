@@ -10,7 +10,6 @@ function NotFound({ history, message }: RouteComponentProps & { message?: string
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        width: '100vw',
       }}
     >
       <Result

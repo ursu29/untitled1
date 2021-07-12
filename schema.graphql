@@ -236,6 +236,13 @@ input CreateDevrelInput {
   skills: [ID!]
 }
 
+input CreateEmployeeInput {
+  email: String
+  name: String
+  firstName: String
+  lastName: String
+}
+
 input CreateEvaluationReviewerInput {
   fromWho: ID
   toWhom: ID
@@ -979,6 +986,7 @@ type Mutation {
   updateDevelopmentPlanReviewers(input: ReviewerInput): [Employee!]
   updateMatricesReviewers(input: ReviewerInput): [Employee!]
   updateEmployee(input: UpdateEmployeeInput!): Employee
+  createEmployee(input: CreateEmployeeInput!): Employee
   createEvaluationReviewer(input: CreateEvaluationReviewerInput): [EvaluationReviewer]
   deleteEvaluationReviewer(input: DeleteEvaluationReviewerInput): EvaluationReviewer
   evaluate(input: EvaluateInput!): Evaluation
@@ -1485,6 +1493,12 @@ input UpdateEmployeeInput {
   lastManagerMeeting: String
   one2oneRequest: Boolean
   employeeProjects: [EmployeeProjectInput!]
+  addEmployeeProjects: [ID!]
+  removeEmployeeProjects: [ID!]
+  email: String
+  name: String
+  firstName: String
+  lastName: String
 }
 
 input UpdateEventInput {

@@ -44,6 +44,14 @@ export type UpdateEmployeeMutation = { __typename?: 'Mutation' } & {
   updateEmployee?: Types.Maybe<{ __typename?: 'Employee' } & Pick<Types.Employee, 'id'>>
 }
 
+export type CreateEmployeeMutationVariables = Types.Exact<{
+  input: Types.CreateEmployeeInput
+}>
+
+export type CreateEmployeeMutation = { __typename?: 'Mutation' } & {
+  createEmployee?: Types.Maybe<{ __typename?: 'Employee' } & Pick<Types.Employee, 'id'>>
+}
+
 export const EmployeeDetailsFragmentDoc = gql`
   fragment EmployeeDetails on Employee {
     id
@@ -192,4 +200,48 @@ export type UpdateEmployeeMutationResult = Apollo.MutationResult<UpdateEmployeeM
 export type UpdateEmployeeMutationOptions = Apollo.BaseMutationOptions<
   UpdateEmployeeMutation,
   UpdateEmployeeMutationVariables
+>
+export const CreateEmployeeDocument = gql`
+  mutation createEmployee($input: CreateEmployeeInput!) {
+    createEmployee(input: $input) {
+      id
+    }
+  }
+`
+export type CreateEmployeeMutationFn = Apollo.MutationFunction<
+  CreateEmployeeMutation,
+  CreateEmployeeMutationVariables
+>
+
+/**
+ * __useCreateEmployeeMutation__
+ *
+ * To run a mutation, you first call `useCreateEmployeeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEmployeeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEmployeeMutation, { data, loading, error }] = useCreateEmployeeMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateEmployeeMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreateEmployeeMutation, CreateEmployeeMutationVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<CreateEmployeeMutation, CreateEmployeeMutationVariables>(
+    CreateEmployeeDocument,
+    options,
+  )
+}
+export type CreateEmployeeMutationHookResult = ReturnType<typeof useCreateEmployeeMutation>
+export type CreateEmployeeMutationResult = Apollo.MutationResult<CreateEmployeeMutation>
+export type CreateEmployeeMutationOptions = Apollo.BaseMutationOptions<
+  CreateEmployeeMutation,
+  CreateEmployeeMutationVariables
 >

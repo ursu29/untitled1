@@ -29,7 +29,6 @@ function NotAnswering({ error }: { error?: ApolloError }) {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        width: '100vw',
       }}
     >
       <Result

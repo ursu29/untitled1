@@ -23,6 +23,11 @@ export const allColumns = [
     dataIndex: 'mobilePhone',
   },
   {
+    title: 'Position',
+    key: 'jobTitle',
+    dataIndex: 'jobTitle',
+  },
+  {
     title: 'First Name',
     key: 'givenName',
     dataIndex: 'givenName',
@@ -31,6 +36,11 @@ export const allColumns = [
     title: 'Last Name',
     key: 'surname',
     dataIndex: 'surname',
+  },
+  {
+    title: 'Mail Nickname',
+    key: 'mailNickname',
+    dataIndex: 'mailNickname',
   },
   {
     title: 'Mail',
@@ -43,9 +53,39 @@ export const allColumns = [
     dataIndex: 'officeLocation',
   },
   {
-    title: 'Position',
-    key: 'jobTitle',
-    dataIndex: 'jobTitle',
+    title: 'Other Mails',
+    key: 'otherMails',
+    dataIndex: 'otherMails',
+  },
+  {
+    title: 'City',
+    key: 'city',
+    dataIndex: 'city',
+  },
+  {
+    title: 'Country',
+    key: 'country',
+    dataIndex: 'country',
+  },
+  {
+    title: 'Street Address',
+    key: 'streetAddress',
+    dataIndex: 'streetAddress',
+  },
+  {
+    title: 'Usage Location',
+    key: 'usageLocation',
+    dataIndex: 'usageLocation',
+  },
+  {
+    title: 'Company Name',
+    key: 'companyName',
+    dataIndex: 'companyName',
+  },
+  {
+    title: 'Language',
+    key: 'preferredLanguage',
+    dataIndex: 'preferredLanguage',
   },
   {
     title: 'Birthday',
@@ -56,51 +96,6 @@ export const allColumns = [
     title: 'Contract Start',
     key: 'postalCode',
     dataIndex: 'postalCode',
-  },
-  {
-    title: 'Country',
-    key: 'country',
-    dataIndex: 'country',
-  },
-  {
-    title: 'City',
-    key: 'city',
-    dataIndex: 'city',
-  },
-  {
-    title: 'Department',
-    key: 'department',
-    dataIndex: 'department',
-  },
-  {
-    title: 'Company Name',
-    key: 'companyName',
-    dataIndex: 'companyName',
-  },
-  {
-    title: 'Street Address',
-    key: 'streetAddress',
-    dataIndex: 'streetAddress',
-  },
-  {
-    title: 'Mail Nickname',
-    key: 'mailNickname',
-    dataIndex: 'mailNickname',
-  },
-  {
-    title: 'Other Mails',
-    key: 'otherMails',
-    dataIndex: 'otherMails',
-  },
-  {
-    title: 'Language',
-    key: 'preferredLanguage',
-    dataIndex: 'preferredLanguage',
-  },
-  {
-    title: 'Usage Location',
-    key: 'usageLocation',
-    dataIndex: 'usageLocation',
   },
 ]
 
@@ -160,7 +155,12 @@ export default function DrawerColumns({
         }}
       >
         {allColumns.map(e => (
-          <Form.Item name={e.key} valuePropName="checked" style={{ marginBottom: '8px' }}>
+          <Form.Item
+            key={e.key}
+            name={e.key}
+            valuePropName="checked"
+            style={{ marginBottom: '8px' }}
+          >
             <Checkbox style={{ fontSize: '16px' }} disabled={e.key === 'displayName'}>
               {e.title}
             </Checkbox>

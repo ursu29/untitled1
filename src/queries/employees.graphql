@@ -28,3 +28,9 @@ mutation updateEmployee($input: UpdateEmployeeInput!) {
     id
   }
 }
+
+mutation createEmployee($input: CreateEmployeeInput!) {
+  createEmployee(input: $input) {
+    id
+  }
+}

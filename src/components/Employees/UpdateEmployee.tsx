@@ -82,6 +82,7 @@ function UpdateProject({
 
             if (onClose) onClose()
           }}
+          withSaveButton
         />
       }
     />

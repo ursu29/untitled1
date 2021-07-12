@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { Employee } from '../types'
 import { UserOutlined } from '@ant-design/icons'
 import { EmployeeIDB } from '../utils/IndexedDB'
-import { GATEWAY } from '../config'
+import GraphAPI from '../utils/GraphAPI'
 
 const options = {
   root: null,
@@ -55,7 +55,9 @@ export default function PortalAvatar({
         ? `users/${employee?.email}/photo/$value`
         : `users/${employee?.email}/photos/120x120/$value`
 
-    const url = `${GATEWAY}/msgraph?path=${path}&response_type=arraybuffer`
+    const graphAPI = new GraphAPI()
+
+    const url = `${graphAPI.graphURL}?path=${path}&response_type=arraybuffer`
 
     observer.current = new IntersectionObserver(async (entries, observer) => {
       for (const entry of entries) {

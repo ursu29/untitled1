@@ -498,6 +498,7 @@ export enum StrapiGroups {
   SUPER_USER,
   DEVREL,
   LIBRARIAN,
+  AAD_EDITORS,
 }
 
 export interface Profile {

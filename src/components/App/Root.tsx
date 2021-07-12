@@ -21,7 +21,7 @@ export default function Root() {
   if (data?.isAuthenticated) {
     return (
       <Layout>
-        <EmployeeProvider value={{ ...data?.profile, azureID }}>
+        <EmployeeProvider value={data?.profile}>
           <Sider />
           <Pages />
           {dataClientDevTools?.clientDevToolsAccess && <DevTools />}

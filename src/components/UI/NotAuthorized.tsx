@@ -11,7 +11,6 @@ function NotAuthorized() {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        width: '100vw',
       }}
     >
       <Result

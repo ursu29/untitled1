@@ -1,13 +1,14 @@
 import { useQuery } from '@apollo/client'
-import { Button, Form, InputNumber, Checkbox } from 'antd'
-import React, { useState, useEffect } from 'react'
+import { Button, Checkbox, Form, InputNumber } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { EmployeeDetails } from '../../fragments'
 import getEmployeeProjects, {
   GetEmployeeProjectsQuery,
   GetEmployeeProjectsVariables,
 } from '../../queries/getEmployeeProjects'
-import { EmployeeDetails } from '../../fragments'
 import { Employee } from '../../types'
 import EmployeeSelect from '../Employees/EmployeeSelect'
+import { layout } from '../Management/AAD/DrawerUser'
 
 type EmployeePick = {
   id: Employee['id']
@@ -15,14 +16,25 @@ type EmployeePick = {
 }
 
 export interface Props {
-  onSubmit: (employee: EmployeePick, reset?: () => void) => void
+  onSubmit?: (employee: EmployeePick, reset?: () => void) => void
   fullAccess?: boolean
   loading?: boolean
   item?: EmployeePick
   error?: string
+  refForm?: any
+  withSaveButton?: boolean
+  saveInitialProjectsOccupancy?: any
 }
 
-export default function EmployeeForm({ onSubmit, fullAccess, item, loading }: Props) {
+export default function EmployeeForm({
+  onSubmit,
+  fullAccess,
+  item,
+  loading,
+  refForm,
+  withSaveButton,
+  saveInitialProjectsOccupancy,
+}: Props) {
   const [projectsOccupancy, setProjectsOccupancy] = useState([{}])
 
   const { data: dataProjects, loading: loadingProjects } = useQuery<
@@ -36,17 +48,21 @@ export default function EmployeeForm({ onSubmit, fullAccess, item, loading }: Pr
   const projects = dataProjects?.employee.projects
   const employeeProjects = dataProjects?.employee.employeeProjects || []
   useEffect(() => {
-    if (dataProjects && !loadingProjects) setProjectsOccupancy(employeeProjects)
-    //eslint-disable-next-line
+    if (dataProjects && !loadingProjects) {
+      setProjectsOccupancy(employeeProjects)
+      saveInitialProjectsOccupancy(employeeProjects)
+    }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [employeeProjects])
 
   const [form] = Form.useForm()
 
   const handleSubmit = (values: any) => {
-    onSubmit({
-      id: item?.id,
-      ...values,
-    })
+    onSubmit &&
+      onSubmit({
+        id: item?.id,
+        ...values,
+      })
   }
 
   const setOccupancyField = (field: string, value: any, projectId: string) => {
@@ -67,21 +83,32 @@ export default function EmployeeForm({ onSubmit, fullAccess, item, loading }: Pr
     setProjectsOccupancy(form.getFieldValue('projectsOccupancy'))
   }
 
+  useEffect(() => {
+    refForm.current.additionalInitial = employeeProjects
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadingProjects])
+
+  useEffect(() => {
+    form.setFieldsValue({ agileManager: item?.agileManager?.id })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [item])
+
   return (
     <Form
+      {...layout}
       form={form}
-      layout="vertical"
       onFinish={handleSubmit}
       initialValues={{
         agileManager: item?.agileManager?.id,
         projectsOccupancy: employeeProjects,
       }}
+      ref={refForm}
     >
       <Form.Item label="Agile Manager" name="agileManager">
         <EmployeeSelect wide selectProps={{ disabled: !fullAccess }} />
       </Form.Item>
       <Form.Item
-        label="Projects occupancy"
+        label="Allocation:"
         name="projectsOccupancy"
         rules={[
           () => ({
@@ -95,54 +122,61 @@ export default function EmployeeForm({ onSubmit, fullAccess, item, loading }: Pr
           }),
         ]}
       >
-        {projects?.map(project => (
-          <div
-            key={project.id}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'start',
-              marginBottom: '10px',
-            }}
-          >
-            <InputNumber
-              defaultValue={employeeProjects?.find(e => e.project.id === project.id)?.capacity}
-              min={0}
-              max={100}
-              formatter={value => `${value}%`}
-              parser={value => (value ? Number(value?.replace('%', '')) : 0)}
-              style={{ width: '70px', marginRight: '15px' }}
-              onChange={value => {
-                setOccupancyField('capacity', value, project.id)
+        {(projects?.length &&
+          projects?.map(project => (
+            <div
+              key={project.id}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'start',
+                marginBottom: '10px',
               }}
-            />
-            <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-              {project.name}
-              <Checkbox
-                defaultChecked={
-                  employeeProjects?.find(e => e.project.id === project.id)?.isExtraCapacity
-                }
-                onChange={event => {
-                  setOccupancyField('isExtraCapacity', event.target.checked, project.id)
+            >
+              <InputNumber
+                defaultValue={employeeProjects?.find(e => e.project.id === project.id)?.capacity}
+                min={0}
+                max={100}
+                formatter={value => `${value}%`}
+                parser={value => (value ? Number(value?.replace('%', '')) : 0)}
+                style={{ width: '70px', marginRight: '15px' }}
+                onChange={value => {
+                  setOccupancyField('capacity', value, project.id)
                 }}
-              >
-                is extra
-              </Checkbox>
+              />
+              <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                {project.name}
+                <Checkbox
+                  defaultChecked={
+                    employeeProjects?.find(e => e.project.id === project.id)?.isExtraCapacity
+                  }
+                  onChange={event => {
+                    setOccupancyField('isExtraCapacity', event.target.checked, project.id)
+                  }}
+                >
+                  extra
+                </Checkbox>
+              </div>
             </div>
+          ))) || (
+          <div style={{ fontStyle: 'italic', color: 'lightgray' }}>
+            user does not have any projects
           </div>
-        ))}
+        )}
       </Form.Item>
-      <Form.Item>
-        <Button
-          loading={loading}
-          type="primary"
-          htmlType="submit"
-          style={{ marginTop: '10px' }}
-          data-cy="save"
-        >
-          Save
-        </Button>
-      </Form.Item>
+      {withSaveButton && (
+        <Form.Item>
+          <Button
+            loading={loading}
+            type="primary"
+            htmlType="submit"
+            style={{ marginTop: '10px' }}
+            data-cy="save"
+          >
+            Save
+          </Button>
+        </Form.Item>
+      )}
     </Form>
   )
 }

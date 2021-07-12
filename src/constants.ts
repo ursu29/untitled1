@@ -1,10 +1,14 @@
+import { Rule } from 'antd/lib/form'
+
 export const AAD_LOCATIONS = [
   {
-    city: 'Saint Petersburg',
+    city: 'Saint-Petersburg',
     streetAddress: '13A Sheremetyevskaya Street, Saint Petersburg, RU-196210',
     country: 'Russia',
     companyName: 'Syncretis LLC',
     usageLocation: 'RU',
+    preferredLanguage: 'en-US',
+    phonePrefix: '+7',
   },
   {
     city: 'Tomsk',
@@ -12,6 +16,8 @@ export const AAD_LOCATIONS = [
     country: 'Russia',
     companyName: 'Syncretis LLC',
     usageLocation: 'RU',
+    preferredLanguage: 'en-US',
+    phonePrefix: '+7',
   },
   {
     city: 'Kaliningrad',
@@ -19,6 +25,8 @@ export const AAD_LOCATIONS = [
     country: 'Russia',
     companyName: 'Syncretis LLC',
     usageLocation: 'RU',
+    preferredLanguage: 'en-US',
+    phonePrefix: '+7',
   },
   {
     city: 'Zurich',
@@ -26,7 +34,31 @@ export const AAD_LOCATIONS = [
     country: 'Switzerland',
     companyName: 'Syncretis AG',
     usageLocation: 'CH',
+    preferredLanguage: 'en-US',
+    phonePrefix: '+41',
   },
 ]
 
 export const JOB_LEVELS = ['Junior', 'Middle', 'Senior']
+
+export const JOBS_SEPARATOR = '|'
+
+export const LANGUAGE_CODES = ['en-US', 'ru-RU', 'de-DE']
+
+export const FORM_RULES: { [key: string]: Rule } = {
+  REQUIRED: { required: true, message: 'This is required field!' },
+  EMAIL: {
+    type: 'email',
+    message: 'The input is not valid E-mail!',
+  },
+}
+
+export const DATE_FORMATS = {
+  STANDARD_FULL: 'DD.MM.YYYY',
+  STANDARD_NO_YEAR: 'MMMM DD',
+}
+
+export const PHONE_MASKS = {
+  RUS: '(111) 111-11-11',
+  SWISS: '11 111 11 11',
+}

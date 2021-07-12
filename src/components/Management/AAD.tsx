@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import { azureClient } from '../App/Oauth'
-import { Group } from '@microsoft/microsoft-graph-types'
-import { useEmployee } from '../../utils/withEmployee'
+import React from 'react'
+// import { useEmployee } from '../../utils/withEmployee'
+// import usePromise from 'react-fetch-hook/usePromise'
 import Users from './AAD/Users'
+// import GraphAPI from '../../utils/GraphAPI'
+
+// const graphAPI = new GraphAPI()
 
 export default function AAD() {
-  const [hasAccess, setHasAccess] = useState(false)
-  const user = useEmployee()
+  // const [hasAccess, setHasAccess] = useState(false)
+  // const user = useEmployee()
 
-  useEffect(() => {
+  /*   useEffect(() => {
     ;(async () => {
       const memberOf = await azureClient.api(`/users/${user.employee.azureID}/memberOf`).get()
       setHasAccess(
@@ -21,7 +23,7 @@ export default function AAD() {
 
   if (!hasAccess) {
     return <div>Error</div>
-  }
+  } */
 
   return <Users />
 }
