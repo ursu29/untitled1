@@ -42,12 +42,10 @@ describe('get all trainings response', () => {
     cy.saveLocalStorage()
   })
 
-  it('check request body', () => {
+  it('Check all trainings response', () => {
     checkTwoString(query.onboardingTickets, request.query)
     expect(request.operationName).equal('onboardingTickets')
-  })
 
-  it('Check all trainings response', () => {
     const allId = response.onboardingTickets.map(el => el.id)
     const task = response.onboardingTickets.filter(el => el.id === getId)[0]
     const { description, id, title, __typename } = task

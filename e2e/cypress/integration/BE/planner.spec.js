@@ -45,12 +45,10 @@ describe('Check Employees response', () => {
       })
     })
 
-    it('check request body', () => {
+    it('getOfficeDays response', () => {
       checkTwoString(query.getOfficeDays, request.query)
       expect(request.operationName).equal(OPERATION_NAME)
-    })
 
-    it('getOfficeDays response', () => {
       const { officeDays } = response
       const allDate = officeDays.filter(el => el.location === mainCity)
       const firstDay = allDate[0]

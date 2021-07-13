@@ -23,12 +23,10 @@ describe('Check files', () => {
     })
   })
 
-  it('check request body', () => {
+  it('Check files data', () => {
     checkTwoString(query.sharedFiles, request.query)
     expect(request.operationName).equal('sharedFiles')
-  })
 
-  it('Check files data', () => {
     cy.get('.ant-tabs-tab').eq(2).should('have.class', 'ant-tabs-tab-active')
     const files = response.sharedFiles[0]
 

@@ -18,12 +18,10 @@ describe('Check Info data', () => {
     })
   })
 
-  it('check request body', () => {
+  it('Check guild technologies', () => {
     checkTwoString(query.getGuild, request.query)
     expect(request.operationName).equal('getGuild')
-  })
 
-  it('Check guild technologies', () => {
     cy.get('.ant-tabs-tab').eq(0).should('have.class', 'ant-tabs-tab-active')
 
     const { accessWrite, skills, __typename } = response.guild
