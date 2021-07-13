@@ -98,11 +98,13 @@ Cypress.Commands.add('checkImgToken', name => {
 })
 
 Cypress.Commands.add('saveLocalStorage', () => {
+  cy.auth(process.env.EMPLOYEE_TYPE)
   Object.keys(localStorage).forEach(key => {
     LOCAL_STORAGE_MEMORY[key] = localStorage[key]
   })
 })
 Cypress.Commands.add('restoreLocalStorage', () => {
+  cy.auth(process.env.EMPLOYEE_TYPE)
   Object.keys(LOCAL_STORAGE_MEMORY).forEach(key => {
     localStorage.setItem(key, LOCAL_STORAGE_MEMORY[key])
   })

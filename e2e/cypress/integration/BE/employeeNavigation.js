@@ -37,6 +37,13 @@ describe(`Check employee matrices`, () => {
     })
   })
 
+  beforeEach(() => {
+    cy.setToken('employee')
+  })
+  afterEach(() => {
+    cy.setToken('employee')
+  })
+
   it('check request body', () => {
     checkTwoString(query.getAllEmployeeMatrices, request.query)
     expect(request.operationName).equal(OPERATION_NAME)
