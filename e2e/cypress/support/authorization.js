@@ -2,6 +2,11 @@ const loginUrl =
   'https://login.microsoftonline.com/27d1d5a7-306f-4239-ab67-3bd61777078a/oauth2/v2.0/token'
 export const strapiUrl = 'https://portal-strapi.dev.syncretis.com'
 
+export const managerData = (id = '603f592a7ae138001c21f6bd', email = 'test.manager@syncretis.com') =>
+  JSON.stringify({id, email})
+export const getEmployeeData = (id = '603f592a7ae138001c21f6bc', email = 'test.employee@syncretis.com') =>
+  JSON.stringify({id, email})
+
 export const setBody = (userName, password, scope) => ({
   grant_type: Cypress.env('grant_type'),
   username: Cypress.env(userName),
@@ -32,8 +37,18 @@ Cypress.Commands.add('setImgToken', employeeType => {
   })
 })
 
+Cypress.Commands.add('auth', employeeType => {
+  process.env.EMPLOYEE_TYPE = employeeType;
+
+  cy.intercept('/graphql', req => {
+    employeeType === 'employee' ? req.headers['dev-only-auth-disable'] = getEmployeeData() :
+      req.headers['dev-only-auth-disable'] = managerData()
+  })
+})
+
 Cypress.Commands.add('setToken', employeeType => {
   console.log('Do we get variables values? As example, grant_type: ' + Cypress.env('grant_type'))
+  cy.auth(employeeType)
   switch (employeeType) {
     case 'employee':
       cy.request({

@@ -1,13 +1,13 @@
 import { getDevPlans } from '../../../fixtures/devPlan'
 import { getReviewers } from '../../../fixtures/getReviewers'
-import {getTabUrl} from '../../../support/utils'
+import { getSubTabUrl } from '../../../support/utils'
 
 describe('personal dev plans looks good', () => {
   before(() => {
     cy.setToken('employee')
     cy.setImgToken('employee')
 
-    cy.visit(getTabUrl('development-plan'))
+    cy.visit(getSubTabUrl('career', '/profile', 'development-plan'))
 
     cy.mockResponse(['getDevelopmentPlans'], getDevPlans())
     cy.mockResponse(['getEmployees', 'employeeByEmail'], getReviewers())

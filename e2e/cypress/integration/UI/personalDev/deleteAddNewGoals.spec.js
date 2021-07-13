@@ -1,4 +1,4 @@
-import {getTabUrl} from "../../../support/utils";
+import { getSubTabUrl } from '../../../support/utils'
 import {personalDevLocators, skillEl} from "../../../support/locators";
 import {popUp} from "../../../support/client/employeeData";
 
@@ -8,7 +8,7 @@ describe('delete and add new goals', () => {
         cy.setToken('employee')
         cy.setImgToken('employee')
 
-        cy.visit(getTabUrl('development-plan'))
+        cy.visit(getSubTabUrl('career', '/profile', 'development-plan'))
     })
 
     it('successfully delete/add new goal', function () {

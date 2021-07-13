@@ -10,7 +10,7 @@ import {
   group,
   skills,
 } from '../../support/client/matrices'
-import {checkTwoString, getTabUrl} from '../../support/utils'
+import { checkTwoString, getSubTabUrl } from '../../support/utils'
 import { query } from '../../fixtures/query'
 
 describe(`Check employee matrices`, () => {
@@ -30,7 +30,7 @@ describe(`Check employee matrices`, () => {
       employeeData = { ...data.employeeByEmail }
     })
     cy.getResponse([OPERATION_NAME], 'alias')
-    cy.visit(getTabUrl('matrices'))
+    cy.visit(getSubTabUrl('career', '/profile', 'matrices'))
     cy.wait(`@alias`).then(val => {
       response = val.response.body.data
       request = val.request.body

@@ -2,7 +2,7 @@ import { getCv } from '../../../fixtures/cv'
 import {getEmployee} from "../../../support/getData";
 import {email} from "../../../support/client/employeeData";
 import {skillEl} from "../../../support/locators";
-import {getTabUrl} from '../../../support/utils'
+import { getSubTabUrl } from '../../../support/utils'
 
 describe('cv table looks good', () => {
   let id
@@ -16,7 +16,7 @@ describe('cv table looks good', () => {
   })
 
   it('check all matrix', () => {
-    cy.visit(getTabUrl('cv'))
+    cy.visit(getSubTabUrl('career', '/profile', 'cv'))
     cy.mockResponse(['getCV'], getCv(id))
 
     cy.get('.ant-skeleton').should('be.visible')

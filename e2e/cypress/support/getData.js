@@ -2,6 +2,7 @@ import { query } from '../fixtures/query'
 import { employeeData } from './client/employeeData'
 import { mainCity } from './locators'
 import {todayOfficePlannerDate} from "./officePlanner/officeDays";
+import { getEmployeeData, managerData } from './authorization'
 
 export const URL = 'https://portal.dev.syncretis.com/graphql'
 export const exportUrl = name  => `https://portal.syncretis.com/${name}`
@@ -19,6 +20,7 @@ Cypress.Commands.add('post', (body, superUser = null, baseUrl = URL, methodName 
       authorization: `Bearer ${Cypress.env('accessToken')}`,
       'content-type': 'application/json',
       'dev-only-user-role': superUser,
+      'dev-only-auth-disable': process.env.EMPLOYEE_TYPE === 'employee' ? getEmployeeData() : managerData()
     },
     body: body,
   })
