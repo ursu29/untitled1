@@ -14,7 +14,7 @@ const request = (id, jobId) => ({
 
 const name = id => !id ? 'Work experience' : (id === 1 ? 'Certificates & Awards' : 'Education');
 
-describe('create cv (cv)', () => {
+xdescribe('create cv (cv)', () => {
     let employeeData
     let jobs
     const values = [0,1,2]
