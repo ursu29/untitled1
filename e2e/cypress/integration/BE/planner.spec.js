@@ -14,7 +14,6 @@ describe('Check Employees response', () => {
 
   before(() => {
     cy.setToken('employee')
-    cy.setImgToken('employee')
     cy.post(getEmployee(email('employee'))).then(res => employeeData = res.body.data.employeeByEmail)
 
     cy.getResponse(['getEmployees'], 'alias')
@@ -34,7 +33,7 @@ describe('Check Employees response', () => {
     checkKeyValueExist({ id, location, __typename }, profile)
   })
 
-  context('getOfficeDays', () => {
+  describe('getOfficeDays', () => {
     before(() => {
       cy.setToken('employee')
       cy.getResponse([OPERATION_NAME], 'alias')
