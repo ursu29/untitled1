@@ -109,7 +109,9 @@ export default function Career({ employee, access }: Props) {
           }}
         >
           {tabs.map(tab => (
-            <Radio.Button value={tab.key}>{tab.title}</Radio.Button>
+            <Radio.Button key={tab.key} value={tab.key}>
+              {tab.title}
+            </Radio.Button>
           ))}
         </Radio.Group>
         <div>{tabs.find(i => i.key === activeTab)?.body}</div>
