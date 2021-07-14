@@ -59,6 +59,18 @@ const PostCreatedAt = ({ post }: { post: HobbyPostPreviewFragment }) => {
   )
 }
 
+const PostEvent = ({ post }: { post: HobbyPostPreviewFragment }) => {
+  if (!post.eventDate && !post.eventLocation) return null
+  const values = [post.eventLocation, post.eventDate && dayjs(post.eventDate).format('YYYY MMM DD')]
+    .filter(Boolean)
+    .join(', ')
+  return (
+    <div>
+      <Text type="secondary">Event: {values}</Text>
+    </div>
+  )
+}
+
 const PostHobbyList = ({ post }: { post: HobbyPostPreviewFragment }) => {
   if (!post.hobbies) return null
   return (
@@ -110,6 +122,7 @@ export const HobbyPostPreview = ({ post }: { post: HobbyPostPreviewFragment }) =
   <StyledWrapper>
     <PostCreatedAt post={post} />
     <StyledTitle>{post.title}</StyledTitle>
+    <PostEvent post={post} />
     {post.createdBy && <EmployeeLink employee={post.createdBy} />}
     <StyledRichText text={post.body} />
     <PostHobbyList post={post} />
@@ -122,6 +135,7 @@ export const HobbyPostFull = ({ post }: { post: HobbyPostBaseFragment }) => (
     <StyledTitle>
       {post.title} {post.editable && <UpdateHobbyPostModal post={post} />}
     </StyledTitle>
+    <PostEvent post={post} />
     {post.createdBy && <EmployeeLink employee={post.createdBy} />}
     <StyledRichText text={post.body} />
     <PostHobbyList post={post} />
