@@ -1,140 +1,97 @@
-import { Badge, Button, Card, Col, Row, Typography } from 'antd'
+import { Button, Col, Row, Space, Tag, Typography } from 'antd'
 import React from 'react'
-import { useMediaQuery } from 'react-responsive'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
-import { COLLAPSE_WIDTH } from '../../config'
-import { EmployeeDetails } from '../../fragments'
-import PATHS from '../../paths'
-import { ReactComponent as OutlookIcon } from '../../svg/outlook.svg'
-import { ReactComponent as TeamsIcon } from '../../svg/teams.svg'
-import { Employee } from '../../types'
+import { GetEmployeeDetailedQuery } from '../../queries/employees'
+import getLocationName from '../../utils/getLocationName'
 import Avatar from '../Avatar'
 import EmployeeManager from './EmployeeManager'
 import EmployeeProjects from './EmployeeProjects'
 import UpdateEmployee from './UpdateEmployee'
-import getLocationName from '../../utils/getLocationName'
-
-const { Text, Title } = Typography
-
-const Description = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
-type EmployeePick = EmployeeDetails & {
-  status: Employee['status']
-  bonuses: Employee['bonuses']
-  agileManager: EmployeeDetails | null
-}
 
 interface Props {
-  employee: EmployeePick
+  employee: GetEmployeeDetailedQuery['employeeByEmail']
 }
 
-export default function PortalEmployee({ employee }: Props) {
-  const isLarge = useMediaQuery({ minWidth: COLLAPSE_WIDTH })
-  const mobile = !isLarge
-
-  const employeeDetails = (
-    <>
-      <Text data-cy="email">{employee.email}</Text>
-      <Text data-cy="phone">{employee.phoneNumber}</Text>
-      {employee?.isMe && employee.bonuses ? (
-        <Text data-cy="bonuses">Bonus: {employee.bonuses} ₽</Text>
-      ) : null}
-    </>
-  )
+export default function Employee({ employee }: Props) {
+  if (!employee) return <Typography.Text>Employee is not found</Typography.Text>
 
   return (
-    <Row>
-      <Col md={24} lg={14} style={{ marginBottom: 20 }}>
-        <Card bordered={false} bodyStyle={{ padding: 0, marginBottom: 20 }}>
-          <Card.Meta
-            title={
-              <div style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap' }}>
-                <Title
-                  level={4}
-                  style={{ paddingRight: 8, whiteSpace: 'normal' }}
-                  data-cy="employee_name"
-                >
-                  {employee.name}
-                  <UpdateEmployee employee={employee} />
-                </Title>
-                {employee?.isMe && !mobile && (
-                  <Link to={PATHS.TIMEMASTER} data-cy="timemaster">
-                    <Button>Timemaster</Button>
-                  </Link>
+    <>
+      <Row gutter={[16, 16]}>
+        <Col xs={24} md={12} lg={12}>
+          <Space align="start" size="middle">
+            <Avatar employee={employee} size={168} shape="circle" highResolution />
+            <Space direction="vertical" style={{ display: 'block' }}>
+              <Typography.Title data-cy="employee_name" level={4} style={{ marginBottom: 0 }}>
+                {employee.name}
+                <UpdateEmployee employee={employee} />
+              </Typography.Title>
+              <Typography.Text data-cy="position" type="secondary">
+                {employee.position}
+              </Typography.Text>
+              <Space direction="vertical" style={{ display: 'block', margin: '8px 0' }}>
+                {employee.location && (
+                  <Typography.Text data-cy="location" style={{ color: '#595959' }}>
+                    {getLocationName(employee.location)}
+                  </Typography.Text>
                 )}
-              </div>
-            }
-            description={
-              <Description>
-                <Text data-cy="position">{employee.position}</Text>
-                <Text data-cy="location">{getLocationName(employee.location)}</Text>
-                {!mobile && employeeDetails}
-              </Description>
-            }
-            avatar={
-              <Avatar employee={employee} size={mobile ? 135 : 150} shape="square" highResolution />
-            }
-          />
-        </Card>
-        {mobile && <Description style={{ marginBottom: 10 }}>{employeeDetails}</Description>}
-        <div>
-          <a
-            href={`https://outlook.office.com/owa/?path=/mail/action/compose&to=${employee.email}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ paddingRight: 8 }}
-          >
-            <Button
-              data-cy="mail_button"
-              shape="circle"
-              style={{
-                display: 'inline-flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <OutlookIcon />
-            </Button>
-          </a>
-          <a
-            href={`https://teams.microsoft.com/l/chat/0/0?users=${employee.email}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ paddingRight: 8 }}
-          >
-            <Button
-              data-cy="teams_button"
-              shape="circle"
-              style={{
-                display: 'inline-flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <TeamsIcon />
-            </Button>
-          </a>{' '}
-          <Badge
-            data-cy="status"
-            color={
-              employee.status === 'Available'
-                ? 'green'
-                : employee.status === 'Unavailable'
-                ? 'gray'
-                : 'red'
-            }
-            text={employee.status}
-          />
-        </div>
-      </Col>
-      <Col md={24} lg={10}>
-        <EmployeeManager employee={employee.agileManager} isMe={employee?.isMe} />
-        <EmployeeProjects employee={employee} />
-      </Col>
-    </Row>
+                <Typography.Link
+                  data-cy="email"
+                  style={{ color: '#595959' }}
+                  href={`mailto:${employee.email}`}
+                >
+                  {employee.email}
+                </Typography.Link>
+                <Typography.Link
+                  data-cy="phone"
+                  style={{ color: '#595959' }}
+                  href={`tel:${employee.phoneNumber}`}
+                >
+                  {employee.phoneNumber}
+                </Typography.Link>
+              </Space>
+              {employee.bonuses && <Tag data-cy="bonuses">Bonus: {employee.bonuses} ₽</Tag>}
+            </Space>
+          </Space>
+        </Col>
+        {employee.agileManager && (
+          <Col xs={24} md={12} lg={{ span: 6, offset: employee.agileManager ? 0 : 6 }}>
+            <EmployeeManager employee={employee} />
+          </Col>
+        )}
+        {employee.isMe && (
+          <Col xs={24} md={6} lg={6}>
+            <Space direction="vertical">
+              <Typography.Title level={4} style={{ marginBottom: 0 }}>
+                Tools
+              </Typography.Title>
+              <Link data-cy="office_planner" to="/office-planner">
+                <Button>️‍🔥 Office Planner</Button>
+              </Link>
+              <Link data-cy="workspace_planner" to="/workspace-planner">
+                <Button>️‍🔥 Workspace Planner</Button>
+              </Link>
+              <Link data-cy="timemaster" to="/timemaster">
+                <Button>Timemaster</Button>
+              </Link>
+            </Space>
+          </Col>
+        )}
+        {/* <Col xs={24} md={12} lg={12}>
+          <AntAvatar size={40} shape="square" style={{ opacity: 0.7 }}>
+            <Tooltip placement="right" title="No trophies yet">
+              <TrophyOutlined />
+            </Tooltip>
+          </AntAvatar>
+        </Col> */}
+        <Col
+          xs={24}
+          md={!employee.agileManager && !employee.isMe ? 12 : 18}
+          lg={!employee.agileManager && !employee.isMe ? 12 : 18}
+        >
+          <EmployeeProjects employee={employee} />
+        </Col>
+      </Row>
+    </>
   )
 }

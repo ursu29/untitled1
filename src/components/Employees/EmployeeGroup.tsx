@@ -1,11 +1,11 @@
-import { useQuery, gql } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
+import { Button, Popconfirm, Space, Tooltip, Typography } from 'antd'
 import React, { useState } from 'react'
 import { EmployeeDetails } from '../../fragments'
-import { Typography, Button, Tooltip, Popconfirm } from 'antd'
-import EmployeeCard from './EmployeeCard.new'
-import { useUpdateEmployeeMutation } from '../../queries/employees'
 import message from '../../message'
+import { useUpdateEmployeeMutation } from '../../queries/employees'
 import { useEmployee } from '../../utils/withEmployee'
+import EmployeeCard from './EmployeeCard'
 
 const queryOne2oneRequest = gql`
   {
@@ -52,15 +52,7 @@ function EmployeeGroup({ title, employees, one2one, isMe }: Props) {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'baseline' }}>
-          <Typography.Title
-            level={4}
-            style={{
-              fontWeight: 400,
-              fontSize: 18,
-            }}
-          >
-            {title}
-          </Typography.Title>
+          <Typography.Title level={4}>{title}</Typography.Title>
 
           {one2one && isMe && (
             <Tooltip
@@ -116,11 +108,11 @@ function EmployeeGroup({ title, employees, one2one, isMe }: Props) {
           </div>
         )}
       </div>
-      <div>
+      <Space direction="vertical" size="middle">
         {employees.slice(0, showMore ? employees.length : 2).map(i => (
-          <EmployeeCard employee={i} key={i?.id} cardProps={{ bordered: false, hoverable: true }} />
+          <EmployeeCard email={i.email} employee={i} key={i?.id} />
         ))}
-      </div>
+      </Space>
     </div>
   )
 }

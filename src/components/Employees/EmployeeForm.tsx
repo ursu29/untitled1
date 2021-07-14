@@ -1,18 +1,14 @@
 import { useQuery } from '@apollo/client'
-import { Button, Form, InputNumber, Checkbox } from 'antd'
-import React, { useState, useEffect } from 'react'
+import { Button, Checkbox, Form, InputNumber } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { GetEmployeeDetailedQuery } from '../../queries/employees'
 import getEmployeeProjects, {
   GetEmployeeProjectsQuery,
   GetEmployeeProjectsVariables,
 } from '../../queries/getEmployeeProjects'
-import { EmployeeDetails } from '../../fragments'
-import { Employee } from '../../types'
 import EmployeeSelect from '../Employees/EmployeeSelect'
 
-type EmployeePick = {
-  id: Employee['id']
-  agileManager: EmployeeDetails | null
-}
+type EmployeePick = GetEmployeeDetailedQuery['employeeByEmail']
 
 export interface Props {
   onSubmit: (employee: EmployeePick, reset?: () => void) => void

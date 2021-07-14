@@ -3,7 +3,7 @@ import { Checkbox, Table, Switch } from 'antd'
 import React, { useState } from 'react'
 import fragments, { EmployeeDetails } from '../../fragments'
 import { Employee, LOCATION } from '../../types'
-import EmployeeCard from '../Employees/EmployeeCard.new'
+import EmployeeCard from '../Employees/EmployeeCard'
 import UpdateEmployee from '../Employees/UpdateEmployee'
 import TableSearch from '../UI/TableSearch'
 import message from '../../message'
@@ -54,6 +54,7 @@ export default function Employees() {
   // Card for employees table
   const Card = ({ employee }: { employee: EmployeeDetails }) => (
     <EmployeeCard
+      email={employee.email}
       employee={employee}
       noLink
       cardProps={{

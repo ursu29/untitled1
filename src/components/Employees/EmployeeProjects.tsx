@@ -1,12 +1,12 @@
 import { useQuery } from '@apollo/client'
+import { Typography } from 'antd'
 import React from 'react'
-import { Employee } from '../../types'
 import getEmployeeProjects, {
   GetEmployeeProjectsQuery,
   GetEmployeeProjectsVariables,
 } from '../../queries/getEmployeeProjects'
+import { Employee } from '../../types'
 import ProjectTagList from '../Projects/ProjectTagList'
-import Section from '../UI/Section'
 import Skeleton from '../UI/Skeleton'
 
 interface Props {
@@ -32,9 +32,12 @@ export default function EmployeeProjects(props: Props) {
   return (
     <Skeleton loading={loading} active line>
       {projects && projects?.length > 0 && (
-        <Section title="Projects" data-cy="projects">
-          <ProjectTagList small projects={projects} employeeProjects={employeeProjects} />
-        </Section>
+        <>
+          <Typography.Title level={4} data-cy="projects">
+            Projects
+          </Typography.Title>
+          <ProjectTagList small projects={projects} employeeProjects={employeeProjects} oneRow />
+        </>
       )}
     </Skeleton>
   )

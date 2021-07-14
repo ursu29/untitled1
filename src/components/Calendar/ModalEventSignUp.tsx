@@ -8,7 +8,7 @@ import { CalendarEvent } from '../../types'
 import ExternalLinkIcon from '../../svg/external-link.svg'
 import Avatar from '../Avatar'
 import message from '../../message'
-import EmployeeCard from '../Employees/EmployeeCard.new'
+import EmployeeCard from '../Employees/EmployeeCard'
 import { useEmployee } from '../../utils/withEmployee'
 import { QuestionCircleOutlined } from '@ant-design/icons'
 import { makeExternalUrl } from '../../utils/links'
@@ -157,6 +157,7 @@ export default function ModalEventSignUp({
               <div style={{ marginTop: '-20px' }}>
                 {acceptedEmployees.map(user => (
                   <EmployeeCard
+                    email={user.email}
                     employee={user}
                     key={user?.id}
                     cardProps={{ bordered: false, bodyStyle: { padding: '5px' } }}

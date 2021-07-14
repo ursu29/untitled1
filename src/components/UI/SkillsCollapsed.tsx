@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button } from 'antd'
 import styled from 'styled-components'
 import SkillTag from '../Skills/SkillTag'
-import { Skill } from '../../types/graphql'
+import { Skill, Experience } from '../../types/graphql'
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,21 +22,24 @@ const ToggleButton = styled(Button)`
   align-self: center;
 `
 
+type SkillPick = Pick<Skill, 'id' | 'name' | 'description'>
+type ExperiencePick = Pick<Experience, 'id' | 'level'> & { skill: SkillPick }
+
 type Props = {
-  skills: Pick<Skill, 'id' | 'name' | 'description'>[]
+  experiences: ExperiencePick[]
   amount: number
   emptyString?: string
 }
 
-const SkillsCollapsed = ({ skills, amount, emptyString }: Props) => {
+const SkillsCollapsed = ({ experiences, amount, emptyString }: Props) => {
   const [showMore, setShowMore] = useState(false)
-  const list = amount && !showMore ? skills.slice(0, amount) : skills
-  const total = skills.length
+  const list = amount && !showMore ? experiences.slice(0, amount) : experiences
+  const total = experiences.length
 
   return (
     <Wrapper>
-      {list.map(skill => (
-        <SkillTag key={skill.id} skill={skill} style={{ cursor: 'pointer' }} />
+      {list.map(({ level, skill }) => (
+        <SkillTag key={skill.id} skill={skill} level={level} style={{ cursor: 'pointer' }} />
       ))}
       {total > amount && (
         <ToggleButton

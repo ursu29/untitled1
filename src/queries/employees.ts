@@ -13,7 +13,6 @@ export type EmployeeDetailsFragment = { __typename?: 'Employee' } & Pick<
   | 'id'
   | 'name'
   | 'location'
-  | 'country'
   | 'position'
   | 'phoneNumber'
   | 'email'
@@ -28,6 +27,18 @@ export type GetEmployeeQueryVariables = Types.Exact<{
 
 export type GetEmployeeQuery = { __typename?: 'Query' } & {
   employeeByEmail?: Types.Maybe<{ __typename?: 'Employee' } & EmployeeDetailsFragment>
+}
+
+export type GetEmployeeDetailedQueryVariables = Types.Exact<{
+  email: Types.Scalars['String']
+}>
+
+export type GetEmployeeDetailedQuery = { __typename?: 'Query' } & {
+  employeeByEmail?: Types.Maybe<
+    { __typename?: 'Employee' } & Pick<Types.Employee, 'bonuses'> & {
+        agileManager?: Types.Maybe<{ __typename?: 'Employee' } & EmployeeDetailsFragment>
+      } & EmployeeDetailsFragment
+  >
 }
 
 export type GetEmployeesQueryVariables = Types.Exact<{ [key: string]: never }>
@@ -49,7 +60,6 @@ export const EmployeeDetailsFragmentDoc = gql`
     id
     name
     location
-    country
     position
     phoneNumber
     email
@@ -101,6 +111,64 @@ export function useGetEmployeeLazyQuery(
 export type GetEmployeeQueryHookResult = ReturnType<typeof useGetEmployeeQuery>
 export type GetEmployeeLazyQueryHookResult = ReturnType<typeof useGetEmployeeLazyQuery>
 export type GetEmployeeQueryResult = Apollo.QueryResult<GetEmployeeQuery, GetEmployeeQueryVariables>
+export const GetEmployeeDetailedDocument = gql`
+  query getEmployeeDetailed($email: String!) {
+    employeeByEmail(email: $email) {
+      ...EmployeeDetails
+      agileManager {
+        ...EmployeeDetails
+      }
+      bonuses
+    }
+  }
+  ${EmployeeDetailsFragmentDoc}
+`
+
+/**
+ * __useGetEmployeeDetailedQuery__
+ *
+ * To run a query within a React component, call `useGetEmployeeDetailedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEmployeeDetailedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEmployeeDetailedQuery({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useGetEmployeeDetailedQuery(
+  baseOptions: Apollo.QueryHookOptions<GetEmployeeDetailedQuery, GetEmployeeDetailedQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetEmployeeDetailedQuery, GetEmployeeDetailedQueryVariables>(
+    GetEmployeeDetailedDocument,
+    options,
+  )
+}
+export function useGetEmployeeDetailedLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetEmployeeDetailedQuery,
+    GetEmployeeDetailedQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetEmployeeDetailedQuery, GetEmployeeDetailedQueryVariables>(
+    GetEmployeeDetailedDocument,
+    options,
+  )
+}
+export type GetEmployeeDetailedQueryHookResult = ReturnType<typeof useGetEmployeeDetailedQuery>
+export type GetEmployeeDetailedLazyQueryHookResult = ReturnType<
+  typeof useGetEmployeeDetailedLazyQuery
+>
+export type GetEmployeeDetailedQueryResult = Apollo.QueryResult<
+  GetEmployeeDetailedQuery,
+  GetEmployeeDetailedQueryVariables
+>
 export const GetEmployeesDocument = gql`
   query getEmployees {
     employees {

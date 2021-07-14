@@ -59,9 +59,9 @@ const query = gql`
 type EmployeePick = Pick<Employee, 'id' | 'name' | 'email' | 'location' | 'isMe'>
 
 const LOCATIONS = [
-  { key: LOCATION.SAINT_PETERSBURG, title: getLocationName(LOCATION.SAINT_PETERSBURG) },
-  { key: LOCATION.TOMSK, title: getLocationName(LOCATION.TOMSK) },
-  { key: LOCATION.KALININGRAD, title: getLocationName(LOCATION.KALININGRAD) },
+  { key: LOCATION.SaintPetersburg, title: getLocationName(LOCATION.SaintPetersburg) },
+  { key: LOCATION.Tomsk, title: getLocationName(LOCATION.Tomsk) },
+  { key: LOCATION.Kaliningrad, title: getLocationName(LOCATION.Kaliningrad) },
 ]
 
 const MODE_CREATE = 'CREATE'
@@ -71,7 +71,7 @@ function OfficePlannerPage() {
   // @ts-ignore
   const thisMonday = dayjs().weekday(1)
   const [firstDate, setFirstDate] = useState(thisMonday)
-  const [currentLocation, setCurrentLocation] = useState(LOCATION.SAINT_PETERSBURG)
+  const [currentLocation, setCurrentLocation] = useState(LOCATION.SaintPetersburg)
   const isDesktop = useMediaQuery({ minWidth: 1200 })
 
   const [currentMode, setCurrentMode] = useState(MODE_CREATE)

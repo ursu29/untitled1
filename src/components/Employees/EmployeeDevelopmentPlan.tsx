@@ -8,7 +8,8 @@ import {
   archiveDP,
   getArchivedDP,
 } from '../../queries/archiveDP'
-import { Employee, Access, ArchivedDPData } from '../../types'
+import { ArchivedDPData } from '../../types'
+import { Employee, Access } from '../../types/graphql'
 import message from '../../message'
 import DevelopmentPlanForm from './DevelopmentPlanForm'
 import ExportDevelopmentPlan from './ExportDevelopmentPlan'

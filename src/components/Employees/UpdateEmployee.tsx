@@ -1,39 +1,37 @@
 import { EditOutlined } from '@ant-design/icons'
 import React from 'react'
-import { EmployeeDetails } from '../../fragments'
 import message from '../../message'
-import { useUpdateEmployeeMutation } from '../../queries/employees'
+import {
+  GetEmployeeDetailedDocument,
+  GetEmployeeDetailedQuery,
+  useUpdateEmployeeMutation,
+} from '../../queries/employees'
 import getEmployeeProjects from '../../queries/getEmployeeProjects'
-import Button from '../UI/Button'
-import Drawer from '../UI/Drawer'
-import { getEmployeeDetails } from './EmployeePage'
-import EmployeeForm from './EmployeeForm'
 import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 import { useEmployee } from '../../utils/withEmployee'
-
-type EmployeePick = EmployeeDetails & {
-  agileManager: EmployeeDetails | null
-}
+import Button from '../UI/Button'
+import Drawer from '../UI/Drawer'
+import EmployeeForm from './EmployeeForm'
 
 function UpdateProject({
   employee,
   isOpen,
   onClose,
 }: {
-  employee: EmployeePick
+  employee: NonNullable<GetEmployeeDetailedQuery['employeeByEmail']>
   isOpen?: boolean
   onClose?: any
 }) {
   const user = useEmployee()
 
   const hasAccess = useStrapiGroupCheck(['SYS_ADMINS', 'SUPER_USER'])
-  const isMeAgile = employee.agileManager?.id === user.employee.id
+  const isMeAgile = employee?.agileManager?.id === user.employee.id
 
   const [update, { loading }] = useUpdateEmployeeMutation({
     onCompleted: () => message.success('Employee is updated'),
     refetchQueries: [
       {
-        query: getEmployeeDetails,
+        query: GetEmployeeDetailedDocument,
         variables: {
           email: employee.email,
         },
@@ -46,9 +44,7 @@ function UpdateProject({
       },
     ],
     awaitRefetchQueries: true,
-    onError: e => {
-      message.error(e)
-    },
+    onError: message.error,
   })
 
   if (!hasAccess && !isMeAgile) return null
