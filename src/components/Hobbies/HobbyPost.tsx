@@ -66,7 +66,9 @@ const PostEvent = ({ post }: { post: HobbyPostPreviewFragment }) => {
     .join(', ')
   return (
     <div>
-      <Text type="secondary">Event: {values}</Text>
+      <Text type="secondary">
+        <b>Event:</b> {values}
+      </Text>
     </div>
   )
 }
