@@ -45,7 +45,7 @@ export default function EmployeeForm({
   useEffect(() => {
     if (dataProjects && !loadingProjects) {
       setProjectsOccupancy(employeeProjects)
-      saveInitialProjectsOccupancy(employeeProjects)
+      if (saveInitialProjectsOccupancy) saveInitialProjectsOccupancy(employeeProjects)
     }
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [employeeProjects])
@@ -79,7 +79,7 @@ export default function EmployeeForm({
   }
 
   useEffect(() => {
-    refForm.current.additionalInitial = employeeProjects
+    if (refForm) refForm.current.additionalInitial = employeeProjects
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadingProjects])
 
@@ -97,7 +97,7 @@ export default function EmployeeForm({
         agileManager: item?.agileManager?.id,
         projectsOccupancy: employeeProjects,
       }}
-      ref={refForm}
+      ref={refForm || null}
     >
       <Form.Item label="Agile Manager" name="agileManager">
         <EmployeeSelect wide selectProps={{ disabled: !fullAccess }} />
