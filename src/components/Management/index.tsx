@@ -1,18 +1,19 @@
+import { Radio, Tabs } from 'antd'
 import React, { useState } from 'react'
-import Employees from './Employees'
-import Agile from './Agile'
-import Scrum from './Scrum'
-import AAD from './AAD'
-import PageContent from '../UI/PageContent'
-import PageHeader from '../UI/PageHeader'
-import { Tabs } from 'antd'
+import AzureLogo from '../../svg/azure-logo.svg'
 import URLAction from '../../utils/URLAction'
 import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
-import AzureLogo from '../../svg/azure-logo.svg'
+import PageContent from '../UI/PageContent'
+import PageHeader from '../UI/PageHeader'
+import AAD from './AAD'
+import Agile from './Agile'
+import Employees from './Employees'
+import Scrum from './Scrum'
 
 export default function Management() {
   const urlAction = new URLAction()
   const [view, setView] = useState(urlAction.paramsGet('tab') || 'employees')
+  const [aadSection, setAadSection] = useState<'users' | 'groups'>('users')
   const isGeneralAccess = useStrapiGroupCheck('SUPER_USER')
   const isAADAccess = useStrapiGroupCheck('AAD_EDITORS')
 
@@ -26,7 +27,15 @@ export default function Management() {
             setView(key)
             urlAction.paramsSet('tab', key)
           }}
-          tabBarStyle={{ padding: '0 0 0 24px' }}
+          tabBarStyle={{ padding: '0 24px 0 24px' }}
+          tabBarExtraContent={
+            view === 'aad' ? (
+              <Radio.Group onChange={e => setAadSection(e.target.value)} defaultValue={aadSection}>
+                <Radio.Button value="users">Users</Radio.Button>
+                <Radio.Button value="groups">Groups</Radio.Button>
+              </Radio.Group>
+            ) : undefined
+          }
         >
           {isGeneralAccess && (
             <>
@@ -59,7 +68,7 @@ export default function Management() {
           )}
         </Tabs>
 
-        {view === 'aad' && <AAD />}
+        {view === 'aad' && <AAD view={aadSection} />}
         {view === 'employees' && <Employees />}
         {view === 'agile' && <Agile />}
         {view === 'scrum' && <Scrum />}

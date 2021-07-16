@@ -1,29 +1,22 @@
 import React from 'react'
-// import { useEmployee } from '../../utils/withEmployee'
-// import usePromise from 'react-fetch-hook/usePromise'
+import usePromise from 'react-fetch-hook/usePromise'
+import GraphAPI from '../../utils/GraphAPI'
+import Groups from './AAD/Groups'
 import Users from './AAD/Users'
-// import GraphAPI from '../../utils/GraphAPI'
 
-// const graphAPI = new GraphAPI()
+const graphAPI = new GraphAPI()
 
-export default function AAD() {
-  // const [hasAccess, setHasAccess] = useState(false)
-  // const user = useEmployee()
+export default function AAD({ view }: { view: 'users' | 'groups' }) {
+  const { isLoading: isLoadingUsers, data: dataUsers } = usePromise(() => graphAPI.getUsers())
+  const { isLoading: isLoadingGroups, data: dataGroups } = usePromise(() => graphAPI.getGroups())
 
-  /*   useEffect(() => {
-    ;(async () => {
-      const memberOf = await azureClient.api(`/users/${user.employee.azureID}/memberOf`).get()
-      setHasAccess(
-        (memberOf.value as [Group])
-          .map(e => e.displayName?.toLowerCase())
-          .includes('security group user editors'),
-      )
-    })()
-  }, [user.employee.azureID])
+  const groups = dataGroups?.sort((a, b) =>
+    (a?.displayName || '').localeCompare(b?.displayName || ''),
+  )
 
-  if (!hasAccess) {
-    return <div>Error</div>
-  } */
-
-  return <Users />
+  return view === 'users' ? (
+    <Users users={dataUsers} groups={groups} isLoading={isLoadingUsers} />
+  ) : (
+    <Groups users={dataUsers} groups={groups} isLoading={isLoadingGroups} />
+  )
 }

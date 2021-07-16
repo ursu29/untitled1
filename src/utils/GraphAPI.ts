@@ -51,8 +51,8 @@ export default class GraphAPI {
     return this.queryGet(`/users?mails=${mails || ''}`)
   }
 
-  public async getGroups(): Promise<Group[]> {
-    return this.queryGet(`/groups`)
+  public async getGroups(names?: string[]): Promise<Group[]> {
+    return this.queryGet(`/groups?names=${names || ''}`)
   }
 
   public async updateUser(id: any, body: { [key: string]: any }): Promise<string> {
@@ -65,6 +65,18 @@ export default class GraphAPI {
 
   public async getUserGroups(mail: string): Promise<Group[]> {
     return this.queryGet(`/usergroups?mail=${mail}`)
+  }
+
+  public async getGroupUsers(name: string): Promise<User[]> {
+    return this.queryGet(`/groupusers?name=${name}`)
+  }
+
+  public async createGroup(body: { [key: string]: any }): Promise<Group> {
+    return this.queryPost(`/groups`, body)
+  }
+
+  public async updateGroup(id: any, body: { [key: string]: any }): Promise<string> {
+    return this.queryPut(`/group/${id}`, body)
   }
 
   public async addMemberToGroup(groupId?: string, userId?: string): Promise<string> {

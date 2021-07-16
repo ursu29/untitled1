@@ -7,7 +7,7 @@ import getEmployeeProjects, {
   GetEmployeeProjectsVariables,
 } from '../../queries/getEmployeeProjects'
 import EmployeeSelect from '../Employees/EmployeeSelect'
-import { layout } from '../Management/AAD/DrawerUser'
+import { layout } from '../Management/AAD/services'
 
 type EmployeePick = GetEmployeeDetailedQuery['employeeByEmail']
 export interface Props {

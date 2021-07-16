@@ -63,3 +63,146 @@ export const strapiSyncFields = (user: User | undefined) => [
     adName: 'surname',
   },
 ]
+
+export const allUserColumns = [
+  {
+    title: 'Name',
+    key: 'displayName',
+    dataIndex: 'displayName',
+  },
+  {
+    title: 'Principal Name',
+    key: 'userPrincipalName',
+    dataIndex: 'userPrincipalName',
+  },
+  {
+    title: 'Object ID',
+    key: 'id',
+    dataIndex: 'id',
+  },
+  {
+    title: 'Phone',
+    key: 'mobilePhone',
+    dataIndex: 'mobilePhone',
+  },
+  {
+    title: 'Position',
+    key: 'jobTitle',
+    dataIndex: 'jobTitle',
+  },
+  {
+    title: 'First Name',
+    key: 'givenName',
+    dataIndex: 'givenName',
+  },
+  {
+    title: 'Last Name',
+    key: 'surname',
+    dataIndex: 'surname',
+  },
+  {
+    title: 'Mail Nickname',
+    key: 'mailNickname',
+    dataIndex: 'mailNickname',
+  },
+  {
+    title: 'Mail',
+    key: 'mail',
+    dataIndex: 'mail',
+  },
+  {
+    title: 'Swiss Re Mail',
+    key: 'officeLocation',
+    dataIndex: 'officeLocation',
+  },
+  {
+    title: 'Other Mails',
+    key: 'otherMails',
+    dataIndex: 'otherMails',
+  },
+  {
+    title: 'City',
+    key: 'city',
+    dataIndex: 'city',
+  },
+  {
+    title: 'Country',
+    key: 'country',
+    dataIndex: 'country',
+  },
+  {
+    title: 'Street Address',
+    key: 'streetAddress',
+    dataIndex: 'streetAddress',
+  },
+  {
+    title: 'Usage Location',
+    key: 'usageLocation',
+    dataIndex: 'usageLocation',
+  },
+  {
+    title: 'Company Name',
+    key: 'companyName',
+    dataIndex: 'companyName',
+  },
+  {
+    title: 'Language',
+    key: 'preferredLanguage',
+    dataIndex: 'preferredLanguage',
+  },
+  {
+    title: 'Birthday',
+    key: 'state',
+    dataIndex: 'state',
+  },
+  {
+    title: 'Contract Start',
+    key: 'postalCode',
+    dataIndex: 'postalCode',
+  },
+]
+
+export const allGroupColumns = [
+  {
+    title: 'Name',
+    key: 'displayName',
+    dataIndex: 'displayName',
+  },
+  {
+    title: 'Mail',
+    key: 'mail',
+    dataIndex: 'mail',
+  },
+  {
+    title: 'Object ID',
+    key: 'id',
+    dataIndex: 'id',
+  },
+  {
+    title: 'Description',
+    key: 'description',
+    dataIndex: 'description',
+  },
+  {
+    title: 'Mail Nickname',
+    key: 'mailNickname',
+    dataIndex: 'mailNickname',
+  },
+]
+
+export const layout = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 17 },
+}
+
+export const layoutWithoutLabel = {
+  wrapperCol: { offset: 6, span: 17 },
+}
+
+export const changeGroupName = (form: FormInstance) => {
+  const { displayName, prefixName } = form.getFieldsValue(['displayName', 'prefixName'])
+
+  form.setFieldsValue({
+    mailNickname: (prefixName || '') + (displayName || ''),
+  })
+}

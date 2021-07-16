@@ -62,3 +62,5 @@ export const PHONE_MASKS = {
   RUS: '(111) 111-11-11',
   SWISS: '11 111 11 11',
 }
+
+export const GROUPS_PREFIXES = ['Academy-', 'Community-', 'az-', 'guild-', 'is-', 'sr-']

@@ -1,111 +1,15 @@
 import React from 'react'
 import { Form, Button, Checkbox, Drawer } from 'antd'
 
-export const allColumns = [
-  {
-    title: 'Name',
-    key: 'displayName',
-    dataIndex: 'displayName',
-  },
-  {
-    title: 'Principal Name',
-    key: 'userPrincipalName',
-    dataIndex: 'userPrincipalName',
-  },
-  {
-    title: 'Object ID',
-    key: 'id',
-    dataIndex: 'id',
-  },
-  {
-    title: 'Phone',
-    key: 'mobilePhone',
-    dataIndex: 'mobilePhone',
-  },
-  {
-    title: 'Position',
-    key: 'jobTitle',
-    dataIndex: 'jobTitle',
-  },
-  {
-    title: 'First Name',
-    key: 'givenName',
-    dataIndex: 'givenName',
-  },
-  {
-    title: 'Last Name',
-    key: 'surname',
-    dataIndex: 'surname',
-  },
-  {
-    title: 'Mail Nickname',
-    key: 'mailNickname',
-    dataIndex: 'mailNickname',
-  },
-  {
-    title: 'Mail',
-    key: 'mail',
-    dataIndex: 'mail',
-  },
-  {
-    title: 'Swiss Re Mail',
-    key: 'officeLocation',
-    dataIndex: 'officeLocation',
-  },
-  {
-    title: 'Other Mails',
-    key: 'otherMails',
-    dataIndex: 'otherMails',
-  },
-  {
-    title: 'City',
-    key: 'city',
-    dataIndex: 'city',
-  },
-  {
-    title: 'Country',
-    key: 'country',
-    dataIndex: 'country',
-  },
-  {
-    title: 'Street Address',
-    key: 'streetAddress',
-    dataIndex: 'streetAddress',
-  },
-  {
-    title: 'Usage Location',
-    key: 'usageLocation',
-    dataIndex: 'usageLocation',
-  },
-  {
-    title: 'Company Name',
-    key: 'companyName',
-    dataIndex: 'companyName',
-  },
-  {
-    title: 'Language',
-    key: 'preferredLanguage',
-    dataIndex: 'preferredLanguage',
-  },
-  {
-    title: 'Birthday',
-    key: 'state',
-    dataIndex: 'state',
-  },
-  {
-    title: 'Contract Start',
-    key: 'postalCode',
-    dataIndex: 'postalCode',
-  },
-]
-
 export default function DrawerColumns({
+  columns,
   visible,
   selectedColumns,
   setSelectedColumns,
   handleOk,
   handleClose,
 }: {
+  columns: { title: string; key: string; dataIndex: string }[]
   visible?: boolean
   selectedColumns: string[]
   setSelectedColumns: (args: string[]) => void
@@ -154,7 +58,7 @@ export default function DrawerColumns({
           setSelectedColumns(Object.keys(values).filter(e => !!values[e]))
         }}
       >
-        {allColumns.map(e => (
+        {columns.map(e => (
           <Form.Item
             key={e.key}
             name={e.key}

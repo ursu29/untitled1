@@ -31,20 +31,15 @@ import {
   parsePhonePrefix,
   positions,
   strapiSyncFields,
+  layout,
+  layoutWithoutLabel,
 } from './services'
 import './styles.css'
 
+const graphAPI = new GraphAPI()
 const { Option } = Select
 const { TabPane } = Tabs
-const graphAPI = new GraphAPI()
 type ViewTypes = 'personal' | 'additional'
-export const layout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 17 },
-}
-const layoutWithoutLabel = {
-  wrapperCol: { offset: 6, span: 17 },
-}
 
 export default function DrawerUser({
   visible,
@@ -75,14 +70,14 @@ export default function DrawerUser({
   const [initialUserGroups, setInitialUserGroups] = useState<string[]>([])
   const [initialProjectsOccupancy, setInitialProjectsOccupancy] = useState([])
 
-  // Get employee for the 'additional' tab
+  // Strapi get employee for the 'additional' tab
   const { data: employeeData, loading: employeeLoading } = useGetEmployeeDetailedQuery({
     variables: { email: user?.userPrincipalName?.toLowerCase() || '' },
     fetchPolicy: 'network-only',
   })
   const employee = employeeData?.employeeByEmail
 
-  // Get user groups for the 'personal data' tab
+  // AAD get user groups for the 'personal data' tab
   const getUserGroups = async (user: User | undefined): Promise<string[] | undefined> => {
     if (!!user && user.userPrincipalName) {
       return await graphAPI.getUserGroups(user.userPrincipalName).then(data => {
@@ -98,7 +93,7 @@ export default function DrawerUser({
     return
   }
 
-  // Update employee personal data query
+  // Strapi update employee personal data query
   const [updateEmployee, { loading: loadingUpdateEmployee }] = useUpdateEmployeeMutation({
     awaitRefetchQueries: true,
     onError: e => {
@@ -106,7 +101,7 @@ export default function DrawerUser({
     },
   })
 
-  // Create employee query
+  // Strapi create employee query
   const [createEmployee, { loading: loadingCreateEmployee }] = useCreateEmployeeMutation({
     awaitRefetchQueries: true,
     onError: e => {
@@ -114,7 +109,7 @@ export default function DrawerUser({
     },
   })
 
-  // Update employee additional data query
+  // Strapi update employee additional data query
   const [updateAdditional, { loading: loadingUpdateAdditional }] = useUpdateEmployeeMutation({
     onCompleted: () => message.success('Employee additional data has been updated'),
     refetchQueries: [
@@ -228,6 +223,7 @@ export default function DrawerUser({
       // REQUEST: AAD create/update user
       let updatedUser = user
       let isUserWasUpdated = false
+      let isUserWasCreated = false
       if (!!Object.keys(userForSave).length) {
         if (!isNew) {
           const updateUserRes = await graphAPI.updateUser(id, userForSave)
@@ -243,13 +239,14 @@ export default function DrawerUser({
             message.success('User has been updated')
           }
         } else if (isNew) {
-          // REQUEST: Strapi create user
           const createdUser = await graphAPI.createUser(userForSave)
           if (!createdUser) {
             message.error('User has not been created')
             return
           }
+          // REQUEST: Strapi create user
           if (createdUser.id) {
+            isUserWasCreated = true
             updatedUser = await getCreatedUser(createdUser.id)
             message.success('User has been created')
             const updatingFields = strapiSyncFields(updatedUser)
@@ -398,10 +395,9 @@ export default function DrawerUser({
         }
       }
 
-      setLoading(false)
-
       if (
         !isUserWasUpdated &&
+        !isUserWasCreated &&
         !updateGroupsPromises.length &&
         !Object.keys(inputAdditionalData).length
       ) {
@@ -415,6 +411,8 @@ export default function DrawerUser({
       console.error(err)
       message.error(`Something has gone wrong`)
     }
+
+    setLoading(false)
   }
 
   const generalLoading =
@@ -452,14 +450,37 @@ export default function DrawerUser({
       }
       width={550}
       footer={
-        <Button
-          onClick={onFinish}
-          type="primary"
-          loading={generalLoading}
-          style={{ minWidth: '100px' }}
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
         >
-          {isNew ? 'Create' : 'Save'}
-        </Button>
+          <Button
+            onClick={onFinish}
+            type="primary"
+            loading={generalLoading}
+            style={{ minWidth: '100px' }}
+          >
+            {isNew ? 'Create' : 'Save'}
+          </Button>
+          {view === 'personal' && (
+            <div style={{ display: 'flex', alignItems: 'center', maxHeight: '32px' }}>
+              <div style={{ fontStyle: 'italic' }}>
+                {isOptItemsClosed ? 'unlock fields' : 'lock fields'}
+              </div>
+              <Button
+                icon={isOptItemsClosed ? <LockOutlined /> : <UnlockOutlined />}
+                size="large"
+                shape="circle"
+                type="text"
+                onClick={() => setIsOptItemsClosed(!isOptItemsClosed)}
+              />
+            </div>
+          )}
+        </div>
       }
       maskClosable={false}
       destroyOnClose={true}
@@ -518,10 +539,12 @@ export default function DrawerUser({
               disabled={isNew}
               mode="multiple"
               options={
-                groups?.map(e => ({
-                  label: e.description?.split('//')?.[0].trim(),
-                  value: e.displayName,
-                })) as any
+                groups
+                  ?.sort((a, b) => (a?.description || '').localeCompare(b?.description || ''))
+                  ?.map(e => ({
+                    label: e.description?.split('//')?.[0].trim() || e.displayName,
+                    value: e.displayName,
+                  })) as any
               }
             />
           </Form.Item>
@@ -718,26 +741,6 @@ export default function DrawerUser({
               showToday={false}
               placeholder=""
             />
-          </Form.Item>
-          <Form.Item wrapperCol={{ span: 24 }}>
-            <div
-              style={{
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-                paddingRight: 20,
-              }}
-            >
-              <div style={{ marginTop: '4px', fontStyle: 'italic' }}>locked fields</div>
-              <Button
-                icon={isOptItemsClosed ? <LockOutlined /> : <UnlockOutlined />}
-                size="large"
-                shape="circle"
-                type="text"
-                onClick={() => setIsOptItemsClosed(!isOptItemsClosed)}
-              />
-            </div>
           </Form.Item>
         </Form>
       </div>
