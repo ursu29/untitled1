@@ -23,6 +23,7 @@ export default function Groups({
     group?: Group
   }>({})
   const [groups, setGroups] = useState<Group[] | undefined>([])
+  const [filters, setFilters] = useState<{ [key: string]: any }>({})
   const [selectedColumns, setSelectedColumns] = useState([''])
   const [shownColumns, setShownColumns] = useState<typeof allGroupColumns>(
     allGroupColumns.slice(0, 2),
@@ -42,8 +43,6 @@ export default function Groups({
 
   const getCreatedGroup = async (newGroupDisplayName: string) => {
     const createdGroup = (await graphAPI.getGroups([newGroupDisplayName]))[0]
-    console.log(createdGroup)
-    console.log(newGroupDisplayName)
     if (!!createdGroup && !!groups) {
       setGroups(groups.concat([createdGroup]))
     }
@@ -68,18 +67,32 @@ export default function Groups({
     return
   }
 
+  const filteredGroups = groups?.filter(e => {
+    let pass = true
+    if (filters.search)
+      pass =
+        e.displayName?.toLowerCase().includes(filters.search.toLowerCase()) ||
+        e.mail?.toLowerCase().includes(filters.search.toLowerCase()) ||
+        false
+
+    return pass
+  })
+
   return (
     <>
       <TableHeader
         newButtonText="New Group"
         newButtonOnClick={() => tableMenuClick('new')}
         columnsButtonClick={() => tableMenuClick('columns')}
+        onSearch={e => {
+          setFilters({ ...filters, search: e.target.value })
+        }}
       />
 
       <Table
         loading={isLoading}
         tableLayout="fixed"
-        dataSource={groups}
+        dataSource={filteredGroups}
         pagination={false}
         columns={shownColumns}
         rowKey="id"

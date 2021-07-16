@@ -23,6 +23,7 @@ export default function Users({
     user?: User
   }>({})
   const [users, setUsers] = useState<User[] | undefined>([])
+  const [filters, setFilters] = useState<{ [key: string]: any }>({})
   const [selectedColumns, setSelectedColumns] = useState([''])
   const [shownColumns, setShownColumns] = useState<typeof allUserColumns>(
     allUserColumns.slice(0, 2),
@@ -66,18 +67,32 @@ export default function Users({
     return
   }
 
+  const filteredUsers = users?.filter(e => {
+    let pass = true
+    if (filters.search)
+      pass =
+        e.displayName?.toLowerCase().includes(filters.search.toLowerCase()) ||
+        e.userPrincipalName?.toLowerCase().includes(filters.search.toLowerCase()) ||
+        false
+
+    return pass
+  })
+
   return (
     <>
       <TableHeader
         newButtonText="New user"
         newButtonOnClick={() => tableMenuClick('new')}
         columnsButtonClick={() => tableMenuClick('columns')}
+        onSearch={e => {
+          setFilters({ ...filters, search: e.target.value })
+        }}
       />
 
       <Table
         loading={isLoading}
         tableLayout="fixed"
-        dataSource={users}
+        dataSource={filteredUsers}
         pagination={false}
         columns={shownColumns}
         rowKey="id"
