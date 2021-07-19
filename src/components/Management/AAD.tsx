@@ -1,8 +1,8 @@
 import React from 'react'
 import usePromise from 'react-fetch-hook/usePromise'
 import GraphAPI from '../../utils/GraphAPI'
-import Groups from './AAD/Groups'
-import Users from './AAD/Users'
+import Groups from './AAD/TableGroups'
+import Users from './AAD/TableUsers'
 
 const graphAPI = new GraphAPI()
 

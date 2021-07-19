@@ -3,15 +3,15 @@ import { Table } from 'antd'
 import React, { useEffect, useState } from 'react'
 import GraphAPI from '../../../utils/GraphAPI'
 import DrawerColumns from './DrawerColumns'
-import DrawerUser from './DrawerUser'
-import { allUserColumns } from './services'
+import DrawerGroup from './DrawerGroup'
+import { allGroupColumns } from './columns'
 import TableHeader from './TableHeader'
 
 const graphAPI = new GraphAPI()
 
-export default function Users({
-  users: usersData,
-  groups,
+export default function Groups({
+  users,
+  groups: groupsData,
   isLoading,
 }: {
   users: User[] | undefined
@@ -19,41 +19,41 @@ export default function Users({
   isLoading: boolean
 }) {
   const [drawer, setDrawer] = useState<{
-    key?: 'columns' | 'newUser' | 'editUser'
-    user?: User
+    key?: 'columns' | 'newGroup' | 'editGroup'
+    group?: Group
   }>({})
-  const [users, setUsers] = useState<User[] | undefined>([])
+  const [groups, setGroups] = useState<Group[] | undefined>([])
   const [filters, setFilters] = useState<{ [key: string]: any }>({})
   const [selectedColumns, setSelectedColumns] = useState([''])
-  const [shownColumns, setShownColumns] = useState<typeof allUserColumns>(
-    allUserColumns.slice(0, 2),
+  const [shownColumns, setShownColumns] = useState<typeof allGroupColumns>(
+    allGroupColumns.slice(0, 2),
   )
 
   useEffect(() => {
-    if (!isLoading && !!usersData) setUsers(usersData)
-  }, [isLoading, usersData])
+    if (!isLoading && !!groupsData) setGroups(groupsData)
+  }, [isLoading, groupsData])
 
-  const getUpdatedUsers = async (newUsersIds: string[]) => {
-    const updatedUsers = await graphAPI.getUsers(newUsersIds)
-    if (!!updatedUsers.length && !!users) {
-      setUsers(users.map(user => updatedUsers.find(e => e.id === user.id) || user))
+  const getUpdatedGroups = async (newGroupsNames: string[]) => {
+    const updatedGroups = await graphAPI.getGroups(newGroupsNames)
+    if (!!updatedGroups.length && !!groups) {
+      setGroups(groups.map(group => updatedGroups.find(e => e?.id === group?.id) || group))
     }
-    return updatedUsers
+    return updatedGroups
   }
 
-  const getCreatedUser = async (newUsersId: string) => {
-    const createdUser = (await graphAPI.getUsers([newUsersId]))[0]
-    if (!!createdUser && !!users) {
-      setUsers(users.concat([createdUser]))
+  const getCreatedGroup = async (newGroupDisplayName: string) => {
+    const createdGroup = (await graphAPI.getGroups([newGroupDisplayName]))[0]
+    if (!!createdGroup && !!groups) {
+      setGroups(groups.concat([createdGroup]))
     }
-    return createdUser
+    return createdGroup
   }
 
   const tableMenuClick = (key: 'new' | 'edit' | 'delete' | 'columns') => {
     switch (key) {
       case 'new':
         setDrawer({
-          key: 'newUser',
+          key: 'newGroup',
         })
         break
       case 'columns':
@@ -67,12 +67,12 @@ export default function Users({
     return
   }
 
-  const filteredUsers = users?.filter(e => {
+  const filteredGroups = groups?.filter(e => {
     let pass = true
     if (filters.search)
       pass =
         e.displayName?.toLowerCase().includes(filters.search.toLowerCase()) ||
-        e.userPrincipalName?.toLowerCase().includes(filters.search.toLowerCase()) ||
+        e.mail?.toLowerCase().includes(filters.search.toLowerCase()) ||
         false
 
     return pass
@@ -81,7 +81,7 @@ export default function Users({
   return (
     <>
       <TableHeader
-        newButtonText="New user"
+        newButtonText="New Group"
         newButtonOnClick={() => tableMenuClick('new')}
         columnsButtonClick={() => tableMenuClick('columns')}
         onSearch={e => {
@@ -92,7 +92,7 @@ export default function Users({
       <Table
         loading={isLoading}
         tableLayout="fixed"
-        dataSource={filteredUsers}
+        dataSource={filteredGroups}
         pagination={false}
         columns={shownColumns}
         rowKey="id"
@@ -100,45 +100,45 @@ export default function Users({
         onRow={record => ({
           onClick: () => {
             setDrawer({
-              key: 'editUser',
-              user: record,
+              key: 'editGroup',
+              group: record,
             })
           },
         })}
         style={{ maxWidth: '100%', cursor: 'pointer' }}
       />
 
-      <DrawerUser
-        user={drawer.user}
-        groups={groups}
-        visible={drawer.key === 'editUser' || drawer.key === 'newUser'}
-        type={drawer.key === 'newUser' ? 'new' : 'edit'}
+      <DrawerGroup
+        group={drawer.group}
+        users={users}
+        visible={drawer.key === 'editGroup' || drawer.key === 'newGroup'}
+        type={drawer.key === 'newGroup' ? 'new' : 'edit'}
         handleClose={() => {
           setDrawer({})
         }}
-        handleReopen={(user: User | undefined) => {
+        handleReopen={(group: Group | undefined) => {
           setDrawer({})
-          if (!user) return
+          if (!group) return
           setTimeout(() => {
             setDrawer({
-              key: 'editUser',
-              user,
+              key: 'editGroup',
+              group,
             })
           }, 700)
         }}
-        getUpdatedUsers={getUpdatedUsers}
-        getCreatedUser={getCreatedUser}
+        getUpdatedGroups={getUpdatedGroups}
+        getCreatedGroup={getCreatedGroup}
       />
 
       <DrawerColumns
-        columns={allUserColumns}
+        columns={allGroupColumns}
         visible={drawer.key === 'columns'}
         selectedColumns={shownColumns?.map((e: any) => e.key) || []}
         setSelectedColumns={(columns: string[]) => {
           setSelectedColumns(columns)
         }}
         handleOk={() => {
-          setShownColumns(allUserColumns.filter(e => selectedColumns?.includes(e.key)))
+          setShownColumns(allGroupColumns.filter(e => selectedColumns?.includes(e.key)))
         }}
         handleClose={() => {
           setDrawer({})

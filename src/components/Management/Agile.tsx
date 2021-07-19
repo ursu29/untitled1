@@ -112,7 +112,14 @@ export default function Agile() {
   ]
 
   const collapseHeader = (manager: EmployeeDetails & { subordinate: EmployeeDetails[] }) => (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div
+      style={{
+        display: 'flex',
+        minWidth: '400px',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+      }}
+    >
       <EmployeeCard
         email={manager.email}
         employee={manager}
@@ -144,7 +151,14 @@ export default function Agile() {
         </div>
       )}
       {agileManagers?.map(manager => (
-        <Collapse key={manager.id} bordered={false} ghost={true}>
+        <Collapse
+          key={manager.id}
+          bordered={false}
+          ghost={true}
+          style={{
+            marginBottom: '8px',
+          }}
+        >
           <Collapse.Panel
             key={manager.id}
             header={collapseHeader(manager)}
