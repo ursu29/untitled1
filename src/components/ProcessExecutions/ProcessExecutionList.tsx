@@ -25,10 +25,12 @@ dayjs.extend(relativeTime)
 interface Props {
   items?: QueryType['processExecutions']
   tabName?: string
+  onlyForMeFilter?: boolean
 }
 
-function ProcessList({ items, tabName }: Props) {
+function ProcessList({ items, tabName, onlyForMeFilter }: Props) {
   const user = useEmployee()
+  let defaultFilteredValue = null
 
   const [update, { loading: updateLoading }] = useMutation(updateProcessExecution, {
     refetchQueries: [{ query: getProcessExecutions }],
@@ -347,7 +349,15 @@ function ProcessList({ items, tabName }: Props) {
             items
               .filter(e => e?.activeStepEmployees)
               .flatMap(item => {
-                if (item.activeStepEmployees) return item.activeStepEmployees.map(e => e?.name)
+                if (item.activeStepEmployees)
+                  return item.activeStepEmployees.map(e => {
+                    if (
+                      onlyForMeFilter &&
+                      e?.email?.toLowerCase() === user?.employee?.email?.toLowerCase()
+                    )
+                      defaultFilteredValue = [e?.name]
+                    return e?.name
+                  })
                 return []
               }),
           ),
@@ -356,6 +366,7 @@ function ProcessList({ items, tabName }: Props) {
           record.activeStepEmployees
             ? record.activeStepEmployees.map((e: any) => e?.name).includes(value)
             : false,
+        defaultFilteredValue,
         sorter: (a: any, b: any) =>
           a.activeStepEmployees
             ?.map((e: any) => e?.name)
