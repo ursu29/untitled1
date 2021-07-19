@@ -1,4 +1,4 @@
-import { Level } from './graphql'
+import { Level, Location } from './graphql'
 
 export interface Skill {
   id: string
@@ -15,7 +15,7 @@ export interface Employee {
   lastName: string
   position: string
   country: string
-  location: LOCATION
+  location: Location
   phoneNumber: string
   email: string
   isMe: boolean
@@ -273,12 +273,10 @@ export interface Vacancy {
   description: string
 }
 
-export enum LOCATION {
-  SAINT_PETERSBURG = 'SAINT_PETERSBURG',
-  KALININGRAD = 'KALININGRAD',
-  TOMSK = 'TOMSK',
-  ZURICH = 'ZURICH',
-}
+export const LOCATION = { ...Location }
+// eslint-disable-next-line  @typescript-eslint/no-redeclare
+export type LOCATION = Location
+// export enum LOCATION = Location
 
 export type Customer = 'INTERNAL' | 'SWISSRE' | 'ALLIANZ'
 export type ProcessType = 'ONBOARDING' | 'OFFBOARDING' | 'ROTATION'

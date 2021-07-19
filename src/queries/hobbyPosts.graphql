@@ -1,5 +1,15 @@
-fragment HobbyPostBase on HobbyPost {
+fragment HobbyPostCommentBase on HobbyPostComment {
   id
+  body
+  createdAt
+  createdBy {
+    id
+    name
+    email
+  }
+}
+
+fragment HobbyPostPreview on HobbyPost {
   title
   body
   createdAt
@@ -12,7 +22,16 @@ fragment HobbyPostBase on HobbyPost {
     id
     name
   }
+}
+
+fragment HobbyPostBase on HobbyPost {
+  id
+  ...HobbyPostPreview
+  editable
   language
+  comments {
+    ...HobbyPostCommentBase
+  }
 }
 
 query getHobbyPosts($input: HobbyPostFilterInput) {
@@ -35,6 +54,12 @@ mutation createHobbyPost($input: CreateHobbyPostInput!) {
 
 mutation updateHobbyPost($input: UpdateHobbyPostInput!) {
   updateHobbyPost(input: $input) {
+    ...HobbyPostBase
+  }
+}
+
+mutation replyHobbyPost($input: HobbyPostReplyInput!) {
+  replyHobbyPost(input: $input) {
     ...HobbyPostBase
   }
 }

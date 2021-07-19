@@ -2,8 +2,8 @@ import React from 'react'
 import { Timeline } from 'antd'
 import { NEWS_FEED_WIDTH } from '../../config'
 import { HobbyPostBaseFragment } from '../../queries/hobbyPosts'
-import HobbyPost from './HobbyPost'
-import { UpdateHobbyPostModal } from './UpdateHobbyModal'
+import VisibilitySensor from '../UI/VisibilitySensor'
+import { HobbyPostFull } from './HobbyPost'
 
 type Props = {
   posts?: HobbyPostBaseFragment[]
@@ -17,9 +17,7 @@ const HobbiesFeedPosts = ({ posts, loadMore }: Props) => {
     <Timeline style={{ maxWidth: NEWS_FEED_WIDTH }}>
       {posts.map((post, index) => (
         <Timeline.Item key={post.id}>
-          <HobbyPost
-            post={post}
-            edit={<UpdateHobbyPostModal post={post} />}
+          <VisibilitySensor
             checkVisibility={index === posts.length - 1}
             loadMore={() => {
               const postId = post.id
@@ -28,7 +26,9 @@ const HobbiesFeedPosts = ({ posts, loadMore }: Props) => {
                 loadMore(post.id)
               }
             }}
-          />
+          >
+            <HobbyPostFull post={post} />
+          </VisibilitySensor>
         </Timeline.Item>
       ))}
     </Timeline>

@@ -25,10 +25,11 @@ const Wrapper = styled.div`
 `
 
 type Props = {
+  className?: string
   text?: string
 }
 
-function RichText({ text }: Props) {
+function RichText({ className, text }: Props) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -72,6 +73,7 @@ function RichText({ text }: Props) {
   return (
     <Wrapper
       ref={ref}
+      className={className}
       dangerouslySetInnerHTML={{
         __html: text ? markdownToHtml(text) : '',
       }}

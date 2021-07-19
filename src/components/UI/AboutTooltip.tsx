@@ -2,10 +2,13 @@ import React from 'react'
 import { Tooltip } from 'antd'
 import { QuestionCircleOutlined } from '@ant-design/icons'
 
-export default function AboutTooltip({
-  children,
-  ...props
-}: { children?: JSX.Element } & Partial<React.ComponentProps<typeof Tooltip>> & { title: string }) {
+type Props = React.PropsWithChildren<
+  {
+    title: string
+  } & Partial<React.ComponentProps<typeof Tooltip>>
+>
+
+export default function AboutTooltip({ children, ...props }: Props) {
   return (
     <>
       {children}

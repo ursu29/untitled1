@@ -88,6 +88,7 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
       </Paragraph>
       <Form.Item name="previousGoals">
         <DevelopmentGoals
+          withoutAbilityToDelete
           showAchievedSwitch
           onChange={values => {
             form.setFieldsValue({
@@ -234,7 +235,6 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
       </Paragraph>
       <Form.Item name="actualGoals">
         <DevelopmentGoals
-          showAchievedSwitch={false}
           onChange={values => {
             form.setFieldsValue({
               actualGoals: values,

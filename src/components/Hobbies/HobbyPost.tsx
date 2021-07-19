@@ -1,80 +1,130 @@
-import { Typography } from 'antd'
-import React, { useState, useEffect } from 'react'
-import VisibilitySensor from 'react-visibility-sensor'
+import { Typography, Comment, Button } from 'antd'
+import React, { useState } from 'react'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
-import { HobbyPostBaseFragment } from '../../queries/hobbyPosts'
+import {
+  HobbyPostPreviewFragment,
+  HobbyPostCommentBaseFragment,
+  HobbyPostBaseFragment,
+} from '../../queries/hobbyPosts'
 import RichText from '../UI/RichText'
 import EmployeeLink from '../Employees/EmployeeLink'
 import HobbyTag from './HobbyTag'
+import Avatar from '../Avatar'
+import { UpdateHobbyPostModal } from './UpdateHobbyModal'
+import ReplyHobbyPost from './ReplyHobbyPost'
 
-const { Text, Title } = Typography
+const { Text, Title, Paragraph } = Typography
 
 const StyledWrapper = styled.div`
   margin: 16px 0;
 `
 
-const StyledHeader = styled.div`
+const StyledHeader = styled(Text).attrs({ type: 'secondary' })`
+  margin-bottom: 8px;
+`
+
+const StyledTitle = styled(Title).attrs({ level: 3 })`
+  && {
+    margin-top: 8px;
+    margin-bottom: 0;
+  }
+`
+
+const StyledRichText = styled(RichText)`
+  margin: 16px 0;
+`
+
+const StyledComments = styled.div`
+  margin: 8px 8px 0 16px;
+`
+
+const StyledCommentsHeader = styled.div`
   display: flex;
-  align-items: center;
   justify-content: space-between;
   margin-bottom: 8px;
 `
 
-const StyledEmployeeLink2 = styled(EmployeeLink)`
-  color: rgba(0, 0, 0, 0.65);
+const StyledCommentsTitle = styled.div`
+  font-size: 18px;
+  line-height: 24px;
 `
 
-type Props = {
-  post: Pick<HobbyPostBaseFragment, 'title' | 'body' | 'createdAt' | 'createdBy' | 'hobbies'>
-  edit?: React.ReactNode
-  checkVisibility?: boolean
-  loadMore?: () => void
-}
-
-const HobbyPost = ({ post, edit, checkVisibility, loadMore }: Props) => {
-  const [active, setActive] = useState(checkVisibility)
-
-  useEffect(() => {
-    // reset trigger
-    setActive(checkVisibility)
-  }, [checkVisibility])
-
+const PostCreatedAt = ({ post }: { post: HobbyPostPreviewFragment }) => {
+  if (!post.createdAt) return null
   return (
-    <VisibilitySensor
-      partialVisibility
-      active={active}
-      onChange={visible => {
-        if (visible) {
-          // trigger should be called only once
-          setActive(false)
-          loadMore?.()
-        }
-      }}
-    >
-      <StyledWrapper>
-        <StyledHeader>
-          {post.createdAt && (
-            <Text type="secondary">{dayjs(post.createdAt).format('YYYY MMM DD HH:MM')}</Text>
-          )}
-          {post.createdBy && <StyledEmployeeLink2 employee={post.createdBy} />}
-        </StyledHeader>
-
-        <Title level={3}>
-          {post.title} {edit}
-        </Title>
-        <RichText text={post.body} />
-
-        {post.hobbies && (
-          <div>
-            {post.hobbies.map(hobby => (
-              <HobbyTag key={hobby.id} hobby={hobby} />
-            ))}
-          </div>
-        )}
-      </StyledWrapper>
-    </VisibilitySensor>
+    <div>
+      <StyledHeader>{dayjs(post.createdAt).format('YYYY MMM DD HH:MM')}</StyledHeader>
+    </div>
   )
 }
 
-export default HobbyPost
+const PostHobbyList = ({ post }: { post: HobbyPostPreviewFragment }) => {
+  if (!post.hobbies) return null
+  return (
+    <div>
+      {post.hobbies.map(hobby => (
+        <HobbyTag key={hobby.id} hobby={hobby} />
+      ))}
+    </div>
+  )
+}
+
+const EmployeeComment = ({ comment }: { comment: HobbyPostCommentBaseFragment }) => (
+  <Comment
+    author={comment.createdBy?.name}
+    avatar={comment.createdBy && <Avatar employee={comment.createdBy} />}
+    datetime={comment.createdAt && <span>{dayjs().to(dayjs(comment.createdAt))}</span>}
+    content={<Paragraph style={{ margin: 0, whiteSpace: 'pre-line' }}>{comment.body}</Paragraph>}
+  />
+)
+
+const HobbyComments = ({ post }: { post: HobbyPostBaseFragment }) => {
+  const [showComments, setShowComments] = useState(false)
+  const comments = showComments ? post.comments : post.comments?.slice(-1)
+  const totalComments = post.comments?.length || 0
+  const isCollapsible = totalComments > 1
+
+  return (
+    <StyledComments>
+      <StyledCommentsHeader>
+        <div>
+          <StyledCommentsTitle>Comments</StyledCommentsTitle>
+          <Text type="secondary">{totalComments} comments</Text>
+        </div>
+        {isCollapsible && (
+          <Button type="link" size="small" onClick={() => setShowComments(prev => !prev)}>
+            {!showComments ? 'See all comments' : 'Collapse comments'}
+          </Button>
+        )}
+      </StyledCommentsHeader>
+      {comments?.map(comment => (
+        <EmployeeComment key={comment.id} comment={comment} />
+      ))}
+      <ReplyHobbyPost postId={post.id} />
+    </StyledComments>
+  )
+}
+
+export const HobbyPostPreview = ({ post }: { post: HobbyPostPreviewFragment }) => (
+  <StyledWrapper>
+    <PostCreatedAt post={post} />
+    <StyledTitle>{post.title}</StyledTitle>
+    {post.createdBy && <EmployeeLink employee={post.createdBy} />}
+    <StyledRichText text={post.body} />
+    <PostHobbyList post={post} />
+  </StyledWrapper>
+)
+
+export const HobbyPostFull = ({ post }: { post: HobbyPostBaseFragment }) => (
+  <StyledWrapper>
+    <PostCreatedAt post={post} />
+    <StyledTitle>
+      {post.title} {post.editable && <UpdateHobbyPostModal post={post} />}
+    </StyledTitle>
+    {post.createdBy && <EmployeeLink employee={post.createdBy} />}
+    <StyledRichText text={post.body} />
+    <PostHobbyList post={post} />
+    <HobbyComments post={post} />
+  </StyledWrapper>
+)

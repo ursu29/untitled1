@@ -160,24 +160,24 @@ function PortalMenu(props: Props) {
       icon: <RocketOutlined />,
       title: 'Games',
     },
-    {
-      route: paths.TIMEMASTER,
-      icon: <ClockCircleOutlined />,
-      title: 'Timemaster',
-      subMenu: 'tools',
-    },
-    {
-      route: paths.WORKSPACE_PLANNER,
-      icon: <ImportOutlined />,
-      title: 'Workspace',
-      subMenu: 'tools',
-    },
-    {
-      route: paths.OFFICE_PLANNER,
-      icon: <ImportOutlined />,
-      title: 'Office planner',
-      subMenu: 'tools',
-    },
+    // {
+    //   route: paths.TIMEMASTER,
+    //   icon: <ClockCircleOutlined />,
+    //   title: 'Timemaster',
+    //   subMenu: 'tools',
+    // },
+    // {
+    //   route: paths.WORKSPACE_PLANNER,
+    //   icon: <ImportOutlined />,
+    //   title: 'Workspace',
+    //   subMenu: 'tools',
+    // },
+    // {
+    //   route: paths.OFFICE_PLANNER,
+    //   icon: <ImportOutlined />,
+    //   title: 'Office planner',
+    //   subMenu: 'tools',
+    // },
     data?.processExecutionsAccess.read
       ? {
           route: paths.HR,

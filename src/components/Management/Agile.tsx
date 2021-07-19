@@ -8,7 +8,7 @@ import { getEmployeeLink } from '../../paths'
 import { LOCATION } from '../../types'
 import getLocationName from '../../utils/getLocationName'
 import Avatar from '../Avatar'
-import EmployeeCard from '../Employees/EmployeeCard.new'
+import EmployeeCard from '../Employees/EmployeeCard'
 import ProjectTag from '../Projects/ProjectTag'
 import TableSearch from '../UI/TableSearch'
 import './styles.css'
@@ -46,9 +46,10 @@ export default function Agile() {
   const employees = data?.employees
 
   // Get all projects
-  const { data: projectsData } = useQuery<{
-    projects: (ProjectDetails & { employees: { id: string }[] })[]
-  }>(getProjects)
+  const { data: projectsData } =
+    useQuery<{
+      projects: (ProjectDetails & { employees: { id: string }[] })[]
+    }>(getProjects)
 
   // Parse agile managers from employees
   const agileManagers = employees
@@ -113,6 +114,7 @@ export default function Agile() {
   const collapseHeader = (manager: EmployeeDetails & { subordinate: EmployeeDetails[] }) => (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <EmployeeCard
+        email={manager.email}
         employee={manager}
         noLink
         cardProps={{

@@ -63,7 +63,7 @@ export default function WorkspacePlanner() {
    */
 
   const workspacePoolQueryVariables = {
-    input: { location: currentLocation || LOCATION.SAINT_PETERSBURG },
+    input: { location: currentLocation || LOCATION.SaintPetersburg },
     bookingsInput: { startDate: dateRange.startDate, finishDate: dateRange.finishDate },
   }
 
@@ -332,7 +332,7 @@ export default function WorkspacePlanner() {
         setCurrentLocation(key as LOCATION)
       }}
     >
-      {[LOCATION.SAINT_PETERSBURG, LOCATION.TOMSK, LOCATION.KALININGRAD].map(i => {
+      {[LOCATION.SaintPetersburg, LOCATION.Tomsk, LOCATION.Kaliningrad].map(i => {
         return <Menu.Item key={i}>{getLocationName(i as LOCATION)}</Menu.Item>
       })}
     </Menu>

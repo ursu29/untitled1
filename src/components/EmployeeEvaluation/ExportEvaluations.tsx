@@ -1,12 +1,7 @@
 import React from 'react'
 import { GATEWAY } from '../../config'
-import {
-  Employee,
-  Evaluation,
-  EvaluationAttribute,
-  EvaluationReviewer,
-  EvaluationComment,
-} from '../../types'
+import { Employee } from '../../types/graphql'
+import { Evaluation, EvaluationAttribute, EvaluationReviewer, EvaluationComment } from '../../types'
 import Button from '../UI/Button'
 
 type Props = {

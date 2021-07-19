@@ -1,5 +1,8 @@
 export const query = {
   getScrumMasters: '{ projects { ...ProjectDetails scrumMasters { ...EmployeeDetails __typename } employees { id __typename } __typename }} fragment ProjectDetails on Project { id name code description __typename} fragment EmployeeDetails on Employee { id name location country position phoneNumber email isMe startDate birthday __typename}',
+  updateHobbyPost: 'mutation updateHobbyPost($input: UpdateHobbyPostInput!) { updateHobbyPost(input: $input) { ...HobbyPostBase __typename }} fragment HobbyPostBase on HobbyPost { id title body createdAt createdBy { id name email __typename } hobbies { id name __typename } language __typename}',
+  createHobbyPost: 'mutation createHobbyPost($input: CreateHobbyPostInput!) { createHobbyPost(input: $input) { ...HobbyPostBase __typename }} fragment HobbyPostBase on HobbyPost { id title body createdAt createdBy { id name email __typename } hobbies { id name __typename } language __typename}',
+  getHobbyPosts: 'query getHobbyPosts($input: HobbyPostFilterInput) { hobbyPosts(input: $input) { ...HobbyPostBase __typename }} fragment HobbyPostBase on HobbyPost { id title body createdAt createdBy { id name email __typename } hobbies { id name __typename } language __typename}',
   acceptDevRel: 'mutation acceptDevrel($id: ID!) {acceptDevrel(id: $id) {id __typename}}',
   getDevrels: 'query getDevrels($type: String!) { devrels(type: $type) { id type title link resource dateStart dateEnd employee { id email name __typename } isCompleted isDraft skills { id name __typename } __typename }}',
   deleteDevrel: 'mutation deleteDevrel($id: ID!) {deleteDevrel(id: $id) {id __typename}}',
@@ -136,7 +139,7 @@ export const query = {
     'mutation createOfficeBooking($input: CreateOfficeBookingInput!) {createOfficeBooking(input: $input)}',
   getEmployeeMatrices: 'query {clientDevToolsAccess}',
   getAllEmployeeMatrices:
-    'query getEmployeeMatrices($input: EmployeesInput) { employees(input: $input) { id name isMe matrices { id title description comment employeeMatrixId access { read write __typename } body { groups { id title description __typename } grades { id title description __typename } skills { type id skill { id name description isMatrixOnly __typename } groupId gradeId __typename } __typename } __typename } __typename }}',
+    'query getEmployeeMatrices($input: EmployeesInput) { employees(input: $input) { id name isMe matrices { id title description comment employeeMatrixId access { read write __typename } body { groups { id title description __typename } grades { id title description __typename } skills { type skill { id name description isMatrixOnly __typename } groupId gradeId __typename } __typename } __typename } __typename }}',
   allBookmarkId: 'query getBookmarks($input: BookmarksInput) {bookmarks(input: $input) {id}}',
   cancelRotateRequest: 'mutation cancelRotateRequest($input: CancelRotateRequestInput) {cancelRotateRequest(input: $input) {id __typename}}',
   getVacanci: 'query getVacancies($input: VacanciesInput) { vacancies(input: $input) { id reason locations position responsibilities requiredSkills additionalSkills description project { id name __typename } customer isPublished isClosed rotateEmployees { id isMe __typename } employeeExperience englishLevel stack __typename }}',

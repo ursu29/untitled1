@@ -2,6 +2,7 @@ import React from 'react'
 
 export const CommentEmpty = ({ fill }: { fill: string }) => (
   <svg
+    data-cy="comment"
     width="20"
     height="20"
     viewBox="0 0 20 20"
@@ -17,7 +18,14 @@ export const CommentEmpty = ({ fill }: { fill: string }) => (
 )
 
 export const CommentFill = () => (
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    data-cy="fillComment"
+  >
     <path
       d="M19.99 2C19.99 0.9 19.1 0 18 0H2C0.9 0 0 0.9 0 2V14C0 15.1 0.9 16 2 16H16L20 20L19.99 2ZM18 2V15.17L16.83 14H2V2H18Z"
       fill="gray"

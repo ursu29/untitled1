@@ -48,13 +48,23 @@
     "test": "react-scripts test --env=jsdom",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public",
     "codegen": "graphql-codegen --require dotenv/config",
-    "codegen:watch": "graphql-codegen --require dotenv/config --watch src/queries/**/*.graphql"
+    "codegen:watch": "graphql-codegen --require dotenv/config --watch src/queries/**/*.graphql",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
+    ]
   },
   "browserslist": {
     "production": [
@@ -81,12 +91,12 @@
     "@graphql-codegen/typescript": "1.22.0",
     "@graphql-codegen/typescript-operations": "1.17.16",
     "@graphql-codegen/typescript-react-apollo": "2.2.4",
-    "@storybook/addon-actions": "^6.0.26",
-    "@storybook/addon-essentials": "^6.0.26",
-    "@storybook/addon-links": "^6.0.26",
-    "@storybook/node-logger": "^6.0.26",
-    "@storybook/preset-create-react-app": "^3.1.4",
-    "@storybook/react": "^6.0.26",
+    "@storybook/addon-actions": "^6.2.9",
+    "@storybook/addon-essentials": "^6.2.9",
+    "@storybook/addon-links": "^6.2.9",
+    "@storybook/node-logger": "^6.2.9",
+    "@storybook/preset-create-react-app": "^3.1.7",
+    "@storybook/react": "^6.2.9",
     "@types/file-saver": "^2.0.2",
     "@types/jest": "^26.0.23",
     "@types/jquery": "^3.5.5",
@@ -122,10 +132,10 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{js,ts,tsx}": [
+    "src/**/*.{js,ts,tsx,mdx}": [
       "eslint --cache --max-warnings=0"
     ],
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md,graphql}": [
+    "src/**/*.{js,jsx,ts,tsx,mdx,json,css,scss,md,graphql}": [
       "prettier --write"
     ]
   }

@@ -1,14 +1,14 @@
-import { LOCATION } from '../types'
+import { Location } from '../types/graphql'
 
-export default function getLocationName(location: LOCATION) {
+export default function getLocationName(location: Location) {
   switch (location) {
-    case LOCATION.SAINT_PETERSBURG:
+    case Location.SaintPetersburg:
       return 'Saint Petersburg'
-    case LOCATION.TOMSK:
+    case Location.Tomsk:
       return 'Tomsk'
-    case LOCATION.KALININGRAD:
+    case Location.Kaliningrad:
       return 'Kaliningrad'
-    case LOCATION.ZURICH:
+    case Location.Zurich:
       return 'Zürich'
     default:
       return 'Unknown'
