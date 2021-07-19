@@ -148,7 +148,7 @@ const HobbyPostForm = ({ post, loading, onSubmit }: Props) => {
       <Row gutter={8}>
         <Col span={12}>
           <Form.Item label="Event date" name="eventDate">
-            <DatePicker format={['YYYY-MM-DD']} style={{ width: '100%' }} />
+            <DatePicker format={['DD.MM.YYYY']} style={{ width: '100%' }} />
           </Form.Item>
         </Col>
         <Col span={12}>
