@@ -431,7 +431,7 @@ function ProcessList({ items, tabName, onlyForMeFilter }: Props) {
         .filter(e => e.status !== 'HOLDING')
         .concat(sortedItems.filter(e => e.status === 'HOLDING'))}
       size="small"
-      pagination={{ showSizeChanger: true }}
+      pagination={tabName !== 'archived' ? false : { showSizeChanger: true }}
     />
   )
 }
