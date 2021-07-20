@@ -295,7 +295,6 @@ function PortalMenu(props: Props) {
           style={{ border: 'none', width: isLarge ? MENU_WIDTH : 60 }}
         >
           {getMenuItems({ start: 0, amount: 3 })}
-
           <SubMenu
             key="tools"
             title={
