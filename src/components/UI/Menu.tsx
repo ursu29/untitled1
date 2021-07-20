@@ -1,13 +1,11 @@
 import { useQuery, gql } from '@apollo/client'
 import {
-  ClockCircleOutlined,
   CoffeeOutlined,
   FireOutlined,
   FolderOpenOutlined,
   GlobalOutlined,
   IdcardOutlined,
   BranchesOutlined,
-  ImportOutlined,
   NotificationOutlined,
   ReadOutlined,
   TableOutlined,
@@ -37,6 +35,7 @@ import { useEmployee } from '../../utils/withEmployee'
 import Skeleton from '../UI/Skeleton'
 import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 import { ReactComponent as MicSmallIcon } from '../../svg/mic-small.svg'
+import './styles-menu.css'
 
 const Width = styled.div<{ isLarge: boolean }>`
   .ant-menu-inline-collapsed > .ant-menu-item,
