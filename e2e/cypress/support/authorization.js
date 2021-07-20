@@ -15,27 +15,6 @@ export const setBody = (userName, password, scope) => ({
   password: Cypress.env(password),
   client_secret: Cypress.env('client_secret'),
 })
-Cypress.Commands.add('setImgToken', employeeType => {
-  let req
-  if (employeeType === 'employee') {
-    req = cy.request({
-      url: loginUrl,
-      method: 'POST',
-      form: true,
-      body: setBody('employee_username', 'employee_password', 'img_scope'),
-    })
-  } else {
-    req = cy.request({
-      url: loginUrl,
-      method: 'POST',
-      form: true,
-      body: setBody('manager_username', 'manager_password', 'img_scope'),
-    })
-  }
-  req.its('body.access_token').then(token => {
-    localStorage.setItem('img_token', token)
-  })
-})
 
 Cypress.Commands.add('auth', employeeType => {
   process.env.EMPLOYEE_TYPE = employeeType;
@@ -59,6 +38,8 @@ Cypress.Commands.add('setToken', employeeType => {
       })
         .its('body.access_token')
         .then(token => {
+          console.log('accessToken', token)
+
           Cypress.env('accessToken', token)
           localStorage.setItem('access_token', token)
         })
@@ -72,6 +53,7 @@ Cypress.Commands.add('setToken', employeeType => {
       })
         .its('body.access_token')
         .then(token => {
+          console.log('accessToken', token)
           Cypress.env('accessToken', token)
           localStorage.setItem('access_token', token)
         })

@@ -5,7 +5,6 @@ export const post = (body: any, superUser = null, methodName = 'POST') => {
     url: URL,
     method: methodName,
     headers: {
-      authorization: `Bearer ${Cypress.env('accessToken')}`,
       'content-type': 'application/json',
       'dev-only-user-role': superUser,
     },

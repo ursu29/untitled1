@@ -8,13 +8,12 @@ xdescribe('Workspace', () => {
 
   before(() => {
     auth.setToken('manager')
-    auth.setImgToken('manager')
 
     cy.visit('/workspace-planner')
   })
 
   beforeEach(() => {
-    auth.restoreLocalStorage()
+    auth.reSaveAuthHeaders()
   })
   afterEach(() => {
     auth.saveLocalStorage()
@@ -43,7 +42,6 @@ xdescribe('Workspace', () => {
 
   it('check design mode', () => {
     addRole()
-    auth.setImgToken('manager')
 
     cy.get('[role=switch]').first().click({ multiple: true })
     ;['edit', 'addNew'].forEach(el => getElement(el).should('be.visible'))

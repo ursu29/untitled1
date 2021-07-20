@@ -18,10 +18,10 @@ describe('create new process task', () => {
     })
 
     beforeEach(() => {
-        cy.restoreLocalStorage()
+        cy.addHeadersAuth()
     })
     afterEach(() => {
-        cy.saveLocalStorage()
+        cy.addHeadersAuth()
     })
 
     it('Check errors message', () => {

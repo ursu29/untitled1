@@ -6,7 +6,6 @@ describe('check achieve goal state', () => {
     const {achieveBtn, deleteGoals} = personalDevLocators
     before(() => {
         cy.setToken('employee')
-        cy.setImgToken('employee')
 
         cy.visit(getSubTabUrl('career', '/profile', 'development-plan'))
     })

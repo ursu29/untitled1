@@ -38,10 +38,10 @@ describe('Checking default information', () => {
   })
 
   beforeEach(() => {
-    cy.restoreLocalStorage()
+    cy.addHeadersAuth()
   })
   afterEach(() => {
-    cy.saveLocalStorage()
+    cy.addHeadersAuth()
   })
 
   it('Check Employee data', () => {

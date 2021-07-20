@@ -9,7 +9,6 @@ describe('Complete the training (training)', () => {
 
     before(() => {
         cy.setToken('manager')
-        cy.setImgToken('manager')
 
         cy.post(createTraining(text, text, null, true), 'superUser').then(res => {
             const { data } = res.body

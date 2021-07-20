@@ -17,7 +17,6 @@ Cypress.Commands.add('post', (body, superUser = null, baseUrl = URL, methodName 
     url: baseUrl,
     method: methodName,
     headers: {
-      authorization: `Bearer ${Cypress.env('accessToken')}`,
       'content-type': 'application/json',
       'dev-only-user-role': superUser,
       'dev-only-auth-disable': process.env.EMPLOYEE_TYPE === 'employee' ? getEmployeeData() : managerData()
@@ -830,12 +829,4 @@ export const updatePost = (body, id, title, tagsArr = TAGS) => ({
     },
   },
   query: query.updatePost,
-})
-
-export const setHeaders = (role = 'superUser') => ({
-  accept: '*/*',
-  authorization: `Bearer ${Cypress.env('accessToken')}`,
-  'content-type': 'application/json',
-  'dev-only-user-role': role,
-  'x-timezone-offset': -180,
 })

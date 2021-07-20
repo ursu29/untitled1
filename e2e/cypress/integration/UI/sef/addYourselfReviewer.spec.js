@@ -9,7 +9,6 @@ describe('add reviewer to SEF by yourself (sef)', () => {
 
     before(() => {
         cy.setToken('manager')
-        cy.setImgToken('manager')
 
         cy.post(getEmployee(email('employee'))).then(res => {
             employeeData = res.body.data.employeeByEmail

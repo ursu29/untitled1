@@ -3,7 +3,6 @@ import { matricesAccess } from '../../support/client/employeeData'
 describe(`Check employee getEmployee`, () => {
   before(() => {
     cy.setToken('employee')
-    cy.setImgToken('manager')
   })
 
   it('matricesAccess response', () => {

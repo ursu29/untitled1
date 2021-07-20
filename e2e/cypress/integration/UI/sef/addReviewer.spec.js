@@ -8,7 +8,6 @@ describe('add reviewer to SEF (sef)', () => {
 
     before(() => {
         cy.setToken('manager')
-        cy.setImgToken('manager')
 
         cy.post(getEmployee(email('employee'))).then(res => {
             const {employeeByEmail} = res.body.data

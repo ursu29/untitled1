@@ -5,7 +5,6 @@ import { getSubTabUrl } from '../../../support/utils'
 describe('general matrix looks good', () => {
   before(() => {
     cy.setToken('employee')
-    cy.setImgToken('employee')
 
     cy.mockResponse(['getEmployeeExperiences'], experiences())
     cy.mockResponse(['getEmployeeMatrices'], matrix())

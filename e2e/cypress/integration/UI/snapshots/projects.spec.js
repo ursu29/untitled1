@@ -2,7 +2,6 @@
 describe('Visual regression projects page', () => {
     before(() => {
         cy.setToken('employee')
-        cy.setImgToken('employee')
 
         cy.visit('/projects')
     })

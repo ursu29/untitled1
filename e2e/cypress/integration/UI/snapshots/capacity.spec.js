@@ -8,7 +8,6 @@ describe('Visual regression "Capacity" (capacity)', () => {
 
     before(() => {
         cy.setToken(user)
-        cy.setImgToken(user)
         cy.post(getEmployee(email('employee')))
             .then(res => userId = res.body.data.employeeByEmail.id)
     })

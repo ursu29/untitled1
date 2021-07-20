@@ -13,10 +13,10 @@ describe('create new book', () => {
     })
 
     beforeEach(() => {
-        cy.restoreLocalStorage()
+        cy.addHeadersAuth()
     })
     afterEach(() => {
-        cy.saveLocalStorage()
+        cy.addHeadersAuth()
     })
 
     after(() => {

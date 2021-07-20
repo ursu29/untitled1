@@ -23,10 +23,10 @@ describe('Adding Skills in the Users Profile', () => {
   })
 
   beforeEach(() => {
-    cy.restoreLocalStorage()
+    cy.addHeadersAuth()
   })
   afterEach(() => {
-    cy.saveLocalStorage()
+    cy.addHeadersAuth()
     cy.deleteAllSkills(skillEl.item, skillEl.remove)
   })
 

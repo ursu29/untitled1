@@ -14,7 +14,6 @@ describe('get all trainings response', () => {
 
   before(() => {
     cy.setToken('manager')
-    cy.setImgToken('manager')
 
     cy.post(getEmployee(email('employee'))).then(res => {
       const { employeeByEmail } = res.body.data
@@ -36,10 +35,10 @@ describe('get all trainings response', () => {
   })
 
   beforeEach(() => {
-    cy.restoreLocalStorage()
+    cy.addHeadersAuth()
   })
   afterEach(() => {
-    cy.saveLocalStorage()
+    cy.addHeadersAuth()
   })
 
   it('Check all trainings response', () => {

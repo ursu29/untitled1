@@ -8,7 +8,6 @@ describe('Check Info data', () => {
 
   before(() => {
     cy.setToken('employee')
-    cy.setImgToken('employee')
 
     cy.getResponse(['getGuild'], 'alias')
     cy.visit('/guilds/community-frontend/info')

@@ -3,7 +3,6 @@ import {employees} from "../../../fixtures/employees";
 describe('Visual regression employees page', () => {
     before(() => {
         cy.setToken('employee')
-        cy.setImgToken('employee')
 
         cy.mockResponse(['location', 'country', 'id', 'name'], employees())
         cy.visit('/employees')

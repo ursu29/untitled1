@@ -4,7 +4,6 @@ import { pastDay, todaysDate } from '../../../support/officePlanner/officeDays'
 describe('successfully create new hobbies post', () => {
   before(() => {
     cy.setToken('employee')
-    cy.setImgToken('employee')
     cy.visit('/hobby')
 
   })

@@ -8,7 +8,6 @@ describe('update self Evaluation form', () => {
 
   before(() => {
     cy.setToken('manager')
-    cy.setImgToken('manager')
   })
 
   it('successfully filled out the form state:Needs ImprovementMeets, requirements, Exceeds requirements', () => {

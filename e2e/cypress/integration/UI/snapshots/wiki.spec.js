@@ -1,7 +1,6 @@
 describe('wiki tab looks god', () => {
     before(() => {
         cy.setToken('employee')
-        cy.setImgToken('employee')
 
         cy.visit('/wiki')
     })

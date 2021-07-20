@@ -35,10 +35,10 @@ describe('Checking default information (e2e)', () => {
   })
 
   beforeEach(() => {
-    cy.restoreLocalStorage()
+    cy.addHeadersAuth()
   })
   afterEach(() => {
-    cy.saveLocalStorage()
+    cy.addHeadersAuth()
   })
 
   it('Check Employee data', () => {

@@ -4,7 +4,6 @@ import { getSubTabUrl } from '../../../support/utils'
 describe('skills tab looks god', () => {
   before(() => {
     cy.setToken('employee')
-    cy.setImgToken('employee')
 
     cy.visit(getSubTabUrl('career', '/profile', 'skills'))
 

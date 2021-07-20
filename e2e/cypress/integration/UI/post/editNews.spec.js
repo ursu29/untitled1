@@ -7,7 +7,6 @@ describe('Update post', () => {
 
     before(() => {
         cy.setToken('manager')
-        cy.setImgToken('manager')
         cy.post(createPost(pastDay, todaysDate), 'superUser').then(req => {
             const {createPost: {id}} = req.body.data
             createdId = id

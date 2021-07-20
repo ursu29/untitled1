@@ -35,10 +35,10 @@ describe('create proposal by employee', () => {
   })
 
   beforeEach(() => {
-    cy.restoreLocalStorage()
+    cy.addHeadersAuth()
   })
   afterEach(() => {
-    cy.saveLocalStorage()
+    cy.addHeadersAuth()
   })
 
   it('attach matrix', function() {

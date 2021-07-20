@@ -7,12 +7,10 @@ describe('chek agile tab by location filter', () => {
 
     before(() => {
         cy.setToken('manager')
-        cy.setImgToken('manager')
         cy.visit(getTabUrl('scrum', 'management'))
 
         cy.post(getScrumMasters()).then(req => {
             const {projects} = req.body.data
-            console.log(projects)
 
             allScrumMasters = projects.filter(el => el.scrumMasters.length)
         })

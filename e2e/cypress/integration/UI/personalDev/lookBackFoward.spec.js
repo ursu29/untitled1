@@ -7,7 +7,6 @@ describe('check personal development items: look back/forward', () => {
 
     before(() => {
         cy.setToken('employee')
-        cy.setImgToken('employee')
 
         cy.visit(getSubTabUrl('career', '/profile', 'development-plan'))
     })

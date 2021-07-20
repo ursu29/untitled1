@@ -1,5 +1,3 @@
-import { postRequest } from '../../api/requests'
-import { codeOkAndBodyNotNull } from '../../support/utils'
 import * as getData from '../../support/getData'
 import * as data from '../../support/client/employeeData'
 import {pastDay, todaysDate} from '../../support/officePlanner/officeDays'
@@ -19,16 +17,6 @@ describe('Check employee api (smoke)', () => {
       const { employeeByEmail } = res.body.data
       employeeId = employeeByEmail.id
       managerId = employeeByEmail.agileManager.id
-    })
-  })
-
-  it.skip('Get projects', () => {
-    cy.fixture('employee.json').then(body => {
-      postRequest(body).then(response => {
-        //we are using universal request here - when body doesn't need any replacements
-        codeOkAndBodyNotNull(response)
-        expect(response.body.data.projects).to.be.a('array')
-      })
     })
   })
 

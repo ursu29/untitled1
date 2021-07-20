@@ -4,7 +4,6 @@ import {getTabUrl} from '../../../support/utils'
 describe('bookmark looks good', () => {
   before(() => {
     cy.setToken('employee')
-    cy.setImgToken('employee')
 
     cy.mockResponse(['getBookmarks'], bookmarks())
     cy.visit(getTabUrl('bookmarks'))

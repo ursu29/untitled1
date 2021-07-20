@@ -6,7 +6,6 @@ describe('delete and add new goals', () => {
     const {deleteGoals} = personalDevLocators
     before(() => {
         cy.setToken('employee')
-        cy.setImgToken('employee')
 
         cy.visit(getSubTabUrl('career', '/profile', 'development-plan'))
     })

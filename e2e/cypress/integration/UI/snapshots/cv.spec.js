@@ -9,7 +9,6 @@ describe('cv table looks good', () => {
 
   before(() => {
     cy.setToken('employee')
-    cy.setImgToken('employee')
 
     cy.post(getEmployee(email('employee')))
         .then(res => id = res.body.data.employeeByEmail.id)
