@@ -53,14 +53,16 @@ export default function Agile() {
 
   // Parse agile managers from employees
   const agileManagers = employees
-    ?.map(e => e.agileManager)
+    ?.slice()
+    .map(e => e.agileManager)
     .filter((e, i, self) => !!e?.id && i === self.findIndex(t => t?.id === e?.id))
-    .sort((a, b) => a.name.localeCompare(b.name))
+    .sort((a, b) => a.name?.localeCompare(b.name))
     .map(e => ({
       ...e,
       subordinate: employees
+        ?.slice()
         .filter(t => t.agileManager?.id === e.id)
-        .sort((a, b) => a.location.localeCompare(b.location)),
+        .sort((a, b) => a.location?.localeCompare(b.location)),
     }))
 
   // Table columns
