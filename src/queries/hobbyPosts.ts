@@ -19,7 +19,7 @@ export type HobbyPostCommentBaseFragment = { __typename?: 'HobbyPostComment' } &
 
 export type HobbyPostPreviewFragment = { __typename?: 'HobbyPost' } & Pick<
   Types.HobbyPost,
-  'title' | 'body' | 'createdAt'
+  'title' | 'body' | 'createdAt' | 'eventDate' | 'eventLocation'
 > & {
     createdBy?: Types.Maybe<
       { __typename?: 'Employee' } & Pick<Types.Employee, 'id' | 'name' | 'email'>
@@ -90,6 +90,8 @@ export const HobbyPostPreviewFragmentDoc = gql`
       id
       name
     }
+    eventDate
+    eventLocation
   }
 `
 export const HobbyPostCommentBaseFragmentDoc = gql`

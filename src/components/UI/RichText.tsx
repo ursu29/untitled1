@@ -1,17 +1,7 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import markdownToHtml from '../../utils/markdownToHtml'
-import ReactDOM from 'react-dom'
-import Image from '../Image'
-import SwiperCore, { Pagination } from 'swiper'
-import { Swiper, SwiperSlide } from 'swiper/react'
-
-// Import Swiper styles
-import 'swiper/swiper.min.css'
-import 'swiper/components/pagination/pagination.min.css'
-
-// Install modules
-SwiperCore.use([Pagination])
+import useMarkdownInjection from '../../utils/useMarkdownInjection'
 
 const Wrapper = styled.div`
   ul,
@@ -31,44 +21,7 @@ type Props = {
 
 function RichText({ className, text }: Props) {
   const ref = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const wrapper = ref.current
-    if (!wrapper) return
-    const galleries = wrapper.getElementsByClassName('injected-image-gallery')
-    if (galleries) {
-      Array.from(galleries).forEach((gallery, index) => {
-        const imgLinksList = gallery.innerHTML
-          .split(',')
-          .filter(i => i)
-          .map(link => link.trim())
-        ReactDOM.render(
-          <Swiper spaceBetween={50} slidesPerView={1} pagination={{ type: 'bullets' }}>
-            {imgLinksList.map(i => (
-              <SwiperSlide key={i}>
-                <Image className="gallery-image" src={i} alt={i} />
-              </SwiperSlide>
-            ))}
-          </Swiper>,
-          gallery,
-        )
-      })
-    }
-
-    const images = wrapper.getElementsByTagName('img')
-
-    if (images) {
-      Array.from(images).forEach(image => {
-        if (image.className.includes('gallery-image')) return
-        const temp = document.createElement('div')
-        ReactDOM.render(<Image src={image.src} />, temp)
-        const container = image.parentElement
-        if (container) {
-          container.replaceChild(temp, image)
-        }
-      })
-    }
-  }, [text])
+  useMarkdownInjection(ref, 0, text)
 
   return (
     <Wrapper

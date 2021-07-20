@@ -35,6 +35,7 @@ import { Access } from '../../types'
 import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 import { useEmployee } from '../../utils/withEmployee'
 import Skeleton from '../UI/Skeleton'
+import './styles-menu.css'
 
 const Width = styled.div<{ isLarge: boolean }>`
   .ant-menu-inline-collapsed > .ant-menu-item,

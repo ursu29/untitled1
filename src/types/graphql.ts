@@ -312,6 +312,8 @@ export type CreateHobbyPostInput = {
   body: Scalars['String']
   hobbies: Array<Scalars['ID']>
   language: Language
+  eventDate?: Maybe<Scalars['String']>
+  eventLocation?: Maybe<Scalars['String']>
 }
 
 export type CreateMatrixGradeInput = {
@@ -944,6 +946,8 @@ export type HobbyPost = {
   language: Language
   comments?: Maybe<Array<HobbyPostComment>>
   editable: Scalars['Boolean']
+  eventDate?: Maybe<Scalars['String']>
+  eventLocation?: Maybe<Scalars['String']>
 }
 
 export type HobbyPostComment = {
@@ -2424,6 +2428,8 @@ export type UpdateHobbyPostInput = {
   body?: Maybe<Scalars['String']>
   hobbies?: Maybe<Array<Scalars['ID']>>
   language: Language
+  eventDate?: Maybe<Scalars['String']>
+  eventLocation?: Maybe<Scalars['String']>
 }
 
 export type UpdateMatricesCustomFieldsInput = {
