@@ -17,7 +17,7 @@ query getEmployee($email: String!) {
 }
 
 query getEmployeeDetailed($email: String!) {
-   employeeByEmail(email: $email) {
+  employeeByEmail(email: $email) {
     ...EmployeeDetails
     agileManager {
       ...EmployeeDetails
@@ -34,6 +34,30 @@ query getEmployees {
 
 mutation updateEmployee($input: UpdateEmployeeInput!) {
   updateEmployee(input: $input) {
+    id
+  }
+}
+
+mutation createEmployee($input: CreateEmployeeInput!) {
+  createEmployee(input: $input) {
+    id
+  }
+}
+
+mutation updateEmployeeProjects($input: [UpdateEmployeeProjectsInput!]!) {
+  updateEmployeeProjects(input: $input) {
+    id
+  }
+}
+
+mutation removeEmployeeProjects($ids: [String!]!) {
+  removeEmployeeProjects(ids: $ids) {
+    id
+  }
+}
+
+mutation createEmployeeProjects($input: [CreateEmployeeProjectsInput!]!) {
+  createEmployeeProjects(input: $input) {
     id
   }
 }

@@ -1,31 +1,20 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import { useGetDevToolsAccessQuery } from '../../queries/devtools'
+import { useGetProfileQuery } from '../../queries/profile'
+import { EmployeeProvider } from '../../utils/withEmployee'
+import DevTools from '../DevTools'
 import Layout from '../UI/Layout'
+import NotAnswering from '../UI/NotAnswering'
+import NotAuthorized from '../UI/NotAuthorized'
+import SplashScreen from '../UI/SplashScreen'
 import Pages from './Pages'
 import Sider from './Sider'
-import NotAuthorized from '../UI/NotAuthorized'
-import NotAnswering from '../UI/NotAnswering'
-import DevTools from '../DevTools'
-import { EmployeeProvider } from '../../utils/withEmployee'
-import { Modal } from 'antd'
-import { useGetProfileQuery } from '../../queries/profile'
-import { useGetDevToolsAccessQuery } from '../../queries/devtools'
-import SplashScreen from '../UI/SplashScreen'
 
-export default function Root({ tokenExpired }: { tokenExpired: boolean }) {
+export default function Root() {
   const { data, loading, error } = useGetProfileQuery()
 
   // Check access to ClientDevTools
   const { data: dataClientDevTools } = useGetDevToolsAccessQuery()
-
-  useEffect(() => {
-    if (tokenExpired) {
-      Modal.warning({
-        title: 'Token expired',
-        okText: 'Reload page',
-        onOk: () => window.location.reload(),
-      })
-    }
-  }, [tokenExpired])
 
   if (loading) return <SplashScreen />
 
@@ -42,7 +31,7 @@ export default function Root({ tokenExpired }: { tokenExpired: boolean }) {
   }
 
   if (error) {
-    return <NotAnswering />
+    return <NotAnswering error={error} />
   }
 
   return <NotAuthorized />

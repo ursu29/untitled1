@@ -1,25 +1,25 @@
-import { useQuery, gql } from '@apollo/client'
 import {
+  BookOutlined,
+  BranchesOutlined,
+  CalendarOutlined,
   CoffeeOutlined,
+  CrownOutlined,
   FireOutlined,
   FolderOpenOutlined,
   GlobalOutlined,
   IdcardOutlined,
-  BranchesOutlined,
+  LikeOutlined,
+  MehOutlined,
   NotificationOutlined,
   ReadOutlined,
+  RocketOutlined,
+  SmileOutlined,
   TableOutlined,
   TeamOutlined,
   ToolOutlined,
   UserAddOutlined,
-  CrownOutlined,
-  LikeOutlined,
-  MehOutlined,
-  CalendarOutlined,
-  RocketOutlined,
-  BookOutlined,
-  SmileOutlined,
 } from '@ant-design/icons'
+import { gql, useQuery } from '@apollo/client'
 import { Badge, Menu } from 'antd'
 import React from 'react'
 import { useMediaQuery } from 'react-responsive'
@@ -30,11 +30,11 @@ import paths from '../../paths'
 import getActiveProcessExecutions, {
   ActiveProcessExecutionsQueryType,
 } from '../../queries/getEmployeeActiveProcessExecutions'
+import { ReactComponent as MicSmallIcon } from '../../svg/mic-small.svg'
 import { Access } from '../../types'
+import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 import { useEmployee } from '../../utils/withEmployee'
 import Skeleton from '../UI/Skeleton'
-import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
-import { ReactComponent as MicSmallIcon } from '../../svg/mic-small.svg'
 import './styles-menu.css'
 
 const Width = styled.div<{ isLarge: boolean }>`
@@ -202,7 +202,13 @@ function PortalMenu(props: Props) {
           subMenu: 'tools',
         }
       : null,
-    useStrapiGroupCheck('SUPER_USER')
+    {
+      route: paths.DEVREL,
+      icon: <MicSmallIcon style={{ marginRight: '10px', height: '14px', width: '14px' }} />,
+      title: 'DevRel',
+      subMenu: 'tools',
+    },
+    useStrapiGroupCheck(['SUPER_USER', 'AAD_EDITORS'])
       ? {
           route: paths.MANAGEMENT,
           icon: <MehOutlined />,
@@ -210,12 +216,6 @@ function PortalMenu(props: Props) {
           subMenu: 'tools',
         }
       : null,
-    {
-      route: paths.DEVREL,
-      icon: <MicSmallIcon style={{ marginRight: '10px', height: '14px', width: '14px' }} />,
-      title: 'DevRel',
-      subMenu: 'tools',
-    },
     {
       route: paths.FEEDBACK,
       icon: <NotificationOutlined />,
@@ -295,7 +295,6 @@ function PortalMenu(props: Props) {
           style={{ border: 'none', width: isLarge ? MENU_WIDTH : 60 }}
         >
           {getMenuItems({ start: 0, amount: 3 })}
-
           <SubMenu
             key="tools"
             title={

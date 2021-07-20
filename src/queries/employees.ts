@@ -55,6 +55,44 @@ export type UpdateEmployeeMutation = { __typename?: 'Mutation' } & {
   updateEmployee?: Types.Maybe<{ __typename?: 'Employee' } & Pick<Types.Employee, 'id'>>
 }
 
+export type CreateEmployeeMutationVariables = Types.Exact<{
+  input: Types.CreateEmployeeInput
+}>
+
+export type CreateEmployeeMutation = { __typename?: 'Mutation' } & {
+  createEmployee?: Types.Maybe<{ __typename?: 'Employee' } & Pick<Types.Employee, 'id'>>
+}
+
+export type UpdateEmployeeProjectsMutationVariables = Types.Exact<{
+  input: Array<Types.UpdateEmployeeProjectsInput> | Types.UpdateEmployeeProjectsInput
+}>
+
+export type UpdateEmployeeProjectsMutation = { __typename?: 'Mutation' } & {
+  updateEmployeeProjects?: Types.Maybe<
+    Array<Types.Maybe<{ __typename?: 'EmployeeProject' } & Pick<Types.EmployeeProject, 'id'>>>
+  >
+}
+
+export type RemoveEmployeeProjectsMutationVariables = Types.Exact<{
+  ids: Array<Types.Scalars['String']> | Types.Scalars['String']
+}>
+
+export type RemoveEmployeeProjectsMutation = { __typename?: 'Mutation' } & {
+  removeEmployeeProjects?: Types.Maybe<
+    Array<Types.Maybe<{ __typename?: 'EmployeeProject' } & Pick<Types.EmployeeProject, 'id'>>>
+  >
+}
+
+export type CreateEmployeeProjectsMutationVariables = Types.Exact<{
+  input: Array<Types.CreateEmployeeProjectsInput> | Types.CreateEmployeeProjectsInput
+}>
+
+export type CreateEmployeeProjectsMutation = { __typename?: 'Mutation' } & {
+  createEmployeeProjects?: Types.Maybe<
+    Array<Types.Maybe<{ __typename?: 'EmployeeProject' } & Pick<Types.EmployeeProject, 'id'>>>
+  >
+}
+
 export const EmployeeDetailsFragmentDoc = gql`
   fragment EmployeeDetails on Employee {
     id
@@ -260,4 +298,198 @@ export type UpdateEmployeeMutationResult = Apollo.MutationResult<UpdateEmployeeM
 export type UpdateEmployeeMutationOptions = Apollo.BaseMutationOptions<
   UpdateEmployeeMutation,
   UpdateEmployeeMutationVariables
+>
+export const CreateEmployeeDocument = gql`
+  mutation createEmployee($input: CreateEmployeeInput!) {
+    createEmployee(input: $input) {
+      id
+    }
+  }
+`
+export type CreateEmployeeMutationFn = Apollo.MutationFunction<
+  CreateEmployeeMutation,
+  CreateEmployeeMutationVariables
+>
+
+/**
+ * __useCreateEmployeeMutation__
+ *
+ * To run a mutation, you first call `useCreateEmployeeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEmployeeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEmployeeMutation, { data, loading, error }] = useCreateEmployeeMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateEmployeeMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreateEmployeeMutation, CreateEmployeeMutationVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<CreateEmployeeMutation, CreateEmployeeMutationVariables>(
+    CreateEmployeeDocument,
+    options,
+  )
+}
+export type CreateEmployeeMutationHookResult = ReturnType<typeof useCreateEmployeeMutation>
+export type CreateEmployeeMutationResult = Apollo.MutationResult<CreateEmployeeMutation>
+export type CreateEmployeeMutationOptions = Apollo.BaseMutationOptions<
+  CreateEmployeeMutation,
+  CreateEmployeeMutationVariables
+>
+export const UpdateEmployeeProjectsDocument = gql`
+  mutation updateEmployeeProjects($input: [UpdateEmployeeProjectsInput!]!) {
+    updateEmployeeProjects(input: $input) {
+      id
+    }
+  }
+`
+export type UpdateEmployeeProjectsMutationFn = Apollo.MutationFunction<
+  UpdateEmployeeProjectsMutation,
+  UpdateEmployeeProjectsMutationVariables
+>
+
+/**
+ * __useUpdateEmployeeProjectsMutation__
+ *
+ * To run a mutation, you first call `useUpdateEmployeeProjectsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEmployeeProjectsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEmployeeProjectsMutation, { data, loading, error }] = useUpdateEmployeeProjectsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateEmployeeProjectsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateEmployeeProjectsMutation,
+    UpdateEmployeeProjectsMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    UpdateEmployeeProjectsMutation,
+    UpdateEmployeeProjectsMutationVariables
+  >(UpdateEmployeeProjectsDocument, options)
+}
+export type UpdateEmployeeProjectsMutationHookResult = ReturnType<
+  typeof useUpdateEmployeeProjectsMutation
+>
+export type UpdateEmployeeProjectsMutationResult =
+  Apollo.MutationResult<UpdateEmployeeProjectsMutation>
+export type UpdateEmployeeProjectsMutationOptions = Apollo.BaseMutationOptions<
+  UpdateEmployeeProjectsMutation,
+  UpdateEmployeeProjectsMutationVariables
+>
+export const RemoveEmployeeProjectsDocument = gql`
+  mutation removeEmployeeProjects($ids: [String!]!) {
+    removeEmployeeProjects(ids: $ids) {
+      id
+    }
+  }
+`
+export type RemoveEmployeeProjectsMutationFn = Apollo.MutationFunction<
+  RemoveEmployeeProjectsMutation,
+  RemoveEmployeeProjectsMutationVariables
+>
+
+/**
+ * __useRemoveEmployeeProjectsMutation__
+ *
+ * To run a mutation, you first call `useRemoveEmployeeProjectsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveEmployeeProjectsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeEmployeeProjectsMutation, { data, loading, error }] = useRemoveEmployeeProjectsMutation({
+ *   variables: {
+ *      ids: // value for 'ids'
+ *   },
+ * });
+ */
+export function useRemoveEmployeeProjectsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RemoveEmployeeProjectsMutation,
+    RemoveEmployeeProjectsMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    RemoveEmployeeProjectsMutation,
+    RemoveEmployeeProjectsMutationVariables
+  >(RemoveEmployeeProjectsDocument, options)
+}
+export type RemoveEmployeeProjectsMutationHookResult = ReturnType<
+  typeof useRemoveEmployeeProjectsMutation
+>
+export type RemoveEmployeeProjectsMutationResult =
+  Apollo.MutationResult<RemoveEmployeeProjectsMutation>
+export type RemoveEmployeeProjectsMutationOptions = Apollo.BaseMutationOptions<
+  RemoveEmployeeProjectsMutation,
+  RemoveEmployeeProjectsMutationVariables
+>
+export const CreateEmployeeProjectsDocument = gql`
+  mutation createEmployeeProjects($input: [CreateEmployeeProjectsInput!]!) {
+    createEmployeeProjects(input: $input) {
+      id
+    }
+  }
+`
+export type CreateEmployeeProjectsMutationFn = Apollo.MutationFunction<
+  CreateEmployeeProjectsMutation,
+  CreateEmployeeProjectsMutationVariables
+>
+
+/**
+ * __useCreateEmployeeProjectsMutation__
+ *
+ * To run a mutation, you first call `useCreateEmployeeProjectsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEmployeeProjectsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEmployeeProjectsMutation, { data, loading, error }] = useCreateEmployeeProjectsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateEmployeeProjectsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateEmployeeProjectsMutation,
+    CreateEmployeeProjectsMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    CreateEmployeeProjectsMutation,
+    CreateEmployeeProjectsMutationVariables
+  >(CreateEmployeeProjectsDocument, options)
+}
+export type CreateEmployeeProjectsMutationHookResult = ReturnType<
+  typeof useCreateEmployeeProjectsMutation
+>
+export type CreateEmployeeProjectsMutationResult =
+  Apollo.MutationResult<CreateEmployeeProjectsMutation>
+export type CreateEmployeeProjectsMutationOptions = Apollo.BaseMutationOptions<
+  CreateEmployeeProjectsMutation,
+  CreateEmployeeProjectsMutationVariables
 >
