@@ -54,8 +54,6 @@ Cypress.Commands.add('getToken', () => {
         localStorage.setItem('access_token', token)
       })
     break
-  default:
-    alert('Type of employee was not passed')
 }
 })
 
