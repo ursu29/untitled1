@@ -444,7 +444,7 @@ const ProjectBasicForm = ({
     >
       <Form.Item name="project" label="Project" initialValue={data.project}>
         {data.company && isWordSyncretis(data.company) ? (
-          <Select
+          <AutoComplete
             showSearch
             style={{ width: '100%' }}
             placeholder="Select"
@@ -452,13 +452,14 @@ const ProjectBasicForm = ({
             filterOption={(input, option) =>
               option?.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
+            allowClear={true}
           >
             {projectList.map(project => (
-              <Option key={project.id} value={project.code} style={{ overflow: 'visible' }}>
+              <Option key={project.code} value={project.name} style={{ overflow: 'visible' }}>
                 {project.name}
               </Option>
             ))}
-          </Select>
+          </AutoComplete>
         ) : (
           <Input placeholder="Select" />
         )}
@@ -614,7 +615,7 @@ const ProjectHeader = ({ data, projectList }: { data: Vitae; projectList: Projec
   if (!data.project && !data.position && !data.level) {
     return <StyledProjectName>Unknown project</StyledProjectName>
   }
-  const project = data.project && projectList.find(p => p.code === data.project)
+  const project = data.project && projectList.find(p => p.name === data.project)
   return (
     <Space>
       {data.project &&
