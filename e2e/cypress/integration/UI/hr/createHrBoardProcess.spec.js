@@ -20,9 +20,6 @@ describe('create new process task', () => {
     beforeEach(() => {
         cy.addHeadersAuth()
     })
-    afterEach(() => {
-        cy.addHeadersAuth()
-    })
 
     it('Check errors message', () => {
         cy.getElement('start').click()

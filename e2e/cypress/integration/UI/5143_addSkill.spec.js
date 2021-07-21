@@ -1,6 +1,6 @@
 import { getAllSkills } from '../../support/getData'
-import { getSelectItem, inputSkill, addSkill } from '../../support/complexLocators'
-import { workspace, tabs, skillEl } from '../../support/locators'
+import { getSelectItem, inputSkill, saveSkill } from '../../support/complexLocators'
+import { skillEl } from '../../support/locators'
 
 describe('Adding Skills in the Users Profile', () => {
   const skillName = 'Agile'
@@ -13,7 +13,7 @@ describe('Adding Skills in the Users Profile', () => {
 
   before(() => {
     cy.setToken('employee')
-    cy.visit('/')
+    cy.visit('/profile')
     cy.post(getAllSkills()).then(res => {
       const { data } = res.body
       allData = { ...allData, skills: data }
@@ -34,6 +34,7 @@ describe('Adding Skills in the Users Profile', () => {
     const { skills } = allData.skills
 
     getSelectItem(0).click()
+
     getSelectItem(0)
       .parent()
       .then(val => {
@@ -78,20 +79,10 @@ describe('Adding Skills in the Users Profile', () => {
 
   it('Click on the Done', () => {
     cy.get(skillEl.skill).contains(skillName).click()
-    addSkill(0).click()
+    saveSkill(0).click()
     cy.get(skillEl.iconEdit).eq(0).should('have.class', 'anticon-edit')
     cy.get(skillEl.successMes).should('have.text', 'Skills updated')
     cy.toEqualText(skillEl.skillName, skillName, true)
     cy.editSkills(0)
-  })
-
-  it('Click to another tab', () => {
-    getSelectItem(0).click()
-    cy.get(skillEl.skill).contains(childSkill).click()
-    cy.get(skillEl.skill).contains(skillName).click()
-    cy.get(workspace.tab).contains(tabs.bookMark).click()
-    cy.get(workspace.tab).contains(tabs.skill).click()
-    cy.get(skillEl.iconChecked).should('have.class', 'anticon-check')
-    cy.get(skillEl.item).its('length').should('eq', 2)
   })
 })
