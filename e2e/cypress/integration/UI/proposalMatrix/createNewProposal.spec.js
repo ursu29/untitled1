@@ -34,24 +34,15 @@ describe('create proposal by employee', () => {
     })
   })
 
-  beforeEach(() => {
-    cy.addHeadersAuth()
-  })
-  afterEach(() => {
-    cy.addHeadersAuth()
-  })
-
-  it('attach matrix', function() {
-    cy.post(attachMatrixToEmployee(matrixData.id, this.userId))
-  })
-
   it('create new Proposal', () => {
-    cy.getIcon('bulb').eq(0).click({force: true})
-    cy.get('.ant-input').eq(1).type('Hello world')
-    cy.getResponse(['createMatrixProposal'], 'alias')
-    cy.get('span').contains('Post').click()
+    cy.post(attachMatrixToEmployee(matrixData.id, this.userId)).then(_ => {
+      cy.getIcon('bulb').eq(0).click({force: true})
+      cy.get('.ant-input').eq(1).type('Hello world')
+      cy.getResponse(['createMatrixProposal'], 'alias')
+      cy.get('span').contains('Post').click()
 
-    cy.get(skillEl.successMes).should('be.visible')
-    cy.get(skillEl.successMes).should('have.text', successMessage)
+      cy.get(skillEl.successMes).should('be.visible')
+      cy.get(skillEl.successMes).should('have.text', successMessage)
+    })
   })
 })
