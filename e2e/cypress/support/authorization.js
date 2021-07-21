@@ -25,38 +25,38 @@ Cypress.Commands.add('auth', employeeType => {
   })
 })
 
-Cypress.Commands.add('setToken', employeeType => {
-  console.log('Do we get variables values? As example, grant_type: ' + Cypress.env('grant_type'))
-  cy.auth(employeeType)
-  switch (employeeType) {
-    case 'employee':
-      cy.request({
-        url: loginUrl,
-        method: 'POST',
-        form: true,
-        body: setBody('employee_username', 'employee_password', 'scope'),
-      })
-        .its('body.access_token')
-        .then(token => {
+Cypress.Commands.add('getToken', () => {
+  switch (process.env.EMPLOYEE_TYPE) {
+  case 'employee':
+    cy.request({
+      url: loginUrl,
+      method: 'POST',
+      form: true,
+      body: setBody('employee_username', 'employee_password', 'scope'),
+    })
+      .its('body.access_token')
+      .then(token => {
 
-          Cypress.env('accessToken', token)
-          localStorage.setItem('access_token', token)
-        })
-      break
-    case 'manager':
-      cy.request({
-        url: loginUrl,
-        method: 'POST',
-        form: true,
-        body: setBody('manager_username', 'manager_password', 'scope'),
+        Cypress.env('accessToken', token)
+        localStorage.setItem('access_token', token)
       })
-        .its('body.access_token')
-        .then(token => {
-          Cypress.env('accessToken', token)
-          localStorage.setItem('access_token', token)
-        })
-      break
-    default:
-      alert('Type of employee was not passed')
-  }
+    break
+  case 'manager':
+    cy.request({
+      url: loginUrl,
+      method: 'POST',
+      form: true,
+      body: setBody('manager_username', 'manager_password', 'scope'),
+    })
+      .its('body.access_token')
+      .then(token => {
+        Cypress.env('accessToken', token)
+        localStorage.setItem('access_token', token)
+      })
+    break
+  default:
+    alert('Type of employee was not passed')
+}
 })
+
+Cypress.Commands.add('setToken', employeeType => cy.auth(employeeType))

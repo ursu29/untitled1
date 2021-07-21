@@ -26,13 +26,15 @@ Cypress.Commands.add('post', (body, superUser = null, baseUrl = URL, methodName 
 })
 
 Cypress.Commands.add('getRequestData', URL => {
-  return cy.request({
-    url: URL,
-    method: 'GET',
-    headers: {
-      authorization: `Bearer ${Cypress.env('accessToken')}`,
-      'content-type': 'application/json',
-    },
+  cy.getToken().then(_ => {
+    return cy.request({
+      url: URL,
+      method: 'GET',
+      headers: {
+        authorization: `Bearer ${Cypress.env('accessToken')}`,
+        'content-type': 'application/json',
+      },
+    })
   })
 })
 
