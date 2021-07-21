@@ -16,8 +16,12 @@ describe('add new feedback', () => {
         cy.addHeadersAuth()
     })
 
-    items.forEach(text => {
-        it(`check default form fields ${text}`, () => {
+    afterEach(() => {
+        cy.addHeadersAuth()
+    })
+
+    it('check default form fields', () => {
+        items.forEach(text => {
             cy.getElement(about).click()
             cy.get(devMenu.item).contains(text).click()
 
