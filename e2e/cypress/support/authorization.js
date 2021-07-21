@@ -38,7 +38,6 @@ Cypress.Commands.add('setToken', employeeType => {
       })
         .its('body.access_token')
         .then(token => {
-          console.log('accessToken', token)
 
           Cypress.env('accessToken', token)
           localStorage.setItem('access_token', token)
@@ -53,7 +52,6 @@ Cypress.Commands.add('setToken', employeeType => {
       })
         .its('body.access_token')
         .then(token => {
-          console.log('accessToken', token)
           Cypress.env('accessToken', token)
           localStorage.setItem('access_token', token)
         })

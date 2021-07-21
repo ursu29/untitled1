@@ -27,7 +27,6 @@ describe('chek agile tab by location filter', () => {
     it('search by Location', () => {
 
         const  scrumMastersFromSaintP = allScrumMasters.filter(el => el.scrumMasters.some(el => el.location === cityName))
-        console.log(scrumMastersFromSaintP)
 
         cy.getIcon('filter').click()
         cy.get('.ant-checkbox-input').eq(2).click()
