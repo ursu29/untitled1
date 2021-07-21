@@ -28,19 +28,19 @@ describe('update Office planner day (office-planner)', () => {
 
     it('get a workspace', () => {
         cy.post(workspace(locationId))
-            .then(req => workplaceId = req.body.data.workspace.workplaces[0].id)
+            .then(req => workplaceId = req.body.data.workspace.workplaces[1].id)
     })
 
     it('book place', () => {
         cy.post(createWorkplaceBooking(workplaceId))
-            .then(req =>workplaceBookingId = req.body.data.createWorkplaceBooking.id)
-    })
+            .then(req => {
+                workplaceBookingId = req.body.data.createWorkplaceBooking.id
 
-    it('book one day', () => {
-        cy.visit('/office-planner')
+                cy.visit('/office-planner')
 
-        cy.get(spinner.active).should('be.visible')
-        cy.get(spinner.active).should('not.exist')
-        cy.get(table.activeTab).then(el => expect(el.text()).not.equal(text))
+                cy.get(spinner.active).should('be.visible')
+                cy.get(spinner.active).should('not.exist')
+                cy.get(table.activeTab).then(el => expect(el.text()).not.equal(text))
+            })
     })
 })

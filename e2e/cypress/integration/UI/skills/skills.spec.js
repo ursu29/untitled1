@@ -15,17 +15,12 @@ describe('Check skills page', () => {
         cy.getElement(searchInput).type(skillName)
 
         cy.get(titleTree).eq(0).contains('Frontend')
-    })
 
-
-    it('fill and clear filter value', () => {
         cy.getElement(searchInput).type(skillName)
         cy.getElement(searchInput).clear()
 
         cy.get(titleTree).eq(0).contains(firstSkill)
-    })
 
-    it('go to skill page', () => {
         cy.get(titleTree).eq(0).dblclick()
         cy.getElement(name).contains(firstSkill)
     })
