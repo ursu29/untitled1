@@ -15,9 +15,6 @@ describe('add new feedback', () => {
     beforeEach(() => {
         cy.addHeadersAuth()
     })
-    afterEach(() => {
-        cy.addHeadersAuth()
-    })
 
     items.forEach(text => {
         it(`check default form fields ${text}`, () => {
