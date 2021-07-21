@@ -11,6 +11,14 @@ describe('add new feedback', () => {
         cy.setToken('employee')
         cy.visit('/feedback')
     })
+
+    beforeEach(() => {
+        cy.addHeadersAuth()
+    })
+    afterEach(() => {
+        cy.addHeadersAuth()
+    })
+
     items.forEach(text => {
         it(`check default form fields ${text}`, () => {
             cy.getElement(about).click()
