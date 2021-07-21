@@ -17,11 +17,7 @@ describe('create new process task', () => {
         })
     })
 
-    beforeEach(() => {
-        cy.addHeadersAuth()
-    })
-
-    it('Check errors message', () => {
+    it('successfully created new task', () => {
         cy.getElement('start').click()
 
         cy.getId(activeIdProcess).click()
@@ -29,9 +25,7 @@ describe('create new process task', () => {
         cy.getElement(create).click()
 
         cy.get(hrTool.errorMess).should('be.visible')
-    })
 
-    it('successfully created new task', () => {
         cy.get(skillEl.skillsEvent).click()
         cy.get(option).contains('Tomsk').click()
         cy.getId(prio).click()
