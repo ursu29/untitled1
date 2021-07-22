@@ -10,6 +10,13 @@ describe('update self Evaluation form', () => {
     cy.setToken('manager')
   })
 
+  beforeEach(() => {
+    cy.addHeadersAuth()
+  })
+  afterEach(() => {
+    cy.addHeadersAuth()
+  })
+
   it('successfully filled out the form state:Needs ImprovementMeets, requirements, Exceeds requirements', () => {
     cy.visit(getSubTabUrl('career', '/profile', 'evaluation'))
 
