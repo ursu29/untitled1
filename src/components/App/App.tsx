@@ -13,6 +13,9 @@ import { GATEWAY } from '../../config'
 import SplashScreen from '../UI/SplashScreen'
 import Metrics from './Metrics'
 import Root from './Root'
+import { setContext } from '@apollo/client/link/context'
+
+const timezoneOffset = new Date().getTimezoneOffset()
 
 const httpLink = new HttpLink({
   uri: GATEWAY + '/graphql',
@@ -51,6 +54,17 @@ const cacheConfig: InMemoryCacheConfig = {
 export default function App() {
   const [errorCode, setErrorCode] = useState<number>()
 
+  const authLink = setContext((_, { headers }) => {
+    return {
+      credentials: 'same-origin',
+      headers: {
+        ...headers,
+        'x-timezone-offset': timezoneOffset,
+        'dev-only-user-role': localStorage.getItem('devOnlyUserRole') || 'off',
+      },
+    }
+  })
+
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
       graphQLErrors.forEach(error => {
@@ -68,7 +82,7 @@ export default function App() {
   })
 
   const client = new ApolloClient({
-    link: errorLink.concat(httpLink),
+    link: errorLink.concat(authLink).concat(httpLink),
     cache: new InMemoryCache(cacheConfig),
   })
 
