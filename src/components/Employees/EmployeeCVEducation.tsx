@@ -88,7 +88,11 @@ const EmployeeCVEducationTable = ({
       render: (_, record) =>
         editable ? (
           <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record)}>
-            <Button type="link" icon={<DeleteOutlined />} />
+            <Button
+              type="text"
+              shape="circle"
+              icon={<DeleteOutlined style={{ color: '#8c8c8c' }} />}
+            />
           </Popconfirm>
         ) : null,
     },

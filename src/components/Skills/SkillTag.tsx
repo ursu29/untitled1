@@ -6,8 +6,7 @@ import { getSkillLink } from '../../paths'
 import styled, { css } from 'styled-components'
 
 const StyledTag = styled(Tag)<{ level?: Level | null }>`
-  margin-top: 6px;
-  margin-bottom: 6px;
+  margin: 0 8px 8px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -100,7 +100,7 @@ const EmployeeCVCertificatesTable = ({
       render: (_, record) =>
         editable ? (
           <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record)}>
-            <Button type="link" icon={<DeleteOutlined />} />
+            <Button type="link" icon={<DeleteOutlined style={{ color: '#8c8c8c' }} />} />
           </Popconfirm>
         ) : null,
     },

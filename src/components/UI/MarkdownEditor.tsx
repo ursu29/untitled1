@@ -28,6 +28,7 @@ interface Props {
   concatValue?: string
   short?: boolean
   onChange?: (value: any) => void
+  validationError?: boolean
 }
 
 export default class MarkdownEditor extends Component<Props> {
@@ -74,7 +75,12 @@ export default class MarkdownEditor extends Component<Props> {
 
   render() {
     return (
-      <Wrapper short={this.props.short}>
+      <Wrapper
+        short={this.props.short}
+        style={
+          this.props.validationError ? { border: '1px solid #ff4d4f', borderRadius: '2px' } : {}
+        }
+      >
         <textarea id={this.props.id}></textarea>
       </Wrapper>
     )
