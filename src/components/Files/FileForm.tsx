@@ -2,7 +2,7 @@ import { Button, Col, Form, Row } from 'antd'
 import React from 'react'
 import { SharedFileFragmentFragment } from '../../queries/getSharedFiles'
 import { UpdateSharedFileInput, SharedFile } from '../../types/graphql'
-import SkillTreeSelect from '../Skills/SkillTreeSelect'
+import SkillMultiSelect from '../Skills/SkillMultiSelect'
 
 export interface Props {
   file: SharedFileFragmentFragment
@@ -30,7 +30,7 @@ const FileForm = ({ file, onSubmit, loading }: Props) => {
       }}
     >
       <Form.Item label="Skills" name="skills">
-        <SkillTreeSelect />
+        <SkillMultiSelect />
       </Form.Item>
       <Row>
         <Col>
