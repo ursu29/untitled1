@@ -111,34 +111,46 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
           <Col span={7}>
             <div>
               <Form.Item name={['developmentRoles', 'solutionArchitect']} valuePropName="checked">
-                <Checkbox disabled={locked}>Solution Architect (UI and/or Backend)</Checkbox>
+                <Checkbox disabled={locked} onChange={form.submit}>
+                  Solution Architect (UI and/or Backend)
+                </Checkbox>
               </Form.Item>
             </div>
             <div>
               <Form.Item name={['developmentRoles', 'webDeveloper']} valuePropName="checked">
-                <Checkbox disabled={locked}>Web/UI Developer</Checkbox>
+                <Checkbox disabled={locked} onChange={form.submit}>
+                  Web/UI Developer
+                </Checkbox>
               </Form.Item>
             </div>
             <div>
               <Form.Item name={['developmentRoles', 'javaDeveloper']} valuePropName="checked">
-                <Checkbox disabled={locked}>Java Developer</Checkbox>
+                <Checkbox disabled={locked} onChange={form.submit}>
+                  Java Developer
+                </Checkbox>
               </Form.Item>
             </div>
             <div>
               <Form.Item name={['developmentRoles', 'dotnetDeveloper']} valuePropName="checked">
-                <Checkbox disabled={locked}>.NET Developer (C#)</Checkbox>
+                <Checkbox disabled={locked} onChange={form.submit}>
+                  .NET Developer (C#)
+                </Checkbox>
               </Form.Item>
             </div>
             <div>
               <Form.Item name={['developmentRoles', 'uxExpert']} valuePropName="checked">
-                <Checkbox disabled={locked}>UI/UX Expert</Checkbox>
+                <Checkbox disabled={locked} onChange={form.submit}>
+                  UI/UX Expert
+                </Checkbox>
               </Form.Item>
             </div>
           </Col>
           <Col span={7}>
             <div>
               <Form.Item name={['developmentRoles', 'devOps']} valuePropName="checked">
-                <Checkbox disabled={locked}>DevOps</Checkbox>
+                <Checkbox disabled={locked} onChange={form.submit}>
+                  DevOps
+                </Checkbox>
               </Form.Item>
             </div>
             <div>
@@ -146,17 +158,30 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
                 name={['developmentRoles', 'infrastructureArchitect']}
                 valuePropName="checked"
               >
-                <Checkbox disabled={locked}>Infrastructure Architect</Checkbox>
+                <Checkbox disabled={locked} onChange={form.submit}>
+                  Infrastructure Architect
+                </Checkbox>
               </Form.Item>
             </div>
             <div>
               <Form.Item name={['developmentRoles', 'manualQA']} valuePropName="checked">
-                <Checkbox disabled={locked}>Manual QA</Checkbox>
+                <Checkbox disabled={locked} onChange={form.submit}>
+                  Manual QA
+                </Checkbox>
               </Form.Item>
             </div>
             <div>
               <Form.Item name={['developmentRoles', 'automationQA']} valuePropName="checked">
-                <Checkbox disabled={locked}>Automation QA</Checkbox>
+                <Checkbox disabled={locked} onChange={form.submit}>
+                  Automation QA
+                </Checkbox>
+              </Form.Item>
+            </div>
+            <div>
+              <Form.Item name={['developmentRoles', 'supportEngineer']} valuePropName="checked">
+                <Checkbox disabled={locked} onChange={form.submit}>
+                  Support Engineer
+                </Checkbox>
               </Form.Item>
             </div>
           </Col>
@@ -167,17 +192,23 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
         <Row>
           <div>
             <Form.Item name={['developmentRoles', 'scrumMaster']} valuePropName="checked">
-              <Checkbox disabled={locked}>Scrum Master</Checkbox>
+              <Checkbox disabled={locked} onChange={form.submit}>
+                Scrum Master
+              </Checkbox>
             </Form.Item>
           </div>
           <div>
             <Form.Item name={['developmentRoles', 'teamLead']} valuePropName="checked">
-              <Checkbox disabled={locked}>Tech Lead</Checkbox>
+              <Checkbox disabled={locked} onChange={form.submit}>
+                Tech Lead
+              </Checkbox>
             </Form.Item>
           </div>
           <div>
             <Form.Item name={['developmentRoles', 'agileCoach']} valuePropName="checked">
-              <Checkbox disabled={locked}>Agile Coach</Checkbox>
+              <Checkbox disabled={locked} onChange={form.submit}>
+                Agile Coach
+              </Checkbox>
             </Form.Item>
           </div>
         </Row>
@@ -187,7 +218,9 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
         <Row>
           <div>
             <Form.Item name={['developmentRoles', 'mathematician']} valuePropName="checked">
-              <Checkbox disabled={locked}>Mathematician / Quant</Checkbox>
+              <Checkbox disabled={locked} onChange={form.submit}>
+                Mathematician / Quant
+              </Checkbox>
             </Form.Item>
           </div>
           <div>
@@ -195,17 +228,33 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
               name={['developmentRoles', 'actuarialBusinessAnalyst']}
               valuePropName="checked"
             >
-              <Checkbox disabled={locked}>Actuarial Business Analyst</Checkbox>
+              <Checkbox disabled={locked} onChange={form.submit}>
+                Actuarial Business Analyst
+              </Checkbox>
             </Form.Item>
           </div>
           <div>
             <Form.Item name={['developmentRoles', 'productOwner']} valuePropName="checked">
-              <Checkbox disabled={locked}>Product Owner</Checkbox>
+              <Checkbox disabled={locked} onChange={form.submit}>
+                Product Owner
+              </Checkbox>
             </Form.Item>
           </div>
           <div>
             <Form.Item name={['developmentRoles', 'dataAnalyst']} valuePropName="checked">
-              <Checkbox disabled={locked}>Data Analyst</Checkbox>
+              <Checkbox disabled={locked} onChange={form.submit}>
+                Data Analyst
+              </Checkbox>
+            </Form.Item>
+          </div>
+        </Row>
+      </div>
+      <div style={{ marginBottom: 20 }}>
+        <Title level={4}>Other</Title>
+        <Row>
+          <div>
+            <Form.Item name={['developmentRoles', 'otherAreas']}>
+              <Input placeholder={''} disabled={locked} onBlur={form.submit} />
             </Form.Item>
           </div>
         </Row>
@@ -254,22 +303,30 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
         <Row style={{ display: 'flex', alignItems: 'baseline' }}>
           <div>
             <Form.Item name={['guildContribution', 'noContribution']} valuePropName="checked">
-              <Checkbox disabled={locked}>No contribution</Checkbox>
+              <Checkbox disabled={locked} onChange={form.submit}>
+                No contribution
+              </Checkbox>
             </Form.Item>
           </div>
           <div>
             <Form.Item name={['guildContribution', 'education']} valuePropName="checked">
-              <Checkbox disabled={locked}>Education, presentations; topic(s)</Checkbox>
+              <Checkbox disabled={locked} onChange={form.submit}>
+                Education, presentations; topic(s)
+              </Checkbox>
             </Form.Item>
           </div>
           <div>
             <Form.Item name={['guildContribution', 'internalProject']} valuePropName="checked">
-              <Checkbox disabled={locked}>Contribution in an internal project</Checkbox>
+              <Checkbox disabled={locked} onChange={form.submit}>
+                Contribution in an internal project
+              </Checkbox>
             </Form.Item>
           </div>
           <div>
             <Form.Item name={['guildContribution', 'startup']} valuePropName="checked">
-              <Checkbox disabled={locked}>New startup idea</Checkbox>
+              <Checkbox disabled={locked} onChange={form.submit}>
+                New startup idea
+              </Checkbox>
             </Form.Item>
           </div>
           <div style={{ paddingTop: 8, maxWidth: 300 }}>

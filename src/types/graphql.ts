@@ -559,6 +559,8 @@ export type DevelopmentRoles = {
   uxExpert?: Maybe<Scalars['Boolean']>
   productOwner?: Maybe<Scalars['Boolean']>
   dataAnalyst?: Maybe<Scalars['Boolean']>
+  supportEngineer?: Maybe<Scalars['Boolean']>
+  otherAreas?: Maybe<Scalars['String']>
 }
 
 export type DevelopmentRolesInput = {
@@ -579,6 +581,8 @@ export type DevelopmentRolesInput = {
   uxExpert?: Maybe<Scalars['Boolean']>
   productOwner?: Maybe<Scalars['Boolean']>
   dataAnalyst?: Maybe<Scalars['Boolean']>
+  supportEngineer?: Maybe<Scalars['Boolean']>
+  otherAreas?: Maybe<Scalars['String']>
 }
 
 export type Devrel = {

@@ -535,6 +535,8 @@ type DevelopmentRoles {
   uxExpert: Boolean
   productOwner: Boolean
   dataAnalyst: Boolean
+  supportEngineer: Boolean
+  otherAreas: String
 }
 
 input DevelopmentRolesInput {
@@ -555,6 +557,8 @@ input DevelopmentRolesInput {
   uxExpert: Boolean
   productOwner: Boolean
   dataAnalyst: Boolean
+  supportEngineer: Boolean
+  otherAreas: String
 }
 
 type Devrel {
