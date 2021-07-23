@@ -6,11 +6,11 @@ import { Select } from 'antd'
 
 const { Option } = Select
 
-export type SkillPick = Pick<Skill, 'id' | 'name'>
+type SkillPick = Pick<Skill, 'id' | 'name'>
 
 interface Props {
   value?: SkillPick[]
-  onChange: (value: SkillPick[]) => void
+  onChange?: (value: SkillPick[]) => void
 }
 
 export default function SkillMultiSelect({ value, onChange }: Props) {
@@ -21,7 +21,7 @@ export default function SkillMultiSelect({ value, onChange }: Props) {
   const [userInput, setUserInput] = useState('')
 
   const getChildren = () => {
-    const skills = getFilteredSkills(data?.skills || [], !!userInput.length)
+    const skills = getFilteredSkills(data?.skills || [], value || [], !!userInput.length)
     return skills?.map((el, index) => (
       <Option value={el.id} key={el.id} index={index}>
         {el.name}
@@ -32,6 +32,12 @@ export default function SkillMultiSelect({ value, onChange }: Props) {
   const filterOption = (inputValue: string, option: any) => {
     return option.children.trim().toLowerCase().includes(inputValue.trim().toLowerCase())
   }
+
+  const handleChange = (value: any) => {
+    onChange && onChange(data?.skills?.filter(skill => value.includes(skill.id)) || [])
+  }
+
+  if (!getChildren()?.length) return null
 
   return (
     <Select
@@ -44,9 +50,7 @@ export default function SkillMultiSelect({ value, onChange }: Props) {
       defaultValue={convertSkillsToTreeValue(value)}
       filterOption={filterOption}
       onBlur={() => setUserInput('')}
-      onChange={value => {
-        onChange(data?.skills?.filter(skill => value.includes(skill.id)) || [])
-      }}
+      onChange={handleChange}
     >
       {getChildren()}
     </Select>
@@ -55,14 +59,20 @@ export default function SkillMultiSelect({ value, onChange }: Props) {
 
 function convertSkillsToTreeValue(skills?: SkillPick[]) {
   if (skills?.length) {
-    return skills?.length > 1 ? skills.map(i => i.name) : skills?.[0].name
+    return skills?.length > 1 ? skills.map(i => i.id) : [skills?.[0].id]
   }
   return []
 }
 
-function getFilteredSkills(skills?: SkillPick[], hasUserInput: boolean = false) {
+function getFilteredSkills(
+  skills: SkillPick[],
+  selected: SkillPick[],
+  hasUserInput: boolean = false,
+) {
   if (skills && (skills?.length || 0) > 10 && !hasUserInput) {
-    return skills.filter((skill: SkillPick, index) => index < 10)
+    return skills.filter(
+      (skill: SkillPick, index) => selected.map(s => s.id).includes(skill.id) || index < 10,
+    )
   }
   return skills
 }

@@ -2,7 +2,7 @@ import { Button, Col, Form, Row } from 'antd'
 import React from 'react'
 import { SharedFileFragmentFragment } from '../../queries/getSharedFiles'
 import { UpdateSharedFileInput, SharedFile } from '../../types/graphql'
-import SkillMultiSelect, { SkillPick } from '../Skills/SkillMultiSelect'
+import SkillMultiSelect from '../Skills/SkillMultiSelect'
 
 export interface Props {
   file: SharedFileFragmentFragment
@@ -12,10 +12,6 @@ export interface Props {
 
 const FileForm = ({ file, onSubmit, loading }: Props) => {
   const [form] = Form.useForm()
-
-  const onSkillsChange = (skills: SkillPick[]) => {
-    form.setFieldsValue({ skills })
-  }
 
   const onFinish = ({ skills }: Pick<SharedFile, 'skills'>) => {
     onSubmit({
@@ -34,7 +30,7 @@ const FileForm = ({ file, onSubmit, loading }: Props) => {
       }}
     >
       <Form.Item label="Skills" name="skills">
-        <SkillMultiSelect onChange={onSkillsChange} />
+        <SkillMultiSelect />
       </Form.Item>
       <Row>
         <Col>
