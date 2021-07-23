@@ -14,7 +14,7 @@ export default function AboutTooltip({ children, ...props }: Props) {
       {children}
       <Tooltip placement="rightTop" {...props}>
         <QuestionCircleOutlined
-          style={{ fontSize: '12px', color: '#51abff', cursor: 'pointer', padding: '0 4px' }}
+          style={{ fontSize: '12px', color: '#8c8c8c', cursor: 'pointer', padding: '0 4px' }}
         />
       </Tooltip>
     </>

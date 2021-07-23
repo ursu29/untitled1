@@ -11,10 +11,11 @@ import {
   Typography,
   Tag,
   Space,
+  Tooltip,
 } from 'antd'
 import { EditOutlined, CheckOutlined } from '@ant-design/icons'
 import moment from 'moment'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { debounce } from 'throttle-debounce'
 import styled from 'styled-components'
 import message from '../../message'
@@ -159,6 +160,11 @@ const JobListView = ({
   loading: boolean
   editable: boolean
 }) => {
+  const [newCompanyWasCreated, setNewCompanyWasCreated] = useState(false)
+
+  // Has new 'untitled' company or not
+  const hasUntitledCompany = !!data.find(e => e.company === '')
+
   // remember sorting on mount
   const [vitaesSortedByDate] = useState(() =>
     [...data]
@@ -174,6 +180,8 @@ const JobListView = ({
       return res
     }, {})
 
+  console.log(Object.entries(groupedByCompany).sort((a, b) => (a[0] === '' ? -1 : 1))) // a.company === '' ? 1 :
+
   const handleCreate = (company: string) => {
     const value = data.map(({ __typename, ...i }: any) => i)
     onChange(
@@ -186,6 +194,7 @@ const JobListView = ({
         level: '',
       }),
     )
+    setNewCompanyWasCreated(true)
   }
 
   const handleUpdate = (vitae: Vitae[]) => {
@@ -209,26 +218,39 @@ const JobListView = ({
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Title level={4}>Work experience</Title>
+      <div style={{ display: 'flex', justifyContent: 'space-between', height: '32px' }}>
+        <Title level={4} style={{ marginBottom: 16 }}>
+          Work experience
+        </Title>
         {editable && (
-          <Button disabled={loading} onClick={() => handleCreate('')}>
-            Add Company
-          </Button>
+          <Tooltip
+            title={
+              hasUntitledCompany
+                ? "You already have the 'new' company. Give it name to add more."
+                : ''
+            }
+          >
+            <Button disabled={loading || hasUntitledCompany} onClick={() => handleCreate('')}>
+              Add Company
+            </Button>
+          </Tooltip>
         )}
       </div>
       <div>
-        {Object.entries(groupedByCompany).map(([company, data]) => (
-          <JobView
-            key={company}
-            data={data}
-            company={company}
-            editable={editable}
-            onCreate={handleCreate}
-            onDelete={handleDelete}
-            onUpdate={handleUpdate}
-          />
-        ))}
+        {Object.entries(groupedByCompany)
+          .sort((a, b) => (a[0] === '' ? -1 : 1))
+          .map(([company, data]) => (
+            <JobView
+              key={company}
+              data={data}
+              company={company}
+              editable={editable}
+              newCompanyWasCreated={newCompanyWasCreated}
+              onCreate={handleCreate}
+              onDelete={handleDelete}
+              onUpdate={handleUpdate}
+            />
+          ))}
       </div>
     </div>
   )
@@ -278,7 +300,6 @@ const StyledProjectName = styled.span`
   font-size: 18px;
 `
 const StyledProjectBody = styled.div`
-  border-bottom: 1px solid #dedede;
   padding: 8px 16px 0;
   &:after {
     // hack for fixing bottom offset
@@ -304,6 +325,8 @@ const JobView = ({
   data,
   company,
   editable,
+  isEdited,
+  newCompanyWasCreated,
   onUpdate,
   onDelete,
   onCreate,
@@ -311,11 +334,18 @@ const JobView = ({
   data: Vitae[]
   company: string
   editable: boolean
+  isEdited?: boolean
+  newCompanyWasCreated?: boolean
   onUpdate: (vitae: Vitae[]) => void
   onDelete: (vitae: Vitae[]) => void
   onCreate: (company: string) => void
 }) => {
-  const [isEditMode, setIsEditMode] = useState(false)
+  const [isEditMode, setIsEditMode] = useState(!!isEdited)
+
+  useEffect(() => {
+    if (newCompanyWasCreated && company === '') setIsEditMode(true)
+  }, [newCompanyWasCreated, company])
+
   return (
     <div>
       <StyledCompanyHead>
@@ -330,7 +360,15 @@ const JobView = ({
             />
           ) : (
             <>
-              <div style={{ fontSize: 18 }}>{company || 'Unknown company'}</div>
+              <div
+                style={{
+                  fontSize: 18,
+                  fontStyle: company ? '' : 'italic',
+                  backgroundColor: company ? '' : 'lightyellow',
+                }}
+              >
+                {company || 'new company'}
+              </div>
               {editable && !isEditMode && (
                 <CardActions>
                   <Button type="link" icon={<EditOutlined />} onClick={() => setIsEditMode(true)} />
@@ -410,6 +448,8 @@ const CompanyNameForm = ({
           filterOption={(inputValue, option) =>
             option!.value.toUpperCase().startsWith(inputValue.toUpperCase())
           }
+          defaultOpen={true}
+          autoFocus={true}
         />
       </Form.Item>
       <Button htmlType="submit" type="link" icon={<CheckOutlined />} />
@@ -444,7 +484,7 @@ const ProjectBasicForm = ({
     >
       <Form.Item name="project" label="Project" initialValue={data.project}>
         {data.company && isWordSyncretis(data.company) ? (
-          <Select
+          <AutoComplete
             showSearch
             style={{ width: '100%' }}
             placeholder="Select"
@@ -452,13 +492,14 @@ const ProjectBasicForm = ({
             filterOption={(input, option) =>
               option?.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
+            allowClear={true}
           >
             {projectList.map(project => (
-              <Option key={project.id} value={project.code} style={{ overflow: 'visible' }}>
+              <Option key={project.code} value={project.name} style={{ overflow: 'visible' }}>
                 {project.name}
               </Option>
             ))}
-          </Select>
+          </AutoComplete>
         ) : (
           <Input placeholder="Select" />
         )}
@@ -559,28 +600,47 @@ const ProjectDetailedForm = ({
       name={`cv-project-detailed-${data.id}`}
       labelCol={{ span: 24, offset: 0 }}
       onFinish={values => {
-        const [start, end] = values.date || []
+        let start, end
+        if (!isPresent) [start, end] = values.date || []
         onSubmit({
-          dateStart: start,
+          //@ts-ignore
+          dateStart: isPresent ? values.date : start,
           dateEnd: isPresent ? null : end,
           responsibilities: values.responsibilities,
         })
       }}
     >
       <Space>
-        <Form.Item name="date" label="" initialValue={[dateStart, dateEnd]} noStyle>
-          <DatePicker.RangePicker
-            format={DATE_MONTH_FORMAT}
-            picker="month"
-            allowEmpty={[true, true]}
-            allowClear
-            disabled={editable ? [false, isPresent] : true}
-            onChange={value => {
-              // fix for clear button
-              if (!value) form.submit()
-            }}
-            onBlur={form.submit}
-          />
+        <Form.Item
+          name="date"
+          label=""
+          initialValue={!isPresent ? [dateStart, dateEnd] : dateStart}
+          noStyle
+        >
+          {!isPresent ? (
+            <DatePicker.RangePicker
+              format={DATE_MONTH_FORMAT}
+              picker="month"
+              allowEmpty={[true, true]}
+              allowClear
+              disabled={editable ? [false, isPresent] : true}
+              onChange={value => {
+                if (!value) form.submit()
+              }}
+              onBlur={form.submit}
+            />
+          ) : (
+            <DatePicker
+              format={DATE_MONTH_FORMAT}
+              picker="month"
+              allowClear
+              disabled={editable ? false : true}
+              onChange={value => {
+                if (!value) form.submit()
+              }}
+              onBlur={form.submit}
+            />
+          )}
         </Form.Item>
         <Checkbox
           disabled={!editable}
@@ -597,13 +657,15 @@ const ProjectDetailedForm = ({
         name="responsibilities"
         label="Responsibilities"
         initialValue={data?.responsibilities}
-        style={{ marginBottom: 0 }}
+        style={{ marginBottom: 0, marginTop: 16 }}
       >
         <Input.TextArea
           placeholder="Enter something"
           autoSize={{ minRows: 2 }}
           disabled={!editable}
           onBlur={form.submit}
+          bordered={false}
+          style={{ paddingLeft: 0 }}
         />
       </Form.Item>
     </Form>
@@ -612,9 +674,9 @@ const ProjectDetailedForm = ({
 
 const ProjectHeader = ({ data, projectList }: { data: Vitae; projectList: ProjectDetails[] }) => {
   if (!data.project && !data.position && !data.level) {
-    return <StyledProjectName>Unknown project</StyledProjectName>
+    return <StyledProjectName>untitled</StyledProjectName>
   }
-  const project = data.project && projectList.find(p => p.code === data.project)
+  const project = data.project && projectList.find(p => p.name === data.project)
   return (
     <Space>
       {data.project &&

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Typography, Popconfirm } from 'antd'
 import Button from '../UI/Button'
 import MarkdownEditor from '../UI/MarkdownEditor'
@@ -19,8 +19,9 @@ function MarkdownEditable({ data, editable, handleSave, history }: Props & Route
   const [isEditing, toggleIsEditing] = useState(false)
   const [descriptionMarkdown, setDescriptionMarkdown] = useState(data)
   const [delay, setDelay] = useState(0)
+  const ref = useRef<HTMLDivElement>(null)
 
-  useMarkdownInjection(isEditing, delay)
+  useMarkdownInjection(ref, delay, isEditing)
   useMarkdownLinkClick(history, 'markdown_editable')
 
   const isTouched = descriptionMarkdown !== data
@@ -87,6 +88,7 @@ function MarkdownEditable({ data, editable, handleSave, history }: Props & Route
       <Typography.Paragraph style={{ marginBottom: '30px', width: '96%' }}>
         {data ? (
           <div
+            ref={ref}
             dangerouslySetInnerHTML={{
               __html: markdownToHtml(data),
             }}

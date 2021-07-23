@@ -176,9 +176,11 @@ export const TableTitle = ({
 }) => {
   return (
     <div>
-      <Typography.Title level={4}>{title}</Typography.Title>
+      <Typography.Title level={4} style={{ marginBottom: 16 }}>
+        {title}
+      </Typography.Title>
       {editable && (
-        <Button data-cy="addJob" style={{ margin: '8px 0' }} onClick={onCreate}>
+        <Button data-cy="addJob" style={{ marginBottom: 8 }} onClick={onCreate}>
           Add new
         </Button>
       )}
@@ -234,6 +236,7 @@ export const EditableTable = <RecordType extends {}>({
         record,
         onSubmit: onRowSubmit,
       })}
+      style={{ marginBottom: 32 }}
     />
   )
 }

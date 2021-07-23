@@ -48,11 +48,18 @@ const EmployeeCVSummary = ({ editable, employee, cv }: FormProps) => {
           },
         })
       }}
+      style={{ marginBottom: 32 }}
     >
-      <Title level={4}>Summary</Title>
+      <Title level={4} style={{ marginBottom: 16 }}>
+        Summary
+      </Title>
       <Form.Item name="summary" label="" initialValue={cv?.summary}>
         {editable ? (
-          <Input.TextArea autoSize={{ minRows: 4 }} onBlur={form.submit} />
+          <Input.TextArea
+            autoSize={{ minRows: 4 }}
+            onBlur={form.submit}
+            placeholder="Enter summary"
+          />
         ) : (
           <Typography.Text>{cv?.summary}</Typography.Text>
         )}

@@ -52,7 +52,7 @@ function NewsFeed({ editable, employee, filter, setFilter }: Props) {
                     return prev
                   }
                   if (!prev) return fetchMoreResult
-                  const prevPostsIds = prev.posts.map(i => i.id)
+                  const prevPostsIds = prev.posts?.map(i => i.id)
                   return Object.assign({}, prev, {
                     posts: [
                       ...prev.posts,

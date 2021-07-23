@@ -7,10 +7,9 @@ function NotAllowed({ history }: RouteComponentProps) {
     <div
       style={{
         display: 'flex',
-        alignItems: 'center',
         justifyContent: 'center',
-        height: '100%',
-        padding: 16,
+        alignItems: 'center',
+        height: '100vh',
       }}
     >
       <Result

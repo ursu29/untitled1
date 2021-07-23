@@ -29,9 +29,12 @@ const EmployeeCVLanguages = ({ editable, employee, cv }: FormProps) => {
 
   return (
     <>
-      <Title level={4}>Languages</Title>
+      <Title level={4} style={{ marginBottom: 16 }}>
+        Languages
+      </Title>
       {editable ? (
         <Input
+          placeholder="Enter languages"
           defaultValue={cv?.languages || ''}
           onBlur={event =>
             update({

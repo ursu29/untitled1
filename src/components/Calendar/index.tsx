@@ -1,17 +1,16 @@
-import { useQuery } from '@apollo/client'
 import { Button } from 'antd'
 import moment from 'moment'
 import React, { useState } from 'react'
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
+import { getEvents } from '../../queries/events'
+import { CalendarEvent } from '../../types'
 import PageContent from '../UI/PageContent'
+import PageHeader from '../UI/PageHeader'
+import DateChangeWrapper from './DateChangeWrapper'
 import ModalAddEvent from './ModalAddEvent'
 import ModalEventSignUp from './ModalEventSignUp'
 import { DateCellWrapper, EventWrapper, ToolbarWrapper } from './StyledCalendarComponents'
-import { getEvents, EventsQueryType } from '../../queries/events'
-import { filterEvents } from './utils'
-import { CalendarEvent } from '../../types'
-import PageHeader from '../UI/PageHeader'
 
 const TODAY = new Date()
 const YEAR = TODAY.getFullYear()
@@ -43,21 +42,6 @@ export default function Calendar() {
     },
   }
 
-  const { data, loading } = useQuery<EventsQueryType>(getEvents, {
-    variables,
-  })
-
-  const events = filterEvents(data?.events, filters)
-  const cities = Array.from(
-    new Set(
-      data?.events
-        .map(e => e.city)
-        .filter(e => e)
-        .slice()
-        .sort() || [],
-    ),
-  )
-
   const title = 'Events'
 
   return (
@@ -71,39 +55,42 @@ export default function Calendar() {
         ]}
       />
       <PageContent
-        loading={loading}
-        notFound={!data}
         notFoundMessage="Sorry, the calendar was not found"
         style={{ height: '90%', paddingLeft: 10, paddingRight: 10 }}
       >
-        <BigCalendar
-          formats={{
-            timeGutterFormat: 'HH:mm',
-          }}
-          localizer={momentLocalizer(moment)}
-          //@ts-expect-error
-          events={events}
-          style={{ height: '100%' }}
-          views={['month', 'week']}
-          showAllEvents={true}
-          onSelectEvent={(event: CalendarEvent) => {
-            setModalEventSignUp({ eventId: event.id, visible: true })
-          }}
-          onView={view => setView(view)}
-          onNavigate={newDate => setSelectedMonth(newDate.getMonth())}
-          components={{
-            dateCellWrapper: DateCellWrapper,
-            eventWrapper: props => EventWrapper({ view, ...props }),
-            toolbar: props =>
-              ToolbarWrapper({
-                ...props,
-                cities,
-                isFilterBarOpened,
-                setIsFilterBarOpened,
-                filters,
-                setFilters,
-              }),
-          }}
+        <DateChangeWrapper
+          filters={filters}
+          variables={variables}
+          render={(events: any, cities: any) => (
+            <BigCalendar
+              formats={{
+                timeGutterFormat: 'HH:mm',
+              }}
+              localizer={momentLocalizer(moment)}
+              events={events}
+              style={{ height: '100%' }}
+              views={['month', 'week']}
+              showAllEvents={true}
+              onSelectEvent={(event: CalendarEvent) => {
+                setModalEventSignUp({ eventId: event.id, visible: true })
+              }}
+              onView={view => setView(view)}
+              onNavigate={newDate => setSelectedMonth(newDate.getMonth())}
+              components={{
+                dateCellWrapper: DateCellWrapper,
+                eventWrapper: props => EventWrapper({ view, ...props }),
+                toolbar: props =>
+                  ToolbarWrapper({
+                    ...props,
+                    cities,
+                    isFilterBarOpened,
+                    setIsFilterBarOpened,
+                    filters,
+                    setFilters,
+                  }),
+              }}
+            />
+          )}
         />
 
         {modalEventSignUp.eventId && (

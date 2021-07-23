@@ -17,7 +17,7 @@ export default function QrWiFi() {
       <div style={{ width: 100, height: 100 }}>
         <img style={{ width: 100, height: 100 }} src={GuestWiFi} alt="qr-code" />
       </div>
-      <span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>Syncretis Guest WiFi QR</span>
+      <span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>Syncretis Guest WiFi password: JPhfsR8n</span>
     </div>
   )
 }

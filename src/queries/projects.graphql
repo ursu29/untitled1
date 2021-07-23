@@ -1,0 +1,38 @@
+fragment ProjectDetails on Project {
+  id
+  name
+  code
+  description
+}
+
+query getProjectByCode($code: String!) {
+  projectByCode(code: $code) {
+    ...ProjectDetails
+    scrumMasters {
+      id
+      email
+    }
+    employeeProjects {
+      id
+      capacity
+      isExtraCapacity
+      employee {
+        id
+        email
+        name
+      }
+    }
+  }
+}
+
+mutation updateProject($input: UpdateProjectInput!) {
+  updateProject(input: $input) {
+    id
+  }
+}
+
+mutation createProject($input: CreateProjectInput!) {
+  createProject(input: $input) {
+    id
+  }
+}

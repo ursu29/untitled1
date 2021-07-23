@@ -4,6 +4,11 @@
   font-weight: 400;
 }
 
+.employee-card .ant-card-meta {
+  display: flex;
+  align-items: center;
+}
+
 .employee-card .ant-card-meta-description {
   font-size: 12px;
 }

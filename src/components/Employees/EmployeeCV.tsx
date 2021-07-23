@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import { Row, Col } from 'antd'
+import { Row, Col, Divider } from 'antd'
 import React from 'react'
 import { Employee, Level } from '../../types/graphql'
 import { useGetCvQuery } from '../../queries/cv'
@@ -81,11 +81,22 @@ const EmployeeCV = ({ employee, editable }: PropsGeneral) => {
         </div>
       )}
       <Row gutter={16}>
-        <Col sm={8}>
+        <Col sm={7} style={{ paddingRight: 0 }}>
           <EmployeeCVSkills experiences={experiences} />
           <EmployeeCVLanguages editable={editable} employee={employee} cv={cv} />
         </Col>
-        <Col sm={16}>
+        <Col sm={1} style={{ padding: 0, maxWidth: '32px' }}>
+          <Divider
+            type="vertical"
+            style={{
+              width: '1px',
+              height: '100%',
+              margin: '0 16px',
+              padding: 0,
+            }}
+          />
+        </Col>
+        <Col sm={16} style={{ paddingLeft: 0 }}>
           <EmployeeCVSummary editable={editable} employee={employee} cv={cv} />
           <EmployeeCVExperience
             employee={employee}
@@ -94,7 +105,7 @@ const EmployeeCV = ({ employee, editable }: PropsGeneral) => {
             editable={editable}
           />
         </Col>
-        <Col sm={24}>
+        <Col sm={24} style={{ marginTop: 32 }}>
           <EmployeeCVCertificates editable={editable} employee={employee} cv={cv} />
           <EmployeeCVEducation editable={editable} employee={employee} cv={cv} />
         </Col>

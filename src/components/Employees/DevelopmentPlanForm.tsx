@@ -126,7 +126,7 @@ function DevelopmentPlanForm({ value, onChange, locked, resetFields }: Props) {
             <div>
               <Form.Item name={['developmentRoles', 'javaDeveloper']} valuePropName="checked">
                 <Checkbox disabled={locked} onChange={form.submit}>
-                  Java Develope
+                  Java Developer
                 </Checkbox>
               </Form.Item>
             </div>

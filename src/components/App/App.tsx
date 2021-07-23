@@ -1,23 +1,21 @@
 import {
   ApolloClient,
   ApolloProvider,
+  HttpLink,
   InMemoryCache,
   InMemoryCacheConfig,
-  HttpLink,
 } from '@apollo/client'
-import { setContext } from '@apollo/client/link/context'
+import { onError } from '@apollo/client/link/error'
 import React, { useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { GATEWAY } from '../../config'
-import Oauth from './Oauth'
-import Root from './Root'
-import { TokenProvider } from '../../utils/withToken'
-import { onError } from '@apollo/client/link/error'
 import { YMInitializer } from 'react-yandex-metrika'
+import { GATEWAY } from '../../config'
+import SplashScreen from '../UI/SplashScreen'
 import Metrics from './Metrics'
+import Root from './Root'
+import { setContext } from '@apollo/client/link/context'
 
 const timezoneOffset = new Date().getTimezoneOffset()
-const timezoneOffsetKey = 'x-timezone-offset'
 
 const httpLink = new HttpLink({
   uri: GATEWAY + '/graphql',
@@ -53,62 +51,58 @@ const cacheConfig: InMemoryCacheConfig = {
   },
 }
 
-const App: React.FC = () => {
-  const [tokenExpired, setTokenExpired] = useState(false)
-  return (
-    <Oauth>
-      {(token: string) => {
-        const authLink = setContext((_, { headers }) => {
-          return {
-            credentials: 'same-origin',
-            headers: {
-              ...headers,
-              authorization: token ? `Bearer ${token}` : '',
-              [timezoneOffsetKey]: timezoneOffset,
-              'dev-only-user-role': localStorage.getItem('devOnlyUserRole') || 'off',
-            },
-          }
-        })
+export default function App() {
+  const [errorCode, setErrorCode] = useState<number>()
 
-        const errorLink = onError(({ graphQLErrors, networkError }) => {
-          if (graphQLErrors)
-            graphQLErrors.forEach(({ message, locations, path }) => {
-              if (message.includes('401: Unauthorized')) {
-                // this error comes from Azure. this is client only handler
-                console.info('probably token was expired')
-                setTokenExpired(true)
-              }
-              console.log(
-                `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-              )
-            })
-          if (networkError) console.log(`[Network error]: ${networkError}`)
-        })
+  const authLink = setContext((_, { headers }) => {
+    return {
+      credentials: 'same-origin',
+      headers: {
+        ...headers,
+        'x-timezone-offset': timezoneOffset,
+        'dev-only-user-role': localStorage.getItem('devOnlyUserRole') || 'off',
+      },
+    }
+  })
 
-        const client = new ApolloClient({
-          link: errorLink.concat(authLink).concat(httpLink),
-          cache: new InMemoryCache(cacheConfig),
-        })
-
-        return (
-          <Router>
-            <ApolloProvider client={client}>
-              <TokenProvider token={token}>
-                <Root tokenExpired={tokenExpired} />
-                {process.env.REACT_APP_YANDEX_METRIKA && <Metrics />}
-              </TokenProvider>
-            </ApolloProvider>
-            {process.env.REACT_APP_YANDEX_METRIKA && (
-              <YMInitializer
-                accounts={[Number(process.env.REACT_APP_YANDEX_METRIKA)]}
-                options={{ webvisor: true }}
-              />
-            )}
-          </Router>
+  const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors)
+      graphQLErrors.forEach(error => {
+        if (error.extensions?.code === 'UNAUTHENTICATED') {
+          console.error(`401: UNAUTHENTICATED`)
+        }
+        console.error(
+          `[GraphQL error]: Message: ${error.message}, Location: ${error.locations}, Path: ${error.path}`,
         )
-      }}
-    </Oauth>
+      })
+    if (networkError) {
+      console.error(`[Network error]: ${networkError}`)
+      if ((networkError as any)?.statusCode === 401) setErrorCode(401)
+    }
+  })
+
+  const client = new ApolloClient({
+    link: errorLink.concat(authLink).concat(httpLink),
+    cache: new InMemoryCache(cacheConfig),
+  })
+
+  if (errorCode === 401) {
+    window.location.href = `${GATEWAY}/auth/microsoft`
+    return <SplashScreen />
+  }
+
+  return (
+    <Router>
+      <ApolloProvider client={client}>
+        <Root />
+        {process.env.REACT_APP_YANDEX_METRIKA && <Metrics />}
+      </ApolloProvider>
+      {process.env.REACT_APP_YANDEX_METRIKA && (
+        <YMInitializer
+          accounts={[Number(process.env.REACT_APP_YANDEX_METRIKA)]}
+          options={{ webvisor: true }}
+        />
+      )}
+    </Router>
   )
 }
-
-export default App

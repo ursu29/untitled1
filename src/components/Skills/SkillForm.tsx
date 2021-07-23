@@ -27,7 +27,7 @@ const SkillForm = ({ onSubmit, skill, loading }: Props) => {
         </Form.Item>
       )}
       <Row gutter={16}>
-        <Col>
+        <Col span={24}>
           <Form.Item
             label="Name"
             name="name"
@@ -43,7 +43,7 @@ const SkillForm = ({ onSubmit, skill, loading }: Props) => {
         </Col>
       </Row>
       <Row gutter={16}>
-        <Col>
+        <Col span={24}>
           <Form.Item label="Description" name="description">
             <Input.TextArea
               rows={4}
@@ -54,7 +54,7 @@ const SkillForm = ({ onSubmit, skill, loading }: Props) => {
         </Col>
       </Row>
       <Row gutter={16}>
-        <Col>
+        <Col span={24}>
           <Form.Item label="Parent skill" name="parent">
             <SkillSelect wide />
           </Form.Item>

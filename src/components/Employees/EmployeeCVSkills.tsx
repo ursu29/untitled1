@@ -15,14 +15,14 @@ type Props = {
 
 const EmployeeCVSkills = ({ experiences }: Props) => {
   return (
-    <>
-      <Title level={4}>
+    <div style={{ marginBottom: 24 }}>
+      <Title level={4} style={{ marginBottom: 16 }}>
         <AboutTooltip title="Generated according Confident In and Experienced skills in your profile">
           Skills
         </AboutTooltip>
       </Title>
       <SkillsCollapsed experiences={experiences || []} amount={15} />
-    </>
+    </div>
   )
 }
 

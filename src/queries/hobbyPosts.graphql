@@ -22,6 +22,8 @@ fragment HobbyPostPreview on HobbyPost {
     id
     name
   }
+  eventDate
+  eventLocation
 }
 
 fragment HobbyPostBase on HobbyPost {
