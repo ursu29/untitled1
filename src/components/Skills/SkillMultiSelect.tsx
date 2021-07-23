@@ -62,7 +62,7 @@ function convertSkillsToTreeValue(skills?: SkillPick[]) {
 
 function getFilteredSkills(skills?: SkillPick[], hasUserInput: boolean = false) {
   if (skills && (skills?.length || 0) > 10 && !hasUserInput) {
-    return skills.filter((skill: SkillPick, index) => index < 10)
+    return skills.slice(0, 10)
   }
   return skills
 }
