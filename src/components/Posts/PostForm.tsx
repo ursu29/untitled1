@@ -26,6 +26,7 @@ interface Props {
 export default function PostForm({ values: post, loading, onSubmit }: Props) {
   const [form] = Form.useForm()
   const [preview, setPreview] = useState(false)
+  const [bodyValidationError, setBodyValidationError] = useState(false)
 
   const [uploadedImg, setUploadedImg] = useState<any>()
 
@@ -126,6 +127,7 @@ export default function PostForm({ values: post, loading, onSubmit }: Props) {
               ? `![${uploadedImg?.name?.split('.')[0]}](${uploadedImg?.url})`
               : undefined
           }
+          validationError={bodyValidationError}
         />
       </Form.Item>
       <Form.Item
@@ -193,7 +195,16 @@ export default function PostForm({ values: post, loading, onSubmit }: Props) {
       </Row>
       <Row justify="end">
         <Col>
-          <Button loading={loading} type="primary" htmlType="submit" data-cy="preview">
+          <Button
+            loading={loading}
+            type="primary"
+            htmlType="submit"
+            data-cy="preview"
+            onClick={() => {
+              const bodyError = form.getFieldError('body')
+              setBodyValidationError(!!bodyError.length)
+            }}
+          >
             Preview & publish
           </Button>
         </Col>

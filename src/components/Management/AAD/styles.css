@@ -1,0 +1,13 @@
+.date-picker-no-year .ant-picker-year-btn,
+.date-picker-no-year .ant-picker-header-prev-btn,
+.date-picker-no-year .ant-picker-header-next-btn,
+.date-picker-no-year .ant-picker-header-super-prev-btn,
+.date-picker-no-year .ant-picker-header-super-next-btn {
+  display: none;
+}
+
+.ant-input-disabled,
+.ant-select-disabled * {
+  cursor: default !important;
+  color: rgb(0 0 0 / 70%) !important;
+}

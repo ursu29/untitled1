@@ -1,15 +1,21 @@
+import { Radio, Tabs } from 'antd'
 import React, { useState } from 'react'
-import Employees from './Employees'
-import Agile from './Agile'
-import Scrum from './Scrum'
+import AzureLogo from '../../svg/azure-logo.svg'
+import URLAction from '../../utils/URLAction'
+import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
 import PageContent from '../UI/PageContent'
 import PageHeader from '../UI/PageHeader'
-import { Tabs } from 'antd'
-import URLAction from '../../utils/URLAction'
+import AAD from './AAD'
+import Agile from './Agile'
+import Employees from './Employees'
+import Scrum from './Scrum'
 
 export default function Management() {
   const urlAction = new URLAction()
   const [view, setView] = useState(urlAction.paramsGet('tab') || 'employees')
+  const [aadSection, setAadSection] = useState<'users' | 'groups'>('users')
+  const isGeneralAccess = useStrapiGroupCheck('SUPER_USER')
+  const isAADAccess = useStrapiGroupCheck('AAD_EDITORS')
 
   return (
     <>
@@ -21,13 +27,48 @@ export default function Management() {
             setView(key)
             urlAction.paramsSet('tab', key)
           }}
-          tabBarStyle={{ padding: '0 0 0 24px' }}
+          tabBarStyle={{ padding: '0 24px 0 24px' }}
+          tabBarExtraContent={
+            view === 'aad' ? (
+              <Radio.Group onChange={e => setAadSection(e.target.value)} defaultValue={aadSection}>
+                <Radio.Button value="users">Users</Radio.Button>
+                <Radio.Button value="groups">Groups</Radio.Button>
+              </Radio.Group>
+            ) : undefined
+          }
         >
-          <Tabs.TabPane tab="Employees" key="employees" />
-          <Tabs.TabPane tab="Agile Managers" key="agile" />
-          <Tabs.TabPane tab="Scrum Masters" key="scrum" />
+          {isGeneralAccess && (
+            <>
+              <Tabs.TabPane tab="Employees" key="employees" />
+              <Tabs.TabPane tab="Agile Managers" key="agile" />
+              <Tabs.TabPane tab="Scrum Masters" key="scrum" />
+            </>
+          )}
+          {isAADAccess && (
+            <Tabs.TabPane
+              tab={
+                <span
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    fontWeight: 600,
+                  }}
+                >
+                  <img
+                    style={{ width: 24, height: 24, marginRight: 4 }}
+                    src={AzureLogo}
+                    alt="azure-logo"
+                  />
+                  Azure AD
+                </span>
+              }
+              key="aad"
+            />
+          )}
         </Tabs>
 
+        {view === 'aad' && <AAD view={aadSection} />}
         {view === 'employees' && <Employees />}
         {view === 'agile' && <Agile />}
         {view === 'scrum' && <Scrum />}

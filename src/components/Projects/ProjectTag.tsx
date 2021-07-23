@@ -57,7 +57,7 @@ export default function ProjectTag({
             fontSize: isLarge ? 18 : 14,
             lineHeight: isLarge ? '24px' : '20px',
             padding: isLarge ? '5px 20px' : '4px 10px',
-            marginRight: isLarge ? 16 : 10,
+            marginRight: isLarge ? 16 : 8,
             userSelect: 'none',
             maxWidth: '100%',
             ...style,

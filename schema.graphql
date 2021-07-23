@@ -55,6 +55,7 @@ enum AllowedGroups {
   SYS_ADMINS
   SUPER_USER
   LIBRARIAN
+  AAD_EDITORS
 }
 
 type ArchiveDP {
@@ -236,6 +237,18 @@ input CreateDevrelInput {
   skills: [ID!]
 }
 
+input CreateEmployeeInput {
+  email: String
+  name: String
+  firstName: String
+  lastName: String
+}
+
+input CreateEmployeeProjectsInput {
+  employeeMail: String
+  projectId: String
+}
+
 input CreateEvaluationReviewerInput {
   fromWho: ID
   toWhom: ID
@@ -264,6 +277,12 @@ input CreateExperienceInput {
   comment: String
 }
 
+input CreateGuildInput {
+  displayName: String
+  description: String
+  members: [String!]
+}
+
 input CreateHobbyInput {
   name: String!
   description: String
@@ -274,6 +293,8 @@ input CreateHobbyPostInput {
   body: String!
   hobbies: [ID!]!
   language: LANGUAGE!
+  eventDate: String
+  eventLocation: String
 }
 
 input CreateMatrixGradeInput {
@@ -350,6 +371,13 @@ input CreateProcessInput {
 input CreateProcessStepInput {
   parentSteps: [ID]
   process: ID!
+}
+
+input CreateProjectInput {
+  displayName: String!
+  description: String
+  email: String
+  members: [String!]
 }
 
 input CreateSkillInput {
@@ -507,6 +535,8 @@ type DevelopmentRoles {
   uxExpert: Boolean
   productOwner: Boolean
   dataAnalyst: Boolean
+  supportEngineer: Boolean
+  otherAreas: String
 }
 
 input DevelopmentRolesInput {
@@ -527,6 +557,8 @@ input DevelopmentRolesInput {
   uxExpert: Boolean
   productOwner: Boolean
   dataAnalyst: Boolean
+  supportEngineer: Boolean
+  otherAreas: String
 }
 
 type Devrel {
@@ -606,6 +638,7 @@ type EmployeeProject {
   capacity: Int
   isExtraCapacity: Boolean
   project: Project
+  employee: Employee
 }
 
 input EmployeeProjectInput {
@@ -862,6 +895,8 @@ type HobbyPost {
   language: LANGUAGE!
   comments: [HobbyPostComment!]
   editable: Boolean!
+  eventDate: String
+  eventLocation: String
 }
 
 type HobbyPostComment {
@@ -1019,6 +1054,10 @@ type Mutation {
   updateDevelopmentPlanReviewers(input: ReviewerInput): [Employee!]
   updateMatricesReviewers(input: ReviewerInput): [Employee!]
   updateEmployee(input: UpdateEmployeeInput!): Employee
+  createEmployee(input: CreateEmployeeInput!): Employee
+  updateEmployeeProjects(input: [UpdateEmployeeProjectsInput!]!): [EmployeeProject]
+  removeEmployeeProjects(ids: [String!]!): [EmployeeProject]
+  createEmployeeProjects(input: [CreateEmployeeProjectsInput!]!): [EmployeeProject]
   createEvaluationReviewer(input: CreateEvaluationReviewerInput): [EvaluationReviewer]
   deleteEvaluationReviewer(input: DeleteEvaluationReviewerInput): EvaluationReviewer
   evaluate(input: EvaluateInput!): Evaluation
@@ -1040,6 +1079,7 @@ type Mutation {
   startGame(input: StartGameInput!): StartGame!
   updateGameScore(input: UpdateScoreInput!): GameScore!
   updateGuild(input: UpdateGuildInput): Guild
+  createGuild(input: CreateGuildInput): Guild
   createHobby(input: CreateHobbyInput!): Hobby
   updateHobby(input: UpdateHobbyInput!): Hobby
   joinHobby(input: JoinHobbyInput!): Hobby
@@ -1076,6 +1116,12 @@ type Mutation {
   createPost(input: CreatePostInput): Post
   updatePost(input: UpdatePostInput): Post
   deletePost(input: DeletePostInput): Post
+  createProcess(input: CreateProcessInput): Process
+  updateProcess(input: UpdateProcessInput): Process
+  deleteProcess(id: ID!): Process
+  createProcessStep(input: CreateProcessStepInput): ProcessStep
+  updateProcessStep(input: UpdateProcessStepInput): ProcessStep
+  deleteProcessStep(id: ID!): ProcessStep
   createProcessExecution(input: CreateProcessExecutionInput): ProcessExecution
   updateProcessExecution(input: UpdateProcessExecutionInput): ProcessExecution
   abortProcessExecution(input: AbortProcessExecutionInput!): ProcessExecution
@@ -1084,14 +1130,9 @@ type Mutation {
   completeProcessExecutionStep(input: CompleteProcessExecutionStepInput!): ProcessExecutionStep
   commentProcessExecutionStep(input: CommentProcessExecutionStepInput!): ProcessExecutionStep
   deleteHrVacancy(id: ID!): ProcessExecution
-  createProcess(input: CreateProcessInput): Process
-  updateProcess(input: UpdateProcessInput): Process
-  deleteProcess(id: ID!): Process
-  createProcessStep(input: CreateProcessStepInput): ProcessStep
-  updateProcessStep(input: UpdateProcessStepInput): ProcessStep
-  deleteProcessStep(id: ID!): ProcessStep
   updateProject(input: UpdateProjectInput!): Project
   updateProjectSkills(input: UpdateProjectSkillsInput!): Project
+  createProject(input: CreateProjectInput!): Project
   createSkill(input: CreateSkillInput): Skill
   updateSkill(input: UpdateSkillInput): Skill
   deleteSkill(input: DeleteSkillInput!): Skill
@@ -1273,6 +1314,7 @@ type Project {
   access: Access
   scrumMasters: [Employee!]
   accessEditGlobal: Boolean
+  employeeProjects: [EmployeeProject!]
 }
 
 input ProposeDevrelEventInput {
@@ -1346,12 +1388,12 @@ type Query {
   postBySlug(slug: String!): Post
   posts(first: Int, after: ID, filter: PostsFilter): [Post]
   postsEditor: Access @deprecated(reason: "will be moved to employee.access.posts")
-  processExecutionsAccess: Access
-  processExecution(id: ID!): ProcessExecution
-  processExecutions(input: ProcessExecutionsInput): [ProcessExecution]
   processesAccess: Access
   process(id: ID!): Process
   processes: [Process]
+  processExecutionsAccess: Access
+  processExecution(id: ID!): ProcessExecution
+  processExecutions(input: ProcessExecutionsInput): [ProcessExecution]
   project(id: ID!): Project
   projectByCode(code: String!): Project
   projects: [Project]
@@ -1530,6 +1572,18 @@ input UpdateEmployeeInput {
   lastManagerMeeting: String
   one2oneRequest: Boolean
   employeeProjects: [EmployeeProjectInput!]
+  addEmployeeProjects: [ID!]
+  removeEmployeeProjects: [ID!]
+  email: String
+  name: String
+  firstName: String
+  lastName: String
+}
+
+input UpdateEmployeeProjectsInput {
+  id: ID!
+  capacity: Int
+  isExtraCapacity: Boolean
 }
 
 input UpdateEventInput {
@@ -1561,6 +1615,7 @@ input UpdateExperiencesInput {
 
 input UpdateGuildInput {
   azureDisplayName: String!
+  displayName: String
   title: String
   description: String
   shortDescription: String
@@ -1580,6 +1635,8 @@ input UpdateHobbyPostInput {
   body: String
   hobbies: [ID!]
   language: LANGUAGE!
+  eventDate: String
+  eventLocation: String
 }
 
 input UpdateMatricesCustomFieldsInput {
@@ -1658,6 +1715,8 @@ input UpdateProcessStepInput {
 input UpdateProjectInput {
   id: ID!
   scrumMasters: [String]
+  displayName: String
+  description: String
 }
 
 input UpdateProjectSkillsInput {

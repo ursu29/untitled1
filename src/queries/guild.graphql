@@ -1,0 +1,11 @@
+mutation createGuild($input: CreateGuildInput!) {
+  createGuild(input: $input) {
+    id
+  }
+}
+
+mutation updateGuild($input: UpdateGuildInput!) {
+  updateGuild(input: $input) {
+    id
+  }
+}
