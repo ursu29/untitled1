@@ -104,6 +104,7 @@ const EmployeeCVEducationTable = ({
       loading={loading}
       columns={columns}
       onRowSubmit={onSubmit}
+      className="low-header"
     />
   )
 }

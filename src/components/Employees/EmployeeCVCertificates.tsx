@@ -112,6 +112,7 @@ const EmployeeCVCertificatesTable = ({
       loading={loading}
       columns={columns}
       onRowSubmit={handleEdit}
+      className="low-header"
     />
   )
 }

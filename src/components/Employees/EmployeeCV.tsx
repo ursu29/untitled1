@@ -15,6 +15,7 @@ import { useGetEmployeeQuery } from '../../queries/employees'
 import getLocationName from '../../utils/getLocationName'
 import EmployeeCVSkills from './EmployeeCVSkills'
 import EmployeeCVLanguages from './EmployeeCVLanguages'
+import './employee-cv.css'
 
 const levelSorting = [Level.Confident, Level.Experienced, Level.Learning, Level.Wanted]
 
