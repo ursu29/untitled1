@@ -33,9 +33,7 @@ const { Option } = Select
 const dateFormatList = ['DD.MM.YYYY']
 const DATE_MONTH_FORMAT = 'MMM YYYY'
 const dateToISO = (date: string) => {
-  console.log(date)
   const dateObj = new Date(date)
-  console.log(dateObj.toISOString())
   return dateObj.toISOString()
 }
 
@@ -568,8 +566,6 @@ const ProjectDetailedForm = ({
   const dateEnd = data.dateEnd
     ? moment(moment(data.dateEnd), dateFormatList).locale('en')
     : undefined
-
-  if (data.company === 'Sidenis' && !data.project) console.log(dateStart, dateEnd)
 
   if (!editable) {
     return (

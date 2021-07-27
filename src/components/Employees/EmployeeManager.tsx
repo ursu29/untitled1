@@ -30,7 +30,7 @@ export default function EmployeeManager({ employee }: Props) {
 
   const [one2oneRequest] = useUpdateEmployeeMutation({
     onCompleted: () => message.success('Requested'),
-    refetchQueries: [{ query: queryOne2oneRequest }],
+    refetchQueries: [{ query: queryOne2oneRequest, variables: { email: employee?.email } }],
     onError: message.error,
   })
 
