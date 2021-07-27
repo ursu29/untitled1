@@ -8,7 +8,6 @@ describe('add reviewer to SEF (sef)', () => {
 
     before(() => {
         cy.setToken('manager')
-        cy.setImgToken('manager')
 
         cy.post(getEmployee(email('employee'))).then(res => {
             const {employeeByEmail} = res.body.data
@@ -29,7 +28,7 @@ describe('add reviewer to SEF (sef)', () => {
     })
 
     it('successfully added new reviewer', () => {
-        cy.visit(`/employees/${employeeEmail}/evaluation?tab=evaluation`)
+        cy.visit(`/employees/${employeeEmail}/subtab=evaluation?subtab=evaluation`)
         cy.addRole()
 
         cy.getResponse(['getEmployees'], 'alias')

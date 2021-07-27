@@ -3,7 +3,6 @@ import {employeeAccess} from "../../../support/locators";
 describe('check manager access', () => {
     before(() => {
         cy.setToken('manager')
-        cy.setImgToken('manager')
 
         cy.visit(employeeAccess.employeeUrl)
         cy.addRole()

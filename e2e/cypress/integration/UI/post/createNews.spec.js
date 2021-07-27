@@ -7,7 +7,6 @@ describe('Create a new post', () => {
 
   before(() => {
     cy.setToken('manager')
-    cy.setImgToken('manager')
 
     cy.visit('/feed')
 

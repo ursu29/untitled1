@@ -12,7 +12,6 @@ describe('Check management page', () => {
 
   before(() => {
     cy.setToken('manager')
-    cy.setImgToken('manager')
 
     cy.getResponse(['employees', 'agileManager'], 'alias')
     cy.visit('/management')
@@ -26,10 +25,10 @@ describe('Check management page', () => {
   })
 
   beforeEach(() => {
-    cy.restoreLocalStorage()
+    cy.addHeadersAuth()
   })
   afterEach(() => {
-    cy.saveLocalStorage()
+    cy.addHeadersAuth()
   })
 
   it('Check initial filter state', () => {

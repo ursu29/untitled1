@@ -27,12 +27,10 @@ describe('Check bookmarks', () => {
     })
   })
 
-  it('check request body', () => {
+  it('Check bookmarks data', () => {
     checkTwoString(query.getBookmarks, request.query)
     expect(request.operationName).equal(getBookmarks().operationName)
-  })
 
-  it('Check bookmarks data', () => {
     cy.get('.ant-tabs-tab').eq(1).should('have.class', 'ant-tabs-tab-active')
 
     const { bookmarks } = response

@@ -7,7 +7,6 @@ describe('Create a new training (training)', () => {
 
     before(() => {
         cy.setToken('manager')
-        cy.setImgToken('manager')
 
         cy.visit('/onboarding')
 

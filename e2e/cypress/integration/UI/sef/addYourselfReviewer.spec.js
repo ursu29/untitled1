@@ -2,14 +2,13 @@ import {matrix, notificationsText, skillEl as feedbackEl} from '../../../support
 import {deleteReviewer, getEmployee} from "../../../support/getData";
 import {addNewReviewer} from "../../../support/complexLocators";
 import {email} from "../../../support/client/employeeData";
-import {getTabUrl} from '../../../support/utils'
+import { getSubTabUrl } from '../../../support/utils'
 
 describe('add reviewer to SEF by yourself (sef)', () => {
     let employeeData
 
     before(() => {
         cy.setToken('manager')
-        cy.setImgToken('manager')
 
         cy.post(getEmployee(email('employee'))).then(res => {
             employeeData = res.body.data.employeeByEmail
@@ -19,7 +18,7 @@ describe('add reviewer to SEF by yourself (sef)', () => {
     })
 
     it('cannot to add reviewer', () => {
-        cy.visit(getTabUrl('evaluation'))
+        cy.visit(getSubTabUrl('career', '/profile', 'evaluation'))
         cy.addRole()
 
         cy.getResponse(['getEmployees'], 'alias')

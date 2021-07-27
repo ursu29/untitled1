@@ -9,7 +9,6 @@ describe('under-menu looks good', () => {
   })
   before(() => {
     cy.setToken('employee')
-    cy.setImgToken('employee')
 
     cy.post(getAllSkills()).then(res => {
       const { skills } = res.body.data

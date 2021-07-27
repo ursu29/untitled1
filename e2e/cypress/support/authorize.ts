@@ -40,21 +40,10 @@ export const setToken = (employeeType: string) => {
   }
 }
 
-export const setImgToken = (employeeType: string) => {
-  const req =
-    employeeType === 'employee'
-      ? cy.request(requestData('employee_username', 'employee_password', 'img_scope'))
-      : cy.request(requestData('manager_username', 'manager_password', 'img_scope'))
-
-  req.its('body.access_token').then(token => {
-    localStorage.setItem('img_token', token)
-  })
-}
-
 export const saveLocalStorage = () =>
   Object.keys(localStorage).forEach(key => (LOCAL_STORAGE_MEMORY[key] = localStorage[key]))
 
-export const restoreLocalStorage = () =>
+export const reSaveAuthHeaders = () =>
   Object.keys(LOCAL_STORAGE_MEMORY).forEach(key =>
     localStorage.setItem(key, LOCAL_STORAGE_MEMORY[key]),
   )

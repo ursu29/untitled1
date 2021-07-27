@@ -25,13 +25,6 @@ describe('Send notification to Employee when employee started rotation process (
         })
     })
 
-    beforeEach(() => {
-        cy.restoreLocalStorage()
-    })
-    afterEach(() => {
-        cy.saveLocalStorage()
-    })
-
     it('successfully send rotate Request', () => {
         cy.setToken('employee')
         cy.post(getData.rotateRequest(

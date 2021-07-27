@@ -9,7 +9,6 @@ describe('Close oneTwoOne meeting (oneTwoOne)', () => {
 
     before(() => {
         cy.setToken('employee')
-        cy.setImgToken('employee')
         cy.post(getEmployee(email('employee'))).then(res => {
             employeeId = res.body.data.employeeByEmail.id
 
@@ -21,7 +20,6 @@ describe('Close oneTwoOne meeting (oneTwoOne)', () => {
 
     it('To accept a new meeting', () => {
         cy.setToken('manager')
-        cy.setImgToken('manager')
         cy.visit(getTabUrl('employees'))
 
         cy.get(oneTwoOneLocators.closeOneTwoOne).eq(0).click()

@@ -12,28 +12,19 @@ describe('create new book', () => {
         cy.visit('/library')
     })
 
-    beforeEach(() => {
-        cy.restoreLocalStorage()
-    })
-    afterEach(() => {
-        cy.saveLocalStorage()
-    })
-
     after(() => {
         cy.post(removeBook(bookId), 'superUser').then(req => {
             expect(bookId).equal(req.body.data.removeBook.id)
         })
     })
 
-    it('required fields are present', () => {
+    it('successfully create new book', () => {
         ;['addBook', 'submitBookModal'].forEach(el => cy.getElement(el).click())
 
         cy.get(hrTool.errorMess).should('be.visible')
-    })
 
-    it('successfully create new book', () => {
         elements.forEach( el => cy.getId(el).type('kozub'))
-        cy.get(postEl.itemsSelect).click()
+        cy.get(postEl.itemsSelect).first().click()
 
         cy.getResponse(['createBook'], 'alias')
         cy.getElement('submitBookModal').click()

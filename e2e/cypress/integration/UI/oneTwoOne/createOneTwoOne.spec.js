@@ -7,7 +7,6 @@ describe('Create new oneTwoOne (oneTwoOne)', () => {
 
     before(() => {
         cy.setToken('employee')
-        cy.setImgToken('employee')
         cy.post(getEmployee(email('employee'))).then(res => employeeId = res.body.data.employeeByEmail.id)
     })
 

@@ -4,13 +4,10 @@ import { checkKeyValueExist } from '../../support/complexLocators'
 import {
   matrixEmployees,
   skillData,
-  matrix,
-  matrixBody,
   grade,
   group,
-  skills,
 } from '../../support/client/matrices'
-import {checkTwoString, getTabUrl} from '../../support/utils'
+import { checkTwoString, getSubTabUrl } from '../../support/utils'
 import { query } from '../../fixtures/query'
 
 describe(`Check employee matrices`, () => {
@@ -22,7 +19,6 @@ describe(`Check employee matrices`, () => {
 
   before(() => {
     cy.setToken('employee')
-    cy.setImgToken('employee')
 
     cy.post(getEmployee(email('employee'))).then(res => {
       const { data } = res.body
@@ -30,16 +26,11 @@ describe(`Check employee matrices`, () => {
       employeeData = { ...data.employeeByEmail }
     })
     cy.getResponse([OPERATION_NAME], 'alias')
-    cy.visit(getTabUrl('matrices'))
+    cy.visit(getSubTabUrl('career', '/profile', 'matrices'))
     cy.wait(`@alias`).then(val => {
       response = val.response.body.data
       request = val.request.body
     })
-  })
-
-  it('check request body', () => {
-    checkTwoString(query.getAllEmployeeMatrices, request.query)
-    expect(request.operationName).equal(OPERATION_NAME)
   })
 
   it('Check matrixEmployees keys', () => {
@@ -48,11 +39,6 @@ describe(`Check employee matrices`, () => {
 
     expect(employees).to.be.a('array')
     cy.compareObjectsKeys(employees[0], matrixEmployees(id, name, __typename))
-  })
-
-  it('Check matrixEmployees values', () => {
-    const { id, name, __typename } = employeeData
-    const { employees } = response
 
     employees.forEach(el => {
       expect(el.matrices).to.be.a('array')
@@ -60,64 +46,18 @@ describe(`Check employee matrices`, () => {
       // employee data is present
       checkKeyValueExist(el, { id, name, __typename })
     })
-  })
 
-  it('Check matrix', () => {
-    const { employees } = response
+    employees[0].matrices.forEach(el => {
+      const {grades, groups, skills} = el.body
 
-    employees.forEach(el =>
-      el.matrices.forEach(val => {
-        cy.compareObjectsKeys(val, matrix)
-        expect(val.__typename).equal(matrix.__typename)
-      }),
-    )
-  })
-
-  it('Check access', () => {
-    const { employees } = response
-
-    employees.forEach(el =>
-      el.matrices.forEach(val => expect(val.access).to.deep.equal(matrix.access)),
-    )
-  })
-
-  it('Check matrixBody', () => {
-    const { employees } = response
-    employees.forEach(el => el.matrices.forEach(val => cy.compareObjectsKeys(val.body, matrixBody)))
-  })
-
-  it('Check grades', () => {
-    const firstEmployee = response.employees[0]
-    //matrixBody
-    firstEmployee.matrices.forEach(el => {
-      const firstGrade = el.body.grades[0]
-
-      cy.compareObjectsKeys(firstGrade, grade)
-      expect(firstGrade.__typename).equal(grade.__typename)
+      cy.compareObjectsKeys(groups[0], group)
+      cy.compareObjectsKeys(grades[0], grade)
+      cy.compareObjectsKeys(skills[0].skill, skillData)
     })
-  })
 
-  it('Check groups', () => {
-    const firstEmployee = response.employees[0]
-    //matrixBody
-    firstEmployee.matrices.forEach(el => {
-      const firstGroup = el.body.groups[0]
-
-      cy.compareObjectsKeys(firstGroup, group)
-      expect(firstGroup.__typename).equal(group.__typename)
-    })
-  })
-
-  it('Check skills', () => {
-    const firstEmployee = response.employees[0]
-    //matrixBody
-    firstEmployee.matrices.forEach(el => {
-      const firstSkill = el.body.skills[0]
-      const { skill } = firstSkill
-
-      cy.compareObjectsKeys(skill, skillData)
-      expect(firstSkill.__typename).equal(skills.__typename)
-      expect(skill.__typename).equal(skillData.__typename)
-    })
+    //check request body
+    checkTwoString(query.getAllEmployeeMatrices, request.query)
+    expect(request.operationName).equal(OPERATION_NAME)
   })
 })
+

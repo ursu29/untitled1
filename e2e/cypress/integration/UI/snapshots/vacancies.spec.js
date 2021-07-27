@@ -4,7 +4,6 @@ import {menuEl} from "../../../support/locators";
 describe('vacancy tab looks god', () => {
   before(() => {
     cy.setToken('employee')
-    cy.setImgToken('employee')
 
     cy.visit('/')
   })

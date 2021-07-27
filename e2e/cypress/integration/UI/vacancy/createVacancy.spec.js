@@ -61,6 +61,13 @@ describe('Create new vacancy', () => {
         })
     })
 
+    beforeEach(() => {
+        cy.addHeadersAuth()
+    })
+    afterEach(() => {
+        cy.addHeadersAuth()
+    })
+
     it('fill all the fields', () => {
         cy.getId(position).clear().type(vacancy.title)
         //project

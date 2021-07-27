@@ -1,5 +1,5 @@
 import { matrix, notificationsText, selfEvalForm } from '../../../support/locators'
-import { getTabUrl } from '../../../support/utils'
+import { getSubTabUrl } from '../../../support/utils'
 import { todaysDate } from '../../../support/officePlanner/officeDays'
 
 describe('update self Evaluation form', () => {
@@ -8,11 +8,17 @@ describe('update self Evaluation form', () => {
 
   before(() => {
     cy.setToken('manager')
-    cy.setImgToken('manager')
+  })
+
+  beforeEach(() => {
+    cy.addHeadersAuth()
+  })
+  afterEach(() => {
+    cy.addHeadersAuth()
   })
 
   it('successfully filled out the form state:Needs ImprovementMeets, requirements, Exceeds requirements', () => {
-    cy.visit(getTabUrl('evaluation'))
+    cy.visit(getSubTabUrl('career', '/profile', 'evaluation'))
 
     ;[needsBtn, meetsBtn, exceedsBtn].forEach(el => {
       cy.getElement(el).first().click({force: true})

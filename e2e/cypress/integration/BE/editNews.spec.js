@@ -10,7 +10,6 @@ describe('Edit news', () => {
 
   before(() => {
     cy.setToken('manager')
-    cy.setImgToken('manager')
     cy.post(getTags()).then(el => allTags = el.body.data.tags)
     cy.getResponse(['getPosts'], 'alias')
     cy.visit('/feed')

@@ -7,7 +7,6 @@ describe('Check Employee', () => {
 
   before(() => {
     cy.setToken('employee')
-    cy.setImgToken('employee')
 
     cy.post(getEmployee(email('employee'))).then(res => {
       const { employeeByEmail } = res.body.data

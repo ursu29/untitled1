@@ -1,4 +1,4 @@
-import {getTabUrl} from '../../../support/utils'
+import { getSubTabUrl } from '../../../support/utils'
 import {
   attachMatrixToEmployee,
   deleteMatrixProposal,
@@ -14,7 +14,7 @@ describe('create proposal by employee', () => {
 
   before(() => {
     cy.setToken('employee')
-    cy.visit(getTabUrl('matrices'))
+    cy.visit(getSubTabUrl('career', '/profile', 'matrices'))
 
     cy.post(getAllMatrices())
       .then(req => matrixData = req.body.data.matrices
@@ -23,7 +23,7 @@ describe('create proposal by employee', () => {
       .then(res => res.body.data.employeeByEmail.id).as('userId')
   })
 
-  after(() => {
+  after(function() {
     cy.setToken('manager')
     cy.wait('@alias').then(req => {
       const {id} = req.response.body.data.createMatrixProposal
@@ -34,24 +34,15 @@ describe('create proposal by employee', () => {
     })
   })
 
-  beforeEach(() => {
-    cy.restoreLocalStorage()
-  })
-  afterEach(() => {
-    cy.saveLocalStorage()
-  })
+  it('create new Proposal', function() {
+    cy.post(attachMatrixToEmployee(matrixData.id, this.userId)).then(_ => {
+      cy.getIcon('bulb').eq(0).click({force: true})
+      cy.get('.ant-input').eq(1).type('Hello world')
+      cy.getResponse(['createMatrixProposal'], 'alias')
+      cy.get('span').contains('Post').click()
 
-  it('attach matrix', function() {
-    cy.post(attachMatrixToEmployee(matrixData.id, this.userId))
-  })
-
-  it('create new Proposal', () => {
-    cy.getIcon('bulb').eq(0).click({force: true})
-    cy.get('.ant-input').eq(1).type('Hello world')
-    cy.getResponse(['createMatrixProposal'], 'alias')
-    cy.get('span').contains('Post').click()
-
-    cy.get(skillEl.successMes).should('be.visible')
-    cy.get(skillEl.successMes).should('have.text', successMessage)
+      cy.get(skillEl.successMes).should('be.visible')
+      cy.get(skillEl.successMes).should('have.text', successMessage)
+    })
   })
 })
