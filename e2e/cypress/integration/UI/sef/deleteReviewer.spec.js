@@ -15,7 +15,7 @@ describe('delete reviewer from SEF (sef)', () => {
     })
 
     it('successfully delete reviewer', () => {
-        cy.visit(`/employees/${employeeData.email}/evaluation?tab=evaluation`)
+        cy.visit(`/employees/${employeeData.email}/subtab=evaluation?subtab=evaluation`)
         cy.addRole()
 
         cy.get('div').contains('delete').click()

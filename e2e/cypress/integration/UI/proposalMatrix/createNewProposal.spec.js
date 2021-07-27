@@ -23,7 +23,7 @@ describe('create proposal by employee', () => {
       .then(res => res.body.data.employeeByEmail.id).as('userId')
   })
 
-  after(() => {
+  after(function() {
     cy.setToken('manager')
     cy.wait('@alias').then(req => {
       const {id} = req.response.body.data.createMatrixProposal
@@ -34,7 +34,7 @@ describe('create proposal by employee', () => {
     })
   })
 
-  it('create new Proposal', () => {
+  it('create new Proposal', function() {
     cy.post(attachMatrixToEmployee(matrixData.id, this.userId)).then(_ => {
       cy.getIcon('bulb').eq(0).click({force: true})
       cy.get('.ant-input').eq(1).type('Hello world')

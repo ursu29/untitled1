@@ -2,7 +2,7 @@ import { getSubTabUrl } from '../../../support/utils'
 import {personalDevLocators, skillEl} from "../../../support/locators";
 import {popUp} from "../../../support/client/employeeData";
 
-describe('delete and add new goals', () => {
+xdescribe('delete and add new goals', () => { // no way to delete goals now
     const {deleteGoals} = personalDevLocators
     before(() => {
         cy.setToken('employee')

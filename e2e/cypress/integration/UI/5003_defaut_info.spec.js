@@ -1,4 +1,3 @@
-import { tabs, workspace } from '../../support/locators'
 import {email} from '../../support/client/employeeData'
 import {getClient, getEmployee, getEmployeeExperiences, getProjects} from "../../support/getData";
 
@@ -60,14 +59,5 @@ describe('Checking default information (e2e)', () => {
       .contains('Agile')
       .should('have.text', employeeByEmail.position)
     cy.getElement('avatar').should('be.visible')
-  })
-
-  it('Check the Teams and Outlook buttons', () => {
-    cy.getElement('mail_button').should('be.visible')
-    cy.getElement('teams_button').should('be.visible')
-  })
-
-  it('Check all tabs', () => {
-    Object.values(tabs).forEach(val => cy.get(workspace.tab).contains(val))
   })
 })

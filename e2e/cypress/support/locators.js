@@ -53,6 +53,7 @@ export const skillEl = {
   iconChecked: '.anticon-check',
   iconEdit: '.anticon-edit',
   successMes: '.ant-message-success',
+  message: '.ant-message',
   skillName: 'skills_name',
   select: '.ant-select-multiple',
   titleTree: '.ant-tree-title',

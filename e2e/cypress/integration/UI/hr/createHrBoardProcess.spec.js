@@ -31,7 +31,6 @@ describe('create new process task', () => {
         cy.getId(prio).click()
         cy.get(option).contains('2').click()
 
-
         cy.getId(processName).click({multiple: true})
         cy.get(option).contains('Portal').click()
 

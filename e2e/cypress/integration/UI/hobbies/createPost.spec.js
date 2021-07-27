@@ -1,4 +1,4 @@
-import { matrix, postEl } from '../../../support/locators'
+import { matrix, postEl, skillEl } from '../../../support/locators'
 import { pastDay, todaysDate } from '../../../support/officePlanner/officeDays'
 
 describe('successfully create new hobbies post', () => {
@@ -23,8 +23,8 @@ describe('successfully create new hobbies post', () => {
     cy.getElement('preview').click()
     cy.get('button').contains('Publish').click()
 
-    cy.get(matrix.successMes).should('be.visible')
-    cy.get(matrix.success).should('not.exist')
+    cy.get(skillEl.message).should('be.visible')
+    cy.get(skillEl.message).should('not.be.visible')
   })
 
 })
