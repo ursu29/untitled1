@@ -32,8 +32,10 @@ const { Option } = Select
 // Visual date format in picker
 const dateFormatList = ['DD.MM.YYYY']
 const DATE_MONTH_FORMAT = 'MMM YYYY'
-const dateToISO = (date: any) => {
+const dateToISO = (date: string) => {
+  console.log(date)
   const dateObj = new Date(date)
+  console.log(dateObj.toISOString())
   return dateObj.toISOString()
 }
 
@@ -179,8 +181,6 @@ const JobListView = ({
       res[company].push(p)
       return res
     }, {})
-
-  console.log(Object.entries(groupedByCompany).sort((a, b) => (a[0] === '' ? -1 : 1))) // a.company === '' ? 1 :
 
   const handleCreate = (company: string) => {
     const value = data.map(({ __typename, ...i }: any) => i)
@@ -569,6 +569,8 @@ const ProjectDetailedForm = ({
     ? moment(moment(data.dateEnd), dateFormatList).locale('en')
     : undefined
 
+  if (data.company === 'Sidenis' && !data.project) console.log(dateStart, dateEnd)
+
   if (!editable) {
     return (
       <div>
@@ -600,12 +602,14 @@ const ProjectDetailedForm = ({
       name={`cv-project-detailed-${data.id}`}
       labelCol={{ span: 24, offset: 0 }}
       onFinish={values => {
-        let start, end
-        if (!isPresent) [start, end] = values.date || []
+        let start = null
+        let end = null
+        ;[start, end] = Array.isArray(values.date) ? values.date : [values.date, null]
+        if (isPresent) end = null
         onSubmit({
           //@ts-ignore
-          dateStart: isPresent ? values.date : start,
-          dateEnd: isPresent ? null : end,
+          dateStart: start,
+          dateEnd: end,
           responsibilities: values.responsibilities,
         })
       }}
@@ -614,27 +618,27 @@ const ProjectDetailedForm = ({
         <Form.Item
           name="date"
           label=""
-          initialValue={!isPresent ? [dateStart, dateEnd] : dateStart}
           noStyle
+          initialValue={isPresent ? dateStart : [dateStart, dateEnd]}
         >
-          {!isPresent ? (
-            <DatePicker.RangePicker
+          {isPresent ? (
+            <DatePicker
               format={DATE_MONTH_FORMAT}
               picker="month"
-              allowEmpty={[true, true]}
               allowClear
-              disabled={editable ? [false, isPresent] : true}
+              disabled={editable ? false : true}
               onChange={value => {
                 if (!value) form.submit()
               }}
               onBlur={form.submit}
             />
           ) : (
-            <DatePicker
+            <DatePicker.RangePicker
               format={DATE_MONTH_FORMAT}
               picker="month"
+              allowEmpty={[true, true]}
               allowClear
-              disabled={editable ? false : true}
+              disabled={editable ? [false, isPresent] : true}
               onChange={value => {
                 if (!value) form.submit()
               }}

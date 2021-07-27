@@ -243,3 +243,6 @@ export const EditableTable = <RecordType extends {}>({
     />
   )
 }
+
+/* value={!!dateStart ? moment(dateStart, dateFormatList) : null}
+initialValue={isPresent ? dateStart : [dateStart, dateEnd] } */
