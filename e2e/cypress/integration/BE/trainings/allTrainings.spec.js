@@ -14,7 +14,6 @@ describe('get all trainings response', () => {
 
   before(() => {
     cy.setToken('manager')
-    cy.setImgToken('manager')
 
     cy.post(getEmployee(email('employee'))).then(res => {
       const { employeeByEmail } = res.body.data
@@ -36,18 +35,16 @@ describe('get all trainings response', () => {
   })
 
   beforeEach(() => {
-    cy.restoreLocalStorage()
+    cy.addHeadersAuth()
   })
   afterEach(() => {
-    cy.saveLocalStorage()
-  })
-
-  it('check request body', () => {
-    checkTwoString(query.onboardingTickets, request.query)
-    expect(request.operationName).equal('onboardingTickets')
+    cy.addHeadersAuth()
   })
 
   it('Check all trainings response', () => {
+    checkTwoString(query.onboardingTickets, request.query)
+    expect(request.operationName).equal('onboardingTickets')
+
     const allId = response.onboardingTickets.map(el => el.id)
     const task = response.onboardingTickets.filter(el => el.id === getId)[0]
     const { description, id, title, __typename } = task

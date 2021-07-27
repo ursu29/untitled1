@@ -42,7 +42,7 @@ describe('add capacity to employee (capacity)', () => {
                 .clear()
                 .type(el))
 
-        cy.get('span').contains('is extra').first().click()
+        cy.get('span').contains('extra').first().click()
         cy.getElement('save').click()
 
         cy.get(skillEl.successMes).should('be.visible')

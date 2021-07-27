@@ -38,12 +38,10 @@ describe(`Check employee getBookmarks`, () => {
     })
   })
 
-  it('check request body', () => {
+  it('getBookmarks response', () => {
     checkTwoString(query.getBookmarks, request.query)
     expect(request.operationName).equal(getBookmarks().operationName)
-  })
 
-  it('getBookmarks response', () => {
     const { email, id, name, __typename } = employeeData
     const { bookmarks } = response
 

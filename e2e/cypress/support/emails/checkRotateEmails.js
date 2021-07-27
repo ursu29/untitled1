@@ -23,23 +23,29 @@ export const hrMessage = (reason, name, vacancyName) => ({
 })
 
 
-export const checkRotationEmail = (emailData) => {
+export const checkRotationEmail = (emailData, maxNumber = 10) => {
     const {name, email, firstVacancy, reasonText, toHrMessage} = emailData
+    let nextNumber = maxNumber - 1;
 
-    // eslint-disable-next-line
-    cy.wait(500)
-    cy.getRequestData(EMAIL_URL).then(el => {
-        const {bodyPreview} =  el.body.value[0]
-        const emailBody = toHrMessage ? hrMessage(reasonText, name, firstVacancy.position) :
-            employeeMessage(email, name, firstVacancy.project.name)
-        const check = () => toHrMessage ? bodyPreview.includes(reasonText) :
-            emailData !== bodyPreview && bodyPreview.includes(email)
+    if(nextNumber) {
+        // eslint-disable-next-line
+        cy.wait(500)
+        cy.getRequestData(EMAIL_URL).then(el => {
+            const { bodyPreview } = el.body.value[0]
+            const emailBody = toHrMessage ? hrMessage(reasonText, name, firstVacancy.position) :
+              employeeMessage(email, name, firstVacancy.project.name)
+            const check = () => toHrMessage ? bodyPreview.includes(reasonText) :
+              emailData !== bodyPreview && bodyPreview.includes(email)
 
-        if(check()) {
-            Object.values(emailBody).forEach(el => expect(bodyPreview).contain(el))
-            return;
-        }
+            if (check()) {
+                Object.values(emailBody).forEach(el => expect(bodyPreview).contain(el))
+                return;
+            }
 
-        checkRotationEmail(emailData)
-    })
+            checkRotationEmail(emailData, nextNumber)
+        })
+    } else {
+    expect(true).equal(false)
+    cy.log('No get any messages')
+    }
 }

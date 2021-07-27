@@ -12,9 +12,6 @@ export const menu = {
     { name: 'Feedback', url: '/feedback', text: 'Feedback', show: true },
   ],
   subMenu: [
-    { name: 'Timemaster', url: '/timemaster', text: null, show: true },
-    { name: 'Workspace', url: '/workspace-planner', text: null, show: true },
-    { name: 'Office planner', url: '/office-planner', text: null, show: true },
     { name: 'HR Tool', url: '/hr', text: null, show: false },
     { name: 'Processes', url: '/processes', text: null, show: false },
     { name: 'Matrices', url: '/matrices', text: null, show: false },
@@ -56,6 +53,7 @@ export const skillEl = {
   iconChecked: '.anticon-check',
   iconEdit: '.anticon-edit',
   successMes: '.ant-message-success',
+  message: '.ant-message',
   skillName: 'skills_name',
   select: '.ant-select-multiple',
   titleTree: '.ant-tree-title',

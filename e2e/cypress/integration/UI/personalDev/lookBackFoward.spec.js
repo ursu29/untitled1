@@ -1,4 +1,4 @@
-import {getTabUrl} from "../../../support/utils";
+import { getSubTabUrl } from '../../../support/utils'
 import {personalDevLocators, skillEl} from "../../../support/locators";
 
 describe('check personal development items: look back/forward', () => {
@@ -7,9 +7,8 @@ describe('check personal development items: look back/forward', () => {
 
     before(() => {
         cy.setToken('employee')
-        cy.setImgToken('employee')
 
-        cy.visit(getTabUrl('development-plan'))
+        cy.visit(getSubTabUrl('career', '/profile', 'development-plan'))
     })
 
     it('successfully updated: Look Back/Forward', () => {

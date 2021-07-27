@@ -2,6 +2,11 @@ const loginUrl =
   'https://login.microsoftonline.com/27d1d5a7-306f-4239-ab67-3bd61777078a/oauth2/v2.0/token'
 export const strapiUrl = 'https://portal-strapi.dev.syncretis.com'
 
+export const managerData = (id = '603f592a7ae138001c21f6bd', email = 'test.manager@syncretis.com') =>
+  JSON.stringify({id, email})
+export const getEmployeeData = (id = '603f592a7ae138001c21f6bc', email = 'test.employee@syncretis.com') =>
+  JSON.stringify({id, email})
+
 export const setBody = (userName, password, scope) => ({
   grant_type: Cypress.env('grant_type'),
   username: Cypress.env(userName),
@@ -10,58 +15,46 @@ export const setBody = (userName, password, scope) => ({
   password: Cypress.env(password),
   client_secret: Cypress.env('client_secret'),
 })
-Cypress.Commands.add('setImgToken', employeeType => {
-  let req
-  if (employeeType === 'employee') {
-    req = cy.request({
-      url: loginUrl,
-      method: 'POST',
-      form: true,
-      body: setBody('employee_username', 'employee_password', 'img_scope'),
-    })
-  } else {
-    req = cy.request({
-      url: loginUrl,
-      method: 'POST',
-      form: true,
-      body: setBody('manager_username', 'manager_password', 'img_scope'),
-    })
-  }
-  req.its('body.access_token').then(token => {
-    localStorage.setItem('img_token', token)
+
+Cypress.Commands.add('auth', employeeType => {
+  process.env.EMPLOYEE_TYPE = employeeType;
+
+  cy.intercept('/graphql', req => {
+    employeeType === 'employee' ? req.headers['dev-only-auth-disable'] = getEmployeeData() :
+      req.headers['dev-only-auth-disable'] = managerData()
   })
 })
 
-Cypress.Commands.add('setToken', employeeType => {
-  console.log('Do we get variables values? As example, grant_type: ' + Cypress.env('grant_type'))
-  switch (employeeType) {
-    case 'employee':
-      cy.request({
-        url: loginUrl,
-        method: 'POST',
-        form: true,
-        body: setBody('employee_username', 'employee_password', 'scope'),
+Cypress.Commands.add('getToken', () => {
+  switch (process.env.EMPLOYEE_TYPE) {
+  case 'employee':
+    cy.request({
+      url: loginUrl,
+      method: 'POST',
+      form: true,
+      body: setBody('employee_username', 'employee_password', 'scope'),
+    })
+      .its('body.access_token')
+      .then(token => {
+
+        Cypress.env('accessToken', token)
+        localStorage.setItem('access_token', token)
       })
-        .its('body.access_token')
-        .then(token => {
-          Cypress.env('accessToken', token)
-          localStorage.setItem('access_token', token)
-        })
-      break
-    case 'manager':
-      cy.request({
-        url: loginUrl,
-        method: 'POST',
-        form: true,
-        body: setBody('manager_username', 'manager_password', 'scope'),
+    break
+  case 'manager':
+    cy.request({
+      url: loginUrl,
+      method: 'POST',
+      form: true,
+      body: setBody('manager_username', 'manager_password', 'scope'),
+    })
+      .its('body.access_token')
+      .then(token => {
+        Cypress.env('accessToken', token)
+        localStorage.setItem('access_token', token)
       })
-        .its('body.access_token')
-        .then(token => {
-          Cypress.env('accessToken', token)
-          localStorage.setItem('access_token', token)
-        })
-      break
-    default:
-      alert('Type of employee was not passed')
-  }
+    break
+}
 })
+
+Cypress.Commands.add('setToken', employeeType => cy.auth(employeeType))

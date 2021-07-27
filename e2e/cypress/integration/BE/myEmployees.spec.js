@@ -12,7 +12,6 @@ describe('Check manager employees', () => {
 
   before(() => {
     cy.setToken('manager')
-    cy.setImgToken('manager')
 
     cy.post(getEmployee(email('employee'))).then(res => employeeData = res.body.data.employeeByEmail)
     cy.getResponse([OPERATION_NAME], 'alias')

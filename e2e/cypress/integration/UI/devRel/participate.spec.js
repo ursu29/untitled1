@@ -24,6 +24,13 @@ describe('participate to event (devRel)', () => {
         cy.visit('/devrel')
     })
 
+    beforeEach(() => {
+        cy.addHeadersAuth()
+    })
+    afterEach(() => {
+        cy.addHeadersAuth()
+    })
+
     after(() => {
         cy.getIcon('delete').last().click()
         cy.get('span').contains('Yes').click()

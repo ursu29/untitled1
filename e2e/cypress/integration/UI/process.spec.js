@@ -32,10 +32,7 @@ describe('Check the process', () => {
   })
 
   beforeEach(() => {
-    cy.restoreLocalStorage()
-  })
-  afterEach(() => {
-    cy.saveLocalStorage()
+    cy.addHeadersAuth()
   })
 
   it('create new process', () => {
@@ -47,30 +44,17 @@ describe('Check the process', () => {
     cy.get(matrix.item).contains(data.customer.allianz).click()
     cy.getResponse(['processes', 'title'], 'alias')
     cy.get(postEl.button).click()
-  })
 
-  it('Add new step', () => {
-    cy.visit('/processes')
     cy.scrollTo('bottom')
-    cy.get(table.itemList).last().contains(data.title).click()
-    cy.get(collapseProcess.header).eq(0).click()
-  })
 
-  it('Fill all the gaps', () => {
+    cy.get(table.itemList).contains(data.title).click()
+    cy.get(collapseProcess.header).eq(0).click()
+
+    //fill all the gaps
     cy.getId('title').clear().type(data.title)
     cy.getId('description').clear().type(data.title)
     cy.getResponse(['getProcesses'], 'alias')
     cy.get(postEl.button).contains('Save').click({ force: true })
-    cy.wait('@alias').then(req => {
-      const { process } = req.response.body.data
-      const firstStep = process.steps[0]
-      const { description, title, hasComment } = firstStep
-
-      expect(process.steps.length).equal(1)
-      expect(description).equal(data.title)
-      expect(title).equal(data.title)
-      expect(hasComment).equal(false)
-    })
   })
 
   it('Delete process', () => {

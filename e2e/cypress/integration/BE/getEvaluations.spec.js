@@ -5,7 +5,7 @@ import {
   evaluation,
 } from '../../support/client/selfEvaluation'
 import {email} from '../../support/client/employeeData'
-import {checkTwoString, getTabUrl} from '../../support/utils'
+import { checkTwoString, getSubTabUrl } from '../../support/utils'
 import { query } from '../../fixtures/query'
 import {evaluate, getEmployee, getEvaluations} from "../../support/getData";
 
@@ -26,59 +26,36 @@ describe('Check getEvaluations response', () => {
         const {evaluations} = req.body.data
 
         cy.post(evaluate(employeeByEmail.id, 'some comment', evaluations[0].evaluationAttribute.id))
-            .then(res => expect(res.status).equal(200))
+          .then(res => expect(res.status).equal(200))
       })
     })
     cy.getResponse([OPERATION_NAME], 'alias')
-    cy.visit(getTabUrl('evaluation'))
+    cy.visit(getSubTabUrl('career', '/profile', 'evaluation'))
     cy.wait(`@alias`).then(val => {
       response = val.response.body.data
       request = val.request.body
     })
   })
 
-  beforeEach(() => {
-    cy.restoreLocalStorage()
-  })
-  afterEach(() => {
-    cy.saveLocalStorage()
-  })
-
-  it('check request body', () => {
+  it('getEvaluations response', () => {
     checkTwoString(query.getEvaluations, request.query)
     expect(request.operationName).equal(OPERATION_NAME)
-  })
 
-  it('getEvaluations response', () => {
     const { evaluationComments, evaluations } = response
-    const firstEvaluation = evaluations[0]
-
-    expect(evaluationComments).to.be.a('array')
-    expect(evaluations).to.be.a('array')
-    cy.compareObjectsKeys(firstEvaluation, evaluation)
-    expect(firstEvaluation.__typename).equal(evaluation.__typename)
-  })
-
-  it('Check evaluationAttribute', () => {
-    const { evaluationAttribute } = response.evaluations[0]
-
-    cy.compareObjectsKeys(evaluationAttribute, evaluationAttributeData)
-    expect(evaluationAttribute.__typename).equal(evaluationAttributeData.__typename)
-  })
-
-  it('Check fromWho', () => {
-    const { fromWho } = response.evaluations[0]
-
-    cy.compareObjectsKeys(fromWho, fromWhoData)
-    expect(fromWho.__typename).equal(fromWhoData.__typename)
-  })
-
-  it('Check toWhom', () => {
-    const { toWhom } = response.evaluations[0]
+    const { evaluationAttribute, fromWho } = evaluations[0]
     const { id, __typename } = employeeData
 
+    cy.compareObjectsKeys(evaluations[0], evaluation)
+    cy.compareObjectsKeys(evaluationAttribute, evaluationAttributeData)
+    cy.compareObjectsKeys(fromWho, fromWhoData)
     cy.compareObjectsKeys(toWhom, toWhomData(id))
+
     expect(toWhom.__typename).equal(__typename)
     expect(toWhom.id).equal(id)
+    expect(fromWho.__typename).equal(fromWhoData.__typename)
+    expect(evaluationComments).to.be.a('array')
+    expect(evaluations).to.be.a('array')
+    expect(evaluations[0].__typename).equal(evaluation.__typename)
+    expect(evaluationAttribute.__typename).equal(evaluationAttributeData.__typename)
   })
 })

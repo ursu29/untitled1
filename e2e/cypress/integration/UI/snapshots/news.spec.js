@@ -3,7 +3,6 @@ import {getNews} from "../../../fixtures/getNews";
 describe('Visual regression news page', () => {
     before(() => {
         cy.setToken('employee')
-        cy.setImgToken('employee')
 
         cy.mockResponse(['getPosts'], getNews())
         cy.visit('/feed')

@@ -1,5 +1,5 @@
 import {getClient, getManager, getProjects, getEmployeeExperiences, getEmployee} from '../../support/getData'
-import { tabs, workspace } from '../../support/locators'
+import { tabs } from '../../support/locators'
 import {email} from '../../support/client/employeeData'
 
 describe('Checking default information', () => {
@@ -38,10 +38,10 @@ describe('Checking default information', () => {
   })
 
   beforeEach(() => {
-    cy.restoreLocalStorage()
+    cy.addHeadersAuth()
   })
   afterEach(() => {
-    cy.saveLocalStorage()
+    cy.addHeadersAuth()
   })
 
   it('Check Employee data', () => {
@@ -52,24 +52,15 @@ describe('Checking default information', () => {
     cy.haveText('location', 'Saint Petersburg')
     cy.haveText('email', profile.email)
     cy.checkIfElementPresent('phone', profile.phoneNumber)
-    cy.getElement('bonuses').should('contain.text', '50000 ₽')
+    //cy.getElement('bonuses').should('contain.text', '50000 ₽')
     cy.get('.ant-card-meta-description').contains('Agile').should('have.text', 'Agile Manager')
     cy.getElement('avatar').should('be.visible')
   })
 
-  it('Check the Teams and Outlook buttons', () => {
-    cy.getElement('mail_button').should('be.visible')
-    cy.getElement('teams_button').should('be.visible')
-  })
-
-  it('Check all tabs', () => {
-    Object.values(tabs).forEach(val => cy.get(workspace.tab).contains(val))
-  })
-
-  it('Manager can see employee private tabs', () => {
+  it.skip('Manager can see employee private tabs', () => {
     cy.visit(`/employees/${employeeData.email}`)
     ;[tabs.matrices, tabs.personal, tabs.cv, tabs.form].forEach(el =>
-      cy.get(workspace.tab).contains(el).should('be.visible'),
+      cy.get('.ant-radio-button').contains(el).should('be.visible'),
     )
   })
 })

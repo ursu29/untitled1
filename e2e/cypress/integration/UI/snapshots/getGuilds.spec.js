@@ -3,7 +3,6 @@ const {getGuilds} = require("../../../fixtures/guilds");
 describe('Visual regression guilds page', () => {
     before(() => {
         cy.setToken('employee')
-        cy.setImgToken('employee')
 
         cy.mockResponse(['getGuilds'], getGuilds())
         cy.visit('/guilds')

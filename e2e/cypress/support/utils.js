@@ -1,4 +1,5 @@
 export const getTabUrl = (tabName, urlName = '/profile') => `${urlName}?tab=${tabName}`
+export const getSubTabUrl = (tabName, urlName = '/profile', subTab) => `${urlName}?tab=${tabName}&subtab=${subTab}`
 
 export const codeOkAndBodyNotNull = response => {
   expect(response).property('status').to.equal(200)

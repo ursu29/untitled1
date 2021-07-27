@@ -17,14 +17,7 @@ describe('create new process task', () => {
         })
     })
 
-    beforeEach(() => {
-        cy.restoreLocalStorage()
-    })
-    afterEach(() => {
-        cy.saveLocalStorage()
-    })
-
-    it('Check errors message', () => {
+    it('successfully created new task', () => {
         cy.getElement('start').click()
 
         cy.getId(activeIdProcess).click()
@@ -32,14 +25,11 @@ describe('create new process task', () => {
         cy.getElement(create).click()
 
         cy.get(hrTool.errorMess).should('be.visible')
-    })
 
-    it('successfully created new task', () => {
         cy.get(skillEl.skillsEvent).click()
         cy.get(option).contains('Tomsk').click()
         cy.getId(prio).click()
         cy.get(option).contains('2').click()
-
 
         cy.getId(processName).click({multiple: true})
         cy.get(option).contains('Portal').click()

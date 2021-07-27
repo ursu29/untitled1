@@ -6,7 +6,8 @@ export const getSkill = name => `[data-cy=${name}] > [data-cy=skills_name] > .an
 export const inputSkill = id => cy.get('.ant-select-selector').eq(id)
 export const postData = id => cy.get('.sc-gPEVay > span.ant-typography').eq(id)
 export const postTitle = id => cy.get('.sc-gPEVay > h3.ant-typography').eq(id)
-export const addSkill = id => cy.get('.ant-btn-link').eq(id)
+export const addSkill = id =>  cy.getIcon('edit').eq(id)
+export const saveSkill = id =>  cy.getIcon('check').eq(id)
 export const getSelectItem = id => cy.get('.ant-select-tree-switcher').eq(id)
 export const addNewReviewer = '[style="display: flex;"] > :nth-child(1) > .ant-btn > span'
 export const getListOfMatrix = () =>

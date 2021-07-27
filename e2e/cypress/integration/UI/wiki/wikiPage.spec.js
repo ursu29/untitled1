@@ -6,7 +6,6 @@ describe('Check all wiki pages (wiki)', () => {
 
     before(() => {
         cy.setToken('manager')
-        cy.setImgToken('manager')
 
         cy.visit('/wiki')
         cy.post(getWikiRootSections())

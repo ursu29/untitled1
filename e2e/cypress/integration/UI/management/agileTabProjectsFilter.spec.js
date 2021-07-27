@@ -8,7 +8,6 @@ describe('chek agile table by project filter', () => {
 
     before(() => {
         cy.setToken('manager')
-        cy.setImgToken('manager')
         cy.visit(getTabUrl('scrum', 'management'))
 
         cy.post(getScrumMasters()).then(req => {
