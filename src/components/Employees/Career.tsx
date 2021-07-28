@@ -2,7 +2,6 @@ import { Radio, Space } from 'antd'
 import React from 'react'
 import { Access, Employee } from '../../types/graphql'
 import URLAction from '../../utils/URLAction'
-import { useEmployee } from '../../utils/withEmployee'
 import EmployeeEvaluation from '../EmployeeEvaluation/EmployeeEvaluation'
 import EmployeeMatrices from '../EmployeeMatrices/EmployeeMatrices'
 import EmployeeCV from './EmployeeCV'
@@ -27,9 +26,6 @@ interface Props {
 const DEFAULT_TAB = 'skills'
 
 export default function Career({ employee, access }: Props) {
-  const user = useEmployee()
-  const isAgileManager = user.employee.id === employee.agileManager.id
-  console.log(isAgileManager)
   const urlAction = new URLAction()
   const [activeTab, setActiveTab] = React.useState(urlAction.paramsGet('subtab') ?? DEFAULT_TAB)
   const tabs: { title: string | JSX.Element; key: string; body: JSX.Element }[] = [
@@ -46,7 +42,7 @@ export default function Career({ employee, access }: Props) {
     },
   ]
 
-  if (access?.matricesLookReviewersAccess?.read || isAgileManager) {
+  if (access?.matricesLookReviewersAccess?.read) {
     tabs.push({
       title: 'Matrices',
       key: 'matrices',
@@ -58,7 +54,7 @@ export default function Career({ employee, access }: Props) {
       ),
     })
   }
-  if (access.evaluationReviewersAccess?.read || isAgileManager) {
+  if (access.evaluationReviewersAccess?.read) {
     tabs.push({
       title: 'Self Evaluation',
       key: 'evaluation',
@@ -71,7 +67,7 @@ export default function Career({ employee, access }: Props) {
     })
   }
 
-  if (access.developmentPlanLookReviewersAccess?.read || isAgileManager) {
+  if (access.developmentPlanLookReviewersAccess?.read) {
     tabs.push({
       title: 'Personal development',
       key: 'development-plan',
@@ -86,7 +82,7 @@ export default function Career({ employee, access }: Props) {
     })
   }
 
-  if (access.curriculumVitaeAccess?.read || isAgileManager) {
+  if (access.curriculumVitaeAccess?.read) {
     tabs.push({
       title: 'CV',
       key: 'cv',
