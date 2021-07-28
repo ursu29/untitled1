@@ -25,6 +25,7 @@ import { CurriculumVitae, Employee, Scalars, Vitae } from '../../types/graphql'
 import { ProjectDetails } from '../../fragments'
 import ProjectTag from '../Projects/ProjectTag'
 import RichText from '../UI/RichText'
+import { DEBOUNCE_DELAY } from '../../constants'
 
 const { Title, Text, Paragraph } = Typography
 const { Option } = Select
@@ -567,6 +568,13 @@ const ProjectDetailedForm = ({
     ? moment(moment(data.dateEnd), dateFormatList).locale('en')
     : undefined
 
+  const handleResponsibilitiesChange = debounce(DEBOUNCE_DELAY.FORM_INPUT, (e: any) => {
+    form.setFieldsValue({
+      responsibilities: e.target.value,
+    })
+    form.submit()
+  })
+
   if (!editable) {
     return (
       <div>
@@ -663,7 +671,7 @@ const ProjectDetailedForm = ({
           placeholder="Enter something"
           autoSize={{ minRows: 2 }}
           disabled={!editable}
-          onBlur={form.submit}
+          onChange={handleResponsibilitiesChange}
           bordered={false}
           style={{ paddingLeft: 0 }}
         />

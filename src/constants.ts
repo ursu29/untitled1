@@ -64,3 +64,7 @@ export const PHONE_MASKS = {
 }
 
 export const GROUPS_PREFIXES = ['Academy-', 'Community-', 'az-', 'guild-', 'is-', 'sr-']
+
+export const DEBOUNCE_DELAY = {
+  FORM_INPUT: 800,
+}
