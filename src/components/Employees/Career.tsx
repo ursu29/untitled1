@@ -2,6 +2,7 @@ import { Radio, Space } from 'antd'
 import React from 'react'
 import { Access, Employee } from '../../types/graphql'
 import URLAction from '../../utils/URLAction'
+import { useEmployee } from '../../utils/withEmployee'
 import EmployeeEvaluation from '../EmployeeEvaluation/EmployeeEvaluation'
 import EmployeeMatrices from '../EmployeeMatrices/EmployeeMatrices'
 import EmployeeCV from './EmployeeCV'
@@ -26,6 +27,9 @@ interface Props {
 const DEFAULT_TAB = 'skills'
 
 export default function Career({ employee, access }: Props) {
+  const user = useEmployee()
+  const isAgileManager = user.employee.id === employee.agileManager.id
+  console.log(isAgileManager)
   const urlAction = new URLAction()
   const [activeTab, setActiveTab] = React.useState(urlAction.paramsGet('subtab') ?? DEFAULT_TAB)
   const tabs: { title: string | JSX.Element; key: string; body: JSX.Element }[] = [
@@ -42,19 +46,19 @@ export default function Career({ employee, access }: Props) {
     },
   ]
 
-  if (access?.matricesLookReviewersAccess?.read) {
+  if (access?.matricesLookReviewersAccess?.read || isAgileManager) {
     tabs.push({
       title: 'Matrices',
       key: 'matrices',
       body: (
         <EmployeeMatrices
           employee={employee}
-          reviewersListAccess={access.matricesLookReviewersAccess}
+          reviewersListAccess={access.matricesLookReviewersAccess || { read: true, write: false }}
         />
       ),
     })
   }
-  if (access.evaluationReviewersAccess?.read) {
+  if (access.evaluationReviewersAccess?.read || isAgileManager) {
     tabs.push({
       title: 'Self Evaluation',
       key: 'evaluation',
@@ -67,20 +71,22 @@ export default function Career({ employee, access }: Props) {
     })
   }
 
-  if (access.developmentPlanLookReviewersAccess?.read) {
+  if (access.developmentPlanLookReviewersAccess?.read || isAgileManager) {
     tabs.push({
       title: 'Personal development',
       key: 'development-plan',
       body: (
         <EmployeeDevelopmentPlan
           employee={employee}
-          reviewersListAccess={access.developmentPlanLookReviewersAccess}
+          reviewersListAccess={
+            access.developmentPlanLookReviewersAccess || { read: true, write: false }
+          }
         />
       ),
     })
   }
 
-  if (access.curriculumVitaeAccess?.read) {
+  if (access.curriculumVitaeAccess?.read || isAgileManager) {
     tabs.push({
       title: 'CV',
       key: 'cv',
