@@ -12,12 +12,14 @@ import Scrum from './Scrum'
 
 export default function Management() {
   const urlAction = new URLAction()
-  const [view, setView] = useState(urlAction.paramsGet('tab') || 'employees')
   const isGeneralAccess = useStrapiGroupCheck('SUPER_USER')
   const isAADCreators = useStrapiGroupCheck('AAD_CREATORS')
   const isAADUserEditors = useStrapiGroupCheck('AAD_USER_EDITORS')
   const isAADGroupEditors = useStrapiGroupCheck('AAD_GROUP_EDITORS')
   const isAADAccess = isAADCreators || isAADUserEditors || isAADGroupEditors
+  const [view, setView] = useState(
+    urlAction.paramsGet('tab') || isGeneralAccess ? 'employees' : 'aad',
+  )
   const [aadSection, setAadSection] = useState<'users' | 'groups'>(
     isAADCreators || isAADUserEditors ? 'users' : 'groups',
   )
@@ -77,10 +79,10 @@ export default function Management() {
           )}
         </Tabs>
 
-        {view === 'aad' && <AAD view={aadSection} createAccess={isAADCreators} />}
-        {view === 'employees' && <Employees />}
-        {view === 'agile' && <Agile />}
-        {view === 'scrum' && <Scrum />}
+        {view === 'aad' && isAADAccess && <AAD view={aadSection} createAccess={isAADCreators} />}
+        {view === 'employees' && isGeneralAccess && <Employees />}
+        {view === 'agile' && isGeneralAccess && <Agile />}
+        {view === 'scrum' && isGeneralAccess && <Scrum />}
       </PageContent>
     </>
   )
