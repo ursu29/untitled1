@@ -208,7 +208,7 @@ function PortalMenu(props: Props) {
       title: 'DevRel',
       subMenu: 'tools',
     },
-    useStrapiGroupCheck(['SUPER_USER', 'AAD_EDITORS'])
+    useStrapiGroupCheck(['SUPER_USER', 'AAD_CREATORS', 'AAD_USER_EDITORS', 'AAD_GROUP_EDITORS'])
       ? {
           route: paths.MANAGEMENT,
           icon: <MehOutlined />,

@@ -13,10 +13,12 @@ export default function Groups({
   users,
   groups: groupsData,
   isLoading,
+  createAccess,
 }: {
   users: User[] | undefined
   groups: Group[] | undefined
   isLoading: boolean
+  createAccess: boolean
 }) {
   const [drawer, setDrawer] = useState<{
     key?: 'columns' | 'newGroup' | 'editGroup'
@@ -87,6 +89,7 @@ export default function Groups({
         onSearch={e => {
           setFilters({ ...filters, search: e.target.value })
         }}
+        createAccess={createAccess}
       />
 
       <Table

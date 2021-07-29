@@ -15,7 +15,10 @@ export default function Management() {
   const [view, setView] = useState(urlAction.paramsGet('tab') || 'employees')
   const [aadSection, setAadSection] = useState<'users' | 'groups'>('users')
   const isGeneralAccess = useStrapiGroupCheck('SUPER_USER')
-  const isAADAccess = useStrapiGroupCheck('AAD_EDITORS')
+  const isAADCreators = useStrapiGroupCheck('AAD_CREATORS')
+  const isAADUserEditors = useStrapiGroupCheck('AAD_USER_EDITORS')
+  const isAADGroupEditors = useStrapiGroupCheck('AAD_GROUP_EDITORS')
+  const isAADAccess = isAADCreators || isAADUserEditors || isAADGroupEditors
 
   return (
     <>
@@ -30,9 +33,16 @@ export default function Management() {
           tabBarStyle={{ padding: '0 24px 0 24px' }}
           tabBarExtraContent={
             view === 'aad' ? (
-              <Radio.Group onChange={e => setAadSection(e.target.value)} defaultValue={aadSection}>
-                <Radio.Button value="users">Users</Radio.Button>
-                <Radio.Button value="groups">Groups</Radio.Button>
+              <Radio.Group
+                onChange={e => setAadSection(e.target.value)}
+                defaultValue={isAADCreators || isAADUserEditors ? 'users' : 'groups'}
+              >
+                <Radio.Button value="users" disabled={!isAADCreators && !isAADUserEditors}>
+                  Users
+                </Radio.Button>
+                <Radio.Button value="groups" disabled={!isAADCreators && !isAADGroupEditors}>
+                  Groups
+                </Radio.Button>
               </Radio.Group>
             ) : undefined
           }
@@ -68,7 +78,7 @@ export default function Management() {
           )}
         </Tabs>
 
-        {view === 'aad' && <AAD view={aadSection} />}
+        {view === 'aad' && <AAD view={aadSection} createAccess={isAADCreators} />}
         {view === 'employees' && <Employees />}
         {view === 'agile' && <Agile />}
         {view === 'scrum' && <Scrum />}
