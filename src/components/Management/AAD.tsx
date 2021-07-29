@@ -6,7 +6,13 @@ import Users from './AAD/TableUsers'
 
 const graphAPI = new GraphAPI()
 
-export default function AAD({ view }: { view: 'users' | 'groups' }) {
+export default function AAD({
+  view,
+  createAccess,
+}: {
+  view: 'users' | 'groups'
+  createAccess: boolean
+}) {
   const { isLoading: isLoadingUsers, data: dataUsers } = usePromise(() => graphAPI.getUsers())
   const { isLoading: isLoadingGroups, data: dataGroups } = usePromise(() => graphAPI.getGroups())
 
@@ -15,8 +21,18 @@ export default function AAD({ view }: { view: 'users' | 'groups' }) {
   )
 
   return view === 'users' ? (
-    <Users users={dataUsers} groups={groups} isLoading={isLoadingUsers} />
+    <Users
+      users={dataUsers}
+      groups={groups}
+      isLoading={isLoadingUsers}
+      createAccess={createAccess}
+    />
   ) : (
-    <Groups users={dataUsers} groups={groups} isLoading={isLoadingGroups} />
+    <Groups
+      users={dataUsers}
+      groups={groups}
+      isLoading={isLoadingGroups}
+      createAccess={createAccess}
+    />
   )
 }
