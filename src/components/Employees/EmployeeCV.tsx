@@ -17,7 +17,7 @@ import EmployeeCVSkills from './EmployeeCVSkills'
 import EmployeeCVLanguages from './EmployeeCVLanguages'
 import './employee-cv.css'
 
-const levelSorting = [Level.Confident, Level.Experienced, Level.Learning, Level.Wanted]
+// const levelSorting = [Level.Confident, Level.Experienced, Level.Learning, Level.Wanted]
 
 type PropsGeneral = {
   editable: boolean
@@ -37,11 +37,14 @@ const EmployeeCV = ({ employee, editable }: PropsGeneral) => {
   const cv = cvData?.employeeByEmail?.curriculumVitae
   const vitaes = cv?.vitaes || [] // full user's vitaes list
   const curriculumVitaeID = cv?.id || '' // list id
-  const experiences = experiencesData?.employees?.[0]?.experiences
-    ?.filter(
-      exp => !exp.skill.isMatrixOnly && [Level.Experienced, Level.Confident].includes(exp.level),
-    )
-    .sort((a, b) => levelSorting.indexOf(b.level) - levelSorting.indexOf(a.level))
+  const experiencesExperienced = experiencesData?.employees?.[0]?.experiences
+    ?.filter(exp => !exp.skill.isMatrixOnly && Level.Experienced === exp.level)
+    .sort((a, b) => a.skill.name.localeCompare(b.skill.name))
+  const experiencesConfident = experiencesData?.employees?.[0]?.experiences
+    ?.filter(exp => !exp.skill.isMatrixOnly && Level.Confident === exp.level)
+    .sort((a, b) => a.skill.name.localeCompare(b.skill.name))
+
+  const experiences = (experiencesConfident || []).concat(experiencesExperienced || [])
 
   const handleExport = () => {
     import('file-saver').then(({ saveAs }) => {

@@ -12,13 +12,13 @@ const StyledTag = styled(Tag)<{ level?: Level | null }>`
   align-items: center;
   ${props => {
     switch (props.level) {
-      case Level.Experienced:
+      case Level.Confident:
         return css`
           background: #eafff5;
           color: #237804;
           border-color: #15e17f;
         `
-      case Level.Confident:
+      case Level.Experienced:
         return css`
           background: #fffbe6;
           color: #9b6803;

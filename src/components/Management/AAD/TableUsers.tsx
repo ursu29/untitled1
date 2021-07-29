@@ -81,7 +81,7 @@ export default function Users({
   return (
     <>
       <TableHeader
-        newButtonText="New user"
+        newButtonText="New User"
         newButtonOnClick={() => tableMenuClick('new')}
         columnsButtonClick={() => tableMenuClick('columns')}
         onSearch={e => {
