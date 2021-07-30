@@ -8,6 +8,8 @@ import {
 import HobbySelect from '../Hobbies/HobbySelect'
 import { useDebouncedCallback } from '../../utils/useDebounce'
 import { Hobby } from '../../types/graphql'
+import { debounce } from 'throttle-debounce'
+import { DEBOUNCE_DELAY } from '../../constants'
 
 const arrayDiff = (a1: string[], a2: string[]) => {
   const left = a2.filter(d => !a1.includes(d))
@@ -104,26 +106,26 @@ export const AboutForm = ({ employeeId, about }: AboutFormProps) => {
     }
   }, [loading])
 
-  const handleSubmit = (values: AboutFormValues) => {
+  const handleSubmit = debounce(DEBOUNCE_DELAY.FORM_INPUT, (e: any) => {
     updateAbout({
       variables: {
         input: {
           id: employeeId,
-          about: values.about,
+          about: e.target.value,
         },
       },
     })
-  }
+  })
 
   return (
     <Form
       form={form}
       name="employee-about"
       labelCol={{ span: 24, offset: 0 }}
-      onFinish={handleSubmit}
+      onFinish={form.submit}
     >
       <Form.Item name="about" initialValue={about}>
-        <Input.TextArea onBlur={form.submit} autoSize={{ minRows: 4 }} />
+        <Input.TextArea onChange={handleSubmit} autoSize={{ minRows: 4 }} />
       </Form.Item>
     </Form>
   )
