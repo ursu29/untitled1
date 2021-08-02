@@ -13,10 +13,12 @@ export default function Users({
   users: usersData,
   groups,
   isLoading,
+  createAccess,
 }: {
   users: User[] | undefined
   groups: Group[] | undefined
   isLoading: boolean
+  createAccess: boolean
 }) {
   const [drawer, setDrawer] = useState<{
     key?: 'columns' | 'newUser' | 'editUser'
@@ -81,12 +83,13 @@ export default function Users({
   return (
     <>
       <TableHeader
-        newButtonText="New user"
+        newButtonText="New User"
         newButtonOnClick={() => tableMenuClick('new')}
         columnsButtonClick={() => tableMenuClick('columns')}
         onSearch={e => {
           setFilters({ ...filters, search: e.target.value })
         }}
+        createAccess={createAccess}
       />
 
       <Table

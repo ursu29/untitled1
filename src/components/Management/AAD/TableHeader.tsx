@@ -1,14 +1,16 @@
 import { PlusOutlined, TableOutlined, SearchOutlined } from '@ant-design/icons'
-import { Button, Divider, Input } from 'antd'
+import { Button, Divider, Input, Tooltip } from 'antd'
 import React from 'react'
 
 export default function TableHeader({
   newButtonText,
+  createAccess,
   newButtonOnClick,
   columnsButtonClick,
   onSearch,
 }: {
   newButtonText: string
+  createAccess: boolean
   newButtonOnClick: () => void
   columnsButtonClick: () => void
   onSearch: (e: any) => void
@@ -22,9 +24,16 @@ export default function TableHeader({
         style={{ maxWidth: '300px', marginRight: '8px' }}
         onChange={onSearch}
       />
-      <Button type="text" icon={<PlusOutlined />} onClick={newButtonOnClick}>
-        {newButtonText}
-      </Button>
+      <Tooltip title={!createAccess ? 'You have no access' : ''}>
+        <Button
+          type="text"
+          icon={<PlusOutlined />}
+          onClick={newButtonOnClick}
+          disabled={!createAccess}
+        >
+          {newButtonText}
+        </Button>
+      </Tooltip>
       <Divider type="vertical" />
       <Button type="text" icon={<TableOutlined />} onClick={columnsButtonClick}>
         Columns

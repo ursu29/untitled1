@@ -200,6 +200,7 @@ export type EditableTableProps<RecordType> = {
   loading?: boolean
   columns: EditableColumnType<RecordType>[]
   onRowSubmit: (record: RecordType) => void
+  className?: string
 }
 
 export const EditableTable = <RecordType extends {}>({
@@ -207,6 +208,7 @@ export const EditableTable = <RecordType extends {}>({
   loading,
   columns,
   onRowSubmit,
+  className,
 }: EditableTableProps<RecordType>) => {
   return (
     <Table
@@ -237,6 +239,10 @@ export const EditableTable = <RecordType extends {}>({
         onSubmit: onRowSubmit,
       })}
       style={{ marginBottom: 32 }}
+      className={className || ''}
     />
   )
 }
+
+/* value={!!dateStart ? moment(dateStart, dateFormatList) : null}
+initialValue={isPresent ? dateStart : [dateStart, dateEnd] } */

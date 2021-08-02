@@ -90,7 +90,11 @@ export default function Pages() {
           <Route path={paths.LIBRARY} component={LibraryPage} />
           <Route path={paths.DEVREL} component={DevRel} />
           <Route path={paths.GAMES} component={Snake} />
-          <PrivateRoute path={paths.MANAGEMENT} component={Management} access={'SUPER_USER'} />
+          <PrivateRoute
+            path={paths.MANAGEMENT}
+            component={Management}
+            access={['SUPER_USER', 'AAD_CREATORS', 'AAD_USER_EDITORS', 'AAD_GROUP_EDITORS']}
+          />
           <Route component={NotFound} />
         </Switch>
       </Suspense>

@@ -9,9 +9,18 @@ interface Props {
   employee: GetEmployeeDetailedQuery['employeeByEmail']
 }
 
+// const queryOne2oneRequest = gql`
+//   query ($email: String!) {
+//     employeeByEmail(email: $email) {
+//       id
+//       one2oneRequest
+//     }
+//   }
+// `
+
 const queryOne2oneRequest = gql`
-  query ($email: String!) {
-    employeeByEmail(email: $email) {
+  {
+    profile {
       id
       one2oneRequest
     }
@@ -20,13 +29,10 @@ const queryOne2oneRequest = gql`
 
 export default function EmployeeManager({ employee }: Props) {
   const { data: one2OneRequestData } = useQuery(queryOne2oneRequest, {
-    variables: {
-      email: employee?.email,
-    },
     skip: !employee,
   })
 
-  const isOne2oneRequest = one2OneRequestData?.employeeByEmail?.one2oneRequest
+  const isOne2oneRequest = one2OneRequestData?.profile?.one2oneRequest
 
   const [one2oneRequest] = useUpdateEmployeeMutation({
     onCompleted: () => message.success('Requested'),

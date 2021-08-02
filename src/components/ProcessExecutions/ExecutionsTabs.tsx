@@ -11,6 +11,16 @@ interface Props {
 function ActiveProcesses({ processExecutions }: Props) {
   const tabsActive = [
     {
+      title: 'All',
+      key: 'all',
+      body: (
+        <ProcessList
+          items={processExecutions.filter(i => i.status === 'RUNNING')}
+          onlyForMeFilter
+        />
+      ),
+    },
+    {
       title: 'Onboarding',
       key: 'onboarding',
       body: (
@@ -18,7 +28,6 @@ function ActiveProcesses({ processExecutions }: Props) {
           items={processExecutions.filter(
             i => i.status === 'RUNNING' && i.process.type === 'ONBOARDING',
           )}
-          onlyForMeFilter
         />
       ),
     },
@@ -30,7 +39,6 @@ function ActiveProcesses({ processExecutions }: Props) {
           items={processExecutions.filter(
             i => i.status === 'RUNNING' && i.process.type === 'OFFBOARDING',
           )}
-          onlyForMeFilter
         />
       ),
     },
@@ -42,14 +50,8 @@ function ActiveProcesses({ processExecutions }: Props) {
           items={processExecutions.filter(
             i => i.status === 'RUNNING' && i.process.type === 'ROTATION',
           )}
-          onlyForMeFilter
         />
       ),
-    },
-    {
-      title: 'All',
-      key: 'all',
-      body: <ProcessList items={processExecutions.filter(i => i.status === 'RUNNING')} />,
     },
     {
       title: 'Board',

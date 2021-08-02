@@ -12,10 +12,17 @@ import Scrum from './Scrum'
 
 export default function Management() {
   const urlAction = new URLAction()
-  const [view, setView] = useState(urlAction.paramsGet('tab') || 'employees')
-  const [aadSection, setAadSection] = useState<'users' | 'groups'>('users')
   const isGeneralAccess = useStrapiGroupCheck('SUPER_USER')
-  const isAADAccess = useStrapiGroupCheck('AAD_EDITORS')
+  const isAADCreators = useStrapiGroupCheck('AAD_CREATORS')
+  const isAADUserEditors = useStrapiGroupCheck('AAD_USER_EDITORS')
+  const isAADGroupEditors = useStrapiGroupCheck('AAD_GROUP_EDITORS')
+  const isAADAccess = isAADCreators || isAADUserEditors || isAADGroupEditors
+  const [view, setView] = useState(
+    urlAction.paramsGet('tab') || isGeneralAccess ? 'employees' : 'aad',
+  )
+  const [aadSection, setAadSection] = useState<'users' | 'groups'>(
+    isAADCreators || isAADUserEditors ? 'users' : 'groups',
+  )
 
   return (
     <>
@@ -31,8 +38,12 @@ export default function Management() {
           tabBarExtraContent={
             view === 'aad' ? (
               <Radio.Group onChange={e => setAadSection(e.target.value)} defaultValue={aadSection}>
-                <Radio.Button value="users">Users</Radio.Button>
-                <Radio.Button value="groups">Groups</Radio.Button>
+                <Radio.Button value="users" disabled={!isAADCreators && !isAADUserEditors}>
+                  Users
+                </Radio.Button>
+                <Radio.Button value="groups" disabled={!isAADCreators && !isAADGroupEditors}>
+                  Groups
+                </Radio.Button>
               </Radio.Group>
             ) : undefined
           }
@@ -68,10 +79,10 @@ export default function Management() {
           )}
         </Tabs>
 
-        {view === 'aad' && <AAD view={aadSection} />}
-        {view === 'employees' && <Employees />}
-        {view === 'agile' && <Agile />}
-        {view === 'scrum' && <Scrum />}
+        {view === 'aad' && isAADAccess && <AAD view={aadSection} createAccess={isAADCreators} />}
+        {view === 'employees' && isGeneralAccess && <Employees />}
+        {view === 'agile' && isGeneralAccess && <Agile />}
+        {view === 'scrum' && isGeneralAccess && <Scrum />}
       </PageContent>
     </>
   )

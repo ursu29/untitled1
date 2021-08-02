@@ -49,7 +49,7 @@ export default function Career({ employee, access }: Props) {
       body: (
         <EmployeeMatrices
           employee={employee}
-          reviewersListAccess={access.matricesLookReviewersAccess}
+          reviewersListAccess={access.matricesLookReviewersAccess || { read: true, write: false }}
         />
       ),
     })
@@ -74,7 +74,9 @@ export default function Career({ employee, access }: Props) {
       body: (
         <EmployeeDevelopmentPlan
           employee={employee}
-          reviewersListAccess={access.developmentPlanLookReviewersAccess}
+          reviewersListAccess={
+            access.developmentPlanLookReviewersAccess || { read: true, write: false }
+          }
         />
       ),
     })
