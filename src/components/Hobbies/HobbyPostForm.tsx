@@ -1,15 +1,14 @@
-import { UploadOutlined } from '@ant-design/icons'
-import { UploadChangeParam } from 'antd/lib/upload/interface'
-import { Button, Col, Form, Input, Row, Switch, Upload, DatePicker } from 'antd'
+import { Button, Col, Form, Input, Row, Switch, DatePicker } from 'antd'
 import React, { useEffect, useState } from 'react'
 import moment from 'moment'
-import { GATEWAY } from '../../config'
 import { Hobby, Language } from '../../types/graphql'
 import { HobbyPostBaseFragment } from '../../queries/hobbyPosts'
 import MarkdownEditor from '../UI/MarkdownEditor'
 import HobbySelect from './HobbySelect'
 import PostPreview from '../Posts/PostPreview'
 import { HobbyPostPreview } from './HobbyPost'
+import { ImageUploader } from '../UI/ImageUploader'
+import { UploadChangeParam } from 'antd/lib/upload'
 
 type FormFields = {
   title: string
@@ -117,28 +116,21 @@ const HobbyPostForm = ({ post, loading, onSubmit }: Props) => {
           if (Array.isArray(e)) {
             return e
           }
-          return e?.fileList.map(i => {
-            return {
-              ...i,
-              url: i.response?.[0]?.url,
-            }
-          })
+          return (
+            e &&
+            e.fileList.map((i: any) => {
+              return {
+                ...i,
+                url: i.response?.[0]?.url,
+              }
+            })
+          )
         }}
       >
-        <Upload
-          action={GATEWAY + '/upload'}
-          name="files"
-          multiple
-          listType="picture"
-          onChange={info => {
-            if (info?.file?.status === 'removed') return
-            setUploadedImg(info?.file?.response?.[0])
-          }}
-        >
-          <Button>
-            <UploadOutlined /> Upload Photos
-          </Button>
-        </Upload>
+        <ImageUploader onChange={data => {
+          if (data?.file?.status === 'removed') return
+          setUploadedImg(data?.file?.response?.[0])
+        }} />
       </Form.Item>
 
       <Form.Item label="Hobbies" name="hobbies" initialValue={[]}>
