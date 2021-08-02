@@ -15,9 +15,8 @@ describe('cv table looks good', () => {
   })
 
   it('check all matrix', () => {
-    //cy.getResponse(['getCV'], 'alias')
     cy.visit(getSubTabUrl('career', '/profile', 'cv'))
-    //cy.wait('@alias').then(res => cy.writeFile('test.json', res.response.body.data))
+
     cy.mockResponse(['getCV'], getCv(id))
     elements.forEach(el => cy.getElement(el).matchImageSnapshot(el))
   })

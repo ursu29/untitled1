@@ -18,7 +18,6 @@ describe('Visual regression employees page', () => {
         cy.mockResponse(['getEvent', 'attendees'], bookPeople())
 
         cy.get(eventsEl.event).contains(title).click()
-        //cy.getElement(eventsEl.user).find('img').should('be.visible')
     })
 
     after('delete event', () => {
