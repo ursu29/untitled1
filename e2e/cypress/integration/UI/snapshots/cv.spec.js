@@ -1,27 +1,24 @@
 import { getCv } from '../../../fixtures/cv'
 import {getEmployee} from "../../../support/getData";
 import {email} from "../../../support/client/employeeData";
-import {skillEl} from "../../../support/locators";
 import { getSubTabUrl } from '../../../support/utils'
 
 describe('cv table looks good', () => {
   let id
+  const elements = ['workExperience', 'cvCertificates', 'cvEducation']
 
   before(() => {
-    cy.setToken('employee')
+    cy.setToken('manager')
 
     cy.post(getEmployee(email('employee')))
         .then(res => id = res.body.data.employeeByEmail.id)
   })
 
   it('check all matrix', () => {
+    //cy.getResponse(['getCV'], 'alias')
     cy.visit(getSubTabUrl('career', '/profile', 'cv'))
+    //cy.wait('@alias').then(res => cy.writeFile('test.json', res.response.body.data))
     cy.mockResponse(['getCV'], getCv(id))
-
-    cy.get('.ant-skeleton').should('be.visible')
-    cy.get('.ant-skeleton').should('not.exist')
-    cy.get(skillEl.item).contains('Portal').should('be.visible')
-
-    cy.getElement('cvForm').matchImageSnapshot('cv')
+    elements.forEach(el => cy.getElement(el).matchImageSnapshot(el))
   })
 })

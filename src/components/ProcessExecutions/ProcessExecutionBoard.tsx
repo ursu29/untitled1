@@ -190,8 +190,8 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
                                 {(provided, snapshot) => {
                                   return (
                                     <div
-                                        data-cy="refId"
-                                        ref={provided.innerRef}
+                                      data-cy="refId"
+                                      ref={provided.innerRef}
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}
                                       style={{
@@ -336,6 +336,7 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
                                       >
                                         <Tooltip placement="right" title="Prio">
                                           <Select
+                                            data-cy="prioValue"
                                             defaultValue={item.prio}
                                             onChange={async prio => {
                                               const res = await makeUpdate({ id: item.id, prio })

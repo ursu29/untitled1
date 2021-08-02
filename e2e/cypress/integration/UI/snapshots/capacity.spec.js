@@ -18,6 +18,7 @@ describe('Visual regression "Capacity" (capacity)', () => {
 
         cy.get('.ant-skeleton').should('be.visible')
         cy.get('.ant-skeleton').should('not.exist')
-        cy.getElement('project').matchImageSnapshot('projectCapacity')
+        cy.snapshot('data-cy', 'project', 'projectCapacity')
+        //cy.getElement('project').matchImageSnapshot('projectCapacity')
     })
 })

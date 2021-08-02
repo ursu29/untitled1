@@ -3,7 +3,7 @@ import { filterSkillsName } from './complexLocators'
 import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command'
 
 addMatchImageSnapshotCommand({
-  failureThreshold: 0.00, // threshold for entire image
+  failureThreshold: 0.1, // threshold for entire image
   failureThresholdType: 'percent', // percent of image or number of pixels
   customDiffConfig: { threshold: 0.5 },  // threshold for each pixel
   capture: 'viewport',  // capture viewport in screenshot
@@ -90,3 +90,22 @@ Cypress.Commands.add('waitElDisappear', el => {
 })
 
 Cypress.Commands.add('addHeadersAuth', () => cy.auth(process.env.EMPLOYEE_TYPE))
+
+Cypress.Commands.add('snapshot', (type, element, name, waitTime = 1000, obj) => {
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(waitTime)
+  type === 'data-cy' ? cy.getElement(element).matchImageSnapshot(name, obj) :
+    type === 'id' ? cy.getId(element).matchImageSnapshot(name, obj) :
+      cy.get(element).matchImageSnapshot(name, obj)
+})
+
+Cypress.Commands.add('snap', (el, name, time = 1000, obj) => {
+  cy.wait(time)
+
+  el.matchImageSnapshot(name, obj)
+})
+export const getShap = (el, name, obj) => {
+  cy.wait(1000)
+
+  el.matchImageSnapshot(name, obj)
+}

@@ -12,9 +12,6 @@ describe('agile managers boards looks good', () => {
 
     it('check agile managers cards', () => {
         cy.getIcon('right').eq(0).click()
-        cy.get('.ant-avatar-circle').find('img').should('be.visible').and(($img) => {
-            expect($img[0].naturalWidth).to.be.greaterThan(0)
-        })
 
         cy.getElement('agile').matchImageSnapshot('agileManagers', {blackout: ['.ant-avatar']})
     })

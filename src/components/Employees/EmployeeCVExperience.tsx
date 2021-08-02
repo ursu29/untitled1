@@ -217,7 +217,7 @@ const JobListView = ({
   }
 
   return (
-    <div>
+    <div data-cy="workExperience">
       <div style={{ display: 'flex', justifyContent: 'space-between', height: '32px' }}>
         <Title level={4} style={{ marginBottom: 16 }}>
           Work experience
@@ -634,7 +634,7 @@ const ProjectDetailedForm = ({
               format={DATE_MONTH_FORMAT}
               picker="month"
               allowClear
-              disabled={editable ? false : true}
+              disabled={!editable}
               onChange={value => {
                 if (!value) form.submit()
               }}

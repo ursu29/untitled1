@@ -38,122 +38,367 @@ export const getBoardMock = () => ({
                 "__typename": "ProcessExecution"
             },
             {
-                "id": "607ea36a9cabd7001c637d58",
+                "id": "603f5a8a7ae138001c225ba2",
                 "process": {
-                    "id": "607ea3699cabd7001c637d55",
-                    "title": "test delete title",
-                    "customer": "INTERNAL",
+                    "id": "603f5a7f7ae138001c225a57",
+                    "title": "Onboarding SwissRe",
+                    "customer": "SWISSRE",
                     "type": "ONBOARDING",
                     "__typename": "Process"
                 },
-                "status": "HOLDING",
+                "status": "CANCELLED",
                 "substatus": null,
                 "vacancy": {
-                    "id": "607ea36a9cabd7001c637d57",
-                    "position": "new position",
-                    "isPublished": false,
+                    "id": "603f5a877ae138001c225b57",
+                    "position": "Automation QA",
+                    "isPublished": true,
                     "__typename": "Vacancy"
                 },
                 "project": {
-                    "id": "603f595a7ae138001c21fe43",
-                    "name": "Portal",
-                    "code": "guild-portal",
+                    "id": "603f595a7ae138001c21fe4a",
+                    "name": "SwissRe TCL Squad B",
+                    "code": "sr-tclb",
                     "__typename": "Project"
                 },
                 "projectFrom": null,
                 "projectTo": null,
-                "locations": [
-                    "SAINT_PETERSBURG"
-                ],
-                "employee": "Test Employee",
-                "employeeRef": null,
-                "finishDate": "2020-12-07",
-                "activeStepEmployees": [],
-                "prio": 1,
-                "updatedAt": "2021-04-20T09:52:15.705Z",
-                "__typename": "ProcessExecution"
-            },
-            {
-                "id": "60a28465187e18001c1d7a52",
-                "process": {
-                    "id": "609d06b0903443001c670aea",
-                    "title": "T Rotation",
-                    "customer": "SWISSRE",
-                    "type": "ROTATION",
-                    "__typename": "Process"
-                },
-                "status": "RUNNING",
-                "substatus": "SOURCING",
-                "vacancy": null,
-                "project": null,
-                "projectFrom": {
-                    "id": "603f595a7ae138001c21fe43",
-                    "name": "Portal",
-                    "code": "guild-portal",
-                    "__typename": "Project"
-                },
-                "projectTo": {
-                    "id": "603f595a7ae138001c21fe43",
-                    "name": "Portal",
-                    "code": "guild-portal",
-                    "__typename": "Project"
-                },
                 "locations": [
                     "SAINT_PETERSBURG"
                 ],
                 "employee": null,
-                "employeeRef": {
-                    "id": "603f592a7ae138001c21f6c4",
-                    "name": "Nikolay Kozub",
-                    "__typename": "Employee"
-                },
-                "finishDate": "2021-05-03",
-                "activeStepEmployees": [],
-                "prio": 1,
-                "updatedAt": "2021-05-17T14:59:05.461Z",
-                "__typename": "ProcessExecution"
-            },
-            {
-                "id": "603f5a8b7ae138001c225c19",
-                "process": {
-                    "id": "603f5a807ae138001c225a60",
-                    "title": "Rotation - Offboarding Allianz - Onboarding SwissRe",
-                    "customer": "ALLIANZ",
-                    "type": "ROTATION",
-                    "__typename": "Process"
-                },
-                "status": "RUNNING",
-                "substatus": "NEW",
-                "vacancy": null,
-                "project": null,
-                "projectFrom": null,
-                "projectTo": null,
-                "locations": [
-                    "TOMSK"
-                ],
-                "employee": "Test Name",
-                "employeeRef": {
-                    "id": "603f59277ae138001c21f5dc",
-                    "name": "Alexander Bashmakov",
-                    "__typename": "Employee"
-                },
-                "finishDate": "2020-12-07",
+                "employeeRef": null,
+                "finishDate": null,
                 "activeStepEmployees": [
                     {
-                        "id": "603f59287ae138001c21f64b",
-                        "name": "Julia Kirilova",
-                        "email": "julia.kirilova@syncretis.com",
+                        "id": "603f59287ae138001c21f625",
+                        "name": "Ekaterina Sogonova",
+                        "email": "ekaterina.sogonova@syncretis.com",
                         "__typename": "Employee"
                     },
                     {
-                        "id": "603f59297ae138001c21f67c",
-                        "name": "Pavel Rusakov",
-                        "email": "pavel.rusakov@syncretis.com",
+                        "id": "603f59297ae138001c21f677",
+                        "name": "Olga Zueva",
+                        "email": "olga.zueva@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f59297ae138001c21f68e",
+                        "name": "Stepan Krychkov",
+                        "email": "stepan.krychkov@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f592a7ae138001c21f6c8",
+                        "name": "Alena Blek",
+                        "email": "alena.blek@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f592b7ae138001c21f6ed",
+                        "name": "Ekaterina Makova",
+                        "email": "ekaterina.makova@syncretis.com",
+                        "__typename": "Employee"
+                    }
+                ],
+                "prio": 3,
+                "updatedAt": "2021-03-03T09:45:08.907Z",
+                "__typename": "ProcessExecution"
+            },
+            {
+                "id": "603f5a8a7ae138001c225ba3",
+                "process": {
+                    "id": "603f5a7f7ae138001c225a58",
+                    "title": "Onboarding Allianz",
+                    "customer": "ALLIANZ",
+                    "type": "ONBOARDING",
+                    "__typename": "Process"
+                },
+                "status": "FINISHED",
+                "substatus": null,
+                "vacancy": {
+                    "id": "603f5a877ae138001c225b58",
+                    "position": "Frontend Developer",
+                    "isPublished": true,
+                    "__typename": "Vacancy"
+                },
+                "project": {
+                    "id": "603f595a7ae138001c21fe45",
+                    "name": "az-mcp",
+                    "code": "az-mcp",
+                    "__typename": "Project"
+                },
+                "projectFrom": null,
+                "projectTo": null,
+                "locations": [
+                    "SAINT_PETERSBURG"
+                ],
+                "employee": "Arina Busygina",
+                "employeeRef": null,
+                "finishDate": "2020-07-20",
+                "activeStepEmployees": [],
+                "prio": 3,
+                "updatedAt": "2021-03-03T09:45:08.915Z",
+                "__typename": "ProcessExecution"
+            },
+            {
+                "id": "603f5a8a7ae138001c225bb8",
+                "process": {
+                    "id": "603f5a7f7ae138001c225a57",
+                    "title": "Onboarding SwissRe",
+                    "customer": "SWISSRE",
+                    "type": "ONBOARDING",
+                    "__typename": "Process"
+                },
+                "status": "CANCELLED",
+                "substatus": null,
+                "vacancy": {
+                    "id": "603f5a877ae138001c225b66",
+                    "position": "Business/System Analyst",
+                    "isPublished": true,
+                    "__typename": "Vacancy"
+                },
+                "project": {
+                    "id": "603f595b7ae138001c21fe57",
+                    "name": "SwissRe CWB MidCorp",
+                    "code": "sr-midcorp",
+                    "__typename": "Project"
+                },
+                "projectFrom": null,
+                "projectTo": null,
+                "locations": [
+                    "SAINT_PETERSBURG"
+                ],
+                "employee": "Daria Ermishkina",
+                "employeeRef": null,
+                "finishDate": "2020-12-21",
+                "activeStepEmployees": [
+                    {
+                        "id": "603f592a7ae138001c21f6c8",
+                        "name": "Alena Blek",
+                        "email": "alena.blek@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f592b7ae138001c21f6ed",
+                        "name": "Ekaterina Makova",
+                        "email": "ekaterina.makova@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f59277ae138001c21f5da",
+                        "name": "Alena Makrushina",
+                        "email": "alena.makrushina@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f59287ae138001c21f603",
+                        "name": "Anton Khavdey",
+                        "email": "anton.khavdey@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f59287ae138001c21f63a",
+                        "name": "Igor Kovalev",
+                        "email": "igor.kovalev@syncretis.com",
+                        "__typename": "Employee"
+                    }
+                ],
+                "prio": 3,
+                "updatedAt": "2021-03-03T09:45:08.932Z",
+                "__typename": "ProcessExecution"
+            },
+            {
+                "id": "603f5a8a7ae138001c225bbf",
+                "process": {
+                    "id": "603f5a7f7ae138001c225a57",
+                    "title": "Onboarding SwissRe",
+                    "customer": "SWISSRE",
+                    "type": "ONBOARDING",
+                    "__typename": "Process"
+                },
+                "status": "RUNNING",
+                "substatus": "SOURCING",
+                "vacancy": {
+                    "id": "603f5a877ae138001c225b6a",
+                    "position": "Automation QA Engineer",
+                    "isPublished": true,
+                    "__typename": "Vacancy"
+                },
+                "project": {
+                    "id": "603f595a7ae138001c21fe46",
+                    "name": "SwissRe SingleRisk",
+                    "code": "sr-srp",
+                    "__typename": "Project"
+                },
+                "projectFrom": null,
+                "projectTo": null,
+                "locations": [
+                    "KALININGRAD"
+                ],
+                "employee": "Test Employee",
+                "employeeRef": null,
+                "finishDate": "1900-12-05",
+                "activeStepEmployees": [
+                    {
+                        "id": "603f59287ae138001c21f625",
+                        "name": "Ekaterina Sogonova",
+                        "email": "ekaterina.sogonova@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f59287ae138001c21f642",
+                        "name": "Irina Zaloznykh",
+                        "email": "irina.zaloznykh@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f59297ae138001c21f677",
+                        "name": "Olga Zueva",
+                        "email": "olga.zueva@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f59297ae138001c21f68e",
+                        "name": "Stepan Krychkov",
+                        "email": "stepan.krychkov@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f592a7ae138001c21f69e",
+                        "name": "Viktoriia Gerber",
+                        "email": "viktoriia.gerber@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f592a7ae138001c21f6c8",
+                        "name": "Alena Blek",
+                        "email": "alena.blek@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f592b7ae138001c21f6ed",
+                        "name": "Ekaterina Makova",
+                        "email": "ekaterina.makova@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f59287ae138001c21f642",
+                        "name": "Irina Zaloznykh",
+                        "email": "irina.zaloznykh@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f59277ae138001c21f5da",
+                        "name": "Alena Makrushina",
+                        "email": "alena.makrushina@syncretis.com",
+                        "__typename": "Employee"
+                    }
+                ],
+                "prio": 3,
+                "updatedAt": "2021-07-27T10:30:30.364Z",
+                "__typename": "ProcessExecution"
+            },
+            {
+                "id": "603f5a8a7ae138001c225bc0",
+                "process": {
+                    "id": "603f5a7f7ae138001c225a59",
+                    "title": "Onboarding Internal",
+                    "customer": "INTERNAL",
+                    "type": "ONBOARDING",
+                    "__typename": "Process"
+                },
+                "status": "RUNNING",
+                "substatus": "SOURCING",
+                "vacancy": {
+                    "id": "603f5a877ae138001c225b6b",
+                    "position": "Java Developer",
+                    "isPublished": true,
+                    "__typename": "Vacancy"
+                },
+                "project": {
+                    "id": "603f595a7ae138001c21fe40",
+                    "name": "Riskmarket",
+                    "code": "is-riskmarket",
+                    "__typename": "Project"
+                },
+                "projectFrom": null,
+                "projectTo": null,
+                "locations": [
+                    "KALININGRAD"
+                ],
+                "employee": "Test Employee",
+                "employeeRef": null,
+                "finishDate": "2021-05-05",
+                "activeStepEmployees": [
+                    {
+                        "id": "603f59287ae138001c21f625",
+                        "name": "Ekaterina Sogonova",
+                        "email": "ekaterina.sogonova@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f59287ae138001c21f642",
+                        "name": "Irina Zaloznykh",
+                        "email": "irina.zaloznykh@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f59297ae138001c21f677",
+                        "name": "Olga Zueva",
+                        "email": "olga.zueva@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f59297ae138001c21f68e",
+                        "name": "Stepan Krychkov",
+                        "email": "stepan.krychkov@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f592a7ae138001c21f69e",
+                        "name": "Viktoriia Gerber",
+                        "email": "viktoriia.gerber@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f592a7ae138001c21f6c8",
+                        "name": "Alena Blek",
+                        "email": "alena.blek@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f592b7ae138001c21f6ed",
+                        "name": "Ekaterina Makova",
+                        "email": "ekaterina.makova@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f59287ae138001c21f642",
+                        "name": "Irina Zaloznykh",
+                        "email": "irina.zaloznykh@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f592a7ae138001c21f6c8",
+                        "name": "Alena Blek",
+                        "email": "alena.blek@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f592b7ae138001c21f6ed",
+                        "name": "Ekaterina Makova",
+                        "email": "ekaterina.makova@syncretis.com",
+                        "__typename": "Employee"
+                    },
+                    {
+                        "id": "603f59287ae138001c21f642",
+                        "name": "Irina Zaloznykh",
+                        "email": "irina.zaloznykh@syncretis.com",
                         "__typename": "Employee"
                     }
                 ],
                 "prio": 1,
-                "updatedAt": "2021-05-17T16:04:18.099Z",
+                "updatedAt": "2021-07-27T08:22:27.057Z",
                 "__typename": "ProcessExecution"
             },
             {
@@ -166,7 +411,7 @@ export const getBoardMock = () => ({
                     "__typename": "Process"
                 },
                 "status": "RUNNING",
-                "substatus": "OFFER_SENT",
+                "substatus": "IN_PROGRESS",
                 "vacancy": {
                     "id": "603f5a877ae138001c225b9c",
                     "position": "Manual QA Engineer",
@@ -196,158 +441,36 @@ export const getBoardMock = () => ({
                     }
                 ],
                 "prio": 2,
-                "updatedAt": "2021-05-18T09:37:38.291Z",
+                "updatedAt": "2021-07-22T19:42:47.475Z",
                 "__typename": "ProcessExecution"
             },
             {
-                "id": "6052ee6fbb9bcd001d220038",
+                "id": "609e5085876994001d678f4c",
                 "process": {
-                    "id": "6052e9d7bb9bcd001d220015",
-                    "title": "Test Rotation Process",
-                    "customer": "SWISSRE",
-                    "type": "ROTATION",
+                    "id": "603f6e45fe2832001c7e6f48",
+                    "title": "offBoarding",
+                    "customer": "INTERNAL",
+                    "type": "ONBOARDING",
                     "__typename": "Process"
                 },
                 "status": "RUNNING",
-                "substatus": null,
-                "vacancy": null,
-                "project": null,
-                "projectFrom": {
-                    "id": "603f595b7ae138001c21fe53",
-                    "name": "SwissRe COP",
-                    "code": "sr-cop",
-                    "__typename": "Project"
-                },
-                "projectTo": {
-                    "id": "603f595a7ae138001c21fe3f",
-                    "name": "EXRO -  Exposure Robot",
-                    "code": "is-exro",
-                    "__typename": "Project"
-                },
-                "locations": [
-                    "KALININGRAD"
-                ],
-                "employee": null,
-                "employeeRef": {
-                    "id": "603f59297ae138001c21f671",
-                    "name": "Olga Bortsova",
-                    "__typename": "Employee"
-                },
-                "finishDate": "2021-03-22",
-                "activeStepEmployees": [],
-                "prio": 3,
-                "updatedAt": "2021-03-18T06:09:22.573Z",
-                "__typename": "ProcessExecution"
-            },
-            {
-                "id": "603f5a8b7ae138001c225c1e",
-                "process": {
-                    "id": "603f5a807ae138001c225a5b",
-                    "title": "Offboarding Allianz",
-                    "customer": "ALLIANZ",
-                    "type": "OFFBOARDING",
-                    "__typename": "Process"
-                },
-                "status": "RUNNING",
-                "substatus": "ON_REVIEW",
+                "substatus": "NEW",
                 "vacancy": null,
                 "project": {
-                    "id": "603f595a7ae138001c21fe45",
-                    "name": "az-mcp",
-                    "code": "az-mcp",
+                    "id": "603f595a7ae138001c21fe44",
+                    "name": "Timemaster",
+                    "code": "guild-timemaster",
                     "__typename": "Project"
                 },
                 "projectFrom": null,
                 "projectTo": null,
                 "locations": [
-                    "TOMSK"
-                ],
-                "employee": "Isabekov Emil",
-                "employeeRef": {
-                    "id": "603f592a7ae138001c21f6c4",
-                    "name": "Nikolay Kozub",
-                    "__typename": "Employee"
-                },
-                "finishDate": "2021-02-25",
-                "activeStepEmployees": [
-                    {
-                        "id": "603f592a7ae138001c21f6bf",
-                        "name": "Julia Korobkina",
-                        "email": "julia.korobkina@syncretis.com",
-                        "__typename": "Employee"
-                    },
-                    {
-                        "id": "603f59287ae138001c21f642",
-                        "name": "Irina Zaloznykh",
-                        "email": "irina.zaloznykh@syncretis.com",
-                        "__typename": "Employee"
-                    }
-                ],
-                "prio": 3,
-                "updatedAt": "2021-05-17T14:32:19.783Z",
-                "__typename": "ProcessExecution"
-            },
-            {
-                "id": "6049e8f3bb9bcd001d21fecf",
-                "process": {
-                    "id": "603f5a807ae138001c225a5a",
-                    "title": "Offboarding SwissRe",
-                    "customer": "SWISSRE",
-                    "type": "OFFBOARDING",
-                    "__typename": "Process"
-                },
-                "status": "RUNNING",
-                "substatus": "IN_PROGRESS",
-                "vacancy": null,
-                "project": {
-                    "id": "603f595a7ae138001c21fe3f",
-                    "name": "EXRO -  Exposure Robot",
-                    "code": "is-exro",
-                    "__typename": "Project"
-                },
-                "projectFrom": null,
-                "projectTo": null,
-                "locations": [
-                    "KALININGRAD"
+                    "ZURICH"
                 ],
                 "employee": null,
-                "employeeRef": {
-                    "id": "603f59277ae138001c21f5d6",
-                    "name": "Alexander Vygodchikov",
-                    "__typename": "Employee"
-                },
-                "finishDate": "2021-03-31",
+                "employeeRef": null,
+                "finishDate": null,
                 "activeStepEmployees": [
-                    {
-                        "id": "603f59287ae138001c21f642",
-                        "name": "Irina Zaloznykh",
-                        "email": "irina.zaloznykh@syncretis.com",
-                        "__typename": "Employee"
-                    },
-                    {
-                        "id": "603f59297ae138001c21f68e",
-                        "name": "Stepan Krychkov",
-                        "email": "stepan.krychkov@syncretis.com",
-                        "__typename": "Employee"
-                    },
-                    {
-                        "id": "603f592a7ae138001c21f692",
-                        "name": "Tatyana Gnezdilova",
-                        "email": "tatyana.gnezdilova@syncretis.com",
-                        "__typename": "Employee"
-                    },
-                    {
-                        "id": "603f592a7ae138001c21f6c8",
-                        "name": "Alena Blek",
-                        "email": "alena.blek@syncretis.com",
-                        "__typename": "Employee"
-                    },
-                    {
-                        "id": "603f592b7ae138001c21f6ed",
-                        "name": "Ekaterina Makova",
-                        "email": "ekaterina.makova@syncretis.com",
-                        "__typename": "Employee"
-                    },
                     {
                         "id": "603f59277ae138001c21f5d6",
                         "name": "Alexander Vygodchikov",
@@ -355,115 +478,61 @@ export const getBoardMock = () => ({
                         "__typename": "Employee"
                     },
                     {
-                        "id": "603f59277ae138001c21f5da",
-                        "name": "Alena Makrushina",
-                        "email": "alena.makrushina@syncretis.com",
-                        "__typename": "Employee"
-                    },
-                    {
-                        "id": "603f59297ae138001c21f67e",
-                        "name": "Peter Meyer",
-                        "email": "peter.meyer@syncretis.com",
-                        "__typename": "Employee"
-                    },
-                    {
-                        "id": "603f59297ae138001c21f68e",
-                        "name": "Stepan Krychkov",
-                        "email": "stepan.krychkov@syncretis.com",
-                        "__typename": "Employee"
-                    },
-                    {
-                        "id": "603f592a7ae138001c21f6c8",
-                        "name": "Alena Blek",
-                        "email": "alena.blek@syncretis.com",
-                        "__typename": "Employee"
-                    },
-                    {
-                        "id": "603f592b7ae138001c21f6ed",
-                        "name": "Ekaterina Makova",
-                        "email": "ekaterina.makova@syncretis.com",
-                        "__typename": "Employee"
-                    },
-                    {
-                        "id": "603f59287ae138001c21f642",
-                        "name": "Irina Zaloznykh",
-                        "email": "irina.zaloznykh@syncretis.com",
-                        "__typename": "Employee"
-                    },
-                    {
-                        "id": "603f592a7ae138001c21f692",
-                        "name": "Tatyana Gnezdilova",
-                        "email": "tatyana.gnezdilova@syncretis.com",
+                        "id": "603f59297ae138001c21f666",
+                        "name": "Natalia Volkova",
+                        "email": "natalia.volkova@syncretis.com",
                         "__typename": "Employee"
                     }
                 ],
-                "prio": 3,
-                "updatedAt": "2021-05-17T09:45:22.372Z",
+                "prio": 2,
+                "updatedAt": "2021-07-22T18:15:25.318Z",
                 "__typename": "ProcessExecution"
             },
             {
-                "id": "6049ead4bb9bcd001d21fed5",
+                "id": "609e50db876994001d678f4e",
                 "process": {
-                    "id": "603f5a807ae138001c225a68",
-                    "title": "Rotation - Onboarding Allianz",
-                    "customer": "ALLIANZ",
+                    "id": "6041dd30fe2832001c7e7fcc",
+                    "title": "Test Rotation",
+                    "customer": "SWISSRE",
                     "type": "ROTATION",
                     "__typename": "Process"
                 },
-                "status": "RUNNING",
-                "substatus": null,
+                "status": "CANCELLED",
+                "substatus": "IN_PROGRESS",
                 "vacancy": null,
                 "project": null,
                 "projectFrom": {
-                    "id": "603f595a7ae138001c21fe40",
-                    "name": "Riskmarket",
-                    "code": "is-riskmarket",
+                    "id": "603f5a8a7ae138001c225bb3",
+                    "name": "SwissRe TCL All Squads",
+                    "code": "sr-tcl",
                     "__typename": "Project"
                 },
                 "projectTo": {
-                    "id": "603f595a7ae138001c21fe43",
-                    "name": "Portal",
-                    "code": "guild-portal",
+                    "id": "603f684afe2832001c7e6ddf",
+                    "name": "SwissRe EBM L2",
+                    "code": "sr-embl2",
                     "__typename": "Project"
                 },
                 "locations": [
-                    "KALININGRAD"
+                    "ZURICH"
                 ],
                 "employee": null,
                 "employeeRef": {
-                    "id": "603f59287ae138001c21f61a",
-                    "name": "Dmitry Babich",
+                    "id": "603f59287ae138001c21f623",
+                    "name": "Ekaterina Cherednik",
                     "__typename": "Employee"
                 },
-                "finishDate": "2021-03-24",
+                "finishDate": "2021-05-27",
                 "activeStepEmployees": [
                     {
-                        "id": "603f59287ae138001c21f63a",
-                        "name": "Igor Kovalev",
-                        "email": "igor.kovalev@syncretis.com",
-                        "__typename": "Employee"
-                    },
-                    {
-                        "id": "603f59297ae138001c21f67c",
-                        "name": "Pavel Rusakov",
-                        "email": "pavel.rusakov@syncretis.com",
-                        "__typename": "Employee"
-                    },
-                    {
-                        "id": "603f592a7ae138001c21f6bf",
-                        "name": "Julia Korobkina",
-                        "email": "julia.korobkina@syncretis.com",
-                        "__typename": "Employee"
-                    },
-                    {
-                        "id": "603f59297ae138001c21f670",
-                        "name": "Olga Babich",
-                        "email": "olga.babich@syncretis.com",
+                        "id": "603f59297ae138001c21f666",
+                        "name": "Natalia Volkova",
+                        "email": "natalia.volkova@syncretis.com",
                         "__typename": "Employee"
                     }
                 ],
-                "prio": 3,
-                "updatedAt": "2021-03-11T10:03:21.012Z",
+                "prio": 2,
+                "updatedAt": "2021-05-14T10:38:54.338Z",
                 "__typename": "ProcessExecution"
             },
         ]
