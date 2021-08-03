@@ -8,6 +8,8 @@ describe('get notification data', () => {
     before(() => {
         cy.setToken('employee')
         cy.post(getAllBirthdays()).then(req => {
+            console.log('req.body.data.employees', req.body.data.employees)
+            console.log('allDates', allDates)
 
             req.body.data.employees.map(el => allDates.toString().includes(el.birthday) ? allData.push(el) : null)
         })
