@@ -11,6 +11,6 @@ describe('hr boards looks good', () => {
     })
 
     it('check boards cards', () => {
-        cy.snapshot('id', 'rc-tabs-1-panel-board', 'hrBoard')
+        cy.getId('rc-tabs-1-panel-board').matchImageSnapshot('hrBoard')
     })
 })

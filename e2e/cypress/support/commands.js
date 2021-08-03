@@ -91,21 +91,3 @@ Cypress.Commands.add('waitElDisappear', el => {
 
 Cypress.Commands.add('addHeadersAuth', () => cy.auth(process.env.EMPLOYEE_TYPE))
 
-Cypress.Commands.add('snapshot', (type, element, name, waitTime = 1000, obj) => {
-  // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(waitTime)
-  type === 'data-cy' ? cy.getElement(element).matchImageSnapshot(name, obj) :
-    type === 'id' ? cy.getId(element).matchImageSnapshot(name, obj) :
-      cy.get(element).matchImageSnapshot(name, obj)
-})
-
-Cypress.Commands.add('snap', (el, name, time = 1000, obj) => {
-  cy.wait(time)
-
-  el.matchImageSnapshot(name, obj)
-})
-export const getShap = (el, name, obj) => {
-  cy.wait(1000)
-
-  el.matchImageSnapshot(name, obj)
-}
