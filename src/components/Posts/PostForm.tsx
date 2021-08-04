@@ -1,8 +1,6 @@
-import { UploadOutlined } from '@ant-design/icons'
-import { Button, Col, Form, Input, Row, Switch, Upload } from 'antd'
+import { Button, Col, Form, Input, Row, Switch } from 'antd'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
-import { GATEWAY } from '../../config'
 import { Post as PostType } from '../../types'
 import TagSelect from '../Tags/TagSelect'
 import MarkdownEditor from '../UI/MarkdownEditor'
@@ -129,10 +127,12 @@ export default function PostForm({ values: post, loading, onSubmit }: Props) {
           )
         }}
       >
-        <ImageUploader onChange={data => {
-          if (data?.file?.status === 'removed') return
-          setUploadedImg(data?.file?.response?.[0])
-        }} />
+        <ImageUploader
+          onChange={data => {
+            if (data?.file?.status === 'removed') return
+            setUploadedImg(data?.file?.response?.[0])
+          }}
+        />
       </Form.Item>
 
       <Form.Item label="Tags" name="tags">
