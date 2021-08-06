@@ -7,6 +7,13 @@ describe('under-menu looks good', () => {
     guild: 'guilds/community-frontend?community-frontend',
     skill: `skills/${id}`
   })
+  beforeEach(() => {
+    cy.addHeadersAuth()
+  })
+  afterEach(() => {
+    cy.addHeadersAuth()
+  })
+
   before(() => {
     cy.setToken('employee')
 
@@ -15,16 +22,23 @@ describe('under-menu looks good', () => {
       skillId = skills[0].id
     })
   })
-  it('check books tab menu', () => {
-    Object.values(allTabsPatch(skillId)).forEach((el, idx) => {
-      cy.visit(el)
 
-      cy.get('.ant-skeleton').should('not.exist')
-      cy.get('.ant-tabs-tab').eq(0).click()
-      cy.get('.ant-tabs-tab').eq(0).should('have.class', 'ant-tabs-tab-active')
+  it('check bottom tabs in profile', () => {
+    cy.visit(allTabsPatch(skillId).profile)
 
-      cy.get('.ant-tabs-nav-wrap').last().matchImageSnapshot(`underMenu-${idx}`)
-    })
+    cy.get('.ant-tabs-nav-list').last().matchImageSnapshot(`profileBottomTab`)
+  })
+
+  it('check community tab', () => {
+    cy.visit(allTabsPatch(skillId).guild)
+
+    cy.get('.ant-tabs-nav-wrap').last().matchImageSnapshot(`communityTab`)
+  })
+
+  it('check skills tab', () => {
+    cy.visit(allTabsPatch(skillId).skill)
+
+    cy.get('.ant-tabs-nav-wrap').last().matchImageSnapshot(`skillsTab`)
   })
 
 })
