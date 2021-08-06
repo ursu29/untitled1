@@ -1,6 +1,7 @@
 import { getAllMatrices } from '../../../support/getData'
 import { getListOfMatrix } from '../../../support/complexLocators'
-import { workspace, tabs, matrix } from '../../../support/locators'
+import { matrix } from '../../../support/locators'
+import { getSubTabUrl } from '../../../support/utils'
 
 describe('Adding Matrix', () => {
   let allData = {
@@ -9,7 +10,8 @@ describe('Adding Matrix', () => {
 
   before(() => {
     cy.setToken('employee')
-    cy.visit('/')
+    cy.visit(getSubTabUrl('career', '/profile', 'matrices'))
+
     cy.post(getAllMatrices()).then(res => {
       const { data } = res.body
       allData = { ...allData, matrices: data }
@@ -23,17 +25,14 @@ describe('Adding Matrix', () => {
     cy.addHeadersAuth()
   })
 
-  it('Check the Matrices tab', () => {
-    cy.get(workspace.tab).contains(tabs.matrices).click()
+  it('Delete all Matrix', () => {
     cy.getElement(matrix.knowledge).should('be.visible')
     const { matrices } = allData.matrices
     const name = matrices.map(val => val.title)
 
     cy.getId(matrix.matrixBtn).click()
     cy.checkTextInArrayEl(matrix.item, name, false)
-  })
 
-  it('Delete all Matrix', () => {
     cy.elementIsPresent('[data-cy=no-matrices]').then(val => {
       if (!val) {
         getListOfMatrix().each(el => {

@@ -3,7 +3,7 @@ import { codeOkAndBodyNotNull } from '../../support/utils'
 import {email} from '../../support/client/employeeData'
 import {getEmployee} from "../../support/getData";
 
-describe('Check bonuses presence and availability. Requires real environment. (e2e)', () => {
+xdescribe('Check bonuses presence and availability. Requires real environment. (e2e)', () => {
   let employeeId
 
   beforeEach(() => {

@@ -26,7 +26,7 @@ describe('Check active/inactive processes', () => {
     cy.addHeadersAuth()
   })
 
-  it('Check number of active ALL process', () => {
+  xit('Check number of active ALL process', () => {
     if (runningProcess.length > defaultCount) {
       cy.get('.ant-table-row-level-0').then(el => expect(el.length).equal(defaultCount))
 

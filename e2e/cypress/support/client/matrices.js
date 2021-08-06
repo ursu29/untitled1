@@ -7,7 +7,7 @@ export const matrixEmployees = (id, name, __typename) => ({
 })
 
 export const matrixEl = {
-  link: '.sc-dxgOiQ',
+  link: '.sc-fBuWsC',
   name: '.sc-brqgnP',
   info: '.sc-jAaTju',
 }

@@ -23,7 +23,7 @@ describe('Create new oneTwoOne (oneTwoOne)', () => {
         cy.get(popUp.button).contains('Yes').click()
 
         cy.get(matrix.success).should('be.visible')
-        cy.get(matrix.success).should('contain.text', 'Updated')
+        cy.get(matrix.success).should('contain.text', 'Requested')
         cy.get(matrix.success).should('not.exist')
         cy.get(oneTwoOne.disableBtn).should('exist')
     })

@@ -16,7 +16,7 @@ describe('Check Employee', () => {
   })
 
   it('getEmployee response', () => {
-    const {bonuses, country, email, id, isMe, location, name, phoneNumber, position, status, __typename} = employeeData
+    const {bonuses, email, id, isMe, location, name, phoneNumber, position, __typename} = employeeData
 
     cy.getResponse(['getEmployee', 'agileManager'], 'alias')
     cy.visit('/profile')
@@ -26,7 +26,6 @@ describe('Check Employee', () => {
 
       checkKeyValueExist(data.employeeByEmail, {
         bonuses,
-        country,
         email,
         id,
         isMe,
@@ -34,7 +33,6 @@ describe('Check Employee', () => {
         name,
         phoneNumber,
         position,
-        status,
         __typename,
       })
     })

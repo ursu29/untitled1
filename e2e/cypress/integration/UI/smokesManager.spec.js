@@ -1,5 +1,4 @@
 import {getClient, getManager, getProjects, getEmployeeExperiences, getEmployee} from '../../support/getData'
-import { tabs } from '../../support/locators'
 import {email} from '../../support/client/employeeData'
 
 describe('Checking default information', () => {
@@ -52,15 +51,9 @@ describe('Checking default information', () => {
     cy.haveText('location', 'Saint Petersburg')
     cy.haveText('email', profile.email)
     cy.checkIfElementPresent('phone', profile.phoneNumber)
-    //cy.getElement('bonuses').should('contain.text', '50000 ₽')
-    cy.get('.ant-card-meta-description').contains('Agile').should('have.text', 'Agile Manager')
     cy.getElement('avatar').should('be.visible')
-  })
 
-  it.skip('Manager can see employee private tabs', () => {
-    cy.visit(`/employees/${employeeData.email}`)
-    ;[tabs.matrices, tabs.personal, tabs.cv, tabs.form].forEach(el =>
-      cy.get('.ant-radio-button').contains(el).should('be.visible'),
-    )
+    cy.visit(`/employees/${employeeData.email}?subtab=matrices`)
+    cy.getElement('matrix-tabs').should('be.visible')
   })
 })

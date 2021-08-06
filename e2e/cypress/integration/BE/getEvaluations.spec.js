@@ -42,7 +42,7 @@ describe('Check getEvaluations response', () => {
     expect(request.operationName).equal(OPERATION_NAME)
 
     const { evaluationComments, evaluations } = response
-    const { evaluationAttribute, fromWho } = evaluations[0]
+    const { evaluationAttribute, fromWho, toWhom } = evaluations[0]
     const { id, __typename } = employeeData
 
     cy.compareObjectsKeys(evaluations[0], evaluation)
