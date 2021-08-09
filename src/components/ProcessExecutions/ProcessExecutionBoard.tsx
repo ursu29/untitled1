@@ -91,7 +91,7 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
         .sort((a, b) => (isListIncludesUser(a.activeStepEmployees) ? -1 : 1)),
     },
     IN_PROGRESS: {
-      name: 'In Progress',
+      name: 'Onboarding',
       items: items
         ?.filter(e => e.status === 'RUNNING' && e.substatus === 'IN_PROGRESS')
         .sort((a, b) => (isListIncludesUser(a.activeStepEmployees) ? -1 : 1)),
