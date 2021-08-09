@@ -34,7 +34,7 @@ const Info = styled.div<{ visible: boolean; scale: number }>`
 const YouArrow = styled.div`
   position: absolute;
   height: 35px;
-  left: 22px;
+  left: 0px;
   top: -34px;
   color: #ff39ff;
   font-weight: 700;
