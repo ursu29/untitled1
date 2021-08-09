@@ -17,7 +17,7 @@ type EmployeeSkillMatrixProps = {
 }
 
 function getEmployeeSkillLevel(employee: Partial<Employee>, skill: Partial<Skill>): Level | null {
-  const exp = employee.experiences!.find(e => e.skill.id === skill.id)
+  const exp = employee.experiences!.find(e => e.skill?.id === skill.id)
   if (!exp) {
     return null
   }
