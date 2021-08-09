@@ -7,12 +7,6 @@ describe('under-menu looks good', () => {
     guild: 'guilds/community-frontend?community-frontend',
     skill: `skills/${id}`
   })
-  beforeEach(() => {
-    cy.addHeadersAuth()
-  })
-  afterEach(() => {
-    cy.addHeadersAuth()
-  })
 
   before(() => {
     cy.setToken('employee')
@@ -27,15 +21,11 @@ describe('under-menu looks good', () => {
     cy.visit(allTabsPatch(skillId).profile)
 
     cy.get('.ant-tabs-nav-list').last().matchImageSnapshot(`profileBottomTab`)
-  })
 
-  it('check community tab', () => {
     cy.visit(allTabsPatch(skillId).guild)
 
     cy.get('.ant-tabs-nav-wrap').last().matchImageSnapshot(`communityTab`)
-  })
 
-  it('check skills tab', () => {
     cy.visit(allTabsPatch(skillId).skill)
 
     cy.get('.ant-tabs-nav-wrap').last().matchImageSnapshot(`skillsTab`)
