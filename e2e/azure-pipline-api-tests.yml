@@ -20,26 +20,31 @@ jobs:
       clean: all
     container: cypress
     variables:
+      - name: E2E_DIR
+        value: $(Build.SourcesDirectory)/e2e
       - name: NODE_OPTIONS
         value: --max-old-space-size=8192
     steps:
       - task: Bash@3
         displayName: 'Yarn install'
         inputs:
+          workingDirectory: '$(Build.SourcesDirectory)/e2e'
           targetType: 'inline'
           script: 'yarn install'
       - task: Bash@3
         displayName: 'Yarn install'
         inputs:
+          workingDirectory: '$(Build.SourcesDirectory)/e2e'
           targetType: 'inline'
           script: 'printenv'
 
       - task: Bash@3
-        displayName: 'Run tests'
+        displayName: 'Run api tests'
         inputs:
+          workingDirectory: '$(Build.SourcesDirectory)/e2e'
           targetType: 'inline'
           script: |
-            yarn cypress run --browser chrome --headless \
+            yarn run cypress run --browser chrome --headless \
             --spec="cypress/integration/BE/**", \
             --env client_id=$(cypress_client_id),\
             scope=$(cypress_scope),\
@@ -49,18 +54,18 @@ jobs:
             manager_username=$(cypress_manager_username),\
             employee_username=$(cypress_employee_username),\
             img_scope=$(cypress_img_scope),\
-            grant_type=$(cypress_grant_type)
+            grant_type=$(cypress_grant_type) || yarn run posttest
       - task: PublishTestResults@2
         condition: succeededOrFailed()
         inputs:
           testResultsFormat: 'JUnit'
-          testResultsFiles: 'cypress/results/*.xml'
+          testResultsFiles: '$(Build.SourcesDirectory)/e2e/cypress/results/*.xml'
           failTaskOnFailedTests: true # Optional
         displayName: Publish test Results to AzureDevops
       - task: CopyFiles@2
         condition: failed()
         inputs:
-          sourceFolder: 'cypress/screenshots'
+          sourceFolder: '$(Build.SourcesDirectory)/e2e/cypress/screenshots'
           contents: '**/*'
           targetFolder: '$(Build.ArtifactStagingDirectory)'
         displayName: Copy Screenshots
@@ -70,3 +75,20 @@ jobs:
           pathToPublish: '$(Build.ArtifactStagingDirectory)'
           artifactName: ScreenShots
         displayName: Publish Screenshots
+      - task: CopyFiles@2
+        condition: always()
+        inputs:
+          sourceFolder: '$(Build.SourcesDirectory)/e2e/TestReport'
+          contents: '**/*'
+          targetFolder: '$(Build.ArtifactStagingDirectory)'
+        displayName: Copy TestReport
+      - task: PublishBuildArtifacts@1
+        condition: always()
+        inputs:
+          pathToPublish: '$(Build.ArtifactStagingDirectory)'
+          artifactName: folderReport
+        displayName: Publish folder
+      - task: publishhtmlreport@1
+        inputs:
+          htmlType: 'OtherComplexReport'
+          JmeterReportsPath: '$(Build.SourcesDirectory)/e2e/TestReport'
