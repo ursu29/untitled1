@@ -5,7 +5,7 @@ name: $(Date:dd-MM-yyyy_HH-mm)
 # variables:
 # - group: test-credentials
 
-pool: Default
+pool: Syncretis-Ubuntu
 
 resources:
   containers:
@@ -14,7 +14,7 @@ resources:
 
 jobs:
   - job: Tests
-    timeoutInMinutes: 30
+    timeoutInMinutes: 15
     displayName: E2E_Tests
     workspace:
       clean: all
@@ -40,7 +40,7 @@ jobs:
           targetType: 'inline'
           script: |
             yarn cypress run --browser chrome --headless \
-            --spec="cypress/integration/UI/**", \
+            --spec="cypress/integration/BE/**", \
             --env client_id=$(cypress_client_id),\
             scope=$(cypress_scope),\
             client_secret=$(cypress_client_secret),\
