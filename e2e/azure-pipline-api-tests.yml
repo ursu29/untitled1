@@ -5,7 +5,7 @@ name: $(Date:dd-MM-yyyy_HH-mm)
 # variables:
 # - group: test-credentials
 
-pool: Syncretis-Ubuntu
+pool: Default
 
 resources:
   containers:
