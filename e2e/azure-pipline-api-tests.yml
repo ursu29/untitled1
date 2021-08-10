@@ -1,7 +1,6 @@
 trigger: none
 
 name: $(Date:dd-MM-yyyy_HH-mm)
-
 # variables:
 # - group: test-credentials
 
