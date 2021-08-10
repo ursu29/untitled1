@@ -35,11 +35,11 @@ jobs:
           script: 'printenv'
 
       - task: Bash@3
-        displayName: 'Run tests'
+        displayName: 'Run api tests'
         inputs:
           targetType: 'inline'
           script: |
-            yarn cypress run --browser chrome --headless \
+            yarn run cypress run --browser chrome --headless \
             --spec="cypress/integration/BE/**", \
             --env client_id=$(cypress_client_id),\
             scope=$(cypress_scope),\
