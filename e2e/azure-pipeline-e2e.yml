@@ -39,12 +39,13 @@ jobs:
           script: 'printenv'
 
       - task: Bash@3
-        displayName: 'Run tests'
+        displayName: 'Run E2E tests'
         inputs:
           workingDirectory: '$(Build.SourcesDirectory)/e2e'
           targetType: 'inline'
           script: |
             yarn run cypress run --browser chrome --headless \
+            --spec="cypress/integration/UI/**", \
             --env client_id=$(cypress_client_id),\
             scope=$(cypress_scope),\
             client_secret=$(cypress_client_secret),\
