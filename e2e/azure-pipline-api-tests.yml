@@ -39,7 +39,7 @@ jobs:
       - task: Bash@3
         displayName: 'check portal.dev'
         inputs:
-         script: curl "https://portal.dev.syncretis.com/"
+         script: curl https://portal.dev.syncretis.com/
       - task: Bash@3
         displayName: 'Run api tests'
         inputs:
