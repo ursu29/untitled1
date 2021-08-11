@@ -21,9 +21,9 @@ Cypress.Commands.add('post', (body, superUser = null, baseUrl = URL, methodName 
       'dev-only-user-role': superUser,
       'dev-only-auth-disable': process.env.EMPLOYEE_TYPE === 'employee' ? getEmployeeData() : managerData()
     },
-    body: body,
+     body: body
+      })
   })
-})
 
 Cypress.Commands.add('getRequestData', URL => {
   cy.getToken().then(_ => {

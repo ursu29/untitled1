@@ -9,8 +9,10 @@ describe('Check bonuses presence and availability. Requires real environment. (e
   beforeEach(() => {
     cy.setToken('employee')
     cy.post(getEmployee(email('employee'))).then(res => {
+      debugger
       const { employeeByEmail } = res.body.data
       employeeId = employeeByEmail.id
+      debugger
     })
   })
 
@@ -20,6 +22,7 @@ describe('Check bonuses presence and availability. Requires real environment. (e
   it('As employee I can see my own bonus', () => {
     getEmployeeAttributes('id bonuses isMe', employeeId).then(response => {
       codeOkAndBodyNotNull(response)
+
 
       expect(response.body.data.employee.id).equal(employeeId)
       expect(response.body.data.employee.isMe).equal(true)
