@@ -8,7 +8,7 @@ describe('Check employee api (smoke)', () => {
   let employeeId
   let managerId
 
-  const SECTION_COUNT = 7
+  const allKeys = ['description','id','icon','title','__typename','path']
   const FIRST_POSTS = 4
 
   before(() => {
@@ -55,7 +55,10 @@ describe('Check employee api (smoke)', () => {
     cy.post(getData.getWikiRootSections()).then(res => {
       const { wikiRootSections } = res.body.data
 
-      expect(wikiRootSections.length).equal(SECTION_COUNT)
+      expect(wikiRootSections.length).to.be.greaterThan(0)
+      Object.keys(wikiRootSections).forEach(index => {
+        expect(wikiRootSections[index]).to.have.keys(allKeys)
+        })
     })
   })
 
