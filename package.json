@@ -12,6 +12,7 @@
     "antd": "^4.15.5",
     "antd-mask-input": "^0.1.15",
     "babel-plugin-istanbul": "^6.0.0",
+    "compressorjs": "^1.0.7",
     "dayjs": "^1.10.4",
     "file-saver": "^2.0.5",
     "graphql": "^15.5.0",
