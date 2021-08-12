@@ -27,7 +27,7 @@ export default function Calendar() {
     city: undefined,
   })
 
-  moment.locale('ru', {
+  moment.locale('en', {
     week: {
       dow: 1,
       doy: 1,
