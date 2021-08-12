@@ -8,7 +8,6 @@ import { getProcessExecutionLink } from '../../paths'
 import getProcessExecutions, { QueryType } from '../../queries/getProcessExecutions'
 import updateProcessExecution from '../../queries/updateProcessExecution'
 import getLocationName from '../../utils/getLocationName'
-// import { getProcessName } from '../../utils/getProcessName'
 import Avatar from '../Avatar'
 import ProjectTag from '../Projects/ProjectTag'
 import { useEmployee } from '../../utils/withEmployee'
@@ -60,7 +59,6 @@ const onDragEnd = (result, columns, setColumns) => {
 
 export default function ProcessBoard({ items }: { items?: QueryType['processExecutions'] }) {
   const user = useEmployee()
-
   const isListIncludesUser = (
     employeesList: QueryType['processExecutions'][0]['activeStepEmployees'],
   ) => employeesList?.map(e => e.id).includes(user.employee.id)
@@ -127,7 +125,6 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
     update({ variables: { input: { id, ...body } } })
 
   return (
-    //wrapper
     <div
       style={{
         display: 'flex',
@@ -149,7 +146,7 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                width: '190px',
+                width: '16%',
               }}
               key={columnId}
             >
