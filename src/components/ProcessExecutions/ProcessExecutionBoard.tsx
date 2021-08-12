@@ -8,7 +8,7 @@ import { getProcessExecutionLink } from '../../paths'
 import getProcessExecutions, { QueryType } from '../../queries/getProcessExecutions'
 import updateProcessExecution from '../../queries/updateProcessExecution'
 import getLocationName from '../../utils/getLocationName'
-import { getProcessName } from '../../utils/getProcessName'
+// import { getProcessName } from '../../utils/getProcessName'
 import Avatar from '../Avatar'
 import ProjectTag from '../Projects/ProjectTag'
 import { useEmployee } from '../../utils/withEmployee'
@@ -127,7 +127,15 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
     update({ variables: { input: { id, ...body } } })
 
   return (
-    <div style={{ display: 'flex' }}>
+    //wrapper
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '100%',
+        padding: '0 20px',
+      }}
+    >
       <DragDropContext
         onDragEnd={result => {
           if (onDragEnd(result, columns, setColumns))
@@ -141,8 +149,7 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                width: '16%',
-                padding: '0 8px',
+                width: '190px',
               }}
               key={columnId}
             >
@@ -179,7 +186,7 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
                         style={{
                           background: snapshot.isDraggingOver ? '#e7f8fd' : 'transparent',
                           border: snapshot.isDraggingOver ? '3px solid #afeafd' : '',
-                          padding: 4,
+                          padding: '0 5px',
                           height: '100%',
                         }}
                       >
@@ -195,8 +202,9 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}
                                       style={{
+                                        position: 'relative',
                                         userSelect: 'none',
-                                        padding: 16,
+                                        padding: '8px 8px 11px',
                                         margin: '0 0 8px 0',
                                         minHeight: '50px',
                                         border:
@@ -220,13 +228,16 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
                                           display: 'flex',
                                           justifyContent: 'space-between',
                                           alignItems: 'center',
-                                          marginBottom: '12px',
                                         }}
                                       >
                                         <div
-                                          style={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.45)' }}
+                                          style={{
+                                            fontSize: '12px',
+                                            minHeight: '20px',
+                                            color: '#8C8C8C',
+                                          }}
                                         >
-                                          {getProcessName(item.process.type)}
+                                          {item.locations.map(e => getLocationName(e)).join(', ')}
                                         </div>
                                         <div style={{ display: 'flex', alignItems: 'center' }}>
                                           {!!item.activeStepEmployees?.[0] && (
@@ -236,25 +247,36 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
                                                   e => e.id === user.employee.id,
                                                 ) || item.activeStepEmployees[0]
                                               }
-                                              size="small"
+                                              size={20}
                                               showTooltip
                                             />
                                           )}
                                           <div
                                             style={{
-                                              minWidth: '20px',
                                               fontSize: '12px',
                                               color: 'rgba(0, 0, 0, 0.45)',
-                                              paddingLeft: '4px',
                                             }}
                                           >
-                                            {(item.activeStepEmployees?.length || 0) > 1 &&
-                                              '+' + ((item.activeStepEmployees?.length || 0) - 1)}
+                                            {(item.activeStepEmployees?.length || 0) > 1 && (
+                                              <span style={{ marginLeft: '4px' }}>
+                                                {'+' +
+                                                  ((item.activeStepEmployees?.length || 0) - 1)}
+                                              </span>
+                                            )}
                                           </div>
                                         </div>
                                       </div>
-                                      <div style={{ fontSize: '14px', fontWeight: 600 }}>
-                                        <Link to={getProcessExecutionLink(item.id)} target="_blank">
+                                      <div style={{ marginTop: '4px' }}>
+                                        <Link
+                                          style={{
+                                            color: '#000000',
+                                            fontSize: '14px',
+                                            fontWeight: 600,
+                                            lineHeight: '18px',
+                                          }}
+                                          to={getProcessExecutionLink(item.id)}
+                                          target="_blank"
+                                        >
                                           {item.vacancy?.position ||
                                             item.employeeRef?.name ||
                                             '(empty)'}
@@ -262,18 +284,7 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
                                       </div>
                                       <div
                                         style={{
-                                          fontSize: '12px',
-                                          color: '#000000',
-                                          margin: '8px 0',
-                                        }}
-                                      >
-                                        {item.locations.map(e => getLocationName(e)).join(', ')}
-                                      </div>
-                                      <div
-                                        style={{
-                                          display: 'flex',
-                                          justifyContent: 'space-between',
-                                          alignItems: 'flex-start',
+                                          marginTop: '4px',
                                         }}
                                       >
                                         {item.process.type === 'ROTATION' ? (
@@ -290,15 +301,16 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
                                             >
                                               ⤸
                                             </div>
-                                            <div
-                                              style={{ display: 'flex', flexDirection: 'column' }}
-                                            >
+                                            <div>
                                               <div>
                                                 {item.projectFrom ? (
                                                   <ProjectTag
                                                     small
                                                     project={item.projectFrom}
-                                                    style={{ fontSize: '11px', padding: '2px 5px' }}
+                                                    style={{
+                                                      fontSize: '11px',
+                                                      padding: '2px 5px',
+                                                    }}
                                                   />
                                                 ) : (
                                                   '?'
@@ -309,7 +321,10 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
                                                   <ProjectTag
                                                     small
                                                     project={item.projectTo}
-                                                    style={{ fontSize: '11px', padding: '2px 5px' }}
+                                                    style={{
+                                                      fontSize: '11px',
+                                                      padding: '2px 5px',
+                                                    }}
                                                   />
                                                 ) : (
                                                   '?'
@@ -322,61 +337,69 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
                                             <ProjectTag
                                               small
                                               project={item.project}
-                                              style={{ fontSize: '11px', padding: '2px 5px' }}
+                                              style={{
+                                                fontSize: '11px',
+                                                padding: '2px 5px',
+                                              }}
                                             />
                                           </div>
                                         )}
-                                      </div>
-                                      <div
-                                        style={{
-                                          display: 'flex',
-                                          justifyContent: 'flex-end',
-                                          margin: '-24px -16px -16px 0',
-                                        }}
-                                      >
-                                        <Tooltip placement="right" title="Prio">
-                                          <Select
-                                            data-cy="prioValue"
-                                            defaultValue={item.prio}
-                                            onChange={async prio => {
-                                              const res = await makeUpdate({ id: item.id, prio })
-                                              if (res.data.updateProcessExecution.id === item.id) {
-                                                //@ts-ignore
-                                                const columnChanged = columns[columnId]
-                                                setColumns({
-                                                  ...columns,
-                                                  [columnId]: {
-                                                    ...columnChanged,
-                                                    items: [
-                                                      ...columnChanged.items.map((e: any) =>
-                                                        e.id === item.id
-                                                          ? {
-                                                              ...e,
-                                                              prio,
-                                                            }
-                                                          : e,
-                                                      ),
-                                                    ],
-                                                  },
-                                                })
-                                              }
-                                            }}
-                                            bordered={false}
-                                            showArrow={false}
-                                            style={{
-                                              fontSize: '12px',
-                                              color: 'rgba(0, 0, 0, 0.45)',
-                                            }}
-                                          >
-                                            {Array(3)
-                                              .fill(0)
-                                              .map((_, i) => (
-                                                <Select.Option key={i} value={i + 1}>
-                                                  {i + 1}
-                                                </Select.Option>
-                                              ))}
-                                          </Select>
-                                        </Tooltip>
+                                        <div
+                                          style={{
+                                            position: 'absolute',
+                                            right: '2px',
+                                            bottom: '8px',
+                                            display: 'flex',
+                                            justifyContent: 'flex-end',
+                                          }}
+                                        >
+                                          <Tooltip placement="right" title="Prio">
+                                            <Select
+                                              data-cy="prioValue"
+                                              defaultValue={item.prio}
+                                              onChange={async prio => {
+                                                const res = await makeUpdate({ id: item.id, prio })
+                                                if (
+                                                  res.data.updateProcessExecution.id === item.id
+                                                ) {
+                                                  //@ts-ignore
+                                                  const columnChanged = columns[columnId]
+                                                  setColumns({
+                                                    ...columns,
+                                                    [columnId]: {
+                                                      ...columnChanged,
+                                                      items: [
+                                                        ...columnChanged.items.map((e: any) =>
+                                                          e.id === item.id
+                                                            ? {
+                                                                ...e,
+                                                                prio,
+                                                              }
+                                                            : e,
+                                                        ),
+                                                      ],
+                                                    },
+                                                  })
+                                                }
+                                              }}
+                                              bordered={false}
+                                              showArrow={false}
+                                              style={{
+                                                fontSize: '12px',
+                                                color: 'rgba(0, 0, 0, 0.45)',
+                                                paddingRight: '1px',
+                                              }}
+                                            >
+                                              {Array(3)
+                                                .fill(0)
+                                                .map((_, i) => (
+                                                  <Select.Option key={i} value={i + 1}>
+                                                    {i + 1}
+                                                  </Select.Option>
+                                                ))}
+                                            </Select>
+                                          </Tooltip>
+                                        </div>
                                       </div>
                                     </div>
                                   )
