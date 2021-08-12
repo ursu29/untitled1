@@ -27,7 +27,7 @@ export default function MatrixWithExperiences({
 }: Props) {
   const urlAction = new URLAction()
 
-  const { groups, grades, skills } = matrix.body
+  const { groups = [], grades = [], skills = [] } = matrix?.body || {}
 
   // List of generated card classNames
   const [cardClassNames, setCardClassNames] = useState([''])
