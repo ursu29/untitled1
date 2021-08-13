@@ -32,9 +32,7 @@ describe('Send notification when employee started rotation process (emails)', ()
             employeeData.id))
             .then(req => {
                 checkNewEmail(emailData, message(employeeData.name), true, message(employeeData.name).recipient)
-console.log(message(employeeData.name))
                 const {rotateRequest: {id}} = req.body.data
-debugger
                 expect(id).equal(firstVacancy.id)
             })
     })

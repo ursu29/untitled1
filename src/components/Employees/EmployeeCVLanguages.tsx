@@ -29,7 +29,7 @@ const EmployeeCVLanguages = ({ editable, employee, cv }: FormProps) => {
 
   return (
     <>
-      <Title level={4} style={{ marginBottom: 16 }}>
+      <Title level={4} style={{ marginBottom: 16 }} data-cy="cvLanguage">
         Languages
       </Title>
       {editable ? (

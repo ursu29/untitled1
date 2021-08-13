@@ -8,12 +8,12 @@ import { email } from '../../../support/client/employeeData'
 describe('export personal dev file', () => {
   let devPlan
 
-
   before(() => {
     cy.setToken('employee')
     cy.post(getEmployee(email('employee')))
         .then(res => {
         const {id} = res.body.data.employeeByEmail
+
         cy.post(getDevelopmentPlans(id))
           .then(req => devPlan = req.body.data.developmentPlans)
           })

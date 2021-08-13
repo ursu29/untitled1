@@ -216,7 +216,7 @@ const JobListView = ({
   }
 
   return (
-    <div>
+    <div data-cy="workExperienceBlock">
       <div style={{ display: 'flex', justifyContent: 'space-between', height: '32px' }}>
         <Title level={4} style={{ marginBottom: 16 }}>
           Work experience
@@ -229,7 +229,11 @@ const JobListView = ({
                 : ''
             }
           >
-            <Button disabled={loading || hasUntitledCompany} onClick={() => handleCreate('')}>
+            <Button
+              disabled={loading || hasUntitledCompany}
+              onClick={() => handleCreate('')}
+              data-cy="addCompany"
+            >
               Add Company
             </Button>
           </Tooltip>
@@ -370,7 +374,12 @@ const JobView = ({
               </div>
               {editable && !isEditMode && (
                 <CardActions>
-                  <Button type="link" icon={<EditOutlined />} onClick={() => setIsEditMode(true)} />
+                  <Button
+                    data-cy=""
+                    type="link"
+                    icon={<EditOutlined />}
+                    onClick={() => setIsEditMode(true)}
+                  />
                 </CardActions>
               )}
             </>
@@ -381,7 +390,7 @@ const JobView = ({
             {!isEditMode && (
               <CardActions>
                 <Popconfirm title="Sure to delete?" onConfirm={() => onDelete(data)}>
-                  <Button type="link" danger>
+                  <Button data-cy="deleteCompany" type="link" danger>
                     Delete
                   </Button>
                 </Popconfirm>
@@ -449,9 +458,10 @@ const CompanyNameForm = ({
           }
           defaultOpen={true}
           autoFocus={true}
+          data-cy="enterCompanyName"
         />
       </Form.Item>
-      <Button htmlType="submit" type="link" icon={<CheckOutlined />} />
+      <Button data-cy="saveNewCompany" htmlType="submit" type="link" icon={<CheckOutlined />} />
     </StyledInlineForm>
   )
 }
