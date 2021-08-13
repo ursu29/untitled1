@@ -458,7 +458,7 @@ const CompanyNameForm = ({
           }
           defaultOpen={true}
           autoFocus={true}
-          data-cy="enterCompanyName"
+          data-cy="inputCompanyName"
         />
       </Form.Item>
       <Button data-cy="saveNewCompany" htmlType="submit" type="link" icon={<CheckOutlined />} />
