@@ -1,49 +1,49 @@
-// import {
-// } from '../../support/getData'
-// import * as data from '../../support/getData'
-// import { bodyData, bodyObj } from '../../support/emails/data'
+import {
+} from '../../support/getData'
+import { skillEl } from '../../support/locators'
 
 describe('check updateTechnologiesProject', () => {
 
   let nameTechnology = 'People Skills';
+  const displayTechnologies = skillEl.skillsEvent
+  const headerTableSkills = skillEl.headerSkills
 
-  let newTechnology = '[title="People Skills"]';
-  let editButton = '[data-icon="edit"]';
-  let boxTechnologies = '.ant-select-selection-overflow';
-  let saveEdit = '[data-icon="check"]';
-  let technologies = '.ant-tag.sc-iRbamj.frdnPm';
+  let close = '[data-icon="close"]'
+  let idSkillsButton = 'rc-tabs-0-tab-skills'
 
   before(() => {
     cy.setToken('manager')
 
-    cy.visit('https://portal.dev.syncretis.com/projects/guild-portal')
+    cy.visit('/projects/guild-portal')
   })
 
   it('add new technology', () => {
 
-    cy.get(editButton)
-      .click()
-    cy.get(boxTechnologies)
-      .click()
-    cy.get(newTechnology)
-      .click()
-    cy.get(saveEdit)
-      .click()
+     cy.getIcon('edit')
+       .click()
+     cy.get(displayTechnologies)
+       .click()
+     cy.getTitle(nameTechnology)
+       .click()
+     cy.getIcon('check')
+       .click()
 
-    cy.get(technologies).should('contain.text', nameTechnology)
+    cy.getId(idSkillsButton).click()
+    cy.get(headerTableSkills).should('contain.text', nameTechnology)
   })
 
   it('delete new technology', () => {
 
-    cy.get(editButton)
+    cy.getIcon('edit')
       .click()
-    cy.get(boxTechnologies)
+    cy.get(displayTechnologies)
+      .contains(nameTechnology)
+      .parent()
+      .find(close)
       .click()
-    cy.get(newTechnology)
-      .click()
-    cy.get(saveEdit)
+    cy.getIcon('check')
       .click()
 
-    cy.get(technologies).should('not.contain.text', nameTechnology)
+    cy.get(headerTableSkills).should('not.contain.text', nameTechnology)
   })
 })

@@ -63,7 +63,9 @@ export const skillEl = {
   description: 'description',
   submit: 'submit',
   selectSkill :'portal-select',
-  skillsEvent: '.ant-select-selection-overflow'
+  skillsEvent: '.ant-select-selection-overflow',
+  headerSkills: '.ant-table-thead',
+
 }
 
 export const locations = [
