@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client'
 import { Select, Tooltip } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { Link } from 'react-router-dom'
 import message from '../../message'
@@ -105,6 +105,12 @@ export default function ProcessBoard({ items }: { items?: QueryType['processExec
 
   const [columns, setColumns] = useState(initialColumns)
   const [columnsPrev, setColumnsPrev] = useState(initialColumns)
+
+  useEffect(() => {
+    setColumns(initialColumns)
+    setColumnsPrev(initialColumns)
+    //eslint-disable-next-line
+  }, [items])
 
   const [update, { loading }] = useMutation(updateProcessExecution, {
     refetchQueries: [{ query: getProcessExecutions }],
