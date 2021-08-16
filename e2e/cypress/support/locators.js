@@ -272,5 +272,5 @@ export const selfEvalForm = {
 }
 
 export const workExperienceElement = {
-  companyTitle: `workExperienceBlock`
+  companyTitle: `workExperience`
 }
