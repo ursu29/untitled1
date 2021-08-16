@@ -1,11 +1,11 @@
 import { useQuery } from '@apollo/client'
-import { Collapse, Table, Spin } from 'antd'
+import { Collapse, Spin, Table } from 'antd'
 import gql from 'graphql-tag'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import fragments, { EmployeeDetails, ProjectDetails } from '../../fragments'
 import { getEmployeeLink } from '../../paths'
-import { LOCATION } from '../../types'
+import { Location } from '../../types/graphql'
 import getLocationName from '../../utils/getLocationName'
 import Avatar from '../Avatar'
 import EmployeeCard from '../Employees/EmployeeCard'
@@ -105,7 +105,7 @@ export default function Agile() {
       title: 'Location',
       key: 'location',
       dataIndex: 'location',
-      filters: Object.keys(LOCATION).map(e => ({ text: getLocationName(e as LOCATION), value: e })),
+      filters: Object.values(Location).map(e => ({ text: getLocationName(e), value: e })),
       render: (_: any, i: any) => {
         return <span>{getLocationName(i.location)}</span>
       },

@@ -64,7 +64,9 @@ export enum AllowedGroups {
   SysAdmins = 'SYS_ADMINS',
   SuperUser = 'SUPER_USER',
   Librarian = 'LIBRARIAN',
-  AadEditors = 'AAD_EDITORS',
+  AadCreators = 'AAD_CREATORS',
+  AadUserEditors = 'AAD_USER_EDITORS',
+  AadGroupEditors = 'AAD_GROUP_EDITORS',
 }
 
 export type ArchiveDp = {

@@ -546,6 +546,7 @@ export default function DrawerUser({
                     value: e.displayName,
                   })) as any
               }
+              optionFilterProp="label"
             />
           </Form.Item>
           <Form.Item label="First Name" name="givenName" rules={[FORM_RULES.REQUIRED]}>
