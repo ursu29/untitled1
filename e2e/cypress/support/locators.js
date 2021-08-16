@@ -64,7 +64,7 @@ export const skillEl = {
   submit: 'submit',
   selectSkill :'portal-select',
   skillsEvent: '.ant-select-selection-overflow',
-  headerSkills: '.ant-table-thead',
+  headerTableSkills: '.ant-table-thead',
 
 }
 

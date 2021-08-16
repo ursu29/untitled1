@@ -5,10 +5,11 @@ import { skillEl } from '../../support/locators'
 describe('check updateTechnologiesProject', () => {
 
   let nameTechnology = 'People Skills';
-  const displayTechnologies = skillEl.skillsEvent
-  const headerTableSkills = skillEl.headerSkills
+  const {skillsEvent} = skillEl
+  const {headerTableSkills} = skillEl
 
   let close = '[data-icon="close"]'
+  let timeOut = {timeout:15000}
   let idSkillsButton = 'rc-tabs-0-tab-skills'
 
   before(() => {
@@ -21,7 +22,7 @@ describe('check updateTechnologiesProject', () => {
 
      cy.getIcon('edit')
        .click()
-     cy.get(displayTechnologies)
+     cy.get(skillsEvent, timeOut)
        .click()
      cy.getTitle(nameTechnology)
        .click()
@@ -29,14 +30,14 @@ describe('check updateTechnologiesProject', () => {
        .click()
 
     cy.getId(idSkillsButton).click()
-    cy.get(headerTableSkills).should('contain.text', nameTechnology)
+    cy.get(headerTableSkills, timeOut).should('contain.text', nameTechnology)
   })
 
   it('delete new technology', () => {
 
     cy.getIcon('edit')
       .click()
-    cy.get(displayTechnologies)
+    cy.get(skillsEvent)
       .contains(nameTechnology)
       .parent()
       .find(close)
