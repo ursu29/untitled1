@@ -1,0 +1,92 @@
+trigger: none
+
+name: $(Date:dd-MM-yyyy_HH-mm)
+# variables:
+# - group: test-credentials
+
+pool: Default
+
+resources:
+  containers:
+    - container: cypress
+      image: cypress/browsers:node12.18.3-chrome87-ff82
+
+jobs:
+  - job: Tests
+    timeoutInMinutes: 15
+    displayName: selecred_Tests
+    workspace:
+      clean: all
+    container: cypress
+    variables:
+      - name: E2E_DIR
+        value: $(Build.SourcesDirectory)/e2e
+      - name: NODE_OPTIONS
+        value: --max-old-space-size=8192
+    steps:
+      - task: Bash@3
+        displayName: 'Yarn install'
+        inputs:
+          workingDirectory: '$(Build.SourcesDirectory)/e2e'
+          targetType: 'inline'
+          script: 'yarn install'
+      - task: Bash@3
+        displayName: 'Yarn install'
+        inputs:
+          workingDirectory: '$(Build.SourcesDirectory)/e2e'
+          targetType: 'inline'
+          script: 'printenv'
+      - task: Bash@3
+        displayName: 'Run selected tests'
+        inputs:
+          workingDirectory: '$(Build.SourcesDirectory)/e2e'
+          targetType: 'inline'
+          script: |
+            yarn run cypress run --browser chrome --headless \
+            --spec path_test=$(path_test), \
+            --env client_id=$(cypress_client_id),\
+            scope=$(cypress_scope),\
+            client_secret=$(cypress_client_secret),\
+            employee_password=$(cypress_employee_password),\
+            manager_password=$(cypress_manager_password),\
+            manager_username=$(cypress_manager_username),\
+            employee_username=$(cypress_employee_username),\
+            img_scope=$(cypress_img_scope),\
+            grant_type=$(cypress_grant_type) || yarn run posttest
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: '$(Build.SourcesDirectory)/e2e/cypress/results/*.xml'
+          failTaskOnFailedTests: true # Optional
+        displayName: Publish test Results to AzureDevops
+      - task: CopyFiles@2
+        condition: failed()
+        inputs:
+          sourceFolder: '$(Build.SourcesDirectory)/e2e/cypress/screenshots'
+          contents: '**/*'
+          targetFolder: '$(Build.ArtifactStagingDirectory)'
+        displayName: Copy Screenshots
+      - task: PublishBuildArtifacts@1
+        condition: failed()
+        inputs:
+          pathToPublish: '$(Build.ArtifactStagingDirectory)'
+          artifactName: ScreenShots
+        displayName: Publish Screenshots
+      - task: CopyFiles@2
+        condition: always()
+        inputs:
+          sourceFolder: '$(Build.SourcesDirectory)/e2e/TestReport'
+          contents: '**/*'
+          targetFolder: '$(Build.ArtifactStagingDirectory)'
+        displayName: Copy TestReport
+      - task: PublishBuildArtifacts@1
+        condition: always()
+        inputs:
+          pathToPublish: '$(Build.ArtifactStagingDirectory)'
+          artifactName: folderReport
+        displayName: Publish folder
+      - task: publishhtmlreport@1
+        inputs:
+          htmlType: 'OtherComplexReport'
+          JmeterReportsPath: '$(Build.SourcesDirectory)/e2e/TestReport'
