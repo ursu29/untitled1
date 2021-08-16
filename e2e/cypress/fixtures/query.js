@@ -164,9 +164,9 @@ export const query = {
   getEvaluationRevieers:
     'query getEvaluationRevieers($input: EvaluationReviewersInput) { evaluationReviewers(input: $input) { id toWhom { id name __typename } fromWho { id name isMe __typename } __typename }}',
   evaluate:
-      'mutation evaluate($input: EvaluateInput!) {evaluate(input: $input) { id __typename}}',
+     'mutation evaluate($input: EvaluateInput!) {evaluate(input: $input) { id __typename}}',
   getAllFiles:
-    'query sharedFiles($input: SharedFilesInput) { sharedFiles(input: $input) { ...SharedFileFragment __typename }\n} fragment SharedFileFragment on SharedFile { id url fileName createdAt createdBy { id name email __typename } size type id skills { id name __typename } __typename\n}\n',
+    'query sharedFiles($input: SharedFilesInput) { sharedFiles(input: $input) { ...SharedFileFragment __typename }} fragment SharedFileFragment on SharedFile { id url fileName createdAt createdBy { id name email __typename } size type id skills { id name __typename } __typename}',
   updateFileDetails:
-    'mutation updateFileDetails($input: UpdateSharedFileInput!) { updateSharedFile(input: $input) { ...FileDetailsFragment __typename }\n} fragment FileDetailsFragment on SharedFile { id skills { id name __typename } __typename\n}\n'
+    'mutation updateFileDetails($input: UpdateSharedFileInput!) { updateSharedFile(input: $input) { ...FileDetailsFragment __typename }} fragment FileDetailsFragment on SharedFile { id skills { id name __typename } __typename}'
 }

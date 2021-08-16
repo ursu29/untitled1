@@ -2,43 +2,47 @@ import {getAllFiles, getAllSkills, updateFileDetails} from '../../support/getDat
 
 describe('Add new skill to file details (Knowledge -> Files)', () => {
 
-  let skillId, fileSkills, fileId, skillIdArrUpdated
-  let skillIdArr = []
+  let skillId, skillName, fileSkills, fileId
 
   before(() => {
     cy.setToken('employee')
     cy.post(getAllFiles()).then(res => {
       const {sharedFiles} = res.body.data
-      fileId = sharedFiles[1177].id
-      fileSkills = sharedFiles[1177].skills
-      fileSkills.forEach(el => skillIdArr.push(el.id))
+      fileId = sharedFiles[0].id
+      cy.post(updateFileDetails({"id": fileId, "skills": []}))
     })
+
     cy.post(getAllSkills()).then(res => {
       const {skills} = res.body.data
-      skillId = skills[1164].id
-    })
+      skillId = skills[0].id
+      skillName = skills[0].name
+      })
   })
 
   after(() => {
-    cy.post(updateFileDetails({"id": fileId, "skills": skillIdArr}))
+    cy.post(updateFileDetails({"id": fileId, "skills": []}))
   })
 
-  it('Check whether the new skill is not already comprised in the file skill array. If it is, change the file ID at getAllFiles()', () => {
-    expect(skillIdArr).not.include(skillId)
+  it('Check whether the file has any skills', () => {
+
+    cy.post(getAllFiles()).then(res => {
+      const { sharedFiles } = res.body.data
+      fileSkills = sharedFiles[0].skills
+      expect(fileSkills).is.empty
+    })
   })
 
   it('Add new skill to existing file', () => {
-    skillIdArrUpdated = skillIdArr.slice()
-    skillIdArrUpdated.push(skillId)
-    cy.post(updateFileDetails({"id": fileId, "skills": skillIdArrUpdated})).then(res => {
-      const updatedFileData = res.body.data.updateSharedFile
-      const updatedFileId = updatedFileData.id
-      let fileNewSkills = []
-      updatedFileData.skills.forEach(el => fileNewSkills.push(el.id))
-      expect(updatedFileId).equal(fileId)
-      expect(fileNewSkills.length).is.not.equal(skillIdArr.length)
-      expect(fileNewSkills.length).equal(skillIdArr.length + 1)
-      expect(fileNewSkills).include(skillId)
+    cy.post(updateFileDetails({"id": fileId, "skills": [skillId]})).then(res => {
+      const {updateSharedFile} = res.body.data
+      const updatedFileId = updateSharedFile.id
+      const updatedFileSkillId = updateSharedFile.skills[0].id
+      const updatedFileSkillName = updateSharedFile.skills[0].name
+      const updatedFileSkillsQuantity = updateSharedFile.skills.length
+      expect(updatedFileId).equals(fileId)
+      expect(updatedFileSkillsQuantity).equals(1)
+      expect(updatedFileSkillId).equals(skillId)
+      expect(updatedFileSkillName).equals(skillName)
     })
   })
 })
