@@ -79,7 +79,7 @@ const EmployeeCV = ({ employee, editable }: PropsGeneral) => {
     <Skeleton loading={loading} active withOffset>
       {(editable || employee?.isMe) && (
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button type="primary" onClick={handleExport}>
+          <Button type="primary" onClick={handleExport} disabled={!cv}>
             Export
           </Button>
         </div>
