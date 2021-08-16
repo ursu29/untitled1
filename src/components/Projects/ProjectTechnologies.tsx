@@ -22,7 +22,7 @@ type SkillsPick = QueryType['project']['skills']
 function SkillTags({ skills }: { skills?: SkillsPick }) {
   if (!skills?.length) return <div>No technologies yet</div>
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+    <div data-cy="pickSkills" style={{ display: 'flex', flexWrap: 'wrap' }}>
       {skills?.map(skill => (
         <SkillTag key={skill.id} skill={skill} />
       ))}

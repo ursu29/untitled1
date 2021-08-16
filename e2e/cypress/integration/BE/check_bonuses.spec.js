@@ -11,7 +11,7 @@ xdescribe('Check bonuses presence and availability. Requires real environment. (
     cy.post(getEmployee(email('employee'))).then(res => {
       const { employeeByEmail } = res.body.data
       employeeId = employeeByEmail.id
-    })
+      })
   })
 
   const idUserAlexey = 'Alexey.Avdeev@syncretis.com'

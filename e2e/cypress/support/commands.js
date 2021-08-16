@@ -18,6 +18,8 @@ Cypress.Commands.add('getIcon', name => cy.get(`[data-icon="${name}"]`))
 
 Cypress.Commands.add('clickElement', text => cy.get('span').contains(text).click())
 
+Cypress.Commands.add('getType', text => cy.get(`[type="${text}"]`))
+
 Cypress.Commands.add('getTitle', name => cy.get(`[title="${name}"]`))
 
 Cypress.Commands.add('checkLength', (name, length) =>

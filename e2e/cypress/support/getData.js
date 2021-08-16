@@ -21,9 +21,9 @@ Cypress.Commands.add('post', (body, superUser = null, baseUrl = URL, methodName 
       'dev-only-user-role': superUser,
       'dev-only-auth-disable': process.env.EMPLOYEE_TYPE === 'employee' ? getEmployeeData() : managerData()
     },
-    body: body,
+    body: body
+      })
   })
-})
 
 Cypress.Commands.add('getRequestData', URL => {
   cy.getToken().then(_ => {
@@ -831,4 +831,16 @@ export const updatePost = (body, id, title, tagsArr = TAGS) => ({
     },
   },
   query: query.updatePost,
+})
+
+export const getAllFiles = () => ({
+  operationName: 'sharedFiles',
+  variables: {},
+  query: query.getAllFiles,
+})
+
+export const updateFileDetails = obj => ({
+  operationName: 'updateFileDetails',
+  variables: { input: { ...obj } },
+  query: query.updateFileDetails,
 })
