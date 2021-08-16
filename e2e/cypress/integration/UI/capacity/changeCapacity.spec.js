@@ -4,6 +4,7 @@ import {createCapacityObj} from "../../../support/client/cv";
 
 describe('add capacity to employee (capacity)', () => {
     const testEmail = 'alexey.avdeev@syncretis.com'
+    const capacity = ['20', '60', '20']
     let employeeData
     let projects
 
@@ -36,8 +37,7 @@ describe('add capacity to employee (capacity)', () => {
 
     it('change capacity', () => {
         cy.getIcon('edit').click()
-        ;['20', '60', '20']
-            .forEach((el,idx) =>  cy.get('.ant-input-number-input')
+        capacity.forEach((el,idx) => cy.get('.ant-input-number-input')
                 .eq(idx)
                 .clear()
                 .type(el))

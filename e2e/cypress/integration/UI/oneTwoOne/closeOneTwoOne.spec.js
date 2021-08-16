@@ -8,18 +8,17 @@ describe('Close oneTwoOne meeting (oneTwoOne)', () => {
     let employeeId
 
     before(() => {
-        cy.setToken('employee')
+        cy.setToken('manager')
         cy.post(getEmployee(email('employee'))).then(res => {
             employeeId = res.body.data.employeeByEmail.id
 
-            cy.post(updateOneTwoOne(employeeId, true), 'superUser').then(req => {
+            cy.post(updateOneTwoOne(employeeId, true)).then(req => {
                 expect(req.body.data.updateEmployee.id).equal(employeeId)
             })
         })
     })
 
     it('To accept a new meeting', () => {
-        cy.setToken('manager')
         cy.visit(getTabUrl('employees'))
 
         cy.get(oneTwoOneLocators.closeOneTwoOne).eq(0).click()

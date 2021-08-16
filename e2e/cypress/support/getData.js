@@ -5,7 +5,7 @@ import {todayOfficePlannerDate} from "./officePlanner/officeDays";
 import { getEmployeeData, managerData } from './authorization'
 
 export const URL = 'https://portal.dev.syncretis.com/graphql'
-export const exportUrl = name  => `https://portal.syncretis.com/${name}`
+export const exportUrl = name  => `${Cypress.env('url')}/${name}`
 export const TIMEMASTER = 'https://timemaster.syncretis.com/'
 export const LOCATIONS = ['Saint Petersburg', 'Tomsk', 'Kaliningrad', 'Zürich']
 export const TAGS = ['6030dd7ef84074001c07ebb5', '6030dd7ef84074001c07ebb6']

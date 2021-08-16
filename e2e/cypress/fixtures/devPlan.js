@@ -1,78 +1,88 @@
 export const getDevPlans = () => ({
   data: {
     "developmentPlans": {
-      "id": "6039247a7ae138001c21f1b4",
-      "createdAt": "2021-02-26T16:40:26.920Z",
-      "updatedAt": "2021-03-01T07:23:21.727Z",
+      "id": "603f59677ae138001c22019e",
+      "createdAt": "2021-03-03T09:39:51.372Z",
+      "updatedAt": "2021-07-27T13:20:34.208Z",
       "developmentRoles": {
         "webDeveloper": false,
-        "actuarialBusinessAnalyst": true,
-        "agileCoach": false,
+        "actuarialBusinessAnalyst": false,
+        "agileCoach": true,
         "automationQA": true,
         "devOps": false,
         "infrastructureArchitect": false,
-        "javaDeveloper": true,
+        "javaDeveloper": false,
         "dotnetDeveloper": false,
         "manualQA": false,
         "mathematician": false,
         "scrumMaster": false,
         "solutionArchitect": false,
-        "teamLead": true,
+        "teamLead": false,
         "uxExpert": false,
         "productOwner": false,
         "dataAnalyst": false,
+        "supportEngineer": true,
+        "otherAreas": "la-la-la",
         "__typename": "DevelopmentRoles"
       },
       "guildContribution": {
-        "internalProject": false,
-        "education": true,
+        "internalProject": true,
+        "education": false,
         "noContribution": false,
         "startup": false,
-        "custom": "test",
+        "custom": "",
         "__typename": "GuildContribution"
       },
       "previousGoals": [
         {
-          "id": "603c96697ae138001c21f3f5",
-          "description": "goal",
-          "successCriteria": "success",
+          "id": "60fe6d6943f9ea001c2da56f",
+          "description": "goal1",
+          "successCriteria": "_",
           "isAchieved": true,
-          "comment": "comment",
+          "comment": null,
           "__typename": "DevelopmentGoal"
         },
         {
-          "id": "603c96697ae138001c21f3f6",
+          "id": "60fe6d6943f9ea001c2da570",
           "description": "goal2",
-          "successCriteria": "no creterias",
+          "successCriteria": "2",
+          "isAchieved": true,
+          "comment": "test c",
+          "__typename": "DevelopmentGoal"
+        },
+        {
+          "id": "60fe6ea443f9ea001c2da583",
+          "description": "goal3",
+          "successCriteria": "3",
           "isAchieved": false,
-          "comment": null,
+          "comment": "3",
           "__typename": "DevelopmentGoal"
         }
       ],
       "actualGoals": [
         {
-          "id": "603c96697ae138001c21f3f9",
-          "description": "first",
-          "successCriteria": "+",
+          "id": "60fe6ed843f9ea001c2da5a8",
+          "description": "1",
+          "successCriteria": "1",
           "isAchieved": false,
-          "comment": null,
+          "comment": "1",
           "__typename": "DevelopmentGoal"
         },
         {
-          "id": "603c96697ae138001c21f3fa",
-          "description": "second",
-          "successCriteria": "specified, should be realistic, should have clear timeframe, should have objective Success criteria. Capture also how guild activities could help to reach the goal.) Please add in comments if you plan to spend Guild time to achieve this goal and if possible, how much time do you plan to spend.",
+          "id": "60fe6ee243f9ea001c2da5b5",
+          "description": "2",
+          "successCriteria": "2",
           "isAchieved": false,
-          "comment": "-",
+          "comment": "2",
           "__typename": "DevelopmentGoal"
         }
       ],
-      "amountOfTime": "Define here a rough plan how you will use guild for a half of a year or for a full year. i.e. I will need 1 day per week to do guild work. Or I will need entire week to work on the project \\ prepare exams. Discuss the plan and agree on it with your Agile Manager. Scrum Master and Agile Manager will help you to find good time slots from a project perspective and will also help to communicate it to our clients and colleagues.\n",
-      "longTermGoals": "what long-term goals the employee has in this regards. As an example “I want to become Senior Property Insurance Business Analyst in 2 years” would look fine in this section, but the format is not strict\n",
-      "lookBackNegative": "-",
-      "lookBackPositive": "post",
-      "lookForward": "Look Forward\n",
-      "lastDiscussed": null,
+      "amountOfTime": "Amount of time\nAmount of time\nAmount of time\nAmount of time\n",
+      "longTermGoals": "Long Term goals (more than a year)\nLong Term goals (more than a year)\nLong Term goals (more than a year)\nLong Term goals (more than a year)\n",
+      "lookBackNegative": "negative -",
+      "lookBackPositive": "positive +",
+      "lookForward": "Look Forward\nLook Forward\nLook Forward\nLook Forward\n",
+      "lastDiscussed": "2021-07-26T08:04:35.000Z",
       "__typename": "DevelopmentPlan"
     }
   },

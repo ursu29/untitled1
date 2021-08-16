@@ -1,14 +1,14 @@
-import { UploadOutlined } from '@ant-design/icons'
-import { Button, Col, Form, Input, Row, Switch, Upload } from 'antd'
+import { Button, Col, Form, Input, Row, Switch } from 'antd'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
-import { GATEWAY } from '../../config'
 import { Post as PostType } from '../../types'
 import TagSelect from '../Tags/TagSelect'
 import MarkdownEditor from '../UI/MarkdownEditor'
 import PostFormLocations from './PostFormLocations'
 import PostPreview from './PostPreview'
 import Post from './Post'
+import { ImageUploader } from '../UI/ImageUploader'
+import { UploadChangeParam } from 'antd/lib/upload'
 
 type PostPick = Partial<
   Pick<PostType, 'title' | 'body' | 'isTranslated' | 'locations'> & {
@@ -66,28 +66,6 @@ export default function PostForm({ values: post, loading, onSubmit }: Props) {
     )
   }
 
-  // const handlePreview = (file: any) => {
-  //   const url = file.url || file.response?.[0]
-  //   if (url) {
-  //     window.open(url, '_blank')
-  //   }
-  // }
-
-  // const handleValueFromEvent = (e: any) => {
-  //   if (Array.isArray(e)) {
-  //     return e
-  //   }
-  //   return (
-  //     e &&
-  //     e.fileList.map((i: any) => {
-  //       return {
-  //         ...i,
-  //         url: i.response?.[0]?.url,
-  //       }
-  //     })
-  //   )
-  // }
-
   return (
     <Form
       layout="vertical"
@@ -134,7 +112,7 @@ export default function PostForm({ values: post, loading, onSubmit }: Props) {
         name="images"
         label="Content images"
         valuePropName="fileList"
-        getValueFromEvent={(e: any) => {
+        getValueFromEvent={(e: UploadChangeParam) => {
           if (Array.isArray(e)) {
             return e
           }
@@ -149,20 +127,12 @@ export default function PostForm({ values: post, loading, onSubmit }: Props) {
           )
         }}
       >
-        <Upload
-          action={GATEWAY + '/upload'}
-          name="files"
-          multiple
-          listType="picture"
-          onChange={info => {
-            if (info?.file?.status === 'removed') return
-            setUploadedImg(info?.file?.response?.[0])
+        <ImageUploader
+          onChange={data => {
+            if (data?.file?.status === 'removed') return
+            setUploadedImg(data?.file?.response?.[0])
           }}
-        >
-          <Button>
-            <UploadOutlined /> Upload Photos
-          </Button>
-        </Upload>
+        />
       </Form.Item>
 
       <Form.Item label="Tags" name="tags">

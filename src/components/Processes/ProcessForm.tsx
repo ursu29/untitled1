@@ -7,7 +7,6 @@ const CustomerSelect = React.forwardRef((props, ref) => (
   <Select {...props}>
     <Select.Option value="INTERNAL">Internal</Select.Option>
     <Select.Option value="SWISSRE">SwissRe</Select.Option>
-    <Select.Option value="ALLIANZ">Allianz</Select.Option>
   </Select>
 ))
 

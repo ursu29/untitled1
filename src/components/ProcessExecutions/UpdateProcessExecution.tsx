@@ -11,13 +11,13 @@ import Drawer from '../UI/Drawer.new'
 export default function UpdateProcessExecution({
   processExecution,
   refetchQueries,
+  processExecution: { status },
 }: {
   processExecution: QueryType['processExecutions'][0]
   refetchQueries: any
 }) {
   const [showDrawer, setShowDrawer] = useState(false)
   const [form] = Form.useForm()
-
   const [update, { loading }] = useMutation(updateProcessExecution, {
     refetchQueries,
     awaitRefetchQueries: true,
@@ -34,7 +34,10 @@ export default function UpdateProcessExecution({
 
   return (
     <>
-      <Button onClick={() => setShowDrawer(!showDrawer)}>Edit</Button>
+      {status === 'RUNNING' || status === 'HOLDING' ? (
+        <Button onClick={() => setShowDrawer(!showDrawer)}>Edit</Button>
+      ) : null}
+
       <Drawer
         title="Edit process execution"
         visible={showDrawer}

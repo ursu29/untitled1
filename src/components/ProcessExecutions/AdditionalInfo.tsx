@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useState, useRef } from 'react'
 import { Input, DatePicker, Button, Tooltip } from 'antd'
+import MaskedInput from 'antd-mask-input'
 import styled from 'styled-components'
 import moment from 'moment'
 import PageContent from '../UI/PageContent'
@@ -10,6 +11,7 @@ import EmployeeSelect from '../Employees/EmployeeSelect'
 import { CopyOutlined } from '@ant-design/icons'
 import copyToClipboard from '../../utils/copyToClipboard'
 import ProjectTag from '../Projects/ProjectTag'
+import { PHONE_MASKS } from '../../constants'
 
 const MainWrapper = styled.div`
   display: flex;
@@ -171,15 +173,19 @@ export default function AdditionalInfo({
             allowClear={false}
           />
         </BlockWrapper>
+
         <BlockWrapper style={{ width: '20%', minWidth: '100px' }}>
           <span style={{ paddingBottom: '8px' }}>* Phone</span>
-          <Input
+          <MaskedInput
+            mask={`+7 ` + PHONE_MASKS.RUS}
             data-cy="phone"
-            placeholder="Enter employee phone"
             defaultValue={employeePhone}
-            onChange={e => setEmployeePhoneField(e.target.value)}
+            onChange={e => {
+              setEmployeePhoneField(e.target.value.match(/\d/g)?.join('') || '')
+            }}
           />
         </BlockWrapper>
+
         <BlockWrapper style={{ paddingTop: '30px' }}>
           <Tooltip placement="bottom" title="Save fields and open 'independent' steps">
             <Button

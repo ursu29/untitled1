@@ -216,7 +216,7 @@ const JobListView = ({
   }
 
   return (
-    <div data-cy="workExperienceBlock">
+    <div data-cy="workExperience">
       <div style={{ display: 'flex', justifyContent: 'space-between', height: '32px' }}>
         <Title level={4} style={{ marginBottom: 16 }}>
           Work experience
@@ -229,11 +229,7 @@ const JobListView = ({
                 : ''
             }
           >
-            <Button
-              disabled={loading || hasUntitledCompany}
-              onClick={() => handleCreate('')}
-              data-cy="addCompany"
-            >
+            <Button disabled={loading || hasUntitledCompany} onClick={() => handleCreate('')}>
               Add Company
             </Button>
           </Tooltip>
@@ -374,12 +370,7 @@ const JobView = ({
               </div>
               {editable && !isEditMode && (
                 <CardActions>
-                  <Button
-                    data-cy=""
-                    type="link"
-                    icon={<EditOutlined />}
-                    onClick={() => setIsEditMode(true)}
-                  />
+                  <Button type="link" icon={<EditOutlined />} onClick={() => setIsEditMode(true)} />
                 </CardActions>
               )}
             </>
@@ -390,7 +381,7 @@ const JobView = ({
             {!isEditMode && (
               <CardActions>
                 <Popconfirm title="Sure to delete?" onConfirm={() => onDelete(data)}>
-                  <Button data-cy="deleteCompany" type="link" danger>
+                  <Button type="link" danger>
                     Delete
                   </Button>
                 </Popconfirm>
@@ -458,10 +449,9 @@ const CompanyNameForm = ({
           }
           defaultOpen={true}
           autoFocus={true}
-          data-cy="inputCompanyName"
         />
       </Form.Item>
-      <Button data-cy="saveNewCompany" htmlType="submit" type="link" icon={<CheckOutlined />} />
+      <Button htmlType="submit" type="link" icon={<CheckOutlined />} />
     </StyledInlineForm>
   )
 }

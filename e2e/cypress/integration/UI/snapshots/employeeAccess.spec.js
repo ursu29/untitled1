@@ -8,6 +8,6 @@ describe('check employee access', () => {
         })
 
         it('should show only Skills, Bookmarks', () => {
-            cy.get('.ant-tabs-nav').last().matchImageSnapshot('noAccessBookmarks')
+            cy.get('.ant-tabs-nav').first().matchImageSnapshot('employeeAccess')
         })
 })

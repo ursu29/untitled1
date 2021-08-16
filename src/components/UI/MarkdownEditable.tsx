@@ -39,7 +39,7 @@ function MarkdownEditable({ data, editable, handleSave, history }: Props & Route
       style={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'flex-end',
+        alignItems: 'flex-start',
         marginBottom: '30px',
         width: '96%',
       }}
