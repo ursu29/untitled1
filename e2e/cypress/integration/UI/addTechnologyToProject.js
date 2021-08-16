@@ -1,4 +1,3 @@
-import {} from '../../support/getData'
 import { skillEl } from '../../support/locators'
 
 describe('check updateTechnologiesProject', () => {
@@ -14,6 +13,14 @@ describe('check updateTechnologiesProject', () => {
     cy.setToken('manager')
 
     cy.visit('/projects/guild-portal')
+  })
+
+  beforeEach(() => {
+    cy.addHeadersAuth()
+  })
+
+  afterEach(() => {
+    cy.addHeadersAuth()
   })
 
   it('add new technology', () => {
