@@ -9,7 +9,6 @@ describe('check updateTechnologiesProject', () => {
   const {headerTableSkills} = skillEl
 
   let close = '[data-icon="close"]'
-  let timeOut = {timeout:15000}
   let idSkillsButton = 'rc-tabs-0-tab-skills'
 
   before(() => {
@@ -22,7 +21,7 @@ describe('check updateTechnologiesProject', () => {
 
      cy.getIcon('edit')
        .click()
-     cy.get(skillsEvent, timeOut)
+     cy.get(skillsEvent)
        .click()
      cy.getTitle(nameTechnology)
        .click()
@@ -30,7 +29,7 @@ describe('check updateTechnologiesProject', () => {
        .click()
 
     cy.getId(idSkillsButton).click()
-    cy.get(headerTableSkills, timeOut).should('contain.text', nameTechnology)
+    cy.get(headerTableSkills).should('contain.text', nameTechnology)
   })
 
   it('delete new technology', () => {
