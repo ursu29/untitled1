@@ -14,7 +14,7 @@ describe('successfully create and delete new Company', () => {
 
         cy.getElement('addCompany').click()
         cy.getElement('inputCompanyName').type(companyName)
-        cy.getIcon('check').getType('submit').click()
+        cy.getIcon('check').click()
         cy.getElement(workExperienceElement.companyTitle).contains(companyName).should('exist')
 
         cy.getElement('deleteCompany').click()
