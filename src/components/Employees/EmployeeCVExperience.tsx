@@ -229,7 +229,11 @@ const JobListView = ({
                 : ''
             }
           >
-            <Button disabled={loading || hasUntitledCompany} onClick={() => handleCreate('')}>
+            <Button
+              data-cy="addCompany"
+              disabled={loading || hasUntitledCompany}
+              onClick={() => handleCreate('')}
+            >
               Add Company
             </Button>
           </Tooltip>
@@ -381,7 +385,7 @@ const JobView = ({
             {!isEditMode && (
               <CardActions>
                 <Popconfirm title="Sure to delete?" onConfirm={() => onDelete(data)}>
-                  <Button type="link" danger>
+                  <Button data-cy="deleteCompany" type="link" danger>
                     Delete
                   </Button>
                 </Popconfirm>
@@ -422,6 +426,7 @@ const CompanyNameForm = ({
 
   return (
     <StyledInlineForm
+      data-cy="inputCompanyName"
       form={form}
       layout="inline"
       name={`cv-company-name-${company}`}

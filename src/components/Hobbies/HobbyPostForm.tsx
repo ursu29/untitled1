@@ -127,10 +127,12 @@ const HobbyPostForm = ({ post, loading, onSubmit }: Props) => {
           )
         }}
       >
-        <ImageUploader onChange={data => {
-          if (data?.file?.status === 'removed') return
-          setUploadedImg(data?.file?.response?.[0])
-        }} />
+        <ImageUploader
+          onChange={data => {
+            if (data?.file?.status === 'removed') return
+            setUploadedImg(data?.file?.response?.[0])
+          }}
+        />
       </Form.Item>
 
       <Form.Item label="Hobbies" name="hobbies" initialValue={[]}>

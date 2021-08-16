@@ -270,3 +270,7 @@ export const selfEvalForm = {
   fillComment: 'fillComment',
   comment: 'comment'
 }
+
+export const workExperienceElement = {
+  companyTitle: `workExperience`
+}
