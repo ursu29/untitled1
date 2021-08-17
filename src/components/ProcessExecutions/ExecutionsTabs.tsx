@@ -33,15 +33,17 @@ function ActiveProcesses({ processExecutions }: Props) {
     i => (i.status === 'RUNNING' || i.status === 'FINISHED') && i.process.type === 'ONBOARDING',
   )
 
-  if (!!cityFilter.length) {
-    boardFilteredProcessExecutions = boardFilteredProcessExecutions.filter(i =>
-      i.locations.some(loc => cityFilter.includes(loc)),
-    )
-  }
-  if (!!emploeeFilter.length) {
-    boardFilteredProcessExecutions = boardFilteredProcessExecutions.filter(i =>
-      i.activeStepEmployees?.some(actEmp => emploeeFilter.includes(actEmp.id)),
-    )
+  const isCitiesFilter = !!cityFilter.length
+  const isResponsibleFilter = !!emploeeFilter.length
+
+  if (isCitiesFilter || isResponsibleFilter) {
+    boardFilteredProcessExecutions = boardFilteredProcessExecutions.filter(i => {
+      let isPass = []
+      if (isResponsibleFilter)
+        isPass.push(i.activeStepEmployees?.some(actEmp => emploeeFilter.includes(actEmp.id)))
+      if (isCitiesFilter) isPass.push(i.locations.some(loc => cityFilter.includes(loc)))
+      return !isPass.some(e => !e)
+    })
   }
   const empList = Array.from(
     new Set(
