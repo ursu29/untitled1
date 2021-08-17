@@ -151,7 +151,6 @@ export default function Employees() {
     selectedRowKeys: filteredEmployees?.filter(e => managementGroup?.includes(e.id)).map(e => e.id),
   }
 
-  console.log(filteredEmployees)
   return (
     <>
       <div style={{ maxWidth: 'fit-content', margin: '0 0 20px 20px', padding: '10px' }}>
