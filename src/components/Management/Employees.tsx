@@ -1,18 +1,19 @@
-import { useQuery, useMutation, gql } from '@apollo/client'
-import { Checkbox, Table, Switch } from 'antd'
+import { gql, useMutation, useQuery } from '@apollo/client'
+import { Checkbox, Switch, Table } from 'antd'
 import React, { useState } from 'react'
 import fragments, { EmployeeDetails } from '../../fragments'
-import { Employee, LOCATION } from '../../types'
-import EmployeeCard from '../Employees/EmployeeCard'
-import UpdateEmployee from '../Employees/UpdateEmployee'
-import TableSearch from '../UI/TableSearch'
 import message from '../../message'
 import {
   getMembersOfAccessGroup,
-  updateAccessGroup,
   GetMembersOfAccessGroupType,
+  updateAccessGroup,
 } from '../../queries/accessGroups'
+import { Employee } from '../../types'
+import { Location } from '../../types/graphql'
 import getLocationName from '../../utils/getLocationName'
+import EmployeeCard from '../Employees/EmployeeCard'
+import UpdateEmployee from '../Employees/UpdateEmployee'
+import TableSearch from '../UI/TableSearch'
 
 const getEmployees = gql`
   {
@@ -88,7 +89,10 @@ export default function Employees() {
       key: 'location',
       dataIndex: 'location',
       width: '14%',
-      filters: Object.keys(LOCATION).map(e => ({ text: getLocationName(e as LOCATION), value: e })),
+      filters: Object.values(Location).map(e => ({
+        text: getLocationName(e),
+        value: e,
+      })),
       render: (_: any, i: any) => {
         return <span>{getLocationName(i.location)}</span>
       },
