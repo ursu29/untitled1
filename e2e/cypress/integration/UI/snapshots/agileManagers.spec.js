@@ -13,6 +13,6 @@ describe('agile managers boards looks good', () => {
     it('check agile managers cards', () => {
         cy.getIcon('right').eq(0).click()
 
-        cy.getElement('agile').matchImageSnapshot('agileManagers', {blackout: ['.ant-avatar']})
+        cy.snapshot('agile', 'agileManagers', {blackout: ['.ant-avatar']})
     })
 })
