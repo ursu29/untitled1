@@ -34,7 +34,7 @@ function NewsFeed({ editable, employee, filter, setFilter }: Props) {
 
   return (
     <Row gutter={24}>
-      <Col xs={{ span: 24, order: 2 }} md={{ span: 17, order: 1 }}>
+      <Col xs={{ span: 24, order: 2 }} md={{ span: 17, order: 1 }} data-cy="news">
         <Posts
           loading={loading}
           editable={editable}

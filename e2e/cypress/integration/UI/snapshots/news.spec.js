@@ -14,6 +14,6 @@ describe('Visual regression news page', () => {
     it(`Should match previous screenshot news Page`, () => {
         cy.get('.ant-tag-blue').should('be.visible')
 
-        cy.get('.ant-card-body').eq(1).matchImageSnapshot('news');
+        cy.snapshot('news', 'news')
     });
 });
