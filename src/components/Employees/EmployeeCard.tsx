@@ -14,11 +14,13 @@ export interface Props {
   cardProps?: React.ComponentProps<typeof Card>
 }
 
-export default function EmployeeCard({ email, employee, noLink, cardProps }: Props) {
+export default function EmployeeCard({ email, employee: employeeProp, noLink, cardProps }: Props) {
   const { data, loading, error } = useGetEmployeeQuery({
     variables: { email },
-    skip: Boolean(employee),
+    skip: Boolean(employeeProp),
   })
+
+  const employee = data?.employeeByEmail || employeeProp
 
   if (!employee) return null
 
@@ -38,7 +40,7 @@ export default function EmployeeCard({ email, employee, noLink, cardProps }: Pro
       className="employee-card"
     >
       <Card.Meta
-        avatar={<Avatar size={40} employee={data?.employeeByEmail ?? employee} />}
+        avatar={<Avatar size={40} employee={employee} />}
         title={
           noLink ? (
             employee.name
