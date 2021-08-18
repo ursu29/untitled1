@@ -38,7 +38,7 @@ export default function Page() {
   return (
     <>
       <PageHeader title="Wiki" withBack extra={[<Search />]} />
-      <Helmet title={data?.wikiPage.title} />
+      <Helmet title={data?.wikiPage?.title} />
       <PageContent error={error} loading={loading} notFound={!data?.wikiPage}>
         <TitleEditable
           data={data?.wikiPage?.title || ''}
