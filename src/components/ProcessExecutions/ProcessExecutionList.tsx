@@ -254,7 +254,23 @@ function ProcessList({ items, tabName, onlyForMeFilter }: Props) {
         )
       },
       ellipsis: true,
-      sorter: (a: any, b: any) => (a?.employee || '').localeCompare(b?.employee || ''),
+      sorter: (
+        a: QueryType['processExecutions'][number],
+        b: QueryType['processExecutions'][number],
+      ) => {
+        const aEmployee = (
+          a.process.type !== 'ONBOARDING' ? a.employeeRef?.name || '' : a.employee || ''
+        ).toLowerCase()
+        const bEmployee = (
+          b.process.type !== 'ONBOARDING' ? b.employeeRef?.name || '' : b.employee || ''
+        ).toLowerCase()
+
+        if (aEmployee === bEmployee) return 0
+        if (!aEmployee) return 1
+        if (!bEmployee) return -1
+
+        return aEmployee.localeCompare(bEmployee)
+      },
     },
     {
       key: 'finishDate',
@@ -359,7 +375,8 @@ function ProcessList({ items, tabName, onlyForMeFilter }: Props) {
                     return e?.name
                   })
                 return []
-              }),
+              })
+              .sort((a, b) => a.localeCompare(b)),
           ),
         ].map(e => ({ text: e, value: e })),
         onFilter: (value: any, record: any) =>
