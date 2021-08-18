@@ -123,7 +123,11 @@ const injectGallery = (parent: HTMLElement) => {
         .filter(i => i)
         .map(link => link.trim())
       ReactDOM.render(
-        <Swiper spaceBetween={50} slidesPerView={1} pagination={{ type: 'bullets' }}>
+        <Swiper
+          spaceBetween={50}
+          slidesPerView={1}
+          pagination={{ type: 'bullets', clickable: true }}
+        >
           {imgLinksList.map(i => (
             <SwiperSlide key={i} style={{ textAlign: 'center' }}>
               <Image className="gallery-image" src={i} alt={i} style={{ maxHeight: '500px' }} />
