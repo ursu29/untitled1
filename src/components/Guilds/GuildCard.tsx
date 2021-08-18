@@ -1,8 +1,8 @@
 import React from 'react'
 import { Tooltip, Typography } from 'antd'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
 import { Guild } from '../../types'
-import { getEmployeeLink, getGuildLink } from '../../paths'
+import { getEmployeeLink } from '../../paths'
 import Technologies from '../UI/Technologies'
 import { CardWrapper, CardHeader, GuildTitle } from './styled'
 import Avatar from '../Avatar'
@@ -17,8 +17,8 @@ function GuildCard({ guild, style, history }: Props & RouteComponentProps) {
     <CardWrapper style={style}>
       <CardHeader>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <GuildTitle onClick={() => history.push(getGuildLink(guild.azureDisplayName))}>
-            {guild.title}
+          <GuildTitle>
+            <Link to={`/guilds/${guild.azureDisplayName}`}>{guild.title}</Link>
           </GuildTitle>
           <span style={{ fontSize: '14px', color: 'rgba(0, 0, 0, 0.45)' }}>
             {guild.azureDisplayName}
