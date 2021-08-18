@@ -72,6 +72,7 @@ function EmployeeSelect(
       }}
       items={data?.employees
         ?.filter(i => (withoutMe ? !i?.isMe : true))
+        .sort((a, b) => a.name.localeCompare(b.name))
         .map(employee => {
           return {
             id: employee.id,
