@@ -691,16 +691,16 @@ const ProjectHeader = ({ data, projectList }: { data: Vitae; projectList: Projec
   }
   const project = data.project && projectList.find(p => p.name === data.project)
   return (
-    <Space>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
       {data.project &&
         (project ? (
           <ProjectTag small project={project} />
         ) : (
-          <Tag style={{ fontSize: 14 }}>{data.project}</Tag>
+          <Tag style={{ fontSize: 14, maxWidth: 300, overflow: 'hidden' }}>{data.project}</Tag>
         ))}
-      <StyledProjectName>{data.position}</StyledProjectName>
-      {data.level && <Tag>{data.level}</Tag>}
-    </Space>
+      <StyledProjectName style={{ marginLeft: 8 }}>{data.position}</StyledProjectName>
+      {data.level && <Tag style={{ marginLeft: 8 }}>{data.level}</Tag>}
+    </div>
   )
 }
 
