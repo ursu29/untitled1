@@ -234,8 +234,8 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
             <ProcessExecutionRotation processExecution={processExecution} />
             <ActiveStepCard
               title="Open Vacancy"
-              status={processExecution.vacancy.isPublished ? 'done' : 'active'}
-              employees={processExecution.vacancy.responsibleEmployees}
+              status={processExecution.vacancy?.isPublished ? 'done' : 'active'}
+              employees={processExecution.vacancy?.responsibleEmployees}
             >
               <Vacancy
                 id={processExecution.vacancy?.id}
@@ -244,7 +244,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                   { query: getProcessExecutions },
                 ]}
                 editable={
-                  processExecution.vacancy.editable && processExecution.status !== 'HOLDING'
+                  processExecution.vacancy?.editable && processExecution.status !== 'HOLDING'
                 }
               />
             </ActiveStepCard>
@@ -255,7 +255,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
       <AdditionalInfo
         processId={processExecution.id}
         employee={processExecution.employee}
-        employeeRef={processExecution.employeeRef?.id}
+        employeeRef={processExecution.employeeRef}
         finishDate={processExecution.finishDate}
         employeePhone={processExecution.employeePhone}
         swissReOffboardingDate={processExecution.swissReOffboardingDate}
@@ -283,7 +283,7 @@ function HrProcessPage({ match }: RouteComponentProps<{ id: string }>) {
                   })}
                   active={
                     processExecution.process.type === 'ONBOARDING'
-                      ? processExecution.vacancy.isPublished
+                      ? processExecution.vacancy?.isPublished
                       : true
                   }
                   onComplete={step =>

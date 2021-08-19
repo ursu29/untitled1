@@ -12,6 +12,7 @@ import { CopyOutlined } from '@ant-design/icons'
 import copyToClipboard from '../../utils/copyToClipboard'
 import ProjectTag from '../Projects/ProjectTag'
 import { PHONE_MASKS } from '../../constants'
+import { QueryType } from '../../queries/getProcessExecution'
 
 const MainWrapper = styled.div`
   display: flex;
@@ -40,7 +41,7 @@ export default function AdditionalInfo({
 }: {
   processId: string
   employee: string
-  employeeRef: string
+  employeeRef?: QueryType['processExecutions'][number]['employeeRef']
   finishDate: string
   employeePhone: string
   swissReOffboardingDate: string
@@ -71,11 +72,12 @@ export default function AdditionalInfo({
   const makeUpdate = (body: any) => update({ variables: { input: { id: processId, ...body } } })
 
   const [employeeField, setEmployeeField] = useState(employee || '')
-  const [employeeRefField, setEmployeeRefField] = useState(employeeRef || '')
+  const [employeeRefField, setEmployeeRefField] = useState(employeeRef?.id || '')
   const [employeePhoneField, setEmployeePhoneField] = useState(employeePhone || '')
   const [finishDateField, setFinishDateField] = useState(
     finishDate ? moment(moment(finishDate), ['DD.MM.YYYY']) : null,
   )
+
   const employeeSelectRef = useRef()
 
   return (
@@ -117,26 +119,30 @@ export default function AdditionalInfo({
         <BlockWrapper style={{ width: '30%', minWidth: '175px' }}>
           <span style={{ paddingBottom: '8px' }}>* Employee</span>
           {isNotOnboarding ? (
-            <Input.Group compact style={{ display: 'flex' }}>
-              <EmployeeSelect
-                wide
-                keyName="id"
-                //@ts-expect-error
-                onChange={e => setEmployeeRefField(e)}
-                value={employeeRefField}
-                ref={employeeSelectRef}
-              />
-              <Tooltip title="Copy to clipboard">
-                <Button
-                  onClick={() => {
-                    //@ts-ignore
-                    copyToClipboard(employeeSelectRef.current?.props.value.value)
-                    message.success('Copied !')
-                  }}
-                  icon={<CopyOutlined style={{ color: 'lightgray', cursor: 'pointer' }} />}
-                ></Button>
-              </Tooltip>
-            </Input.Group>
+            !employeeRef?.isDismissed ? (
+              <Input.Group compact style={{ display: 'flex' }}>
+                <EmployeeSelect
+                  wide
+                  keyName="id"
+                  //@ts-expect-error
+                  onChange={e => setEmployeeRefField(e)}
+                  value={employeeRefField}
+                  ref={employeeSelectRef}
+                />
+                <Tooltip title="Copy to clipboard">
+                  <Button
+                    onClick={() => {
+                      //@ts-ignore
+                      copyToClipboard(employeeSelectRef.current?.props.value.value)
+                      message.success('Copied !')
+                    }}
+                    icon={<CopyOutlined style={{ color: 'lightgray', cursor: 'pointer' }} />}
+                  ></Button>
+                </Tooltip>
+              </Input.Group>
+            ) : (
+              <Input value={employeeRef?.name + ' (dismissed)'} disabled={true} />
+            )
           ) : (
             <Input.Group compact style={{ display: 'flex' }}>
               <Input
@@ -213,9 +219,9 @@ export default function AdditionalInfo({
                   employeeField === employee &&
                   moment(finishDateField).isSame(finishDate) &&
                   employeePhoneField === employeePhone) ||
-                (!!employeeRef &&
+                (!!employeeRef?.id &&
                   isNotOnboarding &&
-                  employeeRefField === employeeRef &&
+                  employeeRefField === employeeRef?.id &&
                   moment(finishDateField).isSame(finishDate) &&
                   employeePhoneField === employeePhone)
               }

@@ -832,3 +832,15 @@ export const updatePost = (body, id, title, tagsArr = TAGS) => ({
   },
   query: query.updatePost,
 })
+
+export const getAllFiles = () => ({
+  operationName: 'sharedFiles',
+  variables: {},
+  query: query.getAllFiles,
+})
+
+export const updateFileDetails = obj => ({
+  operationName: 'updateFileDetails',
+  variables: { input: { ...obj } },
+  query: query.updateFileDetails,
+})

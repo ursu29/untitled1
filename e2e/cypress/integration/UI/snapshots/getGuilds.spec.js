@@ -12,6 +12,6 @@ describe('Visual regression guilds page', () => {
     it(`Should match previous screenshot guilds Page`, () => {
         cy.getId('guildleaders').should('be.visible')
 
-        cy.get('.ant-row').matchImageSnapshot();
+        cy.snapshot('.ant-row', 'guilds')
     });
 });

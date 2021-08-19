@@ -100,7 +100,14 @@ export default function EmployeeForm({
       ref={refForm || null}
     >
       <Form.Item label="Agile Manager" name="agileManager">
-        <EmployeeSelect wide selectProps={{ disabled: !fullAccess }} />
+        <EmployeeSelect
+          wide
+          selectProps={{
+            disabled: !fullAccess,
+            allowClear: true,
+            onClear: () => form.setFieldsValue({ agileManager: null }),
+          }}
+        />
       </Form.Item>
       <Form.Item
         label="Allocation:"

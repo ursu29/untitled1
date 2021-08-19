@@ -3,9 +3,9 @@ import { filterSkillsName } from './complexLocators'
 import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command'
 
 addMatchImageSnapshotCommand({
-  failureThreshold: 0.1, // threshold for entire image
+  failureThreshold: 0, // threshold for entire image
   failureThresholdType: 'percent', // percent of image or number of pixels
-  customDiffConfig: { threshold: 0.5 },  // threshold for each pixel
+  customDiffConfig: { threshold: 0.1 },  // threshold for each pixel
   capture: 'viewport',  // capture viewport in screenshot
   customDiffDir: './TestReport/assets' // screenshotsFolder
 })
@@ -20,9 +20,20 @@ Cypress.Commands.add('clickElement', text => cy.get('span').contains(text).click
 
 Cypress.Commands.add('getType', text => cy.get(`[type="${text}"]`))
 
+Cypress.Commands.add('getTitle', name => cy.get(`[title="${name}"]`))
+
 Cypress.Commands.add('checkLength', (name, length) =>
   cy.getElement(name).its('length').should('eq', length),
 )
+
+export const createSnapshot = (el, name, obj) =>   el.startsWith('.') ? cy.get(el).matchImageSnapshot(name, obj)
+  : cy.getElement(el).matchImageSnapshot(name, obj)
+
+Cypress.Commands.add('snapshot', (name, el, obj) => {
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(1000)
+  createSnapshot(name, el, obj)
+})
 
 Cypress.Commands.add('checkTextInArrayEl', (el, array, isDataAttr = true) => {
   const find = isDataAttr ? cy.getElement(el) : cy.get(el)

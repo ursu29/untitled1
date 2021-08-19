@@ -60,11 +60,11 @@ function ProcessExecutionRotation({ history, processExecution }: Props & RouteCo
         />
       </Drawer>
       <Typography.Title level={3}>Want to rotate</Typography.Title>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
         {employees?.map(i => {
           return (
-            <div key={i.id} style={{ minWidth: 300, marginRight: 16 }}>
-              <EmployeeCard email={i.email} />
+            <div key={i.id} style={{ marginRight: 16 }}>
+              <EmployeeCard email={i.email} cardProps={{ style: { marginBottom: 16 } }} />
               {processExecution.status === 'RUNNING' && (
                 <Button
                   onClick={() => {

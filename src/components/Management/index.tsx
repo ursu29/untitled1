@@ -1,5 +1,5 @@
 import { Radio, Tabs } from 'antd'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import AzureLogo from '../../svg/azure-logo.svg'
 import URLAction from '../../utils/URLAction'
 import useStrapiGroupCheck from '../../utils/useStrapiGroupCheck'
@@ -17,19 +17,23 @@ export default function Management() {
   const isAADUserEditors = useStrapiGroupCheck('AAD_USER_EDITORS')
   const isAADGroupEditors = useStrapiGroupCheck('AAD_GROUP_EDITORS')
   const isAADAccess = isAADCreators || isAADUserEditors || isAADGroupEditors
-  const [view, setView] = useState(
-    urlAction.paramsGet('tab') || isGeneralAccess ? 'employees' : 'aad',
-  )
+  const [view, setView] = useState(isGeneralAccess ? 'employees' : 'aad')
   const [aadSection, setAadSection] = useState<'users' | 'groups'>(
     isAADCreators || isAADUserEditors ? 'users' : 'groups',
   )
+
+  useEffect(() => {
+    const tab = urlAction.paramsGet('tab')
+    if (typeof tab === 'string') setView(tab)
+    //eslint-disable-next-line
+  }, [])
 
   return (
     <>
       <PageHeader title="Management" withoutDivider />
       <PageContent style={{ paddingLeft: 0, paddingRight: 0, marginTop: '-32px' }}>
         <Tabs
-          defaultActiveKey={view}
+          activeKey={view}
           onTabClick={key => {
             setView(key)
             urlAction.paramsSet('tab', key)
