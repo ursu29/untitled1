@@ -51,7 +51,6 @@ describe('open process looks good', () => {
         cy.contains('OK').click({force: true})
         cy.get(tableTr.tableString).its('length').should('be.equal', 7)
 
-
         cy.getIcon('filter').last().click()
         cy.get('span').contains(cityName).click({force: true})
         cy.contains('OK').click({force: true})
