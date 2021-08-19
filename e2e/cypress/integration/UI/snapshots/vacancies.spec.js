@@ -16,6 +16,6 @@ describe('vacancy tab looks god', () => {
     cy.get('.ant-btn-link').eq(0).click()
     cy.getElement('vacancy').should('be.visible')
 
-    cy.getElement('vacancy').matchImageSnapshot('vacancy')
+    cy.snapshot('vacancy', 'vacancy')
   })
 })

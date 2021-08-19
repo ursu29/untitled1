@@ -16,7 +16,7 @@ describe('personal dev plans looks good', () => {
     cy.getElement('allEvaluation').matchImageSnapshot('evaluation-form')
     cy.get('.ant-skeleton').should('not.exist')
 
-    cy.getElement('reviewers').matchImageSnapshot('reviewers')
-    cy.getElement('lastDiscussed').matchImageSnapshot('lastDiscussed')
+    cy.snapshot('reviewers', 'reviewers')
+    cy.snapshot('lastDiscussed', 'lastDiscussed')
   })
 })

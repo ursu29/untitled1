@@ -6,14 +6,12 @@ describe('Visual regression news page', () => {
 
         cy.mockResponse(['getPosts'], getNews())
         cy.visit('/feed')
-
-        cy.get('div').find('img').should('be.visible')
     })
 
 
     it(`Should match previous screenshot news Page`, () => {
         cy.get('.ant-tag-blue').should('be.visible')
 
-        cy.get('.ant-card-body').eq(1).matchImageSnapshot('news');
+        cy.snapshot('news', 'news')
     });
 });

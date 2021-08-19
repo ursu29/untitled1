@@ -11,9 +11,6 @@ describe('skills tab looks god', () => {
   })
 
   it('check all skills', () => {
-    cy.get('.ant-skeleton').should('be.visible')
-    cy.get('.ant-skeleton').should('not.exist')
-
-    cy.getElement('allSkills').matchImageSnapshot('skills')
+    cy.snapshot('allSkills', 'skills')
   })
 })

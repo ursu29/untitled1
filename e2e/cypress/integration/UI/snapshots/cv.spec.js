@@ -18,6 +18,6 @@ describe('cv table looks good', () => {
     cy.visit(getSubTabUrl('career', '/profile', 'cv'))
 
     cy.mockResponse(['getCV'], getCv(id))
-    elements.forEach(el => cy.getElement(el).matchImageSnapshot(el))
+    elements.forEach(el => cy.snapshot(el, el))
   })
 })
