@@ -14,7 +14,7 @@ import {
   Tooltip,
 } from 'antd'
 import { EditOutlined, CheckOutlined } from '@ant-design/icons'
-import moment from 'moment'
+import moment, { Moment } from 'moment'
 import React, { useState, useEffect } from 'react'
 import { debounce } from 'throttle-debounce'
 import styled from 'styled-components'
@@ -241,7 +241,7 @@ const JobListView = ({
       </div>
       <div>
         {Object.entries(groupedByCompany)
-          .sort((a, b) => (a[0] === '' ? -1 : 1))
+          .sort(a => (a[0] === '' ? -1 : 1))
           .map(([company, data]) => (
             <JobView
               key={company}
@@ -343,7 +343,7 @@ const JobView = ({
   onDelete: (vitae: Vitae[]) => void
   onCreate: (company: string) => void
 }) => {
-  const [isEditMode, setIsEditMode] = useState(!!isEdited)
+  const [isEditMode, setIsEditMode] = useState(isEdited)
 
   useEffect(() => {
     if (newCompanyWasCreated && company === '') setIsEditMode(true)
@@ -544,8 +544,10 @@ const ProjectBasicForm = ({
   )
 }
 
+type dateType = Moment | null
+
 type ProjectDetailedFormValues = {
-  date: [string | null, string | null] | null
+  date: [dateType, dateType] | dateType
   responsibilities: string | null
 }
 
@@ -566,12 +568,11 @@ const ProjectDetailedForm = ({
 }) => {
   const [form] = Form.useForm<ProjectDetailedFormValues>()
   const [isPresent, setIsPresent] = useState(!data?.dateEnd)
+
   const dateStart = data.dateStart
     ? moment(moment(data.dateStart), dateFormatList).locale('en')
-    : undefined
-  const dateEnd = data.dateEnd
-    ? moment(moment(data.dateEnd), dateFormatList).locale('en')
-    : undefined
+    : null
+  const dateEnd = data.dateEnd ? moment(moment(data.dateEnd), dateFormatList).locale('en') : null
 
   const handleResponsibilitiesChange = debounce(DEBOUNCE_DELAY.FORM_INPUT, (e: any) => {
     form.setFieldsValue({
@@ -611,14 +612,11 @@ const ProjectDetailedForm = ({
       name={`cv-project-detailed-${data.id}`}
       labelCol={{ span: 24, offset: 0 }}
       onFinish={values => {
-        let start = null
-        let end = null
-        ;[start, end] = Array.isArray(values.date) ? values.date : [values.date, null]
+        let [start, end] = Array.isArray(values.date) ? values.date : [values.date, null]
         if (isPresent) end = null
         onSubmit({
-          //@ts-ignore
-          dateStart: start,
-          dateEnd: end,
+          dateStart: moment(start).toISOString(),
+          dateEnd: moment(end).toISOString(),
           responsibilities: values.responsibilities,
         })
       }}
@@ -635,11 +633,8 @@ const ProjectDetailedForm = ({
               format={DATE_MONTH_FORMAT}
               picker="month"
               allowClear
-              disabled={editable ? false : true}
-              onChange={value => {
-                if (!value) form.submit()
-              }}
-              onBlur={form.submit}
+              disabled={!editable}
+              onChange={form.submit}
             />
           ) : (
             <DatePicker.RangePicker
@@ -648,10 +643,7 @@ const ProjectDetailedForm = ({
               allowEmpty={[true, true]}
               allowClear
               disabled={editable ? [false, isPresent] : true}
-              onChange={value => {
-                if (!value) form.submit()
-              }}
-              onBlur={form.submit}
+              onChange={form.submit}
             />
           )}
         </Form.Item>
@@ -659,7 +651,10 @@ const ProjectDetailedForm = ({
           disabled={!editable}
           checked={isPresent}
           onChange={() => {
-            setIsPresent(prev => !prev)
+            setIsPresent(prev => {
+              form.setFieldsValue({ date: !prev ? dateStart : [dateStart, dateEnd] })
+              return !prev
+            })
             form.submit()
           }}
         >
