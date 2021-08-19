@@ -18,21 +18,27 @@ describe('open process looks good', () => {
 
         cy.getIcon(caretDown.caretDownButton).eq(1).click({force: true})
         cy.get(tableTr.tableString).eq(0).should('contain.text', 'offBoarding')
+        cy.get(tableTr.tableString).eq(8).should('contain.text', 'Onboarding SwissRe')
 
         cy.getIcon(caretDown.caretDownButton).eq(2).click({force: true})
         cy.get(tableTr.tableString).eq(0).should('contain.text', 'Riskmarket')
+        cy.get(tableTr.tableString).eq(8).should('contain.text', 'Timemaster')
 
         cy.getIcon(caretDown.caretDownButton).eq(3).click({force: true})
         cy.get(tableTr.tableString).eq(0).should('contain.text', 'Kaliningrad')
+        cy.get(tableTr.tableString).eq(8).should('contain.text', 'Zürich')
 
         cy.getIcon(caretDown.caretDownButton).eq(4).click({force: true})
         cy.get(tableTr.tableString).eq(8).should('contain.text', 'Manual QA Engineer')
+        cy.get(tableTr.tableString).eq(2).should('contain.text', 'Frontend Developer')
 
         cy.getIcon(caretDown.caretDownButton).eq(5).click({force: true})
-        cy.get(tableTr.tableString).eq(8).should('contain.text', 'Test Employee')
+        cy.get(tableTr.tableString).eq(0).should('contain.text', 'Arina Busygina')
+        cy.get(tableTr.tableString).eq(5).should('contain.text', 'Test Employee')
 
         cy.getIcon(caretDown.caretDownButton).eq(6).click({force: true})
         cy.get(tableTr.tableString).eq(0).should('contain.text', '05.12.1900')
+        cy.get(tableTr.tableString).eq(5).should('contain.text', '05.05.2021')
 
 
         cy.getIcon('search').first().click()
