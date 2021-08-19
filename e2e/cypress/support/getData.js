@@ -13,7 +13,6 @@ export const TAGS = ['6030dd7ef84074001c07ebb5', '6030dd7ef84074001c07ebb6']
 const { email } = employeeData.employee
 
 Cypress.Commands.add('post', (body, superUser = null, baseUrl = URL, methodName = 'POST') => {
-  console.log('Type',process.env.EMPLOYEE_TYPE)
   return cy.request({
     url: baseUrl,
     method: methodName,

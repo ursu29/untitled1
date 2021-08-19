@@ -1,9 +1,3 @@
-import {
-  assignAgileManagerToEmployee,
-  getEmployeeEmail,
-  getEmployees2,
-  updateEmployeeAddAgileManager,
-} from '../support/getData'
 
 export const query = {
   getScrumMasters: '{ projects { ...ProjectDetails scrumMasters { ...EmployeeDetails __typename } employees { id __typename } __typename }} fragment ProjectDetails on Project { id name code description __typename} fragment EmployeeDetails on Employee { id name location country position phoneNumber email isMe startDate birthday __typename}',
