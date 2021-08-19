@@ -13,6 +13,7 @@ export const TAGS = ['6030dd7ef84074001c07ebb5', '6030dd7ef84074001c07ebb6']
 const { email } = employeeData.employee
 
 Cypress.Commands.add('post', (body, superUser = null, baseUrl = URL, methodName = 'POST') => {
+  console.log('Type',process.env.EMPLOYEE_TYPE)
   return cy.request({
     url: baseUrl,
     method: methodName,
@@ -843,4 +844,22 @@ export const updateFileDetails = obj => ({
   operationName: 'updateFileDetails',
   variables: { input: { ...obj } },
   query: query.updateFileDetails,
+})
+
+export const getEmployeeDetailed = email => ({
+  operationName: 'getEmployeeDetailed',
+  variables: { email: email },
+  query: query.getEmployeeDetailed,
+})
+
+export const getEmployeesParametеrs = obj => ({
+  operationName: 'getEmployees',
+  variables: { ...obj } ,
+  query: query.getEmployeesParametеrs,
+})
+
+export const getAllEmployees = () => ({
+  operationName: 'getEmployees',
+  variables: {} ,
+  query: query.getAllEmployees,
 })

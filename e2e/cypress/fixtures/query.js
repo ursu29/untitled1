@@ -1,3 +1,10 @@
+import {
+  assignAgileManagerToEmployee,
+  getEmployeeEmail,
+  getEmployees2,
+  updateEmployeeAddAgileManager,
+} from '../support/getData'
+
 export const query = {
   getScrumMasters: '{ projects { ...ProjectDetails scrumMasters { ...EmployeeDetails __typename } employees { id __typename } __typename }} fragment ProjectDetails on Project { id name code description __typename} fragment EmployeeDetails on Employee { id name location country position phoneNumber email isMe startDate birthday __typename}',
   updateHobbyPost: 'mutation updateHobbyPost($input: UpdateHobbyPostInput!) { updateHobbyPost(input: $input) { ...HobbyPostBase __typename }} fragment HobbyPostBase on HobbyPost { id title body createdAt createdBy { id name email __typename } hobbies { id name __typename } language __typename}',
@@ -32,21 +39,21 @@ export const query = {
   cancelEvent: 'mutation cancelEvent($input: CancelEventInput!) {cancelEvent(input: $input)}',
   getEvent: 'query getEvent($id: ID!) { event(id: $id) { id title description link start end importance isOnline isExternal city location skills { id name description __typename } attendees { employee { id name email position __typename } status __typename } createdBy { id __typename } __typename }}',
   updateExperience:
-      'mutation updateExperience($input: UpdateExperienceInput) { updateExperience(input: $input) {id __typename}}',
+    'mutation updateExperience($input: UpdateExperienceInput) { updateExperience(input: $input) {id __typename}}',
   attachMatrixToEmployee:
-      'mutation attachMatrixToEmployee($input: AttachMatrixToEmployeeInput) { attachMatrixToEmployee(input: $input) { id __typename}}',
+    'mutation attachMatrixToEmployee($input: AttachMatrixToEmployeeInput) { attachMatrixToEmployee(input: $input) { id __typename}}',
   updateDevelopmentPlan:
-      'mutation updateDevelopmentPlan($input: UpdateDevelopmentPlanInput!) {updateDevelopmentPlan(input: $input) { id __typename}}',
+    'mutation updateDevelopmentPlan($input: UpdateDevelopmentPlanInput!) {updateDevelopmentPlan(input: $input) { id __typename}}',
   getDevelopmentPlans:
-      'query getDevelopmentPlans($input: DevelopmentPlansInput!) { developmentPlans(input: $input) { id createdAt updatedAt developmentRoles { webDeveloper actuarialBusinessAnalyst agileCoach automationQA devOps infrastructureArchitect javaDeveloper dotnetDeveloper manualQA mathematician scrumMaster solutionArchitect teamLead uxExpert productOwner dataAnalyst __typename } guildContribution { internalProject education noContribution startup custom __typename } previousGoals { id description successCriteria isAchieved comment __typename } actualGoals { id description successCriteria isAchieved comment __typename } amountOfTime longTermGoals lookBackNegative lookBackPositive lookForward lastDiscussed __typename }}',
+    'query getDevelopmentPlans($input: DevelopmentPlansInput!) { developmentPlans(input: $input) { id createdAt updatedAt developmentRoles { webDeveloper actuarialBusinessAnalyst agileCoach automationQA devOps infrastructureArchitect javaDeveloper dotnetDeveloper manualQA mathematician scrumMaster solutionArchitect teamLead uxExpert productOwner dataAnalyst __typename } guildContribution { internalProject education noContribution startup custom __typename } previousGoals { id description successCriteria isAchieved comment __typename } actualGoals { id description successCriteria isAchieved comment __typename } amountOfTime longTermGoals lookBackNegative lookBackPositive lookForward lastDiscussed __typename }}',
   matricesCustomFieldsMutation:
-      'mutation matricesCustomFieldsMutation($input: UpdateMatricesCustomFieldsInput!) {updateMatricesCustomFields(input: $input) {id __typename}}',
+    'mutation matricesCustomFieldsMutation($input: UpdateMatricesCustomFieldsInput!) {updateMatricesCustomFields(input: $input) {id __typename}}',
   evaluationCustomFields: 'query evaluationCustomFields($input: EvaluationCustomFieldsInput) {evaluationCustomFields(input: $input) {id employeeMail lastDiscussed  __typename}}',
   customFieldsMutationSelfEv: 'mutation customFieldsMutation($input: UpdateCustomFieldsInput!) {updateCustomFields(input: $input) {id  __typename}}',
   matricesCustomFields:
-      'query matricesCustomFields($input: MatricesCustomFieldsInput) { matricesCustomFields(input: $input) {id employeeMail lastDiscussed __typename}}',
+    'query matricesCustomFields($input: MatricesCustomFieldsInput) { matricesCustomFields(input: $input) {id employeeMail lastDiscussed __typename}}',
   getExperiences:
-      'query getExperiences($input: ExperiencesInput) { experiences(input: $input) { ...ExperienceDetails __typename }}fragment ExperienceDetails on Experience { id level skill { id name description isMatrixOnly __typename } updatedAt __typename}',
+    'query getExperiences($input: ExperiencesInput) { experiences(input: $input) { ...ExperienceDetails __typename }}fragment ExperienceDetails on Experience { id level skill { id name description isMatrixOnly __typename } updatedAt __typename}',
   getProjectSkills: 'query getProjectSkills($id: ID!) { project(id: $id) { id skills { ...SkillDetails __typename } access { read write __typename } __typename }}fragment SkillDetails on Skill { id name description parent { id __typename } isMatrixOnly __typename}',
   updateProjectSkills: 'mutation updateProjectSkills($input: UpdateProjectSkillsInput!) {updateProjectSkills(input: $input) {id __typename}}',
   getProjectByCode: 'query getProjectByCode($code: String!) {projectByCode(code: $code) {...ProjectDetails scrumMasters { id email __typename} __typename}}fragment ProjectDetails on Project {id name code description __typename}',
@@ -116,7 +123,7 @@ export const query = {
   createProcess:
     'mutation createProcess($input: CreateProcessInput!) {createProcess(input: $input) {id __typename}}',
   getAllProjects:
-      'query getProjects {projects {...ProjectDetails __typename}}fragment ProjectDetails on Project {id name code description __typename}',
+    'query getProjects {projects {...ProjectDetails __typename}}fragment ProjectDetails on Project {id name code description __typename}',
   createProcessExecution:
     'mutation createProcessExecution($input: CreateProcessExecutionInput) {createProcessExecution(input: $input) {id __typename}}',
   holdProcess:
@@ -164,9 +171,15 @@ export const query = {
   getEvaluationRevieers:
     'query getEvaluationRevieers($input: EvaluationReviewersInput) { evaluationReviewers(input: $input) { id toWhom { id name __typename } fromWho { id name isMe __typename } __typename }}',
   evaluate:
-     'mutation evaluate($input: EvaluateInput!) {evaluate(input: $input) { id __typename}}',
+    'mutation evaluate($input: EvaluateInput!) {evaluate(input: $input) { id __typename}}',
   getAllFiles:
     'query sharedFiles($input: SharedFilesInput) { sharedFiles(input: $input) { ...SharedFileFragment __typename }} fragment SharedFileFragment on SharedFile { id url fileName createdAt createdBy { id name email __typename } size type id skills { id name __typename } __typename}',
   updateFileDetails:
-    'mutation updateFileDetails($input: UpdateSharedFileInput!) { updateSharedFile(input: $input) { ...FileDetailsFragment __typename }} fragment FileDetailsFragment on SharedFile { id skills { id name __typename } __typename}'
+    'mutation updateFileDetails($input: UpdateSharedFileInput!) { updateSharedFile(input: $input) { ...FileDetailsFragment __typename }} fragment FileDetailsFragment on SharedFile { id skills { id name __typename } __typename}',
+  getEmployeeDetailed:
+    'query getEmployeeDetailed($email: String!) {  employeeByEmail(email: $email) {    ...EmployeeDetails    agileManager {      ...EmployeeDetails      __typename    }    bonuses    __typename  }}fragment EmployeeDetails on Employee {  id  name  location  position  phoneNumber  email  isMe  startDate  birthday  __typename}',
+  getEmployeesParametеrs:
+    'query getEmployees($input: EmployeesInput, $inputEmail: AccessInput, $inputToWhom: EvaluationReviewersAccessInput) {  employees(input: $input) {    id    name    email    subordinateUsersCount {      users      one2oneRequests      __typename    }    agileManager {      id      name      email      isMe      __typename    }    access {      read      write      __typename    }    isMe    __typename  }  curriculumVitaeAccess(input: $inputEmail) {    read    write    __typename  }  matricesLookReviewersAccess(input: $inputEmail) {    read    write    __typename  }  developmentPlanLookReviewersAccess(input: $inputEmail) {    read    write    __typename  }  evaluationReviewersAccess(input: $inputToWhom) {    read    write    __typename  }}',
+  getAllEmployees:
+    'query getEmployees {  employees {    ...EmployeeDetails    __typename  }}fragment EmployeeDetails on Employee {  id  name  location  position  phoneNumber  email  isMe  startDate  birthday  __typename}',
 }
