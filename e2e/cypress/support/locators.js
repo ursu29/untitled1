@@ -274,3 +274,11 @@ export const selfEvalForm = {
 export const workExperienceElement = {
   companyTitle: `workExperience`
 }
+
+export const caretDown = {
+  caretDownButton: 'caret-down'
+}
+
+export const tableTr = {
+  tableString: '[data-row-key]'
+}
