@@ -608,6 +608,7 @@ type Employee {
   email: String!
   startDate: String
   birthday: String
+  isDismissed: Boolean
   bonuses: Float
   projects: [Project!]
   employeeProjects: [EmployeeProject!]
@@ -1354,6 +1355,7 @@ type Query {
   employeeByEmail(email: String!): Employee
   employees(input: EmployeesInput): [Employee!]
   profile: Employee
+  employeesProjects(emails: [String!]!): [EmployeeProject!]!
   evaluationReviewersAccess(input: EvaluationReviewersAccessInput): Access
   evaluationReviewers(input: EvaluationReviewersInput): [EvaluationReviewer]
   evaluationAttributes: [EvaluationAttribute]

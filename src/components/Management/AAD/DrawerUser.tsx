@@ -153,6 +153,8 @@ export default function DrawerUser({
 
     try {
       await form.validateFields()
+      //@ts-ignore
+      await refAdditionalForm.current?.validateFields()
 
       // Get form values from 'personal data' tab
       const id = form.getFieldValue('id')

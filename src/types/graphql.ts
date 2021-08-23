@@ -637,6 +637,7 @@ export type Employee = {
   email: Scalars['String']
   startDate?: Maybe<Scalars['String']>
   birthday?: Maybe<Scalars['String']>
+  isDismissed?: Maybe<Scalars['Boolean']>
   bonuses?: Maybe<Scalars['Float']>
   projects?: Maybe<Array<Project>>
   employeeProjects?: Maybe<Array<EmployeeProject>>
@@ -1926,6 +1927,7 @@ export type Query = {
   employeeByEmail?: Maybe<Employee>
   employees?: Maybe<Array<Employee>>
   profile?: Maybe<Employee>
+  employeesProjects: Array<EmployeeProject>
   evaluationReviewersAccess?: Maybe<Access>
   evaluationReviewers?: Maybe<Array<Maybe<EvaluationReviewer>>>
   evaluationAttributes?: Maybe<Array<Maybe<EvaluationAttribute>>>
@@ -2055,6 +2057,10 @@ export type QueryEmployeeByEmailArgs = {
 
 export type QueryEmployeesArgs = {
   input?: Maybe<EmployeesInput>
+}
+
+export type QueryEmployeesProjectsArgs = {
+  emails: Array<Scalars['String']>
 }
 
 export type QueryEvaluationReviewersAccessArgs = {

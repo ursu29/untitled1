@@ -37,3 +37,17 @@ export default gql`
     }
   }
 `
+
+export const getEmployeesProjects = gql`
+  query getEmployeesProjects($emails: [String!]!) {
+    employeesProjects(emails: $emails) {
+      id
+      capacity
+      isExtraCapacity
+      employee {
+        id
+        name
+      }
+    }
+  }
+`

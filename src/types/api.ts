@@ -532,7 +532,12 @@ export interface CalendarEvent {
 }
 
 export interface EmployeeProject {
+  id: string
   capacity: number
   isExtraCapacity: boolean
   project: Project
+  employee: {
+    id: string
+    name: string
+  }
 }

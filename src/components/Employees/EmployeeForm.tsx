@@ -1,11 +1,12 @@
 import { useQuery } from '@apollo/client'
-import { Button, Checkbox, Form, InputNumber } from 'antd'
+import { Button, Checkbox, Form, InputNumber, Popconfirm } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { GetEmployeeDetailedQuery } from '../../queries/employees'
 import getEmployeeProjects, {
   GetEmployeeProjectsQuery,
   GetEmployeeProjectsVariables,
 } from '../../queries/getEmployeeProjects'
+import { EmployeeProject } from '../../types'
 import EmployeeSelect from '../Employees/EmployeeSelect'
 import { layout } from '../Management/AAD/services'
 
@@ -30,7 +31,7 @@ export default function EmployeeForm({
   withSaveButton,
   saveInitialProjectsOccupancy,
 }: Props) {
-  const [projectsOccupancy, setProjectsOccupancy] = useState([{}])
+  const [projectsOccupancy, setProjectsOccupancy] = useState<EmployeeProject[]>([])
 
   const { data: dataProjects, loading: loadingProjects } = useQuery<
     GetEmployeeProjectsQuery,
@@ -141,13 +142,69 @@ export default function EmployeeForm({
                 max={100}
                 formatter={value => `${value}%`}
                 parser={value => (value ? Number(value?.replace('%', '')) : 0)}
-                style={{ width: '70px', marginRight: '15px' }}
+                style={{ width: '80px', marginRight: '15px' }}
                 onChange={value => {
                   setOccupancyField('capacity', value, project.id)
                 }}
+                value={projectsOccupancy.find(e => e.project?.id === project.id)?.capacity || 0}
               />
-              <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                {project.name}
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  width: '100%',
+                  alignItems: 'center',
+                }}
+              >
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <div
+                    style={{
+                      height: 15,
+                      lineHeight: '15px',
+                      display: 'flex',
+                      alignItems: 'flex-end',
+                    }}
+                  >
+                    {project.name}
+                  </div>
+                  <Popconfirm
+                    placement="top"
+                    title={`${project.name} project's allocation will be set at 100%, and for the others - 0%.`}
+                    onConfirm={() => {
+                      form.setFieldsValue({
+                        projectsOccupancy: employeeProjects.map(e =>
+                          e.project.id === project.id
+                            ? { ...e, capacity: 100 }
+                            : { ...e, capacity: 0 },
+                        ),
+                      })
+                      setProjectsOccupancy(
+                        employeeProjects.map(e =>
+                          e.project.id === project.id
+                            ? { ...e, capacity: 100 }
+                            : { ...e, capacity: 0 },
+                        ),
+                      )
+                    }}
+                    okText="Yes"
+                    cancelText="No"
+                    disabled={projects.length < 2}
+                  >
+                    <Button
+                      type="link"
+                      style={{
+                        margin: 0,
+                        padding: 0,
+                        height: 15,
+                        lineHeight: '15px',
+                        display: 'flex',
+                      }}
+                      disabled={projects.length < 2}
+                    >
+                      Make project main
+                    </Button>
+                  </Popconfirm>
+                </div>
                 <Checkbox
                   defaultChecked={
                     employeeProjects?.find(e => e.project.id === project.id)?.isExtraCapacity

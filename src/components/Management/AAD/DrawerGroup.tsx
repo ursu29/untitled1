@@ -1,6 +1,18 @@
+//@ts-ignore
 import { CopyOutlined, LockOutlined, UnlockOutlined } from '@ant-design/icons'
 import { Group, User } from '@microsoft/microsoft-graph-types'
-import { Button, Checkbox, Drawer, Form, Input, InputNumber, Select, Tabs, Tooltip } from 'antd'
+import {
+  Button,
+  Checkbox,
+  Drawer,
+  Form,
+  Input,
+  InputNumber,
+  Popconfirm,
+  Select,
+  Tabs,
+  Tooltip,
+} from 'antd'
 import React, { useEffect, useState } from 'react'
 import { FORM_RULES, GROUPS_PREFIXES } from '../../../constants'
 import message from '../../../message'
@@ -20,6 +32,9 @@ import copyToClipboard from '../../../utils/copyToClipboard'
 import GraphAPI from '../../../utils/GraphAPI'
 import EmployeeSelect from '../../Employees/EmployeeSelect'
 import { changeGroupName, layout } from './services'
+import { useQuery } from '@apollo/client'
+import { getEmployeesProjects } from '../../../queries/getEmployeeProjects'
+import { EmployeeProject } from '../../../types'
 
 const graphAPI = new GraphAPI()
 const { Option } = Select
@@ -55,7 +70,8 @@ export default function DrawerGroup({
   const [initialGroupMembers, setInitialGroupMembers] = useState<string[]>([])
   const [scrumMasters, setScrumMasters] = useState<string[]>()
   const [employeeProjects, setEmployeeProjects] =
-    useState<{ [id: string]: { capacity: number; isExtraCapacity: boolean } }>()
+    useState<{ [id: string]: { capacity?: number; isExtraCapacity?: boolean } }>()
+  const [employeeIDsErrors, setEmployeeIDsErrors] = useState<string[]>([])
 
   // Strapi get project for the 'additional' tab
   const { data: projectData, loading: projectLoading } = useGetProjectByCodeQuery({
@@ -65,6 +81,15 @@ export default function DrawerGroup({
   const project = projectData?.projectByCode
   const initialScrumMasters = project?.scrumMasters?.map(i => i.id)
   formAdditional.setFieldsValue({ scrumMasters: initialScrumMasters })
+
+  // Get all members employeeProjects
+  const { data: dataEmployeesProjects, loading: loadingEmployeesProjects } = useQuery<{
+    employeesProjects: EmployeeProject[]
+  }>(getEmployeesProjects, {
+    variables: { emails: initialGroupMembers },
+    fetchPolicy: 'network-only',
+  })
+  const employeesProjects = dataEmployeesProjects?.employeesProjects
 
   // Strapi create project query
   const [createProject, { loading: loadingCreateProject }] = useCreateProjectMutation({
@@ -155,11 +180,10 @@ export default function DrawerGroup({
 
   const onFinish = async () => {
     const isGuild = form.getFieldValue('prefixName')?.toLowerCase().startsWith('community')
-
     setLoading(true)
 
     try {
-      await form.validateFields()
+      await formAdditional.validateFields()
 
       // Get form values
       const id = form.getFieldValue('id')
@@ -408,7 +432,8 @@ export default function DrawerGroup({
     projectLoading ||
     loadingUpdateEmployeeProjects ||
     loadingRemoveEmployeeProjects ||
-    loadingCreateEmployeeProjects
+    loadingCreateEmployeeProjects ||
+    loadingEmployeesProjects
 
   return (
     <Drawer
@@ -574,21 +599,7 @@ export default function DrawerGroup({
               onChange={(ids: any) => setScrumMasters(ids)}
             />
           </Form.Item>
-          <Form.Item
-            label="Allocation:"
-            name="projectsOccupancy"
-            rules={[
-              () => ({
-                validator(_, value) {
-                  const total = value.reduce((acc: number, e: any) => acc + e.capacity, 0)
-                  if (total <= 100) {
-                    return Promise.resolve()
-                  }
-                  return Promise.reject(new Error('The total value must be no more than 100%!'))
-                },
-              }),
-            ]}
-          >
+          <Form.Item label="Allocation:" name="projectsOccupancy">
             {(project?.employeeProjects?.length &&
               project?.employeeProjects
                 .slice()
@@ -609,8 +620,14 @@ export default function DrawerGroup({
                       max={100}
                       formatter={value => `${value}%`}
                       parser={value => (value ? Number(value?.replace('%', '')) : 0)}
-                      style={{ width: '70px', marginRight: '15px' }}
-                      onChange={value => {
+                      style={{
+                        width: '80px',
+                        marginRight: '15px',
+                        borderColor: employeeIDsErrors.includes(employeeProject.employee?.id || '')
+                          ? '#ff4d4f'
+                          : '',
+                      }}
+                      onChange={async value => {
                         const employeeProjectState: any =
                           employeeProjects?.[employeeProject?.id] || {}
                         employeeProjectState.capacity = value
@@ -618,12 +635,71 @@ export default function DrawerGroup({
                           ...employeeProjects,
                           [employeeProject?.id]: employeeProjectState,
                         })
+                        await formAdditional.validateFields()
                       }}
+                      value={employeeProjects?.[employeeProject?.id]?.capacity || 0}
                     />
                     <div
-                      style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        width: '100%',
+                        alignItems: 'center',
+                      }}
                     >
-                      {employeeProject.employee?.name}
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div
+                          style={{
+                            height: 15,
+                            lineHeight: '15px',
+                            display: 'flex',
+                            alignItems: 'flex-end',
+                          }}
+                        >
+                          {employeeProject.employee?.name}
+                        </div>
+                        <Popconfirm
+                          placement="top"
+                          title={`${employeeProject.employee?.name} - project allocation for ${project.name} will be set at 100%, and for the other projects - 0%.`}
+                          onConfirm={() => {
+                            const otherEmployeeProjectsIDs = employeesProjects
+                              ?.filter(
+                                e =>
+                                  e.employee.id === employeeProject.employee?.id &&
+                                  e.id !== employeeProject.id,
+                              )
+                              .map(e => e.id)
+                            const other =
+                              otherEmployeeProjectsIDs?.reduce((obj, id) => {
+                                obj[id] = { capacity: 0 }
+                                return obj
+                              }, {} as { [key: string]: { capacity: number } }) || {}
+
+                            setEmployeeProjects({
+                              ...employeeProjects,
+                              [employeeProject?.id]: { capacity: 100 },
+                              ...other,
+                            })
+                          }}
+                          okText="Yes"
+                          cancelText="No"
+                          // disabled={projects.length < 2}
+                        >
+                          <Button
+                            type="link"
+                            style={{
+                              margin: 0,
+                              padding: 0,
+                              height: 15,
+                              lineHeight: '15px',
+                              display: 'flex',
+                            }}
+                            // disabled={projects.length < 2}
+                          >
+                            Make project main
+                          </Button>
+                        </Popconfirm>
+                      </div>
                       <Checkbox
                         defaultChecked={!!employeeProject.isExtraCapacity}
                         onChange={event => {
@@ -644,6 +720,44 @@ export default function DrawerGroup({
               <div style={{ fontStyle: 'italic', color: 'lightgray' }}>group is empty</div>
             )}
           </Form.Item>
+          <Form.Item
+            name="validation"
+            hidden
+            rules={[
+              () => ({
+                validator(_, value) {
+                  const employeeIDsTotalCapacityMapping = employeesProjects?.reduce(
+                    (obj: { [id: string]: number }, e: EmployeeProject) => {
+                      const updatedCapacity = employeeProjects?.[e.id]?.capacity
+                      obj[e.employee.id] =
+                        (obj?.[e.employee.id] || 0) +
+                        (typeof updatedCapacity !== 'undefined' ? updatedCapacity : e.capacity)
+                      return obj
+                    },
+                    {},
+                  )
+
+                  if (employeeIDsTotalCapacityMapping) {
+                    const errorEmployeeIDs = Object.keys(employeeIDsTotalCapacityMapping).filter(
+                      id => employeeIDsTotalCapacityMapping[id] > 100,
+                    )
+                    setEmployeeIDsErrors(errorEmployeeIDs)
+                    if (errorEmployeeIDs.length) return Promise.reject()
+                  }
+
+                  return Promise.resolve()
+                },
+              }),
+            ]}
+          />
+          {!!employeeIDsErrors.length && (
+            <div role="alert" style={{ color: 'red', paddingLeft: 130, marginTop: -16 }}>
+              Employees total projects allocation is more than 100% :{' '}
+              {employeeIDsErrors
+                .map(id => employeesProjects?.find(e => e.employee.id === id)?.employee.name)
+                .join(', ')}
+            </div>
+          )}
         </Form>
       </div>
     </Drawer>
