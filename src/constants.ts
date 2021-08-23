@@ -68,3 +68,19 @@ export const GROUPS_PREFIXES = ['Academy-', 'Community-', 'az-', 'guild-', 'is-'
 export const DEBOUNCE_DELAY = {
   FORM_INPUT: 800,
 }
+
+export enum LANGUAGES {
+  russian = 'Russian',
+  english = 'English',
+  german = 'German',
+  swiss = 'Swiss',
+}
+
+export enum LANGUAGE_LEVELS {
+  elementary = 'Elementary',
+  beginner = 'Beginner',
+  intermediate = 'Intermediate',
+  upperIntermediate = 'Upper intermediate',
+  advanced = 'Advanced',
+  native = 'Native',
+}
