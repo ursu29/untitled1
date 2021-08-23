@@ -17,7 +17,7 @@ describe('Check access to employee page', () => {
 
       employeeID = employeeAll[0].id
       employeeEmail = employeeAll[0].email
-    })
+     })
   })
 
   it('employee access to parameters of another employee', () => {
@@ -29,14 +29,15 @@ describe('Check access to employee page', () => {
     })).then(res => {
       const employeeData = res.body.data
 
-      const {curriculumVitaeAccess, developmentPlanLookReviewersAccess, matricesLookReviewersAccess, evaluationReviewersAccess} = employeeData
-      debugger
-      [curriculumVitaeAccess, developmentPlanLookReviewersAccess, matricesLookReviewersAccess, evaluationReviewersAccess].forEach(el => {
 
-        expect(el.write).equals(false)
-        expect(el.read).equals(false)
-        })
-     })
+      const {curriculumVitaeAccess, developmentPlanLookReviewersAccess, matricesLookReviewersAccess, evaluationReviewersAccess} = employeeData
+      {timeout:1000}
+        [curriculumVitaeAccess, developmentPlanLookReviewersAccess, matricesLookReviewersAccess, evaluationReviewersAccess].forEach(el => {
+
+          expect(el.write).equals(false)
+          expect(el.read).equals(false)
+          })
+       })
   })
 
   it('manager access to parameters of employee', () => {
@@ -52,7 +53,7 @@ describe('Check access to employee page', () => {
         const employeeData = res.body.data
 
         const {curriculumVitaeAccess, developmentPlanLookReviewersAccess, matricesLookReviewersAccess, evaluationReviewersAccess} = employeeData
-        debugger
+        {timeout:1000}
           [curriculumVitaeAccess, developmentPlanLookReviewersAccess, matricesLookReviewersAccess, evaluationReviewersAccess].forEach(el => {
 
             expect(el.write).equals(true)
@@ -66,7 +67,7 @@ describe('Check access to employee page', () => {
     cy.post(updateEmployeeCapacity(employeeID, null, []))
     cy.post(getEmployeeDetailed(employeeEmail))
 
-  })
+   })
 })
 
 
