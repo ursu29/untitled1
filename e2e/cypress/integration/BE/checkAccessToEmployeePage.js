@@ -3,21 +3,28 @@ import {
   getEmployeesParametеrs,
   updateEmployeeCapacity,
 } from '../../support/getData'
+import { email } from '../../support/client/employeeData'
 
 describe('Check access to employee page', () => {
 
-  let employeeID, employeeEmail
-  let agileManagerID = '603f592a7ae138001c21f6bc'
+  let employeeID, agileManagerID
+  const employeeEmail = 'a.vygodchikov@syncretis.com'
+
 
   before(() => {
     cy.setToken('employee')
 
-    cy.post(getAllEmployees()).then(res => {
-      const employeeAll = res.body.data.employees
+    cy.post(getEmployeeDetailed(employeeEmail)).then(res => {
+      const { employeeByEmail } = res.body.data
 
-      employeeID = employeeAll[0].id
-      employeeEmail = employeeAll[0].email
+      employeeID = employeeByEmail.id
      })
+
+    cy.post(getEmployeeDetailed(email('employee'))).then(res => {
+      const { employeeByEmail } = res.body.data
+
+      agileManagerID = employeeByEmail.id
+    })
   })
 
   it('employee access to parameters of another employee', () => {
@@ -27,17 +34,14 @@ describe('Check access to employee page', () => {
       inputEmail: { employeeEmail: employeeEmail },
       inputToWhom: { toWhom: employeeID }
     })).then(res => {
-      const employeeData = res.body.data
 
+      const {curriculumVitaeAccess, developmentPlanLookReviewersAccess, matricesLookReviewersAccess, evaluationReviewersAccess} = res.body.data
+      ;[curriculumVitaeAccess, developmentPlanLookReviewersAccess, matricesLookReviewersAccess, evaluationReviewersAccess].forEach(el => {
 
-      const {curriculumVitaeAccess, developmentPlanLookReviewersAccess, matricesLookReviewersAccess, evaluationReviewersAccess} = employeeData
-      {timeout:1000}
-        [curriculumVitaeAccess, developmentPlanLookReviewersAccess, matricesLookReviewersAccess, evaluationReviewersAccess].forEach(el => {
-
-          expect(el.write).equals(false)
-          expect(el.read).equals(false)
-          })
-       })
+        expect(el.write).equals(false)
+        expect(el.read).equals(false)
+      })
+    })
   })
 
   it('manager access to parameters of employee', () => {
@@ -50,14 +54,12 @@ describe('Check access to employee page', () => {
         inputEmail: { employeeEmail: employeeEmail },
         inputToWhom: { toWhom: employeeID }
     })).then(res => {
-        const employeeData = res.body.data
 
-        const {curriculumVitaeAccess, developmentPlanLookReviewersAccess, matricesLookReviewersAccess, evaluationReviewersAccess} = employeeData
-        {timeout:1000}
-          [curriculumVitaeAccess, developmentPlanLookReviewersAccess, matricesLookReviewersAccess, evaluationReviewersAccess].forEach(el => {
+        const {curriculumVitaeAccess, developmentPlanLookReviewersAccess, matricesLookReviewersAccess, evaluationReviewersAccess} = res.body.data
+        ;[curriculumVitaeAccess, developmentPlanLookReviewersAccess, matricesLookReviewersAccess, evaluationReviewersAccess].forEach(el => {
 
-            expect(el.write).equals(true)
-            expect(el.read).equals(true)
+          expect(el.write).equals(true)
+          expect(el.read).equals(true)
         })
       })
   })
@@ -65,9 +67,12 @@ describe('Check access to employee page', () => {
   after(() => {
 
     cy.post(updateEmployeeCapacity(employeeID, null, []))
-    cy.post(getEmployeeDetailed(employeeEmail))
+    cy.post(getEmployeeDetailed(employeeEmail)).then(res => {
+      const { agileManager } = res.body.data.employeeByEmail
 
-   })
+      expect(agileManager).equals(null)
+    })
+  })
 })
 
 
