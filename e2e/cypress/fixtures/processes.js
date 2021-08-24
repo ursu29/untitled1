@@ -32,8 +32,45 @@ export const getActiveProcesses = () => ({
         "employee": "Georgy Lidskiy",
         "employeeRef": null,
         "finishDate": "2020-10-19",
-        "activeStepEmployees": [],
-        "prio": 3,
+        "activeStepEmployees": [
+          {
+            "id": "603f59287ae138001c21f625",
+            "name": "Ekaterina Sogonova",
+            "email": "ekaterina.sogonova@syncretis.com",
+            "__typename": "Employee"
+          },
+          {
+            "id": "603f592a7ae138001c21f6c8",
+            "name": "Alena Blek",
+            "email": "alena.blek@syncretis.com",
+            "__typename": "Employee"
+          },
+          {
+            "id": "603f592b7ae138001c21f6ed",
+            "name": "Ekaterina Makova",
+            "email": "ekaterina.makova@syncretis.com",
+            "__typename": "Employee"
+          },
+          {
+            "id": "603f59277ae138001c21f5da",
+            "name": "Alena Makrushina",
+            "email": "alena.makrushina@syncretis.com",
+            "__typename": "Employee"
+          },
+          {
+            "id": "603f59287ae138001c21f603",
+            "name": "Anton Khavdey",
+            "email": "anton.khavdey@syncretis.com",
+            "__typename": "Employee"
+          },
+          {
+            "id": "603f59287ae138001c21f63a",
+            "name": "Igor Kovalev",
+            "email": "igor.kovalev@syncretis.com",
+            "__typename": "Employee"
+          }
+        ],
+        "prio": 1,
         "updatedAt": "2021-03-03T09:45:08.908Z",
         "__typename": "ProcessExecution"
       },
@@ -50,7 +87,7 @@ export const getActiveProcesses = () => ({
         "substatus": null,
         "vacancy": {
           "id": "603f5a877ae138001c225b57",
-          "position": "Automation QA",
+          "position": "Java Developer",
           "isPublished": true,
           "__typename": "Vacancy"
         },
@@ -65,7 +102,7 @@ export const getActiveProcesses = () => ({
         "locations": [
           "SAINT_PETERSBURG"
         ],
-        "employee": null,
+        "employee": "Alexander Vygodchikov",
         "employeeRef": null,
         "finishDate": null,
         "activeStepEmployees": [
@@ -117,7 +154,7 @@ export const getActiveProcesses = () => ({
         "substatus": null,
         "vacancy": {
           "id": "603f5a877ae138001c225b58",
-          "position": "Frontend Developer",
+          "position": "Java Developer",
           "isPublished": true,
           "__typename": "Vacancy"
         },
@@ -171,8 +208,8 @@ export const getActiveProcesses = () => ({
         },
         "project": {
           "id": "603f595b7ae138001c21fe57",
-          "name": "SwissRe CWB MidCorp",
-          "code": "sr-midcorp",
+          "name": "SwissRe Comet",
+          "code": "sr-comet",
           "__typename": "Project"
         },
         "projectFrom": null,
@@ -244,14 +281,14 @@ export const getActiveProcesses = () => ({
         },
         "project": {
           "id": "603f595a7ae138001c21fe46",
-          "name": "SwissRe SingleRisk",
-          "code": "sr-srp",
+          "name": "SwissRe Comet",
+          "code": "sr-comet",
           "__typename": "Project"
         },
         "projectFrom": null,
         "projectTo": null,
         "locations": [
-          "KALININGRAD"
+          "SAINT_PETERSBURG"
         ],
         "employee": "Trevor ONBOARDING",
         "employeeRef": {
