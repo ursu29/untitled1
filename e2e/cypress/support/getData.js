@@ -844,3 +844,21 @@ export const updateFileDetails = obj => ({
   variables: { input: { ...obj } },
   query: query.updateFileDetails,
 })
+
+export const getEmployeeDetailed = email => ({
+  operationName: 'getEmployeeDetailed',
+  variables: { email: email },
+  query: query.getEmployeeDetailed,
+})
+
+export const getEmployeesParametеrs = obj => ({
+  operationName: 'getEmployees',
+  variables: { ...obj } ,
+  query: query.getEmployeesParametеrs,
+})
+
+export const getAllEmployees = () => ({
+  operationName: 'getEmployees',
+  variables: {} ,
+  query: query.getAllEmployees,
+})
