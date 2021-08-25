@@ -26,33 +26,31 @@ describe('Check filtering and sorting are available for all columns in the table
 
     cy.viewport(1960, 1280)
 
-    cy.getIcon('filter').eq(1).click()
-    cy.clickElement(locationName)
-    cy.contains('OK').click({force: true})
+    ;[locationName, responsibleName].forEach((el1, ind1) => {
+       cy.getIcon('filter').eq(ind1 + 1).click()
+       cy.clickElement(el1)
+       cy.contains('OK').click({force: true})
+     })
     cy.getIcon('search').eq(1).click()
-
     cy.getIcon('search').eq(1).click().type(positionName)
     cy.getElement('btnSearch').click()
-
-    cy.getIcon('filter').eq(2).click()
-    cy.get('span').contains(responsibleName).click()
-    cy.contains('OK').click({force: true})
-
     cy.getIcon('caret-up').eq(8).dblclick({force: true})
 
-    cy.matchText('[data-row-key]', locationNameTable)
-    cy.matchText('[data-row-key]', positionNameTable)
+    ;[locationNameTable, positionNameTable].forEach(el2 => {
+       cy.matchText('[data-row-key]', el2)
+     })
     cy.getElement('avatar').eq(1).trigger('mouseover')
     cy.getRole('tooltip').should('contain', responsibleName)
     cy.get('tbody tr').children().eq(8).should('contain', prioritySort)
 
+
     cy.getIcon('caret-up').eq(8).click({force: true})
-    cy.getIcon('filter').eq(2).click()
-    cy.contains('Reset').click({force: true})
+    ;[1, 2].forEach(ind2 => {
+       cy.getIcon('filter').eq(ind2).click()
+       cy.contains('Reset').click({force: true})
+     })
     cy.getIcon('search').eq(1).click()
     cy.getElement('reset').click()
-    cy.getIcon('filter').eq(1).click()
-    cy.contains('Reset').click({force: true})
 
     })
 
@@ -61,21 +59,18 @@ describe('Check filtering and sorting are available for all columns in the table
     cy.viewport(1960, 1280)
 
     cy.getIcon('search').eq(0).click()
-    cy.getElement('search').eq(1).click({force: true}).type(processName)
-    cy.getElement('btnSearch').eq(1).click()
+    cy.getIcon('search').eq(0).click({force: true}).type(processName)
+    cy.getElement('btnSearch').eq(0).click({force: true})
 
-    cy.getIcon('filter').eq(0).click({force: true})
-    cy.get('span').contains(projectName).click({force: true})
-    cy.contains('OK').click({force: true})
+    ;[projectName, locationName].forEach((el3, ind3) => {
+      cy.getIcon('filter').eq(ind3).click()
+      cy.clickElement(el3)
+      cy.contains('OK').click({force: true})
+     })
 
-    cy.getIcon('filter').eq(1).click()
-    cy.clickElement(locationName)
-    cy.contains('OK').click({force: true})
-    cy.getIcon('search').eq(1).click()
-
-    cy.matchText('[data-row-key]', processNameTable)
-    cy.matchText('[data-row-key]', projectNameTable)
-    cy.matchText('[data-row-key]', locationNameTable)
+    ;[processNameTable, projectNameTable, locationNameTable].forEach(el4 => {
+      cy.matchText('[data-row-key]', el4)
+     })
     cy.get('tbody tr').children().eq(5).should('contain', employeeNameSort)
 
    })
