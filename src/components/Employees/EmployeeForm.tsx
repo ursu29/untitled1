@@ -137,6 +137,7 @@ export default function EmployeeForm({
               }}
             >
               <InputNumber
+                data-cy='capacityValue'
                 defaultValue={employeeProjects?.find(e => e.project.id === project.id)?.capacity}
                 min={0}
                 max={100}
@@ -156,7 +157,7 @@ export default function EmployeeForm({
                   alignItems: 'center',
                 }}
               >
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div data-cy='capacity' style={{ display: 'flex', flexDirection: 'column' }}>
                   <div
                     style={{
                       height: 15,
