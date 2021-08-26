@@ -26,9 +26,9 @@ describe('Check filtering and sorting are available for all columns in the table
 
     cy.viewport(1960, 1280)
 
-    ;[locationName, responsibleName].forEach((el1, ind1) => {
-       cy.getIcon('filter').eq(ind1 + 1).click()
-       cy.clickElement(el1)
+    ;[locationName, responsibleName].forEach((name, ind) => {
+       cy.getIcon('filter').eq(ind + 1).click()
+       cy.clickElement(name)
        cy.contains('OK').click({force: true})
      })
     cy.getIcon('search').eq(1).click()
@@ -36,8 +36,8 @@ describe('Check filtering and sorting are available for all columns in the table
     cy.getElement('btnSearch').click()
     cy.getIcon('caret-up').eq(8).dblclick({force: true})
 
-    ;[locationNameTable, positionNameTable].forEach(el2 => {
-       cy.matchText('[data-row-key]', el2)
+    ;[locationNameTable, positionNameTable].forEach(name => {
+       cy.matchText('[data-row-key]', name)
      })
     cy.getElement('avatar').eq(1).trigger('mouseover')
     cy.getRole('tooltip').should('contain', responsibleName)
@@ -45,8 +45,8 @@ describe('Check filtering and sorting are available for all columns in the table
 
 
     cy.getIcon('caret-up').eq(8).click({force: true})
-    ;[1, 2].forEach(ind2 => {
-       cy.getIcon('filter').eq(ind2).click()
+    ;[1, 2].forEach(ind => {
+       cy.getIcon('filter').eq(ind).click()
        cy.contains('Reset').click({force: true})
      })
     cy.getIcon('search').eq(1).click()
@@ -62,14 +62,14 @@ describe('Check filtering and sorting are available for all columns in the table
     cy.getIcon('search').eq(0).click({force: true}).type(processName)
     cy.getElement('btnSearch').eq(0).click({force: true})
 
-    ;[projectName, locationName].forEach((el3, ind3) => {
-      cy.getIcon('filter').eq(ind3).click()
-      cy.clickElement(el3)
+    ;[projectName, locationName].forEach((name, ind) => {
+      cy.getIcon('filter').eq(ind).click()
+      cy.clickElement(name)
       cy.contains('OK').click({force: true})
      })
 
-    ;[processNameTable, projectNameTable, locationNameTable].forEach(el4 => {
-      cy.matchText('[data-row-key]', el4)
+    ;[processNameTable, projectNameTable, locationNameTable].forEach(name => {
+      cy.matchText('[data-row-key]', name)
      })
     cy.get('tbody tr').children().eq(5).should('contain', employeeNameSort)
 
