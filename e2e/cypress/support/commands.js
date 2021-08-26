@@ -20,6 +20,8 @@ Cypress.Commands.add('clickElement', text => cy.get('span').contains(text).click
 
 Cypress.Commands.add('getType', text => cy.get(`[type="${text}"]`))
 
+Cypress.Commands.add('getRole', text => cy.get(`[role="${text}"]`))
+
 Cypress.Commands.add('getTitle', name => cy.get(`[title="${name}"]`))
 
 Cypress.Commands.add('checkLength', (name, length) =>
