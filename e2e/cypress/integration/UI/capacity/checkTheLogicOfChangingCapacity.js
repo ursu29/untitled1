@@ -5,6 +5,7 @@ import { clickElement } from '../../../support/mainCommands'
 describe('check the Logic of changing Capacity an Employee', () => {
   const testEmail = 'alexey.avdeev@syncretis.com'
   let employeeData, projects
+  const capacity = [100, 0, 0, 0]
 
   before(() => {
     cy.setToken('manager')
@@ -13,7 +14,7 @@ describe('check the Logic of changing Capacity an Employee', () => {
       employeeData = res.body.data.employeeByEmail
 
       cy.post(getProjects(employeeData.id))
-        .then(req => projects = req.body.data.employee)
+        .then(res => projects = res.body.data.employee)
     })
 
     cy.visit(`/employees/${testEmail}`)
@@ -25,11 +26,13 @@ describe('check the Logic of changing Capacity an Employee', () => {
     const { employeeProjects } = projects
     const newObj = []
 
-    employeeProjects.forEach(el =>
-      newObj.push(createCapacityObj(0, el.id, false)))
+    newObj.push(createCapacityObj(0, employeeProjects[0].id, false))
 
-    cy.post(updateEmployeeCapacity(id, agileManager.id, newObj), 'superUser').then(res => {
-      expect(res.body.data.updateEmployee.id).equal(employeeData.id)
+    cy.post(updateEmployeeCapacity(id, agileManager.id, newObj), 'superUser')
+
+    cy.post(getProjects(employeeData.id)).then(res => {
+      const { employeeProjects } = res.body.data.employee
+      expect(employeeProjects[0].capacity).equal(0)
     })
   })
 
@@ -42,9 +45,7 @@ describe('check the Logic of changing Capacity an Employee', () => {
     employeeProjects.forEach(el =>
       newObj.push(createCapacityObj(15, el.id, false)))
 
-      cy.post(updateEmployeeCapacity(id, agileManager.id, newObj), 'superUser').then(res => {
-        expect(res.body.data.updateEmployee.id).equal(employeeData.id)
-      })
+      cy.post(updateEmployeeCapacity(id, agileManager.id, newObj), 'superUser')
 
     cy.getIcon('edit').click()
     cy.getElement('capacityValue').should('value','15%')
@@ -58,9 +59,8 @@ describe('check the Logic of changing Capacity an Employee', () => {
 
       const { employeeProjects } = res.body.data.employee
 
-      employeeProjects.forEach(el => {
-        expect(el.capacity).to.be.oneOf( [0, 100])
-      })
+      employeeProjects.forEach((el, idx) =>
+        expect(el.capacity).equal(capacity[idx]))
     })
   })
-});
+})
