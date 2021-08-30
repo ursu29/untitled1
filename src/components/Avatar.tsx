@@ -30,7 +30,6 @@ export default function PortalAvatar({
   employee,
   showTooltip,
   highResolution,
-  withHat,
 }: Props) {
   const resolution = highResolution ? 'high' : 'low'
   const storedAvatar = avatars[resolution]?.[employee?.email]

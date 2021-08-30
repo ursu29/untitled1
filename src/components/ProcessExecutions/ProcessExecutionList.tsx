@@ -317,7 +317,7 @@ function ProcessList({ items, tabName, onlyForMeFilter }: Props) {
             ...new Set(
               process.activeStepEmployees
                 ?.slice()
-                .sort((a: any, b: any) =>
+                .sort((a: any) =>
                   a?.email.toLowerCase() === user.employee?.email.toLowerCase() ? -1 : 1,
                 ),
             ),
@@ -333,6 +333,8 @@ function ProcessList({ items, tabName, onlyForMeFilter }: Props) {
                   <React.Fragment key={responsible?.email}>
                     <div
                       style={{
+                        display: 'flex',
+                        alignItems: 'center',
                         margin: '3px',
                         borderRadius: '50%',
                         boxShadow:
