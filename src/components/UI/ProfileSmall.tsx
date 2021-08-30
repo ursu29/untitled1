@@ -43,6 +43,10 @@ export default function ProfileSmall({ loading, profile, notifications }: Props)
     awaitRefetchQueries: true,
   })
 
+  const handleNotificationLink = (link: string) => {
+    /\./.test(link) ? window.open(link, '_blank')?.focus() : history.push('/' + link)
+  }
+
   const openNotifications = (
     args: Partial<Parameters<typeof notification.open>[0]>,
     notifications?: Notification[] | undefined,
@@ -53,9 +57,7 @@ export default function ProfileSmall({ loading, profile, notifications }: Props)
         <NotificationsBody
           notificationsData={notifications}
           unsubscribe={unsubscribe}
-          onLink={(link: string) => {
-            history.push('/' + link)
-          }}
+          onLink={handleNotificationLink}
         />
       ),
       placement: 'topLeft',

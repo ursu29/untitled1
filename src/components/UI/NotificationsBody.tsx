@@ -2,7 +2,12 @@ import React, { useState } from 'react'
 import { notification, Tooltip } from 'antd'
 import { Notification } from '../../types/graphql'
 import { CSSProperties } from 'styled-components'
-import { SmileOutlined, ClearOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
+import {
+  SmileOutlined,
+  ClearOutlined,
+  ExclamationCircleOutlined,
+  TagsOutlined,
+} from '@ant-design/icons'
 import styled from 'styled-components'
 
 const MainTitleStyled = styled.div`
@@ -13,6 +18,8 @@ const MainTitleStyled = styled.div`
   font-weight: 500;
   color: #108ee9;
   margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #108ee9;
 `
 
 const SubTitle = styled.div`
@@ -45,7 +52,7 @@ export default function NotificationsBody({
 }: {
   notificationsData: Notification[] | undefined
   unsubscribe: any
-  onLink: any
+  onLink: (link: string) => void
 }) {
   const [notifications, setNotifications] = useState(notificationsData)
 
@@ -111,7 +118,24 @@ export default function NotificationsBody({
   const isBirthdays =
     !!birthdayToday?.length || !!birthdayTomorrow?.length || !!birthdayAftertomorrow?.length
 
+  // Recommendations section
+  const fileRecommendations = notifications?.filter(e => e.type === 'RECOMMENDATION_FILE') || []
+  const bookRecommendations = notifications?.filter(e => e.type === 'RECOMMENDATION_BOOK') || []
+  const bookmarkRecommendations =
+    notifications?.filter(e => e.type === 'RECOMMENDATION_BOOKMARK') || []
+  const isRecommendations =
+    !!fileRecommendations?.length ||
+    !!bookRecommendations?.length ||
+    !!bookmarkRecommendations?.length
+
   const birthdaySection = (title: string, notifications: Notification[]) => (
+    <Section>
+      <SubTitle>{title}</SubTitle>
+      <Notification notifications={notifications} />
+    </Section>
+  )
+
+  const recommendationSection = (title: string, notifications: Notification[]) => (
     <Section>
       <SubTitle>{title}</SubTitle>
       <Notification notifications={notifications} />
@@ -142,6 +166,24 @@ export default function NotificationsBody({
           {!!birthdayTomorrow?.length && birthdaySection('Tomorrow:', birthdayTomorrow)}
           {!!birthdayAftertomorrow?.length &&
             birthdaySection('Day after tomorrow:', birthdayAftertomorrow)}
+        </div>
+      )}
+
+      {isRecommendations && (
+        <div>
+          <MainTitle
+            title="New Recommendations"
+            Icon={() => <TagsOutlined style={iconStyle} />}
+            removingIds={[
+              ...fileRecommendations,
+              ...bookRecommendations,
+              ...bookmarkRecommendations,
+            ].map(e => e.id)}
+          />
+          {!!fileRecommendations?.length && recommendationSection('Files:', fileRecommendations)}
+          {!!bookRecommendations?.length && recommendationSection('Books:', bookRecommendations)}
+          {!!bookmarkRecommendations?.length &&
+            recommendationSection('Bookmarks:', bookmarkRecommendations)}
         </div>
       )}
 
