@@ -112,13 +112,7 @@ const EmployeeCVLanguages = ({ editable, employee, cv }: FormProps) => {
             </Col>
           </Row>
         ))}
-        <Form.Item
-          required={false}
-          label="Optional"
-          name="optional"
-          rules={[{ required: true }]}
-          initialValue={optional}
-        >
+        <Form.Item required={false} label="Optional" name="optional" initialValue={optional}>
           <Input onBlur={handleSubmit} disabled={!editable} />
         </Form.Item>
       </Form>
