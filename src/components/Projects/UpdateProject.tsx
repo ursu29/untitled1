@@ -7,6 +7,7 @@ import Button from '../UI/Button'
 import Drawer from '../UI/Drawer'
 import ProjectForm from './ProjectForm'
 import { ProjectPick } from '../../queries/getProjectByCode'
+import { useUpdateEmployeeProjectsMutation } from '../../queries/employees'
 
 function UpdateProject({ project }: { project: ProjectPick }) {
   const { data } = useQuery(
@@ -27,28 +28,45 @@ function UpdateProject({ project }: { project: ProjectPick }) {
     awaitRefetchQueries: true,
     onError: message.error,
   })
+
+  const [updateEmployeeProjects] = useUpdateEmployeeProjectsMutation({
+    awaitRefetchQueries: true,
+    onError: e => {
+      message.error(e)
+    },
+  })
+
+  const onFinish = (project: ProjectPick, onDone: any) => {
+    update({
+      variables: {
+        input: {
+          id: project?.id,
+          scrumMasters: project?.scrumMasters,
+        },
+      },
+      update: onDone,
+    })
+    if (project?.projectsOccupancy) {
+      updateEmployeeProjects({
+        variables: {
+          input: Object.keys(project.projectsOccupancy).map(key => ({
+            id: key,
+            // @ts-ignore
+            ...project.projectsOccupancy[key],
+          })),
+        },
+        update: onDone,
+      })
+    }
+  }
+
   if (!data?.project?.accessEditGlobal) return null
+
   return (
     <Drawer
       toggler={<Button type="link">Edit</Button>}
       drawerLabel={'Edit project ' + project?.name}
-      content={
-        <ProjectForm
-          loading={loading}
-          item={project}
-          onSubmit={async (project: ProjectPick, onDone: any) => {
-            update({
-              variables: {
-                input: {
-                  id: project?.id,
-                  scrumMasters: project?.scrumMasters,
-                },
-              },
-              update: onDone,
-            })
-          }}
-        />
-      }
+      content={<ProjectForm loading={loading} item={project} onSubmit={onFinish} />}
     />
   )
 }

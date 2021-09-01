@@ -1,18 +1,7 @@
 //@ts-ignore
 import { CopyOutlined, LockOutlined, UnlockOutlined } from '@ant-design/icons'
 import { Group, User } from '@microsoft/microsoft-graph-types'
-import {
-  Button,
-  Checkbox,
-  Drawer,
-  Form,
-  Input,
-  InputNumber,
-  Popconfirm,
-  Select,
-  Tabs,
-  Tooltip,
-} from 'antd'
+import { Button, Drawer, Form, Input, Select, Tabs, Tooltip } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { FORM_RULES, GROUPS_PREFIXES } from '../../../constants'
 import message from '../../../message'
@@ -32,9 +21,7 @@ import copyToClipboard from '../../../utils/copyToClipboard'
 import GraphAPI from '../../../utils/GraphAPI'
 import EmployeeSelect from '../../Employees/EmployeeSelect'
 import { changeGroupName, layout } from './services'
-import { useQuery } from '@apollo/client'
-import { getEmployeesProjects } from '../../../queries/getEmployeeProjects'
-import { EmployeeProject } from '../../../types'
+import { EmployeesAllocations } from '../../Projects/EmployeesAllocations'
 
 const graphAPI = new GraphAPI()
 const { Option } = Select
@@ -81,15 +68,6 @@ export default function DrawerGroup({
   const project = projectData?.projectByCode
   const initialScrumMasters = project?.scrumMasters?.map(i => i.id)
   formAdditional.setFieldsValue({ scrumMasters: initialScrumMasters })
-
-  // Get all members employeeProjects
-  const { data: dataEmployeesProjects, loading: loadingEmployeesProjects } = useQuery<{
-    employeesProjects: EmployeeProject[]
-  }>(getEmployeesProjects, {
-    variables: { emails: initialGroupMembers },
-    fetchPolicy: 'network-only',
-  })
-  const employeesProjects = dataEmployeesProjects?.employeesProjects
 
   // Strapi create project query
   const [createProject, { loading: loadingCreateProject }] = useCreateProjectMutation({
@@ -432,8 +410,7 @@ export default function DrawerGroup({
     projectLoading ||
     loadingUpdateEmployeeProjects ||
     loadingRemoveEmployeeProjects ||
-    loadingCreateEmployeeProjects ||
-    loadingEmployeesProjects
+    loadingCreateEmployeeProjects
 
   return (
     <Drawer
@@ -600,164 +577,14 @@ export default function DrawerGroup({
             />
           </Form.Item>
           <Form.Item label="Allocation:" name="projectsOccupancy">
-            {(project?.employeeProjects?.length &&
-              project?.employeeProjects
-                .slice()
-                .sort((a, b) => a.employee?.name.localeCompare(b.employee?.name || '') || 1)
-                ?.map(employeeProject => (
-                  <div
-                    key={employeeProject.id}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'start',
-                      marginBottom: '10px',
-                    }}
-                  >
-                    <InputNumber
-                      defaultValue={employeeProject.capacity || 0}
-                      min={0}
-                      max={100}
-                      formatter={value => `${value}%`}
-                      parser={value => (value ? Number(value?.replace('%', '')) : 0)}
-                      style={{
-                        width: '80px',
-                        marginRight: '15px',
-                        borderColor: employeeIDsErrors.includes(employeeProject.employee?.id || '')
-                          ? '#ff4d4f'
-                          : '',
-                      }}
-                      onChange={async value => {
-                        const employeeProjectState: any =
-                          employeeProjects?.[employeeProject?.id] || {}
-                        employeeProjectState.capacity = value
-                        setEmployeeProjects({
-                          ...employeeProjects,
-                          [employeeProject?.id]: employeeProjectState,
-                        })
-                        await formAdditional.validateFields()
-                      }}
-                      value={employeeProjects?.[employeeProject?.id]?.capacity || 0}
-                    />
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        width: '100%',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <div
-                          style={{
-                            height: 15,
-                            lineHeight: '15px',
-                            display: 'flex',
-                            alignItems: 'flex-end',
-                          }}
-                        >
-                          {employeeProject.employee?.name}
-                        </div>
-                        <Popconfirm
-                          placement="top"
-                          title={`${employeeProject.employee?.name} - project allocation for ${project.name} will be set at 100%, and for the other projects - 0%.`}
-                          onConfirm={() => {
-                            const otherEmployeeProjectsIDs = employeesProjects
-                              ?.filter(
-                                e =>
-                                  e.employee.id === employeeProject.employee?.id &&
-                                  e.id !== employeeProject.id,
-                              )
-                              .map(e => e.id)
-                            const other =
-                              otherEmployeeProjectsIDs?.reduce((obj, id) => {
-                                obj[id] = { capacity: 0 }
-                                return obj
-                              }, {} as { [key: string]: { capacity: number } }) || {}
-
-                            setEmployeeProjects({
-                              ...employeeProjects,
-                              [employeeProject?.id]: { capacity: 100 },
-                              ...other,
-                            })
-                          }}
-                          okText="Yes"
-                          cancelText="No"
-                          // disabled={projects.length < 2}
-                        >
-                          <Button
-                            type="link"
-                            style={{
-                              margin: 0,
-                              padding: 0,
-                              height: 15,
-                              lineHeight: '15px',
-                              display: 'flex',
-                            }}
-                            // disabled={projects.length < 2}
-                          >
-                            Make project main
-                          </Button>
-                        </Popconfirm>
-                      </div>
-                      <Checkbox
-                        defaultChecked={!!employeeProject.isExtraCapacity}
-                        onChange={event => {
-                          const employeeProjectState: any =
-                            employeeProjects?.[employeeProject?.id] || {}
-                          employeeProjectState.isExtraCapacity = event.target.checked
-                          setEmployeeProjects({
-                            ...employeeProjects,
-                            [employeeProject?.id]: employeeProjectState,
-                          })
-                        }}
-                      >
-                        extra
-                      </Checkbox>
-                    </div>
-                  </div>
-                ))) || (
-              <div style={{ fontStyle: 'italic', color: 'lightgray' }}>group is empty</div>
-            )}
+            <EmployeesAllocations
+              form={formAdditional}
+              projectCode={group?.displayName?.toLowerCase() || ''}
+              onChange={setEmployeeProjects}
+              errors={employeeIDsErrors}
+              onError={setEmployeeIDsErrors}
+            />
           </Form.Item>
-          <Form.Item
-            name="validation"
-            hidden
-            rules={[
-              () => ({
-                validator(_, value) {
-                  const employeeIDsTotalCapacityMapping = employeesProjects?.reduce(
-                    (obj: { [id: string]: number }, e: EmployeeProject) => {
-                      const updatedCapacity = employeeProjects?.[e.id]?.capacity
-                      obj[e.employee.id] =
-                        (obj?.[e.employee.id] || 0) +
-                        (typeof updatedCapacity !== 'undefined' ? updatedCapacity : e.capacity)
-                      return obj
-                    },
-                    {},
-                  )
-
-                  if (employeeIDsTotalCapacityMapping) {
-                    const errorEmployeeIDs = Object.keys(employeeIDsTotalCapacityMapping).filter(
-                      id => employeeIDsTotalCapacityMapping[id] > 100,
-                    )
-                    setEmployeeIDsErrors(errorEmployeeIDs)
-                    if (errorEmployeeIDs.length) return Promise.reject()
-                  }
-
-                  return Promise.resolve()
-                },
-              }),
-            ]}
-          />
-          {!!employeeIDsErrors.length && (
-            <div role="alert" style={{ color: 'red', paddingLeft: 130, marginTop: -16 }}>
-              Employees total projects allocation is more than 100% :{' '}
-              {employeeIDsErrors
-                .map(id => employeesProjects?.find(e => e.employee.id === id)?.employee.name)
-                .join(', ')}
-            </div>
-          )}
         </Form>
       </div>
     </Drawer>

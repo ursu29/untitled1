@@ -19,6 +19,7 @@ type EmployeePick = Pick<Employee, 'id' | 'email'>
 
 export type ProjectPick = ProjectDetails & {
   scrumMasters: EmployeePick[]
+  projectsOccupancy?: Array<{ id: Employee['id']; capacity: number; isExtraCapacity?: boolean }>
 }
 
 export type QueryType = {
