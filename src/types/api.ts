@@ -278,7 +278,7 @@ export const LOCATION = { ...Location }
 export type LOCATION = Location
 // export enum LOCATION = Location
 
-export type Customer = 'INTERNAL' | 'SWISSRE' | 'ALLIANZ'
+export type Customer = 'INTERNAL' | 'SWISSRE'
 export type ProcessType = 'ONBOARDING' | 'OFFBOARDING' | 'ROTATION'
 
 export interface Process {

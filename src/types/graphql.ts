@@ -164,7 +164,6 @@ export type BookmarksInput = {
 export enum Customer {
   Internal = 'INTERNAL',
   Swissre = 'SWISSRE',
-  Allianz = 'ALLIANZ',
 }
 
 export enum CacheControlScope {
