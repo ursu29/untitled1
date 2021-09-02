@@ -226,7 +226,7 @@ function ProcessList({ items, tabName, onlyForMeFilter }: Props) {
       ].map(e => ({ text: getLocationName(e), value: e })),
       onFilter: (value: any, record: any) => record.locations && record.locations.includes(value),
       sorter: (a: any, b: any) =>
-        a.locations.sort().join('').localeCompare(b.locations.sort().join('')),
+        a.locations.slice().sort().join('').localeCompare(b.locations.sort().join('')),
     },
     {
       key: 'position',
