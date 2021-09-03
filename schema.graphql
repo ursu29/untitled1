@@ -146,7 +146,6 @@ input BookmarksInput {
 enum CUSTOMER {
   INTERNAL
   SWISSRE
-  ALLIANZ
 }
 
 enum CacheControlScope {
@@ -387,6 +386,9 @@ input CreateSkillInput {
   description: String
   parent: ID
   isMatrixOnly: Boolean
+  acceptanceCriteria: String
+  sources: String
+  additionalSources: [String]
 }
 
 input CreateTagInput {
@@ -1471,6 +1473,9 @@ type Skill {
   children: [Skill!]
   addedBy: Employee
   isMatrixOnly: Boolean!
+  acceptanceCriteria: String
+  sources: String
+  additionalSources: [String]
 }
 
 input SkillsInput {
@@ -1744,6 +1749,9 @@ input UpdateSkillInput {
   description: String
   parent: ID
   isMatrixOnly: Boolean
+  acceptanceCriteria: String
+  sources: String
+  additionalSources: [String]
 }
 
 input UpdateVacancyInput {

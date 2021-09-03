@@ -55,7 +55,10 @@ export const CircleButton = ({
 }: Props) => {
   return (
     <StyledButton
-      onClick={() => (onClick ? onClick() : null)}
+      onClick={e => {
+        e.stopPropagation()
+        onClick && onClick()
+      }}
       isHovered={isHovered}
       style={{
         border: isActive ? `2px solid ${borderColor}` : '',

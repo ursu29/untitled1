@@ -15,6 +15,9 @@ query getSkillsDetailed($input: SkillsInput) {
     id
     name
     description
+    acceptanceCriteria
+    sources
+    additionalSources
     projects {
       id
       name
@@ -49,6 +52,10 @@ query getSkillExperiences($input: SkillsInput) {
   skills(input: $input) {
     id
     name
+    description
+    acceptanceCriteria
+    sources
+    additionalSources
     experiences {
       id
       level

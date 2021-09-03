@@ -14,7 +14,7 @@ interface Props {
 export default function SkillTabs({ skill, tab = 'mentions' }: Props) {
   const tabs = [
     {
-      title: 'Mentions',
+      title: 'Mentions & Acceptance Criteria',
       key: 'mentions',
       body: <SkillMentions skill={skill} />,
     },
