@@ -39,7 +39,7 @@ export const AAD_LOCATIONS = [
   },
 ]
 
-export const JOB_LEVELS = ['Junior', 'Middle', 'Senior']
+export const JOB_LEVELS = ['Junior', 'Middle', 'Senior', 'Expert']
 
 export const JOBS_SEPARATOR = '|'
 
