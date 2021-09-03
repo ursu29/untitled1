@@ -7,8 +7,8 @@ import {
   useDeleteExperienceMutation,
   useUpdateExperienceMutation,
 } from '../../queries/experience'
-import { ArchivedMatrixRaw, Employee, Experience, Skill, Matrix } from '../../types'
-import MatrixExperience from '../Matrices/MatrixExperience'
+import { ArchivedMatrixRaw, Employee, Experience, Matrix } from '../../types'
+import MatrixExperience, { MatrixSkillPick } from '../Matrices/MatrixExperience'
 import { Level } from '../../types/graphql'
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
     level: Level
     comment: Experience['comment']
   }
-  skill?: Pick<Skill, 'id' | 'name' | 'description' | 'isMatrixOnly'>
+  skill?: MatrixSkillPick
   editable: boolean
   employee?: Pick<Employee, 'id'>
   divClassName?: string

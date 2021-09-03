@@ -36,6 +36,9 @@ export default gql`
               name
               description
               isMatrixOnly
+              acceptanceCriteria
+              sources
+              additionalSources
             }
             groupId
             gradeId

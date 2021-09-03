@@ -405,6 +405,9 @@ export type CreateSkillInput = {
   description?: Maybe<Scalars['String']>
   parent?: Maybe<Scalars['ID']>
   isMatrixOnly?: Maybe<Scalars['Boolean']>
+  acceptanceCriteria?: Maybe<Scalars['String']>
+  sources?: Maybe<Scalars['String']>
+  additionalSources?: Maybe<Array<Maybe<Scalars['String']>>>
 }
 
 export type CreateTagInput = {
@@ -2263,6 +2266,9 @@ export type Skill = {
   children?: Maybe<Array<Skill>>
   addedBy?: Maybe<Employee>
   isMatrixOnly: Scalars['Boolean']
+  acceptanceCriteria?: Maybe<Scalars['String']>
+  sources?: Maybe<Scalars['String']>
+  additionalSources?: Maybe<Array<Maybe<Scalars['String']>>>
 }
 
 export type SkillExperiencesArgs = {
@@ -2544,6 +2550,9 @@ export type UpdateSkillInput = {
   description?: Maybe<Scalars['String']>
   parent?: Maybe<Scalars['ID']>
   isMatrixOnly?: Maybe<Scalars['Boolean']>
+  acceptanceCriteria?: Maybe<Scalars['String']>
+  sources?: Maybe<Scalars['String']>
+  additionalSources?: Maybe<Array<Maybe<Scalars['String']>>>
 }
 
 export type UpdateVacancyInput = {

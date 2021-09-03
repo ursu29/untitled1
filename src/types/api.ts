@@ -6,6 +6,9 @@ export interface Skill {
   description: string
   parent: Skill | null
   isMatrixOnly: boolean
+  acceptanceCriteria: string
+  sources: string
+  additionalSources: string[]
 }
 
 export interface Employee {

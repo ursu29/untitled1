@@ -51,6 +51,10 @@ export const FORM_RULES: { [key: string]: Rule } = {
     type: 'email',
     message: 'The input is not valid E-mail!',
   },
+  URL: {
+    type: 'url',
+    message: 'This field must be a valid url!',
+  },
 }
 
 export const DATE_FORMATS = {

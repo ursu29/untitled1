@@ -32,7 +32,13 @@ export type GetSkillsDetailedQuery = { __typename?: 'Query' } & {
     Array<
       { __typename?: 'Skill' } & Pick<
         Types.Skill,
-        'id' | 'name' | 'description' | 'isMatrixOnly'
+        | 'id'
+        | 'name'
+        | 'description'
+        | 'acceptanceCriteria'
+        | 'sources'
+        | 'additionalSources'
+        | 'isMatrixOnly'
       > & {
           projects?: Types.Maybe<
             Array<{ __typename?: 'Project' } & Pick<Types.Project, 'id' | 'name' | 'code'>>
@@ -69,7 +75,10 @@ export type GetSkillExperiencesQueryVariables = Types.Exact<{
 export type GetSkillExperiencesQuery = { __typename?: 'Query' } & {
   skills?: Types.Maybe<
     Array<
-      { __typename?: 'Skill' } & Pick<Types.Skill, 'id' | 'name'> & {
+      { __typename?: 'Skill' } & Pick<
+        Types.Skill,
+        'id' | 'name' | 'description' | 'acceptanceCriteria' | 'sources' | 'additionalSources'
+      > & {
           experiences?: Types.Maybe<
             Array<
               { __typename?: 'Experience' } & Pick<Types.Experience, 'id' | 'level'> & {
@@ -151,6 +160,9 @@ export const GetSkillsDetailedDocument = gql`
       id
       name
       description
+      acceptanceCriteria
+      sources
+      additionalSources
       projects {
         id
         name
@@ -272,6 +284,10 @@ export const GetSkillExperiencesDocument = gql`
     skills(input: $input) {
       id
       name
+      description
+      acceptanceCriteria
+      sources
+      additionalSources
       experiences {
         id
         level

@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import { MessageOutlined, BulbOutlined } from '@ant-design/icons'
-import { Tooltip, Spin } from 'antd'
-import { Link } from 'react-router-dom'
+import { Tooltip, Spin, Popover } from 'antd'
 import styled from 'styled-components'
 import { Level } from '../../types/graphql'
 import { MatrixCell } from './styled'
 import { Skill, Experience, ArchivedMatrixRaw } from '../../types'
 import { CircleButton, circleButtonsPallette } from './CircleButton'
-import { getSkillLink } from '../../paths'
 import CommentModal from '../UI/CommentModal'
+import { MatrixSkillPopover } from './MatrixSkillPopover'
 
 const CardButton = styled.button`
   display: flex;
@@ -45,6 +44,7 @@ const Card = styled.div<{ backgroundColor: string }>`
   border-radius: 4px;
   padding: 14px;
   margin: 0 0 16px 0;
+  cursor: pointer;
   &:hover {
     ${CardButton},
     ${CardHoveredButtons} {
@@ -80,8 +80,13 @@ const getBGColorByLevel = (level?: Level) => {
   }
 }
 
+export type MatrixSkillPick = Pick<
+  Skill,
+  'id' | 'name' | 'description' | 'acceptanceCriteria' | 'sources' | 'additionalSources'
+>
+
 interface Props {
-  skill: Pick<Skill, 'id' | 'name' | 'description'>
+  skill: MatrixSkillPick
   experience?: {
     id: Experience['id']
     level: Level
@@ -123,23 +128,42 @@ function MatrixExperience({
 
   return (
     <>
-      <Tooltip title={skill.description} placement="left" mouseEnterDelay={0.5}>
+      <Popover
+        trigger={['click']}
+        title={
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            Info
+            {editable && (
+              <CircleButtons
+                experience={experience}
+                onUpdateExperience={onUpdateExperience}
+                onDeselectLevel={onDeselectLevel}
+                position="right"
+              />
+            )}
+          </div>
+        }
+        content={
+          <MatrixSkillPopover
+            skill={skill}
+            experience={experience}
+            onUpdateExperience={onUpdateExperience}
+          />
+        }
+      >
         <Card
           backgroundColor={type !== 'space_boilerplate' ? backgroundColor : 'transparent'}
           className={divClassName}
         >
           {type !== 'space_boilerplate' ? (
             <>
-              <MatrixCell as={Link} to={getSkillLink(skill.id)}>
-                <Tooltip title="Link" placement="bottom">
-                  {skill.name}
-                </Tooltip>
-              </MatrixCell>
+              <MatrixCell>{skill.name}</MatrixCell>
               <CardActions>
                 <Comment
                   type="button"
                   active={isArchivedChosen ? !!archivedExperience?.comment : !!experience?.comment}
-                  onClick={() => {
+                  onClick={e => {
+                    e.stopPropagation()
                     if (isArchivedChosen) return
                     setAddCommentModal({
                       ...initialCommentModal,
@@ -179,26 +203,13 @@ function MatrixExperience({
                     </div>
                   ) : (
                     <CardHoveredButtons>
-                      {editable &&
-                        circleButtonsPallette.map(button => (
-                          <CircleButton
-                            key={button.level}
-                            backgroundColor={button.backgroundColor}
-                            borderColor={button.borderColor}
-                            isActive={
-                              experience?.level
-                                ? experience?.level === button.level
-                                : button.level === Level.Wanted
-                            }
-                            isHovered
-                            onClick={() => {
-                              if (experience?.level === button.level) return
-                              button.level === Level.Wanted && !experience?.comment
-                                ? onDeselectLevel()
-                                : onUpdateExperience(button.level, experience?.comment)
-                            }}
-                          />
-                        ))}
+                      {editable && (
+                        <CircleButtons
+                          experience={experience}
+                          onUpdateExperience={onUpdateExperience}
+                          onDeselectLevel={onDeselectLevel}
+                        />
+                      )}
                     </CardHoveredButtons>
                   )}
                 </div>
@@ -213,7 +224,7 @@ function MatrixExperience({
             <div />
           )}
         </Card>
-      </Tooltip>
+      </Popover>
 
       <CommentModal
         title="Comment"
@@ -241,6 +252,42 @@ function MatrixExperience({
         defaultComment=""
       />
     </>
+  )
+}
+
+type CircleButtonsProps = {
+  experience: Props['experience']
+  onDeselectLevel: Props['onDeselectLevel']
+  onUpdateExperience: Props['onUpdateExperience']
+  position?: 'left' | 'right'
+}
+
+export const CircleButtons: React.FC<CircleButtonsProps> = ({
+  experience,
+  onDeselectLevel,
+  onUpdateExperience,
+  position = 'left',
+}) => {
+  return (
+    <div style={{ display: 'flex', marginLeft: position === 'left' ? 0 : 'auto' }}>
+      {circleButtonsPallette.map(button => (
+        <CircleButton
+          key={button.level}
+          backgroundColor={button.backgroundColor}
+          borderColor={button.borderColor}
+          isActive={
+            experience?.level ? experience?.level === button.level : button.level === Level.Wanted
+          }
+          isHovered
+          onClick={() => {
+            if (experience?.level === button.level) return
+            button.level === Level.Wanted && !experience?.comment
+              ? onDeselectLevel()
+              : onUpdateExperience(button.level, experience?.comment)
+          }}
+        />
+      ))}
+    </div>
   )
 }
 
