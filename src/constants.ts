@@ -12,7 +12,7 @@ export const AAD_LOCATIONS = [
   },
   {
     city: 'Tomsk',
-    streetAddress: '103 Frunze Avenue, Tomsk, RU-634021',
+    streetAddress: '103D Frunze Avenue, Tomsk, RU-634021',
     country: 'Russia',
     companyName: 'Syncretis LLC',
     usageLocation: 'RU',
