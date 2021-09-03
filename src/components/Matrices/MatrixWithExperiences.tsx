@@ -124,13 +124,19 @@ export default function MatrixWithExperiences({
   return (
     <div style={{ padding: '8px 0', marginBottom: '20px' }}>
       <MatrixRow>
-        {grades.map(grade => (
-          <MatrixGrade key={grade.title} style={{ justifyContent: 'center' }}>
-            <Tooltip title={grade.description}>
-              <span>{grade.title}</span>
-            </Tooltip>
-          </MatrixGrade>
-        ))}
+        {grades.map((grade, index) => {
+          return (
+            <MatrixGrade
+              isLast={grades.length - 1 === index}
+              key={grade.title}
+              style={{ justifyContent: 'center' }}
+            >
+              <Tooltip title={grade.description}>
+                <span>{grade.title}</span>
+              </Tooltip>
+            </MatrixGrade>
+          )
+        })}
       </MatrixRow>
       {groups.map((group, groupIndex) => (
         <div key={group.id}>
@@ -141,7 +147,7 @@ export default function MatrixWithExperiences({
           </MatrixGroup>
 
           <MatrixRow key={group.title}>
-            {grades.map(grade => {
+            {grades.map((grade, index) => {
               const content = skills
                 .filter(
                   skill =>
@@ -174,7 +180,11 @@ export default function MatrixWithExperiences({
                     />
                   )
                 })
-              return <MatrixGrade key={grade.id}>{!!content.length && content}</MatrixGrade>
+              return (
+                <MatrixGrade isLast={grades.length - 1 === index} key={grade.id}>
+                  {!!content.length && content}
+                </MatrixGrade>
+              )
             })}
           </MatrixRow>
         </div>

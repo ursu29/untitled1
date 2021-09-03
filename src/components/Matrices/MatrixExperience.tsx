@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { LinkOutlined, MessageOutlined, BulbOutlined } from '@ant-design/icons'
+import { MessageOutlined, BulbOutlined } from '@ant-design/icons'
 import { Tooltip, Spin } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -21,10 +21,18 @@ const CardButton = styled.button`
   padding: 0;
   border: none;
   background: transparent;
+  font-size: 16px;
   transition: 0.3s visibility, 0.2s filter;
   :hover {
-    color: gray;
+    color: #8d8c8c;
   }
+`
+const CardHoveredButtons = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-width: 75px;
+  visibility: hidden;
 `
 
 const Card = styled.div<{ backgroundColor: string }>`
@@ -38,7 +46,8 @@ const Card = styled.div<{ backgroundColor: string }>`
   padding: 14px;
   margin: 0 0 16px 0;
   &:hover {
-    ${CardButton} {
+    ${CardButton},
+    ${CardHoveredButtons} {
       filter: opacity(1);
       visibility: visible;
     }
@@ -121,20 +130,12 @@ function MatrixExperience({
         >
           {type !== 'space_boilerplate' ? (
             <>
-              <MatrixCell>{skill.name}</MatrixCell>
+              <MatrixCell as={Link} to={getSkillLink(skill.id)}>
+                <Tooltip title="Link" placement="bottom">
+                  {skill.name}
+                </Tooltip>
+              </MatrixCell>
               <CardActions>
-                <CardButton as={Link} to={getSkillLink(skill.id)}>
-                  <Tooltip title="Link" placement="bottom">
-                    <LinkOutlined />
-                  </Tooltip>
-                </CardButton>
-
-                <CardButton type="button" onClick={() => setAddFeedbackModal(true)}>
-                  <Tooltip title="Propose changes" placement="bottom">
-                    <BulbOutlined />
-                  </Tooltip>
-                </CardButton>
-
                 <Comment
                   type="button"
                   active={isArchivedChosen ? !!archivedExperience?.comment : !!experience?.comment}
@@ -169,7 +170,6 @@ function MatrixExperience({
                     </Tooltip>
                   )}
                 </Comment>
-
                 <div>
                   {loading ? (
                     <div style={{ width: '75px' }}>
@@ -178,7 +178,7 @@ function MatrixExperience({
                       </div>
                     </div>
                   ) : (
-                    <div style={{ display: 'flex', alignItems: 'flex-end', width: '75px' }}>
+                    <CardHoveredButtons>
                       {editable &&
                         circleButtonsPallette.map(button => (
                           <CircleButton
@@ -199,9 +199,14 @@ function MatrixExperience({
                             }}
                           />
                         ))}
-                    </div>
+                    </CardHoveredButtons>
                   )}
                 </div>
+                <CardButton type="button" onClick={() => setAddFeedbackModal(true)}>
+                  <Tooltip title="Propose changes" placement="bottom">
+                    <BulbOutlined />
+                  </Tooltip>
+                </CardButton>
               </CardActions>
             </>
           ) : (

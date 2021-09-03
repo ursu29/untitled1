@@ -1,11 +1,12 @@
-import { useMutation, useQuery, gql } from '@apollo/client'
-import { Typography, DatePicker, Space } from 'antd'
+import { gql, useMutation, useQuery } from '@apollo/client'
+import { DatePicker, Input } from 'antd'
 import dayjs from 'dayjs'
+import moment from 'moment'
 import React from 'react'
+import message from '../../message'
 import getEmployeeExperiences, { QueryType } from '../../queries/getEmployeeExperiences'
 import { Employee } from '../../types'
-import moment from 'moment'
-import message from '../../message'
+import ArchiveMatrix from './ArchiveMatrix'
 
 const matricesCustomFields = gql`
   query matricesCustomFields($input: MatricesCustomFieldsInput) {
@@ -26,10 +27,18 @@ const customFieldsMutation = gql`
 `
 
 interface Props {
-  employee?: Pick<Employee, 'id'>
+  employee?: Pick<Employee, 'id' | 'matrices'>
+  currentTab?: string
+  isArchivedChosen: boolean
+  onSelectVersion: (version: string) => void
 }
 
-export default function EmployeeMatrix({ employee }: Props) {
+export default function EmployeeMatrix({
+  currentTab,
+  employee,
+  isArchivedChosen,
+  onSelectVersion,
+}: Props) {
   const { data } = useQuery<QueryType>(getEmployeeExperiences, {
     variables: { input: { id: employee?.id } },
     skip: !employee,
@@ -74,10 +83,22 @@ export default function EmployeeMatrix({ employee }: Props) {
   if (!updatedAt) return null
 
   return (
-    <Space size="middle">
-      <Typography.Text>
-        Last discussed:{' '}
+    <>
+      <div>
+        <ArchiveMatrix
+          employee={data?.employees[0].id || ''}
+          matrixId={currentTab || ''}
+          employeeMatrixId={
+            employee.matrices.find(e => e.id === currentTab)?.employeeMatrixId || ''
+          }
+          onSelectVersion={onSelectVersion}
+          createSnapshotShown={!isArchivedChosen}
+        />
+      </div>
+      <div id="datepicker" style={{ width: '200px' }}>
+        Last discussed: <br />
         <DatePicker
+          style={{ width: '100%', marginTop: '5px' }}
           size="small"
           allowClear={false}
           format={['DD.MM.YYYY']}
@@ -97,13 +118,19 @@ export default function EmployeeMatrix({ employee }: Props) {
             })
           }
         />
-      </Typography.Text>
+      </div>
 
       {updatedAt ? (
-        <Typography.Text disabled>
-          Last updated: {dayjs(updatedAt).format('DD MMM YYYY HH:mm')}
-        </Typography.Text>
+        <div style={{ width: '200px' }}>
+          Last updated:
+          <Input
+            size="small"
+            disabled
+            placeholder={dayjs(updatedAt).format('DD MMM YYYY HH:mm')}
+            style={{ marginTop: '5px' }}
+          />
+        </div>
       ) : null}
-    </Space>
+    </>
   )
 }

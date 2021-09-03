@@ -4,7 +4,9 @@ export const MatrixCell = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  font-size: 12px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
   min-height: 34px;
   min-width: 150px;
   color: rgba(0, 0, 0, 0.65);
@@ -21,18 +23,20 @@ export const MatrixGroup = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  font-size: 20px;
-  margin: 30px 20px 20px 0;
-  color: rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+  font-weight: 600;
+  margin: 16px 20px 20px 0;
+  color: #262626;
 `
 
-export const MatrixGrade = styled.div`
+export const MatrixGrade = styled.div<{ isLast?: boolean }>`
   flex: 1;
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   flex-direction: column;
-  margin-right: 12px;
-  font-size: 18px;
+  margin-right: ${props => (props.isLast ? '0px' : '12px')};
+  font-size: 12px;
   color: rgba(0, 0, 0, 0.45);
 `
 

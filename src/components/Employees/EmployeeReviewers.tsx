@@ -1,10 +1,10 @@
 import { useMutation, useQuery } from '@apollo/client'
 import React, { useEffect } from 'react'
-import Reviewers from './Reviewers'
-import { QueryType as QueryTypeEmployees } from '../../queries/getEmployees'
-import { reviewersQuery } from '../../queries/employeeReviewers'
-import { Employee, Access } from '../../types/graphql'
 import message from '../../message'
+import { reviewersQuery } from '../../queries/employeeReviewers'
+import { QueryType as QueryTypeEmployees } from '../../queries/getEmployees'
+import { Access, Employee } from '../../types/graphql'
+import Reviewers from './Reviewers'
 
 type Props = {
   employee: Pick<Employee, 'email' | 'isMe'>
@@ -51,10 +51,6 @@ const EmployeeReviewers = (props: Props) => {
       email: props.employee?.email,
     },
   })
-
-  // useEffect(() => {
-  //   called && loading && message.loading('Loading reviewers')
-  // }, [loading, called])
 
   // Update employee reviewers
   const [updateReviewers, { loading: updateReviewersLoading }] = useMutation(updateReviewersQuery, {

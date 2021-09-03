@@ -1,12 +1,14 @@
 import { Radio, Space } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
 import { Access, Employee } from '../../types/graphql'
 import URLAction from '../../utils/URLAction'
 import EmployeeEvaluation from '../EmployeeEvaluation/EmployeeEvaluation'
 import EmployeeMatrices from '../EmployeeMatrices/EmployeeMatrices'
+import ExportMatrices from '../EmployeeMatrices/ExportMatrices'
 import EmployeeCV from './EmployeeCV'
 import EmployeeDevelopmentPlan from './EmployeeDevelopmentPlan'
 import EmployeeSkills from './EmployeeSkills'
+import EmployeeReviewers, { ReviewersNames } from '../Employees/EmployeeReviewers'
 
 interface Props {
   employee: Pick<
@@ -28,6 +30,9 @@ const DEFAULT_TAB = 'skills'
 export default function Career({ employee, access }: Props) {
   const urlAction = new URLAction()
   const [activeTab, setActiveTab] = React.useState(urlAction.paramsGet('subtab') ?? DEFAULT_TAB)
+
+  const [exportMatrices, setExportMatrices] = useState([])
+
   const tabs: { title: string | JSX.Element; key: string; body: JSX.Element }[] = [
     {
       title: 'Skills',
@@ -50,6 +55,7 @@ export default function Career({ employee, access }: Props) {
         <EmployeeMatrices
           employee={employee}
           reviewersListAccess={access.matricesLookReviewersAccess || { read: true, write: false }}
+          setExportMatrices={setExportMatrices}
         />
       ),
     })
@@ -101,8 +107,8 @@ export default function Career({ employee, access }: Props) {
   }
 
   return (
-    <>
-      <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Radio.Group
           value={activeTab}
           onChange={e => {
@@ -116,8 +122,21 @@ export default function Career({ employee, access }: Props) {
             </Radio.Button>
           ))}
         </Radio.Group>
-        <div>{tabs.find(i => i.key === activeTab)?.body}</div>
-      </Space>
-    </>
+
+        {activeTab === 'matrices' && (
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <EmployeeReviewers
+              employee={employee}
+              reviewersName={ReviewersNames.matricesReviewers}
+              reviewersListAccess={
+                access.matricesLookReviewersAccess || { read: true, write: false }
+              }
+            />
+            <ExportMatrices matrices={exportMatrices} employee={employee} />
+          </div>
+        )}
+      </div>
+      <div>{tabs.find(i => i.key === activeTab)?.body}</div>
+    </Space>
   )
 }

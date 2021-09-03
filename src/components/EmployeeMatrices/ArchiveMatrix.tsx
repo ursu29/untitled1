@@ -40,7 +40,6 @@ export default function ArchiveMatrix({
     awaitRefetchQueries: true,
     onError: message.error,
   })
-
   return (
     <VersionSnapshot
       onSelectVersion={(value: string) => onSelectVersion(value)}
@@ -50,8 +49,7 @@ export default function ArchiveMatrix({
         })
       }
       versionsList={data?.archivedMatrixVersions.map(e => ({ id: e.id, createdAt: e.createdAt }))}
-      // isButtonVisible={createSnapshotShown}
-      isButtonVisible={true}
+      isButtonVisible={!!createSnapshotShown}
       tooltip="Your current matrix view will be archived but it will not change on your page"
     />
   )

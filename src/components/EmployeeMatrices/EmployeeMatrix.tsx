@@ -1,14 +1,11 @@
-import { useQuery, useLazyQuery } from '@apollo/client'
-import React, { useState } from 'react'
+import { useQuery } from '@apollo/client'
 import { Input } from 'antd'
-import ArchiveMatrix from './ArchiveMatrix'
-import DetachMatrix from './DetachMatrix'
+import React from 'react'
 import getEmployeeExperiences, { QueryType } from '../../queries/getEmployeeExperiences'
-import { getArchivedMatrix } from '../../queries/archiveMatrices'
-import { Employee, Matrix, ArchivedMatrixData, ArchivedMatrixRaw } from '../../types'
+import { ArchivedMatrixData, ArchivedMatrixRaw, Employee, Matrix } from '../../types'
 import EmployeeSkillExperience from '../Employees/EmployeeMatrixExperience'
-import Controls from '../UI/Controls'
 import MatrixWithExperiences from '../Matrices/MatrixWithExperiences'
+import Controls from '../UI/Controls'
 import Skeleton from '../UI/Skeleton'
 
 interface Props {
@@ -16,31 +13,24 @@ interface Props {
   employee: Pick<Employee, 'id' | 'isMe'>
   isCurrentTab?: boolean
   onComment?: any
+  archivedMatrixData?: { archivedMatrix: ArchivedMatrixData }
+  archiveLoading: boolean
+  isArchivedChosen: boolean
 }
 
-export default function EmployeeMatrix({ employee, matrix, isCurrentTab, onComment }: Props) {
-  const [isArchivedChosen, setIsArchivedChosen] = useState(false)
-
+export default function EmployeeMatrix({
+  employee,
+  matrix,
+  isCurrentTab,
+  onComment,
+  archivedMatrixData,
+  archiveLoading,
+  isArchivedChosen,
+}: Props) {
   // Get employee experiences
   const { data, loading } = useQuery<QueryType>(getEmployeeExperiences, {
     variables: { input: { id: employee.id } },
   })
-
-  // Get archived matrix
-  const [getMatrixVersion, { data: archivedMatrixData, loading: archiveLoading }] =
-    useLazyQuery<{
-      archivedMatrix: ArchivedMatrixData
-    }>(getArchivedMatrix)
-
-  // Select matrix version
-  const onSelectVersion = (version: string) => {
-    if (version === 'current') {
-      setIsArchivedChosen(false)
-      return
-    }
-    setIsArchivedChosen(true)
-    getMatrixVersion({ variables: { input: { id: version } } })
-  }
 
   // Build the new matrix structure founded on archive matrix to replace original
   let archivedMatrix, archivedExperiences, archivedComment
@@ -76,13 +66,6 @@ export default function EmployeeMatrix({ employee, matrix, isCurrentTab, onComme
 
   return (
     <Skeleton active loading={loading}>
-      <ArchiveMatrix
-        employee={data?.employees[0].id || ''}
-        matrixId={matrix.id}
-        employeeMatrixId={matrix.employeeMatrixId || ''}
-        onSelectVersion={onSelectVersion}
-        // createSnapshotShown={!isArchivedChosen && employee?.isMe}
-      />
       <MatrixWithExperiences
         matrix={showArchiveAllow && !!archivedMatrix ? archivedMatrix : matrix}
         employee={data?.employees[0]}
@@ -91,9 +74,7 @@ export default function EmployeeMatrix({ employee, matrix, isCurrentTab, onComme
         isArchivedChosen={showArchiveAllow || archiveLoading}
         archivedExperiences={archivedExperiences}
       />
-      <Controls>
-        <DetachMatrix matrix={matrix} employee={employee} />
-      </Controls>
+      <Controls></Controls>
       <div>
         {isArchivedChosen ? (
           archivedComment && (

@@ -1,9 +1,9 @@
-import { useMutation, gql } from '@apollo/client'
+import { gql, useMutation } from '@apollo/client'
 import React, { useCallback, useEffect } from 'react'
-import { Employee, Matrix } from '../../types'
-import getEmployeeMatrices from '../../queries/getEmployeeMatrices'
-import Button from '../UI/Button'
 import message from '../../message'
+import getEmployeeMatrices from '../../queries/getEmployeeMatrices'
+import { Employee } from '../../types'
+import Button from '../UI/Button'
 
 const mutation = gql`
   mutation detachMatrixFromEmployee($input: DetachMatrixFromEmployeeInput) {
@@ -15,11 +15,11 @@ const mutation = gql`
 
 type Props = {
   employee?: Pick<Employee, 'id'>
-  matrix: Pick<Matrix, 'id'>
+  matrix?: string
 }
 
 export default React.memo(({ employee, matrix }: Props) => {
-  const [detach, { loading, data }] = useMutation(mutation, {
+  const [detach, { loading }] = useMutation(mutation, {
     refetchQueries: [
       {
         query: getEmployeeMatrices,
@@ -37,15 +37,20 @@ export default React.memo(({ employee, matrix }: Props) => {
   })
 
   const handleClick = useCallback(() => {
-    detach({ variables: { input: { employee: employee?.id, matrix: matrix.id } } })
+    detach({ variables: { input: { employee: employee?.id, matrix } } })
   }, [employee, matrix, detach])
 
   if (!employee) return null
-  if (data) return <span>Detached</span>
 
   return (
-    <Button loading={loading} onClick={handleClick} id="delete-matrix">
-      Detach matrix
+    <Button
+      loading={loading}
+      onClick={handleClick}
+      id="delete-matrix"
+      type="text"
+      style={{ color: 'red' }}
+    >
+      Delete
     </Button>
   )
 })

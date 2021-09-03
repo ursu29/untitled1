@@ -23,7 +23,7 @@ interface Props {
 
 export default function PortalTabs({ noPadding, controlled, tabs, tab, tabsProps }: Props) {
   const urlAction = new URLAction()
-  const PADDING = 16
+  const PADDING = 24
   const additionalProps = controlled
     ? {
         activeKey: tab || urlAction.paramsGet('tab'),
@@ -53,9 +53,7 @@ export default function PortalTabs({ noPadding, controlled, tabs, tab, tabsProps
             key={tab.key}
           >
             <div
-              style={{
-                padding: noPadding || tab.noPadding ? 0 : PADDING,
-              }}
+              style={{ position: 'relative', padding: noPadding || tab.noPadding ? 0 : PADDING }}
             >
               {tab.body}
             </div>

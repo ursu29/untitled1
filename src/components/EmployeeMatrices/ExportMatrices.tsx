@@ -39,8 +39,9 @@ export default function ExportMatrices({ matrices, employee }: Props) {
         })
     })
   }
+
   return (
-    <Button disabled={loading} onClick={handleExport}>
+    <Button type="primary" style={{ marginLeft: '15px' }} disabled={loading} onClick={handleExport}>
       Export
     </Button>
   )

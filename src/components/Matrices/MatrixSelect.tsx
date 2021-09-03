@@ -18,9 +18,10 @@ export default function MatrixSelect({ onSelect, ...props }: Props) {
   return (
     <Select
       autoFocus={!loading && props.autoFocus}
-      open={!loading && props.autoFocus}
       loading={loading}
-      onBlur={props.onBlur}
+      bordered={false}
+      placeholder="Attach matrix"
+      style={{ width: '130px' }}
       onSelect={value => {
         onSelect(value.key)
       }}

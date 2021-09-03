@@ -22,13 +22,18 @@ export default function VersionSnapshot({
   tooltip,
 }: Props) {
   return (
-    <div style={{ marginBottom: '25px' }}>
-      <div style={{ color: 'black', marginBottom: '8px' }}>
+    <div>
+      <div id="VersionSnapshot" style={{ color: 'black', marginBottom: '5px' }}>
         <span>Version</span>
       </div>
-      <Space size="middle">
-        <Select defaultValue="current" style={{ width: 120 }} onChange={onSelectVersion}>
-          <Option value="current">current</Option>
+      <Space size="small">
+        <Select
+          defaultValue="current"
+          style={{ width: 200 }}
+          onChange={onSelectVersion}
+          size="small"
+        >
+          <Option value="current">Current</Option>
           {versionsList?.map(e => (
             <Option key={e.id} value={e.id}>
               {dayjs(e.createdAt).format('DD.MM.YYYY')}
@@ -45,7 +50,7 @@ export default function VersionSnapshot({
               okText="Yes"
               cancelText="No"
             >
-              <Button>{buttonText || 'Create New Version'}</Button>
+              <Button size="small">{buttonText || 'Create New Version'}</Button>
             </Popconfirm>
           </Tooltip>
         )}

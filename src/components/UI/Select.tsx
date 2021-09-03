@@ -19,6 +19,7 @@ export interface Props {
   autoFocus?: boolean
   mode?: 'multiple' | 'tags' | null
   open?: boolean
+  bordered?: boolean
   selectProps?: React.ComponentProps<typeof Select>
 }
 
@@ -36,6 +37,7 @@ function PortalSelect(
     onSelect,
     value,
     open,
+    bordered,
     selectProps,
   }: Props,
   ref: any,
@@ -69,6 +71,7 @@ function PortalSelect(
       placeholder={placeholder}
       style={{ width: 120, ...style }}
       showSearch
+      bordered={bordered}
       labelInValue
       onChange={value => {
         onSelect(value)
