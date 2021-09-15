@@ -63,7 +63,7 @@ export const skillEl = {
   description: 'description',
   submit: 'submit',
   selectSkill :'portal-select',
-  skillsEvent: '.ant-select-selection-overflow',
+  skillsEvent:'.ant-select-selection-overflow',
   headerTableSkills: '.ant-table-thead',
 
 }
@@ -97,7 +97,7 @@ export const table = {
 
 export const hr = {
   bottom: 'bottom',
-  name: 'name',
+  name: 'portal-select',
   phone: 'phone',
   saveBtn: 'saveEmployee',
   tableRow: '.ant-table-row',
@@ -205,7 +205,7 @@ export const hrTool = {
   processName: 'portal-select',
   selectItem: '.ant-legacy-form-item-children',
   position: 'position',
-  option: '.ant-select-item-option',
+  option: '.ant-select-item-option-active',
   level: 'level',
   skills: 'skills',
   experience: 'experience',

@@ -49,9 +49,9 @@ describe('Check bookmarks', () => {
         .should('have.attr', 'href')
         .then(href => expect(href).equal(link))
 
-      cy.get(matrixEl.link)
+      cy.get(matrixEl.name)
         .eq(0)
         .then(el => expect(el.text()).equal(title))
-    }
+      }
   })
 })

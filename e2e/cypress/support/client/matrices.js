@@ -7,9 +7,9 @@ export const matrixEmployees = (id, name, __typename) => ({
 })
 
 export const matrixEl = {
-  link: '.sc-fBuWsC',
-  name: '.sc-brqgnP',
-  info: '.sc-jAaTju',
+  link: '.sc-eqIVtm',
+  name: '.sc-eqIVtm',
+  info: '.sc-fMiknA',
 }
 
 export const matrix = {
@@ -39,10 +39,13 @@ export const matrixBody = {
 }
 
 export const skillData = {
+  acceptanceCriteria: null,
+  additionalSources: null,
   id: 'some id',
   name: 'Unnamed',
   description: null,
   isMatrixOnly: false,
+  sources: null,
   __typename: 'Skill',
 }
 export const skills = {

@@ -140,7 +140,7 @@ export const query = {
     'mutation createOfficeBooking($input: CreateOfficeBookingInput!) {createOfficeBooking(input: $input)}',
   getEmployeeMatrices: 'query {clientDevToolsAccess}',
   getAllEmployeeMatrices:
-    'query getEmployeeMatrices($input: EmployeesInput) { employees(input: $input) { id name isMe matrices { id title description comment employeeMatrixId access { read write __typename } body { groups { id title description __typename } grades { id title description __typename } skills { type id skill { id name description isMatrixOnly __typename } groupId gradeId __typename } __typename } __typename } __typename }}',
+    'query getEmployeeMatrices($input: EmployeesInput) {employees(input: $input) { id  name isMe matrices { id    title description comment  employeeMatrixId access {read write __typename} body {   groups {  id  title   description    __typename     } grades {   id  title  description __typename    }   skills {    type     id   skill {    id   name    description    isMatrixOnly    acceptanceCriteria     sources    additionalSources    __typename   } groupId   gradeId   __typename  }  __typename } __typename  } __typename}}',
   allBookmarkId: 'query getBookmarks($input: BookmarksInput) {bookmarks(input: $input) {id}}',
   cancelRotateRequest: 'mutation cancelRotateRequest($input: CancelRotateRequestInput) {cancelRotateRequest(input: $input) {id __typename}}',
   getVacanci: 'query getVacancies($input: VacanciesInput) { vacancies(input: $input) { id reason locations position responsibilities requiredSkills additionalSkills description project { id name __typename } customer isPublished isClosed rotateEmployees { id isMe __typename } employeeExperience englishLevel stack __typename }}',
@@ -172,7 +172,7 @@ export const query = {
     'mutation updateFileDetails($input: UpdateSharedFileInput!) { updateSharedFile(input: $input) { ...FileDetailsFragment __typename }} fragment FileDetailsFragment on SharedFile { id skills { id name __typename } __typename}',
   getEmployeeDetailed:
     'query getEmployeeDetailed($email: String!) {  employeeByEmail(email: $email) {    ...EmployeeDetails    agileManager {      ...EmployeeDetails      __typename    }    bonuses    __typename  }}fragment EmployeeDetails on Employee {  id  name  location  position  phoneNumber  email  isMe  startDate  birthday  __typename}',
-  getEmployeesParametеrs:
+  getEmployeesParameters:
     'query getEmployees($input: EmployeesInput, $inputEmail: AccessInput, $inputToWhom: EvaluationReviewersAccessInput) {  employees(input: $input) {    id    name    email    subordinateUsersCount {      users      one2oneRequests      __typename    }    agileManager {      id      name      email      isMe      __typename    }    access {      read      write      __typename    }    isMe    __typename  }  curriculumVitaeAccess(input: $inputEmail) {    read    write    __typename  }  matricesLookReviewersAccess(input: $inputEmail) {    read    write    __typename  }  developmentPlanLookReviewersAccess(input: $inputEmail) {    read    write    __typename  }  evaluationReviewersAccess(input: $inputToWhom) {    read    write    __typename  }}',
   getAllEmployees:
     'query getEmployees {  employees {    ...EmployeeDetails    __typename  }}fragment EmployeeDetails on Employee {  id  name  location  position  phoneNumber  email  isMe  startDate  birthday  __typename}',
